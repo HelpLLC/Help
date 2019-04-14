@@ -2,4 +2,5 @@
 export default {
     LawnMowing: require('../images/lawn_mowing.jpg'),
     BlankWhite: require('../images/blank_white.jpg'),
+    PressureWashing: require('../images/pressure_washing.jpg')
 }

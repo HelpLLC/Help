@@ -62,7 +62,8 @@ class createProductScreen extends Component {
             const newProduct = {
                 serviceTitle,
                 serviceDescription,
-                pricing
+                pricing,
+                imageSource
             };
             //Updates the redux state by calling the action and passing in the current user's index
             //as well as the new product object

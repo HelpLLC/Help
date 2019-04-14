@@ -1,3 +1,4 @@
+import images from 'config/images/images';
 //This will be the initial state of the redux persist model. This should only be for test purposes
 //and on release, will only contain the developer accounts
 export default InitialState = {
@@ -17,7 +18,24 @@ export default InitialState = {
                 'snipping & pulling weeds!',
 
             //The array of products that this business offers
-            products: []
+            products: [
+                {
+                    //The information for each product
+                    serviceTitle: 'Lawn Mowing',
+                    serviceDescription: 'For a very small price, I will mow your lawn and make sure ' +
+                        'that it looks good as new!',
+                    pricing: '$10 per hour',
+                    imageSource: images.LawnMowing
+                },
+
+                {
+                    //The information for each product
+                    serviceTitle: 'Pressure Washing',
+                    serviceDescription: 'For the best pressure washing in the business, contact me',
+                    pricing: '$20 per hour',
+                    imageSource: images.PressureWashing
+                }
+            ]
         }
     ],
 
