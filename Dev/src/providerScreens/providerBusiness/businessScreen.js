@@ -53,7 +53,11 @@ class businessScreen extends Component {
                             title={strings.PlusSign}
                             textStyle={fontStyles.bigTextStyleWhite}
                             style={roundBlueButtonStyle.BusinessScreenPlusButton}
-                            onPress={() => { this.props.navigation.push('ProviderCreateProductScreen') }} />
+                            onPress={() => {
+                                this.props.navigation.push('ProviderCreateProductScreen', {
+                                    userIndex: this.props.navigation.state.params.userIndex
+                                })
+                            }} />
                     </View>
 
                 </View>
@@ -100,7 +104,9 @@ class businessScreen extends Component {
                                     style={roundBlueButtonStyle.MediumSizeButton}
                                     textStyle={fontStyles.bigTextStyleWhite}
                                     onPress={() => {
-                                        this.props.navigation.push('ProviderCreateProductScreen')
+                                        this.props.navigation.push('ProviderCreateProductScreen', {
+                                            userIndex: this.props.navigation.state.params.userIndex
+                                        });
                                     }} />
                             </View>
                         ) : (

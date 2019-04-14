@@ -1,5 +1,5 @@
 //This action will add the product to the company's account
-import actionTypes from './createProviderAccount';
+import actionTypes from '../actionTypes';
 
 //The action will take in the index of the provider (to know which provider we are dealing) with
 //and will take in an object containing the product information

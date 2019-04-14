@@ -12,22 +12,64 @@ import OneLineTextInput from '../../components/OneLineTextInput';
 import RoundTextInput from '../../components/RoundTextInput';
 import { BoxShadow } from 'react-native-shadow';
 import images from 'config/images/images';
+import ImagePicker from 'react-native-image-picker';
+import { createProviderProduct } from '../../redux/provider/providerActions/createProviderProduct';
 import strings from 'config/strings';
 import colors from 'config/colors';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
 class createProductScreen extends Component {
 
     //The state which will keep track of what the user has entered for the product information
     state = {
-        ServiceTitle: '',
-        ServiceDescription: '',
-        Pricing: '',
-        ImageSource: ''
+        serviceTitle: '',
+        serviceDescription: '',
+        pricing: '',
+        imageSource: images.BlankWhite,
+        warningMessage: ''
+    }
+
+    //Chooses the image from camera roll or picture and sets it to the image source
+    chooseImage() {
+
+        //Shows the image picker with the default options
+        ImagePicker.showImagePicker(null, (response) => {
+
+            //Retrieves the source of the selected image and sets it to the ImageSource state
+            const source = { uri: response.uri };
+            this.setState({
+                imageSource: source,
+            });
+
+        });
     }
 
     //Creates the product with the entered information to "this" provider
     createProduct() {
 
+        //Retrieves the state of the input fields
+        const { serviceTitle, serviceDescription, pricing, imageSource } = this.state;
+
+        //If any of the fields are empty, a warning message will display
+        if (serviceTitle.trim() === "" || serviceDescription.trim() === "" || pricing.trim() == "") {
+            this.setState({ warningMessage: strings.PleaseCompleteAllTheFields });
+        } else if (imageSource === images.BlankWhite) {
+            this.setState({ warningMessage: strings.PleaseAddAnImage });
+        } else {
+            
+            //Creates the product and adds it to the database
+            const newProduct = {
+                serviceTitle,
+                serviceDescription,
+                pricing
+            };
+            //Updates the redux state by calling the action and passing in the current user's index
+            //as well as the new product object
+            let { userIndex } = this.props.navigation.state.params; 
+            this.props.createProviderProduct(userIndex, newProduct);
+            this.props.navigation.goBack();
+        }
     }
 
     render() {
@@ -54,9 +96,9 @@ class createProductScreen extends Component {
 
                         <View>
                             <OneLineTextInput
-                                onChangeText={(input) => this.setState({ ServiceTitle: input })}
+                                onChangeText={(input) => this.setState({ serviceTitle: input })}
                                 placeholder={strings.GiveItATitleDotDotDot}
-                                value={this.state.ServiceTitle}
+                                value={this.state.serviceTitle}
                                 width={140} />
                         </View>
                     </View>
@@ -73,7 +115,7 @@ class createProductScreen extends Component {
                             y: 5
                         }}>
                             <Image
-                                source={images.BlankWhite}
+                                source={this.state.imageSource}
                                 style={{
                                     width: 140,
                                     height: 110,
@@ -84,8 +126,7 @@ class createProductScreen extends Component {
                         </BoxShadow>
 
                         <TouchableOpacity
-                            onPress={() => { //Upload from camera roll
-                            }}
+                            onPress={() => { this.chooseImage() }}
                             style={{ paddingTop: 10 }}>
                             <Text style={fontStyles.subTextStyleGray}>
                                 {strings.EditImage}</Text>
@@ -101,28 +142,50 @@ class createProductScreen extends Component {
                     width={Dimensions.get('window').width - 40}
                     height={100}
                     placeholder={strings.EnterDescriptionForCustomersDotDotDot}
-                    onChangeText={(input) => this.setState({ ServiceDescription: input })}
-                    value={this.state.ServiceDescription} />
+                    onChangeText={(input) => this.setState({ serviceDescription: input })}
+                    value={this.state.serviceDescription} />
 
                 <Text style={[fontStyles.mainTextStyleBlack, { paddingRight: 270, paddingTop: 20, paddingBottom: 20 }]}>
                     {strings.Pricing}</Text>
 
                 <OneLineTextInput
-                    onChangeText={(input) => this.setState({ Pricing: input })}
+                    onChangeText={(input) => this.setState({ pricing: input })}
                     placeholder={strings.HowMuchWillYouChargeDotDotDot}
-                    value={this.state.Pricing}
+                    value={this.state.pricing}
                     width={Dimensions.get('window').width - 40} />
 
                 <RoundBlueButton
                     title={strings.Create}
-                    style={[roundBlueButtonStyle.MediumSizeButton, { marginTop: 35 }]}
+                    style={[roundBlueButtonStyle.MediumSizeButton, { marginTop: 25 }]}
                     textStyle={fontStyles.bigTextStyleWhite}
                     onPress={() => { this.createProduct() }}
                 />
+
+                <View style={{ padding: 20 }}>
+                    <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
+                </View>
 
             </View>
         )
     }
 }
 
-export default createProductScreen;
+//Connects this screens' props with the current user of the app
+const mapStateToProps = (state, props) => {
+    const provider = state.providerReducer[props.navigation.state.params.userIndex];
+    return { provider };
+};
+
+//Connects the screen with the actions that will interact with the database.
+//this action will edit the provider's company information
+export const mapDispatchToProps = dispatch =>
+    bindActionCreators(
+        {
+            createProviderProduct,
+        },
+        dispatch
+    );
+
+
+//connects the screen with the redux persist state
+export default connect(mapStateToProps, mapDispatchToProps)(createProductScreen);

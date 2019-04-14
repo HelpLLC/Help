@@ -82,6 +82,8 @@ export default {
     EnterDescriptionForCustomersDotDotDot: 'Enter a little description for customers to see...',
     Pricing: 'Pricing',
     HowMuchWillYouChargeDotDotDot: 'How much will you charge...',
+    PleaseCompleteAllTheFields: 'Please complete all the fields',
+    PleaseAddAnImage: 'Please add an image',
 
     //------------------- Edit Company Profile Screen -------------------
     EditCompany: 'Edit Company',
