@@ -41,7 +41,10 @@ class productScreen extends Component {
 
                         <TouchableOpacity
                             onPress={() => {
-                                //Goes to the edit product screen
+                                this.props.navigation.push('ProviderEditProductScreen', {
+                                    userIndex: this.props.navigation.state.params.userIndex,
+                                    productIndex: this.props.navigation.state.params.productIndex
+                                });   
                             }}>
                             <Text style={[fontStyles.subTextStyleGray, { paddingBottom: 10 }]}>
                                 {strings.EditService}</Text>
@@ -111,15 +114,15 @@ class productScreen extends Component {
                     </Text>
                 </View>
             </View>
-                );
-            }
-        
-        }//Connects this screens' props with the current product that is being viewed
+        );
+    }
+
+}//Connects this screens' props with the current product that is being viewed
 const mapStateToProps = (state, props) => {
-    const {userIndex, productIndex } = props.navigation.state.params;
-                const product = state.providerReducer[userIndex].products[productIndex];
-    return {product};
-            };
-            
-            //connects the screen with the redux persist state
+    const { userIndex, productIndex } = props.navigation.state.params;
+    const product = state.providerReducer[userIndex].products[productIndex];
+    return { product };
+};
+
+//connects the screen with the redux persist state
 export default connect(mapStateToProps)(productScreen);

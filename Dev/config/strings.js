@@ -96,5 +96,9 @@ export default {
     EditService: 'Edit Service',
     NoCurrentRequests: 'No Current Requests',
 
+    //------------------- Edit Product Screen -------------------
+    EditTitle: 'Edit Title',
+    EditDescription: 'Edit Description',
+    EditPrice: 'Edit Price'
     
 };
