@@ -89,8 +89,12 @@ export default {
     EditCompany: 'Edit Company',
     EditName: 'Edit Name',
     EditDescription: 'Edit Description',
-    Done: 'Done'
-    
+    Done: 'Done',
+
+    //------------------- Product Screen -------------------
+    Service: 'Service',
+    EditService: 'Edit Service',
+    NoCurrentRequests: 'No Current Requests',
 
     
 };

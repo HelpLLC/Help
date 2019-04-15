@@ -87,7 +87,8 @@ class createProductScreen extends Component {
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     width: Dimensions.get('window').width - 40,
-                    paddingBottom: 20
+                    paddingBottom: 20,
+                    marginTop: 25
                 }}>
 
                     <View style={{ flexDirection: 'column' }}>

@@ -6,7 +6,6 @@ export default {
     style: {
         height: 83.5,
         flexDirection: 'row',
-        marginBottom: 35,
         width: Dimensions.get('window').width,
         justifyContent: 'space-between',
         alignItems: 'center',

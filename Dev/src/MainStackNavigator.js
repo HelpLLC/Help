@@ -3,6 +3,7 @@
 import FirstScreensNavigator from './firstScreens/FirstScreensNavigator';
 import ProviderCreateProductScreen from './providerScreens/providerBusiness/createProductScreen';
 import ProviderEditCompanyProfileScreen from './providerScreens/providerBusiness/editCompanyProfileScreen';
+import ProviderProductScreen from './providerScreens/providerBusiness/productScreen';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 //The route config for all of the screens
@@ -21,6 +22,11 @@ const routeConfig = {
     //The route going to the edit company profile screen
     ProviderEditCompanyProfileScreen: {
         screen: ProviderEditCompanyProfileScreen
+    },
+
+    //The route going to the product screen
+    ProviderProductScreen: {
+        screen: ProviderProductScreen
     }
 
 };

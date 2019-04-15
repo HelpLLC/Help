@@ -21,7 +21,7 @@ class aboutScreen extends Component {
                         leftOnPress={() => this.props.navigation.goBack()} />
                 </View>
                 
-                <View style={{ paddingRight: 14, paddingLeft: 14, flexDirection: 'column' }}>
+                <View style={{ paddingRight: 14, paddingLeft: 14, paddingTop: 25, flexDirection: 'column' }}>
                     <Text style={fontStyles.subTextStyleBlack}>{strings.MarketingMessage}</Text>
                 </View>
 

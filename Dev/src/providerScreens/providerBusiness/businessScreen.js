@@ -31,7 +31,8 @@ class businessScreen extends Component {
                     borderBottomColor: colors.black,
                     borderWidth: 0.5,
                     alignItems: 'center',
-                    justifyContent: 'space-between'
+                    justifyContent: 'space-between',
+                    marginTop: 20
                 }}>
 
                     <View style={{ flexDirection: 'column', paddingBottom: 10 }}>
@@ -124,11 +125,16 @@ class businessScreen extends Component {
                                             serviceDescription={item.serviceDescription}
                                             pricing={item.pricing}
                                             image={item.imageSource}
-                                            onPress={() => { }} //Goes to the product screen
+                                            onPress={() => {
+                                                this.props.navigation.push('ProviderProductScreen', {
+                                                    userIndex: this.props.navigation.state.params.userIndex,
+                                                    productIndex: index
+                                                });
+                                            }}
                                         />
                                     )}
                                 />
-                                <View style={{height: 40}}></View>
+                                <View style={{ height: 40 }}></View>
                             </ScrollView>
                         )
                 }

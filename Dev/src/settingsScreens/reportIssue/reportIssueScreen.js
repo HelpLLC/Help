@@ -45,7 +45,7 @@ class reportIssueScreen extends Component {
                                 this.props.navigation.goBack();
                                 }} />
                     </View>
-                    <View style={{ paddingBottom: 25 }}>
+                    <View style={{ paddingBottom: 25, paddingTop: 25 }}>
                         <Text style={fontStyles.mainTextStyleBlack}>
                             {strings.WhatSeemsToBeTheProblemQuestion}</Text>
                     </View>

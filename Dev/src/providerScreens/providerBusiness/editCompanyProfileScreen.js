@@ -73,7 +73,7 @@ class editCompanyProfileScreen extends Component {
                             leftOnPress={() => this.props.navigation.goBack()} />
                     </View>
 
-                    <View style={{ paddingTop: 20, paddingRight: 160, paddingLeft: 10, }}>
+                    <View style={{ paddingTop: 55, paddingRight: 160, paddingLeft: 10, }}>
                         <Text style={fontStyles.mainTextStyleBlack}>
                             {strings.EditName}</Text>
                     </View>
