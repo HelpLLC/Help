@@ -3,14 +3,15 @@
 //first time that the user logs in or if they do not yet have products, then the screen will 
 //display prompting the user to sign in.
 import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, Image } from 'react-native';
+import { View, ScrollView, Text, Dimensions, TouchableOpacity, Image, FlatList } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
-import TopBanner from '../../components/TopBanner';
 import { connect } from 'react-redux';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import images from 'config/images/images';
 import RoundBlueButton from '../../components/RoundBlueButton';
+import TopBanner from '../../components/TopBanner';
+import ServiceCard from '../../components/ServiceCard';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import fontStyles from 'config/styles/fontStyles';
 import { BoxShadow } from 'react-native-shadow';
@@ -110,9 +111,25 @@ class businessScreen extends Component {
                                     }} />
                             </View>
                         ) : (
-                            <View>
-
-                            </View>
+                            <ScrollView style={{ paddingTop: 30 }} showsVerticalScrollIndicator={false}>
+                                <FlatList
+                                    data={this.props.provider.products}
+                                    keyExtractor={(item, index) => {
+                                        return (this.props.provider.companyName + " Product #" + index);
+                                    }}
+                                    renderItem={({ item, index }) => (
+                                        <ServiceCard
+                                            key={index}
+                                            serviceTitle={item.serviceTitle}
+                                            serviceDescription={item.serviceDescription}
+                                            pricing={item.pricing}
+                                            image={item.imageSource}
+                                            onPress={() => { }} //Goes to the product screen
+                                        />
+                                    )}
+                                />
+                                <View style={{height: 40}}></View>
+                            </ScrollView>
                         )
                 }
             </View>

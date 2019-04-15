@@ -34,6 +34,14 @@ export default InitialState = {
                     serviceDescription: 'For the best pressure washing in the business, contact me',
                     pricing: '$20 per hour',
                     imageSource: images.PressureWashing
+                },
+
+                {
+                    //The information for each product
+                    serviceTitle: 'Leave Raking',
+                    serviceDescription: 'I\'m the best leave raker in town!!!!',
+                    pricing: '$10 per hour',
+                    imageSource: images.LeaveRaking
                 }
             ]
         }
