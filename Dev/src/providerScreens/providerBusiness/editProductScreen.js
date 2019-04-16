@@ -12,6 +12,8 @@ import RoundTextInput from '../../components/RoundTextInput';
 import { BoxShadow } from 'react-native-shadow';
 import ImagePicker from 'react-native-image-picker';
 import strings from 'config/strings';
+import { updateProviderProduct } from '../../redux/provider/providerActions/updateProviderProduct';
+import { bindActionCreators } from 'redux';
 import colors from 'config/colors';
 import { connect } from 'react-redux';
 
@@ -48,9 +50,9 @@ class editProductScreen extends Component {
         const { serviceTitle, serviceDescription, pricing, imageSource } = this.state;
 
         //Tests if any fields have been changed... if not, then it will just return to the last screen
-        if (serviceTitle === this.props.product.serviceTitle ||
-            serviceDescription === this.props.product.serviceDescription ||
-            pricing === this.props.product.pricing ||
+        if (serviceTitle === this.props.product.serviceTitle &&
+            serviceDescription === this.props.product.serviceDescription &&
+            pricing === this.props.product.pricing &&
             imageSource === this.props.product.imageSource) {
                 this.props.navigation.goBack();
             } else {
@@ -66,7 +68,7 @@ class editProductScreen extends Component {
                 const { userIndex, productIndex } = this.props.navigation.state.params;
             
                 //Updates the correct product corresponding with the correct user
-                this.props.updateProduct(userIndex, productIndex, updatedProduct);
+                this.props.updateProviderProduct(userIndex, productIndex, updatedProduct);
                 this.props.navigation.goBack();
 
             }
@@ -180,6 +182,15 @@ const mapStateToProps = (state, props) => {
 };
 
 
+//Connects the screen with the actions that will interact with the database.
+//this action will edit the product's information
+export const mapDispatchToProps = dispatch =>
+    bindActionCreators(
+        {
+            updateProviderProduct,
+        },
+        dispatch
+    );
 
 //connects the screen with the redux persist state
-export default connect(mapStateToProps)(editProductScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(editProductScreen);

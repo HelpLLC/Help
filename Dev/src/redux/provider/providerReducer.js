@@ -42,18 +42,32 @@ export default providerReducer = (state = InitialState.providers, action) => {
 
             //Retrieves the index of the provider whose company details will change along with the
             //new information within the companyInfo object passed into the action
-            let providerIndex = action.providerIndex;
+            let index = action.providerIndex;
             let newBusinessInfo = action.companyInfo;
             let newCompanyName = newBusinessInfo.newBusinessName;
             let newCompanyInfo = newBusinessInfo.newBusinessInfo;
 
             //Updates the state by both updating the new name of the company as well as its
             //description.
-            newState = update(state, { [providerIndex]: { companyName: { $set: newCompanyName } } } );
-            newState = update(newState, { [providerIndex]: { companyDescription: { $set: newCompanyInfo } } } );
+            newState = update(state, { [index]: { companyName: { $set: newCompanyName } } });
+            newState = update(newState, { [index]: { companyDescription: { $set: newCompanyInfo } } });
 
             //returns the newly updated state
             return newState;
+
+        //This will deal with the action that will update a specific product that already exists
+        case actionTypes.UPDATE_PROVIDER_PRODUCT:
+
+            //Retrieves the index of the provider as well as the product info
+            //as well as the product's index
+            const { providerIndex, productIndex, updatedProductInfo } = action;
+
+            //Updates the state by pushing the new product into the array of providers
+            newState = update(state, { [providerIndex]: { products: { [productIndex]: { $set: updatedProductInfo } } } });
+
+            //returns the newly updated state
+            return newState;
+
 
         //If no action is entered, will simply return the current state
         default:
