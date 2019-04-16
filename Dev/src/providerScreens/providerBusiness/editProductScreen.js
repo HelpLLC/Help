@@ -1,7 +1,7 @@
 //This screen will be the one that allows the user to edit the product or to even delete the product
 //itself.
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, TouchableOpacity, Keyboard, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
 import TopBanner from '../../components/TopBanner';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
@@ -10,7 +10,6 @@ import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonS
 import OneLineTextInput from '../../components/OneLineTextInput';
 import RoundTextInput from '../../components/RoundTextInput';
 import { BoxShadow } from 'react-native-shadow';
-import images from 'config/images/images';
 import ImagePicker from 'react-native-image-picker';
 import strings from 'config/strings';
 import colors from 'config/colors';
@@ -48,6 +47,29 @@ class editProductScreen extends Component {
         //Retrieves the state of the input fields
         const { serviceTitle, serviceDescription, pricing, imageSource } = this.state;
 
+        //Tests if any fields have been changed... if not, then it will just return to the last screen
+        if (serviceTitle === this.props.product.serviceTitle ||
+            serviceDescription === this.props.product.serviceDescription ||
+            pricing === this.props.product.pricing ||
+            imageSource === this.props.product.imageSource) {
+                this.props.navigation.goBack();
+            } else {
+
+                //Creates the newly updated product
+                let updatedProduct = {
+                    serviceTitle,
+                    serviceDescription, 
+                    pricing,
+                    imageSource
+                };
+
+                const { userIndex, productIndex } = this.props.navigation.state.params;
+            
+                //Updates the correct product corresponding with the correct user
+                this.props.updateProduct(userIndex, productIndex, updatedProduct);
+                this.props.navigation.goBack();
+
+            }
         
     }
 
