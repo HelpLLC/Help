@@ -44,7 +44,7 @@ class productScreen extends Component {
                                 this.props.navigation.push('ProviderEditProductScreen', {
                                     userIndex: this.props.navigation.state.params.userIndex,
                                     productIndex: this.props.navigation.state.params.productIndex
-                                });   
+                                });
                             }}>
                             <Text style={[fontStyles.subTextStyleGray, { paddingBottom: 10 }]}>
                                 {strings.EditService}</Text>
@@ -52,7 +52,10 @@ class productScreen extends Component {
 
                         <TouchableOpacity
                             onPress={() => {
-                                //Goes to the product's history
+                                this.props.navigation.push('ProviderProductHistoryScreen', {
+                                    userIndex: this.props.navigation.state.params.userIndex,
+                                    productIndex: this.props.navigation.state.params.productIndex
+                                });
                             }}>
                             <Text style={fontStyles.subTextStyleGray}>
                                 {strings.History}</Text>

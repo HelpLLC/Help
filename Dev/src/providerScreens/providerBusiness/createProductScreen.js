@@ -63,7 +63,11 @@ class createProductScreen extends Component {
                 serviceTitle,
                 serviceDescription,
                 pricing,
-                imageSource
+                imageSource,
+                requests: {
+                    completedRequests: [],
+                    currentRequests: []
+                }
             };
             //Updates the redux state by calling the action and passing in the current user's index
             //as well as the new product object

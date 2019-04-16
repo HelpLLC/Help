@@ -62,7 +62,8 @@ class editProductScreen extends Component {
                     serviceTitle,
                     serviceDescription, 
                     pricing,
-                    imageSource
+                    imageSource,
+                    requests: this.props.product.requests
                 };
 
                 const { userIndex, productIndex } = this.props.navigation.state.params;
@@ -174,7 +175,7 @@ class editProductScreen extends Component {
     }
 }
 
-//Connects this screens' props with the current user of the app
+//Connects this screens' props with the current product
 const mapStateToProps = (state, props) => {
     const { userIndex, productIndex } = props.navigation.state.params;
     const product = state.providerReducer[userIndex].products[productIndex];

@@ -5,7 +5,7 @@ import { Dimensions } from 'react-native';
 export default {
 
     //This is the style for the cards that appear in the settings screen
-    settingsCard: {
+    marginCard: {
         height: 45,
         marginBottom: 35,
         width: Dimensions.get('window').width,
@@ -16,7 +16,7 @@ export default {
     },
 
     //This is the card that appears in the about section
-    aboutScreenCard: {
+    noMarginCard: {
         height: 45,
         width: Dimensions.get('window').width,
         backgroundColor: colors.white,

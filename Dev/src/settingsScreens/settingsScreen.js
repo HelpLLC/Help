@@ -28,7 +28,7 @@ class settingsScreen extends Component {
                     <TopBanner title={strings.Settings} />
                 </View>
                 <WhiteCard
-                    style={whiteCardStyle.settingsCard}
+                    style={whiteCardStyle.marginCard}
                     text={strings.Notifications}
                     mainTextStyle={fontStyles.subTextStyleBlack}
                     //Updates the state of the switch when it is clicked
@@ -39,7 +39,7 @@ class settingsScreen extends Component {
                     onPress={() => { this.setState({ switchValue: !this.state.switchValue }) }}
                 />
                 <WhiteCard
-                    style={whiteCardStyle.settingsCard}
+                    style={whiteCardStyle.marginCard}
                     text={strings.History}
                     mainTextStyle={fontStyles.subTextStyleBlack}
                     comp={angleRightIcon}
@@ -47,7 +47,7 @@ class settingsScreen extends Component {
                     onPress={() => this.props.navigation.push('HistoryScreen')}
                 />
                 <WhiteCard
-                    style={whiteCardStyle.settingsCard}
+                    style={whiteCardStyle.marginCard}
                     text={strings.ReportAnIssue}
                     mainTextStyle={fontStyles.subTextStyleBlack}
                     comp={angleRightIcon}
@@ -55,7 +55,7 @@ class settingsScreen extends Component {
                     onPress={() => this.props.navigation.push('ReportIssueScreen')}
                 />
                 <WhiteCard
-                    style={whiteCardStyle.settingsCard}
+                    style={whiteCardStyle.marginCard}
                     text={strings.About}
                     mainTextStyle={fontStyles.subTextStyleBlack}
                     comp={angleRightIcon}
@@ -63,7 +63,7 @@ class settingsScreen extends Component {
                     onPress={() => this.props.navigation.push('AboutScreen')}
                 />
                 <WhiteCard
-                    style={whiteCardStyle.settingsCard}
+                    style={whiteCardStyle.marginCard}
                     text={strings.LogOut}
                     mainTextStyle={fontStyles.subTextStyleRed}
                     //To-Do: Needs to call a logout function

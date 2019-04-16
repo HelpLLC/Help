@@ -99,6 +99,12 @@ export default {
     //------------------- Edit Product Screen -------------------
     EditTitle: 'Edit Title',
     EditDescription: 'Edit Description',
-    EditPrice: 'Edit Price'
+    EditPrice: 'Edit Price',
+
+    //------------------- Product History Screen -------------------
+    ServiceHistory: 'Service History',
+    Date: 'Date',
+    Customer: 'Customer',
+    NoHistoryForThisProductYet: 'No history for this product yet'
     
 };

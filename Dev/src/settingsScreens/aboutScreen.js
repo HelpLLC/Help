@@ -27,7 +27,7 @@ class aboutScreen extends Component {
 
                 <View style={{flexDirection: 'column', paddingTop: 50}}>
                     <WhiteCard
-                        style={whiteCardStyle.aboutScreenCard}
+                        style={whiteCardStyle.noMarginCard}
                         text={strings.Version}
                         mainTextStyle={fontStyles.subTextStyleBlack}
                         comp={<Text style={fontStyles.subTextStyleBlack}>
@@ -35,7 +35,7 @@ class aboutScreen extends Component {
                         onPress={() => {}}
                     />
                     <WhiteCard
-                        style={whiteCardStyle.aboutScreenCard}
+                        style={whiteCardStyle.noMarginCard}
                         text={strings.PublishedBy}
                         mainTextStyle={fontStyles.subTextStyleBlack}
                         comp={<Text style={fontStyles.subTextStyleBlack}>
@@ -43,7 +43,7 @@ class aboutScreen extends Component {
                         onPress={() => {}}
                     />
                     <WhiteCard
-                        style={whiteCardStyle.aboutScreenCard}
+                        style={whiteCardStyle.noMarginCard}
                         text={strings.Contact}
                         mainTextStyle={fontStyles.subTextStyleBlack}
                         comp={<Text style={fontStyles.subTextStyleBlack}>
