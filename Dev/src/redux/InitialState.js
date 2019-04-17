@@ -53,7 +53,7 @@ export default InitialState = {
                         //The array containing the current requests for the product
                         currentRequests: [
 
-                            //Each current request will contain the username of the person requesting
+                            //Each current request will contain the username of the customer requesting
                             //it
                             {
                                 customerUserName: 'ZyadDevRequest'
@@ -84,7 +84,11 @@ export default InitialState = {
                         //The array containing the current requests for the product
                         //The array containing the current requests for the product
                         currentRequests: [
-
+                            //Each current request will contain the username of the customer requesting
+                            //it
+                            {
+                                customerUserName: 'ZyadDevRequest'
+                            },
                         ]
                     }
                 },

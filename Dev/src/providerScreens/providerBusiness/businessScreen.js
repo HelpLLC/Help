@@ -112,7 +112,10 @@ class businessScreen extends Component {
                                     }} />
                             </View>
                         ) : (
-                            <ScrollView style={{ paddingTop: 30 }} showsVerticalScrollIndicator={false}>
+                            <ScrollView 
+                            style={{ paddingTop: 30 }} 
+                            contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+                            showsVerticalScrollIndicator={false}>
                                 <FlatList
                                     data={this.props.provider.products}
                                     keyExtractor={(item, index) => {
@@ -125,6 +128,7 @@ class businessScreen extends Component {
                                             serviceDescription={item.serviceDescription}
                                             pricing={item.pricing}
                                             image={item.imageSource}
+                                            numCurrentRequests={item.requests.currentRequests.length}
                                             onPress={() => {
                                                 this.props.navigation.push('ProviderProductScreen', {
                                                     userIndex: this.props.navigation.state.params.userIndex,

@@ -38,6 +38,13 @@ export default {
         color: colors.lightBlue
     },
 
+    //The style for main text that will be colored white
+    mainTextStyleWhite: {
+        fontFamily: 'Arial Rounded MT Bold',
+        fontSize: 20,
+        color: colors.white
+    },
+
     //The style for all non-main text that is black
     subTextStyleBlack: {
         fontFamily: 'Arial Rounded MT Bold',
@@ -59,12 +66,18 @@ export default {
         color: colors.red
     },
 
-    //The style for all non-main text that is grey
-    //The style for all non-main text that is red
+    //The style for all non-main text that is gray
     subTextStyleGray: {
         fontFamily: 'Arial Rounded MT Bold',
         fontSize: 16,
         color: colors.gray
+    },
+
+    //The style for all non-main text that is white
+    subTextStyleWhite: {
+        fontFamily: 'Arial Rounded MT Bold',
+        fontSize: 16,
+        color: colors.white
     },
 
     //The style for the tab label at the bottom of the screens

@@ -17,12 +17,19 @@ class ServiceCard extends Component {
     //Renders the component
     render() {
         //The props for the ServiceCard. It will take in a service title, a description, a price, and an
-        //image to display, along with an onPress method
-        const { serviceTitle, serviceDescription, pricing, image, onPress } = this.props;
+        //image to display, along with an onPress method. An additional prop is also how many current
+        //requests this product currently has. This prop should only be used by the provider screens
+        const { serviceTitle, serviceDescription, pricing, image, onPress, numCurrentRequests } =
+            this.props;
 
         //Returns the rendered component
         return (
-            <TouchableOpacity onPress={onPress}>
+            <TouchableOpacity onPress={onPress} style={{
+                width: Dimensions.get('window').width,
+                height: 210,
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}>
                 <View style={{ marginBottom: 30 }}>
                     <BoxShadow setting={{
                         width: Dimensions.get('window').width - 40,
@@ -57,6 +64,23 @@ class ServiceCard extends Component {
                         </View>
                     </BoxShadow>
                 </View>
+                {numCurrentRequests > 0 ? (
+                    <View style={{
+                        backgroundColor: colors.red,
+                        height: 40,
+                        width: 40,
+                        borderRadius: 20,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        position: "absolute",
+                        left: 325,
+                        top: 0
+                    }}>
+                        <Text style={fontStyles.mainTextStyleWhite}>{numCurrentRequests}</Text>
+                    </View>
+                ) : (
+                        <View></View>
+                    )}
             </TouchableOpacity>
         );
     }
