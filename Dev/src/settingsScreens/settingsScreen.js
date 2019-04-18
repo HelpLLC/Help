@@ -27,48 +27,50 @@ class settingsScreen extends Component {
                 <View>
                     <TopBanner title={strings.Settings} />
                 </View>
-                <WhiteCard
-                    style={whiteCardStyle.marginCard}
-                    text={strings.Notifications}
-                    mainTextStyle={fontStyles.subTextStyleBlack}
-                    //Updates the state of the switch when it is clicked
-                    comp={<Switch value={this.state.switchValue} onValueChange={(value) => {
-                        this.setState({ switchValue: value })
-                    }} />}
-                    //If the entire view is clicked, the switch value is flipped
-                    onPress={() => { this.setState({ switchValue: !this.state.switchValue }) }}
-                />
-                <WhiteCard
-                    style={whiteCardStyle.marginCard}
-                    text={strings.History}
-                    mainTextStyle={fontStyles.subTextStyleBlack}
-                    comp={angleRightIcon}
-                    //Pressing this leads to the history screen
-                    onPress={() => this.props.navigation.push('HistoryScreen')}
-                />
-                <WhiteCard
-                    style={whiteCardStyle.marginCard}
-                    text={strings.ReportAnIssue}
-                    mainTextStyle={fontStyles.subTextStyleBlack}
-                    comp={angleRightIcon}
-                    //Pressing this leads to the report an issue screen
-                    onPress={() => this.props.navigation.push('ReportIssueScreen')}
-                />
-                <WhiteCard
-                    style={whiteCardStyle.marginCard}
-                    text={strings.About}
-                    mainTextStyle={fontStyles.subTextStyleBlack}
-                    comp={angleRightIcon}
-                    //Pressing this leads to the about screen page
-                    onPress={() => this.props.navigation.push('AboutScreen')}
-                />
-                <WhiteCard
-                    style={whiteCardStyle.marginCard}
-                    text={strings.LogOut}
-                    mainTextStyle={fontStyles.subTextStyleRed}
-                    //To-Do: Needs to call a logout function
-                    onPress={() => this.props.navigation.push('SplashScreen')}
-                />
+                <View style={{ marginTop: 30 }}>
+                    <WhiteCard
+                        style={whiteCardStyle.marginCard}
+                        text={strings.Notifications}
+                        mainTextStyle={fontStyles.subTextStyleBlack}
+                        //Updates the state of the switch when it is clicked
+                        comp={<Switch value={this.state.switchValue} onValueChange={(value) => {
+                            this.setState({ switchValue: value })
+                        }} />}
+                        //If the entire view is clicked, the switch value is flipped
+                        onPress={() => { this.setState({ switchValue: !this.state.switchValue }) }}
+                    />
+                    <WhiteCard
+                        style={whiteCardStyle.marginCard}
+                        text={strings.History}
+                        mainTextStyle={fontStyles.subTextStyleBlack}
+                        comp={angleRightIcon}
+                        //Pressing this leads to the history screen
+                        onPress={() => this.props.navigation.push('HistoryScreen')}
+                    />
+                    <WhiteCard
+                        style={whiteCardStyle.marginCard}
+                        text={strings.ReportAnIssue}
+                        mainTextStyle={fontStyles.subTextStyleBlack}
+                        comp={angleRightIcon}
+                        //Pressing this leads to the report an issue screen
+                        onPress={() => this.props.navigation.push('ReportIssueScreen')}
+                    />
+                    <WhiteCard
+                        style={whiteCardStyle.marginCard}
+                        text={strings.About}
+                        mainTextStyle={fontStyles.subTextStyleBlack}
+                        comp={angleRightIcon}
+                        //Pressing this leads to the about screen page
+                        onPress={() => this.props.navigation.push('AboutScreen')}
+                    />
+                    <WhiteCard
+                        style={whiteCardStyle.marginCard}
+                        text={strings.LogOut}
+                        mainTextStyle={fontStyles.subTextStyleRed}
+                        //To-Do: Needs to call a logout function
+                        onPress={() => this.props.navigation.push('SplashScreen')}
+                    />
+                </View>
             </View>
         )
     }
