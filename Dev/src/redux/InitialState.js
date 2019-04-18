@@ -37,15 +37,15 @@ export default InitialState = {
                             //Each completed request will have a date and a customer name
                             {
                                 dateCompleted: '3/10/19',
-                                customerUserName: 'ZyadDevRequest'
+                                customerUsername: 'ZyadDevRequest'
                             },
                             {
                                 dateCompleted: '3/11/19',
-                                customerUserName: 'ZyadDevRequest'
+                                customerUsername: 'ZyadDevRequest'
                             },
                             {
                                 dateCompleted: '3/12/19',
-                                customerUserName: 'ZyadDevRequest'
+                                customerUsername: 'ZyadDevRequest'
                             },
                         ],
 
@@ -56,10 +56,10 @@ export default InitialState = {
                             //Each current request will contain the username of the customer requesting
                             //it
                             {
-                                customerUserName: 'ZyadDevRequest'
+                                customerUsername: 'ZyadDevRequest'
                             },
                             {
-                                customerUserName: 'SomeOtherRequester'
+                                customerUsername: 'SomeOtherRequester'
                             }
                         ]
                     }
@@ -87,7 +87,7 @@ export default InitialState = {
                             //Each current request will contain the username of the customer requesting
                             //it
                             {
-                                customerUserName: 'ZyadDevRequest'
+                                customerUsername: 'ZyadDevRequest'
                             },
                         ]
                     }

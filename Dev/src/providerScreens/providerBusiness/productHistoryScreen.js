@@ -90,7 +90,7 @@ class productHistoryScreen extends Component {
                                         style={whiteCardStyle.noMarginCard}
                                         text={item.dateCompleted}
                                         mainTextStyle={fontStyles.subTextStyleBlack}
-                                        comp={<Text style={fontStyles.subTextStyleBlack}>{item.customerUserName}</Text>}
+                                        comp={<Text style={fontStyles.subTextStyleBlack}>{item.customerUsername}</Text>}
                                         onPress={() => { }} />
                                 )}
                             />

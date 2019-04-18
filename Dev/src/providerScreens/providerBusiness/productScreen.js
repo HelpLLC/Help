@@ -2,13 +2,15 @@
 //as well as any current requests. You will also be able to access history & edit the product from this
 //screen
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Dimensions, ScrollView, FlatList } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../../components/TopBanner';
+import ChatCard from '../../components/ChatCard';
 import colors from 'config/colors';
 import { connect } from 'react-redux';
+import { Icon } from 'react-native-elements';
 import { BoxShadow } from 'react-native-shadow';
 
 //The class representing the screen
@@ -85,7 +87,6 @@ class productScreen extends Component {
                         </BoxShadow>
                     </View>
                 </View>
-
                 <View style={{
                     paddingTop: 20,
                     paddingRight: 14,
@@ -107,15 +108,60 @@ class productScreen extends Component {
                     </Text>
                 </View>
 
-                <View>
-                    <Text style={[fontStyles.bigTextStyleBlack, {
-                        alignSelf: 'center',
-                        paddingTop: 20,
-                        paddingBottom: 20
-                    }]}>
-                        {strings.NoCurrentRequests}
-                    </Text>
-                </View>
+                {   //Checks if the current product has any current requests and displays them if
+                    //it does
+                    this.props.product.requests.currentRequests.length > 0 ? (
+                        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{
+                            alignSelf: 'center',
+                            paddingTop: 20,
+                            paddingBottom: 20,
+                            alignItems: 'center'
+                        }}>
+                            <View style={{ paddingBottom: 20 }}>
+                                <Text style={fontStyles.mainTextStyleRed}>
+                                    {this.props.product.requests.currentRequests.length}
+                                    {
+                                        this.props.product.requests.currentRequests.length > 1 ?
+                                            (' Requests') : (' Request')
+                                    }</Text>
+                            </View>
+                            <FlatList
+                                data={this.props.product.requests.currentRequests}
+                                keyExtractor={(item, index) => (index + "")}
+                                renderItem={({ item, index }) => (
+                                    <ChatCard
+                                        key={index}
+                                        username={item.customerUsername}
+                                        previewText={"Example chat..."} //Need to change this preview most
+                                        //recent chat
+                                        comp={
+                                            <Icon
+                                                name="comment"
+                                                type="font-awesome"
+                                                size={40}
+                                                color={colors.lightBlue}
+                                            />}
+                                        onPress={() => {
+                                            //Should go to the chat belonging to the user
+                                        }}
+                                    />
+                                )}
+                            />
+                        </ScrollView>
+                    ) : (
+                            <View style={{
+                                alignSelf: 'center',
+                                paddingTop: 20,
+                                paddingBottom: 20
+                            }}>
+                                <Text style={fontStyles.bigTextStyleBlack}>
+                                    {strings.NoCurrentRequests}
+                                </Text>
+                            </View>
+                        )
+
+                }
+
             </View>
         );
     }

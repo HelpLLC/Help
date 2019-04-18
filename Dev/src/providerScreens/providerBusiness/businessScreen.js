@@ -65,7 +65,7 @@ class businessScreen extends Component {
                 </View>
 
 
-                { //If the provider doesn't have products then a screen will show up asking if they
+                {   //If the provider doesn't have products then a screen will show up asking if they
                     //want to create a product now
                     this.props.provider.products.length === 0 ?
                         (
@@ -112,10 +112,10 @@ class businessScreen extends Component {
                                     }} />
                             </View>
                         ) : (
-                            <ScrollView 
-                            style={{ paddingTop: 30 }} 
-                            contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
-                            showsVerticalScrollIndicator={false}>
+                            <ScrollView
+                                style={{ paddingTop: 30 }}
+                                contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+                                showsVerticalScrollIndicator={false}>
                                 <FlatList
                                     data={this.props.provider.products}
                                     keyExtractor={(item, index) => {

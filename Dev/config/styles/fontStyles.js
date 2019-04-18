@@ -9,7 +9,7 @@ export default {
         fontSize: 24,
         color: colors.black
     },
-    
+
     //The style for all big text that will be colored white
     bigTextStyleWhite: {
         fontFamily: 'Arial Rounded MT Bold',
@@ -18,12 +18,12 @@ export default {
     },
 
     //The style for all big text that will be colored blue
-    bigTextStyleBlue : {
+    bigTextStyleBlue: {
         fontFamily: 'Arial Rounded MT Bold',
         fontSize: 24,
         color: colors.lightBlue
     },
-    
+
     //The style for main text that will be colored black
     mainTextStyleBlack: {
         fontFamily: 'Arial Rounded MT Bold',
@@ -43,6 +43,20 @@ export default {
         fontFamily: 'Arial Rounded MT Bold',
         fontSize: 20,
         color: colors.white
+    },
+
+    //The style for main text that will be colored gray
+    mainTextStyleGray: {
+        fontFamily: 'Arial Rounded MT Bold',
+        fontSize: 20,
+        color: colors.gray
+    },
+
+    //The style for main text that will be colored red
+    mainTextStyleRed: {
+        fontFamily: 'Arial Rounded MT Bold',
+        fontSize: 20,
+        color: colors.red
     },
 
     //The style for all non-main text that is black
