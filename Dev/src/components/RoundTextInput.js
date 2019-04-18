@@ -44,7 +44,7 @@ RoundTextInput.propTypes = {
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     placeHolder: PropTypes.string,
-    onChangeText: PropTypes.func,
+    onChangeText: PropTypes.func.isRequired,
     value: PropTypes.string
 }
 

@@ -54,7 +54,9 @@ class reportIssueScreen extends Component {
                         <RoundTextInput
                             width={275}
                             height={200}
-                            placeholder={strings.DescribeYourIssueHereDotDotDot} />
+                            placeholder={strings.DescribeYourIssueHereDotDotDot}
+                            onChangeText={(input) => this.setState({ userInput: input })}
+                            value={this.state.userInput} />
                     </View>
 
                     <View>
