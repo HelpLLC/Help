@@ -48,6 +48,7 @@ const navigatorConfig = {
     //To-do: Make sure if device has already been logged in, to navigate to the account directly
     initialRouteName: 'FirstScreens',
     headerMode: 'none',
+    gesturesEnabled: false
 };
 
 //Creates & exports the stack navigator

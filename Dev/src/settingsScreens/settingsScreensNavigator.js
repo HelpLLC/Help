@@ -31,7 +31,7 @@ const routeConfig = {
 const navigatorConfig = {
     headerMode: 'none',
     //Makes the settings screen defined above the default route when this navigator is accessed
-    initialRouteName: 'SettingsScreen'
+    initialRouteName: 'SettingsScreen',
 };
 
 //Creates and exports the stack navigator
