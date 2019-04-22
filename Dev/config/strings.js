@@ -105,6 +105,12 @@ export default {
     ServiceHistory: 'Service History',
     Date: 'Date',
     Customer: 'Customer',
-    NoHistoryForThisProductYet: 'No history for this product yet'
+    NoHistoryForThisProductYet: 'No history for this product yet',
+
+    //------------------- Request Screen -------------------
+    Yardwork: 'Yardwork',
+    Other: 'Other',
+    MoreCategoriesComingSoonExclamation: 'More categories coming soon!',
     
+
 };
