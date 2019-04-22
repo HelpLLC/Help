@@ -1,12 +1,15 @@
 //This navigator represents the bottom tab in which the requester will be able to navigate from
 //screen to screen. It will lead to the settings screen, request screen, and the chats screen.
 import { createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
+import React from 'react';
+import { View } from 'react-native';
 import chatsScreen from './requesterChats/chatsScreen';
 import settingsScreensNavigator from '../settingsScreens/settingsScreensNavigator';
 import requestScreen from './requesterRequest/requestScreen';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import colors from 'config/colors';
+import TopBanner from '../components/TopBanner';
 
 //will configure the routes of each screen title to go to the correct screen when clicked on.
 const routeConfig = {
@@ -26,9 +29,9 @@ const routeConfig = {
         //connects the object with the help screen component
         screen: requestScreen,
         //sets up what the tab will be titled
-        navigationOptions: {
-            tabBarLabel: strings.Request
-        }
+        navigationOptions: ({ navigation }) => ({
+            tabBarLabel: strings.Request,
+        })
     },
 
     //Route connecting to the settings screen
@@ -47,6 +50,8 @@ const routeConfig = {
 const navigatorConfig = {
     //This will be the default destination whenever this entire navigator is called
     initialRouteName: 'RequestScreen',
+    //Shows the header
+    headerMode: 'float',
     //This makes swiping between tabs possible
     swipeEnabled: true,
     //This turns on the swiping animation
