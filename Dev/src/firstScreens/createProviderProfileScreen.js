@@ -58,10 +58,11 @@ class createProviderProfileScreen extends Component {
 
                 //Signs up the user with the chosen account
                 let newAccount = {
+                    providerID: this.props.providers.length,
                     username: this.props.navigation.state.params.username,
                     companyName: businessName,
                     companyDescription: businessInfo,
-                    products: []
+                    serviceIDs: []
                 }
 
                 //Passes in the parameter to the action in order for the account to be created

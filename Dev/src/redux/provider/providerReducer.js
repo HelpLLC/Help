@@ -18,7 +18,7 @@ export default providerReducer = (state = InitialState.providers, action) => {
 
             //Will update the state with the new account that got added by adding it to the array
             //of users
-            let newState = update(state, { $push: [newAccount] });
+            let newState = update(state, { accounts: { $push: [newAccount] } });
 
             //returns the newly updated state
             return newState;
@@ -28,11 +28,10 @@ export default providerReducer = (state = InitialState.providers, action) => {
         case actionTypes.CREATE_PROVIDER_PRODUCT:
 
             //Retrieves the index of the provider to add the product to as well as the product info
-            let accountIndex = action.providerIndex;
             let productInfo = action.productInfo;
 
             //Updates the state by pushing the new product into the array of providers
-            newState = update(state, { [accountIndex]: { products: { $push: [productInfo] } } });
+            newState = update(state, { products: { $push: [productInfo] } });
 
             //returns the newly updated state
             return newState;
@@ -49,8 +48,8 @@ export default providerReducer = (state = InitialState.providers, action) => {
 
             //Updates the state by both updating the new name of the company as well as its
             //description.
-            newState = update(state, { [index]: { companyName: { $set: newCompanyName } } });
-            newState = update(newState, { [index]: { companyDescription: { $set: newCompanyInfo } } });
+            newState = update(state, { accounts: { [index]: { companyName: { $set: newCompanyName } } } });
+            newState = update(newState, { accounts: { [index]: { companyDescription: { $set: newCompanyInfo } } } });
 
             //returns the newly updated state
             return newState;
@@ -60,10 +59,10 @@ export default providerReducer = (state = InitialState.providers, action) => {
 
             //Retrieves the index of the provider as well as the product info
             //as well as the product's index
-            const { providerIndex, productIndex, updatedProductInfo } = action;
+            const { productID, updatedProductInfo } = action;
 
             //Updates the state by pushing the new product into the array of providers
-            newState = update(state, { [providerIndex]: { products: { [productIndex]: { $set: updatedProductInfo } } } });
+            newState = update(state, { products: { [productID]: { $set: updatedProductInfo } } });
 
             //returns the newly updated state
             return newState;
