@@ -67,15 +67,11 @@ class requestScreen extends Component {
 const mapStateToProps = (state, props) => {
     const requester = state.requesterReducer[props.navigation.state.params.userIndex];
     
-    //Fetches all current services in the market... needs to optimized because this will take forever
-    //if there are millions of customers
+    //Fetches all current service providers in the market... needs to optimized because this will take 
+    //forever if there are millions of customers & we want to load products as the user scrolls through
     const providers = state.providerReducer;
-    const products = [];
-    providers.forEach((item) => {
-        products.push(item.products);
-    });
-
-    return { requester, products };
+    
+    return { requester, providers };
 };
 
 //connects the screen with the redux persist state
