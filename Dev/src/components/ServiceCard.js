@@ -19,7 +19,7 @@ class ServiceCard extends Component {
         //The props for the ServiceCard. It will take in a service title, a description, a price, and an
         //image to display, along with an onPress method. An additional prop is also how many current
         //requests this product currently has. This prop should only be used by the provider screens
-        const { serviceTitle, serviceDescription, pricing, image, onPress, numCurrentRequests } =
+        const { serviceTitle, serviceDescription, pricing, image, onPress, numCurrentRequests, offeredBy } =
             this.props;
 
         //Returns the rendered component
@@ -55,10 +55,17 @@ class ServiceCard extends Component {
                                 justifyContent: 'space-evenly', paddingLeft: 20
                             }}>
                                 <Text style={fontStyles.mainTextStyleBlack}>{serviceTitle}</Text>
-                                <Text style={fontStyles.subTextStyleGray}>
-                                    {serviceDescription.length > 25 ? (serviceDescription.slice(0, 24) + '...') :
-                                        serviceDescription}
-                                </Text>
+                                {
+                                    serviceDescription ? (
+                                        <Text style={fontStyles.subTextStyleGray}>
+                                            serviceDescription.length > 25 ?
+                                                (serviceDescription.slice(0, 24) + '...') :
+                                                serviceDescription
+                                                </Text>
+                                    ) : (
+                                            <Text>{offeredBy}</Text>
+                                        )
+                                }
                                 <Text style={fontStyles.mainTextStyleBlack}>{pricing}</Text>
                             </View>
                         </View>
@@ -90,7 +97,8 @@ class ServiceCard extends Component {
 //and what their types should be
 ServiceCard.propTypes = {
     serviceTitle: PropTypes.string.isRequired,
-    serviceDescription: PropTypes.string.isRequired,
+    serviceDescription: PropTypes.string,
+    offeredBy: PropTypes.string,
     pricing: PropTypes.string.isRequired,
     image: PropTypes.number.isRequired,
     onPress: PropTypes.func.isRequired,

@@ -1,25 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions } from 'react-native';
-import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../../components/TopBanner';
 import { connect } from 'react-redux';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { TabView, TabBar } from 'react-native-tab-view';
 import colors from '../../../config/colors';
+import Other from './categories/Other';
+import Yardwork from './categories/Yardwork';
 
-const Yardwork = () => (
-    <View style={screenStyle.container}>
-        <Text>{this.props.products[0].serviceTitle}</Text>
-    </View>
-);
-const Other = () => (
-    <View style={screenStyle.container}>
-        <View style={{ paddingTop: 180 }}>
-            <Text style={fontStyles.mainTextStyleBlack}>{strings.MoreCategoriesComingSoonExclamation}</Text>
-        </View>
-    </View>
-);
 
 class requestScreen extends Component {
 
@@ -35,12 +24,16 @@ class requestScreen extends Component {
         return (
             <TabView
                 navigationState={this.state}
-                renderScene={SceneMap({
-                    yardwork: Yardwork,
-                    other: Other,
-                })}
+                renderScene={({ route, jumpTo }) => {
+                    switch (route.key) {
+                        case 'yardwork':
+                            return <Yardwork jumpTo={jumpTo} allProps={this.props} />;
+                        case 'other':
+                            return <Other jumpTo={jumpTo} />;
+                    }
+                }}
                 renderTabBar={props =>
-                    <View>
+                    < View >
                         <TopBanner
                             title={strings.Request}
                         />
@@ -52,7 +45,7 @@ class requestScreen extends Component {
                             inactiveColor={colors.black}
                             labelStyle={fontStyles.tabLabelStyle}
                         />
-                    </View>
+                    </View >
                 }
                 onIndexChange={index => this.setState({ index })}
                 initialLayout={{ width: Dimensions.get('window').width }}
@@ -66,11 +59,11 @@ class requestScreen extends Component {
 //available
 const mapStateToProps = (state, props) => {
     const requester = state.requesterReducer[props.navigation.state.params.userIndex];
-    
+
     //Fetches all current service providers in the market... needs to optimized because this will take 
     //forever if there are millions of customers & we want to load products as the user scrolls through
     const providers = state.providerReducer;
-    
+
     return { requester, providers };
 };
 
