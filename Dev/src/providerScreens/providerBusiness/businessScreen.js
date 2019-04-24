@@ -67,7 +67,7 @@ class businessScreen extends Component {
 
                 {   //If the provider doesn't have products then a screen will show up asking if they
                     //want to create a product now
-                    this.props.provider.products.length === 0 ?
+                    this.props.providerProducts.length === 0 ?
                         (
                             <View style={
                                 {
@@ -117,7 +117,7 @@ class businessScreen extends Component {
                                 contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
                                 showsVerticalScrollIndicator={false}>
                                 <FlatList
-                                    data={this.props.provider.products}
+                                    data={this.props.providerProducts}
                                     keyExtractor={(item, index) => {
                                         return (this.props.provider.companyName + " Product #" + index);
                                     }}
@@ -131,8 +131,7 @@ class businessScreen extends Component {
                                             numCurrentRequests={item.requests.currentRequests.length}
                                             onPress={() => {
                                                 this.props.navigation.push('ProviderProductScreen', {
-                                                    userIndex: this.props.navigation.state.params.userIndex,
-                                                    productIndex: index
+                                                    productID: item.serviceID
                                                 });
                                             }}
                                         />
@@ -149,8 +148,24 @@ class businessScreen extends Component {
 
 //Connects this screens' props with the current user of the app
 const mapStateToProps = (state, props) => {
-    const provider = state.providerReducer[props.navigation.state.params.userIndex];
-    return { provider };
+    const provider = state.providerReducer.accounts[props.navigation.state.params.userIndex];
+
+    //Fetches products that are offered by this specifc provider
+    const providerProductIDs = provider.serviceIDs;
+    const allMarketProducts = state.providerReducer.products;
+    const providerProducts = [];
+
+
+    providerProductIDs.forEach((id) => {
+        //Finds the index of the product that is associated with the user and adds it to the array
+        //of this user's products
+        let indexOfProduct = allMarketProducts.findIndex((element) => {
+            return element.serviceID === id;
+        });
+
+        providerProducts.push(allMarketProducts[indexOfProduct]);
+    });
+    return { provider, providerProducts };
 };
 
 //connects the screen with the redux persist state

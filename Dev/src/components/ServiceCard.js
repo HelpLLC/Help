@@ -58,9 +58,9 @@ class ServiceCard extends Component {
                                 {
                                     serviceDescription ? (
                                         <Text style={fontStyles.subTextStyleGray}>
-                                            serviceDescription.length > 25 ?
+                                            {serviceDescription.length > 25 ?
                                                 (serviceDescription.slice(0, 24) + '...') :
-                                                serviceDescription
+                                                serviceDescription}
                                                 </Text>
                                     ) : (
                                             <Text>{offeredBy}</Text>

@@ -144,7 +144,7 @@ class createProviderProfileScreen extends Component {
 
 //Connects this screens' props with the users of the app to prepare for account creation
 const mapStateToProps = state => {
-    const providers = state.providerReducer;
+    const providers = state.providerReducer.accounts;
     return { providers };
 };
 

@@ -59,6 +59,8 @@ class editProductScreen extends Component {
 
                 //Creates the newly updated product
                 let updatedProduct = {
+                    serviceID: this.props.product.serviceID,
+                    offeredBy: this.props.product.offeredBy,
                     serviceTitle,
                     serviceDescription, 
                     pricing,
@@ -66,10 +68,11 @@ class editProductScreen extends Component {
                     requests: this.props.product.requests
                 };
 
-                const { userIndex, productIndex } = this.props.navigation.state.params;
+                //Fethches the index of this product
+                const { productIndex } = this.props;
             
                 //Updates the correct product corresponding with the correct user
-                this.props.updateProviderProduct(userIndex, productIndex, updatedProduct);
+                this.props.updateProviderProduct(productIndex, updatedProduct);
                 this.props.navigation.goBack();
 
             }
@@ -177,9 +180,11 @@ class editProductScreen extends Component {
 
 //Connects this screens' props with the current product
 const mapStateToProps = (state, props) => {
-    const { userIndex, productIndex } = props.navigation.state.params;
-    const product = state.providerReducer[userIndex].products[productIndex];
-    return { product };
+    const { product, productID } = props.navigation.state.params;
+    const productIndex = state.providerReducer.products.findIndex((product) => {
+        return product.serviceID === productID;
+    })
+    return { product, productID, productIndex };
 };
 
 

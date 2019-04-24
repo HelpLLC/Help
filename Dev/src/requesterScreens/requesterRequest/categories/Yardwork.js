@@ -16,21 +16,6 @@ export default class Yardwork extends Component {
                     style={{ paddingTop: 30 }}
                     contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
                     showsVerticalScrollIndicator={false}>
-                    {
-                        //Goes through all of the providers and renders the service card
-                        allProps.providers.forEach((company) => {
-                            company.products.forEach((product) => {
-                                <ServiceCard
-                                    serviceTitle={product.serviceTitle}
-                                    offeredBy={company.companyName}
-                                    pricing={product.pricing}
-                                    image={product.imageSource}
-                                    numCurrentRequests={0}
-                                    onPress={() => { }} //Goes to the product request screen
-                                />
-                            })
-                        })
-                    }
                     <View style={{ height: 40 }}></View>
                 </ScrollView>
             </View>

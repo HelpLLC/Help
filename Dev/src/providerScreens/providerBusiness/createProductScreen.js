@@ -60,6 +60,8 @@ class createProductScreen extends Component {
             
             //Creates the product and adds it to the database
             const newProduct = {
+                serviceID: this.props.products.length,
+                offeredBy: this.props.provider.providerID,
                 serviceTitle,
                 serviceDescription,
                 pricing,
@@ -178,8 +180,9 @@ class createProductScreen extends Component {
 
 //Connects this screens' props with the current user of the app
 const mapStateToProps = (state, props) => {
-    const provider = state.providerReducer[props.navigation.state.params.userIndex];
-    return { provider };
+    const provider = state.providerReducer.accounts[props.navigation.state.params.userIndex];
+    const { products } = state.providerReducer;
+    return { provider, products };
 };
 
 //Connects the screen with the actions that will interact with the database.

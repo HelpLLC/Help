@@ -111,9 +111,8 @@ class productHistoryScreen extends Component {
 
 //Connects this screens' props with the current product
 const mapStateToProps = (state, props) => {
-    const { userIndex, productIndex } = props.navigation.state.params;
-    const product = state.providerReducer[userIndex].products[productIndex];
-    return { product };
+    const { product, productID } = props.navigation.state.params;
+    return { product, productID };
 };
 
 //connects the screen with the redux persist state

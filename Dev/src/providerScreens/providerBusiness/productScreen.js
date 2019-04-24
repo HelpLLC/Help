@@ -44,8 +44,8 @@ class productScreen extends Component {
                         <TouchableOpacity
                             onPress={() => {
                                 this.props.navigation.push('ProviderEditProductScreen', {
-                                    userIndex: this.props.navigation.state.params.userIndex,
-                                    productIndex: this.props.navigation.state.params.productIndex
+                                    product: this.props.product,
+                                    productID: this.props.productID
                                 });
                             }}>
                             <Text style={[fontStyles.subTextStyleGray, { paddingBottom: 10 }]}>
@@ -55,8 +55,8 @@ class productScreen extends Component {
                         <TouchableOpacity
                             onPress={() => {
                                 this.props.navigation.push('ProviderProductHistoryScreen', {
-                                    userIndex: this.props.navigation.state.params.userIndex,
-                                    productIndex: this.props.navigation.state.params.productIndex
+                                    product: this.props.product,
+                                    productID: this.props.productID
                                 });
                             }}>
                             <Text style={fontStyles.subTextStyleGray}>
@@ -168,9 +168,11 @@ class productScreen extends Component {
 
 }//Connects this screens' props with the current product that is being viewed
 const mapStateToProps = (state, props) => {
-    const { userIndex, productIndex } = props.navigation.state.params;
-    const product = state.providerReducer[userIndex].products[productIndex];
-    return { product };
+    const { productID } = props.navigation.state.params;
+    const product = state.providerReducer.products.find((product) => {
+        return product.serviceID === productID;
+    });
+    return { product, productID };
 };
 
 //connects the screen with the redux persist state
