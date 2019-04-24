@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import TopBanner from '../../components/TopBanner';
 import { connect } from 'react-redux';
 import strings from 'config/strings';
@@ -27,7 +27,12 @@ class requestScreen extends Component {
                 renderScene={({ route, jumpTo }) => {
                     switch (route.key) {
                         case 'yardwork':
-                            return <Yardwork jumpTo={jumpTo} allProps={this.props} />;
+                            return <Yardwork 
+                            jumpTo={jumpTo} 
+                            thisRequester={this.props.requester}
+                            thisRequesterIndex={this.props.navigation.state.params.userIndex}
+                            providers={this.props.accounts}
+                            products={this.props.products} />;
                         case 'other':
                             return <Other jumpTo={jumpTo} />;
                     }
@@ -55,16 +60,13 @@ class requestScreen extends Component {
     }
 }
 
-//Connects this screens' props with the user of the app as well as all of the products currently 
-//available
+//Connects this screens' props with the user of the app as well as the provider reducer containing the
+//products
 const mapStateToProps = (state, props) => {
     const requester = state.requesterReducer[props.navigation.state.params.userIndex];
+    const { accounts, products } = state.providerReducer;
 
-    //Fetches all current service providers in the market... needs to optimized because this will take 
-    //forever if there are millions of customers & we want to load products as the user scrolls through
-    const providers = state.providerReducer;
-
-    return { requester, providers };
+    return { requester, accounts, products };
 };
 
 //connects the screen with the redux persist state

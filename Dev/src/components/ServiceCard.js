@@ -10,6 +10,7 @@ import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import PropTypes from 'prop-types';
 import { BoxShadow } from 'react-native-shadow';
+import strings from 'config/strings';
 
 //The component class
 class ServiceCard extends Component {
@@ -19,7 +20,8 @@ class ServiceCard extends Component {
         //The props for the ServiceCard. It will take in a service title, a description, a price, and an
         //image to display, along with an onPress method. An additional prop is also how many current
         //requests this product currently has. This prop should only be used by the provider screens
-        const { serviceTitle, serviceDescription, pricing, image, onPress, numCurrentRequests, offeredBy } =
+        const { serviceTitle, serviceDescription, pricing, image, onPress, numCurrentRequests, offeredBy,
+        offeredByOnPress } =
             this.props;
 
         //Returns the rendered component
@@ -61,9 +63,17 @@ class ServiceCard extends Component {
                                             {serviceDescription.length > 25 ?
                                                 (serviceDescription.slice(0, 24) + '...') :
                                                 serviceDescription}
-                                                </Text>
+                                        </Text>
                                     ) : (
-                                            <Text>{offeredBy}</Text>
+                                            <View flexDirection='column'>
+                                                <Text style={fontStyles.subTextStyleGray}>
+                                                    {strings.OfferedBy}</Text>
+                                                <TouchableOpacity
+                                                    onPress={offeredByOnPress}>
+                                                    <Text style={fontStyles.subTextStyleBlue}>
+                                                        {offeredBy}</Text>
+                                                </TouchableOpacity>
+                                            </View>
                                         )
                                 }
                                 <Text style={fontStyles.mainTextStyleBlack}>{pricing}</Text>
@@ -99,6 +109,7 @@ ServiceCard.propTypes = {
     serviceTitle: PropTypes.string.isRequired,
     serviceDescription: PropTypes.string,
     offeredBy: PropTypes.string,
+    offeredByOnPress: PropTypes.func,
     pricing: PropTypes.string.isRequired,
     image: PropTypes.number.isRequired,
     onPress: PropTypes.func.isRequired,

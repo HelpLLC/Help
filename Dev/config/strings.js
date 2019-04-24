@@ -111,6 +111,7 @@ export default {
     Yardwork: 'Yardwork',
     Other: 'Other',
     MoreCategoriesComingSoonExclamation: 'More categories coming soon!',
+    OfferedBy: 'Offered by'
     
 
 };
