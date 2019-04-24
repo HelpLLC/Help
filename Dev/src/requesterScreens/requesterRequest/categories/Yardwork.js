@@ -45,8 +45,16 @@ export default class Yardwork extends Component {
                                 pricing={item.pricing}
                                 image={item.imageSource}
                                 numCurrentRequests={0}
-                                offeredByOnPress={() => { }} //Should go to the service provider screen
-                                onPress={() => { }} //Should go to the product request screen
+                                offeredByOnPress={() => {
+                                    this.props.navigation.push('RequesterCompanyProfileScreen', {
+                                        companyID: item.offeredBy
+                                    })
+                                }}
+                                onPress={() => {
+                                    this.props.navigation.push('RequesterServiceScreen', {
+                                        productID: item.serviceID
+                                    })
+                                }}
                             />
                         )}
                     />

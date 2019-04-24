@@ -111,7 +111,11 @@ export default {
     Yardwork: 'Yardwork',
     Other: 'Other',
     MoreCategoriesComingSoonExclamation: 'More categories coming soon!',
-    OfferedBy: 'Offered by'
-    
+    OfferedBy: 'Offered by',
+
+    //------------------- Service Screen -------------------
+
+    //------------------- Requester Side Company Profile Screen -------------------
+    CompanyProfile: 'Company Profile',
 
 };

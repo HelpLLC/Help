@@ -6,6 +6,8 @@ import ProviderEditCompanyProfileScreen from './providerScreens/providerBusiness
 import ProviderProductScreen from './providerScreens/providerBusiness/productScreen';
 import ProviderEditProductScreen from './providerScreens/providerBusiness/editProductScreen';
 import ProviderProductHistoryScreen from './providerScreens/providerBusiness/productHistoryScreen';
+import RequesterServiceScreen from './requesterScreens/requesterRequest/serviceScreen';
+import RequesterCompanyProfileScreen from './requesterScreens/requesterRequest/companyProfileScreen';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 //The route config for all of the screens
@@ -39,6 +41,16 @@ const routeConfig = {
     //The route going to the product history screen
     ProviderProductHistoryScreen: {
         screen: ProviderProductHistoryScreen
+    },
+
+    //The route going to the requester service screen
+    RequesterServiceScreen: {
+        screen: RequesterServiceScreen
+    },
+
+    //The route going to the requester company profile screen
+    RequesterCompanyProfileScreen: {
+        screen: RequesterCompanyProfileScreen
     }
 
 };

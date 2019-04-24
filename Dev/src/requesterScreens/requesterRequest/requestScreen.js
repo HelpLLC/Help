@@ -1,3 +1,5 @@
+//This screen represents the main screen that is launched once the requester logs in. Here they will
+//be able to view services from different categories and click on them to go buy them
 import React, { Component } from 'react';
 import { View, Dimensions } from 'react-native';
 import TopBanner from '../../components/TopBanner';
@@ -28,6 +30,7 @@ class requestScreen extends Component {
                     switch (route.key) {
                         case 'yardwork':
                             return <Yardwork 
+                            {...this.props}
                             jumpTo={jumpTo} 
                             thisRequester={this.props.requester}
                             thisRequesterIndex={this.props.navigation.state.params.userIndex}
