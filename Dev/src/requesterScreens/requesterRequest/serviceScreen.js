@@ -55,7 +55,8 @@ class serviceScreen extends Component {
                         <TouchableOpacity
                             onPress={() => {
                                 this.props.navigation.push('RequesterCompanyProfileScreen', {
-                                    companyID: item.offeredBy
+                                    companyID: this.props.offeredByID,
+                                    thisRequesterIndex: this.props.thisRequesterIndex
                                 });
                             }}>
                             <Text style={fontStyles.subTextStyleBlue}>

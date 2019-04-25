@@ -155,7 +155,6 @@ const mapStateToProps = (state, props) => {
     const allMarketProducts = state.providerReducer.products;
     const providerProducts = [];
 
-
     providerProductIDs.forEach((id) => {
         //Finds the index of the product that is associated with the user and adds it to the array
         //of this user's products

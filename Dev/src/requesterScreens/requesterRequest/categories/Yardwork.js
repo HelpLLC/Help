@@ -47,7 +47,8 @@ export default class Yardwork extends Component {
                                 numCurrentRequests={0}
                                 offeredByOnPress={() => {
                                     this.props.navigation.push('RequesterCompanyProfileScreen', {
-                                        companyID: item.offeredBy
+                                        companyID: item.offeredBy,
+                                        thisRequesterIndex: thisRequesterIndex
                                     });
                                 }}
                                 //Passes all of the necessary props to the actual screen that contains
