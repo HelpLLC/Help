@@ -48,12 +48,16 @@ export default class Yardwork extends Component {
                                 offeredByOnPress={() => {
                                     this.props.navigation.push('RequesterCompanyProfileScreen', {
                                         companyID: item.offeredBy
-                                    })
+                                    });
                                 }}
+                                //Passes all of the necessary props to the actual screen that contains
+                                //more information about the service
                                 onPress={() => {
                                     this.props.navigation.push('RequesterServiceScreen', {
-                                        productID: item.serviceID
-                                    })
+                                        offeredByID: item.offeredBy,
+                                        productID: item.serviceID,
+                                        thisRequesterIndex: thisRequesterIndex
+                                    });
                                 }}
                             />
                         )}

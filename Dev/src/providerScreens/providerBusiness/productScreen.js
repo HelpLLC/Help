@@ -34,6 +34,7 @@ class productScreen extends Component {
                     borderBottomColor: colors.black,
                     borderWidth: 0.5,
                     marginTop: 20,
+                    paddingBottom: 15,
                     alignItems: 'center',
                     justifyContent: 'space-between'
                 }}>
@@ -165,8 +166,8 @@ class productScreen extends Component {
             </View>
         );
     }
-
-}//Connects this screens' props with the current product that is being viewed
+}
+//Connects this screens' props with the current product that is being viewed
 const mapStateToProps = (state, props) => {
     const { productID } = props.navigation.state.params;
     const product = state.providerReducer.products.find((product) => {
