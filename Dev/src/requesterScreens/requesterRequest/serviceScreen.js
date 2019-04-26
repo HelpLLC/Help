@@ -17,10 +17,23 @@ import { BoxShadow } from 'react-native-shadow';
 
 class serviceScreen extends Component {
 
-    //The state controls whether or not to display a warning message
+    //This method will return true if the service has already been requested by this requester
+    isServiceAlreadyRequested() {
+
+        const { thisRequesterIndex, product } = this.props;
+
+        //If the value is -1, this means that this requester doesn't have a current request on this service
+        const indexOfRequest = product.requests.currentRequests.findIndex((request) => {
+            return request.requesterID === thisRequesterIndex;
+        });
+
+        return (indexOfRequest === -1 ? false : true);
+
+    }
+
+    //The state controls whether or not the button to request the service will be displayed
     state = {
-        warningMessageLineOne: "",
-        warningMessageLineTwo: ""
+        serviceRequested: this.isServiceAlreadyRequested()
     }
 
     //This method will request this service from the company providing it by pushing the request to the
@@ -30,30 +43,17 @@ class serviceScreen extends Component {
     //to buy this service. Then will push the requester to the chats screen.
     requestService() {
 
-        //First it will check if the user has already requested this product. If they have, then
-        //a red message will pop up saying you have already requested this product. If they have
-        //not then, it will continue to request the app
+        //It will simply call the action and request the product
         const { product, thisRequesterIndex } = this.props;
 
-        //This will return -1 if the user already has an existing request on this particular product
-        const hasExistingRequest = product.requests.currentRequests.findIndex((request) => {
-            return request.requesterID === thisRequesterIndex;
+        this.props.requestProduct(product.serviceID, {
+            requesterID: thisRequesterIndex,
+            dateRequested: new Date().toLocaleDateString("en-US")
         });
 
-        //If they have an existing request, the warning message will display
-        if (hasExistingRequest !== -1) {
-            this.setState({
-                warningMessageLineOne: strings.YouAreCurrentlyRequestingThisService,
-                warningMessageLineTwo: strings.MessageTheCompanyIfTheyHaveNotYetCompletedTheServive
-            });
-        } else { //If they have not requested it, then the request will be sent to the provider
-            this.props.requestProduct(product.serviceID, {
-                requesterID: thisRequesterIndex,
-                dateRequested: new Date().toLocaleDateString("en-US")
-            });
-            this.props.navigation.goBack(); //Must be changed to go to a chat with the company
-        }
+        this.setState({ serviceRequested: true });
     }
+
 
     //Renders the UI
     render() {
@@ -138,18 +138,22 @@ class serviceScreen extends Component {
                         {this.props.product.pricing}
                     </Text>
                 </View>
-                <View style={{ marginTop: 60 }}>
-                    <RoundBlueButton
-                        title={strings.Request}
-                        style={roundBlueButtonStyle.MediumSizeButton}
-                        textStyle={fontStyles.bigTextStyleWhite}
-                        onPress={() => { this.requestService() }} />
-                </View>
 
-                <View style={{ padding: 20 }}>
-                    <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessageLineOne}</Text>
-                    <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessageLineTwo}</Text>
-                </View>
+                { //Tests if this service has already been requested by the current user
+                    this.state.serviceRequested === false ? (
+                        <View style={{ marginTop: 60 }}>
+                            <RoundBlueButton
+                                title={strings.Request}
+                                style={roundBlueButtonStyle.MediumSizeButton}
+                                textStyle={fontStyles.bigTextStyleWhite}
+                                onPress={() => { this.requestService() }} />
+                        </View>
+                    ) : (
+                            <View style={{ marginTop: 60 }}>
+                                <Text style={fontStyles.bigTextStyleBlue}>{strings.ServiceRequested}</Text>
+                            </View>
+                        )
+                }
             </View>
         );
     }
