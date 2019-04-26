@@ -95,6 +95,9 @@ export default {
     Service: 'Service',
     EditService: 'Edit Service',
     NoCurrentRequests: 'No Current Requests',
+    Message: 'Message',
+    Delete: 'Delete',
+    MarkAsComplete: 'Mark as complete',
 
     //------------------- Edit Product Screen -------------------
     EditTitle: 'Edit Title',

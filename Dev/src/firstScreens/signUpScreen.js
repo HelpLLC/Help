@@ -82,6 +82,7 @@ class signUpScreen extends Component {
                     let accountType = "requester";
                     let newAccount = {
                         username: username,
+                        requesterID: this.requesters.length,
                         accountType: accountType
                     };
                     this.props.createRequesterAccount(newAccount);

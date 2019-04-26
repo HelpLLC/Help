@@ -7,14 +7,36 @@ import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../../components/TopBanner';
-import ChatCard from '../../components/ChatCard';
 import colors from 'config/colors';
 import { connect } from 'react-redux';
-import { Icon } from 'react-native-elements';
 import { BoxShadow } from 'react-native-shadow';
 
 //The class representing the screen
 class productScreen extends Component {
+
+    //Fetches the username of a requester based on the passed in ID parameter
+    getRequesterUserNameByID(ID) {
+        const requester = this.props.requestersOfThisProduct.find((requester) => {
+            return requester.requesterID === ID;
+        });
+
+        return requester.username;
+    }
+
+    //This method will take in an ID of a requester and go to the chat screen associated with them
+    messageRequester(ID) {
+
+    }
+
+    //This method will complete a specific request based on the passed in requester ID
+    markAsComplete(ID) {
+
+    }
+
+    //This method will delete the request WITHOUT completing it based on the passed in ID
+    deleteRequest(ID) {
+        
+    }
 
     //renders the UI
     render() {
@@ -111,7 +133,7 @@ class productScreen extends Component {
 
                 {   //Checks if the current product has any current requests and displays them if
                     //it does
-                    this.props.product.requests.currentRequests.length > 0 ? (
+                    this.props.requestersOfThisProduct.length > 0 ? (
                         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{
                             alignSelf: 'center',
                             paddingTop: 20,
@@ -130,22 +152,53 @@ class productScreen extends Component {
                                 data={this.props.product.requests.currentRequests}
                                 keyExtractor={(item, index) => (index + "")}
                                 renderItem={({ item, index }) => (
-                                    <ChatCard
-                                        key={index}
-                                        username={item.customerUsername}
-                                        previewText={"Example chat..."} //Need to change this preview most
-                                        //recent chat
-                                        comp={
-                                            <Icon
-                                                name="comment"
-                                                type="font-awesome"
-                                                size={40}
-                                                color={colors.lightBlue}
-                                            />}
-                                        onPress={() => {
-                                            //Should go to the chat belonging to the user
-                                        }}
-                                    />
+                                    <View style={{ paddingBottom: 20, alignItems: 'center' }}>
+                                        <View style={{
+                                            flexDirection: 'column',
+                                            justifyContent: 'space-evenly',
+                                            width: Dimensions.get('window').width,
+                                            height: 80,
+                                            backgroundColor: colors.white,
+                                            paddingLeft: 20
+                                        }}>
+                                            <Text style={fontStyles.mainTextStyleBlack}>
+                                                {this.getRequesterUserNameByID(item.requesterID)}</Text>
+                                            <Text>{"Example chat..."}</Text>
+                                        </View>
+                                        <View style={{
+                                            flexDirection: 'row',
+                                            justifyContent: 'space-evenly',
+                                            alignItems: 'center',
+                                            width: Dimensions.get('window').width,
+                                            height: 70,
+                                            backgroundColor: colors.white,
+                                            borderBottomStartRadius: 35,
+                                            borderBottomEndRadius: 35
+                                        }}>
+                                            <TouchableOpacity 
+                                            onPress={() => this.messageRequester(item.requesterID)}>
+                                                <Text style={fontStyles.subTextStyleBlue}>
+                                                    {strings.Message}</Text>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity 
+                                            style={{
+                                                height: 70,
+                                                justifyContent: 'center',
+                                                padding: 15
+                                            }}
+                                            onPress={() => this.markAsComplete(item.requesterID)}>
+                                                <Text style={fontStyles.subTextStyleBlue}>
+                                                    {strings.MarkAsComplete}</Text>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity
+                                            onPress={() => this.deleteRequest(item.requesterID)}>
+                                                <Text style={fontStyles.subTextStyleRed}>
+                                                    {strings.Delete}</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
                                 )}
                             />
                         </ScrollView>
@@ -167,13 +220,28 @@ class productScreen extends Component {
         );
     }
 }
-//Connects this screens' props with the current product that is being viewed
+//Connects this screens' props with the current product that is being viewed as well
+//as all the requesters that ordered this product
 const mapStateToProps = (state, props) => {
     const { productID } = props.navigation.state.params;
     const product = state.providerReducer.products.find((product) => {
         return product.serviceID === productID;
     });
-    return { product, productID };
+
+    //Retrieves the requesters that ordered this product
+    let requestersOfThisProduct = [];
+
+    //Pulls the requesters who requested this product and returns the array
+    product.requests.currentRequests.forEach((request) => {
+        let requesterID = request.requesterID;
+        let requester = state.requesterReducer.find((requester) => {
+            return requester.requesterID === requesterID;
+        })
+
+        requestersOfThisProduct.push(requester);
+    });
+
+    return { product, productID, requestersOfThisProduct };
 };
 
 //connects the screen with the redux persist state

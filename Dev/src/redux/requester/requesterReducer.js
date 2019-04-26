@@ -15,11 +15,12 @@ export default requesterReducer = (state = InitialState.requesters, action) => {
         case actionTypes.CREATE_REQUESTER_ACCOUNT:
 
             //Will fetch the entered username
-            let username = action.accountInfo.username;
+            let { username, requesterID } = action.accountInfo;
 
             //Makes a new object representing the new account using the preceding variables
             let newAccount = {
                 username: username,
+                requesterID: requesterID
             }
 
             //Will update the state with the new account that got added by adding it to the array

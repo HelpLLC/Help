@@ -70,11 +70,7 @@ export default InitialState = {
                         //is was requested
                         {
                             requesterID: 0,
-                            dateRequested: '3/13/19'
-                        },
-                        {
-                            requesterID: 0,
-                            dateRequested: '3/15/19'
+                            dateRequested: '3/13/19',
                         }
                     ]
                 }
@@ -139,6 +135,9 @@ export default InitialState = {
         {
             //The username for this account
             username: 'ZyadDevRequest',
+            
+            //The ID of this requester
+            requesterID: 0
         },
     ]
 
