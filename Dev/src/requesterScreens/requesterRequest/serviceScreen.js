@@ -22,6 +22,11 @@ class serviceScreen extends Component {
     //to buy this service. Then will push the requester to the chats screen.
     requestService() {
 
+        //First it will check if the user has already requested this product. If they have, then
+        //a red message will pop up saying you have already requested this product. If they have
+        //not then, it will continue to request the app
+        const { product, thisRequesterIndex } = this.props;
+
     }
 
     //Renders the UI
