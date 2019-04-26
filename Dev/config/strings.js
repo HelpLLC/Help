@@ -112,6 +112,8 @@ export default {
     Other: 'Other',
     MoreCategoriesComingSoonExclamation: 'More categories coming soon!',
     OfferedBy: 'Offered by',
+    YouAreCurrentlyRequestingThisService: 'You are currently requesting this service',
+    MessageTheCompanyIfTheyHaveNotYetCompletedTheServive: 'Message the company if they have not yet completed the service',
 
     //------------------- Service Screen -------------------
 

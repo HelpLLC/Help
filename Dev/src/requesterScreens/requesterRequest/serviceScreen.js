@@ -10,10 +10,18 @@ import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import { requestProduct } from '../../redux/requester/requesterActions/requestProduct';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { BoxShadow } from 'react-native-shadow';
 
 class serviceScreen extends Component {
+
+    //The state controls whether or not to display a warning message
+    state = {
+        warningMessageLineOne: "",
+        warningMessageLineTwo: ""
+    }
 
     //This method will request this service from the company providing it by pushing the request to the
     //provider.
@@ -27,6 +35,24 @@ class serviceScreen extends Component {
         //not then, it will continue to request the app
         const { product, thisRequesterIndex } = this.props;
 
+        //This will return -1 if the user already has an existing request on this particular product
+        const hasExistingRequest = product.requests.currentRequests.findIndex((request) => {
+            return request.requesterID === thisRequesterIndex;
+        });
+
+        //If they have an existing request, the warning message will display
+        if (hasExistingRequest !== -1) {
+            this.setState({
+                warningMessageLineOne: strings.YouAreCurrentlyRequestingThisService,
+                warningMessageLineTwo: strings.MessageTheCompanyIfTheyHaveNotYetCompletedTheServive
+            });
+        } else { //If they have not requested it, then the request will be sent to the provider
+            this.props.requestProduct(product.serviceID, {
+                requesterID: thisRequesterIndex,
+                dateRequested: new Date().toLocaleDateString("en-US")
+            });
+            this.props.navigation.goBack(); //Must be changed to go to a chat with the company
+        }
     }
 
     //Renders the UI
@@ -117,7 +143,12 @@ class serviceScreen extends Component {
                         title={strings.Request}
                         style={roundBlueButtonStyle.MediumSizeButton}
                         textStyle={fontStyles.bigTextStyleWhite}
-                        onPress={ this.requestService() } />
+                        onPress={() => { this.requestService() }} />
+                </View>
+
+                <View style={{ padding: 20 }}>
+                    <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessageLineOne}</Text>
+                    <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessageLineTwo}</Text>
                 </View>
             </View>
         );
@@ -143,5 +174,15 @@ const mapStateToProps = (state, props) => {
     return { product, productID, provider, offeredByID, thisRequesterIndex };
 };
 
+//Connects the screen with the actions that will interact with the database.
+//this action will edit the provider's company information
+export const mapDispatchToProps = dispatch =>
+    bindActionCreators(
+        {
+            requestProduct,
+        },
+        dispatch
+    );
+
 //connects the screen with the redux persist state
-export default connect(mapStateToProps)(serviceScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(serviceScreen);
