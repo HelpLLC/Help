@@ -2,4 +2,5 @@
 //such errors
 export default actionTypes = {
     CREATE_REQUESTER_ACCOUNT: 'CREATE_REQUESTER_ACCOUNT',
+    REQUEST_PRODUCT: 'REQUEST_PRODUCT'
 }

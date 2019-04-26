@@ -67,6 +67,25 @@ export default providerReducer = (state = InitialState.providers, action) => {
             //returns the newly updated state
             return newState;
 
+        //This will deal with what happens when a user requests a product. Note: This action is found
+        //under RequestActions for clarity, but its abstraction and functionality will be located
+        //here since it is interacting with the provider reducer
+        case actionTypes.REQUEST_PRODUCT:
+
+            //Fetches the ID of the product as well as the information about the product
+            const { serviceID, requestInfo } = action;
+
+            //Finds the product's index that the request will be added to by searching for it by id
+            let indexOFRequestedProduct = state.products.findIndex((product) => {
+                return product.serviceID === serviceID;
+            });
+
+            //Updates the state by pushing the new request to the array of current requests of the
+            //product
+            newState = update(state, { products: { [indexOFRequestedProduct]: { requests: { currentRequests: { $push: [requestInfo] } } } } });
+
+            //Returns the new state
+            return newState;
 
         //If no action is entered, will simply return the current state
         default:
