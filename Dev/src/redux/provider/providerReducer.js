@@ -87,6 +87,31 @@ export default providerReducer = (state = InitialState.providers, action) => {
             //Returns the new state
             return newState;
 
+        //This action will delete a request from the database completely WITHOUT automatically marking
+        //it as complete. This will be another action. This will remove the passed in request from the
+        //database
+        case actionTypes.DELETE_REQUEST:
+
+            //Fetches the ID of the product as well as the ID of the requester who requested it
+            const { productID, requesterID } = action;
+
+            //finds the index of the requested product by the passed in ID
+            indexOFRequestedProduct = state.products.findIndex((product) => {
+                return product.serviceID === productID;
+            });
+
+            //Finds the index of the request within the product itself by searching for it by requester
+            //ID
+            let indexOfRequest = state.products[indexOFRequestedProduct].requests.currentRequests.findIndex((request) => {
+                return request.requesterID === requesterID;
+            });
+
+            //Updates the state by removing the product request based on the previously found indecies
+            newState = update(state, { products: { [indexOFRequestedProduct]: { requests: { currentRequests: { $splice: [[indexOfRequest, 1]] } } } } });
+
+            //returns the new state
+            return newState;
+
         //If no action is entered, will simply return the current state
         default:
             return state;

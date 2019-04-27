@@ -2,7 +2,7 @@
 //of the company providing it, etc. There will be a button at the bottom of the screen allowing the 
 //requester to request the service.
 import React, { Component } from 'react';
-import { View, Dimensions, TouchableOpacity, Text, Image } from 'react-native';
+import { View, Dimensions, TouchableOpacity, Text, Image, Alert } from 'react-native';
 import TopBanner from '../../components/TopBanner';
 import strings from 'config/strings';
 import colors from 'config/colors';
@@ -43,15 +43,29 @@ class serviceScreen extends Component {
     //to buy this service. Then will push the requester to the chats screen.
     requestService() {
 
-        //It will simply call the action and request the product
-        const { product, thisRequesterIndex } = this.props;
+        //Will make sure that the user wants to request the service
+        //Will make sure the user wants to delete this request
+        Alert.alert(
+            'Request Service',
+            'Are you sure you want to request this service?',
+            [
+                {
+                    text: 'Request', onPress: () => {
+                        //It will simply call the action and request the product
+                        const { product, thisRequesterIndex } = this.props;
 
-        this.props.requestProduct(product.serviceID, {
-            requesterID: thisRequesterIndex,
-            dateRequested: new Date().toLocaleDateString("en-US")
-        });
+                        this.props.requestProduct(product.serviceID, {
+                            requesterID: thisRequesterIndex,
+                            dateRequested: new Date().toLocaleDateString("en-US")
+                        });
 
-        this.setState({ serviceRequested: true });
+                        this.setState({ serviceRequested: true });
+                    }
+                },
+
+                { text: 'Cancel', style: 'cancel' },
+            ]
+        );
     }
 
 

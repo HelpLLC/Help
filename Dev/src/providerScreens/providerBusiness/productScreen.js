@@ -2,13 +2,15 @@
 //as well as any current requests. You will also be able to access history & edit the product from this
 //screen
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, Dimensions, ScrollView, FlatList } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Dimensions, ScrollView, FlatList, Alert } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../../components/TopBanner';
 import colors from 'config/colors';
+import { deleteRequest } from '../../redux/provider/providerActions/deleteRequest';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { BoxShadow } from 'react-native-shadow';
 
 //The class representing the screen
@@ -24,18 +26,28 @@ class productScreen extends Component {
     }
 
     //This method will take in an ID of a requester and go to the chat screen associated with them
-    messageRequester(ID) {
+    messageRequester(requesterID) {
 
     }
 
     //This method will complete a specific request based on the passed in requester ID
-    markAsComplete(ID) {
+    markAsComplete(requesterID) {
 
     }
 
     //This method will delete the request WITHOUT completing it based on the passed in ID
-    deleteRequest(ID) {
-        
+    deleteRequest(requesterID) {
+
+        //Will make sure the user wants to delete this request
+        Alert.alert(
+            'Delete Request',
+            'Are you sure you want to delete this request?',
+            [
+                { text: 'Delete', onPress: () => this.props.deleteRequest(this.props.productID, requesterID) },
+
+                { text: 'Cancel', style: 'cancel' },
+            ]
+        );
     }
 
     //renders the UI
@@ -175,25 +187,25 @@ class productScreen extends Component {
                                             borderBottomStartRadius: 35,
                                             borderBottomEndRadius: 35
                                         }}>
-                                            <TouchableOpacity 
-                                            onPress={() => this.messageRequester(item.requesterID)}>
+                                            <TouchableOpacity
+                                                onPress={() => this.messageRequester(item.requesterID)}>
                                                 <Text style={fontStyles.subTextStyleBlue}>
                                                     {strings.Message}</Text>
                                             </TouchableOpacity>
 
-                                            <TouchableOpacity 
-                                            style={{
-                                                height: 70,
-                                                justifyContent: 'center',
-                                                padding: 15
-                                            }}
-                                            onPress={() => this.markAsComplete(item.requesterID)}>
+                                            <TouchableOpacity
+                                                style={{
+                                                    height: 70,
+                                                    justifyContent: 'center',
+                                                    padding: 15
+                                                }}
+                                                onPress={() => this.markAsComplete(item.requesterID)}>
                                                 <Text style={fontStyles.subTextStyleBlue}>
                                                     {strings.MarkAsComplete}</Text>
                                             </TouchableOpacity>
 
                                             <TouchableOpacity
-                                            onPress={() => this.deleteRequest(item.requesterID)}>
+                                                onPress={() => this.deleteRequest(item.requesterID)}>
                                                 <Text style={fontStyles.subTextStyleRed}>
                                                     {strings.Delete}</Text>
                                             </TouchableOpacity>
@@ -244,5 +256,15 @@ const mapStateToProps = (state, props) => {
     return { product, productID, requestersOfThisProduct };
 };
 
+//Connects the screen with the actions that will interact with the database.
+//These actions will delete a request or mark it as complete
+export const mapDispatchToProps = dispatch =>
+    bindActionCreators(
+        {
+            deleteRequest,
+        },
+        dispatch
+    );
+
 //connects the screen with the redux persist state
-export default connect(mapStateToProps)(productScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(productScreen);
