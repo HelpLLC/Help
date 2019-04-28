@@ -41,14 +41,6 @@ class settingsScreen extends Component {
                     />
                     <WhiteCard
                         style={whiteCardStyle.marginCard}
-                        text={strings.History}
-                        mainTextStyle={fontStyles.subTextStyleBlack}
-                        comp={angleRightIcon}
-                        //Pressing this leads to the history screen
-                        onPress={() => this.props.navigation.push('HistoryScreen')}
-                    />
-                    <WhiteCard
-                        style={whiteCardStyle.marginCard}
                         text={strings.ReportAnIssue}
                         mainTextStyle={fontStyles.subTextStyleBlack}
                         comp={angleRightIcon}

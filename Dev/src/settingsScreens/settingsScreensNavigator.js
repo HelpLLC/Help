@@ -4,7 +4,6 @@
 import settingsScreen from './settingsScreen';
 import aboutScreen from './aboutScreen';
 import reportIssueScreensNavigator from './reportIssue/reportScreensNavigator';
-import historyScreen from './historyScreen';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 //This will be the route config that goes to all the different screens
@@ -20,10 +19,6 @@ const routeConfig = {
     //Takes you to the report an issue screen
     ReportIssueScreen: {
         screen: reportIssueScreensNavigator
-    },
-    //Takes you to the history screen
-    HistoryScreen: {
-        screen: historyScreen
     },
 };
 
