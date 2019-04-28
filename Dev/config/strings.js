@@ -116,8 +116,9 @@ export default {
     MoreCategoriesComingSoonExclamation: 'More categories coming soon!',
     OfferedBy: 'Offered by',
 
-    //------------------- Service Screen -------------------
+    //------------------- Requester Service Screen -------------------
     ServiceRequested: 'Service Requested',
+    CancelRequest: 'Cancel Request',
 
     //------------------- Requester Side Company Profile Screen -------------------
     CompanyProfile: 'Company Profile',

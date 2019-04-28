@@ -11,6 +11,7 @@ import screenStyle from 'config/styles/screenStyle';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import { requestProduct } from '../../redux/requester/requesterActions/requestProduct';
+import { deleteRequest } from '../../redux/provider/providerActions/deleteRequest';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { BoxShadow } from 'react-native-shadow';
@@ -44,7 +45,6 @@ class serviceScreen extends Component {
     requestService() {
 
         //Will make sure that the user wants to request the service
-        //Will make sure the user wants to delete this request
         Alert.alert(
             'Request Service',
             'Are you sure you want to request this service?',
@@ -64,6 +64,25 @@ class serviceScreen extends Component {
                 },
 
                 { text: 'Cancel', style: 'cancel' },
+            ]
+        );
+    }
+
+    //This method will cancel the request by making sure the user wants to cancel it
+    cancelRequest() {
+        //Will make sure that the user wants to request the service
+        Alert.alert(
+            'Cancel Request',
+            'Are you sure you want to cancel your request for this service?',
+            [
+                {
+                    text: 'Yes', onPress: () => {
+                        this.props.deleteRequest(this.props.productID, this.props.thisRequesterIndex);
+                        this.setState({ serviceRequested: false });
+                    }
+                },
+
+                { text: 'No', style: 'cancel' },
             ]
         );
     }
@@ -163,8 +182,13 @@ class serviceScreen extends Component {
                                 onPress={() => { this.requestService() }} />
                         </View>
                     ) : (
-                            <View style={{ marginTop: 60 }}>
+                            <View style={{ marginTop: 60, alignItems: 'center' }}>
                                 <Text style={fontStyles.bigTextStyleBlue}>{strings.ServiceRequested}</Text>
+                                <TouchableOpacity
+                                    onPress={() => this.cancelRequest() }
+                                    style={{ paddingTop: 30 }}>
+                                    <Text style={fontStyles.mainTextStyleRed}>{strings.CancelRequest}</Text>
+                                </TouchableOpacity>
                             </View>
                         )
                 }
@@ -198,6 +222,7 @@ export const mapDispatchToProps = dispatch =>
     bindActionCreators(
         {
             requestProduct,
+            deleteRequest
         },
         dispatch
     );
