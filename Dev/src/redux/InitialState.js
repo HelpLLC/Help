@@ -50,16 +50,19 @@ export default InitialState = {
 
                         //Each completed request will have a date and a customer name
                         {
-                            dateCompleted: '3/10/19',
-                            customerUsername: 'ZyadDevRequest'
-                        },
-                        {
-                            dateCompleted: '3/11/19',
-                            customerUsername: 'ZyadDevRequest'
-                        },
-                        {
+                            dateRequested: '3/10/19',
                             dateCompleted: '3/12/19',
-                            customerUsername: 'ZyadDevRequest'
+                            requesterID: 0
+                        },
+                        {
+                            dateRequested: '3/10/19',
+                            dateCompleted: '3/12/19',
+                            requesterID: 0
+                        },
+                        {
+                            dateRequested: '3/10/19',
+                            dateCompleted: '3/12/19',
+                            requesterID: 0
                         },
                     ],
 

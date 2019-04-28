@@ -13,7 +13,7 @@ import combinedReducer from './src/redux/combinedReducer';
 //This is the configurations for the persist store. For now, every time the schema is changed, then
 //you must changed the key in persist config
 const persistConfig = {
-  key: 'HelpV1.33',
+  key: 'HelpV1.35',
   storage: AsyncStorage,
   version: 0.0,
 };

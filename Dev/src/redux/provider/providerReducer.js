@@ -112,6 +112,38 @@ export default providerReducer = (state = InitialState.providers, action) => {
             //returns the new state
             return newState;
 
+        //This will deal with completing an existing request. It will only move the item from current 
+        //requests to completed requests but won't actually deleted the object. This is to avoid
+        //repetitive code since we alreayd have an action for deleting an object
+        case actionTypes.COMPLETE_REQUEST:
+
+            //Fetches the ID of the product and the request object
+            const idOfRequester = action.requesterID;
+            const idOfProduct = action.productID;
+
+            //finds the index of the requested product by the passed in ID
+            indexOFRequestedProduct = state.products.findIndex((product) => {
+                return product.serviceID === idOfProduct;
+            });
+
+            //Finds the request within the product itself by searching for it by requester
+            //ID
+            let request = state.products[indexOFRequestedProduct].requests.currentRequests.find((request) => {
+                return request.requesterID === idOfRequester;
+            });
+
+            let completedRequest = {
+                dateRequested: request.dateRequested,
+                dateCompleted: new Date().toLocaleDateString('en-US'),
+                requesterID: idOfRequester
+            }
+
+            //Updates the state by adding the completed request to the array of completed requests
+            newState = update(state, { products: { [indexOFRequestedProduct]: { requests: { completedRequests: { $push: [completedRequest] } } } } });
+
+            //returns the new state
+            return newState;
+
         //If no action is entered, will simply return the current state
         default:
             return state;

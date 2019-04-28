@@ -9,6 +9,7 @@ import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../../components/TopBanner';
 import colors from 'config/colors';
 import { deleteRequest } from '../../redux/provider/providerActions/deleteRequest';
+import { completeRequest } from '../../redux/provider/providerActions/completeRequest';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { BoxShadow } from 'react-native-shadow';
@@ -31,8 +32,22 @@ class productScreen extends Component {
     }
 
     //This method will complete a specific request based on the passed in requester ID
-    markAsComplete(requesterID) {
+    markAsComplete(requesterID, ) {
+        //Will make sure the user wants to mark this request as complete
+        Alert.alert(
+            'Complete Request',
+            'Are you sure you want to complete this request?',
+            [
+                {
+                    text: 'Complete', onPress: () => {
+                        this.props.completeRequest(this.props.productID, requesterID)
+                        this.props.deleteRequest(this.props.productID, requesterID)
+                    }
+                },
 
+                { text: 'Cancel', style: 'cancel' },
+            ]
+        );
     }
 
     //This method will delete the request WITHOUT completing it based on the passed in ID
@@ -262,6 +277,7 @@ export const mapDispatchToProps = dispatch =>
     bindActionCreators(
         {
             deleteRequest,
+            completeRequest
         },
         dispatch
     );
