@@ -7,6 +7,7 @@ import TopBanner from '../../components/TopBanner';
 import WhiteCard from '../../components/WhiteCard';
 import whiteCardStyle from 'config/styles/componentStyles/whiteCardStyle';
 import strings from 'config/strings';
+import Functions from 'config/Functions';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
@@ -16,6 +17,15 @@ import { BoxShadow } from 'react-native-shadow';
 
 //The class for this screen
 class productHistoryScreen extends Component {
+
+    //This function will get the requester name by the ID
+    getRequesterNameByID(ID) {
+        const requester = this.props.requesters.find((requester) => {
+            return requester.requesterID === ID;
+        });
+
+        return requester.username;
+    }
 
     //Renders the UI
     render() {
@@ -90,7 +100,9 @@ class productHistoryScreen extends Component {
                                         style={whiteCardStyle.noMarginCard}
                                         text={item.dateCompleted}
                                         mainTextStyle={fontStyles.subTextStyleBlack}
-                                        comp={<Text style={fontStyles.subTextStyleBlack}>{item.customerUsername}</Text>}
+                                        comp={<Text style={fontStyles.subTextStyleBlack}>
+                                            {this.getRequesterNameByID(item.requesterID)}
+                                        </Text>}
                                         onPress={() => { }} />
                                 )}
                             />
@@ -112,7 +124,8 @@ class productHistoryScreen extends Component {
 //Connects this screens' props with the current product
 const mapStateToProps = (state, props) => {
     const { product, productID } = props.navigation.state.params;
-    return { product, productID };
+    const requesters = state.requesterReducer;
+    return { product, productID, requesters };
 };
 
 //connects the screen with the redux persist state
