@@ -6,6 +6,7 @@ import { View, Text, Image, TouchableOpacity, Dimensions, ScrollView, FlatList, 
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import screenStyle from 'config/styles/screenStyle';
+import Functions from 'config/Functions';
 import TopBanner from '../../components/TopBanner';
 import colors from 'config/colors';
 import { deleteRequest } from '../../redux/provider/providerActions/deleteRequest';
@@ -16,15 +17,6 @@ import { BoxShadow } from 'react-native-shadow';
 
 //The class representing the screen
 class productScreen extends Component {
-
-    //Fetches the username of a requester based on the passed in ID parameter
-    getRequesterUserNameByID(ID) {
-        const requester = this.props.requestersOfThisProduct.find((requester) => {
-            return requester.requesterID === ID;
-        });
-
-        return requester.username;
-    }
 
     //This method will take in an ID of a requester and go to the chat screen associated with them
     messageRequester(requesterID) {
@@ -189,7 +181,8 @@ class productScreen extends Component {
                                             paddingLeft: 20
                                         }}>
                                             <Text style={fontStyles.mainTextStyleBlack}>
-                                                {this.getRequesterUserNameByID(item.requesterID)}</Text>
+                                                {Functions.getRequesterByID(item.requesterID, 
+                                                    this.props.requestersOfThisProduct).username}</Text>
                                             <Text>{"Example chat..."}</Text>
                                         </View>
                                         <View style={{
@@ -251,22 +244,10 @@ class productScreen extends Component {
 //as all the requesters that ordered this product
 const mapStateToProps = (state, props) => {
     const { productID } = props.navigation.state.params;
-    const product = state.providerReducer.products.find((product) => {
-        return product.serviceID === productID;
-    });
+    const product = Functions.getServiceByID(productID, state.providerReducer.products);
 
     //Retrieves the requesters that ordered this product
-    let requestersOfThisProduct = [];
-
-    //Pulls the requesters who requested this product and returns the array
-    product.requests.currentRequests.forEach((request) => {
-        let requesterID = request.requesterID;
-        let requester = state.requesterReducer.find((requester) => {
-            return requester.requesterID === requesterID;
-        })
-
-        requestersOfThisProduct.push(requester);
-    });
+    let requestersOfThisProduct = Functions.getServiceRequesters(product, state.requesterReducer);
 
     return { product, productID, requestersOfThisProduct };
 };

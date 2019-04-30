@@ -2,24 +2,10 @@
 import React, { Component } from 'react';
 import { View, FlatList, ScrollView } from 'react-native';
 import ServiceCard from '../../../components/ServiceCard';
+import Functions from 'config/Functions';
 import screenStyle from 'config/styles/screenStyle';
 
 export default class Yardwork extends Component {
-
-    //method returns the name of the company offering a particular product based on the ID of the company
-    getCompanyNameByID(id) {
-
-        //fetches all of the providers
-        const { providers } = this.props;
-
-        //searches for the provider with this particular ID
-        const thisProvider = providers.find((provider) => {
-            return provider.providerID === id;
-        });
-
-        //Returns the company name of this provider
-        return thisProvider.companyName;
-    }
 
     render() {
 
@@ -41,7 +27,7 @@ export default class Yardwork extends Component {
                             <ServiceCard
                                 key={index}
                                 serviceTitle={item.serviceTitle}
-                                offeredBy={this.getCompanyNameByID(item.offeredBy)}
+                                offeredBy={Functions.getProviderByID(item.offeredBy, this.props.providers).companyName}
                                 pricing={item.pricing}
                                 image={item.imageSource}
                                 numCurrentRequests={0}

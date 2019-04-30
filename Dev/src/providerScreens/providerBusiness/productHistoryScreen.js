@@ -18,15 +18,6 @@ import { BoxShadow } from 'react-native-shadow';
 //The class for this screen
 class productHistoryScreen extends Component {
 
-    //This function will get the requester name by the ID
-    getRequesterNameByID(ID) {
-        const requester = this.props.requesters.find((requester) => {
-            return requester.requesterID === ID;
-        });
-
-        return requester.username;
-    }
-
     //Renders the UI
     render() {
 
@@ -101,7 +92,7 @@ class productHistoryScreen extends Component {
                                         text={item.dateCompleted}
                                         mainTextStyle={fontStyles.subTextStyleBlack}
                                         comp={<Text style={fontStyles.subTextStyleBlack}>
-                                            {this.getRequesterNameByID(item.requesterID)}
+                                            {Functions.getRequesterByID(item.requesterID, this.props.requesters).username}
                                         </Text>}
                                         onPress={() => { }} />
                                 )}

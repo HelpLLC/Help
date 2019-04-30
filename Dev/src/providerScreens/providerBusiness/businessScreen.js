@@ -8,6 +8,7 @@ import screenStyle from 'config/styles/screenStyle';
 import { connect } from 'react-redux';
 import strings from 'config/strings';
 import colors from 'config/colors';
+import Functions from 'config/Functions';
 import images from 'config/images/images';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import TopBanner from '../../components/TopBanner';
@@ -151,19 +152,7 @@ const mapStateToProps = (state, props) => {
     const provider = state.providerReducer.accounts[props.navigation.state.params.userIndex];
 
     //Fetches products that are offered by this specifc provider
-    const providerProductIDs = provider.serviceIDs;
-    const allMarketProducts = state.providerReducer.products;
-    const providerProducts = [];
-
-    providerProductIDs.forEach((id) => {
-        //Finds the index of the product that is associated with the user and adds it to the array
-        //of this user's products
-        let indexOfProduct = allMarketProducts.findIndex((element) => {
-            return element.serviceID === id;
-        });
-
-        providerProducts.push(allMarketProducts[indexOfProduct]);
-    });
+    const providerProducts = Functions.getProviderProducts(provider, state.providerReducer.products);
     return { provider, providerProducts };
 };
 

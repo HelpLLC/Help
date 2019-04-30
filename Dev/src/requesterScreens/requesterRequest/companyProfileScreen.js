@@ -9,6 +9,7 @@ import { View, Text, Dimensions, TouchableOpacity, ScrollView, FlatList } from '
 import TopBanner from '../../components/TopBanner';
 import ServiceCard from '../../components/ServiceCard';
 import strings from 'config/strings';
+import Functions from 'config/Functions';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
@@ -103,24 +104,10 @@ const mapStateToProps = (state, props) => {
     const { companyID, thisRequesterIndex } = props.navigation.state.params;
 
     //Fethches this provider
-    const provider = state.providerReducer.accounts.find((provider) => {
-        return provider.providerID === companyID;
-    });
+    const provider = Functions.getProviderByID(companyID, state.providerReducer.accounts);
 
     //Fetches products that are offered by this specifc provider
-    const providerProductIDs = provider.serviceIDs;
-    const allMarketProducts = state.providerReducer.products;
-    const providerProducts = [];
-
-    providerProductIDs.forEach((id) => {
-        //Finds the index of the product that is associated with the user and adds it to the array
-        //of this user's products
-        let indexOfProduct = allMarketProducts.findIndex((element) => {
-            return element.serviceID === id;
-        });
-
-        providerProducts.push(allMarketProducts[indexOfProduct]);
-    });
+    const providerProducts = Functions.getProviderProducts(provider, state.providerReducer.products);
 
     //Returns all of the data
     return { provider, companyID, thisRequesterIndex, providerProducts };

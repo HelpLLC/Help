@@ -7,6 +7,7 @@ import TopBanner from '../../components/TopBanner';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
+import Functions from 'config/Functions';
 import screenStyle from 'config/styles/screenStyle';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
@@ -18,23 +19,9 @@ import { BoxShadow } from 'react-native-shadow';
 
 class serviceScreen extends Component {
 
-    //This method will return true if the service has already been requested by this requester
-    isServiceAlreadyRequested() {
-
-        const { thisRequesterIndex, product } = this.props;
-
-        //If the value is -1, this means that this requester doesn't have a current request on this service
-        const indexOfRequest = product.requests.currentRequests.findIndex((request) => {
-            return request.requesterID === thisRequesterIndex;
-        });
-
-        return (indexOfRequest === -1 ? false : true);
-
-    }
-
     //The state controls whether or not the button to request the service will be displayed
     state = {
-        serviceRequested: this.isServiceAlreadyRequested()
+        serviceRequested: Functions.isServiceAlreadyRequested(this.props.product, this.props.thisRequesterIndex)
     }
 
     //This method will request this service from the company providing it by pushing the request to the
@@ -203,14 +190,10 @@ const mapStateToProps = (state, props) => {
     const { offeredByID, productID, thisRequesterIndex } = props.navigation.state.params;
 
     //Fetches this product
-    const product = state.providerReducer.products.find((product) => {
-        return product.serviceID === productID;
-    });
+    const product = Functions.getServiceByID(productID, state.providerReducer.products);
 
     //Fethches this provider
-    const provider = state.providerReducer.accounts.find((provider) => {
-        return provider.providerID === offeredByID;
-    });
+    const provider = Functions.getProviderByID(offeredByID, state.providerReducer.accounts);
 
     //Returns all of the data
     return { product, productID, provider, offeredByID, thisRequesterIndex };
