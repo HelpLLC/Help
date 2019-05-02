@@ -2,6 +2,8 @@
     "name": "config",
     "version": "0.0.1",
     "rnpm": {
-      "assets": ["assets/fonts/Arial Rounded MT Bold"]
+      "assets": [
+        "./config/fonts/"
+      ]
     }
 }

@@ -100,7 +100,7 @@ class logInScreen extends Component {
                         />
                     </View>
 
-                    <View style={{ paddingTop: 10 }}>
+                    <View style={{  paddingLeft: 20, paddingTop: 10 }}>
                         <Text style={fontStyles.subTextStyleRed}>{this.state.incorrectUsernameMessage}</Text>
                     </View>
 

@@ -62,6 +62,11 @@
 		E4495E3B268144E3BFBE1CAC /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA5D62381C6A482693DB3FF9 /* libRNGestureHandler.a */; };
 		946203E002FC45E180BE9F68 /* libRNGestureHandler-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2EB5F1D3244B26AFE5ED27 /* libRNGestureHandler-tvOS.a */; };
 		D7A67FDE0AC449778D5C7E1A /* libRNReanimated.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7404E567A683412F85A57DE8 /* libRNReanimated.a */; };
+		3FCA5640CAA94404893658B8 /* arial_rounded.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F9EEB7EB529466495C6185F /* arial_rounded.ttf */; };
+		E5CF2A599C564836826F0862 /* arial_rounded.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1953A045F61E4C9893E1213A /* arial_rounded.ttf */; };
+		66E6CA1881DA4D5E88C13E3A /* arial_rounded.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29D0B3F56CA24BA48C348CA0 /* arial_rounded.ttf */; };
+		3BDCECC36D6A4FC8BED1D25F /* arial_rounded.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 708FF1B032A3450F9870EB42 /* arial_rounded.ttf */; };
+		A65F69ED47D84178977A6AE6 /* arialrounded.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 209272C82C10406F8D4892A9 /* arialrounded.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -397,6 +402,12 @@
 		1F2EB5F1D3244B26AFE5ED27 /* libRNGestureHandler-tvOS.a */ = {isa = PBXFileReference; name = "libRNGestureHandler-tvOS.a"; path = "libRNGestureHandler-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		5E2E33EA70EC4290900F9759 /* RNReanimated.xcodeproj */ = {isa = PBXFileReference; name = "RNReanimated.xcodeproj"; path = "../node_modules/react-native-reanimated/ios/RNReanimated.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		7404E567A683412F85A57DE8 /* libRNReanimated.a */ = {isa = PBXFileReference; name = "libRNReanimated.a"; path = "libRNReanimated.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		90523A5E42784747A86CFF52 /* arial_rounded.ttf */ = {isa = PBXFileReference; name = "arial_rounded.ttf"; path = "../config/fonts/arial_rounded.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2F9EEB7EB529466495C6185F /* arial_rounded.ttf */ = {isa = PBXFileReference; name = "arial_rounded.ttf"; path = "../assets/fonts/arial_rounded.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1953A045F61E4C9893E1213A /* arial_rounded.ttf */ = {isa = PBXFileReference; name = "arial_rounded.ttf"; path = "../config/fonts/arial_rounded.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		29D0B3F56CA24BA48C348CA0 /* arial_rounded.ttf */ = {isa = PBXFileReference; name = "arial_rounded.ttf"; path = "../config/fonts/arial_rounded.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		708FF1B032A3450F9870EB42 /* arial_rounded.ttf */ = {isa = PBXFileReference; name = "arial_rounded.ttf"; path = "../config/fonts/arial_rounded.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		209272C82C10406F8D4892A9 /* arialrounded.ttf */ = {isa = PBXFileReference; name = "arialrounded.ttf"; path = "../assets/fonts/arialrounded.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -693,6 +704,12 @@
 				E3E5F7110F2C4B97ABE7B628 /* Octicons.ttf */,
 				3C7C51E682C64DE6A16C6A5B /* SimpleLineIcons.ttf */,
 				2C0929D969644A53ADDFFF6B /* Zocial.ttf */,
+				90523A5E42784747A86CFF52 /* arial_rounded.ttf */,
+				2F9EEB7EB529466495C6185F /* arial_rounded.ttf */,
+				1953A045F61E4C9893E1213A /* arial_rounded.ttf */,
+				29D0B3F56CA24BA48C348CA0 /* arial_rounded.ttf */,
+				708FF1B032A3450F9870EB42 /* arial_rounded.ttf */,
+				209272C82C10406F8D4892A9 /* arialrounded.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1159,6 +1176,12 @@
 				B4E6B1A78E44419CBB051EFD /* Octicons.ttf in Resources */,
 				52194567AF73485EA5592085 /* SimpleLineIcons.ttf in Resources */,
 				C30FC54754584C78AF77B17E /* Zocial.ttf in Resources */,
+				CBD0E89CB84F4403949D9979 /* arial_rounded.ttf in Resources */,
+				3FCA5640CAA94404893658B8 /* arial_rounded.ttf in Resources */,
+				E5CF2A599C564836826F0862 /* arial_rounded.ttf in Resources */,
+				66E6CA1881DA4D5E88C13E3A /* arial_rounded.ttf in Resources */,
+				3BDCECC36D6A4FC8BED1D25F /* arial_rounded.ttf in Resources */,
+				A65F69ED47D84178977A6AE6 /* arialrounded.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
