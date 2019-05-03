@@ -8,12 +8,13 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { createStore } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist'
 import { AsyncStorage } from 'react-native';
+import { YellowBox } from 'react-native';
 import combinedReducer from './src/redux/combinedReducer';
 
 //This is the configurations for the persist store. For now, every time the schema is changed, then
 //you must changed the key in persist config
 const persistConfig = {
-  key: 'HelpV1.37',
+  key: 'HelpV1.41',
   storage: AsyncStorage,
   version: 0.0,
 };
@@ -36,6 +37,8 @@ export const persistor = persistStore(store);
 //Launches the app with the persisted store
 export default class App extends Component {
   render() {
+    //Ignores a specific warning
+    YellowBox.ignoreWarnings(['ViewPagerAndroid']);
     return (
       <Provider store={store}>
         <PersistGate persistor={persistor}>

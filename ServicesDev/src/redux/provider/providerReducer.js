@@ -29,9 +29,18 @@ export default providerReducer = (state = InitialState.providers, action) => {
 
             //Retrieves the index of the provider to add the product to as well as the product info
             let productInfo = action.productInfo;
+            let providerID = action.providerID;
+
+            //Retrieves the provider's index based on the passed in provider ID
+            let indexOfProvider = state.accounts.findIndex((provider) => {
+                return provider.providerID === providerID;
+            });
 
             //Updates the state by pushing the new product into the array of providers
             newState = update(state, { products: { $push: [productInfo] } });
+
+            //updates the state once again to add the product to the provider's list of products
+            newState = update(newState, { accounts: { [indexOfProvider]: { serviceIDs: { $push: [productInfo.serviceID] } } } });
 
             //returns the newly updated state
             return newState;

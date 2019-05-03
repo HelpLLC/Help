@@ -44,7 +44,7 @@ class createProductScreen extends Component {
           };
 
         //Shows the image picker with the default options
-        ImagePicker.showImagePicker(options, (response) => {
+        ImagePicker.launchImageLibrary(options, (response) => {
 
             //Retrieves the source of the selected image and sets it to the ImageSource state
             const source = { uri: response.uri };
@@ -81,10 +81,9 @@ class createProductScreen extends Component {
                     currentRequests: []
                 }
             };
-            //Updates the redux state by calling the action and passing in the current user's index
-            //as well as the new product object
-            let { userIndex } = this.props.navigation.state.params; 
-            this.props.createProviderProduct(userIndex, newProduct);
+            //Updates the redux state by calling the action and passing in the new product object
+            //as well as this providerID so it can add it to the provider's list of products
+            this.props.createProviderProduct(newProduct, this.props.provider.providerID);
             this.props.navigation.goBack();
         }
     }
