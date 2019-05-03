@@ -1,7 +1,7 @@
 //This screen will allow the user to edit his/her company profile... which includes the name of
 //of the business and the description
 import React, { Component } from 'react';
-import { View, Text, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, Keyboard, TouchableWithoutFeedback, SafeAreaView } from 'react-native';
 import TopBanner from '../../components/TopBanner';
 import OneLineTextInput from '../../components/OneLineTextInput';
 import fontStyles from 'config/styles/fontStyles';
@@ -65,7 +65,7 @@ class editCompanyProfileScreen extends Component {
     render() {
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                <View style={screenStyle.container}>
+                <SafeAreaView style={screenStyle.container}>
                     <View>
                         <TopBanner
                             title={strings.EditCompany}
@@ -111,7 +111,7 @@ class editCompanyProfileScreen extends Component {
                     <View style={{ padding: 20 }}>
                         <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
                     </View>
-                </View>
+                </SafeAreaView>
             </TouchableWithoutFeedback>
         )
     }

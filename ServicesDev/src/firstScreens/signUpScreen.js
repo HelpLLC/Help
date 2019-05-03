@@ -2,7 +2,7 @@
 //ask for a username (how they will access their account), and what type of account
 //they want to create
 import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, Dimensions, TouchableWithoutFeedback, Keyboard, SafeAreaView } from 'react-native';
 import TopBanner from '../components/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
@@ -105,7 +105,7 @@ class signUpScreen extends Component {
         return (
             //View that dismisses the keyboard when clicked anywhere else
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                <View style={screenStyle.container}>
+                <SafeAreaView style={screenStyle.container}>
                     <View>
                         <TopBanner
                             title={strings.SignUp}
@@ -176,7 +176,7 @@ class signUpScreen extends Component {
                     <View style={{ padding: 20 }}>
                         <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
                     </View>
-                </View>
+                </SafeAreaView>
             </TouchableWithoutFeedback>
         );
     }

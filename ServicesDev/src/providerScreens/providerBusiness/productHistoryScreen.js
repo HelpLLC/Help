@@ -2,7 +2,7 @@
 //the date and the customer name, but in the future, this will show ratings/reviews/tips, and other
 //factors.
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, FlatList, ScrollView } from 'react-native';
+import { View, Text, Image, Dimensions, FlatList, ScrollView, SafeAreaView } from 'react-native';
 import TopBanner from '../../components/TopBanner';
 import WhiteCard from '../../components/WhiteCard';
 import whiteCardStyle from 'config/styles/componentStyles/whiteCardStyle';
@@ -25,7 +25,7 @@ class productHistoryScreen extends Component {
         const { product } = this.props;
 
         return (
-            <View style={screenStyle.container}>
+            <SafeAreaView style={screenStyle.container}>
                 <TopBanner
                     title={strings.ServiceHistory}
                     leftIconName="angle-left"
@@ -106,7 +106,7 @@ class productHistoryScreen extends Component {
                         )
                 }
 
-            </View>
+            </SafeAreaView>
         )
     }
 

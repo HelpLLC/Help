@@ -1,6 +1,6 @@
 //This class will represent the "yardwork" tab within the categories that the requester can choose from
 import React, { Component } from 'react';
-import { View, FlatList, ScrollView } from 'react-native';
+import { View, FlatList, ScrollView, SafeAreaView } from 'react-native';
 import ServiceCard from '../../../components/ServiceCard';
 import Functions from 'config/Functions';
 import screenStyle from 'config/styles/screenStyle';
@@ -13,7 +13,7 @@ export default class Yardwork extends Component {
         const { thisRequester, thisRequesterIndex, products } = this.props;
 
         return (
-            <View style={screenStyle.container}>
+            <SafeAreaView style={screenStyle.container}>
                 <ScrollView
                     style={{ paddingTop: 30 }}
                     contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
@@ -51,7 +51,7 @@ export default class Yardwork extends Component {
                     />
                     <View style={{ height: 40 }}></View>
                 </ScrollView>
-            </View>
+            </SafeAreaView>
         )
     }
 }

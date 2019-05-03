@@ -3,7 +3,7 @@
 //to the reportIssueScreen
 import React, { Component } from 'react';
 import screenStyle from 'config/styles/screenStyle';
-import { View, Text } from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 import TopBanner from '../../components/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
@@ -22,7 +22,7 @@ export default class issueReportedScreen extends Component {
     //Renders the UI
     render() {
         return (
-            <View style={screenStyle.container}>
+            <SafeAreaView style={screenStyle.container}>
 
                 <View>
                     <TopBanner
@@ -40,7 +40,7 @@ export default class issueReportedScreen extends Component {
                         {strings.WellFixItRightAway}</Text>
                 </View>
 
-            </View>
+            </SafeAreaView>
         );
     }
 }

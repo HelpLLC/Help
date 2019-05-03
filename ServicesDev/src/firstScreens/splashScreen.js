@@ -2,7 +2,7 @@
 //will lead the requester pages, while the text underneath will direct the user to the working
 //section of the application
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
 import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
@@ -13,7 +13,7 @@ import fontStyles from 'config/styles/fontStyles';
 class splashScreen extends Component {
     render() {
         return (
-            <View style={screenStyle.container}>
+            <SafeAreaView style={screenStyle.container}>
                 <View style={{ paddingTop: 95, paddingBottom: 130 }}>
                     <Text style={fontStyles.bigTitleStyleBlue}>{strings.HelpExclamation}</Text>
                 </View>
@@ -30,7 +30,7 @@ class splashScreen extends Component {
                         <Text style={fontStyles.subTextStyleBlue}>{strings.LogIn}</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     };
 };

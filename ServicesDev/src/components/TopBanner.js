@@ -16,7 +16,7 @@ class TopBanner extends Component {
         return (
             <View>
                 <View style={topBannerStyle.style}>
-                    <TouchableOpacity style={{paddingLeft: 25, paddingTop: 20}} 
+                    <TouchableOpacity style={{paddingLeft: 25}} 
                     onPress={() => { leftOnPress() }}>
                         <Icon
                             name={leftIconName}
@@ -25,9 +25,9 @@ class TopBanner extends Component {
                             color={colors.lightBlue} />
                     </TouchableOpacity>
                     <View>
-                        <Text style={[fontStyles.bigTextStyleBlue, {paddingTop: 20}]}>{title}</Text>
+                        <Text style={fontStyles.bigTextStyleBlue}>{title}</Text>
                     </View>
-                    <TouchableOpacity style={{paddingRight: 25, paddingTop: 20}} 
+                    <TouchableOpacity style={{paddingRight: 25}} 
                     onPress={() => { rightOnPress() }}>
                         <Icon
                             name={rightIconName}

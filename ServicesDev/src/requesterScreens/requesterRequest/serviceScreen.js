@@ -2,7 +2,7 @@
 //of the company providing it, etc. There will be a button at the bottom of the screen allowing the 
 //requester to request the service.
 import React, { Component } from 'react';
-import { View, Dimensions, TouchableOpacity, Text, Image, Alert } from 'react-native';
+import { View, Dimensions, TouchableOpacity, Text, Image, Alert, SafeAreaView } from 'react-native';
 import TopBanner from '../../components/TopBanner';
 import strings from 'config/strings';
 import colors from 'config/colors';
@@ -78,7 +78,7 @@ class serviceScreen extends Component {
     //Renders the UI
     render() {
         return (
-            <View style={screenStyle.container}>
+            <SafeAreaView style={screenStyle.container}>
                 <View>
                     <TopBanner
                         title={strings.Service}
@@ -179,7 +179,7 @@ class serviceScreen extends Component {
                             </View>
                         )
                 }
-            </View>
+            </SafeAreaView>
         );
     }
 }

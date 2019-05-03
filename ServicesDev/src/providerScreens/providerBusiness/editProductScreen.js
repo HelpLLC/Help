@@ -1,7 +1,7 @@
 //This screen will be the one that allows the user to edit the product or to even delete the product
 //itself.
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Image, Dimensions, TouchableOpacity, SafeAreaView } from 'react-native';
 import TopBanner from '../../components/TopBanner';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
@@ -80,7 +80,7 @@ class editProductScreen extends Component {
 
     render() {
         return (
-            <View style={screenStyle.container}>
+            <SafeAreaView style={screenStyle.container}>
                 <View>
                     <TopBanner
                         title={strings.EditService}
@@ -172,7 +172,7 @@ class editProductScreen extends Component {
                     <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
                 </View>
 
-            </View>
+            </SafeAreaView>
         )
     }
 }

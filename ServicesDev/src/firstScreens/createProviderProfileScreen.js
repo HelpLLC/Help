@@ -1,7 +1,7 @@
 //This will be the screen where the businesses will actually create their profiles & provide info
 //such as company name, description etc.
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, Keyboard, SafeAreaView } from 'react-native';
 import TopBanner from '../components/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
@@ -85,7 +85,7 @@ class createProviderProfileScreen extends Component {
         return (
             //View that dismisses the keyboard when clicked anywhere else
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                <View style={screenStyle.container}>
+                <SafeAreaView style={screenStyle.container}>
                     <View>
                         <TopBanner
                             title={strings.CreateProfile}
@@ -136,7 +136,7 @@ class createProviderProfileScreen extends Component {
                     <View style={{ padding: 20 }}>
                         <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
                     </View>
-                </View>
+                </SafeAreaView>
             </TouchableWithoutFeedback>
         );
     }

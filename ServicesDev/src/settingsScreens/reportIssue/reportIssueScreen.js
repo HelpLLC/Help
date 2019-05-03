@@ -1,7 +1,7 @@
 //This is the screen which will allow users to report some kind of bug or issue with the app.
 //The user will report it and the report will be visible to the developers
 import React, { Component } from 'react';
-import { View, Text, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, Keyboard, TouchableWithoutFeedback, SafeAreaView } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../../components/TopBanner';
 import RoundTextInput from '../../components/RoundTextInput';
@@ -33,7 +33,7 @@ class reportIssueScreen extends Component {
             //View that dismisses the keyboard when clicked anywhere else
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 
-                <View style={screenStyle.container}>
+                <SafeAreaView style={screenStyle.container}>
                     <View>
                         <TopBanner
                             title={strings.ReportAnIssue}
@@ -66,7 +66,7 @@ class reportIssueScreen extends Component {
                             textStyle={fontStyles.reportIssueButtonTextStyle}
                             onPress={() => { this.props.navigation.push('IssueReportedScreen') }} />
                     </View>
-                </View>
+                </SafeAreaView>
             </TouchableWithoutFeedback >
         )
     }

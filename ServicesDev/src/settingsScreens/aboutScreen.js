@@ -2,7 +2,7 @@
 //app from both provider and requester screens. It will have information such as the version
 //number, user info, and general app info
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../components/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
@@ -13,7 +13,7 @@ import whiteCardStyle from '../../config/styles/componentStyles/whiteCardStyle';
 class aboutScreen extends Component {
     render() {
         return (
-            <View style={screenStyle.container}>
+            <SafeAreaView style={screenStyle.container}>
                 <View>
                     <TopBanner
                         title={strings.About}
@@ -51,7 +51,7 @@ class aboutScreen extends Component {
                         onPress={() => {}}
                     />
                 </View>
-            </View>
+            </SafeAreaView>
         )
     }
 }

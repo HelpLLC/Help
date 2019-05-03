@@ -2,7 +2,7 @@
 //as well as any current requests. You will also be able to access history & edit the product from this
 //screen
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, Dimensions, ScrollView, FlatList, Alert } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Dimensions, ScrollView, FlatList, Alert, SafeAreaView } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import screenStyle from 'config/styles/screenStyle';
@@ -60,7 +60,7 @@ class productScreen extends Component {
     //renders the UI
     render() {
         return (
-            <View style={screenStyle.container}>
+            <SafeAreaView style={screenStyle.container}>
                 <View>
                     <TopBanner
                         title={strings.Service}
@@ -236,7 +236,7 @@ class productScreen extends Component {
 
                 }
 
-            </View>
+            </SafeAreaView>
         );
     }
 }

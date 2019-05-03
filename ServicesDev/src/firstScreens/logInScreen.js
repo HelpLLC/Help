@@ -2,7 +2,7 @@
 //created. Since there will be no payments or anything secure in the mvp, then users will only 
 //log in with their phone numbers. And that will be what is linked with their accoun
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, Keyboard, SafeAreaView } from 'react-native';
 import TopBanner from '../components/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
@@ -78,7 +78,7 @@ class logInScreen extends Component {
         return (
             //View that dismisses the keyboard when clicked anywhere else
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                <View style={screenStyle.container}>
+                <SafeAreaView style={screenStyle.container}>
                     <View>
                         <TopBanner
                             title={strings.LogIn}
@@ -113,7 +113,7 @@ class logInScreen extends Component {
                             //input
                             onPress={() => { this.logIn() }} />
                     </View>
-                </View>
+                </SafeAreaView>
             </TouchableWithoutFeedback>
         );
     }

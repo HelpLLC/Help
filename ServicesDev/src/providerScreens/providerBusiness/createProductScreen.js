@@ -2,7 +2,7 @@
 //clicking the plus sign, or clicking create on the business's first product. It will allow the user
 //to give the product a picture from their camera roll, and a name and a description and a price
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, TouchableOpacity, Keyboard, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Image, Dimensions, TouchableOpacity, SafeAreaView } from 'react-native';
 import TopBanner from '../../components/TopBanner';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
@@ -89,7 +89,7 @@ class createProductScreen extends Component {
 
     render() {
         return (
-            <View style={screenStyle.container}>
+            <SafeAreaView style={screenStyle.container}>
                 <View>
                     <TopBanner
                         title={strings.CreateService}
@@ -181,7 +181,7 @@ class createProductScreen extends Component {
                     <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
                 </View>
 
-            </View>
+            </SafeAreaView>
         )
     }
 }

@@ -2,7 +2,7 @@
 //screens. It will contain multiple options the user can choose from that will take them to seperate
 //screens using a StackNavigator
 import React, { Component } from 'react';
-import { View, Switch } from 'react-native';
+import { View, Switch, SafeAreaView } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
 import whiteCardStyle from '../../config/styles/componentStyles/whiteCardStyle';
 import fontStyles from 'config/styles/fontStyles';
@@ -23,7 +23,7 @@ class settingsScreen extends Component {
         //in this class
         const angleRightIcon = <Icon name={"angle-right"} type="font-awesome" color={colors.lightBlue} />;
         return (
-            <View style={screenStyle.container}>
+            <SafeAreaView style={screenStyle.container}>
                 <View>
                     <TopBanner title={strings.Settings} />
                 </View>
@@ -63,7 +63,7 @@ class settingsScreen extends Component {
                         onPress={() => this.props.navigation.push('SplashScreen')}
                     />
                 </View>
-            </View>
+            </SafeAreaView>
         )
     }
 }

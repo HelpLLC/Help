@@ -3,7 +3,7 @@
 //first time that the user logs in or if they do not yet have products, then the screen will 
 //display prompting the user to sign in.
 import React, { Component } from 'react';
-import { View, ScrollView, Text, Dimensions, TouchableOpacity, Image, FlatList } from 'react-native';
+import { View, ScrollView, Text, Dimensions, TouchableOpacity, Image, FlatList, SafeAreaView } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
 import { connect } from 'react-redux';
 import strings from 'config/strings';
@@ -20,7 +20,7 @@ import { BoxShadow } from 'react-native-shadow';
 class businessScreen extends Component {
     render() {
         return (
-            <View style={screenStyle.container}>
+            <SafeAreaView style={screenStyle.container}>
                 <View>
                     <TopBanner title={strings.Business} />
                 </View>
@@ -142,7 +142,7 @@ class businessScreen extends Component {
                             </ScrollView>
                         )
                 }
-            </View>
+            </SafeAreaView>
         )
     }
 }

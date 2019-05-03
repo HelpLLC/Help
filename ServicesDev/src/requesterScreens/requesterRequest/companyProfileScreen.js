@@ -5,7 +5,7 @@
 //of the company providing it, etc. There will be a button at the bottom of the screen allowing the 
 //requester to request the service.
 import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, ScrollView, FlatList, SafeAreaView } from 'react-native';
 import TopBanner from '../../components/TopBanner';
 import ServiceCard from '../../components/ServiceCard';
 import strings from 'config/strings';
@@ -25,7 +25,7 @@ class companyProfileScreen extends Component {
 
     render() {
         return (
-            <View style={screenStyle.container}>
+            <SafeAreaView style={screenStyle.container}>
                 <View>
                     <TopBanner
                         title={strings.CompanyProfile}
@@ -94,7 +94,7 @@ class companyProfileScreen extends Component {
                     />
                     <View style={{ height: 40 }}></View>
                 </ScrollView>
-            </View>
+            </SafeAreaView>
         );
     }
 }
