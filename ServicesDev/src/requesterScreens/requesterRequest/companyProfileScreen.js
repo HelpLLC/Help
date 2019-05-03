@@ -78,7 +78,7 @@ class companyProfileScreen extends Component {
                                 serviceTitle={item.serviceTitle}
                                 serviceDescription={item.serviceDescription}
                                 pricing={item.pricing}
-                                image={item.imageSource}
+                                image={item.imageSource.uri}
                                 numCurrentRequests={0}
                                  //Passes all of the necessary props to the actual screen that contains
                                 //more information about the service

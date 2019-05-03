@@ -46,10 +46,9 @@ class createProductScreen extends Component {
         //Shows the image picker with the default options
         ImagePicker.launchImageLibrary(options, (response) => {
 
-            //Retrieves the source of the selected image and sets it to the ImageSource state
-            const source = { uri: response.uri };
+            //Sets the source of the image
             this.setState({
-                imageSource: source,
+                imageSource: response,
             });
 
         });
@@ -132,7 +131,7 @@ class createProductScreen extends Component {
                             y: 5
                         }}>
                             <Image
-                                source={this.state.imageSource}
+                                source={this.state.imageSource.uri}
                                 style={{
                                     width: 140,
                                     height: 110,

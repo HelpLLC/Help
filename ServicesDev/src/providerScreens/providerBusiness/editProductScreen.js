@@ -24,7 +24,7 @@ class editProductScreen extends Component {
         serviceTitle: this.props.product.serviceTitle,
         serviceDescription: this.props.product.serviceDescription,
         pricing: this.props.product.pricing,
-        imageSource: this.props.product.imageSource,
+        imageSource: this.props.product.imageSource.uri,
         warningMessage: ''
     }
 
@@ -35,9 +35,8 @@ class editProductScreen extends Component {
         ImagePicker.showImagePicker(null, (response) => {
 
             //Retrieves the source of the selected image and sets it to the ImageSource state
-            const source = { uri: response.uri };
             this.setState({
-                imageSource: source,
+                imageSource: response,
             });
 
         });
@@ -123,7 +122,7 @@ class editProductScreen extends Component {
                             y: 5
                         }}>
                             <Image
-                                source={this.state.imageSource}
+                                source={this.state.imageSourc.uri}
                                 style={{
                                     width: 140,
                                     height: 110,

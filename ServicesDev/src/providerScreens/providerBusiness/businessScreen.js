@@ -128,7 +128,7 @@ class businessScreen extends Component {
                                             serviceTitle={item.serviceTitle}
                                             serviceDescription={item.serviceDescription}
                                             pricing={item.pricing}
-                                            image={item.imageSource}
+                                            image={item.imageSource.uri}
                                             numCurrentRequests={item.requests.currentRequests.length}
                                             onPress={() => {
                                                 this.props.navigation.push('ProviderProductScreen', {

@@ -118,7 +118,7 @@ class productScreen extends Component {
                             y: 5
                         }}>
                             <Image
-                                source={this.props.product.imageSource}
+                                source={this.props.product.imageSource.uri}
                                 style={{
                                     width: 140,
                                     height: 110,
