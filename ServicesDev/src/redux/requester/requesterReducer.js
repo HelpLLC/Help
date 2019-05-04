@@ -1,11 +1,10 @@
 //This reducer will have all of the requester-side actions and what to do with them. The reducer
 //takes in an action and the code tells it what to do with the action
 import update from 'immutability-helper';
-import InitialState from '../InitialState';
 import actionTypes from './actionTypes';
 
 //The reducer which will interpret what to do with the actions
-export default requesterReducer = (state = InitialState.requesters, action) => {
+export default requesterReducer = (state = {}, action) => {
 
 
     //This switch statement will test for which action is being called right now & will act accordingly
