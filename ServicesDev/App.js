@@ -8,7 +8,7 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import { persistReducer } from 'redux-persist'
 import { AsyncStorage } from 'react-native';
 import { YellowBox } from 'react-native';
-import combinedReducer from './src/redux/combinedReducer';
+import rootReducer from './src/redux/firebase/rootReducer';
 import thunk from 'redux-thunk';
 import firebaseConfig from './src/redux/firebase/firebaseConfig';
 import { reduxFirestore, getFirestore } from 'redux-firestore';
@@ -24,7 +24,7 @@ const persistConfig = {
 
 //This will represent the persist model itself, which fethced the reducer and configures it with
 //the configs defined above
-const persistedReducer = persistReducer(persistConfig, combinedReducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 //This created the store & exports it to be used, as well as making it possible for the redux 
 //state to be viewed in the React Native debugger for debugging purposes
