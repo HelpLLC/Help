@@ -4,16 +4,17 @@
 //provider reducer, while the action will be under "requester actions"* 
 import actionTypes from '../actionTypes';
 
-export const requestProduct = (serviceID, requestInfo) => (
-    {
-        //The type of action this is
-        type: actionTypes.REQUEST_PRODUCT,
+export const requestProduct = (serviceID, requestInfo) => {
+    return (dispatch, getState, { getFirebase, getFirestore }) => {
+        dispatch({
+            //The type of action this is
+            type: actionTypes.REQUEST_PRODUCT,
 
-        //Object will contain all information about a request including the ID of the requester who
-        //request it, along with the date it was requested. This action will also the return the ID
-        //of the product that is being requested
-        serviceID,
-        requestInfo
-
+            //Object will contain all information about a request including the ID of the requester who
+            //request it, along with the date it was requested. This action will also the return the ID
+            //of the product that is being requested
+            serviceID,
+            requestInfo
+        })
     }
-);
+};

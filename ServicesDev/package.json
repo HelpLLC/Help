@@ -9,6 +9,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "firebase": "^5.11.1",
     "immutability-helper": "^3.0.0",
     "react": "16.8.3",
     "react-native": "0.59.5",
@@ -26,7 +27,8 @@
     "react-redux-firebase": "^2.2.6",
     "redux": "^4.0.1",
     "redux-firestore": "^0.7.3",
-    "redux-persist": "^5.10.0"
+    "redux-persist": "^5.10.0",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "7.4.4",
