@@ -16,8 +16,6 @@ import ServiceCard from '../../components/ServiceCard';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import fontStyles from 'config/styles/fontStyles';
 import { BoxShadow } from 'react-native-shadow';
-import { firestoreConnect } from 'react-redux-firebase';
-import { compose } from 'redux';
 
 class businessScreen extends Component {
     render() {
@@ -158,11 +156,5 @@ const mapStateToProps = (state, props) => {
     return { provider, providerProducts };
 };
 
-//connects the screen with the redux persist state along with the firebase firestore
-export default compose(
-    connect(mapStateToProps),
-    firestoreConnect([
-        { collection: 'providers' },
-        { collection: 'products' }
-    ])
-)(businessScreen);
+//connects the screen with the redux persist state
+export default connect(mapStateToProps)(businessScreen);

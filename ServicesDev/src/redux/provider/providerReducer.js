@@ -1,10 +1,11 @@
 //This reducer will have all of the provider-side actions and what to do with them. The reducer
 //takes in an action and the code tells it what to do with the action
 import update from 'immutability-helper';
+import InitialState from '../InitialState';
 import actionTypes from './actionTypes';
 
 //The reducer which will interpret what to do with the actions
-export default providerReducer = (state = {}, action) => {
+export default providerReducer = (state = InitialState.providers, action) => {
 
     //This switch statement will test for which action is being called right now & will act accordingly
     switch (action.type) {

@@ -3,15 +3,14 @@ import actionTypes from '../actionTypes';
 
 //The class will take in action parameters of the product ID as well as the requester's ID which
 //is how it will locate and remove the request from the current requester
-export const deleteRequest = (productID, requesterID) => {
-    return (dispatch, getState, { getFirebase, getFirestore }) => {
-        dispatch({
-            //The type of this action
-            type: actionTypes.DELETE_REQUEST,
+export const deleteRequest = (productID, requesterID) => (
+    //Object returns the passed in parameters
+    {
+        //The type of this action
+        type: actionTypes.DELETE_REQUEST,
 
-            //The parameters of this object
-            productID,
-            requesterID
-        })
+        //The parameters of this object
+        productID,
+        requesterID
     }
-}
+);
