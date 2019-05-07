@@ -20,7 +20,7 @@ class companyProfileScreen extends Component {
 
     //This method will open a chat with the provider and go to that chat
     messageProvider() {
-
+        this.props.navigation.push("ChatsScreen");
     }
 
     render() {
@@ -52,7 +52,7 @@ class companyProfileScreen extends Component {
                     </View>
 
                     <View style={{ paddingBottom: 10 }}>
-                        <TouchableOpacity onPress={this.messageProvider()}>
+                        <TouchableOpacity onPress={() => this.messageProvider()}>
                             <Icon
                                 name="comment"
                                 type="font-awesome"

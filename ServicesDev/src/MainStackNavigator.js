@@ -8,6 +8,7 @@ import ProviderEditProductScreen from './providerScreens/providerBusiness/editPr
 import ProviderProductHistoryScreen from './providerScreens/providerBusiness/productHistoryScreen';
 import RequesterServiceScreen from './requesterScreens/requesterRequest/serviceScreen';
 import RequesterCompanyProfileScreen from './requesterScreens/requesterRequest/companyProfileScreen';
+import ChatScreen from './chatScreen';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 //The route config for all of the screens
@@ -51,6 +52,11 @@ const routeConfig = {
     //The route going to the requester company profile screen
     RequesterCompanyProfileScreen: {
         screen: RequesterCompanyProfileScreen
+    },
+
+    //The route going the screen where users can chat
+    ChatsScreen: {
+        screen: ChatScreen
     }
 
 };
