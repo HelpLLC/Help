@@ -2,16 +2,18 @@
 //a simple chat screen only allowing messaging.
 import React, { Component } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
+import colors from 'config/colors';
 import { View } from 'react-native';
-import TopBanner from './components/TopBanner';
-import screenStyle from 'config/styles/screenStyle';
 
 class chatScreen extends Component {
 
-    render() {
+    render(props) {
         return (
-            <GiftedChat
-                placeholder={"Type a message..."} />
+            <View style={{ backgroundColor: colors.lightGray, flex: 1 }}>
+                <GiftedChat
+                    {...props}
+                    placeholder={"Type a message..."} />
+            </View>
         )
     }
 }

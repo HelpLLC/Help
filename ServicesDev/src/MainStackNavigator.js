@@ -11,7 +11,9 @@ import RequesterCompanyProfileScreen from './requesterScreens/requesterRequest/c
 import ChatScreen from './chatScreen';
 import TopBanner from './components/TopBanner';
 import React from 'react';
+import Functions from 'config/Functions';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
+import providerScreensNavigator from './providerScreens/providerScreensNavigator';
 
 //The route config for all of the screens
 const routeConfig = {
@@ -86,7 +88,7 @@ const routeConfig = {
         navigationOptions: ({ navigation }) => ({
             header: (
                 <TopBanner
-                    title={"Hi"}
+                    title={navigation.state.params.provider.companyName}
                     leftIconName="angle-left"
                     leftOnPress={() => navigation.goBack()} />
             )
