@@ -9,6 +9,8 @@ import ProviderProductHistoryScreen from './providerScreens/providerBusiness/pro
 import RequesterServiceScreen from './requesterScreens/requesterRequest/serviceScreen';
 import RequesterCompanyProfileScreen from './requesterScreens/requesterRequest/companyProfileScreen';
 import ChatScreen from './chatScreen';
+import TopBanner from './components/TopBanner';
+import React from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 //The route config for all of the screens
@@ -16,47 +18,79 @@ const routeConfig = {
 
     //The route leading to the first run screens
     FirstScreens: {
-        screen: FirstScreensNavigator
+        screen: FirstScreensNavigator,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        })
     },
 
     //The route going to the create product screen
     ProviderCreateProductScreen: {
-        screen: ProviderCreateProductScreen
+        screen: ProviderCreateProductScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        })
     },
 
     //The route going to the edit company profile screen
     ProviderEditCompanyProfileScreen: {
-        screen: ProviderEditCompanyProfileScreen
+        screen: ProviderEditCompanyProfileScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        })
     },
 
     //The route going to the product screen
     ProviderProductScreen: {
-        screen: ProviderProductScreen
+        screen: ProviderProductScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        })
     },
 
     //The route going to the edit product screen
     ProviderEditProductScreen: {
-        screen: ProviderEditProductScreen
+        screen: ProviderEditProductScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        })
     },
 
     //The route going to the product history screen
     ProviderProductHistoryScreen: {
-        screen: ProviderProductHistoryScreen
+        screen: ProviderProductHistoryScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        })
     },
 
     //The route going to the requester service screen
     RequesterServiceScreen: {
-        screen: RequesterServiceScreen
+        screen: RequesterServiceScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        })
     },
 
     //The route going to the requester company profile screen
     RequesterCompanyProfileScreen: {
-        screen: RequesterCompanyProfileScreen
+        screen: RequesterCompanyProfileScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        })
     },
 
     //The route going the screen where users can chat
     ChatsScreen: {
-        screen: ChatScreen
+        screen: ChatScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: (
+                <TopBanner
+                    title={"Hi"}
+                    leftIconName="angle-left"
+                    leftOnPress={() => navigation.goBack()} />
+            )
+        })
     }
 
 };
@@ -65,7 +99,6 @@ const routeConfig = {
 const navigatorConfig = {
     //To-do: Make sure if device has already been logged in, to navigate to the account directly
     initialRouteName: 'FirstScreens',
-    headerMode: 'none',
     gesturesEnabled: false
 };
 

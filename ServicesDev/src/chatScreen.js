@@ -7,7 +7,6 @@ import TopBanner from './components/TopBanner';
 import screenStyle from 'config/styles/screenStyle';
 
 class chatScreen extends Component {
-    
 
     render() {
         return (
