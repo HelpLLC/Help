@@ -29,13 +29,13 @@ class requestScreen extends Component {
                 renderScene={({ route, jumpTo }) => {
                     switch (route.key) {
                         case 'yardwork':
-                            return <Yardwork 
-                            {...this.props}
-                            jumpTo={jumpTo} 
-                            thisRequester={this.props.requester}
-                            thisRequesterIndex={this.props.navigation.state.params.userIndex}
-                            providers={this.props.accounts}
-                            products={this.props.products} />;
+                            return <Yardwork
+                                {...this.props}
+                                jumpTo={jumpTo}
+                                thisRequester={this.props.requester}
+                                thisRequesterIndex={this.props.navigation.state.params.userIndex}
+                                providers={this.props.accounts}
+                                products={this.props.products} />;
                         case 'other':
                             return <Other jumpTo={jumpTo} />;
                     }
@@ -67,7 +67,8 @@ class requestScreen extends Component {
 //products
 const mapStateToProps = (state, props) => {
     const requester = state.requesterReducer[props.navigation.state.params.userIndex];
-    const { accounts, products } = state.providerReducer;
+    const accounts = state.providerReducer;
+    const products = state.productReducer
 
     return { requester, accounts, products };
 };

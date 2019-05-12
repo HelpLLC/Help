@@ -30,7 +30,7 @@ export default productReducer = (state = InitialState.products, action) => {
             const { productIndex, updatedProductInfo } = action;
 
             //Updates the state by pushing the new product into the array of providers
-            newState = update(state, {  { [productIndex]: { $set: updatedProductInfo } });
+            newState = update(state, { [productIndex]: { $set: updatedProductInfo } });
 
             //returns the newly updated state
             return newState;

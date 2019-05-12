@@ -128,7 +128,7 @@ class businessScreen extends Component {
                                             serviceTitle={item.serviceTitle}
                                             serviceDescription={item.serviceDescription}
                                             pricing={item.pricing}
-                                            image={item.imageSource.uri}
+                                            image={item.imageSource}
                                             numCurrentRequests={item.requests.currentRequests.length}
                                             onPress={() => {
                                                 this.props.navigation.push('ProviderProductScreen', {
@@ -149,10 +149,10 @@ class businessScreen extends Component {
 
 //Connects this screens' props with the current user of the app
 const mapStateToProps = (state, props) => {
-    const provider = state.providerReducer.accounts[props.navigation.state.params.userIndex];
+    const provider = state.providerReducer[props.navigation.state.params.userIndex];
 
     //Fetches products that are offered by this specifc provider
-    const providerProducts = Functions.getProviderProducts(provider, state.providerReducer.products);
+    const providerProducts = Functions.getProviderProducts(provider, state.productReducer);
     return { provider, providerProducts };
 };
 

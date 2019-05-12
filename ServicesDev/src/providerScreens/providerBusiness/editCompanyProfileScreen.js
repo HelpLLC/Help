@@ -119,7 +119,7 @@ class editCompanyProfileScreen extends Component {
 
 //Connects this screens' props with the current user of the app
 const mapStateToProps = (state, props) => {
-    const provider = state.providerReducer.accounts[props.navigation.state.params.userIndex];
+    const provider = state.providerReducer[props.navigation.state.params.userIndex];
     return { provider };
 };
 

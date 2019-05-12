@@ -24,7 +24,7 @@ class editProductScreen extends Component {
         serviceTitle: this.props.product.serviceTitle,
         serviceDescription: this.props.product.serviceDescription,
         pricing: this.props.product.pricing,
-        imageSource: this.props.product.imageSource.uri,
+        imageSource: this.props.product.imageSource,
         warningMessage: ''
     }
 
@@ -180,7 +180,7 @@ class editProductScreen extends Component {
 //Connects this screens' props with the current product
 const mapStateToProps = (state, props) => {
     const { product, productID } = props.navigation.state.params;
-    const productIndex = state.providerReducer.products.findIndex((product) => {
+    const productIndex = state.productReducer.findIndex((product) => {
         return product.serviceID === productID;
     })
     return { product, productID, productIndex };

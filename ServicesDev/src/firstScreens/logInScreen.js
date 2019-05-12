@@ -121,7 +121,7 @@ class logInScreen extends Component {
 
 //Connnects this screens' props with all of the users in the database to prepare for login
 const mapStateToProps = state => {
-    const providers  = state.providerReducer.accounts;
+    const providers  = state.providerReducer;
     const requesters = state.requesterReducer;
     return { providers, requesters };
 };

@@ -3,9 +3,13 @@
 import { combineReducers } from 'redux';
 import providerReducer from './provider/providerReducer';
 import requesterReducer from './requester/requesterReducer';
+import messageReducer from './message/messageReducer';
+import productReducer from './product/productReducer';
 
 //This will export the module containing the combined reducers
 export default combineReducers({
     providerReducer,
-    requesterReducer
+    requesterReducer,
+    messageReducer,
+    productReducer
 });

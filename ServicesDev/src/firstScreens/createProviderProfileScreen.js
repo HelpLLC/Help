@@ -58,7 +58,7 @@ class createProviderProfileScreen extends Component {
 
                 //Signs up the user with the chosen account
                 let newAccount = {
-                    providerID: this.props.providers.length,
+                    providerID: this.props.providers.length + 1,
                     username: this.props.navigation.state.params.username,
                     companyName: businessName,
                     companyDescription: businessInfo,
@@ -144,7 +144,7 @@ class createProviderProfileScreen extends Component {
 
 //Connects this screens' props with the users of the app to prepare for account creation
 const mapStateToProps = state => {
-    const providers = state.providerReducer.accounts;
+    const providers = state.providerReducer;
     return { providers };
 };
 

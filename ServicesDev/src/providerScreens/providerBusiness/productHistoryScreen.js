@@ -56,7 +56,7 @@ class productHistoryScreen extends Component {
                         y: 5
                     }}>
                         <Image
-                            source={product.imageSource.uri}
+                            source={product.imageSource}
                             style={{
                                 width: 140,
                                 height: 110,

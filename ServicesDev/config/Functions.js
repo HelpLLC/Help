@@ -47,10 +47,11 @@ export default class Functions {
         let requestersOfThisProduct = [];
         service.requests.currentRequests.forEach((request) => {
             let requesterID = request.requesterID;
+            console.log(requesterID);
             let requester = allRequesters.find((requester) => {
                 return requester.requesterID === requesterID;
-            })
-
+            });
+            console.log(requester);
             requestersOfThisProduct.push(requester);
         });
 

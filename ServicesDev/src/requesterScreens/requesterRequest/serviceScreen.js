@@ -39,10 +39,10 @@ class serviceScreen extends Component {
                 {
                     text: 'Request', onPress: () => {
                         //It will simply call the action and request the product
-                        const { product, thisRequesterIndex } = this.props;
+                        const { product, thisRequesterID } = this.props;
 
                         this.props.requestProduct(product.serviceID, {
-                            requesterID: thisRequesterIndex,
+                            requesterID: thisRequesterID,
                             dateRequested: new Date().toLocaleDateString("en-US")
                         });
 
@@ -127,7 +127,7 @@ class serviceScreen extends Component {
                             y: 5
                         }}>
                             <Image
-                                source={this.props.product.imageSource.uri}
+                                source={this.props.product.imageSource}
                                 style={{
                                     width: 140,
                                     height: 110,
@@ -190,10 +190,10 @@ const mapStateToProps = (state, props) => {
     const { offeredByID, productID, thisRequesterIndex } = props.navigation.state.params;
 
     //Fetches this product
-    const product = Functions.getServiceByID(productID, state.providerReducer.products);
+    const product = Functions.getServiceByID(productID, state.productReducer);
 
     //Fethches this provider
-    const provider = Functions.getProviderByID(offeredByID, state.providerReducer.accounts);
+    const provider = Functions.getProviderByID(offeredByID, state.providerReducer);
 
     //Returns all of the data
     return { product, productID, provider, offeredByID, thisRequesterIndex };

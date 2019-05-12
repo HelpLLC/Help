@@ -29,7 +29,7 @@ export default class Yardwork extends Component {
                                 serviceTitle={item.serviceTitle}
                                 offeredBy={Functions.getProviderByID(item.offeredBy, this.props.providers).companyName}
                                 pricing={item.pricing}
-                                image={item.imageSource.uri}
+                                image={item.imageSource}
                                 numCurrentRequests={0}
                                 offeredByOnPress={() => {
                                     this.props.navigation.push('RequesterCompanyProfileScreen', {
@@ -43,7 +43,7 @@ export default class Yardwork extends Component {
                                     this.props.navigation.push('RequesterServiceScreen', {
                                         offeredByID: item.offeredBy,
                                         productID: item.serviceID,
-                                        thisRequesterIndex: thisRequesterIndex
+                                        thisRequesterID: thisRequester.requesterID
                                     });
                                 }}
                             />

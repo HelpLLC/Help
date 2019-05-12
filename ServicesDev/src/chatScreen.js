@@ -42,7 +42,7 @@ class chatScreen extends Component {
 
 //Connects this screens' props with messages belonging to the user
 const mapStateToProps = state => {
-    const messages = state.providerReducer.messages[0].conversationMessages;
+    const messages = state.messageReducer[0].conversationMessages;
     return { messages };
 };
 export default connect(mapStateToProps)(chatScreen);

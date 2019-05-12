@@ -47,9 +47,10 @@ class createProductScreen extends Component {
         //Shows the image picker with the default options
         ImagePicker.launchImageLibrary(options, (response) => {
 
+            const source = { uri: 'data:image/jpeg;base64,' + response.data };
             //Sets the source of the image
             this.setState({
-                imageSource: response,
+                imageSource: source,
             });
 
         });
@@ -133,7 +134,7 @@ class createProductScreen extends Component {
                             y: 5
                         }}>
                             <Image
-                                source={this.state.imageSource.uri}
+                                source={this.state.imageSource}
                                 style={{
                                     width: 140,
                                     height: 110,
@@ -190,8 +191,8 @@ class createProductScreen extends Component {
 
 //Connects this screens' props with the current user of the app
 const mapStateToProps = (state, props) => {
-    const provider = state.providerReducer.accounts[props.navigation.state.params.userIndex];
-    const { products } = state.providerReducer;
+    const provider = state.providerReducer[props.navigation.state.params.userIndex];
+    const products = state.productReducer;
     return { provider, products };
 };
 

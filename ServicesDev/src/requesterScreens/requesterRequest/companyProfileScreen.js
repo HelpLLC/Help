@@ -81,7 +81,7 @@ class companyProfileScreen extends Component {
                                 serviceTitle={item.serviceTitle}
                                 serviceDescription={item.serviceDescription}
                                 pricing={item.pricing}
-                                image={item.imageSource.uri}
+                                image={item.imageSource}
                                 numCurrentRequests={0}
                                  //Passes all of the necessary props to the actual screen that contains
                                 //more information about the service
@@ -107,10 +107,10 @@ const mapStateToProps = (state, props) => {
     const { companyID, thisRequesterIndex } = props.navigation.state.params;
 
     //Fethches this provider
-    const provider = Functions.getProviderByID(companyID, state.providerReducer.accounts);
+    const provider = Functions.getProviderByID(companyID, state.providerReducer);
 
     //Fetches products that are offered by this specifc provider
-    const providerProducts = Functions.getProviderProducts(provider, state.providerReducer.products);
+    const providerProducts = Functions.getProviderProducts(provider, state.productReducer);
 
     //Returns all of the data
     return { provider, companyID, thisRequesterIndex, providerProducts };

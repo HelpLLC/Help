@@ -36,7 +36,7 @@ export default providerReducer = (state = InitialState.providers, action) => {
             });
 
             //updates the state once again to add the product to the provider's list of products
-            newState = update(newState, { [indexOfProvider]: { serviceIDs: { $push: [serviceID] } } });
+            newState = update(state, { [indexOfProvider]: { serviceIDs: { $push: [serviceID] } } });
 
             //returns the newly updated state
             return newState;

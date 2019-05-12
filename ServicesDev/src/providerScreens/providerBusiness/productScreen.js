@@ -24,7 +24,7 @@ class productScreen extends Component {
     }
 
     //This method will complete a specific request based on the passed in requester ID
-    markAsComplete(requesterID, ) {
+    markAsComplete(requesterID) {
         //Will make sure the user wants to mark this request as complete
         Alert.alert(
             'Complete Request',
@@ -118,7 +118,7 @@ class productScreen extends Component {
                             y: 5
                         }}>
                             <Image
-                                source={this.props.product.imageSource.uri}
+                                source={this.props.product.imageSource}
                                 style={{
                                     width: 140,
                                     height: 110,
@@ -244,7 +244,7 @@ class productScreen extends Component {
 //as all the requesters that ordered this product
 const mapStateToProps = (state, props) => {
     const { productID } = props.navigation.state.params;
-    const product = Functions.getServiceByID(productID, state.providerReducer.products);
+    const product = Functions.getServiceByID(productID, state.productReducer);
 
     //Retrieves the requesters that ordered this product
     let requestersOfThisProduct = Functions.getServiceRequesters(product, state.requesterReducer);
