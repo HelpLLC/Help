@@ -12,7 +12,7 @@ import RoundTextInput from '../../components/RoundTextInput';
 import { BoxShadow } from 'react-native-shadow';
 import ImagePicker from 'react-native-image-picker';
 import strings from 'config/strings';
-import { updateProviderProduct } from '../../redux/provider/providerActions/updateProviderProduct';
+import { updateProduct } from '../../redux/product/productActions/updateProduct';
 import { bindActionCreators } from 'redux';
 import colors from 'config/colors';
 import { connect } from 'react-redux';
@@ -71,7 +71,7 @@ class editProductScreen extends Component {
                 const { productIndex } = this.props;
             
                 //Updates the correct product corresponding with the correct user
-                this.props.updateProviderProduct(productIndex, updatedProduct);
+                this.props.updateProduct(productIndex, updatedProduct);
                 this.props.navigation.goBack();
 
             }
@@ -192,7 +192,7 @@ const mapStateToProps = (state, props) => {
 export const mapDispatchToProps = dispatch =>
     bindActionCreators(
         {
-            updateProviderProduct,
+            updateProduct,
         },
         dispatch
     );

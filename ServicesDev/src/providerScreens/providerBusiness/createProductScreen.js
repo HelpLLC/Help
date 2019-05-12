@@ -13,7 +13,8 @@ import RoundTextInput from '../../components/RoundTextInput';
 import { BoxShadow } from 'react-native-shadow';
 import images from 'config/images/images';
 import ImagePicker from 'react-native-image-picker';
-import { createProviderProduct } from '../../redux/provider/providerActions/createProviderProduct';
+import { createNewProduct } from '../../redux/product/productActions/createNewProduct';
+import { addProviderProduct } from '../../redux/provider/providerActions/addProviderProduct';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import { bindActionCreators } from 'redux';
@@ -82,7 +83,8 @@ class createProductScreen extends Component {
             };
             //Updates the redux state by calling the action and passing in the new product object
             //as well as this providerID so it can add it to the provider's list of products
-            this.props.createProviderProduct(newProduct, this.props.provider.providerID);
+            this.props.createNewProduct(newProduct, this.props.provider.providerID);
+            this.props.addProviderProduct(this.props.provider.providerID, newProduct.serviceID);
             this.props.navigation.goBack();
         }
     }
@@ -198,7 +200,8 @@ const mapStateToProps = (state, props) => {
 export const mapDispatchToProps = dispatch =>
     bindActionCreators(
         {
-            createProviderProduct,
+            createNewProduct,
+            addProviderProduct
         },
         dispatch
     );
