@@ -18,7 +18,7 @@ export default providerReducer = (state = InitialState.providers, action) => {
 
             //Will update the state with the new account that got added by adding it to the array
             //of users
-            let newState = update(state, { accounts: { $push: [newAccount] } });
+            let newState = update(state, { $push: [newAccount] });
 
             //returns the newly updated state
             return newState;
@@ -31,7 +31,7 @@ export default providerReducer = (state = InitialState.providers, action) => {
             let { providerID, serviceID } = action;
 
             //Retrieves the provider's index based on the passed in provider ID
-            let indexOfProvider = state.accounts.findIndex((provider) => {
+            let indexOfProvider = state.findIndex((provider) => {
                 return provider.providerID === providerID;
             });
 
@@ -53,8 +53,8 @@ export default providerReducer = (state = InitialState.providers, action) => {
 
             //Updates the state by both updating the new name of the company as well as its
             //description.
-            newState = update(state, { accounts: { [index]: { companyName: { $set: newCompanyName } } } });
-            newState = update(newState, { accounts: { [index]: { companyDescription: { $set: newCompanyInfo } } } });
+            newState = update(state, { [index]: { companyName: { $set: newCompanyName } } });
+            newState = update(newState, { [index]: { companyDescription: { $set: newCompanyInfo } } });
 
             //returns the newly updated state
             return newState;
