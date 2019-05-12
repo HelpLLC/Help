@@ -3,13 +3,15 @@ import images from 'config/images/images';
 //and on release, will only contain the developer accounts
 export default InitialState = {
 
+
+
     //This array contains the users that are providers
     providers: {
         accounts: [
             //This is the provider dev account
             {
                 //The ID for the current provider
-                providerID: 0,
+                providerID: 1,
                 //The phone number for this account (used as account login)
                 username: 'ZyadDevProvide',
 
@@ -29,12 +31,45 @@ export default InitialState = {
             }
         ],
 
+        //This array will contain all of the message arrays between all of the users
+        messages: [
+            {
+                conversationIDs: [-1, 1],
+                conversationMessages: [
+                    {
+                        _id: 1,
+                        text: "When would you like your lawn mowed?",
+                        createdAt: new Date(),
+                        user: {
+                            _id: 1,
+                        }
+                    },
+                    {
+                        _id: 2,
+                        text: "As soon as possible please",
+                        createdAt: new Date(),
+                        user: {
+                            _id: -1
+                        }
+                    },
+                    {
+                        _id: 3,
+                        text: "Alright, I'll be there soon",
+                        createdAt: new Date(),
+                        user: {
+                            _id: 1
+                        }
+                    }
+                ]
+            }
+        ],
+
         //The array of products that are currently available in the market
         products: [
             {
                 //The information for each product
                 serviceID: 0,
-                offeredBy: 0,
+                offeredBy: 1,
                 serviceTitle: 'Lawn Mowing',
                 serviceDescription: 'For a very small price, I will mow your lawn and make sure ' +
                     'that it looks good as new!',
@@ -82,7 +117,7 @@ export default InitialState = {
             {
                 //The information for each product
                 serviceID: 1,
-                offeredBy: 0,
+                offeredBy: 1,
                 serviceTitle: 'Pressure Washing',
                 serviceDescription: 'For the best pressure washing in the business, contact me',
                 pricing: '$20 per hour',
@@ -100,7 +135,7 @@ export default InitialState = {
                     //The array containing the current requests for the product
                     //The array containing the current requests for the product
                     currentRequests: [
-                        
+
                     ]
                 }
             },
@@ -108,7 +143,7 @@ export default InitialState = {
             {
                 //The information for each product
                 serviceID: 2,
-                offeredBy: 0,
+                offeredBy: 1,
                 serviceTitle: 'Leave Raking',
                 serviceDescription: 'I\'m the best leave raker in town!!!!',
                 pricing: '$10 per hour',
@@ -138,9 +173,9 @@ export default InitialState = {
         {
             //The username for this account
             username: 'ZyadDevRequest',
-            
+
             //The ID of this requester
-            requesterID: 0
+            requesterID: -1
         },
     ]
 
