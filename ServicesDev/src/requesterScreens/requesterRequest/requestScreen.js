@@ -5,6 +5,7 @@ import { View, Dimensions } from 'react-native';
 import TopBanner from '../../components/TopBanner';
 import { connect } from 'react-redux';
 import strings from 'config/strings';
+import Functions from 'config/Functions';
 import fontStyles from 'config/styles/fontStyles';
 import { TabView, TabBar } from 'react-native-tab-view';
 import colors from '../../../config/colors';
@@ -66,7 +67,7 @@ class requestScreen extends Component {
 //Connects this screens' props with the user of the app as well as the provider reducer containing the
 //products
 const mapStateToProps = (state, props) => {
-    const requester = state.requesterReducer[props.navigation.state.params.userIndex];
+    const requester = Functions.getRequesterByID(props.navigation.state.params.requesterID, state.requesterReducer);
     const accounts = state.providerReducer;
     const products = state.productReducer
 

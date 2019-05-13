@@ -6,37 +6,68 @@
 //All methods should be labeled static
 export default class Functions {
 
-    //This method will take in an ID of a requester and then search through all of the requesters
-    //until it finds the requester with this particular ID
-    static getRequesterByID(requesterID, allRequesters) {
+    //This method will take in an ID of a requester and return the index of the requester in the array
+    //of requesters by searching through the array until it finds one that matches the provided ID
+    static getRequesterIndexByID(requesterID, allRequesters) {
 
-        const thisRequester = allRequesters.find((requester) => {
+        const thisRequesterIndex = allRequesters.findIndex((requester) => {
             return requester.requesterID === requesterID;
         });
 
-        return thisRequester;
+        return thisRequesterIndex;
+
     }
 
-    //This method will take in an ID of a provider and then search through all providers until in finds 
-    //provider with this ID. It then returns the provider object
-    static getProviderByID(providerID, allProviders) {
+    //This method will take in an ID of a requester and then call the method to get the index and then
+    //return the actual requester
+    static getRequesterByID(requesterID, allRequesters) {
 
-        const thisProvider = allProviders.find((provider) => {
+        const thisRequesterIndex = Functions.getRequesterIndexByID(requesterID, allRequesters);
+        return allRequesters[thisRequesterIndex];
+
+    }
+
+    //This method will take in an ID of a provider and return the index of the provider in the array
+    //of providers by searching through the array until it finds one that matches the provided ID
+    static getProviderIndexByID(providerID, allProviders) {
+
+        const thisProviderIndex = allProviders.findIndex((provider) => {
             return provider.providerID === providerID;
         });
 
-        return thisProvider;
+        return thisProviderIndex;
+
     }
 
-    //This method will take in an ID of a service and then search through all the services until it finds
-    //the one that matches this ID
-    static getServiceByID(serviceID, allServices) {
+    //This method will take in an ID of a requester and then call the method to get the index and then
+    //return the actual requester
+    static getProviderByID(providerID, allProviders) {
 
-        const thisService = allServices.find((service) => {
+        const thisProviderIndex = Functions.getProviderIndexByID(providerID, allProviders);
+        return allProviders[thisProviderIndex];
+
+    }
+
+    //This method will take in an ID of a service and return the index of the service in the array
+    //of services by searching through the array until it finds one that matches the provided ID
+    static getServiceIndexByID(serviceID, allServices) {
+
+        const thisServiceIndex = allServices.findIndex((service) => {
             return service.serviceID === serviceID;
         });
 
-        return thisService;
+        return thisServiceIndex;
+
+    }
+
+
+    //This method will take in an ID of a service and then call the method to get the index and then
+    //return the actual service
+    static getServiceByID(serviceID, allServices) {
+
+        const thisServiceIndex = Functions.getServiceIndexByID(serviceID, allServices);
+        return allServices[thisServiceIndex];
+
     }
 
     //This method will return an array filled with requesters that requested a certain product. It will
@@ -47,15 +78,14 @@ export default class Functions {
         let requestersOfThisProduct = [];
         service.requests.currentRequests.forEach((request) => {
             let requesterID = request.requesterID;
-            console.log(requesterID);
             let requester = allRequesters.find((requester) => {
                 return requester.requesterID === requesterID;
             });
-            console.log(requester);
             requestersOfThisProduct.push(requester);
         });
 
         return requestersOfThisProduct;
+        
     }
 
     //This method will return an array of products that is offered by a specifc provider. It will
@@ -77,7 +107,7 @@ export default class Functions {
 
         return providerProducts;
     }
-    
+
     //This method will return true if the service has already been requested by this requester
     static isServiceAlreadyRequested(service, requesterID) {
 

@@ -57,18 +57,12 @@ class logInScreen extends Component {
             //to the requester screens add pushes the account index by searching for the correct user
             //name
             if (requesterIndex === -1) {
-                const accountIndex = providers.findIndex((value) => {
-                    return value.username === input;
-                });
                 this.props.navigation.push('ProviderScreens', {
-                    userIndex: accountIndex
+                    providerID: providers[providerIndex].providerID
                 });
             } else {
-                const accountIndex = requesters.findIndex((value) => {
-                    return value.username === input;
-                });
                 this.props.navigation.push('RequesterScreens', {
-                    userIndex: accountIndex
+                    requesterID: requesters[requesterIndex].requesterID
                 });
             }
         }
