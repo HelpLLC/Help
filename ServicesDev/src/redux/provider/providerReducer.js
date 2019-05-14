@@ -3,6 +3,7 @@
 import update from 'immutability-helper';
 import InitialState from '../InitialState';
 import actionTypes from './actionTypes';
+import Functions from 'config/Functions';
 
 //The reducer which will interpret what to do with the actions
 export default providerReducer = (state = InitialState.providers, action) => {
@@ -31,9 +32,7 @@ export default providerReducer = (state = InitialState.providers, action) => {
             let { providerID, serviceID } = action;
 
             //Retrieves the provider's index based on the passed in provider ID
-            let indexOfProvider = state.findIndex((provider) => {
-                return provider.providerID === providerID;
-            });
+            let indexOfProvider = Functions.getProviderIndexByID(providerID, state);
 
             //updates the state once again to add the product to the provider's list of products
             newState = update(state, { [indexOfProvider]: { serviceIDs: { $push: [serviceID] } } });
@@ -46,15 +45,16 @@ export default providerReducer = (state = InitialState.providers, action) => {
 
             //Retrieves the index of the provider whose company details will change along with the
             //new information within the companyInfo object passed into the action
-            let index = action.providerIndex;
+            let ID = action.providerID;
+            let providerIndex = Functions.getProviderIndexByID(ID, state);
             let newBusinessInfo = action.companyInfo;
             let newCompanyName = newBusinessInfo.newBusinessName;
             let newCompanyInfo = newBusinessInfo.newBusinessInfo;
 
             //Updates the state by both updating the new name of the company as well as its
             //description.
-            newState = update(state, { [index]: { companyName: { $set: newCompanyName } } });
-            newState = update(newState, { [index]: { companyDescription: { $set: newCompanyInfo } } });
+            newState = update(state, { [providerIndex]: { companyName: { $set: newCompanyName } } });
+            newState = update(newState, { [providerIndex]: { companyDescription: { $set: newCompanyInfo } } });
 
             //returns the newly updated state
             return newState;

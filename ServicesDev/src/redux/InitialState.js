@@ -38,7 +38,7 @@ export default InitialState = {
             username: 'ZyadDevRequest',
 
             //The ID of this requester
-            requesterID: -1
+            requesterID: 1
         },
     ],
 
@@ -65,17 +65,17 @@ export default InitialState = {
                     {
                         dateRequested: '3/10/19',
                         dateCompleted: '3/12/19',
-                        requesterID: 0
+                        requesterID: 1
                     },
                     {
                         dateRequested: '3/10/19',
                         dateCompleted: '3/12/19',
-                        requesterID: 0
+                        requesterID: 1
                     },
                     {
                         dateRequested: '3/10/19',
                         dateCompleted: '3/12/19',
-                        requesterID: 0
+                        requesterID: 1
                     },
                 ],
 
@@ -85,7 +85,7 @@ export default InitialState = {
                     //Each request will contain the ID of the requester, along with the date
                     //is was requested
                     {
-                        requesterID: 0,
+                        requesterID: 1,
                         dateRequested: '3/13/19',
                     }
                 ]
@@ -147,7 +147,8 @@ export default InitialState = {
     //This array will contain all of the message arrays between all of the users
     messages: [
         {
-            conversationIDs: [-1, 1],
+            providerID: 1,
+            requesterID: 1,
             conversationMessages: [
                 {
                     _id: 1,

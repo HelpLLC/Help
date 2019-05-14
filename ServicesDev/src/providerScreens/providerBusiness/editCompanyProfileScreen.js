@@ -53,8 +53,8 @@ class editCompanyProfileScreen extends Component {
 
             //Updates the redux state by calling the action and passing in the current user's index
             //as well as the new company info object
-            let { userIndex } = this.props.navigation.state.params; 
-            this.props.editCompanyProfile(userIndex, newCompanyInfoObject);
+            let { providerID } = this.props; 
+            this.props.editCompanyProfile(providerID, newCompanyInfoObject);
 
             //Navigates back to the business screen
             this.props.navigation.goBack();
@@ -119,8 +119,8 @@ class editCompanyProfileScreen extends Component {
 
 //Connects this screens' props with the current user of the app
 const mapStateToProps = (state, props) => {
-    const provider = state.providerReducer[props.navigation.state.params.userIndex];
-    return { provider };
+    const { provider, providerID } = props.navigation.state.params;
+    return { provider, providerID };
 };
 
 //Connects the screen with the actions that will interact with the database.

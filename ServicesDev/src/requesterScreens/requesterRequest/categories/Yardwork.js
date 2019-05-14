@@ -10,7 +10,7 @@ export default class Yardwork extends Component {
     render() {
 
         //Fetches the current requester index which is passed in as a prop as well as the index
-        const { thisRequester, thisRequesterIndex, products } = this.props;
+        const { thisRequester, thisRequesterID, products } = this.props;
 
         return (
             <SafeAreaView style={screenStyle.container}>
@@ -34,7 +34,7 @@ export default class Yardwork extends Component {
                                 offeredByOnPress={() => {
                                     this.props.navigation.push('RequesterCompanyProfileScreen', {
                                         companyID: item.offeredBy,
-                                        thisRequesterIndex: thisRequesterIndex
+                                        thisRequesterID: thisRequesterID
                                     });
                                 }}
                                 //Passes all of the necessary props to the actual screen that contains
@@ -43,7 +43,7 @@ export default class Yardwork extends Component {
                                     this.props.navigation.push('RequesterServiceScreen', {
                                         offeredByID: item.offeredBy,
                                         productID: item.serviceID,
-                                        thisRequesterID: thisRequester.requesterID
+                                        thisRequesterID: thisRequesterID
                                     });
                                 }}
                             />

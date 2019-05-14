@@ -187,7 +187,7 @@ class serviceScreen extends Component {
 //Maps the state to the current product being viewed & the company offering it as well as this requester's
 //index to the props.
 const mapStateToProps = (state, props) => {
-    const { offeredByID, productID, thisRequesterIndex } = props.navigation.state.params;
+    const { offeredByID, productID, thisRequesterID } = props.navigation.state.params;
 
     //Fetches this product
     const product = Functions.getServiceByID(productID, state.productReducer);
@@ -196,7 +196,7 @@ const mapStateToProps = (state, props) => {
     const provider = Functions.getProviderByID(offeredByID, state.providerReducer);
 
     //Returns all of the data
-    return { product, productID, provider, offeredByID, thisRequesterIndex };
+    return { product, productID, provider, offeredByID, thisRequesterID };
 };
 
 //Connects the screen with the actions that will interact with the database.

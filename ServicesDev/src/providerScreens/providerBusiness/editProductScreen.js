@@ -68,10 +68,10 @@ class editProductScreen extends Component {
                 };
 
                 //Fethches the index of this product
-                const { productIndex } = this.props;
+                const { productID } = this.props;
             
                 //Updates the correct product corresponding with the correct user
-                this.props.updateProduct(productIndex, updatedProduct);
+                this.props.updateProduct(productID, updatedProduct);
                 this.props.navigation.goBack();
 
             }
@@ -180,10 +180,7 @@ class editProductScreen extends Component {
 //Connects this screens' props with the current product
 const mapStateToProps = (state, props) => {
     const { product, productID } = props.navigation.state.params;
-    const productIndex = state.productReducer.findIndex((product) => {
-        return product.serviceID === productID;
-    })
-    return { product, productID, productIndex };
+    return { product, productID };
 };
 
 

@@ -43,7 +43,8 @@ class businessScreen extends Component {
                         <TouchableOpacity
                             onPress={() => {
                                 this.props.navigation.push('ProviderEditCompanyProfileScreen', {
-                                    userIndex: this.props.navigation.state.params.userIndex
+                                    providerID: this.props.provider.providerID,
+                                    provider: this.props.provider
                                 });
                             }}>
                             <Text style={fontStyles.subTextStyleGray}>

@@ -79,18 +79,16 @@ class signUpScreen extends Component {
                     });
                 } else {
                     //creates the new account object
-                    let accountType = "requester";
                     let newAccount = {
                         username: username,
-                        requesterID: requesters.length,
-                        accountType: accountType
+                        requesterID: requesters.length + 1,
                     };
                     this.props.createRequesterAccount(newAccount);
 
                     //Pushes the account information to the next screens by finding the index which the
                     //user belongs to.
                     this.props.navigation.push('RequesterScreens', {
-                        userIndex: this.props.requesters.length,
+                        requesterID: newAccount.requesterID,
                     });
                 }
             } else {

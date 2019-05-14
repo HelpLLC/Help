@@ -3,6 +3,7 @@
 import update from 'immutability-helper';
 import InitialState from '../InitialState';
 import actionTypes from './actionTypes';
+import Functions from 'config/Functions';
 
 //The reducer which will determine what to do with the actions
 export default productReducer = (state = InitialState.products, action) => {
@@ -27,7 +28,10 @@ export default productReducer = (state = InitialState.products, action) => {
 
             //Retrieves the index of the provider as well as the product info
             //as well as the product's index
-            const { productIndex, updatedProductInfo } = action;
+            const { updatedProductInfo } = action;
+            const idProduct = action.productID;
+
+            const productIndex = Functions.getServiceIndexByID(idProduct, state);
 
             //Updates the state by pushing the new product into the array of providers
             newState = update(state, { [productIndex]: { $set: updatedProductInfo } });
@@ -44,9 +48,7 @@ export default productReducer = (state = InitialState.products, action) => {
             const { serviceID, requestInfo } = action;
 
             //Finds the product's index that the request will be added to by searching for it by id
-            let indexOFRequestedProduct = state.findIndex((product) => {
-                return product.serviceID === serviceID;
-            });
+            let indexOFRequestedProduct = Functions.getServiceIndexByID(serviceID, state);
 
             //Updates the state by pushing the new request to the array of current requests of the
             //product
@@ -65,9 +67,7 @@ export default productReducer = (state = InitialState.products, action) => {
             const idOfProduct = action.productID;
 
             //finds the index of the requested product by the passed in ID
-            indexOFRequestedProduct = state.findIndex((product) => {
-                return product.serviceID === idOfProduct;
-            });
+            indexOFRequestedProduct = Functions.getServiceIndexByID(idOfProduct, state);
 
             //Finds the request within the product itself by searching for it by requester
             //ID
@@ -96,9 +96,7 @@ export default productReducer = (state = InitialState.products, action) => {
             const { productID, requesterID } = action;
 
             //finds the index of the requested product by the passed in ID
-            indexOFRequestedProduct = state.findIndex((product) => {
-                return product.serviceID === productID;
-            });
+            indexOFRequestedProduct = Functions.getServiceIndexByID(productID, state);
 
             //Finds the index of the request within the product itself by searching for it by requester
             //ID

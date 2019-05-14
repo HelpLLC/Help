@@ -71,7 +71,7 @@ class createProviderProfileScreen extends Component {
                 //Pushes the account information to the next screens by finding the index which the
                 //user belongs to.
                 this.props.navigation.push('ProviderScreens', {
-                    userIndex: this.props.providers.length,
+                    providerID: newAccount.providerID,
                 });
 
             } else {

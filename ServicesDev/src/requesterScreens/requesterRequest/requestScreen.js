@@ -34,7 +34,7 @@ class requestScreen extends Component {
                                 {...this.props}
                                 jumpTo={jumpTo}
                                 thisRequester={this.props.requester}
-                                thisRequesterIndex={this.props.navigation.state.params.userIndex}
+                                thisRequesterID={this.props.navigation.state.params.requesterID}
                                 providers={this.props.accounts}
                                 products={this.props.products} />;
                         case 'other':

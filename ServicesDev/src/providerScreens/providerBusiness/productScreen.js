@@ -248,6 +248,7 @@ const mapStateToProps = (state, props) => {
 
     //Retrieves the requesters that ordered this product
     let requestersOfThisProduct = Functions.getServiceRequesters(product, state.requesterReducer);
+    console.log(requestersOfThisProduct);
 
     return { product, productID, requestersOfThisProduct };
 };
