@@ -23,7 +23,8 @@ class companyProfileScreen extends Component {
         this.props.navigation.push("ChatsScreen", {
             provider: this.props.provider,
             providerID: this.props.companyID,
-            requesterID: this.props.thisRequesterID
+            requesterID: this.props.thisRequesterID,
+            userID: this.props.thisRequesterID
         });
     }
 

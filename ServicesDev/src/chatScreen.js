@@ -37,7 +37,7 @@ class chatScreen extends Component {
                     messages={this.state.messages}
                     placeholder={"Type a message..."}
                     user={{
-                        _id: 1
+                        _id: this.props.userID
                     }}
                     renderAvatar={null}
                     onSend={(message) => { this.sendMessage(message) }} />
@@ -59,7 +59,7 @@ export const mapDispatchToProps = dispatch =>
 //Connects this screens' props with messages belonging to the user
 const mapStateToProps = (state, props) => {
 
-    const { providerID, requesterID } = props.navigation.state.params;
+    const { providerID, requesterID, userID } = props.navigation.state.params;
 
     //If this is a new conversation, then messages will be set to an empty array, else it will
     //be set to the conversation history.
@@ -69,7 +69,7 @@ const mapStateToProps = (state, props) => {
             d2 = new Date(b.createdAt);
             return d2.getTime() - d1.getTime();
         }));
-    return { messages, providerID, requesterID };
+    return { messages, providerID, requesterID, userID };
 
 };
 

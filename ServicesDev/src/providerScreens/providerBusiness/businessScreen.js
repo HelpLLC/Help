@@ -150,6 +150,8 @@ class businessScreen extends Component {
 
 //Connects this screens' props with the current user of the app
 const mapStateToProps = (state, props) => {
+
+    //Gets the current provider of the app
     const provider = Functions.getProviderByID(props.navigation.state.params.providerID, state.providerReducer);
 
     //Fetches products that are offered by this specifc provider
