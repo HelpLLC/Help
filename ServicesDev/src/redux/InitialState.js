@@ -145,36 +145,5 @@ export default InitialState = {
     ],
 
     //This array will contain all of the message arrays between all of the users
-    messages: [
-        {
-            providerID: 1,
-            requesterID: 1,
-            conversationMessages: [
-                {
-                    _id: 1,
-                    text: "When would you like your lawn mowed?",
-                    createdAt: new Date(),
-                    user: {
-                        _id: 1,
-                    }
-                },
-                {
-                    _id: 2,
-                    text: "As soon as possible please",
-                    createdAt: new Date(),
-                    user: {
-                        _id: -1
-                    }
-                },
-                {
-                    _id: 3,
-                    text: "Alright, I'll be there soon",
-                    createdAt: new Date(),
-                    user: {
-                        _id: 1
-                    }
-                }
-            ]
-        }
-    ],
+    messages: [],
 }

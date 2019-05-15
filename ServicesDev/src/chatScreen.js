@@ -4,7 +4,10 @@ import React, { Component } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
 import colors from 'config/colors';
 import { View } from 'react-native';
+import { sendMessage } from './redux/message/messageActions/sendMessage';
 import { connect } from 'react-redux';
+import Functions from 'config/Functions';
+import { bindActionCreators } from 'redux';
 
 class chatScreen extends Component {
 
@@ -19,7 +22,10 @@ class chatScreen extends Component {
         this.setState((previousState) => ({
             messages: GiftedChat.append(previousState.messages, message)
         }));
-        console.log(this.state.messages);
+
+        //Adds the message to the database of messages
+        this.props.sendMessage(this.props.providerID, this.props.requesterID, message);
+
     }
 
     //Renders the screen using the gifted chat module and binding it with the props of the screen
@@ -40,9 +46,31 @@ class chatScreen extends Component {
     }
 }
 
+//Connects the screen with the actions that will add data to the database. These actions will
+//be the ones that create the accounts
+export const mapDispatchToProps = dispatch =>
+    bindActionCreators(
+        {
+            sendMessage,
+        },
+        dispatch
+    );
+
 //Connects this screens' props with messages belonging to the user
-const mapStateToProps = state => {
-    const messages = state.messageReducer[0].conversationMessages;
-    return { messages };
+const mapStateToProps = (state, props) => {
+
+    const { providerID, requesterID } = props.navigation.state.params;
+
+    //If this is a new conversation, then messages will be set to an empty array, else it will
+    //be set to the conversation history.
+    const messages = (Functions.isNewConversation(providerID, requesterID, state.messageReducer) ? [] :
+        Functions.getConversationByID(providerID, requesterID, state.messageReducer).conversationMessages.sort((a, b) => {
+            d1 = new Date(a.createdAt);
+            d2 = new Date(b.createdAt);
+            return d2.getTime() - d1.getTime();
+        }));
+    return { messages, providerID, requesterID };
+
 };
-export default connect(mapStateToProps)(chatScreen);
+
+export default connect(mapStateToProps, mapDispatchToProps)(chatScreen);

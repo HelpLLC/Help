@@ -70,6 +70,28 @@ export default class Functions {
 
     }
 
+    //This method will take in an ID of a provider and and ID of a requester and return the index of the 
+    //conversation within the array of all conversations
+    static getConversationIndexByID(providerID, requesterID, allMessages) {
+
+        const thisConversationIndex = allMessages.findIndex((conversation) => {
+            return conversation.providerID === providerID && conversation.requesterID === requesterID;
+        });
+
+        return thisConversationIndex;
+
+    }
+
+    //This method will take an ID of a provider and a requester and return the message object that is 
+    //associated with it. It will do this by calling the method to get the index and then return that
+    //value from the array of messages objects
+    static getConversationByID(providerID, requesterID, allMessages) {
+        
+        const thisConversationIndex = Functions.getConversationIndexByID(providerID, requesterID, allMessages);
+        return allMessages[thisConversationIndex];
+
+    }
+
     //This method will return an array filled with requesters that requested a certain product. It will
     //take in a service and all the requesters and then return only the ones who's ID is present in
     //this product's requests
@@ -118,6 +140,16 @@ export default class Functions {
 
         return (indexOfRequest === -1 ? false : true);
 
+    }
+
+    //This method will return true if this conversation between the two people is a new conversation
+    //and there are no previous communication between them
+    static isNewConversation(providerID, requesterID, allMessages) {
+        const doesConversationExist = Functions.getConversationIndexByID(providerID, requesterID, allMessages);
+
+        //If the conversation isn't found, then that means it is a new convo, and it returns true
+        //If it does find it, then it is existing, and the method returns false
+        return (doesConversationExist === -1 ? true : false);
     }
 }
 

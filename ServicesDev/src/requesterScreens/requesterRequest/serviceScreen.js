@@ -21,7 +21,7 @@ class serviceScreen extends Component {
 
     //The state controls whether or not the button to request the service will be displayed
     state = {
-        serviceRequested: Functions.isServiceAlreadyRequested(this.props.product, this.props.thisRequesterIndex)
+        serviceRequested: Functions.isServiceAlreadyRequested(this.props.product, this.props.thisRequesterID)
     }
 
     //This method will request this service from the company providing it by pushing the request to the
@@ -64,7 +64,7 @@ class serviceScreen extends Component {
             [
                 {
                     text: 'Yes', onPress: () => {
-                        this.props.deleteRequest(this.props.productID, this.props.thisRequesterIndex);
+                        this.props.deleteRequest(this.props.productID, this.props.thisRequesterID);
                         this.setState({ serviceRequested: false });
                     }
                 },
@@ -107,7 +107,7 @@ class serviceScreen extends Component {
                             onPress={() => {
                                 this.props.navigation.push('RequesterCompanyProfileScreen', {
                                     companyID: this.props.offeredByID,
-                                    thisRequesterIndex: this.props.thisRequesterIndex
+                                    thisRequesterID: this.props.thisRequesterID
                                 });
                             }}>
                             <Text style={fontStyles.subTextStyleBlue}>

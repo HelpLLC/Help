@@ -22,7 +22,8 @@ class companyProfileScreen extends Component {
     messageProvider() {
         this.props.navigation.push("ChatsScreen", {
             provider: this.props.provider,
-            companyID: this.props.companyID
+            providerID: this.props.companyID,
+            requesterID: this.props.thisRequesterID
         });
     }
 
@@ -89,7 +90,7 @@ class companyProfileScreen extends Component {
                                     this.props.navigation.push('RequesterServiceScreen', {
                                         offeredByID: item.offeredBy,
                                         productID: item.serviceID,
-                                        thisRequesterIndex: this.props.thisRequesterIndex
+                                        thisRequesterID: this.props.thisRequesterID
                                     });
                                 }}
                             />
@@ -104,7 +105,7 @@ class companyProfileScreen extends Component {
 
 //Maps the state to the current company being viewed
 const mapStateToProps = (state, props) => {
-    const { companyID, thisRequesterIndex } = props.navigation.state.params;
+    const { companyID, thisRequesterID } = props.navigation.state.params;
 
     //Fethches this provider
     const provider = Functions.getProviderByID(companyID, state.providerReducer);
@@ -113,7 +114,7 @@ const mapStateToProps = (state, props) => {
     const providerProducts = Functions.getProviderProducts(provider, state.productReducer);
 
     //Returns all of the data
-    return { provider, companyID, thisRequesterIndex, providerProducts };
+    return { provider, companyID, thisRequesterID, providerProducts };
 };
 
 //connects the screen with the redux persist state
