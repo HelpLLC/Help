@@ -8,12 +8,10 @@ import ProviderEditProductScreen from './providerScreens/providerBusiness/editPr
 import ProviderProductHistoryScreen from './providerScreens/providerBusiness/productHistoryScreen';
 import RequesterServiceScreen from './requesterScreens/requesterRequest/serviceScreen';
 import RequesterCompanyProfileScreen from './requesterScreens/requesterRequest/companyProfileScreen';
-import ChatScreen from './chatScreen';
+import MessagingScreen from './chats/messagingScreen';
 import TopBanner from './components/TopBanner';
 import React from 'react';
-import Functions from 'config/Functions';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import providerScreensNavigator from './providerScreens/providerScreensNavigator';
 
 //The route config for all of the screens
 const routeConfig = {
@@ -83,8 +81,8 @@ const routeConfig = {
     },
 
     //The route going the screen where users can chat
-    ChatsScreen: {
-        screen: ChatScreen,
+    MessagingScreen: {
+        screen: MessagingScreen,
         navigationOptions: ({ navigation }) => ({
             header: (
                 <TopBanner

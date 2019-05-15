@@ -1,9 +1,9 @@
-//This screen will represent all the chats belonging to this current provider
+//This screen will represent all the chats belonging to this current user
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, FlatList } from 'react-native';
 import Functions from 'config/Functions';
 import screenStyle from 'config/styles/screenStyle';
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../components/TopBanner';
 import strings from 'config/strings';
 import { connect } from 'react-redux';
 

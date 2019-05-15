@@ -2,7 +2,7 @@
 //screen to screen. It will lead to the settings screen, help screen, and the chats screen.
 import { createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
 import settingsScreensNavigator from '../settingsScreens/settingsScreensNavigator';
-import chatsScreen from './providerChats/chatsScreen';
+import chatsScreen from '../chats/chatsScreen';
 import businessScreen from './providerBusiness/businessScreen';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';

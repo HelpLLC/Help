@@ -4,12 +4,12 @@ import React, { Component } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
 import colors from 'config/colors';
 import { View } from 'react-native';
-import { sendMessage } from './redux/message/messageActions/sendMessage';
+import { sendMessage } from '../redux/message/messageActions/sendMessage';
 import { connect } from 'react-redux';
 import Functions from 'config/Functions';
 import { bindActionCreators } from 'redux';
 
-class chatScreen extends Component {
+class messagingScreen extends Component {
 
     //should be set the messages of this user with the other user
     state = {
@@ -73,4 +73,4 @@ const mapStateToProps = (state, props) => {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(chatScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(messagingScreen);

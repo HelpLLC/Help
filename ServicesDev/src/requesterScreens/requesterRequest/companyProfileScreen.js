@@ -20,7 +20,7 @@ class companyProfileScreen extends Component {
 
     //This method will open a chat with the provider and go to that chat
     messageProvider() {
-        this.props.navigation.push("ChatsScreen", {
+        this.props.navigation.push("MessagingScreen", {
             provider: this.props.provider,
             providerID: this.props.companyID,
             requesterID: this.props.thisRequesterID,
