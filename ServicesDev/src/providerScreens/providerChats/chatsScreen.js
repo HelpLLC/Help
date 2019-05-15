@@ -15,13 +15,18 @@ class chatsScreen extends Component {
                     <TopBanner title={strings.Chats} />
                 </View>
 
-                {this.props.providerMessages.length === 0 ?
-                    (<View>
-                        <Text>No Chats Yet</Text>
-                    </View>) :
-                    (<View>
-                        <Text>{"Chat with " + this.props.providerMessages[0].requesterID}</Text>
-                    </View>)}
+                { //Tests whether or not the provider has any conversations
+                    this.props.providerMessages.length === 0 ?
+                        (
+                            <View>
+
+                            </View>
+                        ) : (
+                            <View>
+
+                            </View>
+                        )
+                }
             </SafeAreaView>
         )
     }
