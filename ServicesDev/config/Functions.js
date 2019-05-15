@@ -130,6 +130,52 @@ export default class Functions {
         return providerProducts;
     }
 
+    //This method will take in a provider ID and then return all of the associated chats that include
+    //that provider. If the provider doesn't have any current existing chats with any requesters, then
+    //the returned array of message objects will be empty
+    static getProviderMessages(providerID, allMessages) {
+
+        //Instantiates the array that will be returned
+        const providerMessages = [];
+
+        //Searches through all of the messages until it finds a message object that includes this
+        //providerID and then pushes it to the array of providerMessages
+        allMessages.forEach((messageObject) => {
+            
+            if (messageObject.providerID === providerID) {
+                providerMessages.push(messageObject);
+            }
+
+        });
+
+        //Returns the final array
+        return providerMessages;
+
+    }
+
+    //This method will take in a requester ID and then return all of the associated chats that include
+    //that requester. If the requester doesn't have any current existing chats with any providers, then
+    //the returned array of message objects will be empty
+    static getRequesterMessages(requesterID, allMessages) {
+
+        //Instantiates the array that will be returned
+        const requesterMessages = [];
+
+        //Searches through all of the messages until it finds a message object that includes this
+        //providerID and then pushes it to the array of providerMessages
+        allMessages.forEach((messageObject) => {
+            
+            if (messageObject.requesterID === requesterID) {
+                requesterMessages.push(messageObject);
+            }
+
+        });
+
+        //Returns the final array
+        return requesterMessages;
+
+    }
+
     //This method will return true if the service has already been requested by this requester
     static isServiceAlreadyRequested(service, requesterID) {
 
