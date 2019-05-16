@@ -20,7 +20,12 @@ class productScreen extends Component {
 
     //This method will take in an ID of a requester and go to the chat screen associated with them
     messageRequester(requesterID) {
-
+        this.props.navigation.push("MessagingScreen", {
+            title: Functions.getRequesterByID(requesterID, this.props.requestersOfThisProduct).username,
+            providerID: this.props.providerID,
+            requesterID: requesterID,
+            userID: this.props.providerID + "p"
+        });
     }
 
     //This method will complete a specific request based on the passed in requester ID
@@ -181,9 +186,8 @@ class productScreen extends Component {
                                             paddingLeft: 20
                                         }}>
                                             <Text style={fontStyles.mainTextStyleBlack}>
-                                                {Functions.getRequesterByID(item.requesterID, 
+                                                {Functions.getRequesterByID(item.requesterID,
                                                     this.props.requestersOfThisProduct).username}</Text>
-                                            <Text>{"Example chat..."}</Text>
                                         </View>
                                         <View style={{
                                             flexDirection: 'row',
@@ -243,14 +247,13 @@ class productScreen extends Component {
 //Connects this screens' props with the current product that is being viewed as well
 //as all the requesters that ordered this product
 const mapStateToProps = (state, props) => {
-    const { productID } = props.navigation.state.params;
+    const { productID, providerID } = props.navigation.state.params;
     const product = Functions.getServiceByID(productID, state.productReducer);
 
     //Retrieves the requesters that ordered this product
     let requestersOfThisProduct = Functions.getServiceRequesters(product, state.requesterReducer);
-    console.log(requestersOfThisProduct);
 
-    return { product, productID, requestersOfThisProduct };
+    return { product, productID, requestersOfThisProduct, providerID };
 };
 
 //Connects the screen with the actions that will interact with the database.

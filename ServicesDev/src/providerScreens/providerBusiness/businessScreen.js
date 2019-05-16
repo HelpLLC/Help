@@ -133,7 +133,8 @@ class businessScreen extends Component {
                                             numCurrentRequests={item.requests.currentRequests.length}
                                             onPress={() => {
                                                 this.props.navigation.push('ProviderProductScreen', {
-                                                    productID: item.serviceID
+                                                    productID: item.serviceID,
+                                                    providerID: this.props.providerID
                                                 });
                                             }}
                                         />
@@ -151,12 +152,14 @@ class businessScreen extends Component {
 //Connects this screens' props with the current user of the app
 const mapStateToProps = (state, props) => {
 
+    //Gets the provider id
+    const { providerID } = props.navigation.state.params;
     //Gets the current provider of the app
-    const provider = Functions.getProviderByID(props.navigation.state.params.providerID, state.providerReducer);
+    const provider = Functions.getProviderByID(providerID, state.providerReducer);
 
     //Fetches products that are offered by this specifc provider
     const providerProducts = Functions.getProviderProducts(provider, state.productReducer);
-    return { provider, providerProducts };
+    return { provider, providerProducts, providerID };
 };
 
 //connects the screen with the redux persist state
