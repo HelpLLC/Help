@@ -86,7 +86,7 @@ const routeConfig = {
         navigationOptions: ({ navigation }) => ({
             header: (
                 <TopBanner
-                    title={navigation.state.params.provider.companyName}
+                    title={navigation.state.params.title}
                     leftIconName="angle-left"
                     leftOnPress={() => navigation.goBack()} />
             )

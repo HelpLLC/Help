@@ -23,6 +23,9 @@ export default class Functions {
     static getRequesterByID(requesterID, allRequesters) {
 
         const thisRequesterIndex = Functions.getRequesterIndexByID(requesterID, allRequesters);
+        console.log(requesterID);
+        console.log(allRequesters);
+        console.log(thisRequesterIndex);
         return allRequesters[thisRequesterIndex];
 
     }
@@ -86,7 +89,7 @@ export default class Functions {
     //associated with it. It will do this by calling the method to get the index and then return that
     //value from the array of messages objects
     static getConversationByID(providerID, requesterID, allMessages) {
-        
+
         const thisConversationIndex = Functions.getConversationIndexByID(providerID, requesterID, allMessages);
         return allMessages[thisConversationIndex];
 
@@ -107,7 +110,7 @@ export default class Functions {
         });
 
         return requestersOfThisProduct;
-        
+
     }
 
     //This method will return an array of products that is offered by a specifc provider. It will
@@ -128,6 +131,7 @@ export default class Functions {
         });
 
         return providerProducts;
+
     }
 
     //This method will take in a provider ID and then return all of the associated chats that include
@@ -141,7 +145,7 @@ export default class Functions {
         //Searches through all of the messages until it finds a message object that includes this
         //providerID and then pushes it to the array of providerMessages
         allMessages.forEach((messageObject) => {
-            
+
             if (messageObject.providerID === providerID) {
                 providerMessages.push(messageObject);
             }
@@ -164,7 +168,7 @@ export default class Functions {
         //Searches through all of the messages until it finds a message object that includes this
         //providerID and then pushes it to the array of providerMessages
         allMessages.forEach((messageObject) => {
-            
+
             if (messageObject.requesterID === requesterID) {
                 requesterMessages.push(messageObject);
             }
@@ -191,11 +195,33 @@ export default class Functions {
     //This method will return true if this conversation between the two people is a new conversation
     //and there are no previous communication between them
     static isNewConversation(providerID, requesterID, allMessages) {
+
         const doesConversationExist = Functions.getConversationIndexByID(providerID, requesterID, allMessages);
 
         //If the conversation isn't found, then that means it is a new convo, and it returns true
         //If it does find it, then it is existing, and the method returns false
         return (doesConversationExist === -1 ? true : false);
+
+    }
+
+    //This method will take in a messages object and will return the most recent message sent message in
+    //that conversation. NOTE: This doesn't return the message object, but the actual string text that
+    //was sent by the user
+    static getMostRecentText(messagesObject) {
+
+        //Will fetch the conversation history
+        let conversationMessages = messagesObject.conversationMessages;
+
+        //Will sort the array of messages by date
+        conversationMessages = conversationMessages.sort((a, b) => {
+            d1 = new Date(a.createdAt);
+            d2 = new Date(b.createdAt);
+            return d2.getTime() - d1.getTime();
+        });
+
+        //Will return the most recent text in the chat (the literal string)
+        return conversationMessages[0].text;
+
     }
 }
 

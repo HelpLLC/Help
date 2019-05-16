@@ -123,4 +123,7 @@ export default {
     //------------------- Requester Side Company Profile Screen -------------------
     CompanyProfile: 'Company Profile',
 
+    //------------------- Chats Screen -------------------
+    NoMessagesYet: 'No messages yet',
+
 };

@@ -3,7 +3,7 @@
 //conversation, and the third parameter is the message information itself
 import actionTypes from '../actionTypes';
 
-export const sendMessage = (providerID, requesterID, messageInfo) => (
+export const sendMessage = (providerID, requesterID, messageInfo, providerName, requesterName) => (
     //The return object of this functions
     {
         //The type of this action
@@ -12,6 +12,8 @@ export const sendMessage = (providerID, requesterID, messageInfo) => (
         //returns all of the above information to be used by the reducer
         providerID,
         requesterID,
-        messageInfo
+        messageInfo,
+        providerName,
+        requesterName
     }
 )

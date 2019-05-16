@@ -13,6 +13,7 @@ import RoundTextInput from '../../components/RoundTextInput';
 import { BoxShadow } from 'react-native-shadow';
 import images from 'config/images/images';
 import ImagePicker from 'react-native-image-picker';
+import Functions from 'config/Functions';
 import { createNewProduct } from '../../redux/product/productActions/createNewProduct';
 import { addProviderProduct } from '../../redux/provider/providerActions/addProviderProduct';
 import strings from 'config/strings';
@@ -72,7 +73,7 @@ class createProductScreen extends Component {
             //Creates the product and adds it to the database
             const newProduct = {
                 serviceID: this.props.products.length,
-                offeredBy: this.props.provider.providerID,
+                offeredBy: this.props.providerID,
                 serviceTitle,
                 serviceDescription,
                 pricing,
@@ -191,9 +192,12 @@ class createProductScreen extends Component {
 
 //Connects this screens' props with the current user of the app
 const mapStateToProps = (state, props) => {
-    const provider = state.providerReducer[props.navigation.state.params.userIndex];
+
+    //Fetches information about this provider
+    const { providerID } = props.navigation.state.params;
+    const provider = Functions.getProviderByID(providerID, state.providerReducer);
     const products = state.productReducer;
-    return { provider, products };
+    return { provider, products, providerID };
 };
 
 //Connects the screen with the actions that will interact with the database.

@@ -16,7 +16,7 @@ export default messageReducer = (state = InitialState.messages, action) => {
         case actionTypes.SEND_MESSAGE:
 
             //retrieves the information from the action
-            let { providerID, requesterID, messageInfo } = action;
+            let { providerID, requesterID, messageInfo, providerName, requesterName } = action;
 
             //If this is a brand new conversation between the two people, then a new one will
             //be created. If it is not, the message will be appended to the existing conversation
@@ -26,6 +26,8 @@ export default messageReducer = (state = InitialState.messages, action) => {
                 let newConversation = {
                     providerID: providerID,
                     requesterID: requesterID,
+                    companyName: providerName,
+                    requesterName: requesterName, 
                     conversationMessages: []
                 }
 
