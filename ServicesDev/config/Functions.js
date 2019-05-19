@@ -1,10 +1,17 @@
 //This class will contain a bunch of static functions that are common and will be used through out the
-//application. The point of this class is to reduce code clutter throughout the application. Since you
-//cannot connect a non-component class with the redux state. All of these functions will have to take
-//in parameters containing the data that is being manipulated.
+//application. The point of this class is to reduce code clutter throughout the application. The class
+//will connect with the firebase firestore in order to retrieve the necessary data. 
+import firebase from 'react-native-firebase';
 
-//All methods should be labeled static
+//All methods should be labeled static. There will also be static variable that reference the collections
+//in the cloud firestore
 export default class Functions {
+
+    //The four collections that will be used by this class
+    static providersCollection = firebase.firestore().collection("providers");
+    static requestersCollection = firebase.firestore().collection("requesters");
+    static productsCollection = firebase.firestore().collection("products");
+    static messagesCollection = firebase.firestore().collection("messagesCollection");
 
     //This method will take in an ID of a requester and return the index of the requester in the array
     //of requesters by searching through the array until it finds one that matches the provided ID
