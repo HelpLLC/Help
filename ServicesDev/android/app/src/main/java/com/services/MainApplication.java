@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
 import com.swmansion.reanimated.ReanimatedPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.imagepicker.ImagePickerPackage;
@@ -28,13 +29,14 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
+            new MainReactPackage(),
             new RNFirebasePackage(),
             new ReanimatedPackage(),
             new RNGestureHandlerPackage(),
             new ImagePickerPackage(),
             new VectorIconsPackage(),
-            new SvgPackage()
+            new SvgPackage(),
+            new RNFirebaseFirestorePackage()
       );
     }
 
