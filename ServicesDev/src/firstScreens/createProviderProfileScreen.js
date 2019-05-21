@@ -13,6 +13,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createProviderAccount } from '../redux/provider/providerActions/createProviderAccount';
 import RoundTextInput from '../components/RoundTextInput';
+import Functions from 'config/Functions';
+import firebase from '../../Firebase';
 
 //The class that will create the look of this screen
 class createProviderProfileScreen extends Component {
@@ -38,44 +40,24 @@ class createProviderProfileScreen extends Component {
 
         } else {
 
-            //Will test if a company with that name already exists... first fetches the array of
-            //existing providers
-            const providers = this.props.providers;
+            const { email, password } = this.props.navigation.state.params;
+            const { businessName, businessInfo } = this.state;
 
-            //fetches the entered text
-            const businessName = this.state.businessName;
-            const businessInfo = this.state.businessInfo;
+            //If the business name is already taken, then a warning message will appear,
+            //Else, the profile will be created
+            if (Functions.isCompanyNameTaken(businessName) === true) {
 
-            //loops through every provider & check if one already has this company name. If one does,
-            //then the method will return false and an error message will pop up to the current user
-            const companyNameAvailable = providers.every((provider) => {
-                return provider.companyName !== businessName;
-            });
-
-            //If company name is taken, user will be asked to choose another, otherwise, the account
-            //will be created.
-            if (companyNameAvailable === true) {
-
-                //Signs up the user with the chosen account
-                let newAccount = {
-                    providerID: this.props.providers.length + 1,
-                    username: this.props.navigation.state.params.username,
-                    companyName: businessName,
-                    companyDescription: businessInfo,
-                    serviceIDs: []
-                }
-
-                //Passes in the parameter to the action in order for the account to be created
-                this.props.createProviderAccount(newAccount);
-
-                //Pushes the account information to the next screens by finding the index which the
-                //user belongs to.
-                this.props.navigation.push('ProviderScreens', {
-                    providerID: newAccount.providerID,
-                });
+                this.setState({ warningMessage: strings.CompanyNameTakenPleaseChooseAnotherName });
 
             } else {
-                this.setState({ warningMessage: strings.CompanyNameTakenPleaseChooseAnotherName});
+                
+                firebase.auth().createUserWithEmailAndPassword(email, password).then((account) => {
+                    Functions.addProviderToDatabase(account, email, businessName, businessInfo);
+                    this.props.navigation.push('ProviderScreens', {
+                        provider: Functions.getProviderByID(account.user.uid),
+                    });
+                })
+
             }
 
         }

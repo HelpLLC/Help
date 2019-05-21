@@ -101,6 +101,35 @@ export default class Functions {
         });
     }
 
+    //This function will take in a new provider ID and then will add that new provider to the firestore
+    //as a new provider with a unique provider ID and a username which will just be their email without
+    //the "@". It will also have the companyName and the companyDescription that is passed
+    static async addProviderToDatabase(account, email, businessName, businessInfo) {
+        this.providersCollection.add({
+            companyName: businessName,
+            companyDescription: businessInfo,
+            providerID: account.user.uid,
+            serviceIDs: [],
+            username: email.substring(0, email.indexOf("@"))
+        });
+    }
+
+    //Checks if the company name is taken by another user or not
+    static async isCompanyNameTaken(businessName) {
+
+        //Queries the providers to see if a provider exists
+        const ref = this.providersCollection.where("companyName", "==", businessName);
+        const snapshot = await ref.get();
+
+        //If the array contains anything, then the name is taken and true will be returned
+        if (snapshot.docs.length === 0) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
     //This method will take in an ID of a provider and and ID of a requester and return the index of the 
     //conversation within the array of all conversations
     static getConversationIndexByID(providerID, requesterID, allMessages) {
