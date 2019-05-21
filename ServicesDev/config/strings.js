@@ -24,15 +24,18 @@ export default {
 
     //------------------- Sign Up Screen -------------------
     SignUp: 'Sign Up',
-    ChooseAUserName: 'Choose a username',
-    TypeInAUsername: 'Type in a username...',
+    Email: 'Email',
+    EnterAnEmail: 'Enter an email...',
     WhatTypeOfAccountQuestion: 'What type of account do you want to create?',
     Business: 'Business',
+    Password: 'Password',
+    ChooseAPassword: 'Choose a password...',
     Customer: 'Customer',
     SignUp: 'Sign Up',
-    InvalidUserName: 'Please enter a valid username',
+    PleaseFillOutAllFields: 'Please fill out all of the above fields',
+    PleaseEnterAValidEmail: 'Please enter a valid email',
     NoButtonSelected: 'Please select an account type',
-    UserNameExists: 'An account with this username already exists. Please choose a different username or go back and log into your account',
+    EmailExists: 'An account with this email already exists. Go back and log into this account',
 
     //------------------- Settings Screen -------------------
     Notifications: 'Notifications',

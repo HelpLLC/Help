@@ -1,17 +1,18 @@
 //This class will contain a bunch of static functions that are common and will be used through out the
 //application. The point of this class is to reduce code clutter throughout the application. The class
 //will connect with the firebase firestore in order to retrieve the necessary data. 
-import firebase from 'react-native-firebase';
+import firebase from '../Firebase';
 
 //All methods should be labeled static. There will also be static variable that reference the collections
 //in the cloud firestore
 export default class Functions {
 
     //The four collections that will be used by this class
-    static providersCollection = firebase.firestore().collection("providers");
-    static requestersCollection = firebase.firestore().collection("requesters");
-    static productsCollection = firebase.firestore().collection("products");
-    static messagesCollection = firebase.firestore().collection("messagesCollection");
+    static database = firebase.firestore();
+    static providersCollection = this.database.collection("providers");
+    static requestersCollection = this.database.collection("requesters");
+    static productsCollection = this.database.collection("products");
+    static messagesCollection = this.database.collection("messagesCollection");
 
     //This method will take in an ID of a requester and return the index of the requester in the array
     //of requesters by searching through the array until it finds one that matches the provided ID
@@ -25,16 +26,17 @@ export default class Functions {
 
     }
 
-    //This method will take in an ID of a requester and then call the method to get the index and then
-    //return the actual requester
-    static getRequesterByID(requesterID, allRequesters) {
+    //This method will take in an ID of a requester and then retrieve the requester from the firestore
+    //database by getting a reference to the doc and then calling it from the database. If the user
+    //doesn't exist, then -1 will be returned
+    static async getRequesterByID(requesterID) {
+        const ref = this.requestersCollection.doc(requesterID + "");
+        const doc = await ref.get();
 
-        const thisRequesterIndex = Functions.getRequesterIndexByID(requesterID, allRequesters);
-        console.log(requesterID);
-        console.log(allRequesters);
-        console.log(thisRequesterIndex);
-        return allRequesters[thisRequesterIndex];
-
+        if (doc.exists) {
+            return doc.data();
+        }
+        return -1;
     }
 
     //This method will take in an ID of a provider and return the index of the provider in the array
@@ -49,12 +51,17 @@ export default class Functions {
 
     }
 
-    //This method will take in an ID of a requester and then call the method to get the index and then
-    //return the actual requester
-    static getProviderByID(providerID, allProviders) {
+    //This method will take in an ID of a requester and then call the firestore database and get the
+    //provider. If the user isn't found, then -1 is returned
+    static async getProviderByID(providerID) {
 
-        const thisProviderIndex = Functions.getProviderIndexByID(providerID, allProviders);
-        return allProviders[thisProviderIndex];
+        const ref = this.providersCollection.doc(providerID + "");
+        const doc = await ref.get();
+
+        if (doc.exists) {
+            return doc.data();
+        }
+        return -1;
 
     }
 
@@ -70,14 +77,28 @@ export default class Functions {
 
     }
 
+    //This method will take in an ID of a service and then call the firestore and retrieve that product
+    //object
+    static async getServiceByID(serviceID) {
 
-    //This method will take in an ID of a service and then call the method to get the index and then
-    //return the actual service
-    static getServiceByID(serviceID, allServices) {
+        const ref = this.productsCollection.doc(serviceID + "");
+        const doc = await ref.get();
 
-        const thisServiceIndex = Functions.getServiceIndexByID(serviceID, allServices);
-        return allServices[thisServiceIndex];
+        if (doc.exists) {
+            return doc.data();
+        }
+        return -1;
 
+    }
+
+    //This functions will take in a new requester ID and then will add that requester to the firestore
+    //as a new requester with a unique requester ID and a username which will just be their email
+    //without the "@"
+    static async addRequesterToDatabase(account, email) {
+        this.requestersCollection.add({
+            requesterID: account.user.uid,
+            username: email.substring(0, email.indexOf("@"))
+        });
     }
 
     //This method will take in an ID of a provider and and ID of a requester and return the index of the 
