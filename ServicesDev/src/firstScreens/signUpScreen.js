@@ -35,19 +35,21 @@ class signUpScreen extends Component {
     //This method signs up the user & creates an account for them based on what they chose and their
     //username
     signUp() {
+        //fetches the entered email and password
+        const { email, password, buttonSelected } = this.state;
+
         //If no username was entered, or all empty spaces, then an error message will pop up
-        if (this.state.email.trim().length === 0 || this.state.password.trim().length === 0) {
+        if (email.trim().length === 0 || password.trim().length === 0) {
             this.setState({ inputText: "", warningMessage: strings.PleaseFillOutAllFields });
 
             //If no button was selected a different error message would appear
-        } else if (this.state.buttonSelected === "") {
+        } else if (buttonSelected === "") {
             this.setState({ warningMessage: strings.NoButtonSelected });
-        } else if (!this.state.email.includes("@")) {
-            this.setState({ warningMessage: strings.PleaseEnterAValidEmail })
+        } else if (!email.includes("@")) {
+            this.setState({ warningMessage: strings.PleaseEnterAValidEmail });
+        } else if (password.length < 6) {
+            this.setState({ warningMessage: strings.ShortPassword });
         } else {
-
-            //fetches the entered email and password
-            const { email, password, buttonSelected } = this.state;
 
             //If the accout already exists, then an error will appear
             //If the account is new, then it will go through the normal process to create

@@ -36,6 +36,7 @@ export default {
     PleaseEnterAValidEmail: 'Please enter a valid email',
     NoButtonSelected: 'Please select an account type',
     EmailExists: 'An account with this email already exists. Go back and log into this account',
+    ShortPassword: 'Password must be at least 6 characters',
 
     //------------------- Settings Screen -------------------
     Notifications: 'Notifications',
