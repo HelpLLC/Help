@@ -17,7 +17,7 @@ export default {
     //------------------- Log In Screen -------------------
     WhatIsYourUsernameQuestion: 'What is your username?',
     EnterYourUsername: 'Enter your username...',
-    IncorrectUsername: "There is no account associated with this username. Please try again or go create an account now",
+    IncorrectInfo: "Incorrect email/password",
 
     //------------------- Create Profile Screen -------------------
     CreateProfile: 'Create Profile',

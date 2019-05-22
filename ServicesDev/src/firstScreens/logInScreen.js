@@ -11,6 +11,8 @@ import { connect } from 'react-redux'
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineTextInput from '../components/OneLineTextInput';
+import firebase from '../../Firebase';
+import Functions from '../../config/Functions';
 
 //The class that will create the look of this screen
 class logInScreen extends Component {
@@ -19,52 +21,50 @@ class logInScreen extends Component {
     //input that will appear if the entered phone number is incorrect
     state = {
         //The text being typed in by the user
-        inputText: "",
+        email: "",
+        password: "",
 
         //The message which will display if the user types in a phone number which doesn't exist
-        incorrectUsernameMessage: ""
+        warningMessage: ""
     }
 
     //This function will login based on the entered phone number... if the number is non existent,
     //Then the user will be instructed to go create an account or try again
     logIn() {
-        //Retrieves what is currently typed into the TextInput by the user
-        const input = this.state.inputText.trim();
 
-        //Retrieves the array of providers & requesters
-        const requesters = this.props.requesters;
-        const providers = this.props.providers;
-
-        //Loops through the array and finds the index of the user with the entered information
-        //If the user is not found the function returns -1 & the user does not exist... loops through
-        //both the requesters & providers
-        const requesterIndex = requesters.findIndex((element) => {
-            return element.username === input;
-        });
-
-        const providerIndex = providers.findIndex((element) => {
-            return element.username === input;
-        });
-
-        //If the user's index is found, it logs into the correct account based on type, if it is not found... then
-        //The user will be asked to either try again or sign up
-        if (requesterIndex === -1 && providerIndex === -1) {
-            //Displays incorrect phone number message
-            this.setState({ incorrectUsernameMessage: "" })
-            this.setState({ incorrectUsernameMessage: strings.IncorrectUsername })
+        const { email, password } = this.state;
+        //If no username was entered, or all empty spaces, then an error message will pop up
+        if (email.trim().length === 0 || password.trim().length === 0) {
+            this.setState({ warningMessage: strings.PleaseFillOutAllFields });
         } else {
-            //If it is a provider account, navigates to the provider screen, if it is a requester account, navigates
-            //to the requester screens add pushes the account index by searching for the correct user
-            //name
-            if (requesterIndex === -1) {
-                this.props.navigation.push('ProviderScreens', {
-                    providerID: providers[providerIndex].providerID
+
+            firebase.auth().signInWithEmailAndPassword(email, password).then((account) => {
+
+                //Tests whether this is a provider or a requester & based on that, navigates to the
+                //correct screen
+                const { uid } = account.user;
+                console.log(uid);
+                //Starts with searching if this is a requester since that is more common
+                Functions.getRequesterByID(uid).then((requester) => {
+                    console.log(requester);
+                    if (requester === -1) {
+                        //This means this account is a provider since a requester with this ID was not found
+                        Functions.getProviderByID(uid).then((provider) => {
+                            this.props.navigation.push('ProviderScreens', {
+                                provider: provider
+                            });
+                        });
+                    } else {
+                        //If this is a requester, then it will navigate to the screens
+                        this.props.navigation.push('RequesterScreens', {
+                            requester: requester
+                        });
+                    }
                 });
-            } else {
-                this.props.navigation.push('RequesterScreens', {
-                    requesterID: requesters[requesterIndex].requesterID
-                });
-            }
+            }).catch((error) => {
+                this.setState({ warningMessage: strings.IncorrectInfo })
+            })
+
         }
     }
 
@@ -84,18 +84,31 @@ class logInScreen extends Component {
                     </View>
 
                     <View style={{ paddingTop: 30, paddingRight: 10, paddingLeft: 10 }}>
-                        <Text style={fontStyles.mainTextStyleBlack}>{strings.WhatIsYourUsernameQuestion}</Text>
+                        <Text style={fontStyles.mainTextStyleBlack}>{strings.Email}</Text>
                     </View>
 
-                    <View style={{ paddingTop: 50, paddingRight: 10, paddingLeft: 10 }}>
+                    <View style={{ paddingTop: 10, paddingRight: 10, paddingLeft: 10 }}>
                         <OneLineTextInput
-                            placeholder={strings.EnterYourUsername}
-                            onChangeText={(input) => this.setState({ inputText: input })}
+                            placeholder={strings.EnterAnEmail}
+                            onChangeText={(input) => this.setState({ email: input })}
+                            value={this.state.email}
                         />
                     </View>
 
-                    <View style={{  paddingLeft: 20, paddingTop: 10 }}>
-                        <Text style={fontStyles.subTextStyleRed}>{this.state.incorrectUsernameMessage}</Text>
+                    <View style={{ paddingTop: 30, paddingRight: 10, paddingLeft: 10 }}>
+                        <Text style={fontStyles.mainTextStyleBlack}>{strings.Password}</Text>
+                    </View>
+
+                    <View style={{ paddingTop: 10, paddingRight: 10, paddingLeft: 10 }}>
+                        <OneLineTextInput
+                            placeholder={strings.ChooseAPassword}
+                            onChangeText={(input) => this.setState({ password: input })}
+                            value={this.state.password}
+                        />
+                    </View>
+
+                    <View style={{ paddingLeft: 20, paddingTop: 10 }}>
+                        <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
                     </View>
 
                     <View style={{ paddingTop: 35, paddingRight: 10, paddingLeft: 10 }}>
@@ -115,7 +128,7 @@ class logInScreen extends Component {
 
 //Connnects this screens' props with all of the users in the database to prepare for login
 const mapStateToProps = state => {
-    const providers  = state.providerReducer;
+    const providers = state.providerReducer;
     const requesters = state.requesterReducer;
     return { providers, requesters };
 };

@@ -95,23 +95,38 @@ export default class Functions {
     //as a new requester with a unique requester ID and a username which will just be their email
     //without the "@"
     static async addRequesterToDatabase(account, email) {
-        this.requestersCollection.add({
-            requesterID: account.user.uid,
-            username: email.substring(0, email.indexOf("@"))
+
+        this.database.runTransaction(async (transaction) => {
+            
+            const uid = account.user.uid;
+            const ref = this.requestersCollection.doc(uid);
+            transaction.set(ref, {
+                requesterID: uid,
+                username: email.substring(0, email.indexOf("@"))
+            });
+
         });
+
     }
 
     //This function will take in a new provider ID and then will add that new provider to the firestore
     //as a new provider with a unique provider ID and a username which will just be their email without
     //the "@". It will also have the companyName and the companyDescription that is passed
     static async addProviderToDatabase(account, email, businessName, businessInfo) {
-        this.providersCollection.add({
-            companyName: businessName,
-            companyDescription: businessInfo,
-            providerID: account.user.uid,
-            serviceIDs: [],
-            username: email.substring(0, email.indexOf("@"))
+        this.database.runTransaction(async (transaction) => {
+            
+            const uid = account.user.uid;
+            const ref = this.providersCollection.doc(uid);
+            transaction.set(ref, {
+                companyName: businessName,
+                companyDescription: businessInfo,
+                providerID: account.user.uid,
+                serviceIDs: [],
+                username: email.substring(0, email.indexOf("@"))
+            });
+
         });
+        
     }
 
     //Checks if the company name is taken by another user or not
