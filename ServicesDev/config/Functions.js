@@ -186,22 +186,24 @@ export default class Functions {
     }
 
     //This method will return an array of products that is offered by a specifc provider. It will
-    //go through all products and only return ones that belong to this provider
-    static getProviderProducts(provider, allProducts) {
+    //query through the products and then return only the ones that belong to this provider
+    static async getProviderProducts(provider) {
 
-        const providerProductIDs = provider.serviceIDs;
-        const providerProducts = [];
+        //Fetches the service IDs that belong to this provider. If they are empty, an empty array will
+        //be returned
+        const serviceIDs = provider.serviceIDs;
+        if (serviceIDs.length === 0) {
+            return [];
+        }
+        //Initializes the array that will be returned
+        let providerProducts = [];
 
-        providerProductIDs.forEach((id) => {
-            //Finds the index of the product that is associated with the user and adds it to the array
-            //of this user's products
-            let providerProduct = allProducts.find((product) => {
-                return product.serviceID === id;
-            });
-
-            providerProducts.push(providerProduct);
+        //Queries through the data
+        serviceIDs.forEach(async (id) => {
+            const ref = this.productsCollection.where("serviceID", "==", id);
+            const doc = await ref.get();
+            providerProducts.push(doc.docs.map((doc) => ({...doc.data()})));
         });
-
         return providerProducts;
 
     }

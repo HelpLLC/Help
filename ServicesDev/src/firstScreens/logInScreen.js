@@ -43,16 +43,17 @@ class logInScreen extends Component {
                 //Tests whether this is a provider or a requester & based on that, navigates to the
                 //correct screen
                 const { uid } = account.user;
-                console.log(uid);
                 //Starts with searching if this is a requester since that is more common
                 Functions.getRequesterByID(uid).then((requester) => {
-                    console.log(requester);
                     if (requester === -1) {
                         //This means this account is a provider since a requester with this ID was not found
                         Functions.getProviderByID(uid).then((provider) => {
-                            this.props.navigation.push('ProviderScreens', {
-                                provider: provider
-                            });
+                            Functions.getProviderProducts(provider).then((providerProducts) => {
+                                this.props.navigation.push('ProviderScreens', {
+                                    provider,
+                                    providerProducts
+                                });
+                            })
                         });
                     } else {
                         //If this is a requester, then it will navigate to the screens

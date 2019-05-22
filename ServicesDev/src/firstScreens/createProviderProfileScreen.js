@@ -50,12 +50,21 @@ class createProviderProfileScreen extends Component {
                 this.setState({ warningMessage: strings.CompanyNameTakenPleaseChooseAnotherName });
 
             } else {
-                
+
+                //Creates the account and then navigates to the correct screens while passing in
+                //the correct params
                 firebase.auth().createUserWithEmailAndPassword(email, password).then((account) => {
-                    Functions.addProviderToDatabase(account, email, businessName, businessInfo);
-                    this.props.navigation.push('ProviderScreens', {
-                        provider: Functions.getProviderByID(account.user.uid),
+                    Functions.addProviderToDatabase(account, email, businessName, businessInfo).then(() => {
+                        Functions.getProviderByID(account.user.uid).then((provider) => {
+                            Functions.getProviderProducts(provider).then((providerProducts) => {
+                                this.props.navigation.push('ProviderScreens', {
+                                    provider,
+                                    providerProducts
+                                });
+                            })
+                        })
                     });
+                    
                 })
 
             }

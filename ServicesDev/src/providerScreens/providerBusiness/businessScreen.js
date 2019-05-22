@@ -5,7 +5,6 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Text, Dimensions, TouchableOpacity, Image, FlatList, SafeAreaView } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
-import { connect } from 'react-redux';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import Functions from 'config/Functions';
@@ -18,7 +17,12 @@ import fontStyles from 'config/styles/fontStyles';
 import { BoxShadow } from 'react-native-shadow';
 
 class businessScreen extends Component {
+
     render() {
+
+        //Gets the provider & the products as passed in through the params
+        const { provider, providerProducts } = this.props.navigation.state.params;
+
         return (
             <SafeAreaView style={screenStyle.container}>
                 <View>
@@ -38,13 +42,13 @@ class businessScreen extends Component {
 
                     <View style={{ flexDirection: 'column', paddingBottom: 10 }}>
                         <Text style={[fontStyles.bigTextStyleBlack, { paddingBottom: 10 }]}>
-                            {this.props.provider.companyName}</Text>
+                            {provider.companyName}</Text>
 
                         <TouchableOpacity
                             onPress={() => {
                                 this.props.navigation.push('ProviderEditCompanyProfileScreen', {
-                                    providerID: this.props.provider.providerID,
-                                    provider: this.props.provider
+                                    providerID: provider.providerID,
+                                    provider: provider
                                 });
                             }}>
                             <Text style={fontStyles.subTextStyleGray}>
@@ -59,7 +63,7 @@ class businessScreen extends Component {
                             style={roundBlueButtonStyle.BusinessScreenPlusButton}
                             onPress={() => {
                                 this.props.navigation.push('ProviderCreateProductScreen', {
-                                    providerID: this.props.provider.providerID,
+                                    providerID: provider.providerID,
                                 })
                             }} />
                     </View>
@@ -69,7 +73,7 @@ class businessScreen extends Component {
 
                 {   //If the provider doesn't have products then a screen will show up asking if they
                     //want to create a product now
-                    this.props.providerProducts.length === 0 ?
+                    providerProducts.length === 0 ?
                         (
                             <View style={
                                 {
@@ -109,7 +113,7 @@ class businessScreen extends Component {
                                     textStyle={fontStyles.bigTextStyleWhite}
                                     onPress={() => {
                                         this.props.navigation.push('ProviderCreateProductScreen', {
-                                            providerID: this.props.provider.providerID,
+                                            providerID: provider.providerID,
                                         });
                                     }} />
                             </View>
@@ -119,9 +123,9 @@ class businessScreen extends Component {
                                 contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
                                 showsVerticalScrollIndicator={false}>
                                 <FlatList
-                                    data={this.props.providerProducts}
+                                    data={providerProducts}
                                     keyExtractor={(item, index) => {
-                                        return (this.props.provider.companyName + " Product #" + index);
+                                        return (provider.companyName + " Product #" + index);
                                     }}
                                     renderItem={({ item, index }) => (
                                         <ServiceCard
@@ -134,7 +138,7 @@ class businessScreen extends Component {
                                             onPress={() => {
                                                 this.props.navigation.push('ProviderProductScreen', {
                                                     productID: item.serviceID,
-                                                    providerID: this.props.providerID
+                                                    providerID: providerID
                                                 });
                                             }}
                                         />
@@ -149,18 +153,5 @@ class businessScreen extends Component {
     }
 }
 
-//Connects this screens' props with the current user of the app
-const mapStateToProps = (state, props) => {
-
-    //Gets the provider id
-    const { providerID } = props.navigation.state.params;
-    //Gets the current provider of the app
-    const provider = Functions.getProviderByID(providerID, state.providerReducer);
-
-    //Fetches products that are offered by this specifc provider
-    const providerProducts = Functions.getProviderProducts(provider, state.productReducer);
-    return { provider, providerProducts, providerID };
-};
-
-//connects the screen with the redux persist state
-export default connect(mapStateToProps)(businessScreen);
+//Exports the screen
+export default businessScreen;
