@@ -3,9 +3,7 @@
 import React, { Component } from 'react';
 import { View, Dimensions } from 'react-native';
 import TopBanner from '../../components/TopBanner';
-import { connect } from 'react-redux';
 import strings from 'config/strings';
-import Functions from 'config/Functions';
 import fontStyles from 'config/styles/fontStyles';
 import { TabView, TabBar } from 'react-native-tab-view';
 import colors from '../../../config/colors';
@@ -33,10 +31,10 @@ class requestScreen extends Component {
                             return <Yardwork
                                 {...this.props}
                                 jumpTo={jumpTo}
-                                thisRequester={this.props.requester}
-                                thisRequesterID={this.props.navigation.state.params.requesterID}
-                                providers={this.props.accounts}
-                                products={this.props.products} />;
+                                requester={this.props.navigation.state.params.requester}
+                                //To-Do: Make a classification model that only retrieves the yardwork
+                                //products
+                                yardwordProducts={this.props.navigation.state.params.allProducts} />;
                         case 'other':
                             return <Other jumpTo={jumpTo} />;
                     }
@@ -64,15 +62,5 @@ class requestScreen extends Component {
     }
 }
 
-//Connects this screens' props with the user of the app as well as the provider reducer containing the
-//products
-const mapStateToProps = (state, props) => {
-    const requester = Functions.getRequesterByID(props.navigation.state.params.requesterID, state.requesterReducer);
-    const accounts = state.providerReducer;
-    const products = state.productReducer
-
-    return { requester, accounts, products };
-};
-
 //connects the screen with the redux persist state
-export default connect(mapStateToProps)(requestScreen);
+export default requestScreen;

@@ -200,12 +200,20 @@ export default class Functions {
 
         //Queries through the data
         serviceIDs.forEach(async (id) => {
-            const ref = this.productsCollection.where("serviceID", "==", id);
+            const ref = this.productsCollection.where("serviceID", "==", id).limit(1);
             const doc = await ref.get();
-            providerProducts.push(doc.docs.map((doc) => ({...doc.data()})));
+            providerProducts.push(doc.docs.map((doc) => doc.data()));
         });
         return providerProducts;
 
+    }
+
+    //This method will return an array containing an all products currently in the market
+    static async getAllProducts() {
+        const snapshot = await this.productsCollection.get();
+
+        //Returns the array which contains all the docs
+        return snapshot.docs.map((doc) => doc.data());
     }
 
     //This method will take in a provider ID and then return all of the associated chats that include

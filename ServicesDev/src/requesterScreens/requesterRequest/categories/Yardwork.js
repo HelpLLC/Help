@@ -9,8 +9,8 @@ export default class Yardwork extends Component {
 
     render() {
 
-        //Fetches the current requester index which is passed in as a prop as well as the index
-        const { thisRequester, thisRequesterID, products } = this.props;
+        //Fetches this requester and all the products currently in the market
+        const { yardwordProducts, requester } = this.props;
 
         return (
             <SafeAreaView style={screenStyle.container}>
@@ -19,7 +19,7 @@ export default class Yardwork extends Component {
                     contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
                     showsVerticalScrollIndicator={false}>
                     <FlatList
-                        data={products}
+                        data={yardwordProducts}
                         keyExtractor={(item, index) => {
                             return (item.serviceID + "");
                         }}
@@ -27,23 +27,24 @@ export default class Yardwork extends Component {
                             <ServiceCard
                                 key={index}
                                 serviceTitle={item.serviceTitle}
-                                offeredBy={Functions.getProviderByID(item.offeredBy, this.props.providers).companyName}
+                                offeredBy={item.offeredByName}
                                 pricing={item.pricing}
                                 image={item.imageSource}
                                 numCurrentRequests={0}
                                 offeredByOnPress={() => {
-                                    this.props.navigation.push('RequesterCompanyProfileScreen', {
-                                        companyID: item.offeredBy,
-                                        thisRequesterID: thisRequesterID
-                                    });
+                                    Functions.getProviderByID(item.offeredByID).then((provider) => {
+                                        this.props.navigation.push('RequesterCompanyProfileScreen', {
+                                            provider,
+                                        });
+                                    })  
                                 }}
                                 //Passes all of the necessary props to the actual screen that contains
                                 //more information about the service
                                 onPress={() => {
                                     this.props.navigation.push('RequesterServiceScreen', {
-                                        offeredByID: item.offeredBy,
-                                        productID: item.serviceID,
-                                        thisRequesterID: thisRequesterID
+                                        providerID: item.offeredByID,
+                                        product: item,
+                                        requester
                                     });
                                 }}
                             />

@@ -63,18 +63,25 @@ class signUpScreen extends Component {
                         //along with the new requester being added to the database then
                         //the screen will shift to the new account's screen
                         firebase.auth().createUserWithEmailAndPassword(email, password).then((account) => {
-                            Functions.addRequesterToDatabase(account, email);
-                            this.props.navigation.push('RequesterScreens', {
-                                requester: Functions.getRequesterByID(account.user.uid),
+                            Functions.addRequesterToDatabase(account, email).then(() => {
+                                Functions.getAllProducts().then((allProducts) => {
+                                    Functions.getRequesterByID(account.user.uid).then((requester) => {
+                                        this.props.navigation.push('RequesterScreens', {
+                                            requester,
+                                            allProducts
+                                        });
+                                    })   
+                                })
                             });
+
                         })
 
                     } else {
                         //If this is a business account, then it will navigate to the create provider
                         //profile screen to finish creating the account there
                         this.props.navigation.push("CreateProviderProfileScreen", {
-                            email: email,
-                            password: password
+                            email,
+                            password
                         });
                     }
                 }

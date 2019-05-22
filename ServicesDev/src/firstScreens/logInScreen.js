@@ -56,10 +56,14 @@ class logInScreen extends Component {
                             })
                         });
                     } else {
-                        //If this is a requester, then it will navigate to the screens
-                        this.props.navigation.push('RequesterScreens', {
-                            requester: requester
-                        });
+                        Functions.getAllProducts().then((allProducts) => {
+                            //If this is a requester, then it will navigate to the screens & pass in the
+                            //correct params
+                            this.props.navigation.push('RequesterScreens', {
+                                requester: requester,
+                                allProducts
+                            });
+                        })
                     }
                 });
             }).catch((error) => {
