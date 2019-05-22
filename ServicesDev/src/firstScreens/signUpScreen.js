@@ -7,8 +7,6 @@ import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import colors from 'config/colors';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineTextInput from '../components/OneLineTextInput';
@@ -182,22 +180,5 @@ class signUpScreen extends Component {
     }
 };
 
-//Connects this screens' props with the users of the app to prepare for account creation
-const mapStateToProps = state => {
-    const providers = state.providerReducer;
-    const requesters = state.requesterReducer;
-    return { providers, requesters };
-};
-
-//Connects the screen with the actions that will add data to the database. These actions will
-//be the ones that create the accounts
-export const mapDispatchToProps = dispatch =>
-    bindActionCreators(
-        {
-            createRequesterAccount
-        },
-        dispatch
-    );
-
-//connects the screen with the redux persist state
-export default connect(mapStateToProps, mapDispatchToProps)(signUpScreen);
+//Exports the screen
+export default signUpScreen;
