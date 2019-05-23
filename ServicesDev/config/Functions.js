@@ -35,8 +35,10 @@ export default class Functions {
 
         if (doc.exists) {
             return doc.data();
+        } else {
+            return -1;
         }
-        return -1;
+        
     }
 
     //This method will take in an ID of a provider and return the index of the provider in the array
@@ -54,15 +56,15 @@ export default class Functions {
     //This method will take in an ID of a requester and then call the firestore database and get the
     //provider. If the user isn't found, then -1 is returned
     static async getProviderByID(providerID) {
-
         const ref = this.providersCollection.doc(providerID + "");
         const doc = await ref.get();
 
         if (doc.exists) {
             return doc.data();
+        } else {
+            return -1;
         }
-        return -1;
-
+    
     }
 
     //This method will take in an ID of a service and return the index of the service in the array
@@ -100,7 +102,7 @@ export default class Functions {
             
             const uid = account.user.uid;
             const ref = this.requestersCollection.doc(uid);
-            transaction.set(ref, {
+            await transaction.set(ref, {
                 requesterID: uid,
                 username: email.substring(0, email.indexOf("@"))
             });
@@ -117,7 +119,7 @@ export default class Functions {
             
             const uid = account.user.uid;
             const ref = this.providersCollection.doc(uid);
-            transaction.set(ref, {
+            await transaction.set(ref, {
                 companyName: businessName,
                 companyDescription: businessInfo,
                 providerID: account.user.uid,

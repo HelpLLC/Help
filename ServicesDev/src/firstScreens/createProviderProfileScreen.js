@@ -9,9 +9,7 @@ import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineTextInput from '../components/OneLineTextInput';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { createProviderAccount } from '../redux/provider/providerActions/createProviderAccount';
+import LoadingSpinner from '../components/LoadingSpinner';
 import RoundTextInput from '../components/RoundTextInput';
 import Functions from 'config/Functions';
 import firebase from '../../Firebase';
@@ -19,16 +17,20 @@ import firebase from '../../Firebase';
 //The class that will create the look of this screen
 class createProviderProfileScreen extends Component {
 
-    //The state containing what the user has typed into each input
+    //The state containing what the user has typed into each input and whether the screen is loading
+    //or not
     state = {
         businessName: "",
         businessInfo: "",
-        warningMessage: ""
+        warningMessage: "",
+        isLoading: false
     }
 
     //This method will register the business into the database based on the entered info
     signUp() {
 
+        //Dismisses the keyboard
+        Keyboard.dismiss();
         //If either of the two inputs is empty, an error message will be displayed
         if (this.state.businessName.trim() === "") {
 
@@ -40,35 +42,35 @@ class createProviderProfileScreen extends Component {
 
         } else {
 
+            this.setState({ isLoading: true });
+
             const { email, password } = this.props.navigation.state.params;
             const { businessName, businessInfo } = this.state;
 
             //If the business name is already taken, then a warning message will appear,
             //Else, the profile will be created
-            if (Functions.isCompanyNameTaken(businessName) === true) {
+            Functions.isCompanyNameTaken(businessName).then((isCompanyNameTaken) => {
+                if (isCompanyNameTaken === true) {
+                    this.setState({ warningMessage: strings.CompanyNameTakenPleaseChooseAnotherName, isLoading: false });
+                } else {
 
-                this.setState({ warningMessage: strings.CompanyNameTakenPleaseChooseAnotherName });
-
-            } else {
-
-                //Creates the account and then navigates to the correct screens while passing in
-                //the correct params
-                firebase.auth().createUserWithEmailAndPassword(email, password).then((account) => {
-                    Functions.addProviderToDatabase(account, email, businessName, businessInfo).then(() => {
-                        Functions.getProviderByID(account.user.uid).then((provider) => {
-                            Functions.getProviderProducts(provider).then((providerProducts) => {
-                                this.props.navigation.push('ProviderScreens', {
-                                    provider,
-                                    providerProducts
-                                });
+                    //Creates the account and then navigates to the correct screens while passing in
+                    //the correct params
+                    firebase.auth().createUserWithEmailAndPassword(email, password).then((account) => {
+                        Functions.addProviderToDatabase(account, email, businessName, businessInfo).then(() => {
+                            Functions.getProviderByID(account.user.uid).then((provider) => {
+                                Functions.getProviderProducts(provider).then((providerProducts) => {
+                                    this.props.navigation.push('ProviderScreens', {
+                                        provider,
+                                        providerProducts
+                                    });
+                                })
                             })
-                        })
-                    });
-                    
-                })
+                        });
 
-            }
-
+                    })
+                }
+            })
         }
     }
 
@@ -115,7 +117,11 @@ class createProviderProfileScreen extends Component {
                             value={this.state.businessInfo} />
                     </View>
 
-                    <View style={{ paddingTop: 20 }}>
+                    <View style={{ paddingTop: 10 }}>
+                        <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
+                    </View>
+
+                    <View style={{ paddingTop: 10 }}>
                         <RoundBlueButton
                             title={strings.GetStarted}
                             style={roundBlueButtonStyle.MediumSizeButton}
@@ -124,30 +130,13 @@ class createProviderProfileScreen extends Component {
                         />
                     </View>
 
-                    <View style={{ padding: 20 }}>
-                        <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
-                    </View>
+                    <LoadingSpinner isVisible={this.state.isLoading} />
+
                 </SafeAreaView>
             </TouchableWithoutFeedback>
         );
     }
 };
 
-//Connects this screens' props with the users of the app to prepare for account creation
-const mapStateToProps = state => {
-    const providers = state.providerReducer;
-    return { providers };
-};
-
-//Connects the screen with the actions that will add data to the database. These actions will
-//be the ones that create the accounts
-export const mapDispatchToProps = dispatch =>
-    bindActionCreators(
-        {
-            createProviderAccount,
-        },
-        dispatch
-    );
-
-//connects the screen with the redux persist state
-export default connect(mapStateToProps, mapDispatchToProps)(createProviderProfileScreen);
+//exports the screen
+export default createProviderProfileScreen;

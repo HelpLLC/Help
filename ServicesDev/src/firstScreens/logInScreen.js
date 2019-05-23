@@ -11,8 +11,10 @@ import { connect } from 'react-redux'
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineTextInput from '../components/OneLineTextInput';
+import LoadingSpinner from '../components/LoadingSpinner';
 import firebase from '../../Firebase';
 import Functions from '../../config/Functions';
+import colors from '../../config/colors';
 
 //The class that will create the look of this screen
 class logInScreen extends Component {
@@ -25,7 +27,10 @@ class logInScreen extends Component {
         password: "",
 
         //The message which will display if the user types in a phone number which doesn't exist
-        warningMessage: ""
+        warningMessage: "",
+
+        //This will determine whether the loading widget appears or not. Initially false
+        isLoading: false
     }
 
     //This function will login based on the entered phone number... if the number is non existent,
@@ -33,11 +38,14 @@ class logInScreen extends Component {
     logIn() {
 
         const { email, password } = this.state;
+        Keyboard.dismiss();
         //If no username was entered, or all empty spaces, then an error message will pop up
         if (email.trim().length === 0 || password.trim().length === 0) {
             this.setState({ warningMessage: strings.PleaseFillOutAllFields });
         } else {
 
+            //Turns on the loading indicator
+            this.setState({ isLoading: true });
             firebase.auth().signInWithEmailAndPassword(email, password).then((account) => {
 
                 //Tests whether this is a provider or a requester & based on that, navigates to the
@@ -67,7 +75,7 @@ class logInScreen extends Component {
                     }
                 });
             }).catch((error) => {
-                this.setState({ warningMessage: strings.IncorrectInfo })
+                this.setState({ warningMessage: strings.IncorrectInfo, isLoading: false });
             })
 
         }
@@ -125,6 +133,7 @@ class logInScreen extends Component {
                             //input
                             onPress={() => { this.logIn() }} />
                     </View>
+                    <LoadingSpinner isVisible={this.state.isLoading} />
                 </SafeAreaView>
             </TouchableWithoutFeedback>
         );

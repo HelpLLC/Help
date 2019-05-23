@@ -10,7 +10,7 @@ import colors from 'config/colors';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineTextInput from '../components/OneLineTextInput';
-import { createRequesterAccount } from '../redux/requester/requesterActions/createRequesterAccount';
+import LoadingSpinner from '../components/LoadingSpinner';
 import firebase from '../../Firebase';
 import Functions from '../../config/Functions';
 
@@ -27,7 +27,8 @@ class signUpScreen extends Component {
         email: "",
         password: "",
         buttonSelected: "",
-        warningMessage: ""
+        warningMessage: "",
+        isLoading: false
     }
 
     //This method signs up the user & creates an account for them based on what they chose and their
@@ -49,12 +50,14 @@ class signUpScreen extends Component {
             this.setState({ warningMessage: strings.ShortPassword });
         } else {
 
+            this.setState({ isLoading: true });
             //If the accout already exists, then an error will appear
             //If the account is new, then it will go through the normal process to create
             //the account
             firebase.auth().fetchSignInMethodsForEmail(email).then((array) => {
                 if (array.length > 0) {
                     this.setState({ warningMessage: strings.EmailExists });
+                    this.setState({ isLoading: false });
                 } else {
                     if (buttonSelected === "Customer") {
                         //If this is a customer, then the account will be created here and
@@ -162,7 +165,9 @@ class signUpScreen extends Component {
                             //Method selects the customer button and deselects the other
                             onPress={() => { this.setState({ buttonSelected: "Customer" }) }} />
                     </View>
-
+                    <View style={{ paddingTop: 10 }}>
+                        <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
+                    </View>
                     <View style={{ paddingTop: 50 }}>
                         <RoundBlueButton
                             title={strings.SignUp}
@@ -171,9 +176,9 @@ class signUpScreen extends Component {
                             onPress={() => { this.signUp() }}
                         />
                     </View>
-                    <View style={{ padding: 20 }}>
-                        <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
-                    </View>
+
+                    <LoadingSpinner isVisible={this.state.isLoading} />
+                    
                 </SafeAreaView>
             </TouchableWithoutFeedback>
         );
