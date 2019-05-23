@@ -12,10 +12,8 @@ import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonS
 import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineTextInput from '../components/OneLineTextInput';
 import LoadingSpinner from '../components/LoadingSpinner';
-import firebase from '../../Firebase';
+import firebase from 'react-native-firebase';
 import Functions from '../../config/Functions';
-import colors from '../../config/colors';
-
 //The class that will create the look of this screen
 class logInScreen extends Component {
 

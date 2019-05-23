@@ -8,35 +8,11 @@ import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
-import Functions from 'config/Functions';
-import firebase from '../../Firebase';
 
 
 class splashScreen extends Component {
 
-    constructor() {
-        super();
-        this.state = {
-            requester: "",
-            isLoading: false
-        }
-    }
-
-    componentDidMount() {
-        
-        /*
-        Functions.getProviderByID("1").then((result) => {
-            this.setState({
-                requester: result,
-                isLoading: false
-            })
-        }); 
-        */
-
-    }
-
     render() {
-        if (this.state.isLoading === false) {
             return (
                 <SafeAreaView style={screenStyle.container}>
                     <View style={{ paddingTop: 95, paddingBottom: 130 }}>
@@ -62,11 +38,6 @@ class splashScreen extends Component {
                     </View>
                 </SafeAreaView>
             );
-        } else {
-            return (
-                <View></View>
-            )
-        }
     };
 };
 

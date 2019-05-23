@@ -6,6 +6,9 @@ import com.facebook.react.ReactApplication;
 import com.react.rnspinkit.RNSpinkitPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.horcrux.svg.SvgPackage;
@@ -34,7 +37,10 @@ public class MainApplication extends Application implements ReactApplication {
             new RNGestureHandlerPackage(),
             new ImagePickerPackage(),
             new VectorIconsPackage(),
-            new SvgPackage()
+            new RNFirebasePackage(),
+            new RNFirebaseFirestorePackage(),
+            new SvgPackage(),
+            new RNFirebaseAuthPackage()
       );
     }
 

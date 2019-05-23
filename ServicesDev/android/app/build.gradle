@@ -147,6 +147,9 @@ dependencies {
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-svg')
     implementation "com.google.android.gms:play-services-base:16.1.0"
+    implementation "com.google.firebase:firebase-core:16.0.8"
+    implementation "com.google.firebase:firebase-firestore:18.2.0"
+    implementation "com.google.firebase:firebase-auth:16.2.1"
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules

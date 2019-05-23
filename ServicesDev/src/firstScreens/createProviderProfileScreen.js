@@ -12,7 +12,7 @@ import OneLineTextInput from '../components/OneLineTextInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import RoundTextInput from '../components/RoundTextInput';
 import Functions from 'config/Functions';
-import firebase from '../../Firebase';
+import firebase from 'react-native-firebase';
 
 //The class that will create the look of this screen
 class createProviderProfileScreen extends Component {

@@ -1,7 +1,7 @@
 //This class will contain a bunch of static functions that are common and will be used through out the
 //application. The point of this class is to reduce code clutter throughout the application. The class
 //will connect with the firebase firestore in order to retrieve the necessary data. 
-import firebase from '../Firebase';
+import firebase from 'react-native-firebase';
 
 //All methods should be labeled static. There will also be static variable that reference the collections
 //in the cloud firestore
