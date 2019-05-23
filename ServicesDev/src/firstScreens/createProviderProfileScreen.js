@@ -55,19 +55,17 @@ class createProviderProfileScreen extends Component {
                 } else {
 
                     //Creates the account and then navigates to the correct screens while passing in
-                    //the correct params
+                    //the correct params and logs in
                     firebase.auth().createUserWithEmailAndPassword(email, password).then((account) => {
-                        Functions.addProviderToDatabase(account, email, businessName, businessInfo).then(() => {
-                            Functions.getProviderByID(account.user.uid).then((provider) => {
-                                Functions.getProviderProducts(provider).then((providerProducts) => {
-                                    this.props.navigation.push('ProviderScreens', {
-                                        provider,
-                                        providerProducts
-                                    });
-                                })
+                        Functions.addProviderToDatabase(account, email, businessName, businessInfo).then((provider) => {
+                            firebase.auth().signInWithEmailAndPassword(email, password);
+                            Functions.getProviderProducts(provider).then((providerProducts) => {
+                                this.props.navigation.push('ProviderScreens', {
+                                    provider,
+                                    providerProducts
+                                });
                             })
                         });
-
                     })
                 }
             })

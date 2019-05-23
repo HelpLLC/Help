@@ -9,10 +9,6 @@ export default class Functions {
 
     //The four collections that will be used by this class
     static database = firebase.firestore();
-    static providersCollection = this.database.collection("providers");
-    static requestersCollection = this.database.collection("requesters");
-    static productsCollection = this.database.collection("products");
-    static messagesCollection = this.database.collection("messagesCollection");
 
     //This method will take in an ID of a requester and return the index of the requester in the array
     //of requesters by searching through the array until it finds one that matches the provided ID
@@ -30,7 +26,7 @@ export default class Functions {
     //database by getting a reference to the doc and then calling it from the database. If the user
     //doesn't exist, then -1 will be returned
     static async getRequesterByID(requesterID) {
-        const ref = this.requestersCollection.doc(requesterID + "");
+        const ref = this.database.collection("requesters").doc(requesterID + "");
         const doc = await ref.get();
 
         if (doc.exists) {
@@ -38,7 +34,7 @@ export default class Functions {
         } else {
             return -1;
         }
-        
+
     }
 
     //This method will take in an ID of a provider and return the index of the provider in the array
@@ -56,15 +52,17 @@ export default class Functions {
     //This method will take in an ID of a requester and then call the firestore database and get the
     //provider. If the user isn't found, then -1 is returned
     static async getProviderByID(providerID) {
-        const ref = this.providersCollection.doc(providerID + "");
+        const ref = this.database.collection("providers").doc(providerID + "");
         const doc = await ref.get();
+        console.log(doc);
+        console.log(doc.exists);
 
         if (doc.exists) {
             return doc.data();
         } else {
             return -1;
         }
-    
+
     }
 
     //This method will take in an ID of a service and return the index of the service in the array
@@ -83,7 +81,7 @@ export default class Functions {
     //object
     static async getServiceByID(serviceID) {
 
-        const ref = this.productsCollection.doc(serviceID + "");
+        const ref = this.database.collection("products").doc(serviceID + "");
         const doc = await ref.get();
 
         if (doc.exists) {
@@ -98,16 +96,20 @@ export default class Functions {
     //without the "@"
     static async addRequesterToDatabase(account, email) {
 
-        this.database.runTransaction(async (transaction) => {
-            
-            const uid = account.user.uid;
-            const ref = this.requestersCollection.doc(uid);
-            await transaction.set(ref, {
-                requesterID: uid,
-                username: email.substring(0, email.indexOf("@"))
-            });
+        const batch = this.database.batch();
+        const uid = account.user.uid;
+        const ref = this.database.collection("requesters").doc(uid);
 
-        });
+        const newRequester = {
+            requesterID: uid,
+            username: email.substring(0, email.indexOf("@"))
+        }
+
+        batch.set(ref, newRequester);
+        batch.commit();
+
+        //This is a promise that won't be resolved while offline
+        return newRequester;
 
     }
 
@@ -115,27 +117,31 @@ export default class Functions {
     //as a new provider with a unique provider ID and a username which will just be their email without
     //the "@". It will also have the companyName and the companyDescription that is passed
     static async addProviderToDatabase(account, email, businessName, businessInfo) {
-        this.database.runTransaction(async (transaction) => {
-            
-            const uid = account.user.uid;
-            const ref = this.providersCollection.doc(uid);
-            await transaction.set(ref, {
-                companyName: businessName,
-                companyDescription: businessInfo,
-                providerID: account.user.uid,
-                serviceIDs: [],
-                username: email.substring(0, email.indexOf("@"))
-            });
 
-        });
-        
+        const batch = this.database.batch();
+        const uid = account.user.uid;
+        const ref = this.database.collection("providers").doc(uid);
+
+        const newProvider = {
+            companyName: businessName,
+            companyDescription: businessInfo,
+            providerID: account.user.uid,
+            serviceIDs: [],
+            username: email.substring(0, email.indexOf("@"))
+        }
+
+        batch.set(ref, newProvider);
+        batch.commit();
+
+        return newProvider;
+
     }
 
     //Checks if the company name is taken by another user or not
     static async isCompanyNameTaken(businessName) {
 
         //Queries the providers to see if a provider exists
-        const ref = this.providersCollection.where("companyName", "==", businessName);
+        const ref = this.database.collection("providers").where("companyName", "==", businessName);
         const snapshot = await ref.get();
 
         //If the array contains anything, then the name is taken and true will be returned
@@ -202,7 +208,7 @@ export default class Functions {
 
         //Queries through the data
         serviceIDs.forEach(async (id) => {
-            const ref = this.productsCollection.where("serviceID", "==", id).limit(1);
+            const ref = this.database.collection("products").where("serviceID", "==", id).limit(1);
             const doc = await ref.get();
             providerProducts.push(doc.docs.map((doc) => doc.data()));
         });
@@ -212,7 +218,7 @@ export default class Functions {
 
     //This method will return an array containing an all products currently in the market
     static async getAllProducts() {
-        const snapshot = await this.productsCollection.get();
+        const snapshot = await this.database.collection("products").get();
 
         //Returns the array which contains all the docs
         return snapshot.docs.map((doc) => doc.data());
