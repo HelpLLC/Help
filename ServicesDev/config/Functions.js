@@ -10,6 +10,32 @@ export default class Functions {
     //The four collections that will be used by this class
     static database = firebase.firestore();
 
+    //Tests if there is a user currently logged in on this device
+    static isUserLoggedIn() {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+    }
+
+    //Returns the provider/requester that is currently logged in
+    static async getUserLoggedIn() {
+        firebase.auth().onAuthStateChanged((user) => {
+            this.getRequesterByID(user.uid).then((requester) => {
+                if (requester === -1) {
+                    this.getProviderByID(user.uid).then((provider) => {
+                        return provider;
+                    })
+                } else {
+                    return requester;
+                }
+            })
+        })
+    }
+
     //This method will take in an ID of a requester and return the index of the requester in the array
     //of requesters by searching through the array until it finds one that matches the provided ID
     static getRequesterIndexByID(requesterID, allRequesters) {
@@ -54,8 +80,6 @@ export default class Functions {
     static async getProviderByID(providerID) {
         const ref = this.database.collection("providers").doc(providerID + "");
         const doc = await ref.get();
-        console.log(doc);
-        console.log(doc.exists);
 
         if (doc.exists) {
             return doc.data();
@@ -137,6 +161,47 @@ export default class Functions {
 
     }
 
+    //This method will take information about a new product and add it to the firestore database. It will
+    //first add it to the firestore containing products, then it will add the service IDs to the provider
+    //products
+    static async addProductToDatabase(serviceTitle, serviceDescription, pricing, imageSource, providerID) {
+        let product = "";
+        //First will retrieve the provider information in order to know the name of the company
+        Functions.getProviderByID(providerID).then((provider) => {
+
+            this.database.collection("products").add({
+
+                serviceTitle,
+                serviceDescription,
+                requests: {
+                    currentRequests: [],
+                    completedRequests: [],
+                },
+                pricing,
+                imageSource,
+                offeredByID: providerID,
+                offeredByName: provider.companyName
+
+            }).then(async (newProduct) => {
+                //Will deal with the ID of the product by adding it as a field and pushing to the
+                //provider's field
+                const batch = this.database.batch();
+                const serviceID = newProduct.id;
+                batch.update(newProduct, { serviceID });
+                
+                const providerRef = this.database.collection("providers").doc(providerID)
+                const providerDoc = await providerRef.get();
+                const serviceIDsArray = providerDoc.data().serviceIDs;
+                serviceIDsArray.push(serviceID);
+                batch.update(providerRef, { serviceIDs: serviceIDsArray });
+
+                batch.commit();
+                product = newProduct;
+            });
+        });
+        return product;
+    }
+
     //Checks if the company name is taken by another user or not
     static async isCompanyNameTaken(businessName) {
 
@@ -194,7 +259,7 @@ export default class Functions {
     }
 
     //This method will return an array of products that is offered by a specifc provider. It will
-    //query through the products and then return only the ones that belong to this provider
+    //query through the products and then return only the ones that belong to this provider.
     static async getProviderProducts(provider) {
 
         //Fetches the service IDs that belong to this provider. If they are empty, an empty array will
@@ -207,10 +272,10 @@ export default class Functions {
         let providerProducts = [];
 
         //Queries through the data
-        serviceIDs.forEach(async (id) => {
-            const ref = this.database.collection("products").where("serviceID", "==", id).limit(1);
+        await serviceIDs.forEach(async (id) => {
+            const ref = this.database.collection("products").doc(id);
             const doc = await ref.get();
-            providerProducts.push(doc.docs.map((doc) => doc.data()));
+            providerProducts.push(doc.data());
         });
         return providerProducts;
 

@@ -15,16 +15,50 @@ import ServiceCard from '../../components/ServiceCard';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import fontStyles from 'config/styles/fontStyles';
 import { BoxShadow } from 'react-native-shadow';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 class businessScreen extends Component {
 
+    //This constructor and componentDidMount will wait until all the products loaded if there are any
+    constructor() {
+        super();
+        this.state = {
+            isLoading: true,
+            serviceIDsLength: 0,
+            providerProducts: []
+        }
+    }
+
+    async componentDidMount() {
+        const { provider } = this.props.navigation.state.params;
+        if (provider.serviceIDs.length === 0) {
+            this.setState({ isLoading: false });
+        } else {
+            const serviceIDs = provider.serviceIDs;
+            await serviceIDs.forEach((ID) => {
+                Functions.getServiceByID(ID).then((service) => {
+                    const newArrayOfProducts = this.state.providerProducts;
+                    newArrayOfProducts.push(service);
+                    this.setState({
+                        providerProducts: newArrayOfProducts
+                    });
+                })
+            });
+            this.setState({
+                isLoading: false,
+                serviceIDsLength: serviceIDs.length,
+            });
+        }
+    }
+
     render() {
 
-        //Gets the provider & the products as passed in through the params
-        const { provider, providerProducts } = this.props.navigation.state.params;
-
-        return (
-            <SafeAreaView style={screenStyle.container}>
+        //Gets the provider & the products from the state
+        const { isLoading, providerProducts, serviceIDsLength } = this.state;
+        const { provider } = this.props.navigation.state.params;
+        //Stores the top part of this view
+        const topView = (
+            <View style={{ alignItems: 'center' }}>
                 <View>
                     <TopBanner title={strings.Business} />
                 </View>
@@ -48,7 +82,7 @@ class businessScreen extends Component {
                             onPress={() => {
                                 this.props.navigation.push('ProviderEditCompanyProfileScreen', {
                                     providerID: provider.providerID,
-                                    provider: provider
+                                    provider
                                 });
                             }}>
                             <Text style={fontStyles.subTextStyleGray}>
@@ -64,92 +98,100 @@ class businessScreen extends Component {
                             onPress={() => {
                                 this.props.navigation.push('ProviderCreateProductScreen', {
                                     providerID: provider.providerID,
+                                    provider,
+                                    providerProducts
                                 })
                             }} />
                     </View>
-
                 </View>
+            </View>
+        );
 
+        //If the screen is loading, then the loading icon will appear. If the provider does not yet have
+        //any products, then the "Create first product" thing will appear. If none of that is true, then
+        //the provider's normal products will be displayed. 
+        if (isLoading === true || (providerProducts.length == 0 && serviceIDsLength > 0)) {
+            return (
+                <SafeAreaView style={screenStyle.container}>
+                    {topView}
+                    <View style={{ alignItems: 'center' }}>
+                        <LoadingSpinner isVisible={isLoading} />
+                    </View>
+                </SafeAreaView>
+            )
+        } else if (serviceIDsLength === 0) {
+            return (
+                <SafeAreaView style={screenStyle.container}>
+                    {topView}
+                    <View style={
+                        {
+                            flexDirection: 'column',
+                            paddingTop: 30,
+                            alignItems: 'center'
+                        }}>
+                        <Text style={fontStyles.bigTextStyleBlack}>
+                            {strings.CreateYourFirstProductNowExclamation}</Text>
 
-                {   //If the provider doesn't have products then a screen will show up asking if they
-                    //want to create a product now
-                    providerProducts.length === 0 ?
-                        (
-                            <View style={
-                                {
-                                    flexDirection: 'column',
-                                    paddingTop: 30,
-                                    alignItems: 'center'
-                                }}>
-                                <Text style={fontStyles.bigTextStyleBlack}>
-                                    {strings.CreateYourFirstProductNowExclamation}</Text>
-
-                                <View style={{ marginBottom: 20, marginTop: 20 }}>
-                                    <BoxShadow setting={{
+                        <View style={{ marginBottom: 20, marginTop: 20 }}>
+                            <BoxShadow setting={{
+                                width: 280,
+                                height: 160,
+                                color: colors.gray,
+                                border: 10,
+                                radius: 50,
+                                opacity: 0.2,
+                                x: 0,
+                                y: 5
+                            }}>
+                                <Image
+                                    source={images.LawnMowing}
+                                    style={{
                                         width: 280,
                                         height: 160,
-                                        color: colors.gray,
-                                        border: 10,
-                                        radius: 50,
-                                        opacity: 0.2,
-                                        x: 0,
-                                        y: 5
-                                    }}>
-                                        <Image
-                                            source={images.LawnMowing}
-                                            style={{
-                                                width: 280,
-                                                height: 160,
-                                                borderColor: colors.lightBlue,
-                                                borderWidth: 6,
-                                                borderRadius: 50,
-                                            }} />
-                                    </BoxShadow>
-                                </View>
-
-                                <RoundBlueButton
-                                    title={strings.Create}
-                                    style={roundBlueButtonStyle.MediumSizeButton}
-                                    textStyle={fontStyles.bigTextStyleWhite}
-                                    onPress={() => {
-                                        this.props.navigation.push('ProviderCreateProductScreen', {
-                                            providerID: provider.providerID,
-                                        });
+                                        borderColor: colors.lightBlue,
+                                        borderWidth: 6,
+                                        borderRadius: 50,
                                     }} />
-                            </View>
-                        ) : (
-                            <ScrollView
-                                style={{ paddingTop: 30 }}
-                                contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
-                                showsVerticalScrollIndicator={false}>
-                                <FlatList
-                                    data={providerProducts}
-                                    keyExtractor={(item, index) => {
-                                        return (provider.companyName + " Product #" + index);
+                            </BoxShadow>
+                        </View>
+                    </View>
+                </SafeAreaView>
+            )
+        } else {
+            return (
+                <SafeAreaView style={screenStyle.container}>
+                    {topView}
+                    <ScrollView
+                        style={{ paddingTop: 30 }}
+                        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+                        showsVerticalScrollIndicator={false}>
+                        <FlatList
+                            data={providerProducts}
+                            keyExtractor={(item, index) => {
+                                return (provider.companyName + " Product #" + index);
+                            }}
+                            renderItem={({ item, index }) => (
+                                <ServiceCard
+                                    key={index}
+                                    serviceTitle={item.serviceTitle}
+                                    serviceDescription={item.serviceDescription}
+                                    pricing={item.pricing}
+                                    image={item.imageSource}
+                                    numCurrentRequests={item.requests.currentRequests.length}
+                                    onPress={() => {
+                                        this.props.navigation.push('ProviderProductScreen', {
+                                            productID: item.serviceID,
+                                            providerID: providerID
+                                        });
                                     }}
-                                    renderItem={({ item, index }) => (
-                                        <ServiceCard
-                                            key={index}
-                                            serviceTitle={item.serviceTitle}
-                                            serviceDescription={item.serviceDescription}
-                                            pricing={item.pricing}
-                                            image={item.imageSource}
-                                            numCurrentRequests={item.requests.currentRequests.length}
-                                            onPress={() => {
-                                                this.props.navigation.push('ProviderProductScreen', {
-                                                    productID: item.serviceID,
-                                                    providerID: providerID
-                                                });
-                                            }}
-                                        />
-                                    )}
                                 />
-                                <View style={{ height: 40 }}></View>
-                            </ScrollView>
-                        )
-                }
-            </SafeAreaView>
-        )
+                            )}
+                        />
+                        <View style={{ height: 40 }}></View>
+                    </ScrollView>
+                </SafeAreaView>
+            );
+        }
     }
 }
 

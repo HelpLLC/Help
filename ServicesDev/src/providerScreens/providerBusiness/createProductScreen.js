@@ -14,12 +14,9 @@ import { BoxShadow } from 'react-native-shadow';
 import images from 'config/images/images';
 import ImagePicker from 'react-native-image-picker';
 import Functions from 'config/Functions';
-import { createNewProduct } from '../../redux/product/productActions/createNewProduct';
-import { addProviderProduct } from '../../redux/provider/providerActions/addProviderProduct';
 import strings from 'config/strings';
 import colors from 'config/colors';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 class createProductScreen extends Component {
 
@@ -29,7 +26,8 @@ class createProductScreen extends Component {
         serviceDescription: '',
         pricing: '',
         imageSource: images.BlankWhite,
-        warningMessage: ''
+        warningMessage: '',
+        isLoading: false
     }
 
     //Chooses the image from camera roll or picture and sets it to the image source
@@ -40,10 +38,10 @@ class createProductScreen extends Component {
             title: 'Select Avatar',
             customButtons: [{ name: 'fb', title: 'Choose photo from library' }],
             storageOptions: {
-              skipBackup: true,
-              path: 'images',
+                skipBackup: true,
+                path: 'images',
             },
-          };
+        };
 
         //Shows the image picker with the default options
         ImagePicker.launchImageLibrary(options, (response) => {
@@ -69,25 +67,17 @@ class createProductScreen extends Component {
         } else if (imageSource === images.BlankWhite) {
             this.setState({ warningMessage: strings.PleaseAddAnImage });
         } else {
-            
-            //Creates the product and adds it to the database
-            const newProduct = {
-                serviceID: this.props.products.length,
-                offeredBy: this.props.providerID,
-                serviceTitle,
-                serviceDescription,
-                pricing,
-                imageSource,
-                requests: {
-                    completedRequests: [],
-                    currentRequests: []
-                }
-            };
-            //Updates the redux state by calling the action and passing in the new product object
-            //as well as this providerID so it can add it to the provider's list of products
-            this.props.createNewProduct(newProduct, this.props.provider.providerID);
-            this.props.addProviderProduct(this.props.provider.providerID, newProduct.serviceID);
-            this.props.navigation.goBack();
+
+            this.setState({ isLoading: true });
+            const { providerID, providerProducts, provider } = this.props.navigation.state.params;
+            Functions.addProductToDatabase(serviceTitle, serviceDescription, pricing, imageSource, providerID).then((product) => {
+                providerProducts.push(product);
+                this.props.navigation.push("BusinessScreen", {
+                    provider,
+                    providerProducts
+                });
+            });
+
         }
     }
 
@@ -174,43 +164,22 @@ class createProductScreen extends Component {
                     value={this.state.pricing}
                     width={Dimensions.get('window').width - 40} />
 
+                <View style={{ padding: 20 }}>
+                    <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
+                </View>
+
                 <RoundBlueButton
                     title={strings.Create}
                     style={[roundBlueButtonStyle.MediumSizeButton, { marginTop: 25 }]}
                     textStyle={fontStyles.bigTextStyleWhite}
-                    onPress={() => { this.createProduct() }}
-                />
+                    onPress={() => { this.createProduct() }} />
 
-                <View style={{ padding: 20 }}>
-                    <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
-                </View>
+                <LoadingSpinner isVisible={this.state.isLoading} />
 
             </SafeAreaView>
         )
     }
 }
 
-//Connects this screens' props with the current user of the app
-const mapStateToProps = (state, props) => {
-
-    //Fetches information about this provider
-    const { providerID } = props.navigation.state.params;
-    const provider = Functions.getProviderByID(providerID, state.providerReducer);
-    const products = state.productReducer;
-    return { provider, products, providerID };
-};
-
-//Connects the screen with the actions that will interact with the database.
-//this action will edit the provider's company information
-export const mapDispatchToProps = dispatch =>
-    bindActionCreators(
-        {
-            createNewProduct,
-            addProviderProduct
-        },
-        dispatch
-    );
-
-
-//connects the screen with the redux persist state
-export default connect(mapStateToProps, mapDispatchToProps)(createProductScreen);
+//Exports the class
+export default createProductScreen;

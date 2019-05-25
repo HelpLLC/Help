@@ -13,31 +13,30 @@ import fontStyles from 'config/styles/fontStyles';
 class splashScreen extends Component {
 
     render() {
-            return (
-                <SafeAreaView style={screenStyle.container}>
-                    <View style={{ paddingTop: 95, paddingBottom: 130 }}>
-                        <Text style={fontStyles.bigTitleStyleBlue}>{strings.HelpExclamation}</Text>
-                    </View>
-                    <RoundBlueButton
-                        title={strings.GetStarted}
-                        style={roundBlueButtonStyle.MainScreenButton}
-                        textStyle={fontStyles.bigTextStyleWhite}
+        return (
+            <SafeAreaView style={screenStyle.container}>
+                <View style={{ paddingTop: 95, paddingBottom: 130 }}>
+                    <Text style={fontStyles.bigTitleStyleBlue}>{strings.HelpExclamation}</Text>
+                </View>
+                <RoundBlueButton
+                    title={strings.GetStarted}
+                    style={roundBlueButtonStyle.MainScreenButton}
+                    textStyle={fontStyles.bigTextStyleWhite}
+                    onPress={() => {
+                        this.props.navigation.push('SignUpScreen');
+                    }} />
+                <View style={{ flexDirection: 'row', paddingTop: 10 }}>
+                    <Text style={fontStyles.subTextStyleBlack}>{strings.HaveAnAccountQuestion}</Text>
+                    <Text style={fontStyles.subTextStyleBlack}> </Text>
+                    <TouchableOpacity
                         onPress={() => {
-                            this.props.navigation.push('SignUpScreen');
-                        }} />
-                    <View style={{ flexDirection: 'row', paddingTop: 10 }}>
-                        <Text style={fontStyles.subTextStyleBlack}>{strings.HaveAnAccountQuestion}</Text>
-                        <Text style={fontStyles.subTextStyleBlack}> </Text>
-                        <TouchableOpacity
-                            onPress={() => {
-                                this.props.navigation.push('LogInScreen')
-                                console.log(this.state)
-                            }}>
-                            <Text style={fontStyles.subTextStyleBlue}>{strings.LogIn}</Text>
-                        </TouchableOpacity>
-                    </View>
-                </SafeAreaView>
-            );
+                            this.props.navigation.push('LogInScreen')
+                        }}>
+                        <Text style={fontStyles.subTextStyleBlue}>{strings.LogIn}</Text>
+                    </TouchableOpacity>
+                </View>
+            </SafeAreaView>
+        );
     };
 };
 

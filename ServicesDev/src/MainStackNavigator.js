@@ -13,6 +13,7 @@ import TopBanner from './components/TopBanner';
 import React from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
+
 //The route config for all of the screens
 const routeConfig = {
 
@@ -97,7 +98,6 @@ const routeConfig = {
 
 //The navigation config containing the initial route name
 const navigatorConfig = {
-    //To-do: Make sure if device has already been logged in, to navigate to the account directly
     initialRouteName: 'FirstScreens',
     gesturesEnabled: false
 };

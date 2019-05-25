@@ -11,6 +11,7 @@ export default class Yardwork extends Component {
 
         //Fetches this requester and all the products currently in the market
         const { yardwordProducts, requester } = this.props;
+        console.log(yardwordProducts);
 
         return (
             <SafeAreaView style={screenStyle.container}>

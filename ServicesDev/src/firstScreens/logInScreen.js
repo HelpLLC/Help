@@ -54,12 +54,9 @@ class logInScreen extends Component {
                     if (requester === -1) {
                         //This means this account is a provider since a requester with this ID was not found
                         Functions.getProviderByID(uid).then((provider) => {
-                            Functions.getProviderProducts(provider).then((providerProducts) => {
-                                this.props.navigation.push('ProviderScreens', {
-                                    provider,
-                                    providerProducts
-                                });
-                            })
+                            this.props.navigation.push('ProviderScreens', {
+                                provider
+                            });
                         });
                     } else {
                         Functions.getAllProducts().then((allProducts) => {
