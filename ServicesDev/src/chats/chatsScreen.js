@@ -1,7 +1,6 @@
 //This screen will represent all the chats belonging to this current user
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, FlatList } from 'react-native';
-import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../components/TopBanner';
 import fontStyles from 'config/styles/fontStyles';

@@ -9,7 +9,6 @@ import { View, Text, Dimensions, TouchableOpacity, ScrollView, FlatList, SafeAre
 import TopBanner from '../../components/TopBanner';
 import ServiceCard from '../../components/ServiceCard';
 import strings from 'config/strings';
-import FirebaseFunctions from 'config/FirebaseFunctions';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
