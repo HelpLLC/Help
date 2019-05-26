@@ -11,10 +11,6 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import { requestProduct } from '../../redux/product/productActions/requestProduct';
-import { deleteRequest } from '../../redux/product/productActions/deleteRequest';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { BoxShadow } from 'react-native-shadow';
 
 class serviceScreen extends Component {
@@ -196,31 +192,5 @@ class serviceScreen extends Component {
     }
 }
 
-//Maps the state to the current product being viewed & the company offering it as well as this requester's
-//index to the props.
-const mapStateToProps = (state, props) => {
-    const { offeredByID, productID, thisRequesterID } = props.navigation.state.params;
-
-    //Fetches this product
-    const product = FirebaseFunctions.getServiceByID(productID, state.productReducer);
-
-    //Fethches this provider
-    const provider = FirebaseFunctions.getProviderByID(offeredByID, state.providerReducer);
-
-    //Returns all of the data
-    return { product, productID, provider, offeredByID, thisRequesterID };
-};
-
-//Connects the screen with the actions that will interact with the database.
-//this action will edit the provider's company information
-export const mapDispatchToProps = dispatch =>
-    bindActionCreators(
-        {
-            requestProduct,
-            deleteRequest
-        },
-        dispatch
-    );
-
-//connects the screen with the redux persist state
-export default connect(mapStateToProps, mapDispatchToProps)(serviceScreen);
+//Exports the screen
+export default serviceScreen;

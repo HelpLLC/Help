@@ -12,10 +12,7 @@ import RoundTextInput from '../../components/RoundTextInput';
 import { BoxShadow } from 'react-native-shadow';
 import ImagePicker from 'react-native-image-picker';
 import strings from 'config/strings';
-import { updateProduct } from '../../redux/product/productActions/updateProduct';
-import { bindActionCreators } from 'redux';
 import colors from 'config/colors';
-import { connect } from 'react-redux';
 
 class editProductScreen extends Component {
 
@@ -177,22 +174,5 @@ class editProductScreen extends Component {
     }
 }
 
-//Connects this screens' props with the current product
-const mapStateToProps = (state, props) => {
-    const { product, productID } = props.navigation.state.params;
-    return { product, productID };
-};
-
-
-//Connects the screen with the actions that will interact with the database.
-//this action will edit the product's information
-export const mapDispatchToProps = dispatch =>
-    bindActionCreators(
-        {
-            updateProduct,
-        },
-        dispatch
-    );
-
-//connects the screen with the redux persist state
-export default connect(mapStateToProps, mapDispatchToProps)(editProductScreen);
+//Exports the screen
+export default editProductScreen;

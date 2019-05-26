@@ -13,7 +13,6 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
-import { connect } from 'react-redux';
 import { Icon } from 'react-native-elements';
 
 class companyProfileScreen extends Component {
@@ -104,19 +103,5 @@ class companyProfileScreen extends Component {
     }
 }
 
-//Maps the state to the current company being viewed
-const mapStateToProps = (state, props) => {
-    const { companyID, thisRequesterID } = props.navigation.state.params;
-
-    //Fethches this provider
-    const provider = FirebaseFunctions.getProviderByID(companyID, state.providerReducer);
-
-    //Fetches products that are offered by this specifc provider
-    const providerProducts = FirebaseFunctions.getProviderProducts(provider, state.productReducer);
-
-    //Returns all of the data
-    return { provider, companyID, thisRequesterID, providerProducts };
-};
-
-//connects the screen with the redux persist state
-export default connect(mapStateToProps)(companyProfileScreen);
+//Exports the screen
+export default companyProfileScreen;

@@ -11,7 +11,6 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
-import { connect } from 'react-redux';
 import { BoxShadow } from 'react-native-shadow';
 
 
@@ -112,12 +111,5 @@ class productHistoryScreen extends Component {
 
 }
 
-//Connects this screens' props with the current product
-const mapStateToProps = (state, props) => {
-    const { product, productID } = props.navigation.state.params;
-    const requesters = state.requesterReducer;
-    return { product, productID, requesters };
-};
-
-//connects the screen with the redux persist state
-export default connect(mapStateToProps)(productHistoryScreen);
+//Exports the screen
+export default productHistoryScreen;

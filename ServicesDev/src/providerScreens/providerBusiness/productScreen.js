@@ -9,10 +9,6 @@ import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import TopBanner from '../../components/TopBanner';
 import colors from 'config/colors';
-import { deleteRequest } from '../../redux/product/productActions/deleteRequest';
-import { completeRequest } from '../../redux/product/productActions/completeRequest';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { BoxShadow } from 'react-native-shadow';
 
 //The class representing the screen
@@ -262,28 +258,6 @@ class productScreen extends Component {
         );
     }
 }
-//Connects this screens' props with the current product that is being viewed as well
-//as all the requesters that ordered this product
-const mapStateToProps = (state, props) => {
-    const { productID, providerID } = props.navigation.state.params;
-    const product = FirebaseFunctions.getServiceByID(productID, state.productReducer);
 
-    //Retrieves the requesters that ordered this product
-    let requestersOfThisProduct = this.getServiceRequesters(product, state.requesterReducer);
-
-    return { product, productID, requestersOfThisProduct, providerID };
-};
-
-//Connects the screen with the actions that will interact with the database.
-//These actions will delete a request or mark it as complete
-export const mapDispatchToProps = dispatch =>
-    bindActionCreators(
-        {
-            deleteRequest,
-            completeRequest
-        },
-        dispatch
-    );
-
-//connects the screen with the redux persist state
-export default connect(mapStateToProps, mapDispatchToProps)(productScreen);
+//Exports the screen
+export default productScreen;

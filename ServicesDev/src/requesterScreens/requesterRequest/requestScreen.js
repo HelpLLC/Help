@@ -62,5 +62,5 @@ class requestScreen extends Component {
     }
 }
 
-//connects the screen with the redux persist state
+//Exports the screen
 export default requestScreen;

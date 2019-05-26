@@ -7,13 +7,13 @@ import TopBanner from '../components/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
-import { connect } from 'react-redux'
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineTextInput from '../components/OneLineTextInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import firebase from 'react-native-firebase';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
+
 //The class that will create the look of this screen
 class logInScreen extends Component {
 
@@ -135,13 +135,6 @@ class logInScreen extends Component {
     }
 };
 
-//Connnects this screens' props with all of the users in the database to prepare for login
-const mapStateToProps = state => {
-    const providers = state.providerReducer;
-    const requesters = state.requesterReducer;
-    return { providers, requesters };
-};
-
-//connects the screen with the redux persist state
-export default connect(mapStateToProps)(logInScreen);
+//exports the screen
+export default logInScreen;
 

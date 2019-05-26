@@ -10,9 +10,6 @@ import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
-import { editCompanyProfile } from '../../redux/provider/providerActions/editCompanyProfile';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 
 class editCompanyProfileScreen extends Component {
 
@@ -117,21 +114,5 @@ class editCompanyProfileScreen extends Component {
     }
 }
 
-//Connects this screens' props with the current user of the app
-const mapStateToProps = (state, props) => {
-    const { provider, providerID } = props.navigation.state.params;
-    return { provider, providerID };
-};
-
-//Connects the screen with the actions that will interact with the database.
-//this action will edit the provider's company information
-export const mapDispatchToProps = dispatch =>
-    bindActionCreators(
-        {
-            editCompanyProfile,
-        },
-        dispatch
-    );
-
-//connects the screen with the redux persist state
-export default connect(mapStateToProps, mapDispatchToProps)(editCompanyProfileScreen);
+//Exports the screen
+export default editCompanyProfileScreen;

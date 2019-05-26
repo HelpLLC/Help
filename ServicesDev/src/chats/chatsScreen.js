@@ -7,7 +7,6 @@ import TopBanner from '../components/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import ChatCard from '../components/ChatCard';
-import { connect } from 'react-redux';
 
 class chatsScreen extends Component {
 
@@ -140,41 +139,5 @@ class chatsScreen extends Component {
     }
 }
 
-
-//Connects this screens' props with the current user of the app
-const mapStateToProps = (state, props) => {
-
-    //Tests whether the current user is a provider or a requester, in order to fetch the correct data
-    if (props.navigation.state.params.providerID) {
-
-        //Fetches the current provider's ID
-        const { providerID } = props.navigation.state.params;
-
-        //Gets the current provider of the app
-        const provider = FirebaseFunctions.getProviderByID(providerID, state.providerReducer);
-
-        //Fetches the messages that belong to this user
-        const messages = this.getProviderMessages(providerID, state.messageReducer);
-
-        return { provider, messages, providerID };
-
-    } else {
-
-        //Fetches the current requester's ID
-        const { requesterID } = props.navigation.state.params;
-
-        //Gets the current requester of the app
-        const requester = FirebaseFunctions.getRequesterByID(requesterID, state.requesterReducer);
-
-        //Fetches the messages that belong to this user
-        const messages = FirebaseFunctions.getRequesterMessages(requesterID, state.messageReducer);
-
-        //Fetches all producers so we can get the name of each one
-
-        return { requester, messages, requesterID };
-
-    }
-};
-
-//connects the screen with the redux persist state
-export default connect(mapStateToProps)(chatsScreen);
+//exports the screen
+export default chatsScreen;

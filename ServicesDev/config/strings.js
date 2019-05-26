@@ -53,7 +53,7 @@ export default {
     PublishedBy: 'Published By',
     HelpLLC: 'Help LLC',
     Contact: 'Contact',
-    ContactEmail: 'contactHelp@outlook.com',
+    ContactEmail: 'helpcocontact@gmail.com',
 
     //------------------- Report Issue Screen -------------------
     WhatSeemsToBeTheProblemQuestion: 'What seems to be the problem?',
