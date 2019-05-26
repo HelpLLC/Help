@@ -7,7 +7,7 @@ import { View, ScrollView, Text, Dimensions, TouchableOpacity, Image, FlatList, 
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import colors from 'config/colors';
-import Functions from 'config/Functions';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 import images from 'config/images/images';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import TopBanner from '../../components/TopBanner';
@@ -36,7 +36,7 @@ class businessScreen extends Component {
         } else {
             const serviceIDs = provider.serviceIDs;
             await serviceIDs.forEach((ID) => {
-                Functions.getServiceByID(ID).then((service) => {
+                FirebaseFunctions.getServiceByID(ID).then((service) => {
                     const newArrayOfProducts = this.state.providerProducts;
                     newArrayOfProducts.push(service);
                     this.setState({

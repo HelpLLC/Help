@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { View, FlatList, ScrollView, SafeAreaView } from 'react-native';
 import ServiceCard from '../../../components/ServiceCard';
-import Functions from 'config/Functions';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
 
 export default class Yardwork extends Component {
@@ -33,7 +33,7 @@ export default class Yardwork extends Component {
                                 image={item.imageSource}
                                 numCurrentRequests={0}
                                 offeredByOnPress={() => {
-                                    Functions.getProviderByID(item.offeredByID).then((provider) => {
+                                    FirebaseFunctions.getProviderByID(item.offeredByID).then((provider) => {
                                         this.props.navigation.push('RequesterCompanyProfileScreen', {
                                             provider,
                                         });

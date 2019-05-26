@@ -4,10 +4,6 @@ import React, { Component } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
 import colors from 'config/colors';
 import { View } from 'react-native';
-import { sendMessage } from '../redux/message/messageActions/sendMessage';
-import { connect } from 'react-redux';
-import Functions from 'config/Functions';
-import { bindActionCreators } from 'redux';
 
 class messagingScreen extends Component {
 
@@ -50,36 +46,4 @@ class messagingScreen extends Component {
     }
 }
 
-//Connects the screen with the actions that will add data to the database. These actions will
-//be the ones that create the accounts
-export const mapDispatchToProps = dispatch =>
-    bindActionCreators(
-        {
-            sendMessage,
-        },
-        dispatch
-    );
-
-//Connects this screens' props with messages belonging to the user
-const mapStateToProps = (state, props) => {
-
-    //Fetches all of the IDs
-    const { providerID, requesterID, userID } = props.navigation.state.params;
-
-    //Fetches the actual provider and requester that are in the converstation
-    const provider = Functions.getProviderByID(providerID, state.providerReducer);
-    const requester = Functions.getRequesterByID(requesterID, state.requesterReducer);
-
-    //If this is a new conversation, then messages will be set to an empty array, else it will
-    //be set to the conversation history.
-    const messages = (Functions.isNewConversation(providerID, requesterID, state.messageReducer) ? [] :
-        Functions.getConversationByID(providerID, requesterID, state.messageReducer).conversationMessages.sort((a, b) => {
-            d1 = new Date(a.createdAt);
-            d2 = new Date(b.createdAt);
-            return d2.getTime() - d1.getTime();
-        }));
-    return { messages, providerID, requesterID, userID, provider, requester };
-
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(messagingScreen);
+export default messagingScreen;

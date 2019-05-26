@@ -9,7 +9,7 @@ import { View, Text, Dimensions, TouchableOpacity, ScrollView, FlatList, SafeAre
 import TopBanner from '../../components/TopBanner';
 import ServiceCard from '../../components/ServiceCard';
 import strings from 'config/strings';
-import Functions from 'config/Functions';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
@@ -109,10 +109,10 @@ const mapStateToProps = (state, props) => {
     const { companyID, thisRequesterID } = props.navigation.state.params;
 
     //Fethches this provider
-    const provider = Functions.getProviderByID(companyID, state.providerReducer);
+    const provider = FirebaseFunctions.getProviderByID(companyID, state.providerReducer);
 
     //Fetches products that are offered by this specifc provider
-    const providerProducts = Functions.getProviderProducts(provider, state.productReducer);
+    const providerProducts = FirebaseFunctions.getProviderProducts(provider, state.productReducer);
 
     //Returns all of the data
     return { provider, companyID, thisRequesterID, providerProducts };

@@ -3,7 +3,7 @@
 import update from 'immutability-helper';
 import InitialState from '../InitialState';
 import actionTypes from './actionTypes';
-import Functions from 'config/Functions';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 
 //The reducer which will determine what to do with the actions
 export default productReducer = (state = InitialState.products, action) => {
@@ -31,7 +31,7 @@ export default productReducer = (state = InitialState.products, action) => {
             const { updatedProductInfo } = action;
             const idProduct = action.productID;
 
-            const productIndex = Functions.getServiceIndexByID(idProduct, state);
+            const productIndex = FirebaseFunctions.getServiceIndexByID(idProduct, state);
 
             //Updates the state by pushing the new product into the array of providers
             newState = update(state, { [productIndex]: { $set: updatedProductInfo } });
@@ -48,7 +48,7 @@ export default productReducer = (state = InitialState.products, action) => {
             const { serviceID, requestInfo } = action;
 
             //Finds the product's index that the request will be added to by searching for it by id
-            let indexOFRequestedProduct = Functions.getServiceIndexByID(serviceID, state);
+            let indexOFRequestedProduct = FirebaseFunctions.getServiceIndexByID(serviceID, state);
 
             //Updates the state by pushing the new request to the array of current requests of the
             //product
@@ -67,7 +67,7 @@ export default productReducer = (state = InitialState.products, action) => {
             const idOfProduct = action.productID;
 
             //finds the index of the requested product by the passed in ID
-            indexOFRequestedProduct = Functions.getServiceIndexByID(idOfProduct, state);
+            indexOFRequestedProduct = FirebaseFunctions.getServiceIndexByID(idOfProduct, state);
 
             //Finds the request within the product itself by searching for it by requester
             //ID
@@ -96,7 +96,7 @@ export default productReducer = (state = InitialState.products, action) => {
             const { productID, requesterID } = action;
 
             //finds the index of the requested product by the passed in ID
-            indexOFRequestedProduct = Functions.getServiceIndexByID(productID, state);
+            indexOFRequestedProduct = FirebaseFunctions.getServiceIndexByID(productID, state);
 
             //Finds the index of the request within the product itself by searching for it by requester
             //ID

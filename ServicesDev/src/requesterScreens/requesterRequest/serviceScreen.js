@@ -7,7 +7,7 @@ import TopBanner from '../../components/TopBanner';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
-import Functions from 'config/Functions';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
@@ -19,9 +19,21 @@ import { BoxShadow } from 'react-native-shadow';
 
 class serviceScreen extends Component {
 
+    //This method will return true if the service has already been requested by this requester
+    isServiceAlreadyRequested(service, requesterID) {
+
+        //If the value is -1, this means that this requester doesn't have a current request on this service
+        const indexOfRequest = service.requests.currentRequests.findIndex((request) => {
+            return request.requesterID === requesterID;
+        });
+
+        return (indexOfRequest === -1 ? false : true);
+
+    }
+
     //The state controls whether or not the button to request the service will be displayed
     state = {
-        serviceRequested: Functions.isServiceAlreadyRequested(this.props.product, this.props.thisRequesterID)
+        serviceRequested: this.isServiceAlreadyRequested(this.props.product, this.props.thisRequesterID)
     }
 
     //This method will request this service from the company providing it by pushing the request to the
@@ -190,10 +202,10 @@ const mapStateToProps = (state, props) => {
     const { offeredByID, productID, thisRequesterID } = props.navigation.state.params;
 
     //Fetches this product
-    const product = Functions.getServiceByID(productID, state.productReducer);
+    const product = FirebaseFunctions.getServiceByID(productID, state.productReducer);
 
     //Fethches this provider
-    const provider = Functions.getProviderByID(offeredByID, state.providerReducer);
+    const provider = FirebaseFunctions.getProviderByID(offeredByID, state.providerReducer);
 
     //Returns all of the data
     return { product, productID, provider, offeredByID, thisRequesterID };

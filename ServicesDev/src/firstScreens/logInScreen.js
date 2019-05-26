@@ -13,7 +13,7 @@ import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineTextInput from '../components/OneLineTextInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import firebase from 'react-native-firebase';
-import Functions from '../../config/Functions';
+import FirebaseFunctions from '../../config/FirebaseFunctions';
 //The class that will create the look of this screen
 class logInScreen extends Component {
 
@@ -50,16 +50,16 @@ class logInScreen extends Component {
                 //correct screen
                 const { uid } = account.user;
                 //Starts with searching if this is a requester since that is more common
-                Functions.getRequesterByID(uid).then((requester) => {
+                FirebaseFunctions.getRequesterByID(uid).then((requester) => {
                     if (requester === -1) {
                         //This means this account is a provider since a requester with this ID was not found
-                        Functions.getProviderByID(uid).then((provider) => {
+                        FirebaseFunctions.getProviderByID(uid).then((provider) => {
                             this.props.navigation.push('ProviderScreens', {
                                 provider
                             });
                         });
                     } else {
-                        Functions.getAllProducts().then((allProducts) => {
+                        FirebaseFunctions.getAllProducts().then((allProducts) => {
                             //If this is a requester, then it will navigate to the screens & pass in the
                             //correct params
                             this.props.navigation.push('RequesterScreens', {

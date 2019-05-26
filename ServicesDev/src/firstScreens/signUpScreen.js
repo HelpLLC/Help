@@ -12,7 +12,7 @@ import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineTextInput from '../components/OneLineTextInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import firebase from 'react-native-firebase';
-import Functions from '../../config/Functions';
+import FirebaseFunctions from '../../config/FirebaseFunctions';
 
 
 //The class that will create the look of this screen
@@ -64,9 +64,9 @@ class signUpScreen extends Component {
                         //along with the new requester being added to the database then
                         //the screen will shift to the new account's screen
                         firebase.auth().createUserWithEmailAndPassword(email, password).then((account) => {
-                            Functions.addRequesterToDatabase(account, email).then((requester) => {
+                            FirebaseFunctions.addRequesterToDatabase(account, email).then((requester) => {
                                 firebase.auth().signInWithEmailAndPassword(email, password);
-                                Functions.getAllProducts().then((allProducts) => {
+                                FirebaseFunctions.getAllProducts().then((allProducts) => {
                                     this.props.navigation.push('RequesterScreens', {
                                         requester,
                                         allProducts

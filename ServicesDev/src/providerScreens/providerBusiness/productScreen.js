@@ -6,7 +6,7 @@ import { View, Text, Image, TouchableOpacity, Dimensions, ScrollView, FlatList, 
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import screenStyle from 'config/styles/screenStyle';
-import Functions from 'config/Functions';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 import TopBanner from '../../components/TopBanner';
 import colors from 'config/colors';
 import { deleteRequest } from '../../redux/product/productActions/deleteRequest';
@@ -18,10 +18,28 @@ import { BoxShadow } from 'react-native-shadow';
 //The class representing the screen
 class productScreen extends Component {
 
+    //This method will return an array filled with requesters that requested a certain product. It will
+    //take in a service and all the requesters and then return only the ones who's ID is present in
+    //this product's requests
+    getServiceRequesters(service, allRequesters) {
+
+        let requestersOfThisProduct = [];
+        service.requests.currentRequests.forEach((request) => {
+            let requesterID = request.requesterID;
+            let requester = allRequesters.find((requester) => {
+                return requester.requesterID === requesterID;
+            });
+            requestersOfThisProduct.push(requester);
+        });
+
+        return requestersOfThisProduct;
+
+    }
+
     //This method will take in an ID of a requester and go to the chat screen associated with them
     messageRequester(requesterID) {
         this.props.navigation.push("MessagingScreen", {
-            title: Functions.getRequesterByID(requesterID, this.props.requestersOfThisProduct).username,
+            title: FirebaseFunctions.getRequesterByID(requesterID, this.props.requestersOfThisProduct).username,
             providerID: this.props.providerID,
             requesterID: requesterID,
             userID: this.props.providerID + "p"
@@ -186,7 +204,7 @@ class productScreen extends Component {
                                             paddingLeft: 20
                                         }}>
                                             <Text style={fontStyles.mainTextStyleBlack}>
-                                                {Functions.getRequesterByID(item.requesterID,
+                                                {FirebaseFunctions.getRequesterByID(item.requesterID,
                                                     this.props.requestersOfThisProduct).username}</Text>
                                         </View>
                                         <View style={{
@@ -248,10 +266,10 @@ class productScreen extends Component {
 //as all the requesters that ordered this product
 const mapStateToProps = (state, props) => {
     const { productID, providerID } = props.navigation.state.params;
-    const product = Functions.getServiceByID(productID, state.productReducer);
+    const product = FirebaseFunctions.getServiceByID(productID, state.productReducer);
 
     //Retrieves the requesters that ordered this product
-    let requestersOfThisProduct = Functions.getServiceRequesters(product, state.requesterReducer);
+    let requestersOfThisProduct = this.getServiceRequesters(product, state.requesterReducer);
 
     return { product, productID, requestersOfThisProduct, providerID };
 };

@@ -7,7 +7,7 @@ import TopBanner from '../../components/TopBanner';
 import WhiteCard from '../../components/WhiteCard';
 import whiteCardStyle from 'config/styles/componentStyles/whiteCardStyle';
 import strings from 'config/strings';
-import Functions from 'config/Functions';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
@@ -92,7 +92,7 @@ class productHistoryScreen extends Component {
                                         text={item.dateCompleted}
                                         mainTextStyle={fontStyles.subTextStyleBlack}
                                         comp={<Text style={fontStyles.subTextStyleBlack}>
-                                            {Functions.getRequesterByID(item.requesterID, this.props.requesters).username}
+                                            {FirebaseFunctions.getRequesterByID(item.requesterID, this.props.requesters).username}
                                         </Text>}
                                         onPress={() => { }} />
                                 )}

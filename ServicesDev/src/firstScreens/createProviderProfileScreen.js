@@ -11,7 +11,7 @@ import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineTextInput from '../components/OneLineTextInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import RoundTextInput from '../components/RoundTextInput';
-import Functions from 'config/Functions';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 import firebase from 'react-native-firebase';
 
 //The class that will create the look of this screen
@@ -24,6 +24,23 @@ class createProviderProfileScreen extends Component {
         businessInfo: "",
         warningMessage: "",
         isLoading: false
+    }
+
+    //This method will return whether the company name is taken or not (boolean)
+    //Checks if the company name is taken by another user or not
+    async isCompanyNameTaken(businessName) {
+
+        //Queries the providers to see if a provider exists
+        const ref = FirebaseFunctions.providers.where("companyName", "==", businessName);
+        const snapshot = await ref.get();
+
+        //If the array contains anything, then the name is taken and true will be returned
+        if (snapshot.docs.length === 0) {
+            return false;
+        } else {
+            return true;
+        }
+
     }
 
     //This method will register the business into the database based on the entered info
@@ -49,7 +66,7 @@ class createProviderProfileScreen extends Component {
 
             //If the business name is already taken, then a warning message will appear,
             //Else, the profile will be created
-            Functions.isCompanyNameTaken(businessName).then((isCompanyNameTaken) => {
+            this.isCompanyNameTaken(businessName).then((isCompanyNameTaken) => {
                 if (isCompanyNameTaken === true) {
                     this.setState({ warningMessage: strings.CompanyNameTakenPleaseChooseAnotherName, isLoading: false });
                 } else {
@@ -57,9 +74,9 @@ class createProviderProfileScreen extends Component {
                     //Creates the account and then navigates to the correct screens while passing in
                     //the correct params and logs in
                     firebase.auth().createUserWithEmailAndPassword(email, password).then((account) => {
-                        Functions.addProviderToDatabase(account, email, businessName, businessInfo).then((provider) => {
+                        FirebaseFunctions.addProviderToDatabase(account, email, businessName, businessInfo).then((provider) => {
                             firebase.auth().signInWithEmailAndPassword(email, password);
-                            Functions.getProviderProducts(provider).then((providerProducts) => {
+                            FirebaseFunctions.getProviderProducts(provider).then((providerProducts) => {
                                 this.props.navigation.push('ProviderScreens', {
                                     provider,
                                     providerProducts

@@ -13,7 +13,7 @@ import RoundTextInput from '../../components/RoundTextInput';
 import { BoxShadow } from 'react-native-shadow';
 import images from 'config/images/images';
 import ImagePicker from 'react-native-image-picker';
-import Functions from 'config/Functions';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import LoadingSpinner from '../../components/LoadingSpinner';
@@ -70,7 +70,7 @@ class createProductScreen extends Component {
 
             this.setState({ isLoading: true });
             const { providerID, providerProducts, provider } = this.props.navigation.state.params;
-            Functions.addProductToDatabase(serviceTitle, serviceDescription, pricing, imageSource, providerID).then((product) => {
+            FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, pricing, imageSource, providerID).then((product) => {
                 providerProducts.push(product);
                 this.props.navigation.push("BusinessScreen", {
                     provider,

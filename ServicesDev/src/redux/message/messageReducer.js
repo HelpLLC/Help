@@ -3,7 +3,7 @@
 import update from 'immutability-helper';
 import InitialState from '../InitialState';
 import actionTypes from './actionTypes';
-import Functions from 'config/Functions';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 
 //The reducer which will fetch the messages part of the state and also take in an action
 export default messageReducer = (state = InitialState.messages, action) => {
@@ -20,7 +20,7 @@ export default messageReducer = (state = InitialState.messages, action) => {
 
             //If this is a brand new conversation between the two people, then a new one will
             //be created. If it is not, the message will be appended to the existing conversation
-            if (Functions.isNewConversation(providerID, requesterID, state)) {
+            if (FirebaseFunctions.isNewConversation(providerID, requesterID, state)) {
 
                 //Creates the conversation
                 let newConversation = {
@@ -36,7 +36,7 @@ export default messageReducer = (state = InitialState.messages, action) => {
 
                 //Adds the first sent message to the state
                 //Retrieves the index of the conversation so it can append the message to
-                const conversationIndex = Functions.getConversationIndexByID(providerID, requesterID, newState);
+                const conversationIndex = FirebaseFunctions.getConversationIndexByID(providerID, requesterID, newState);
 
                 //appends the message to the existing conversation
                 newState = update(newState, { [conversationIndex]: { conversationMessages: { $push: messageInfo } } });
@@ -47,7 +47,7 @@ export default messageReducer = (state = InitialState.messages, action) => {
             } else {
 
                 //Retrieves the index of the conversation so it can append the message to
-                const conversationIndex = Functions.getConversationIndexByID(providerID, requesterID, state);
+                const conversationIndex = FirebaseFunctions.getConversationIndexByID(providerID, requesterID, state);
 
                 //appends the message to the existing conversation
                 let newState = update(state, { [conversationIndex]: { conversationMessages: { $push: messageInfo } } });
