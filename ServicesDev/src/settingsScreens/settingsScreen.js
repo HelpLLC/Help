@@ -30,17 +30,6 @@ class settingsScreen extends Component {
                 <View style={{ marginTop: 30 }}>
                     <WhiteCard
                         style={whiteCardStyle.marginCard}
-                        text={strings.Notifications}
-                        mainTextStyle={fontStyles.subTextStyleBlack}
-                        //Updates the state of the switch when it is clicked
-                        comp={<Switch value={this.state.switchValue} onValueChange={(value) => {
-                            this.setState({ switchValue: value })
-                        }} />}
-                        //If the entire view is clicked, the switch value is flipped
-                        onPress={() => { this.setState({ switchValue: !this.state.switchValue }) }}
-                    />
-                    <WhiteCard
-                        style={whiteCardStyle.marginCard}
                         text={strings.ReportAnIssue}
                         mainTextStyle={fontStyles.subTextStyleBlack}
                         comp={angleRightIcon}
@@ -54,6 +43,14 @@ class settingsScreen extends Component {
                         comp={angleRightIcon}
                         //Pressing this leads to the about screen page
                         onPress={() => this.props.navigation.push('AboutScreen')}
+                    />
+                    <WhiteCard
+                        style={whiteCardStyle.marginCard}
+                        text={strings.Privacy}
+                        mainTextStyle={fontStyles.subTextStyleBlack}
+                        comp={angleRightIcon}
+                        //Pressing this leads to the about screen page
+                        onPress={() => this.props.navigation.push('PrivacyScreen')}
                     />
                     <WhiteCard
                         style={whiteCardStyle.marginCard}

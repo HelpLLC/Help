@@ -3,6 +3,7 @@
 //screen.
 import settingsScreen from './settingsScreen';
 import aboutScreen from './aboutScreen';
+import privacyScreen from './privacyScreen';
 import reportIssueScreensNavigator from './reportIssue/reportScreensNavigator';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
@@ -20,6 +21,10 @@ const routeConfig = {
     ReportIssueScreen: {
         screen: reportIssueScreensNavigator
     },
+    //Takes you to the screen containing the privacy policy
+    PrivacyScreen: {
+        screen: privacyScreen
+    }
 };
 
 //Navigation configurations that set the default routes and other configs
