@@ -8,6 +8,7 @@ import fontStyles from 'config/styles/fontStyles';
 import RoundTextInput from '../../components/RoundTextInput';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 
@@ -15,8 +16,8 @@ class editCompanyProfileScreen extends Component {
 
     //The state containing what the user has typed into each input
     state = {
-        businessName: this.props.provider.companyName,
-        businessInfo: this.props.provider.companyDescription,
+        businessName: this.props.navigation.state.params.provider.companyName,
+        businessInfo: this.props.navigation.state.params.provider.companyDescription,
         warningMessage: ""
     }
 
@@ -24,7 +25,7 @@ class editCompanyProfileScreen extends Component {
     saveCompanyInfo() {
 
         //retrieves what was entered along with the current provider
-        const { provider } = this.props;
+        const { provider, providerID } = this.props.navigation.state.params;
         const newBusinessName = this.state.businessName;
         const newBusinessInfo = this.state.businessInfo;
 
@@ -42,19 +43,11 @@ class editCompanyProfileScreen extends Component {
             this.props.navigation.goBack();
         } else {
 
-            //Creates the object with the new information about the company
-            let newCompanyInfoObject = {
-                newBusinessName: newBusinessName,
-                newBusinessInfo: newBusinessInfo
-            };
-
-            //Updates the redux state by calling the action and passing in the current user's index
-            //as well as the new company info object
-            let { providerID } = this.props; 
-            this.props.editCompanyProfile(providerID, newCompanyInfoObject);
-
-            //Navigates back to the business screen
-            this.props.navigation.goBack();
+            //Calls the firebase function to update the provider's information
+            FirebaseFunctions.updateProviderInfo(providerID, newBusinessName, newBusinessInfo).then(() => {
+                //Navigates back to the business screen
+                this.props.navigation.goBack();
+            });
         }
     }
 
@@ -101,7 +94,7 @@ class editCompanyProfileScreen extends Component {
                             title={strings.Done}
                             style={roundBlueButtonStyle.MediumSizeButton}
                             textStyle={fontStyles.bigTextStyleWhite}
-                            onPress={() => {this.saveCompanyInfo()}}
+                            onPress={() => { this.saveCompanyInfo() }}
                         />
                     </View>
 

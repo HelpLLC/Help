@@ -11,6 +11,7 @@ import OneLineTextInput from '../../components/OneLineTextInput';
 import RoundTextInput from '../../components/RoundTextInput';
 import { BoxShadow } from 'react-native-shadow';
 import ImagePicker from 'react-native-image-picker';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 import strings from 'config/strings';
 import colors from 'config/colors';
 
@@ -18,10 +19,10 @@ class editProductScreen extends Component {
 
     //The state which will keep track of what the user has entered for the product information
     state = {
-        serviceTitle: this.props.product.serviceTitle,
-        serviceDescription: this.props.product.serviceDescription,
-        pricing: this.props.product.pricing,
-        imageSource: this.props.product.imageSource,
+        serviceTitle: this.props.navigation.state.params.product.serviceTitle,
+        serviceDescription: this.props.navigation.state.params.product.serviceDescription,
+        pricing: this.props.navigation.state.params.product.pricing,
+        imageSource: this.props.navigation.state.params.product.imageSource,
         warningMessage: ''
     }
 
@@ -44,35 +45,21 @@ class editProductScreen extends Component {
 
         //Retrieves the state of the input fields
         const { serviceTitle, serviceDescription, pricing, imageSource } = this.state;
+        const { product, productID } = this.props.navigation.state.params;
 
         //Tests if any fields have been changed... if not, then it will just return to the last screen
-        if (serviceTitle === this.props.product.serviceTitle &&
-            serviceDescription === this.props.product.serviceDescription &&
-            pricing === this.props.product.pricing &&
-            imageSource === this.props.product.imageSource) {
+        if (serviceTitle === product.serviceTitle &&
+            serviceDescription === product.serviceDescription &&
+            pricing === product.pricing &&
+            imageSource === product.imageSource) {
                 this.props.navigation.goBack();
             } else {
-
-                //Creates the newly updated product
-                let updatedProduct = {
-                    serviceID: this.props.product.serviceID,
-                    offeredBy: this.props.product.offeredBy,
-                    serviceTitle,
-                    serviceDescription, 
-                    pricing,
-                    imageSource,
-                    requests: this.props.product.requests
-                };
-
-                //Fethches the index of this product
-                const { productID } = this.props;
             
                 //Updates the correct product corresponding with the correct user
-                this.props.updateProduct(productID, updatedProduct);
-                this.props.navigation.goBack();
-
+                FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, imageSource).then(() => {
+                    this.props.navigation.goBack();
+                });
             }
-        
     }
 
     render() {

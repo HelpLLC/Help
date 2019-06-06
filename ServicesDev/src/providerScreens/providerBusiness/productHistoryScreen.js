@@ -20,8 +20,8 @@ class productHistoryScreen extends Component {
     //Renders the UI
     render() {
 
-        //Fetches the product from the state
-        const { product } = this.props;
+        //Fetches the product from the navigation params
+        const { product } = this.props.navigation.state.params;
 
         return (
             <SafeAreaView style={screenStyle.container}>
@@ -91,7 +91,7 @@ class productHistoryScreen extends Component {
                                         text={item.dateCompleted}
                                         mainTextStyle={fontStyles.subTextStyleBlack}
                                         comp={<Text style={fontStyles.subTextStyleBlack}>
-                                            {FirebaseFunctions.getRequesterByID(item.requesterID, this.props.requesters).username}
+                                            {item.requesterName}
                                         </Text>}
                                         onPress={() => { }} />
                                 )}

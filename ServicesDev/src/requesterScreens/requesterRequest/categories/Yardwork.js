@@ -11,7 +11,6 @@ export default class Yardwork extends Component {
 
         //Fetches this requester and all the products currently in the market
         const { yardwordProducts, requester } = this.props;
-        console.log(yardwordProducts);
 
         return (
             <SafeAreaView style={screenStyle.container}>
@@ -36,17 +35,21 @@ export default class Yardwork extends Component {
                                     FirebaseFunctions.getProviderByID(item.offeredByID).then((provider) => {
                                         this.props.navigation.push('RequesterCompanyProfileScreen', {
                                             provider,
+                                            requester
                                         });
-                                    })  
+                                    })
                                 }}
                                 //Passes all of the necessary props to the actual screen that contains
                                 //more information about the service
                                 onPress={() => {
-                                    this.props.navigation.push('RequesterServiceScreen', {
-                                        providerID: item.offeredByID,
-                                        product: item,
-                                        requester
-                                    });
+                                    FirebaseFunctions.getProviderByID(item.offeredByID).then((provider) => {
+                                        this.props.navigation.push('RequesterServiceScreen', {
+                                            product: item,
+                                            requester,
+                                            provider
+                                        });
+                                    })
+
                                 }}
                             />
                         )}

@@ -176,5 +176,124 @@ export default class FirebaseFunctions {
         return product;
     }
 
+    //This method will update the information for a provider by taking in the new company name
+    //and new company info and updating those fields in the firestore
+    static async updateProviderInfo(providerID, newBusinessName, newBusinessInfo) {
+        
+        const batch = this.database.batch();
+        const ref = this.providers.doc(providerID);
+        batch.update(ref, {
+            companyName: newBusinessName,
+            companyDescription: newBusinessInfo
+        });
+
+        batch.commit();
+
+    }
+
+    //This method will update the information for a specific product by taking in all of the new
+    //product information and updating those fields in firestore
+    static async updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, imageSource) {
+
+        const batch = this.database.batch();
+        const ref = this.products.doc(productID);
+        batch.update(ref, {
+            serviceTitle,
+            serviceDescription,
+            pricing,
+            imageSource
+        });
+
+        batch.commit();
+
+    }
+
+    //This method will take in a product ID and a requester ID and then delete that requester's request
+    //from the array of the product's current requests
+    static async deleteRequest(productID, requesterID) {
+
+        const batch = this.database.batch();
+        const ref = this.products.doc(productID);
+        const doc = await ref.get();
+
+        //Creates a copy of the array of requests minus the request corresponding to this requester ID
+        const oldRequests = doc.data().requests.currentRequests;
+        const indexOfRequest = oldRequests.findIndex((request) => {
+            return request.requesterID === requesterID;
+        });
+
+        oldRequests.splice(indexOfRequest, 1);
+        batch.update(ref, {
+            requests: {
+                currentRequests: oldRequests,
+                completedRequests: doc.data().requests.completedRequests
+            }
+        });
+
+        batch.commit();
+
+    }
+
+    //This method will take in a product ID and a requester ID and then complete the request by removing
+    //it from the array of current requests and adding it to the array of completed requests
+    static async completeRequest(productID, requesterID) {
+
+        const batch = this.database.batch();
+        const ref = this.products.doc(productID);
+        const doc = await ref.get();
+        const product = doc.data();
+
+        const requestToComplete = product.requests.currentRequests.find((eachRequest) => {
+            return eachRequest.requesterID === requesterID;
+        });
+
+        //Gets the old array of completed requests and adds the new completed request to that array,
+        //then sets that new array to it
+        const oldCompletedRequests = product.requests.completedRequests;
+        const newCompletedRequest = {
+            dateCompleted: new Date().toLocaleDateString("en-US"),
+            dateRequested: requestToComplete.dateRequested,
+            requesterID,
+            requesterName: requestToComplete.requesterName
+        }
+        oldCompletedRequests.push(newCompletedRequest);
+
+        batch.update(ref, {
+            requests: {
+                completedRequests: oldCompletedRequests,
+                currentRequests: product.requests.currentRequests
+            }
+        });
+
+        batch.commit();
+
+    }
+
+    //This method will take in a product ID and a requester ID and add the request to the array of current
+    //requests corresponding with the product
+    static async requestService(serviceID, requester) {
+
+        const batch = this.database.batch();
+        const ref = this.products.doc(serviceID);
+        const doc = await ref.get();
+
+        const oldArray = doc.data().requests.currentRequests;
+        oldArray.push({
+            dateRequested: new Date().toLocaleDateString("en-US"),
+            requesterID: requester.requesterID,
+            requesterName: requester.username
+        });
+
+        batch.update(ref, {
+            requests: {
+                completedRequests: doc.date().requests.completedRequests,
+                currentRequests: oldArray
+            }
+        });
+
+        batch.commit();
+
+    }
+
 }
 

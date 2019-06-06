@@ -53,11 +53,9 @@ class logInScreen extends Component {
                 FirebaseFunctions.getRequesterByID(uid).then((requester) => {
                     if (requester === -1) {
                         //This means this account is a provider since a requester with this ID was not found
-                        FirebaseFunctions.getProviderByID(uid).then((provider) => {
                             this.props.navigation.push('ProviderScreens', {
-                                provider
+                                providerID: uid
                             });
-                        });
                     } else {
                         FirebaseFunctions.getAllProducts().then((allProducts) => {
                             //If this is a requester, then it will navigate to the screens & pass in the

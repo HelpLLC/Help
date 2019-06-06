@@ -25,37 +25,41 @@ class businessScreen extends Component {
         this.state = {
             isLoading: true,
             serviceIDsLength: 0,
+            provider: "",
             providerProducts: []
         }
     }
 
+    //This will fetch the data about this provider and his products from firestore
     async componentDidMount() {
-        const { provider } = this.props.navigation.state.params;
-        if (provider.serviceIDs.length === 0) {
-            this.setState({ isLoading: false });
-        } else {
-            const serviceIDs = provider.serviceIDs;
-            await serviceIDs.forEach((ID) => {
-                FirebaseFunctions.getServiceByID(ID).then((service) => {
-                    const newArrayOfProducts = this.state.providerProducts;
-                    newArrayOfProducts.push(service);
-                    this.setState({
-                        providerProducts: newArrayOfProducts
-                    });
-                })
-            });
-            this.setState({
-                isLoading: false,
-                serviceIDsLength: serviceIDs.length,
-            });
-        }
+        const { providerID } = this.props.navigation.state.params;
+        FirebaseFunctions.getProviderByID(providerID).then(async (provider) => {
+            this.setState({ provider });
+            if (provider.serviceIDs.length === 0) {
+                this.setState({ isLoading: false });
+            } else {
+                const serviceIDs = provider.serviceIDs;
+                await serviceIDs.forEach((ID) => {
+                    FirebaseFunctions.getServiceByID(ID).then((service) => {
+                        const newArrayOfProducts = this.state.providerProducts;
+                        newArrayOfProducts.push(service);
+                        this.setState({
+                            providerProducts: newArrayOfProducts
+                        });
+                    })
+                });
+                this.setState({
+                    isLoading: false,
+                    serviceIDsLength: serviceIDs.length,
+                });
+            }
+        });
     }
 
     render() {
 
         //Gets the provider & the products from the state
-        const { isLoading, providerProducts, serviceIDsLength } = this.state;
-        const { provider } = this.props.navigation.state.params;
+        const { isLoading, providerProducts, serviceIDsLength, provider } = this.state;
         //Stores the top part of this view
         const topView = (
             <View style={{ alignItems: 'center' }}>
@@ -110,10 +114,9 @@ class businessScreen extends Component {
         //If the screen is loading, then the loading icon will appear. If the provider does not yet have
         //any products, then the "Create first product" thing will appear. If none of that is true, then
         //the provider's normal products will be displayed. 
-        if (isLoading === true || (providerProducts.length == 0 && serviceIDsLength > 0)) {
+        if (isLoading === true || (providerProducts.length == 0 && serviceIDsLength > 0) || provider === "") {
             return (
                 <SafeAreaView style={screenStyle.container}>
-                    {topView}
                     <View style={{ alignItems: 'center' }}>
                         <LoadingSpinner isVisible={isLoading} />
                     </View>
@@ -181,7 +184,7 @@ class businessScreen extends Component {
                                     onPress={() => {
                                         this.props.navigation.push('ProviderProductScreen', {
                                             productID: item.serviceID,
-                                            providerID: providerID
+                                            providerID: provider.providerID
                                         });
                                     }}
                                 />
