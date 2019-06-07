@@ -144,7 +144,7 @@ export default class FirebaseFunctions {
         //First will retrieve the provider information in order to know the name of the company
         FirebaseFunctions.getProviderByID(providerID).then((provider) => {
 
-            this.database.products.add({
+            this.products.add({
 
                 serviceTitle,
                 serviceDescription,

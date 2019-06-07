@@ -33,24 +33,17 @@ class createProductScreen extends Component {
     //Chooses the image from camera roll or picture and sets it to the image source
     chooseImage() {
 
-        //Options for the image picker
-        const options = {
-            title: 'Select Avatar',
-            customButtons: [{ name: 'fb', title: 'Choose photo from library' }],
-            storageOptions: {
-                skipBackup: true,
-                path: 'images',
-            },
-        };
-
         //Shows the image picker with the default options
-        ImagePicker.launchImageLibrary(options, (response) => {
+        ImagePicker.showImagePicker(null, (response) => {
 
             const source = { uri: 'data:image/jpeg;base64,' + response.data };
-            //Sets the source of the image
-            this.setState({
-                imageSource: source,
-            });
+            if (!(source.uri === "data:image/jpeg;base64,undefined")) {
+                //Sets the source of the image if one has been selected
+                this.setState({
+                    imageSource: source,
+                });
+            }
+
 
         });
     }
