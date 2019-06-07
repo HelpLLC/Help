@@ -1,7 +1,7 @@
 //This navigator represents the bottom tab in which the provider will be able to navigate from
 //screen to screen. It will lead to the settings screen, help screen, and the chats screen.
 import { createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
-import settingsScreensNavigator from '../settingsScreens/settingsScreensNavigator';
+import settingsScreen from '../settingsScreens/settingsScreen';
 import chatsScreen from '../chats/chatsScreen';
 import businessScreen from './providerBusiness/businessScreen';
 import fontStyles from 'config/styles/fontStyles';
@@ -34,7 +34,7 @@ const routeConfig = {
     //Route connecting to the settings screen
     SettingsScreen: {
         //connects the object with the settings screen component
-        screen: settingsScreensNavigator,
+        screen: settingsScreen,
         //sets up what the tab will be titled
         navigationOptions: {
             tabBarLabel: strings.Settings

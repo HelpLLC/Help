@@ -2,7 +2,7 @@
 //screen to screen. It will lead to the settings screen, request screen, and the chats screen.
 import { createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
 import chatsScreen from '../chats/chatsScreen';
-import settingsScreensNavigator from '../settingsScreens/settingsScreensNavigator';
+import settingsScreens from '../settingsScreens/settingsScreen';
 import requestScreen from './requesterRequest/requestScreen';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
@@ -34,7 +34,7 @@ const routeConfig = {
     //Route connecting to the settings screen
     SettingsScreen: {
         //connects the object with the settings screen component
-        screen: settingsScreensNavigator,
+        screen: settingsScreens,
         //sets up what the tab will be titled
         navigationOptions: {
             tabBarLabel: strings.Settings

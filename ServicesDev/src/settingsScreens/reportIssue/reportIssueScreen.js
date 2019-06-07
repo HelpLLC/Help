@@ -9,6 +9,7 @@ import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonS
 import RoundBlueButton from '../../components/RoundBlueButton';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 
 class reportIssueScreen extends Component {
 
@@ -20,11 +21,10 @@ class reportIssueScreen extends Component {
 
     //This method will report the issue to the developers as well as confirm the reported issue 
     //with the User. It will take in a parameter of the entered user input
-    reportIssue(userInput) {
+    reportIssue() {
 
-        //to-do: Actually report the issue
-
-        //to-do: Go to other screen where confirmation happens, then return to this screen
+        const { user } = this.props.navigation.state.params;
+        FirebaseFunctions.reportIssue(user, this.state.userInput);
 
     }
 
@@ -43,7 +43,7 @@ class reportIssueScreen extends Component {
                                 //make sure the animation is to the left
                                 this.props.navigation.dismiss();
                                 this.props.navigation.goBack();
-                                }} />
+                            }} />
                     </View>
                     <View style={{ paddingBottom: 25, paddingTop: 25 }}>
                         <Text style={fontStyles.mainTextStyleBlack}>
@@ -64,7 +64,10 @@ class reportIssueScreen extends Component {
                             title={strings.Report}
                             style={roundBlueButtonStyle.MediumSizeButton}
                             textStyle={fontStyles.reportIssueButtonTextStyle}
-                            onPress={() => { this.props.navigation.push('IssueReportedScreen') }} />
+                            onPress={() => {
+                                this.props.navigation.push('IssueReportedScreen')
+                                this.reportIssue()
+                            }} />
                     </View>
                 </SafeAreaView>
             </TouchableWithoutFeedback >

@@ -13,6 +13,7 @@ export default class FirebaseFunctions {
     static requesters = this.database.collection("requesters");
     static products = this.database.collection("products");
     static messages = this.database.collection("messages");
+    static issues = this.database.collection("issues");
 
     //This method will return an array containing an all products currently in the market
     static async getAllProducts() {
@@ -179,7 +180,7 @@ export default class FirebaseFunctions {
     //This method will update the information for a provider by taking in the new company name
     //and new company info and updating those fields in the firestore
     static async updateProviderInfo(providerID, newBusinessName, newBusinessInfo) {
-        
+
         const batch = this.database.batch();
         const ref = this.providers.doc(providerID);
         batch.update(ref, {
@@ -293,6 +294,22 @@ export default class FirebaseFunctions {
         });
 
         batch.commit();
+
+    }
+
+    //This method will take in a username of a user, the user's UID, and a string containing the issue.
+    //Then it will add the issue to be viewed in the database (in the future, should send an email to 
+    //the email of the company)
+    static async reportIssue(user, issue) {
+
+        //tests whether or not the user is a requester or a provider and adds a "r-" or "p-" before their
+        //ID respectivly
+        const userID = (user.requesterID ? ("r-" + user.requesterID) : ("p-" + user));
+
+        this.issues.add({
+            issue,
+            userID
+        });
 
     }
 

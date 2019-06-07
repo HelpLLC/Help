@@ -9,6 +9,9 @@ import ProviderProductHistoryScreen from './providerScreens/providerBusiness/pro
 import RequesterServiceScreen from './requesterScreens/requesterRequest/serviceScreen';
 import RequesterCompanyProfileScreen from './requesterScreens/requesterRequest/companyProfileScreen';
 import MessagingScreen from './chats/messagingScreen';
+import aboutScreen from './settingsScreens/aboutScreen';
+import privacyScreen from './settingsScreens/privacyScreen';
+import reportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';
 import TopBanner from './components/TopBanner';
 import React from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
@@ -91,6 +94,30 @@ const routeConfig = {
                     leftIconName="angle-left"
                     leftOnPress={() => navigation.goBack()} />
             )
+        })
+    },
+
+    //Takes you to the about screen
+    AboutScreen: {
+        screen: aboutScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        })
+    },
+
+    //Takes you to the report an issue screen
+    ReportIssueScreen: {
+        screen: reportIssueScreensNavigator,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        })
+    },
+
+    //Takes you to the screen containing the privacy policy
+    PrivacyScreen: {
+        screen: privacyScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: null
         })
     }
 

@@ -22,6 +22,9 @@ class settingsScreen extends Component {
         //This constant holds the value for the right angle icon which appears frequently
         //in this class
         const angleRightIcon = <Icon name={"angle-right"} type="font-awesome" color={colors.lightBlue} />;
+        //Retrieves the current user from the params
+        const user = (this.props.navigation.state.params.providerID ? this.props.navigation.state.params.providerID :
+            this.props.navigation.state.params.requester);
         return (
             <SafeAreaView style={screenStyle.container}>
                 <View>
@@ -34,7 +37,9 @@ class settingsScreen extends Component {
                         mainTextStyle={fontStyles.subTextStyleBlack}
                         comp={angleRightIcon}
                         //Pressing this leads to the report an issue screen
-                        onPress={() => this.props.navigation.push('ReportIssueScreen')}
+                        onPress={() => this.props.navigation.push('ReportIssueScreen', {
+                            user
+                        })}
                     />
                     <WhiteCard
                         style={whiteCardStyle.marginCard}
