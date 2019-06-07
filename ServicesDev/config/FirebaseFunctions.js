@@ -266,6 +266,7 @@ export default class FirebaseFunctions {
         });
 
         batch.commit();
+        FirebaseFunctions.deleteRequest(productID, requesterID)
 
     }
 
@@ -286,7 +287,7 @@ export default class FirebaseFunctions {
 
         batch.update(ref, {
             requests: {
-                completedRequests: doc.date().requests.completedRequests,
+                completedRequests: doc.data().requests.completedRequests,
                 currentRequests: oldArray
             }
         });

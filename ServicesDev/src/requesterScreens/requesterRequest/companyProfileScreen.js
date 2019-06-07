@@ -64,6 +64,7 @@ class companyProfileScreen extends Component {
     }
 
     render() {
+        const { isLoading, providerProducts, serviceIDsLength } = this.state;
         if (isLoading === true || (providerProducts.length == 0 && serviceIDsLength > 0)) {
             return (
                 <SafeAreaView style={screenStyle.container}>
@@ -73,7 +74,8 @@ class companyProfileScreen extends Component {
                 </SafeAreaView>
             )
         } else {
-            return (
+            const { provider, requester } = this.props.navigation.state.params;
+            return (    
                 <SafeAreaView style={screenStyle.container}>
                     <View>
                         <TopBanner
@@ -94,10 +96,10 @@ class companyProfileScreen extends Component {
                     }}>
                         <View style={{ flexDirection: 'column', paddingBottom: 10, maxWidth: 260 }}>
                             <Text style={[fontStyles.bigTextStyleBlack, { paddingBottom: 10 }]}>
-                                {this.props.provider.companyName}</Text>
+                                {provider.companyName}</Text>
 
                             <Text style={[fontStyles.subTextStyleBlack, { paddingTop: 10 }]}>
-                                {this.props.provider.companyDescription}</Text>
+                                {provider.companyDescription}</Text>
                         </View>
 
                         <View style={{ paddingBottom: 10 }}>
@@ -117,9 +119,9 @@ class companyProfileScreen extends Component {
                         contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
                         showsVerticalScrollIndicator={false}>
                         <FlatList
-                            data={this.props.providerProducts}
+                            data={providerProducts}
                             keyExtractor={(item, index) => {
-                                return (this.props.provider.companyName + " Product #" + index);
+                                return (provider.companyName + " Product #" + index);
                             }}
                             renderItem={({ item, index }) => (
                                 <ServiceCard
@@ -133,9 +135,9 @@ class companyProfileScreen extends Component {
                                     //more information about the service
                                     onPress={() => {
                                         this.props.navigation.push('RequesterServiceScreen', {
-                                            offeredByID: item.offeredBy,
-                                            productID: item.serviceID,
-                                            thisRequesterID: this.props.thisRequesterID
+                                            product: item,
+                                            requester,
+                                            provider
                                         });
                                     }}
                                 />

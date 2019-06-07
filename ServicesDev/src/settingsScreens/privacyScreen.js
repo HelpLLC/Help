@@ -18,7 +18,7 @@ class aboutScreen extends Component {
                 </View>
 
                 <ScrollView>
-                    <Text>{strings.PrivacyPolicy}</Text>
+                    <Text style={{ padding: 20 }}>{strings.PrivacyPolicy}</Text>
                 </ScrollView>
 
             </SafeAreaView>
