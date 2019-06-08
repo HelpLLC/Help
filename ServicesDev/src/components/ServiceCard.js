@@ -83,13 +83,13 @@ class ServiceCard extends Component {
                     </BoxShadow>
                 </View>
                 {numCurrentRequests > 0 ? (
-                    <View>
-                        <Badge
-                            status="error"
-                            value={numCurrentRequests}
-                            containerStyle={{ position: 'absolute', top: -4, right: -4 }}
-                        />
-                    </View>
+                    <Badge
+                        status="error"
+                        value={numCurrentRequests}
+                        badgeStyle={{width: 40, height: 40, borderRadius: 20}}
+                        textStyle={fontStyles.mainTextStyleWhite}
+                        containerStyle={{ position: 'absolute', top: 4, right: 8 }}
+                    />
                 ) : (
                         <View></View>
                     )}
