@@ -15,25 +15,27 @@ class splashScreen extends Component {
     render() {
         return (
             <SafeAreaView style={screenStyle.container}>
-                <View style={{ paddingTop: 95, paddingBottom: 130 }}>
+                <View style={{ flex: 1, justifyContent: 'center' }}>
                     <Text style={fontStyles.bigTitleStyleBlue}>{strings.HelpExclamation}</Text>
                 </View>
-                <RoundBlueButton
-                    title={strings.GetStarted}
-                    style={roundBlueButtonStyle.MainScreenButton}
-                    textStyle={fontStyles.bigTextStyleWhite}
-                    onPress={() => {
-                        this.props.navigation.push('SignUpScreen');
-                    }} />
-                <View style={{ flexDirection: 'row', paddingTop: 10 }}>
-                    <Text style={fontStyles.subTextStyleBlack}>{strings.HaveAnAccountQuestion}</Text>
-                    <Text style={fontStyles.subTextStyleBlack}> </Text>
-                    <TouchableOpacity
+                <View style={{ flex: 1 }}>
+                    <RoundBlueButton
+                        title={strings.GetStarted}
+                        style={roundBlueButtonStyle.MainScreenButton}
+                        textStyle={fontStyles.bigTextStyleWhite}
                         onPress={() => {
-                            this.props.navigation.push('LogInScreen')
-                        }}>
-                        <Text style={fontStyles.subTextStyleBlue}>{strings.LogIn}</Text>
-                    </TouchableOpacity>
+                            this.props.navigation.push('SignUpScreen');
+                        }} />
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={fontStyles.subTextStyleBlack}>{strings.HaveAnAccountQuestion}</Text>
+                        <Text style={fontStyles.subTextStyleBlack}> </Text>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.props.navigation.push('LogInScreen')
+                            }}>
+                            <Text style={fontStyles.subTextStyleBlue}>{strings.LogIn}</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </SafeAreaView>
         );

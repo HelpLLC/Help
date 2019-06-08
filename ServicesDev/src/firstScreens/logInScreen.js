@@ -2,7 +2,7 @@
 //created. Since there will be no payments or anything secure in the mvp, then users will only 
 //log in with their phone numbers. And that will be what is linked with their accoun
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback, Keyboard, SafeAreaView } from 'react-native';
+import { View, Text, KeyboardAvoidingView, Keyboard, SafeAreaView } from 'react-native';
 import TopBanner from '../components/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
@@ -53,9 +53,9 @@ class logInScreen extends Component {
                 FirebaseFunctions.getRequesterByID(uid).then((requester) => {
                     if (requester === -1) {
                         //This means this account is a provider since a requester with this ID was not found
-                            this.props.navigation.push('ProviderScreens', {
-                                providerID: uid
-                            });
+                        this.props.navigation.push('ProviderScreens', {
+                            providerID: uid
+                        });
                     } else {
                         FirebaseFunctions.getAllProducts().then((allProducts) => {
                             //If this is a requester, then it will navigate to the screens & pass in the
@@ -76,59 +76,66 @@ class logInScreen extends Component {
 
     render() {
         return (
-            //View that dismisses the keyboard when clicked anywhere else
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                <SafeAreaView style={screenStyle.container}>
-                    <View>
-                        <TopBanner
-                            title={strings.LogIn}
-                            leftIconName="angle-left"
-                            leftOnPress={() => {
-                                //Method will go back to the splash screen
-                                this.props.navigation.goBack();
-                            }} />
+            <SafeAreaView style={screenStyle.container}>
+                <View>
+                    <TopBanner
+                        title={strings.LogIn}
+                        leftIconName="angle-left"
+                        leftOnPress={() => {
+                            //Method will go back to the splash screen
+                            this.props.navigation.goBack();
+                        }} />
+                </View>
+                <View>
+                    <View style={{ flex: 1, justifyContent: 'center' }}>
+                        <View>
+                            <Text style={fontStyles.mainTextStyleBlack}>{strings.Email}</Text>
+                        </View>
+
+                        <View>
+                            <OneLineTextInput
+                                placeholder={strings.EnterYourEmail}
+                                onChangeText={(input) => this.setState({ email: input })}
+                                value={this.state.email}
+                            />
+                        </View>
                     </View>
 
-                    <View style={{ paddingTop: 30, paddingRight: 10, paddingLeft: 10 }}>
-                        <Text style={fontStyles.mainTextStyleBlack}>{strings.Email}</Text>
+                    <View style={{ flex: 1, justifyContent: 'center' }}>
+                        <View>
+                            <Text style={fontStyles.mainTextStyleBlack}>{strings.Password}</Text>
+                        </View>
+
+                        <View>
+                            <OneLineTextInput
+                                placeholder={strings.EnterYourPassword}
+                                onChangeText={(input) => this.setState({ password: input })}
+                                value={this.state.password}
+                            />
+                        </View>
                     </View>
 
-                    <View style={{ paddingTop: 10, paddingRight: 10, paddingLeft: 10 }}>
-                        <OneLineTextInput
-                            placeholder={strings.EnterAnEmail}
-                            onChangeText={(input) => this.setState({ email: input })}
-                            value={this.state.email}
-                        />
+                    <View style={{ flex: 1, alignItems: 'center' }}>
+                        <View style={{ flex: 1 }}>
+                            <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
+                        </View>
+
+                        <View style={{ flex: 1 }}>
+                            <RoundBlueButton
+                                title={strings.LogIn}
+                                style={roundBlueButtonStyle.MediumSizeButton}
+                                textStyle={fontStyles.bigTextStyleWhite}
+                                //Method logs the person in based on what is entered into the text
+                                //input
+                                onPress={() => { this.logIn() }} />
+                        </View>
+                        <LoadingSpinner isVisible={this.state.isLoading} />
                     </View>
 
-                    <View style={{ paddingTop: 30, paddingRight: 10, paddingLeft: 10 }}>
-                        <Text style={fontStyles.mainTextStyleBlack}>{strings.Password}</Text>
-                    </View>
+                    <View style={{ flex: 2 }}></View>
+                </View>
+            </SafeAreaView>
 
-                    <View style={{ paddingTop: 10, paddingRight: 10, paddingLeft: 10 }}>
-                        <OneLineTextInput
-                            placeholder={strings.ChooseAPassword}
-                            onChangeText={(input) => this.setState({ password: input })}
-                            value={this.state.password}
-                        />
-                    </View>
-
-                    <View style={{ paddingLeft: 20, paddingTop: 10 }}>
-                        <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
-                    </View>
-
-                    <View style={{ paddingTop: 35, paddingRight: 10, paddingLeft: 10 }}>
-                        <RoundBlueButton
-                            title={strings.LogIn}
-                            style={roundBlueButtonStyle.MediumSizeButton}
-                            textStyle={fontStyles.bigTextStyleWhite}
-                            //Method logs the person in based on what is entered into the text
-                            //input
-                            onPress={() => { this.logIn() }} />
-                    </View>
-                    <LoadingSpinner isVisible={this.state.isLoading} />
-                </SafeAreaView>
-            </TouchableWithoutFeedback>
         );
     }
 };

@@ -15,8 +15,8 @@ export default {
     HelpExclamation: 'Help!',
 
     //------------------- Log In Screen -------------------
-    WhatIsYourUsernameQuestion: 'What is your username?',
-    EnterYourUsername: 'Enter your username...',
+    EnterYourEmail: 'Enter your email...',
+    EnterYourPassword: 'Enter your password...',
     IncorrectInfo: "Incorrect email/password",
 
     //------------------- Create Profile Screen -------------------
@@ -26,7 +26,7 @@ export default {
     SignUp: 'Sign Up',
     Email: 'Email',
     EnterAnEmail: 'Enter an email...',
-    WhatTypeOfAccountQuestion: 'What type of account do you want to create?',
+    AccountType: 'Account Type',
     Business: 'Business',
     Password: 'Password',
     ChooseAPassword: 'Choose a password...',

@@ -101,49 +101,59 @@ class createProviderProfileScreen extends Component {
                             }} />
                     </View>
 
-                    <View style={{ paddingTop: 20, paddingRight: 10, paddingLeft: 10 }}>
-                        <Text style={fontStyles.mainTextStyleBlack}>
-                            {strings.WhatsYourBusinessCalledQuestion}</Text>
+                    <View>
+                        <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
+                            <View>
+                                <Text style={fontStyles.mainTextStyleBlack}>
+                                    {strings.WhatsYourBusinessCalledQuestion}</Text>
+                            </View>
+
+                            <View>
+                                <OneLineTextInput
+                                    placeholder={strings.EnterCompanyNameDotDotDot}
+                                    onChangeText={(input) => this.setState({ businessName: input })}
+                                    value={this.state.businessName}
+                                    maxLength={18}
+                                />
+                            </View>
+                        </View>
+
+                        <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
+                            <View>
+                                <Text style={fontStyles.mainTextStyleBlack}>
+                                    {strings.WhatDoesYourBusinessDoQuestion}</Text>
+                            </View>
+
+                            <View>
+                                <RoundTextInput
+                                    width={275}
+                                    height={100}
+                                    placeholder={strings.TellYourCustomersAboutYourselfDotDotDot}
+                                    onChangeText={(input) => this.setState({ businessInfo: input })}
+                                    value={this.state.businessInfo} />
+                            </View>
+                        </View>
+
+                        <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
+                            <View style={{ flex: 1, justifyContent: 'center' }}>
+                                <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
+                            </View>
+
+                            <View style={{ flex: 1, alignItems: 'center' }}>
+                                <RoundBlueButton
+                                    title={strings.GetStarted}
+                                    style={roundBlueButtonStyle.MediumSizeButton}
+                                    textStyle={fontStyles.bigTextStyleWhite}
+                                    onPress={() => { this.signUp() }}
+                                />
+                            </View>
+                            <View style={{ flex: 1, alignItems: 'center' }}>
+                                <LoadingSpinner isVisible={this.state.isLoading} />
+                            </View>
+                        </View>
+
+                        <View style={{ flex: 1 }}></View>
                     </View>
-
-                    <View style={{ paddingTop: 20, paddingRight: 10, paddingLeft: 10 }}>
-                        <OneLineTextInput
-                            placeholder={strings.EnterCompanyNameDotDotDot}
-                            onChangeText={(input) => this.setState({ businessName: input })}
-                            value={this.state.businessName}
-                            maxLength={18}
-                        />
-                    </View>
-
-                    <View style={{ paddingTop: 30, paddingRight: 10, paddingLeft: 10 }}>
-                        <Text style={fontStyles.mainTextStyleBlack}>
-                            {strings.WhatDoesYourBusinessDoQuestion}</Text>
-                    </View>
-
-                    <View style={{ padding: 20 }}>
-                        <RoundTextInput
-                            width={275}
-                            height={100}
-                            placeholder={strings.TellYourCustomersAboutYourselfDotDotDot}
-                            onChangeText={(input) => this.setState({ businessInfo: input })}
-                            value={this.state.businessInfo} />
-                    </View>
-
-                    <View style={{ paddingTop: 10 }}>
-                        <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
-                    </View>
-
-                    <View style={{ paddingTop: 10 }}>
-                        <RoundBlueButton
-                            title={strings.GetStarted}
-                            style={roundBlueButtonStyle.MediumSizeButton}
-                            textStyle={fontStyles.bigTextStyleWhite}
-                            onPress={() => { this.signUp() }}
-                        />
-                    </View>
-
-                    <LoadingSpinner isVisible={this.state.isLoading} />
-
                 </SafeAreaView>
             </TouchableWithoutFeedback>
         );

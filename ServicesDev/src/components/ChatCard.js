@@ -21,11 +21,12 @@ class ChatCard extends Component {
             <TouchableOpacity onPress={onPress}>
 
                 <View style={chatCardStyle.style}>
-                    <View style={{ 
+                    <View style={{
                         flexDirection: 'column',
-                        justifyContent: 'space-evenly', 
-                        paddingLeft: 30 }}>
-                        <Text style={[fontStyles.mainTextStyleBlack, {paddingBottom: 3}]}>{username}</Text>
+                        justifyContent: 'space-evenly',
+                        paddingLeft: 30
+                    }}>
+                        <Text style={[fontStyles.mainTextStyleBlack, { paddingBottom: 3 }]}>{username}</Text>
                         <Text style={fontStyles.subTextStyleGray}>{previewText}</Text>
                     </View>
                     <View style={{ paddingRight: 30, paddingBottom: 10 }}>

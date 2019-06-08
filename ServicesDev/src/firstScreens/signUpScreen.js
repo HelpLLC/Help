@@ -91,94 +91,106 @@ class signUpScreen extends Component {
     render() {
         return (
             //View that dismisses the keyboard when clicked anywhere else
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                <SafeAreaView style={screenStyle.container}>
-                    <View>
-                        <TopBanner
-                            title={strings.SignUp}
-                            leftIconName="angle-left"
-                            leftOnPress={() => {
-                                //Method will go back to the splash screen
-                                this.props.navigation.goBack();
-                            }} />
+            <SafeAreaView style={screenStyle.container}>
+                <View>
+                    <TopBanner
+                        title={strings.SignUp}
+                        leftIconName="angle-left"
+                        leftOnPress={() => {
+                            //Method will go back to the splash screen
+                            this.props.navigation.goBack();
+                        }} />
+                </View>
+                <View>
+                    <View style={{ flex: 1.2, justifyContent: 'center', alignSelf: 'center' }}>
+                        <View>
+                            <Text style={fontStyles.mainTextStyleBlack}>{strings.Email}</Text>
+                        </View>
+
+                        <View>
+                            <OneLineTextInput
+                                placeholder={strings.EnterAnEmail}
+                                onChangeText={(input) => this.setState({ email: input })}
+                                value={this.state.email}
+                            />
+                        </View>
                     </View>
 
-                    <View style={{ paddingTop: 30, paddingRight: 10, paddingLeft: 10 }}>
-                        <Text style={fontStyles.mainTextStyleBlack}>{strings.Email}</Text>
+                    <View style={{ flex: 1.2, justifyContent: 'center', alignSelf: 'center' }}>
+                        <View>
+                            <Text style={fontStyles.mainTextStyleBlack}>{strings.Password}</Text>
+                        </View>
+
+                        <View>
+                            <OneLineTextInput
+                                placeholder={strings.ChooseAPassword}
+                                onChangeText={(input) => this.setState({ password: input })}
+                                value={this.state.password}
+                            />
+                        </View>
                     </View>
 
-                    <View style={{ paddingTop: 10, paddingRight: 10, paddingLeft: 10 }}>
-                        <OneLineTextInput
-                            placeholder={strings.EnterAnEmail}
-                            onChangeText={(input) => this.setState({ email: input })}
-                            value={this.state.email}
-                        />
-                    </View>
-
-                    <View style={{ paddingTop: 30, paddingRight: 10, paddingLeft: 10 }}>
-                        <Text style={fontStyles.mainTextStyleBlack}>{strings.Password}</Text>
-                    </View>
-
-                    <View style={{ paddingTop: 10, paddingRight: 10, paddingLeft: 10 }}>
-                        <OneLineTextInput
-                            placeholder={strings.ChooseAPassword}
-                            onChangeText={(input) => this.setState({ password: input })}
-                            value={this.state.password}
-                        />
-                    </View>
-
-                    <View style={{ paddingTop: 60, paddingRight: 30, paddingLeft: 30 }}>
-                        <Text style={fontStyles.mainTextStyleBlack}>
-                            {strings.WhatTypeOfAccountQuestion}</Text>
+                    <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
+                        <View>
+                            <Text style={fontStyles.mainTextStyleBlack}>
+                                {strings.AccountType}</Text>
+                        </View>
                     </View>
 
                     <View style={{
-                        paddingTop: 30,
-                        paddingRight: 30,
-                        paddingLeft: 30,
                         flexDirection: 'row',
                         width: Dimensions.get('window').width,
-                        justifyContent: 'space-between'
+                        justifyContent: 'space-evenly',
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignSelf: 'center'
                     }}>
-                        <RoundBlueButton
-                            title={strings.Business}
-                            //Tests if this button is selected, if it is, then the border color will
-                            //be blue
-                            style={[roundBlueButtonStyle.AccountTypeButton, {
-                                borderColor: this.state.buttonSelected === "Business" ?
-                                    colors.lightBlue : colors.white
-                            }]}
-                            textStyle={fontStyles.mainTextStyleBlue}
-                            //Method selects the business button and deselects the other
-                            onPress={() => { this.setState({ buttonSelected: "Business" }) }} />
-                        <RoundBlueButton
-                            title={strings.Customer}
-                            //Tests if this button is selected, if it is, then the border color will
-                            //be blue
-                            style={[roundBlueButtonStyle.AccountTypeButton, {
-                                borderColor: this.state.buttonSelected === "Customer" ?
-                                    colors.lightBlue : colors.white
-                            }]}
-                            textStyle={fontStyles.mainTextStyleBlue}
-                            //Method selects the customer button and deselects the other
-                            onPress={() => { this.setState({ buttonSelected: "Customer" }) }} />
+                        <View style={{ flex: 1, alignItems: 'center' }}>
+                            <RoundBlueButton
+                                title={strings.Business}
+                                //Tests if this button is selected, if it is, then the border color will
+                                //be blue
+                                style={[roundBlueButtonStyle.AccountTypeButton, {
+                                    borderColor: this.state.buttonSelected === "Business" ?
+                                        colors.lightBlue : colors.white
+                                }]}
+                                textStyle={fontStyles.mainTextStyleBlue}
+                                //Method selects the business button and deselects the other
+                                onPress={() => { this.setState({ buttonSelected: "Business" }) }} />
+                        </View>
+                        <View style={{ flex: 1, alignItems: 'center' }}>
+                            <RoundBlueButton
+                                title={strings.Customer}
+                                //Tests if this button is selected, if it is, then the border color will
+                                //be blue
+                                style={[roundBlueButtonStyle.AccountTypeButton, {
+                                    borderColor: this.state.buttonSelected === "Customer" ?
+                                        colors.lightBlue : colors.white
+                                }]}
+                                textStyle={fontStyles.mainTextStyleBlue}
+                                //Method selects the customer button and deselects the other
+                                onPress={() => { this.setState({ buttonSelected: "Customer" }) }} />
+                        </View>
                     </View>
-                    <View style={{ paddingTop: 10 }}>
-                        <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
+                    <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
+                        <View style={{ flex: 1, alignItems: 'center' }}>
+                            <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
+                        </View>
+                        <View style={{ flex: 1, alignItems: 'center' }}>
+                            <RoundBlueButton
+                                title={strings.SignUp}
+                                style={roundBlueButtonStyle.MediumSizeButton}
+                                textStyle={fontStyles.bigTextStyleWhite}
+                                onPress={() => { this.signUp() }}
+                            />
+                        </View>
+                        <View style={{ flex: 1, alignItems: 'center' }}>
+                            <LoadingSpinner isVisible={this.state.isLoading} />
+                        </View>
                     </View>
-                    <View style={{ paddingTop: 50 }}>
-                        <RoundBlueButton
-                            title={strings.SignUp}
-                            style={roundBlueButtonStyle.MediumSizeButton}
-                            textStyle={fontStyles.bigTextStyleWhite}
-                            onPress={() => { this.signUp() }}
-                        />
-                    </View>
-
-                    <LoadingSpinner isVisible={this.state.isLoading} />
-
-                </SafeAreaView>
-            </TouchableWithoutFeedback>
+                    <View style={{ flex: 1.6 }}></View>
+                </View>
+            </SafeAreaView>
         );
     }
 };
