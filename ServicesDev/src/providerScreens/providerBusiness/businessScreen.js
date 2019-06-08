@@ -163,7 +163,9 @@ class businessScreen extends Component {
                             textStyle={fontStyles.bigTextStyleWhite}
                             onPress={() => {
                                 this.props.navigation.push('ProviderCreateProductScreen', {
-                                    userIndex: this.props.navigation.state.params.userIndex
+                                    providerID: provider.providerID,
+                                    provider,
+                                    providerProducts
                                 });
                             }} />
                     </View>

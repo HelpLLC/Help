@@ -84,16 +84,14 @@ class ServiceCard extends Component {
                 </View>
                 {numCurrentRequests > 0 ? (
                     <View>
-                        <Text style={fontStyles.mainTextStyleWhite}>{numCurrentRequests}</Text>
+                        <Badge
+                            status="error"
+                            value={numCurrentRequests}
+                            containerStyle={{ position: 'absolute', top: -4, right: -4 }}
+                        />
                     </View>
                 ) : (
-                        <View>
-                            <Badge
-                                status="error"
-                                value={numCurrentRequests}
-                                containerStyle={{ position: 'absolute', top: -4, right: -4 }}
-                            />
-                        </View>
+                        <View></View>
                     )}
             </TouchableOpacity>
         );
