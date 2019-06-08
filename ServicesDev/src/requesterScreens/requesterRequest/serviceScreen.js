@@ -123,26 +123,26 @@ class serviceScreen extends Component {
                             flex: 0.5
                         }}>
                             <View style={{ flexDirection: 'column', flex: 1 }}>
-                                <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                                <View style={{ flex: 1, justifyContent: 'center' }}>
                                     <Text style={fontStyles.bigTextStyleBlack}>
                                         {product.serviceTitle}</Text>
                                 </View>
-
-                                <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                                    <Text style={fontStyles.subTextStyleGray}>
-                                        {strings.OfferedBy}</Text>
+                                <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+                                    <View>
+                                        <Text style={fontStyles.subTextStyleGray}>
+                                            {strings.OfferedBy}</Text>
+                                    </View>
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            this.props.navigation.push('RequesterCompanyProfileScreen', {
+                                                provider,
+                                                requester
+                                            });
+                                        }}>
+                                        <Text style={fontStyles.subTextStyleBlue}>
+                                            {provider.companyName}</Text>
+                                    </TouchableOpacity>
                                 </View>
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        this.props.navigation.push('RequesterCompanyProfileScreen', {
-                                            provider,
-                                            requester
-                                        });
-                                    }}
-                                    style={{ flex: 1, justifyContent: 'flex-start' }}>
-                                    <Text style={fontStyles.subTextStyleBlue}>
-                                        {provider.companyName}</Text>
-                                </TouchableOpacity>
                             </View>
 
                             <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}>
