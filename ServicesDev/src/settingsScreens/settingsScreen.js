@@ -30,40 +30,52 @@ class settingsScreen extends Component {
                 <View>
                     <TopBanner title={strings.Settings} />
                 </View>
-                <View style={{ marginTop: 30 }}>
-                    <WhiteCard
-                        style={whiteCardStyle.marginCard}
-                        text={strings.ReportAnIssue}
-                        mainTextStyle={fontStyles.subTextStyleBlack}
-                        comp={angleRightIcon}
-                        //Pressing this leads to the report an issue screen
-                        onPress={() => this.props.navigation.push('ReportIssueScreen', {
-                            user
-                        })}
-                    />
-                    <WhiteCard
-                        style={whiteCardStyle.marginCard}
-                        text={strings.About}
-                        mainTextStyle={fontStyles.subTextStyleBlack}
-                        comp={angleRightIcon}
-                        //Pressing this leads to the about screen page
-                        onPress={() => this.props.navigation.push('AboutScreen')}
-                    />
-                    <WhiteCard
-                        style={whiteCardStyle.marginCard}
-                        text={strings.Privacy}
-                        mainTextStyle={fontStyles.subTextStyleBlack}
-                        comp={angleRightIcon}
-                        //Pressing this leads to the about screen page
-                        onPress={() => this.props.navigation.push('PrivacyScreen')}
-                    />
-                    <WhiteCard
-                        style={whiteCardStyle.marginCard}
-                        text={strings.LogOut}
-                        mainTextStyle={fontStyles.subTextStyleRed}
-                        //To-Do: Needs to call a logout function
-                        onPress={() => this.props.navigation.push('SplashScreen')}
-                    />
+                <View>
+                    <View style={{ flex: 0.1 }}></View>
+                    <View style={{ flex: 2 }}>
+                        <View style={{ flex: 1 }}>
+                            <WhiteCard
+                                style={whiteCardStyle.whiteCardStyle}
+                                text={strings.ReportAnIssue}
+                                mainTextStyle={fontStyles.subTextStyleBlack}
+                                comp={angleRightIcon}
+                                //Pressing this leads to the report an issue screen
+                                onPress={() => this.props.navigation.push('ReportIssueScreen', {
+                                    user
+                                })}
+                            />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <WhiteCard
+                                style={whiteCardStyle.whiteCardStyle}
+                                text={strings.About}
+                                mainTextStyle={fontStyles.subTextStyleBlack}
+                                comp={angleRightIcon}
+                                //Pressing this leads to the about screen page
+                                onPress={() => this.props.navigation.push('AboutScreen')}
+                            />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <WhiteCard
+                                style={whiteCardStyle.whiteCardStyle}
+                                text={strings.Privacy}
+                                mainTextStyle={fontStyles.subTextStyleBlack}
+                                comp={angleRightIcon}
+                                //Pressing this leads to the about screen page
+                                onPress={() => this.props.navigation.push('PrivacyScreen')}
+                            />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <WhiteCard
+                                style={whiteCardStyle.whiteCardStyle}
+                                text={strings.LogOut}
+                                mainTextStyle={fontStyles.subTextStyleRed}
+                                //To-Do: Needs to call a logout function
+                                onPress={() => this.props.navigation.push('SplashScreen')}
+                            />
+                        </View>
+                        <View style={{ flex: 3 }}></View>
+                    </View>
                 </View>
             </SafeAreaView>
         )

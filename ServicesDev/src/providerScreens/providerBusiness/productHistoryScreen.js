@@ -73,7 +73,7 @@ class productHistoryScreen extends Component {
                     product.requests.completedRequests.length > 0 ? (
                         <ScrollView style={{ paddingTop: 30 }} showsVerticalScrollIndicator={false}>
                             <WhiteCard
-                                style={whiteCardStyle.noMarginCard}
+                                style={whiteCardStyle.whiteCardStyle}
                                 text={strings.Date}
                                 mainTextStyle={fontStyles.bigTextStyleBlack}
                                 comp={<Text style={fontStyles.bigTextStyleBlack}>{strings.Customer}</Text>}
@@ -87,7 +87,7 @@ class productHistoryScreen extends Component {
                                 renderItem={({ item, index }) => (
                                     <WhiteCard
                                         key={index}
-                                        style={whiteCardStyle.noMarginCard}
+                                        style={whiteCardStyle.whiteCardStyle}
                                         text={item.dateCompleted}
                                         mainTextStyle={fontStyles.subTextStyleBlack}
                                         comp={<Text style={fontStyles.subTextStyleBlack}>

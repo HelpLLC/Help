@@ -4,19 +4,8 @@ import { Dimensions } from 'react-native';
 
 export default {
 
-    //This is the style for the cards that appear in the settings screen
-    marginCard: {
-        height: 45,
-        marginBottom: 35,
-        width: Dimensions.get('window').width,
-        backgroundColor: colors.white,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between'
-    },
-
-    //This is the card that appears in the about section
-    noMarginCard: {
+    //This is the card that appears in the about section & the settings screen
+    whiteCardStyle: {
         height: 45,
         width: Dimensions.get('window').width,
         backgroundColor: colors.white,

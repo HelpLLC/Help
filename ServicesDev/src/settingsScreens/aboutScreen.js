@@ -20,36 +20,40 @@ class aboutScreen extends Component {
                         leftIconName="angle-left"
                         leftOnPress={() => this.props.navigation.goBack()} />
                 </View>
-                
-                <View style={{ paddingRight: 14, paddingLeft: 14, paddingTop: 25, flexDirection: 'column' }}>
-                    <Text style={fontStyles.subTextStyleBlack}>{strings.MarketingMessage}</Text>
-                </View>
-
-                <View style={{flexDirection: 'column', paddingTop: 50}}>
-                    <WhiteCard
-                        style={whiteCardStyle.noMarginCard}
-                        text={strings.Version}
-                        mainTextStyle={fontStyles.subTextStyleBlack}
-                        comp={<Text style={fontStyles.subTextStyleBlack}>
-                            {strings.CurrentVersionNumber}</Text>}
-                        onPress={() => {}}
-                    />
-                    <WhiteCard
-                        style={whiteCardStyle.noMarginCard}
-                        text={strings.PublishedBy}
-                        mainTextStyle={fontStyles.subTextStyleBlack}
-                        comp={<Text style={fontStyles.subTextStyleBlack}>
-                            {strings.HelpLLC}</Text>}
-                        onPress={() => {}}
-                    />
-                    <WhiteCard
-                        style={whiteCardStyle.noMarginCard}
-                        text={strings.Contact}
-                        mainTextStyle={fontStyles.subTextStyleBlack}
-                        comp={<Text style={fontStyles.subTextStyleBlack}>
-                            {strings.ContactEmail}</Text>}
-                        onPress={() => {}}
-                    />
+                <View>
+                    <View style={{ flex: 0.75, justifyContent: 'center', flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={{ flex: 2 }}></View>
+                        <View style={{ flex: 50 }}>
+                            <Text style={fontStyles.subTextStyleBlack}>{strings.MarketingMessage}</Text>
+                        </View>
+                        <View style={{ flex: 2 }}></View>
+                    </View>
+                    <View style={{ flexDirection: 'column', flex: 3 }}>
+                        <WhiteCard
+                            style={whiteCardStyle.whiteCardStyle}
+                            text={strings.Version}
+                            mainTextStyle={fontStyles.subTextStyleBlack}
+                            comp={<Text style={fontStyles.subTextStyleBlack}>
+                                {strings.CurrentVersionNumber}</Text>}
+                            onPress={() => { }}
+                        />
+                        <WhiteCard
+                            style={whiteCardStyle.whiteCardStyle}
+                            text={strings.PublishedBy}
+                            mainTextStyle={fontStyles.subTextStyleBlack}
+                            comp={<Text style={fontStyles.subTextStyleBlack}>
+                                {strings.HelpLLC}</Text>}
+                            onPress={() => { }}
+                        />
+                        <WhiteCard
+                            style={whiteCardStyle.whiteCardStyle}
+                            text={strings.Contact}
+                            mainTextStyle={fontStyles.subTextStyleBlack}
+                            comp={<Text style={fontStyles.subTextStyleBlack}>
+                                {strings.ContactEmail}</Text>}
+                            onPress={() => { }}
+                        />
+                    </View>
                 </View>
             </SafeAreaView>
         )

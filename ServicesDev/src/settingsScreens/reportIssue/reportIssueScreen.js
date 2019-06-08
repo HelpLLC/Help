@@ -45,29 +45,32 @@ class reportIssueScreen extends Component {
                                 this.props.navigation.goBack();
                             }} />
                     </View>
-                    <View style={{ paddingBottom: 25, paddingTop: 25 }}>
-                        <Text style={fontStyles.mainTextStyleBlack}>
-                            {strings.WhatSeemsToBeTheProblemQuestion}</Text>
-                    </View>
-
-                    <View style={{ padding: 25 }}>
-                        <RoundTextInput
-                            width={275}
-                            height={200}
-                            placeholder={strings.DescribeYourIssueHereDotDotDot}
-                            onChangeText={(input) => this.setState({ userInput: input })}
-                            value={this.state.userInput} />
-                    </View>
-
                     <View>
-                        <RoundBlueButton
-                            title={strings.Report}
-                            style={roundBlueButtonStyle.MediumSizeButton}
-                            textStyle={fontStyles.reportIssueButtonTextStyle}
-                            onPress={() => {
-                                this.props.navigation.push('IssueReportedScreen')
-                                this.reportIssue()
-                            }} />
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
+                            <Text style={fontStyles.mainTextStyleBlack}>
+                                {strings.WhatSeemsToBeTheProblemQuestion}</Text>
+                        </View>
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
+                            <RoundTextInput
+                                width={275}
+                                height={200}
+                                placeholder={strings.DescribeYourIssueHereDotDotDot}
+                                onChangeText={(input) => this.setState({ userInput: input })}
+                                value={this.state.userInput} />
+                        </View>
+
+
+                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                            <RoundBlueButton
+                                title={strings.Report}
+                                style={roundBlueButtonStyle.MediumSizeButton}
+                                textStyle={fontStyles.reportIssueButtonTextStyle}
+                                onPress={() => {
+                                    this.props.navigation.push('IssueReportedScreen')
+                                    this.reportIssue()
+                                }} />
+                        </View>
+                        <View style={{ flex: 1.5 }}></View>
                     </View>
                 </SafeAreaView>
             </TouchableWithoutFeedback >
