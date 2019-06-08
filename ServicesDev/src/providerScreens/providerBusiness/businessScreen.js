@@ -157,6 +157,15 @@ class businessScreen extends Component {
                                     }} />
                             </BoxShadow>
                         </View>
+                        <RoundBlueButton
+                            title={strings.Create}
+                            style={roundBlueButtonStyle.MediumSizeButton}
+                            textStyle={fontStyles.bigTextStyleWhite}
+                            onPress={() => {
+                                this.props.navigation.push('ProviderCreateProductScreen', {
+                                    userIndex: this.props.navigation.state.params.userIndex
+                                });
+                            }} />
                     </View>
                 </SafeAreaView>
             )

@@ -9,6 +9,7 @@ import serviceCardStyle from 'config/styles/componentStyles/serviceCardStyle';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import PropTypes from 'prop-types';
+import { Badge } from 'react-native-elements';
 import { BoxShadow } from 'react-native-shadow';
 import strings from 'config/strings';
 
@@ -21,7 +22,7 @@ class ServiceCard extends Component {
         //image to display, along with an onPress method. An additional prop is also how many current
         //requests this product currently has. This prop should only be used by the provider screens
         const { serviceTitle, serviceDescription, pricing, image, onPress, numCurrentRequests, offeredBy,
-        offeredByOnPress } =
+            offeredByOnPress } =
             this.props;
 
         //Returns the rendered component
@@ -82,21 +83,17 @@ class ServiceCard extends Component {
                     </BoxShadow>
                 </View>
                 {numCurrentRequests > 0 ? (
-                    <View style={{
-                        backgroundColor: colors.red,
-                        height: 40,
-                        width: 40,
-                        borderRadius: 20,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        position: "absolute",
-                        left: 325,
-                        top: 0
-                    }}>
+                    <View>
                         <Text style={fontStyles.mainTextStyleWhite}>{numCurrentRequests}</Text>
                     </View>
                 ) : (
-                        <View></View>
+                        <View>
+                            <Badge
+                                status="error"
+                                value={numCurrentRequests}
+                                containerStyle={{ position: 'absolute', top: -4, right: -4 }}
+                            />
+                        </View>
                     )}
             </TouchableOpacity>
         );

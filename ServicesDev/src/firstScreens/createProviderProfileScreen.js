@@ -76,12 +76,9 @@ class createProviderProfileScreen extends Component {
                     firebase.auth().createUserWithEmailAndPassword(email, password).then((account) => {
                         FirebaseFunctions.addProviderToDatabase(account, email, businessName, businessInfo).then((provider) => {
                             firebase.auth().signInWithEmailAndPassword(email, password);
-                            FirebaseFunctions.getProviderProducts(provider).then((providerProducts) => {
-                                this.props.navigation.push('ProviderScreens', {
-                                    provider,
-                                    providerProducts
-                                });
-                            })
+                            this.props.navigation.push('ProviderScreens', {
+                                providerID: provider.providerID
+                            });
                         });
                     })
                 }
