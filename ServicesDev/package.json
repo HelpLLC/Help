@@ -9,7 +9,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "aws-amplify-react-native": "^2.1.10",
     "firebase": "^6.0.2",
     "immutability-helper": "^3.0.0",
     "react": "16.8.3",
