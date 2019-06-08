@@ -10,7 +10,7 @@ export default class other extends Component {
     render() {
         return (
             <SafeAreaView style={screenStyle.container}>
-                <View style={{ paddingTop: 180 }}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={fontStyles.mainTextStyleBlack}>{strings.MoreCategoriesComingSoonExclamation}</Text>
                 </View>
             </SafeAreaView>

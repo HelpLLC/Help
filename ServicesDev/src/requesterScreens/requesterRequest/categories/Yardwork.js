@@ -14,8 +14,9 @@ export default class Yardwork extends Component {
 
         return (
             <SafeAreaView style={screenStyle.container}>
+                <View style={{ flex: 0.025 }}></View>
                 <ScrollView
-                    style={{ paddingTop: 30 }}
+                    style={{ flex: 50 }}
                     contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
                     showsVerticalScrollIndicator={false}>
                     <FlatList
@@ -54,7 +55,7 @@ export default class Yardwork extends Component {
                             />
                         )}
                     />
-                    <View style={{ height: 40 }}></View>
+                    <View style={{ flex: 0.2 }}></View>
                 </ScrollView>
             </SafeAreaView>
         )

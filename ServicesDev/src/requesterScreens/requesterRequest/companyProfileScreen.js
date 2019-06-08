@@ -68,14 +68,14 @@ class companyProfileScreen extends Component {
         if (isLoading === true || (providerProducts.length == 0 && serviceIDsLength > 0)) {
             return (
                 <SafeAreaView style={screenStyle.container}>
-                    <View style={{ alignItems: 'center' }}>
+                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                         <LoadingSpinner isVisible={isLoading} />
                     </View>
                 </SafeAreaView>
             )
         } else {
             const { provider, requester } = this.props.navigation.state.params;
-            return (    
+            return (
                 <SafeAreaView style={screenStyle.container}>
                     <View>
                         <TopBanner
@@ -83,69 +83,74 @@ class companyProfileScreen extends Component {
                             leftIconName="angle-left"
                             leftOnPress={() => this.props.navigation.goBack()} />
                     </View>
-                    <View style={{
-                        flexDirection: 'row',
-                        width: Dimensions.get('window').width - 40,
-                        borderColor: colors.lightGray,
-                        borderBottomColor: colors.black,
-                        borderWidth: 0.5,
-                        marginTop: 20,
-                        paddingBottom: 10,
-                        alignItems: 'center',
-                        justifyContent: 'space-between'
-                    }}>
-                        <View style={{ flexDirection: 'column', paddingBottom: 10, maxWidth: 260 }}>
-                            <Text style={[fontStyles.bigTextStyleBlack, { paddingBottom: 10 }]}>
-                                {provider.companyName}</Text>
+                    <View>
+                        <View style={{ flex: 0.025 }}></View>
+                        <View style={{
+                            flexDirection: 'row',
+                            width: Dimensions.get('window').width - 40,
+                            borderColor: colors.lightGray,
+                            borderBottomColor: colors.black,
+                            borderWidth: 0.5,
+                            alignSelf: 'center',
+                            flex: 0.15
+                        }}>
+                            <View style={{ flexDirection: 'column', flex: 2 }}>
+                                <View style={{ flex: 1, justifyContent: 'center' }}>
+                                    <Text style={fontStyles.bigTextStyleBlack}>
+                                        {provider.companyName}</Text>
+                                </View>
 
-                            <Text style={[fontStyles.subTextStyleBlack, { paddingTop: 10 }]}>
-                                {provider.companyDescription}</Text>
-                        </View>
+                                <View style={{ flex: 1 }}>
+                                    <Text style={fontStyles.subTextStyleBlack}>
+                                        {provider.companyDescription}</Text>
+                                </View>
+                            </View>
 
-                        <View style={{ paddingBottom: 10 }}>
-                            <TouchableOpacity onPress={() => this.messageProvider()}>
-                                <Icon
-                                    name="comment"
-                                    type="font-awesome"
-                                    size={40}
-                                    color={colors.lightBlue}
-                                />
-                            </TouchableOpacity>
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}>
+                                <TouchableOpacity onPress={() => this.messageProvider()}>
+                                    <Icon
+                                        name="comment"
+                                        type="font-awesome"
+                                        size={40}
+                                        color={colors.lightBlue}
+                                    />
+                                </TouchableOpacity>
+                            </View>
                         </View>
+                        <View style={{ flex: 0.025 }}></View>
+                        <ScrollView
+                            style={{ flex: 1 }}
+                            contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+                            showsVerticalScrollIndicator={false}>
+                            <FlatList
+                                data={providerProducts}
+                                keyExtractor={(item, index) => {
+                                    return (provider.companyName + " Product #" + index);
+                                }}
+                                renderItem={({ item, index }) => (
+                                    <ServiceCard
+                                        key={index}
+                                        serviceTitle={item.serviceTitle}
+                                        serviceDescription={item.serviceDescription}
+                                        pricing={item.pricing}
+                                        image={item.imageSource}
+                                        numCurrentRequests={0}
+                                        //Passes all of the necessary props to the actual screen that contains
+                                        //more information about the service
+                                        onPress={() => {
+                                            this.props.navigation.push('RequesterServiceScreen', {
+                                                product: item,
+                                                requester,
+                                                provider
+                                            });
+                                        }}
+                                    />
+                                )}
+                            />
+                            <View style={{ flex: 0.025 }}></View>
+                        </ScrollView>
                     </View>
-
-                    <ScrollView
-                        style={{ paddingTop: 20 }}
-                        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
-                        showsVerticalScrollIndicator={false}>
-                        <FlatList
-                            data={providerProducts}
-                            keyExtractor={(item, index) => {
-                                return (provider.companyName + " Product #" + index);
-                            }}
-                            renderItem={({ item, index }) => (
-                                <ServiceCard
-                                    key={index}
-                                    serviceTitle={item.serviceTitle}
-                                    serviceDescription={item.serviceDescription}
-                                    pricing={item.pricing}
-                                    image={item.imageSource}
-                                    numCurrentRequests={0}
-                                    //Passes all of the necessary props to the actual screen that contains
-                                    //more information about the service
-                                    onPress={() => {
-                                        this.props.navigation.push('RequesterServiceScreen', {
-                                            product: item,
-                                            requester,
-                                            provider
-                                        });
-                                    }}
-                                />
-                            )}
-                        />
-                        <View style={{ height: 40 }}></View>
-                    </ScrollView>
-                </SafeAreaView>
+                </SafeAreaView >
             );
         }
     }
