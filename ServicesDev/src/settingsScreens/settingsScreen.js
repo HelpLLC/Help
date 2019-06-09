@@ -7,7 +7,6 @@ import screenStyle from 'config/styles/screenStyle';
 import whiteCardStyle from '../../config/styles/componentStyles/whiteCardStyle';
 import fontStyles from 'config/styles/fontStyles';
 import WhiteCard from '../components/WhiteCard';
-import TopBanner from '../components/TopBanner';
 import { Icon } from 'react-native-elements';
 import colors from 'config/colors';
 import strings from 'config/strings';

@@ -2,8 +2,7 @@
 //created. Since there will be no payments or anything secure in the mvp, then users will only 
 //log in with their phone numbers. And that will be what is linked with their accoun
 import React, { Component } from 'react';
-import { View, Text, KeyboardAvoidingView, Keyboard, SafeAreaView } from 'react-native';
-import TopBanner from '../components/TopBanner';
+import { View, Text, Keyboard, SafeAreaView } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
@@ -77,15 +76,6 @@ class logInScreen extends Component {
     render() {
         return (
             <SafeAreaView style={screenStyle.container}>
-                <View>
-                    <TopBanner
-                        title={strings.LogIn}
-                        leftIconName="angle-left"
-                        leftOnPress={() => {
-                            //Method will go back to the splash screen
-                            this.props.navigation.goBack();
-                        }} />
-                </View>
                 <View>
                     <View style={{ flex: 1, justifyContent: 'center' }}>
                         <View>

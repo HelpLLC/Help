@@ -41,7 +41,7 @@ const routeConfig = {
     //Route connecting to the settings screen
     SettingsScreen: {
         //connects the object with the settings screen component
-        screen: settingsScreens,
+        screen: settingsScreen,
         //sets up what the tab will be titled
         navigationOptions: ({ navigation }) => ({
             tabBarLabel: strings.Settings,

@@ -4,7 +4,6 @@
 import React, { Component } from 'react';
 import screenStyle from 'config/styles/screenStyle';
 import { View, Text, SafeAreaView } from 'react-native';
-import TopBanner from '../../components/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 
@@ -25,18 +24,11 @@ export default class issueReportedScreen extends Component {
     render() {
         return (
             <SafeAreaView style={screenStyle.container}>
-
-                <View>
-                    <TopBanner
-                        title={strings.ReportAnIssue}
-                        leftIconName="angle-left" />
-                </View>
-
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                     <Text
                         style={fontStyles.mainTextStyleBlack}>
                         {strings.ThankYouForReporting}</Text>
-                    <Text style={{ }}></Text>
+                    <Text style={{}}></Text>
                     <Text
                         style={fontStyles.mainTextStyleBlack}>
                         {strings.WellFixItRightAway}</Text>

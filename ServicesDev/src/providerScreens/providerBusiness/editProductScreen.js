@@ -2,7 +2,6 @@
 //itself.
 import React, { Component } from 'react';
 import { View, Text, Image, Dimensions, TouchableOpacity, SafeAreaView } from 'react-native';
-import TopBanner from '../../components/TopBanner';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../../components/RoundBlueButton';
@@ -54,16 +53,16 @@ class editProductScreen extends Component {
             serviceDescription === product.serviceDescription &&
             pricing === product.pricing &&
             imageSource === product.imageSource) {
+            this.props.navigation.goBack();
+        } else {
+
+            //Updates the correct product corresponding with the correct user
+            this.setState({ isLoading: true });
+            FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, imageSource).then(() => {
+                this.setState({ isLoading: false });
                 this.props.navigation.goBack();
-            } else {
-            
-                //Updates the correct product corresponding with the correct user
-                this.setState({ isLoading: true });
-                FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, imageSource).then(() => {
-                    this.setState({ isLoading: false });
-                    this.props.navigation.goBack();
-                });
-            }
+            });
+        }
     }
 
     render() {

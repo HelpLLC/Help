@@ -6,9 +6,7 @@
 //requester to request the service.
 import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity, ScrollView, FlatList, SafeAreaView } from 'react-native';
-import TopBanner from '../../components/TopBanner';
 import ServiceCard from '../../components/ServiceCard';
-import strings from 'config/strings';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import fontStyles from 'config/styles/fontStyles';

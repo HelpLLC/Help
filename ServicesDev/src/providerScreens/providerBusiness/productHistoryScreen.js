@@ -3,11 +3,9 @@
 //factors.
 import React, { Component } from 'react';
 import { View, Text, Image, Dimensions, FlatList, ScrollView, SafeAreaView } from 'react-native';
-import TopBanner from '../../components/TopBanner';
 import WhiteCard from '../../components/WhiteCard';
 import whiteCardStyle from 'config/styles/componentStyles/whiteCardStyle';
 import strings from 'config/strings';
-import FirebaseFunctions from 'config/FirebaseFunctions';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';

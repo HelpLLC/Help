@@ -2,7 +2,6 @@
 //such as company name, description etc.
 import React, { Component } from 'react';
 import { View, Text, TouchableWithoutFeedback, Keyboard, SafeAreaView } from 'react-native';
-import TopBanner from '../components/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
@@ -91,16 +90,6 @@ class createProviderProfileScreen extends Component {
             //View that dismisses the keyboard when clicked anywhere else
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                 <SafeAreaView style={screenStyle.container}>
-                    <View>
-                        <TopBanner
-                            title={strings.CreateProfile}
-                            leftIconName="angle-left"
-                            leftOnPress={() => {
-                                //Method will go back to the splash screen
-                                this.props.navigation.goBack();
-                            }} />
-                    </View>
-
                     <View>
                         <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
                             <View>

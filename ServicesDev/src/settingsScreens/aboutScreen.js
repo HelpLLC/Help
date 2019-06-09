@@ -4,7 +4,6 @@
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
-import TopBanner from '../components/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import WhiteCard from '../components/WhiteCard';
 import strings from 'config/strings';

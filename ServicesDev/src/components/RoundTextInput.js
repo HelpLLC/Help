@@ -16,17 +16,18 @@ class RoundTextInput extends Component {
         return (
             //Creates a view that includes the interior TextInput so that the curvature doesn't 
             //impact the text
-            <View style={{ 
+            <View style={{
                 backgroundColor: colors.white,
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: height,
                 width: width,
-                borderRadius: 20 }} >
-                <TextInput 
-                    style={{height: (height - 5), width: (width - 15)}}
-                    multiline={true} 
-                    textAlignVertical='top' 
+                borderRadius: 20
+            }} >
+                <TextInput
+                    style={{ height: (height - 5), width: (width - 15) }}
+                    multiline={true}
+                    textAlignVertical='top'
                     placeholder={placeholder}
                     placeholderTextColor={colors.gray}
                     onChangeText={(input) => onChangeText(input)}

@@ -17,7 +17,7 @@ const routeConfig = {
         //connects the object with the chats screen component
         screen: chatsScreen,
         //sets up what the tab will be titled
-        navigationOptions:  ({ navigation }) => ({
+        navigationOptions: ({ navigation }) => ({
             tabBarLabel: strings.Chats,
             header: (
                 <TopBanner title={strings.Chats} />
@@ -40,7 +40,7 @@ const routeConfig = {
         //connects the object with the settings screen component
         screen: settingsScreens,
         //sets up what the tab will be titled
-        navigationOptions:  ({ navigation }) => ({
+        navigationOptions: ({ navigation }) => ({
             tabBarLabel: strings.Settings,
             header: (
                 <TopBanner title={strings.Settings} />

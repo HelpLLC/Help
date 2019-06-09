@@ -3,7 +3,6 @@
 //to give the product a picture from their camera roll, and a name and a description and a price
 import React, { Component } from 'react';
 import { View, Text, Image, Dimensions, TouchableOpacity, SafeAreaView } from 'react-native';
-import TopBanner from '../../components/TopBanner';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../../components/RoundBlueButton';

@@ -7,39 +7,82 @@ import requesterScreensNavigator from '../requesterScreens/requesterScreensNavig
 import logInScreen from './logInScreen';
 import createProviderProfileScreen from './createProviderProfileScreen';
 import signUpScreen from './signUpScreen';
+import TopBanner from '../components/TopBanner';
+import strings from 'config/strings';
 
 //Route config that leads to all the different possible screens
 const routeConfig = {
     //Takes you to the splash screen of the app
     SplashScreen: {
-        screen: splashScreen
-    }, 
+        screen: splashScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        })
+    },
     //Takes you to the provider screen navigator's default route
     ProviderScreens: {
-        screen: providerScreensNavigator
+        screen: providerScreensNavigator,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        })
     },
     //Takes you to the requester screen navigator's default route
     RequesterScreens: {
-        screen: requesterScreensNavigator
+        screen: requesterScreensNavigator,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        })
     },
     //Takes you to the log in screen of the app
     LogInScreen: {
-        screen: logInScreen
+        screen: logInScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: (
+                <TopBanner
+                    title={strings.LogIn}
+                    leftIconName="angle-left"
+                    leftOnPress={() => {
+                        //Method will go back to the splash screen
+                        navigation.goBack();
+                    }} />
+            )
+        })
     },
     //Takes you to the sign up screen of the app
     SignUpScreen: {
-        screen: signUpScreen
+        screen: signUpScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: (
+                <TopBanner
+                    title={strings.SignUp}
+                    leftIconName="angle-left"
+                    leftOnPress={() => {
+                        //Method will go back to the splash screen
+                        navigation.goBack();
+                    }} />
+            )
+        })
     },
     //Takes you to the screen where businesses will create their initial profile
     CreateProviderProfileScreen: {
-        screen: createProviderProfileScreen
+        screen: createProviderProfileScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: (
+                <TopBanner
+                    title={strings.CreateProfile}
+                    leftIconName="angle-left"
+                    leftOnPress={() => {
+                        //Method will go back to the splash screen
+                        navigation.goBack();
+                    }} />
+            )
+        })
     }
 };
 
 //Makes it so there is no header in all the navigator's screens
 const navigatorConfig = {
     initialRouteName: 'SplashScreen',
-    headerMode: 'none',
 };
 
 //Creates & exports the stack navigator

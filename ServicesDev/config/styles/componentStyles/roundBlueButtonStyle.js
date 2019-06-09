@@ -26,7 +26,7 @@ export default {
     //These are two buttons that will determine the type of account the user wants
     AccountTypeButton: {
         backgroundColor: colors.white,
-        width: 140, 
+        width: 140,
         height: 40,
         alignItems: 'center',
         justifyContent: 'center',
@@ -43,5 +43,5 @@ export default {
         justifyContent: 'center',
         borderRadius: 25
     },
-    
+
 };

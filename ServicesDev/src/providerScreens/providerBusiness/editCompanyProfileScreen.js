@@ -2,7 +2,6 @@
 //of the business and the description
 import React, { Component } from 'react';
 import { View, Text, Keyboard, TouchableWithoutFeedback, SafeAreaView } from 'react-native';
-import TopBanner from '../../components/TopBanner';
 import OneLineTextInput from '../../components/OneLineTextInput';
 import fontStyles from 'config/styles/fontStyles';
 import RoundTextInput from '../../components/RoundTextInput';

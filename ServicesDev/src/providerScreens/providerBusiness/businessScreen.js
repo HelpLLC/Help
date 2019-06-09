@@ -10,7 +10,6 @@ import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import images from 'config/images/images';
 import RoundBlueButton from '../../components/RoundBlueButton';
-import TopBanner from '../../components/TopBanner';
 import ServiceCard from '../../components/ServiceCard';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import fontStyles from 'config/styles/fontStyles';

@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
-import TopBanner from '../components/TopBanner';
 import strings from 'config/strings';
 import { ScrollView } from 'react-native-gesture-handler';
 

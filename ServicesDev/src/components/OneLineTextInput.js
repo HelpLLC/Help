@@ -22,7 +22,7 @@ class OneLineTextInput extends Component {
                         borderWidth: 0.5,
                         borderLeftColor: colors.lightGray,
                         borderRightColor: colors.lightGray,
-                        borderTopColor: colors.lightGray, 
+                        borderTopColor: colors.lightGray,
                         width: width ? width : 250
                     }}
                     value={value}

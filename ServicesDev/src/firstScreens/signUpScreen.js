@@ -1,8 +1,7 @@
 //This is the screen that will pop up when users first come to sign up for the app, it will
 //ask for an email and a password, and what type of account they want to create
 import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableWithoutFeedback, Keyboard, SafeAreaView } from 'react-native';
-import TopBanner from '../components/TopBanner';
+import { View, Text, Dimensions, SafeAreaView } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
@@ -92,15 +91,6 @@ class signUpScreen extends Component {
         return (
             //View that dismisses the keyboard when clicked anywhere else
             <SafeAreaView style={screenStyle.container}>
-                <View>
-                    <TopBanner
-                        title={strings.SignUp}
-                        leftIconName="angle-left"
-                        leftOnPress={() => {
-                            //Method will go back to the splash screen
-                            this.props.navigation.goBack();
-                        }} />
-                </View>
                 <View>
                     <View style={{ flex: 1.2, justifyContent: 'center', alignSelf: 'center' }}>
                         <View>

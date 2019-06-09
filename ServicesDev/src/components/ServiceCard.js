@@ -86,7 +86,7 @@ class ServiceCard extends Component {
                     <Badge
                         status="error"
                         value={numCurrentRequests}
-                        badgeStyle={{width: 40, height: 40, borderRadius: 20}}
+                        badgeStyle={{ width: 40, height: 40, borderRadius: 20 }}
                         textStyle={fontStyles.mainTextStyleWhite}
                         containerStyle={{ position: 'absolute', top: 4, right: 8 }}
                     />

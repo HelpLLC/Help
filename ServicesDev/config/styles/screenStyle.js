@@ -4,7 +4,7 @@ import colors from '../colors';
 export default {
     container: {
         flexDirection: 'column',
-        alignItems: 'center', 
+        alignItems: 'center',
         backgroundColor: colors.lightGray,
         flex: 1
     }

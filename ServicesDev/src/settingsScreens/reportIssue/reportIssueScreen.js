@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import { View, Text, Keyboard, TouchableWithoutFeedback, SafeAreaView } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
-import TopBanner from '../../components/TopBanner';
 import RoundTextInput from '../../components/RoundTextInput';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../../components/RoundBlueButton';
@@ -34,17 +33,6 @@ class reportIssueScreen extends Component {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 
                 <SafeAreaView style={screenStyle.container}>
-                    <View>
-                        <TopBanner
-                            title={strings.ReportAnIssue}
-                            leftIconName="angle-left"
-                            leftOnPress={() => {
-                                //Method will dismiss the current stack and then go back to 
-                                //make sure the animation is to the left
-                                this.props.navigation.dismiss();
-                                this.props.navigation.goBack();
-                            }} />
-                    </View>
                     <View>
                         <View style={{ flex: 1, justifyContent: 'center' }}>
                             <Text style={fontStyles.mainTextStyleBlack}>

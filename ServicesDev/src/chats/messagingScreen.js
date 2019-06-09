@@ -21,9 +21,9 @@ class messagingScreen extends Component {
 
         //Adds the message to the database of messages
         this.props.sendMessage(
-            this.props.providerID, 
-            this.props.requesterID, 
-            message, this.props.provider.companyName, 
+            this.props.providerID,
+            this.props.requesterID,
+            message, this.props.provider.companyName,
             this.props.requester.username);
 
     }
