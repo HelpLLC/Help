@@ -67,45 +67,50 @@ class businessScreen extends Component {
                     <TopBanner title={strings.Business} />
                 </View>
 
-                <View style={{
-                    flexDirection: 'row',
-                    width: Dimensions.get('window').width - 40,
-                    borderColor: colors.lightGray,
-                    borderBottomColor: colors.black,
-                    borderWidth: 0.5,
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    marginTop: 20
-                }}>
+                <View style={{ flex: 1, justifyContent: 'center' }}>
+                    <View style={{
+                        flexDirection: 'row',
+                        width: Dimensions.get('window').width - 40,
+                        borderColor: colors.lightGray,
+                        borderBottomColor: colors.black,
+                        borderWidth: 0.5,
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        flex: 1
+                    }}>
 
-                    <View style={{ flexDirection: 'column', paddingBottom: 10 }}>
-                        <Text style={[fontStyles.bigTextStyleBlack, { paddingBottom: 10 }]}>
-                            {provider.companyName}</Text>
+                        <View style={{ flexDirection: 'column' }}>
+                            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                                <Text style={fontStyles.bigTextStyleBlack}>
+                                    {provider.companyName}</Text>
+                            </View>
 
-                        <TouchableOpacity
-                            onPress={() => {
-                                this.props.navigation.push('ProviderEditCompanyProfileScreen', {
-                                    providerID: provider.providerID,
-                                    provider
-                                });
-                            }}>
-                            <Text style={fontStyles.subTextStyleGray}>
-                                {strings.EditCompanyProfile}</Text>
-                        </TouchableOpacity>
-                    </View>
+                            <TouchableOpacity
+                                style={{ flex: 1, justifyContent: 'flex-start' }}
+                                onPress={() => {
+                                    this.props.navigation.push('ProviderEditCompanyProfileScreen', {
+                                        providerID: provider.providerID,
+                                        provider
+                                    });
+                                }}>
+                                <Text style={fontStyles.subTextStyleGray}>
+                                    {strings.EditCompanyProfile}</Text>
+                            </TouchableOpacity>
+                        </View>
 
-                    <View style={{ paddingBottom: 10 }}>
-                        <RoundBlueButton
-                            title={strings.PlusSign}
-                            textStyle={fontStyles.bigTextStyleWhite}
-                            style={roundBlueButtonStyle.BusinessScreenPlusButton}
-                            onPress={() => {
-                                this.props.navigation.push('ProviderCreateProductScreen', {
-                                    providerID: provider.providerID,
-                                    provider,
-                                    providerProducts
-                                })
-                            }} />
+                        <View style={{}}>
+                            <RoundBlueButton
+                                title={strings.PlusSign}
+                                textStyle={fontStyles.bigTextStyleWhite}
+                                style={roundBlueButtonStyle.BusinessScreenPlusButton}
+                                onPress={() => {
+                                    this.props.navigation.push('ProviderCreateProductScreen', {
+                                        providerID: provider.providerID,
+                                        provider,
+                                        providerProducts
+                                    })
+                                }} />
+                        </View>
                     </View>
                 </View>
             </View>
@@ -125,38 +130,37 @@ class businessScreen extends Component {
         } else if (serviceIDsLength === 0) {
             return (
                 <SafeAreaView style={screenStyle.container}>
-                    {topView}
-                    <View style={
-                        {
-                            flexDirection: 'column',
-                            paddingTop: 30,
-                            alignItems: 'center'
-                        }}>
+                    <View style={{ flex: 1.1 }}>
+                        {topView}
+                    </View>
+                    <View style={{ flex: 1, justifyContent: 'center' }}>
                         <Text style={fontStyles.bigTextStyleBlack}>
                             {strings.CreateYourFirstProductNowExclamation}</Text>
+                    </View>
 
-                        <View style={{ marginBottom: 20, marginTop: 20 }}>
-                            <BoxShadow setting={{
-                                width: 280,
-                                height: 160,
-                                color: colors.gray,
-                                border: 10,
-                                radius: 50,
-                                opacity: 0.2,
-                                x: 0,
-                                y: 5
-                            }}>
-                                <Image
-                                    source={images.LawnMowing}
-                                    style={{
-                                        width: 280,
-                                        height: 160,
-                                        borderColor: colors.lightBlue,
-                                        borderWidth: 6,
-                                        borderRadius: 50,
-                                    }} />
-                            </BoxShadow>
-                        </View>
+                    <View style={{ flex: 1, justifyContent: 'center' }}>
+                        <BoxShadow setting={{
+                            width: 280,
+                            height: 160,
+                            color: colors.gray,
+                            border: 10,
+                            radius: 50,
+                            opacity: 0.2,
+                            x: 0,
+                            y: 5
+                        }}>
+                            <Image
+                                source={images.LawnMowing}
+                                style={{
+                                    width: 280,
+                                    height: 160,
+                                    borderColor: colors.lightBlue,
+                                    borderWidth: 6,
+                                    borderRadius: 50,
+                                }} />
+                        </BoxShadow>
+                    </View>
+                    <View style={{ flex: 1, justifyContent: 'center' }}>
                         <RoundBlueButton
                             title={strings.Create}
                             style={roundBlueButtonStyle.MediumSizeButton}
@@ -174,9 +178,12 @@ class businessScreen extends Component {
         } else {
             return (
                 <SafeAreaView style={screenStyle.container}>
-                    {topView}
+                    <View style={{ flex: 0.4 }}>
+                        {topView}
+                    </View>
+                    <View style={{ flex: 0.025 }}></View>
                     <ScrollView
-                        style={{ paddingTop: 30 }}
+                        style={{ flex: 1 }}
                         contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
                         showsVerticalScrollIndicator={false}>
                         <FlatList
@@ -201,7 +208,7 @@ class businessScreen extends Component {
                                 />
                             )}
                         />
-                        <View style={{ height: 40 }}></View>
+                        <View style={{ flex: 0.025 }}></View>
                     </ScrollView>
                 </SafeAreaView>
             );

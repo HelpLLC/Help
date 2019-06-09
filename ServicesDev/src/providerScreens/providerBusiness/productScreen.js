@@ -132,171 +132,185 @@ class productScreen extends Component {
                             leftOnPress={() => this.props.navigation.goBack()} />
                     </View>
 
-                    <View style={{
-                        flexDirection: 'row',
-                        width: Dimensions.get('window').width - 40,
-                        borderColor: colors.lightGray,
-                        borderBottomColor: colors.black,
-                        borderWidth: 0.5,
-                        marginTop: 20,
-                        paddingBottom: 15,
-                        alignItems: 'center',
-                        justifyContent: 'space-between'
-                    }}>
-                        <View style={{ flexDirection: 'column', paddingBottom: 10 }}>
-                            <Text style={[fontStyles.bigTextStyleBlack, { paddingBottom: 10 }]}>
-                                {product.serviceTitle}</Text>
-
-                            <TouchableOpacity
-                                onPress={() => {
-                                    this.props.navigation.push('ProviderEditProductScreen', {
-                                        product,
-                                        productID
-                                    });
-                                }}>
-                                <Text style={[fontStyles.subTextStyleGray, { paddingBottom: 10 }]}>
-                                    {strings.EditService}</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                onPress={() => {
-                                    this.props.navigation.push('ProviderProductHistoryScreen', {
-                                        product
-                                    });
-                                }}>
-                                <Text style={fontStyles.subTextStyleGray}>
-                                    {strings.History}</Text>
-                            </TouchableOpacity>
-                        </View>
-
-                        <View style={{ paddingBottom: 10 }}>
-                            <BoxShadow setting={{
-                                width: 140,
-                                height: 110,
-                                color: colors.gray,
-                                border: 10,
-                                radius: 50,
-                                opacity: 0.2,
-                                x: 0,
-                                y: 5
-                            }}>
-                                <Image
-                                    source={product.imageSource}
-                                    style={{
-                                        width: 140,
-                                        height: 110,
-                                        borderColor: colors.lightBlue,
-                                        borderWidth: 6,
-                                        borderRadius: 50
-                                    }} />
-                            </BoxShadow>
-                        </View>
-                    </View>
-                    <View style={{
-                        paddingTop: 20,
-                        paddingRight: 14,
-                        paddingLeft: 14,
-                        borderColor: colors.lightGray,
-                        borderBottomColor: colors.black,
-                        borderWidth: 0.5,
-                        width: Dimensions.get('window').width - 40,
-                    }}>
-                        <Text style={fontStyles.subTextStyleBlack}>
-                            {product.serviceDescription}</Text>
-
-                        <Text style={[fontStyles.bigTextStyleBlack, {
+                    <View>
+                        <View style={{
+                            flexDirection: 'row',
+                            width: Dimensions.get('window').width - 40,
+                            borderColor: colors.lightGray,
+                            borderBottomColor: colors.black,
+                            borderWidth: 0.5,
+                            alignItems: 'center',
                             alignSelf: 'center',
-                            paddingTop: 20,
-                            paddingBottom: 20
-                        }]}>
-                            {product.pricing}
-                        </Text>
-                    </View>
-
-                    {   //Checks if the current product has any current requests and displays them if
-                        //it does
-                        currentRequests.length > 0 ? (
-                            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{
-                                alignSelf: 'center',
-                                paddingTop: 20,
-                                paddingBottom: 20,
-                                alignItems: 'center'
-                            }}>
-                                <View style={{ paddingBottom: 20 }}>
-                                    <Text style={fontStyles.mainTextStyleRed}>
-                                        {currentRequests.length}
-                                        {
-                                            currentRequests.length > 1 ?
-                                                (' Requests') : (' Request')
-                                        }</Text>
-                                </View>
-                                <FlatList
-                                    data={currentRequests}
-                                    keyExtractor={(item, index) => (index + "")}
-                                    renderItem={({ item, index }) => (
-                                        <View style={{ paddingBottom: 20, alignItems: 'center' }}>
-                                            <View style={{
-                                                flexDirection: 'column',
-                                                justifyContent: 'space-evenly',
-                                                width: Dimensions.get('window').width,
-                                                height: 80,
-                                                backgroundColor: colors.white,
-                                                paddingLeft: 20
-                                            }}>
-                                                <Text style={fontStyles.mainTextStyleBlack}>
-                                                    {item.requesterName}</Text>
-                                            </View>
-                                            <View style={{
-                                                flexDirection: 'row',
-                                                justifyContent: 'space-evenly',
-                                                alignItems: 'center',
-                                                width: Dimensions.get('window').width,
-                                                height: 70,
-                                                backgroundColor: colors.white,
-                                                borderBottomStartRadius: 35,
-                                                borderBottomEndRadius: 35
-                                            }}>
-                                                <TouchableOpacity
-                                                    onPress={() => this.messageRequester(providerID, item.requesterID)}>
-                                                    <Text style={fontStyles.subTextStyleBlue}>
-                                                        {strings.Message}</Text>
-                                                </TouchableOpacity>
-
-                                                <TouchableOpacity
-                                                    style={{
-                                                        height: 70,
-                                                        justifyContent: 'center',
-                                                        padding: 15
-                                                    }}
-                                                    onPress={() => this.markAsComplete(productID, item.requesterID)}>
-                                                    <Text style={fontStyles.subTextStyleBlue}>
-                                                        {strings.MarkAsComplete}</Text>
-                                                </TouchableOpacity>
-
-                                                <TouchableOpacity
-                                                    onPress={() => this.deleteRequest(productID, item.requesterID)}>
-                                                    <Text style={fontStyles.subTextStyleRed}>
-                                                        {strings.Delete}</Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                        </View>
-                                    )}
-                                />
-                            </ScrollView>
-                        ) : (
-                                <View style={{
-                                    alignSelf: 'center',
-                                    paddingTop: 20,
-                                    paddingBottom: 20
-                                }}>
+                            justifyContent: 'space-between',
+                            flex: (currentRequests.length > 0 ? 0.35 : 0.5)
+                        }}>
+                            <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
+                                <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                                     <Text style={fontStyles.bigTextStyleBlack}>
-                                        {strings.NoCurrentRequests}
-                                    </Text>
+                                        {product.serviceTitle}</Text>
                                 </View>
-                            )
 
-                    }
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        this.props.navigation.push('ProviderEditProductScreen', {
+                                            product,
+                                            productID
+                                        });
+                                    }}
+                                    style={{ flex: 0.5, justifyContent: 'flex-end' }}>
+                                    <Text style={fontStyles.subTextStyleGray}>
+                                        {strings.EditService}</Text>
+                                </TouchableOpacity>
 
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        this.props.navigation.push('ProviderProductHistoryScreen', {
+                                            product
+                                        });
+                                    }}
+                                    style={{ flex: 0.5, justifyContent: 'flex-start' }}>
+                                    <Text style={fontStyles.subTextStyleGray}>
+                                        {strings.History}</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            <View style={{}}>
+                                <BoxShadow setting={{
+                                    width: 140,
+                                    height: 110,
+                                    color: colors.gray,
+                                    border: 10,
+                                    radius: 50,
+                                    opacity: 0.2,
+                                    x: 0,
+                                    y: 5
+                                }}>
+                                    <Image
+                                        source={product.imageSource}
+                                        style={{
+                                            width: 140,
+                                            height: 110,
+                                            borderColor: colors.lightBlue,
+                                            borderWidth: 6,
+                                            borderRadius: 50
+                                        }} />
+                                </BoxShadow>
+                            </View>
+                        </View>
+                        <View style={{ flex: 0.025 }}></View>
+                        <View style={{
+                            borderColor: colors.lightGray,
+                            borderBottomColor: colors.black,
+                            borderWidth: 0.5,
+                            width: Dimensions.get('window').width - 40,
+                            alignSelf: 'center',
+                            height: 120
+                        }}>
+                            <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+                                <Text style={fontStyles.subTextStyleBlack}>
+                                    {product.serviceDescription}</Text>
+                            </View>
+
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={fontStyles.bigTextStyleBlack}>
+                                    {product.pricing}
+                                </Text>
+                            </View>
+                        </View>
+                        <View style={{ flex: 0.025 }}></View>
+
+                        {   //Checks if the current product has any current requests and displays them if
+                            //it does
+                            currentRequests.length > 0 ? (
+                                <View style={{ flex: 1 }}>
+                                    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{
+                                        alignSelf: 'center',
+                                        alignItems: 'center',
+                                    }}>
+                                        <View>
+                                            <View style={{ flex: 0 }}>
+                                                <Text style={fontStyles.mainTextStyleRed}>
+                                                    {currentRequests.length}
+                                                    {
+                                                        currentRequests.length > 1 ?
+                                                            (' Requests') : (' Request')
+                                                    }</Text>
+                                            </View>
+                                            <View style={{ flex: 0.03 }}></View>
+                                        </View>
+                                        <FlatList
+                                            data={currentRequests}
+                                            keyExtractor={(item, index) => (index + "")}
+                                            renderItem={({ item, index }) => (
+                                                <View>
+                                                    <View style={{ alignItems: 'center' }}>
+                                                        <View style={{
+                                                            flexDirection: 'column',
+                                                            justifyContent: 'center',
+                                                            width: Dimensions.get('window').width,
+                                                            height: 50,
+                                                            alignItems: 'center',
+                                                            backgroundColor: colors.white,
+                                                        }}>
+
+                                                            <View style={{ flexDirection: 'row', flex: 1, alignItems: 'flex-end' }}>
+                                                                <View style={{ flex: 0.1 }}></View>
+                                                                <View style={{ flex: 1 }}>
+                                                                    <Text style={fontStyles.mainTextStyleBlack}>
+                                                                        {item.requesterName}</Text>
+                                                                </View>
+                                                            </View>
+                                                        </View>
+                                                        <View style={{
+                                                            flexDirection: 'row',
+                                                            justifyContent: 'space-evenly',
+                                                            alignItems: 'center',
+                                                            width: Dimensions.get('window').width,
+                                                            height: 70,
+                                                            backgroundColor: colors.white,
+                                                            borderBottomStartRadius: 35,
+                                                            borderBottomEndRadius: 35,
+                                                            flex: 1
+                                                        }}>
+                                                            <TouchableOpacity
+                                                                onPress={() => this.messageRequester(providerID, item.requesterID)}>
+                                                                <Text style={fontStyles.subTextStyleBlue}>
+                                                                    {strings.Message}</Text>
+                                                            </TouchableOpacity>
+
+                                                            <TouchableOpacity
+                                                                style={{
+                                                                    height: 70,
+                                                                    justifyContent: 'center',
+                                                                }}
+                                                                onPress={() => this.markAsComplete(productID, item.requesterID)}>
+                                                                <Text style={fontStyles.subTextStyleBlue}>
+                                                                    {strings.MarkAsComplete}</Text>
+                                                            </TouchableOpacity>
+
+                                                            <TouchableOpacity
+                                                                onPress={() => this.deleteRequest(productID, item.requesterID)}>
+                                                                <Text style={fontStyles.subTextStyleRed}>
+                                                                    {strings.Delete}</Text>
+                                                            </TouchableOpacity>
+                                                        </View>
+                                                    </View>
+                                                    <View style={{ height: 20 }}></View>
+                                                </View>
+                                            )}
+                                        />
+                                    </ScrollView>
+                                </View>
+                            ) : (
+                                    <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
+                                        <Text style={fontStyles.bigTextStyleBlack}>
+                                            {strings.NoCurrentRequests}
+                                        </Text>
+                                    </View>
+                                )
+
+                        }
+                    </View>
                 </SafeAreaView>
             );
         }

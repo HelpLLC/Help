@@ -14,7 +14,9 @@ export default class issueReportedScreen extends Component {
         //Start counting when the page is loaded
         this.timeoutHandle = setTimeout(() => {
             //Transitions back to the screen
-            this.props.navigation.push('ReportIssueScreen');
+            this.props.navigation.push('ReportIssueScreen', {
+                user: this.props.navigation.state.params.user
+            });
             //Makes sure the screen only stays on for three seconds
         }, 3350);
     }
@@ -30,11 +32,11 @@ export default class issueReportedScreen extends Component {
                         leftIconName="angle-left" />
                 </View>
 
-                <View style={{ alignItems: 'center', paddingTop: 65 }}>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                     <Text
                         style={fontStyles.mainTextStyleBlack}>
                         {strings.ThankYouForReporting}</Text>
-                    <Text style={{ padding: 10 }}></Text>
+                    <Text style={{ }}></Text>
                     <Text
                         style={fontStyles.mainTextStyleBlack}>
                         {strings.WellFixItRightAway}</Text>

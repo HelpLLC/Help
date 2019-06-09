@@ -66,7 +66,9 @@ class reportIssueScreen extends Component {
                                 style={roundBlueButtonStyle.MediumSizeButton}
                                 textStyle={fontStyles.reportIssueButtonTextStyle}
                                 onPress={() => {
-                                    this.props.navigation.push('IssueReportedScreen')
+                                    this.props.navigation.push('IssueReportedScreen', {
+                                        user: this.props.navigation.state.params.user
+                                    })
                                     this.reportIssue()
                                 }} />
                         </View>

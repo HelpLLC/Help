@@ -29,82 +29,83 @@ class productHistoryScreen extends Component {
                     title={strings.ServiceHistory}
                     leftIconName="angle-left"
                     leftOnPress={() => this.props.navigation.goBack()} />
-
-                <View style={{
-                    flexDirection: 'row',
-                    width: Dimensions.get('window').width - 40,
-                    borderColor: colors.lightGray,
-                    borderBottomColor: colors.black,
-                    borderWidth: 0.5,
-                    marginTop: 20,
-                    paddingBottom: 20,
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                }}>
-
-                    <Text style={fontStyles.bigTextStyleBlack}>{product.serviceTitle}</Text>
-
-                    <BoxShadow setting={{
-                        width: 140,
-                        height: 110,
-                        color: colors.gray,
-                        border: 10,
-                        radius: 50,
-                        opacity: 0.2,
-                        x: 0,
-                        y: 5
+                <View>
+                    <View style={{
+                        flexDirection: 'row',
+                        width: Dimensions.get('window').width - 40,
+                        borderColor: colors.lightGray,
+                        borderBottomColor: colors.black,
+                        borderWidth: 0.5,
+                        alignSelf: 'center',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        flex: 0.35
                     }}>
-                        <Image
-                            source={product.imageSource}
-                            style={{
-                                width: 140,
-                                height: 110,
-                                borderColor: colors.lightBlue,
-                                borderWidth: 6,
-                                borderRadius: 50,
-                            }} />
-                    </BoxShadow>
 
+                        <Text style={fontStyles.bigTextStyleBlack}>{product.serviceTitle}</Text>
+
+                        <BoxShadow setting={{
+                            width: 140,
+                            height: 110,
+                            color: colors.gray,
+                            border: 10,
+                            radius: 50,
+                            opacity: 0.2,
+                            x: 0,
+                            y: 5
+                        }}>
+                            <Image
+                                source={product.imageSource}
+                                style={{
+                                    width: 140,
+                                    height: 110,
+                                    borderColor: colors.lightBlue,
+                                    borderWidth: 6,
+                                    borderRadius: 50,
+                                }} />
+                        </BoxShadow>
+
+                    </View>
+                    <View style={{ flex: 0.025 }}></View>
+
+
+                    {
+                        //Tests if the current product has had any requests yet
+                        product.requests.completedRequests.length > 0 ? (
+                            <ScrollView showsVerticalScrollIndicator={false}>
+                                <WhiteCard
+                                    style={whiteCardStyle.whiteCardStyle}
+                                    text={strings.Date}
+                                    mainTextStyle={fontStyles.bigTextStyleBlack}
+                                    comp={<Text style={fontStyles.bigTextStyleBlack}>{strings.Customer}</Text>}
+                                    onPress={() => { }} />
+
+                                <FlatList
+                                    data={product.requests.completedRequests}
+                                    keyExtractor={(item, index) => {
+                                        return (product.serviceTitle + " Request #" + index);
+                                    }}
+                                    renderItem={({ item, index }) => (
+                                        <WhiteCard
+                                            key={index}
+                                            style={whiteCardStyle.whiteCardStyle}
+                                            text={item.dateCompleted}
+                                            mainTextStyle={fontStyles.subTextStyleBlack}
+                                            comp={<Text style={fontStyles.subTextStyleBlack}>
+                                                {item.requesterName}
+                                            </Text>}
+                                            onPress={() => { }} />
+                                    )}
+                                />
+                            </ScrollView>
+                        ) : (
+                                <View style={{ flex: 0.35, justifyContent: 'center', alignItems: 'center' }}>
+                                    <Text style={fontStyles.bigTextStyleBlack}>
+                                        {strings.NoHistoryForThisProductYet}</Text>
+                                </View>
+                            )
+                    }
                 </View>
-
-
-                {
-                    //Tests if the current product has had any requests yet
-                    product.requests.completedRequests.length > 0 ? (
-                        <ScrollView style={{ paddingTop: 30 }} showsVerticalScrollIndicator={false}>
-                            <WhiteCard
-                                style={whiteCardStyle.whiteCardStyle}
-                                text={strings.Date}
-                                mainTextStyle={fontStyles.bigTextStyleBlack}
-                                comp={<Text style={fontStyles.bigTextStyleBlack}>{strings.Customer}</Text>}
-                                onPress={() => { }} />
-
-                            <FlatList
-                                data={product.requests.completedRequests}
-                                keyExtractor={(item, index) => {
-                                    return (product.serviceTitle + " Request #" + index);
-                                }}
-                                renderItem={({ item, index }) => (
-                                    <WhiteCard
-                                        key={index}
-                                        style={whiteCardStyle.whiteCardStyle}
-                                        text={item.dateCompleted}
-                                        mainTextStyle={fontStyles.subTextStyleBlack}
-                                        comp={<Text style={fontStyles.subTextStyleBlack}>
-                                            {item.requesterName}
-                                        </Text>}
-                                        onPress={() => { }} />
-                                )}
-                            />
-                        </ScrollView>
-                    ) : (
-                            <View style={{ paddingTop: 100 }}>
-                                <Text style={fontStyles.bigTextStyleBlack}>
-                                    {strings.NoHistoryForThisProductYet}</Text>
-                            </View>
-                        )
-                }
-
             </SafeAreaView>
         )
     }

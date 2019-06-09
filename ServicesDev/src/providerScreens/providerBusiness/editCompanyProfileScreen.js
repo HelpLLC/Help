@@ -10,6 +10,7 @@ import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
+import LoadingSpinner from '../../components/LoadingSpinner';
 import strings from 'config/strings';
 
 class editCompanyProfileScreen extends Component {
@@ -18,7 +19,8 @@ class editCompanyProfileScreen extends Component {
     state = {
         businessName: this.props.navigation.state.params.provider.companyName,
         businessInfo: this.props.navigation.state.params.provider.companyDescription,
-        warningMessage: ""
+        warningMessage: "",
+        isLoading: false
     }
 
     //Saves the edited company profile to the redux persist state
@@ -44,8 +46,10 @@ class editCompanyProfileScreen extends Component {
         } else {
 
             //Calls the firebase function to update the provider's information
+            this.setState({ isLoading: true });
             FirebaseFunctions.updateProviderInfo(providerID, newBusinessName, newBusinessInfo).then(() => {
                 //Navigates back to the business screen
+                this.setState({ isLoading: false });
                 this.props.navigation.goBack();
             });
         }
@@ -62,45 +66,58 @@ class editCompanyProfileScreen extends Component {
                             leftIconName="angle-left"
                             leftOnPress={() => this.props.navigation.goBack()} />
                     </View>
+                    <View style={{ flex: 0.025 }}></View>
+                    <View style={{ flex: 1, justifyContent: 'center' }}>
+                        <View>
+                            <View style={{}}>
+                                <Text style={fontStyles.mainTextStyleBlack}>
+                                    {strings.EditName}</Text>
+                            </View>
 
-                    <View style={{ paddingTop: 55, paddingRight: 160, paddingLeft: 10, }}>
-                        <Text style={fontStyles.mainTextStyleBlack}>
-                            {strings.EditName}</Text>
-                    </View>
+                            <View style={{}}>
+                                <OneLineTextInput
+                                    onChangeText={(input) => this.setState({ businessName: input })}
+                                    value={this.state.businessName}
+                                    maxLength={18}
+                                />
+                            </View>
+                        </View>
 
-                    <View style={{ paddingTop: 20, paddingRight: 10, paddingLeft: 10 }}>
-                        <OneLineTextInput
-                            onChangeText={(input) => this.setState({ businessName: input })}
-                            value={this.state.businessName}
-                            maxLength={18}
-                        />
-                    </View>
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
+                            <View style={{ flex: 0.5, justifyContent: 'center' }}>
+                                <Text style={fontStyles.mainTextStyleBlack}>
+                                    {strings.EditDescription}</Text>
+                            </View>
 
-                    <View style={{ paddingTop: 30, paddingRight: 105, paddingLeft: 10 }}>
-                        <Text style={fontStyles.mainTextStyleBlack}>
-                            {strings.EditDescription}</Text>
-                    </View>
+                            <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+                                <RoundTextInput
+                                    width={275}
+                                    height={100}
+                                    onChangeText={(input) => this.setState({ businessInfo: input })}
+                                    value={this.state.businessInfo} />
+                            </View>
+                        </View>
 
-                    <View style={{ padding: 20 }}>
-                        <RoundTextInput
-                            width={275}
-                            height={100}
-                            onChangeText={(input) => this.setState({ businessInfo: input })}
-                            value={this.state.businessInfo} />
-                    </View>
+                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={{ flex: 1 }}>
+                                <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
+                            </View>
 
-                    <View style={{ paddingTop: 20 }}>
-                        <RoundBlueButton
-                            title={strings.Done}
-                            style={roundBlueButtonStyle.MediumSizeButton}
-                            textStyle={fontStyles.bigTextStyleWhite}
-                            onPress={() => { this.saveCompanyInfo() }}
-                        />
-                    </View>
+                            <View style={{ flex: 1 }}>
+                                <RoundBlueButton
+                                    title={strings.Done}
+                                    style={roundBlueButtonStyle.MediumSizeButton}
+                                    textStyle={fontStyles.bigTextStyleWhite}
+                                    onPress={() => { this.saveCompanyInfo() }}
+                                />
+                            </View>
 
-                    <View style={{ padding: 20 }}>
-                        <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
+                            <View style={{ flex: 1 }}>
+                                <LoadingSpinner isVisible={this.state.isLoading} />
+                            </View>
+                        </View>
                     </View>
+                    <View style={{ flex: 0.025 }}></View>
                 </SafeAreaView>
             </TouchableWithoutFeedback>
         )
