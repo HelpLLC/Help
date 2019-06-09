@@ -28,9 +28,6 @@ class settingsScreen extends Component {
         return (
             <SafeAreaView style={screenStyle.container}>
                 <View>
-                    <TopBanner title={strings.Settings} />
-                </View>
-                <View>
                     <View style={{ flex: 0.1 }}></View>
                     <View style={{ flex: 2 }}>
                         <View style={{ flex: 1 }}>

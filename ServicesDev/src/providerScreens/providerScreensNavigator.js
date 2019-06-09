@@ -6,6 +6,7 @@ import chatsScreen from '../chats/chatsScreen';
 import businessScreen from './providerBusiness/businessScreen';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
+import TopBanner from '../components/TopBanner';
 import colors from 'config/colors';
 
 //will configure the routes of each screen title to go to the correct screen when clicked on.
@@ -16,9 +17,12 @@ const routeConfig = {
         //connects the object with the chats screen component
         screen: chatsScreen,
         //sets up what the tab will be titled
-        navigationOptions: {
-            tabBarLabel: strings.Chats
-        }
+        navigationOptions: ({ navigation }) => ({
+            tabBarLabel: strings.Chats,
+            header: (
+                <TopBanner title={strings.Chats} />
+            )
+        })
     },
 
     //Route connecting to the help screen
@@ -26,19 +30,25 @@ const routeConfig = {
         //connects the object with the help screen component
         screen: businessScreen,
         //sets up what the tab will be titled
-        navigationOptions: {
-            tabBarLabel: strings.Business
-        }
+        navigationOptions: ({ navigation }) => ({
+            tabBarLabel: strings.Business,
+            header: (
+                <TopBanner title={strings.Business} />
+            )
+        })
     },
 
     //Route connecting to the settings screen
     SettingsScreen: {
         //connects the object with the settings screen component
-        screen: settingsScreen,
+        screen: settingsScreens,
         //sets up what the tab will be titled
-        navigationOptions: {
-            tabBarLabel: strings.Settings
-        }
+        navigationOptions: ({ navigation }) => ({
+            tabBarLabel: strings.Settings,
+            header: (
+                <TopBanner title={strings.Settings} />
+            )
+        })
     }
 
 }

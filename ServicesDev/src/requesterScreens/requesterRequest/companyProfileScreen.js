@@ -78,12 +78,6 @@ class companyProfileScreen extends Component {
             return (
                 <SafeAreaView style={screenStyle.container}>
                     <View>
-                        <TopBanner
-                            title={strings.CompanyProfile}
-                            leftIconName="angle-left"
-                            leftOnPress={() => this.props.navigation.goBack()} />
-                    </View>
-                    <View>
                         <View style={{ flex: 0.025 }}></View>
                         <View style={{
                             flexDirection: 'row',

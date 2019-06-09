@@ -14,6 +14,7 @@ import privacyScreen from './settingsScreens/privacyScreen';
 import reportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';
 import TopBanner from './components/TopBanner';
 import React from 'react';
+import strings from 'config/strings';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
 
@@ -32,7 +33,12 @@ const routeConfig = {
     ProviderCreateProductScreen: {
         screen: ProviderCreateProductScreen,
         navigationOptions: ({ navigation }) => ({
-            header: null
+            header: (
+                <TopBanner
+                    title={strings.CreateService}
+                    leftIconName="angle-left"
+                    leftOnPress={() => navigation.goBack()} />
+            )
         })
     },
 
@@ -40,7 +46,12 @@ const routeConfig = {
     ProviderEditCompanyProfileScreen: {
         screen: ProviderEditCompanyProfileScreen,
         navigationOptions: ({ navigation }) => ({
-            header: null
+            header: (
+                <TopBanner
+                    title={strings.EditCompany}
+                    leftIconName="angle-left"
+                    leftOnPress={() => navigation.goBack()} />
+            )
         })
     },
 
@@ -48,7 +59,12 @@ const routeConfig = {
     ProviderProductScreen: {
         screen: ProviderProductScreen,
         navigationOptions: ({ navigation }) => ({
-            header: null
+            header: (
+                <TopBanner
+                    title={strings.Service}
+                    leftIconName="angle-left"
+                    leftOnPress={() => navigation.goBack()} />
+            )
         })
     },
 
@@ -56,7 +72,12 @@ const routeConfig = {
     ProviderEditProductScreen: {
         screen: ProviderEditProductScreen,
         navigationOptions: ({ navigation }) => ({
-            header: null
+            header: (
+                <TopBanner
+                    title={strings.EditService}
+                    leftIconName="angle-left"
+                    leftOnPress={() => navigation.goBack()} />
+            )
         })
     },
 
@@ -64,7 +85,11 @@ const routeConfig = {
     ProviderProductHistoryScreen: {
         screen: ProviderProductHistoryScreen,
         navigationOptions: ({ navigation }) => ({
-            header: null
+            header: (
+                <TopBanner
+                    title={strings.ServiceHistory}
+                    leftIconName="angle-left"
+                    leftOnPress={() => navigation.goBack()} />)
         })
     },
 
@@ -72,7 +97,11 @@ const routeConfig = {
     RequesterServiceScreen: {
         screen: RequesterServiceScreen,
         navigationOptions: ({ navigation }) => ({
-            header: null
+            header: (
+                <TopBanner
+                    title={strings.Service}
+                    leftIconName="angle-left"
+                    leftOnPress={() => navigation.goBack()} />)
         })
     },
 
@@ -80,7 +109,12 @@ const routeConfig = {
     RequesterCompanyProfileScreen: {
         screen: RequesterCompanyProfileScreen,
         navigationOptions: ({ navigation }) => ({
-            header: null
+            header: (
+                <TopBanner
+                    title={strings.CompanyProfile}
+                    leftIconName="angle-left"
+                    leftOnPress={() => navigation.goBack()} />
+            )
         })
     },
 
@@ -101,7 +135,11 @@ const routeConfig = {
     AboutScreen: {
         screen: aboutScreen,
         navigationOptions: ({ navigation }) => ({
-            header: null
+            header: (
+                <TopBanner
+                    title={strings.About}
+                    leftIconName="angle-left"
+                    leftOnPress={() => navigation.goBack()} />)
         })
     },
 
@@ -109,7 +147,17 @@ const routeConfig = {
     ReportIssueScreen: {
         screen: reportIssueScreensNavigator,
         navigationOptions: ({ navigation }) => ({
-            header: null
+            header: (
+                <TopBanner
+                    title={strings.ReportAnIssue}
+                    leftIconName="angle-left"
+                    leftOnPress={() => {
+                        //Method will dismiss the current stack and then go back to 
+                        //make sure the animation is to the left
+                        navigation.dismiss();
+                        navigation.goBack();
+                    }} />
+            )
         })
     },
 
@@ -117,7 +165,12 @@ const routeConfig = {
     PrivacyScreen: {
         screen: privacyScreen,
         navigationOptions: ({ navigation }) => ({
-            header: null
+            header: (
+                <TopBanner
+                    title={strings.Privacy}
+                    leftIconName="angle-left"
+                    leftOnPress={() => navigation.goBack()} />
+            )
         })
     }
 

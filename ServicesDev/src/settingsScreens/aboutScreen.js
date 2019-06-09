@@ -15,12 +15,6 @@ class aboutScreen extends Component {
         return (
             <SafeAreaView style={screenStyle.container}>
                 <View>
-                    <TopBanner
-                        title={strings.About}
-                        leftIconName="angle-left"
-                        leftOnPress={() => this.props.navigation.goBack()} />
-                </View>
-                <View>
                     <View style={{ flex: 0.75, justifyContent: 'center', flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 2 }}></View>
                         <View style={{ flex: 50 }}>

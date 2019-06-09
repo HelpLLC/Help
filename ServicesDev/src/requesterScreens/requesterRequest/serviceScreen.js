@@ -107,12 +107,6 @@ class serviceScreen extends Component {
             return (
                 <SafeAreaView style={screenStyle.container}>
                     <View>
-                        <TopBanner
-                            title={strings.Service}
-                            leftIconName="angle-left"
-                            leftOnPress={() => this.props.navigation.goBack()} />
-                    </View>
-                    <View>
                         <View style={{ flex: 0.01 }}></View>
                         <View style={{
                             flexDirection: 'row',

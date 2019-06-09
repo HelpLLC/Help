@@ -60,12 +60,6 @@ class editCompanyProfileScreen extends Component {
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                 <SafeAreaView style={screenStyle.container}>
-                    <View>
-                        <TopBanner
-                            title={strings.EditCompany}
-                            leftIconName="angle-left"
-                            leftOnPress={() => this.props.navigation.goBack()} />
-                    </View>
                     <View style={{ flex: 0.025 }}></View>
                     <View style={{ flex: 1, justifyContent: 'center' }}>
                         <View>

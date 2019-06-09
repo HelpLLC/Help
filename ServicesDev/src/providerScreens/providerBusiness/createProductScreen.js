@@ -78,12 +78,6 @@ class createProductScreen extends Component {
         return (
             <SafeAreaView style={screenStyle.container}>
                 <View>
-                    <TopBanner
-                        title={strings.CreateService}
-                        leftIconName="angle-left"
-                        leftOnPress={() => this.props.navigation.goBack()} />
-                </View>
-                <View>
                     <View style={{ flex: 0.1 }}></View>
                     <View style={{
                         flexDirection: 'row',

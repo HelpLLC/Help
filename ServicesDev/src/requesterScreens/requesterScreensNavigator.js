@@ -5,6 +5,7 @@ import chatsScreen from '../chats/chatsScreen';
 import settingsScreens from '../settingsScreens/settingsScreen';
 import requestScreen from './requesterRequest/requestScreen';
 import fontStyles from 'config/styles/fontStyles';
+import TopBanner from '../components/TopBanner';
 import strings from 'config/strings';
 import colors from 'config/colors';
 
@@ -16,9 +17,12 @@ const routeConfig = {
         //connects the object with the chats screen component
         screen: chatsScreen,
         //sets up what the tab will be titled
-        navigationOptions: {
-            tabBarLabel: strings.Chats
-        }
+        navigationOptions:  ({ navigation }) => ({
+            tabBarLabel: strings.Chats,
+            header: (
+                <TopBanner title={strings.Chats} />
+            )
+        })
     },
 
     //Route connecting to the request screen
@@ -36,9 +40,12 @@ const routeConfig = {
         //connects the object with the settings screen component
         screen: settingsScreens,
         //sets up what the tab will be titled
-        navigationOptions: {
-            tabBarLabel: strings.Settings
-        }
+        navigationOptions:  ({ navigation }) => ({
+            tabBarLabel: strings.Settings,
+            header: (
+                <TopBanner title={strings.Settings} />
+            )
+        })
     }
 
 }

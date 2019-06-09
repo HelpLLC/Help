@@ -10,13 +10,6 @@ class aboutScreen extends Component {
     render() {
         return (
             <SafeAreaView style={screenStyle.container}>
-                <View>
-                    <TopBanner
-                        title={strings.Privacy}
-                        leftIconName="angle-left"
-                        leftOnPress={() => this.props.navigation.goBack()} />
-                </View>
-
                 <ScrollView>
                     <View>
                         <Text>{strings.PrivacyPolicy}</Text>

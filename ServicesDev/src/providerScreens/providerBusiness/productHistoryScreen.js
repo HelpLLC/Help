@@ -25,10 +25,6 @@ class productHistoryScreen extends Component {
 
         return (
             <SafeAreaView style={screenStyle.container}>
-                <TopBanner
-                    title={strings.ServiceHistory}
-                    leftIconName="angle-left"
-                    leftOnPress={() => this.props.navigation.goBack()} />
                 <View>
                     <View style={{
                         flexDirection: 'row',
