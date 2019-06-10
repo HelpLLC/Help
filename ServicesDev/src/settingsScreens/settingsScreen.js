@@ -2,7 +2,8 @@
 //screens. It will contain multiple options the user can choose from that will take them to seperate
 //screens using a StackNavigator
 import React, { Component } from 'react';
-import { View, Switch, SafeAreaView } from 'react-native';
+import { View, SafeAreaView } from 'react-native';
+import TopBanner from '../components/TopBanner';
 import screenStyle from 'config/styles/screenStyle';
 import whiteCardStyle from '../../config/styles/componentStyles/whiteCardStyle';
 import fontStyles from 'config/styles/fontStyles';
@@ -26,6 +27,9 @@ class settingsScreen extends Component {
             this.props.navigation.state.params.requester);
         return (
             <SafeAreaView style={screenStyle.container}>
+                <View>
+                    <TopBanner title={strings.Settings} />
+                </View>
                 <View>
                     <View style={{ flex: 0.1 }}></View>
                     <View style={{ flex: 2 }}>

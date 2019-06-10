@@ -57,7 +57,7 @@ class companyProfileScreen extends Component {
             title: provider.companyName,
             providerID: provider.providerID,
             requesterID: requester.requesterID,
-            userID: requester.requesterID + "r"
+            userID: requester.requesterID
         });
     }
 

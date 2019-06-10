@@ -90,6 +90,26 @@ export default class FirebaseFunctions {
 
     }
 
+    //This method will take in an ID of a requester and an ID of a provider and return the object
+    //containing the conversation between the two
+    static async getConversationByID(providerID, requesterID) {
+
+        const ref = this.messages.where("providerID", "==", providerID).where("requesterID", "==", requesterID).limit(1);
+        const query = await ref.get();
+
+        if (query.docs.length > 0) {
+            const doc = query.docs[0];
+            const docData = doc.data();
+            return docData;
+        }
+        return {
+            conversationMessages: [],
+            providerID: providerID,
+            requesterID: requesterID
+        }
+
+    }
+
     //This functions will take in a new requester ID and then will add that requester to the firestore
     //as a new requester with a unique requester ID and a username which will just be their email
     //without the "@"
@@ -175,6 +195,46 @@ export default class FirebaseFunctions {
             });
         });
         return product;
+    }
+
+    //Sends a message by adding that conversation to the database. If the conversation is a new one,
+    //then it will create a new messages object between the two communicators
+    static async sendMessage(providerID, requesterID, message, isNewConversation) {
+        if (isNewConversation === true) {
+            const conversationMessages = []
+            const messageWithCorrectDate = {
+                _id: message[0]._id,
+                createdAt: new Date(message[0].createdAt).toUTCString(),
+                text: message[0].text,
+                user: message[0].user
+            }
+            conversationMessages.push(messageWithCorrectDate);
+            this.messages.add({
+                conversationMessages,
+                providerID,
+                requesterID
+            });
+        } else {
+            const ref = this.messages.where("providerID", "==", providerID).where("requesterID", "==", requesterID);
+            const query = await ref.get();
+            const doc = query.docs[0];
+            const docData = doc.data();
+            const oldConversationMessages = docData.conversationMessages;
+            const messageWithCorrectDate = {
+                _id: message[0]._id,
+                createdAt: new Date(message[0].createdAt).toUTCString(),
+                text: message[0].text,
+                user: message[0].user
+            }
+            oldConversationMessages.push(messageWithCorrectDate);
+            const batch = this.database.batch();
+            batch.update(doc.ref, {
+                conversationMessages: oldConversationMessages
+            });
+
+            batch.commit();
+
+        }
     }
 
     //This method will update the information for a provider by taking in the new company name

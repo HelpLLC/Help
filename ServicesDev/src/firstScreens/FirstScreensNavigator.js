@@ -1,5 +1,6 @@
 //This class creates the navigation for the first run screens, which will all be stack navigators
 //Stack navigator means the screens push left when you go to next screen
+import React from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import splashScreen from './splashScreen';
 import providerScreensNavigator from '../providerScreens/providerScreensNavigator';

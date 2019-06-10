@@ -10,6 +10,7 @@ import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import images from 'config/images/images';
 import RoundBlueButton from '../../components/RoundBlueButton';
+import TopBanner from '../../components/TopBanner';
 import ServiceCard from '../../components/ServiceCard';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import fontStyles from 'config/styles/fontStyles';
@@ -62,6 +63,9 @@ class businessScreen extends Component {
         //Stores the top part of this view
         const topView = (
             <View style={{ alignItems: 'center' }}>
+                <View>
+                    <TopBanner title={strings.Business} />
+                </View>
                 <View style={{ flex: 1, justifyContent: 'center' }}>
                     <View style={{
                         flexDirection: 'row',

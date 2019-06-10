@@ -77,7 +77,8 @@ class chatsScreen extends Component {
 
     render() {
         return (
-            <View></View>
+            <View>
+                <TopBanner title={strings.Chats} /></View>
             /*
             <SafeAreaView style={screenStyle.container}>
                 <View>
