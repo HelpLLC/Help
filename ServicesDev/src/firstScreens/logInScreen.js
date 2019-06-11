@@ -119,7 +119,9 @@ class logInScreen extends Component {
                                 //input
                                 onPress={() => { this.logIn() }} />
                         </View>
-                        <LoadingSpinner isVisible={this.state.isLoading} />
+                        <View style={{ flex: 1 }}>
+                            <LoadingSpinner isVisible={this.state.isLoading} />
+                        </View>
                     </View>
 
                     <View style={{ flex: 2 }}></View>

@@ -1,6 +1,6 @@
 //This screen will represent all the chats belonging to this current user
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, FlatList } from 'react-native';
+import { View, Text, SafeAreaView, FlatList, ScrollView } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../components/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
@@ -68,56 +68,57 @@ class chatsScreen extends Component {
                     <View>
                         <TopBanner title={strings.Chats} />
                     </View>
-
-                    { //Tests whether or not the provider has any conversations
-                        this.state.userConversations.length === 0 ?
-                            (
-                                <View style={{ paddingTop: 180 }}>
-                                    <Text style={fontStyles.mainTextStyleBlack}>{strings.NoMessagesYet}</Text>
-                                </View>
-                            ) : (
-                                <View>
-                                    <FlatList
-                                        data={this.state.userConversations}
-                                        keyExtractor={(item, index) => {
-                                            return ("Provider #" + item.providerID + " + Requester #" + item.requesterID);
-                                        }}
-                                        renderItem={({ item, index }) => (
-                                            <View style={{ marginTop: 45 }}>
-                                                <ChatCard
-                                                    username={
-                                                        //Will test if this is the provider or the requester in
-                                                        //order to know which username to display
-                                                        this.state.isRequester ? (
-                                                            item.providerName
-                                                        ) : (
-                                                                item.requesterName
-                                                            )
-                                                    }
-                                                    previewText={item.conversationMessages[item.conversationMessages.length - 1].text}
-                                                    onPress={() => {
-                                                        this.props.navigation.push("MessagingScreen", {
-                                                            title:
-                                                                this.state.isRequester ? (
-                                                                    item.providerName
-                                                                ) : (
-                                                                        item.requesterName
-                                                                    ),
-                                                            providerID: item.providerID,
-                                                            requesterID: item.requesterID,
-                                                            userID: this.state.isRequester ? (
-                                                                item.requesterID
+                    <View>
+                        { //Tests whether or not the provider has any conversations
+                            this.state.userConversations.length === 0 ?
+                                (
+                                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                        <Text style={fontStyles.mainTextStyleBlack}>{strings.NoMessagesYet}</Text>
+                                    </View>
+                                ) : (
+                                    <View>
+                                        <ScrollView style={{ flex: 1 }}>
+                                            <FlatList
+                                                data={this.state.userConversations}
+                                                keyExtractor={(item, index) => {
+                                                    return ("Provider #" + item.providerID + " + Requester #" + item.requesterID);
+                                                }}
+                                                renderItem={({ item, index }) => (
+                                                    <ChatCard
+                                                        username={
+                                                            //Will test if this is the provider or the requester in
+                                                            //order to know which username to display
+                                                            this.state.isRequester ? (
+                                                                item.providerName
                                                             ) : (
-                                                                    item.providerID
-                                                                ),
-                                                        });
-                                                    }}
-                                                />
-                                            </View>
-                                        )} />
-                                </View>
-                            )
-                    }
+                                                                    item.requesterName
+                                                                )
+                                                        }
+                                                        previewText={item.conversationMessages[item.conversationMessages.length - 1].text}
+                                                        onPress={() => {
+                                                            this.props.navigation.push("MessagingScreen", {
+                                                                title:
+                                                                    this.state.isRequester ? (
+                                                                        item.providerName
+                                                                    ) : (
+                                                                            item.requesterName
+                                                                        ),
+                                                                providerID: item.providerID,
+                                                                requesterID: item.requesterID,
+                                                                userID: this.state.isRequester ? (
+                                                                    item.requesterID
+                                                                ) : (
+                                                                        item.providerID
+                                                                    ),
+                                                            });
+                                                        }}
+                                                    />
+                                                )} />
+                                        </ScrollView>
+                                    </View>
+                                )
+                        }
+                    </View>
                 </SafeAreaView>
             )
         }

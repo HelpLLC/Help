@@ -10,6 +10,10 @@ export default {
         height: 80,
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom: 20
+        borderColor: colors.lightGray,
+        borderBottomWidth: 0,
+        borderRightWidth: 0,
+        borderLeftWidth: 0,
+        borderTopWidth: 1
     }
 }
