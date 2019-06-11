@@ -100,12 +100,20 @@ export default class FirebaseFunctions {
         if (query.docs.length > 0) {
             const doc = query.docs[0];
             const docData = doc.data();
-            return docData;
+            //Sorts the conversation messages by time
+            const conversationMessages = docData.conversationMessages.sort((a, b) => {
+                return b.createdAt - a.createdAt;
+            });
+            return {
+                conversationMessages,
+                providerID,
+                requesterID
+            }
         }
         return {
             conversationMessages: [],
-            providerID: providerID,
-            requesterID: requesterID
+            providerID,
+            requesterID
         }
 
     }
@@ -204,7 +212,7 @@ export default class FirebaseFunctions {
             const conversationMessages = []
             const messageWithCorrectDate = {
                 _id: message[0]._id,
-                createdAt: new Date(message[0].createdAt).toUTCString(),
+                createdAt: new Date(message[0].createdAt).getTime(),
                 text: message[0].text,
                 user: message[0].user
             }
@@ -222,7 +230,7 @@ export default class FirebaseFunctions {
             const oldConversationMessages = docData.conversationMessages;
             const messageWithCorrectDate = {
                 _id: message[0]._id,
-                createdAt: new Date(message[0].createdAt).toUTCString(),
+                createdAt: new Date(message[0].createdAt).getTime(),
                 text: message[0].text,
                 user: message[0].user
             }

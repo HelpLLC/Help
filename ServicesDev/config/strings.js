@@ -46,7 +46,7 @@ export default {
     LogOut: 'Log Out',
 
     //------------------- About Screen -------------------
-    MarketingMessage: 'Here at Help, we empower people with the right technology to become more efficient & effective in today’s competitive environment; technology that will allow for connections that ultimately lead to more productivity.',
+    MarketingMessage: 'Empowering people with the right technology to become more efficient & effective in an fast paced world',
     Version: 'Version',
     //Make sure this number is always up to date
     CurrentVersionNumber: '1.0.0',
