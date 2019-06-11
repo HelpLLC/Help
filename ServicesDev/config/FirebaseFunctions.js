@@ -217,11 +217,19 @@ export default class FirebaseFunctions {
                 user: message[0].user
             }
             conversationMessages.push(messageWithCorrectDate);
-            this.messages.add({
-                conversationMessages,
-                providerID,
-                requesterID
-            });
+            //Retrieves the names of the requester and the provider so that can be added to the database
+            //as well
+            FirebaseFunctions.getProviderByID(providerID).then((provider) => {
+                FirebaseFunctions.getRequesterByID(requesterID).then((requester) => {
+                    this.messages.add({
+                        conversationMessages,
+                        providerID,
+                        requesterID,
+                        requesterName: requester.username,
+                        providerName: provider.companyName
+                    })
+                })
+            })
         } else {
             const ref = this.messages.where("providerID", "==", providerID).where("requesterID", "==", requesterID);
             const query = await ref.get();
@@ -243,6 +251,30 @@ export default class FirebaseFunctions {
             batch.commit();
 
         }
+    }
+
+    //Returns an array of all the conversation that this user has had, depending on if they are a 
+    //requseter or a provider
+    static async getAllUserConversations(userID, isRequester) {
+        console.log(isRequester);
+        console.log(userID);
+        let allUserConversations = [];
+        if (isRequester === true) {
+            const ref = this.messages.where("requesterID", "==", userID);
+            const query = await ref.get();
+            const docs = query.docs;
+            console.log(docs);
+            allUserConversations = docs.map((doc) => (doc.data()));
+        } else {
+            const ref = this.messages.where("providerID", "==", userID);
+            const query = await ref.get();
+            const docs = query.docs;
+            allUserConversations = docs.map((doc) => (doc.data()));
+        }
+
+        console.log(allUserConversations);
+        return allUserConversations;
+
     }
 
     //This method will update the information for a provider by taking in the new company name

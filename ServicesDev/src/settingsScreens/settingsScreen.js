@@ -13,11 +13,6 @@ import colors from 'config/colors';
 import strings from 'config/strings';
 
 class settingsScreen extends Component {
-    //The state of the switch button which turns notifications on or off
-    state = {
-        //to-do: Make this value fetch the user's settings
-        switchValue: true
-    }
     render() {
         //This constant holds the value for the right angle icon which appears frequently
         //in this class

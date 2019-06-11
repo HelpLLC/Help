@@ -38,12 +38,12 @@ class productScreen extends Component {
     }
 
     //This method will take in an ID of a requester and go to the chat screen associated with them
-    messageRequester(providerID, requesterID) {
+    messageRequester(providerID, requesterID, requesterName) {
         this.props.navigation.push("MessagingScreen", {
-            title: FirebaseFunctions.getRequesterByID(requesterID).username,
+            title: requesterName,
             providerID: providerID,
             requesterID: requesterID,
-            userID: providerID + "p"
+            userID: providerID
         });
     }
 
@@ -111,12 +111,6 @@ class productScreen extends Component {
         if (isLoading === true) {
             return (
                 <SafeAreaView style={screenStyle.container}>
-                    <View>
-                        <TopBanner
-                            title={strings.Service}
-                            leftIconName="angle-left"
-                            leftOnPress={() => this.props.navigation.goBack()} />
-                    </View>
                     <View style={{ alignItems: 'center', justifyContent: "center" }}>
                         <LoadingSpinner isVisible={isLoading} />
                     </View>
@@ -266,7 +260,7 @@ class productScreen extends Component {
                                                             flex: 1
                                                         }}>
                                                             <TouchableOpacity
-                                                                onPress={() => this.messageRequester(providerID, item.requesterID)}>
+                                                                onPress={() => this.messageRequester(providerID, item.requesterID, item.requesterName)}>
                                                                 <Text style={fontStyles.subTextStyleBlue}>
                                                                     {strings.Message}</Text>
                                                             </TouchableOpacity>
