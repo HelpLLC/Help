@@ -26,8 +26,9 @@ class companyProfileScreen extends Component {
         }
     }
 
-    //This will fetch the data about this provider and his products from firestore
-    async componentDidMount() {
+    //Fetches the data associated with this screen
+    async fetchDatabaseData() {
+
         const { provider } = this.props.navigation.state.params;
         this.setState({ provider });
         if (provider.serviceIDs.length === 0) {
@@ -48,6 +49,28 @@ class companyProfileScreen extends Component {
                 serviceIDsLength: serviceIDs.length,
             });
         }
+
+    }
+
+
+    //This will fetch the data about this provider and his products from firestore
+    async componentDidMount() {
+
+        this.setState({ isLoading: true });
+        //Adds the listener to add the listener to refetch the data once this component is returned to
+        this.willFocusListener = this.props.navigation.addListener('willFocus', () => {
+            this.fetchDatabaseData().then(() => {
+                this.setState({ isLoading: false });
+            })
+        });
+
+    }
+
+    //Removes the listener when the screen is switched away from 
+    componentWillUnmount() {
+
+        this.willFocusListener.remove();
+
     }
 
     //This method will open a chat with the provider and go to that chat

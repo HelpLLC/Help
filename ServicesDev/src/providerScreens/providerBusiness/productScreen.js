@@ -25,8 +25,9 @@ class productScreen extends Component {
         }
     }
 
-    //fetches the data about this particular product
-    async componentDidMount() {
+    //Fetches the data associated with this screen
+    async fetchDatabaseData() {
+
         const { productID } = this.props.navigation.state.params;
         FirebaseFunctions.getServiceByID(productID).then((service) => {
             this.setState({
@@ -35,6 +36,27 @@ class productScreen extends Component {
                 product: service
             });
         });
+
+    }
+
+    //This will fetch the data about this product from the database
+    async componentDidMount() {
+
+        this.setState({ isLoading: true });
+        //Adds the listener to add the listener to refetch the data once this component is returned to
+        this.willFocusListener = this.props.navigation.addListener('willFocus', () => {
+            this.fetchDatabaseData().then(() => {
+                this.setState({ isLoading: false });
+            })
+        });
+
+    }
+
+    //Removes the listener when the screen is switched away from 
+    componentWillUnmount() {
+
+        this.willFocusListener.remove();
+
     }
 
     //This method will take in an ID of a requester and go to the chat screen associated with them

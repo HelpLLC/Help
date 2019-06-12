@@ -52,6 +52,7 @@ class createProductScreen extends Component {
 
         //Retrieves the state of the input fields
         const { serviceTitle, serviceDescription, pricing, imageSource } = this.state;
+        const { provider } = this.props.navigation.state.params;
 
         //If any of the fields are empty, a warning message will display
         if (serviceTitle.trim() === "" || serviceDescription.trim() === "" || pricing.trim() == "") {
@@ -61,15 +62,11 @@ class createProductScreen extends Component {
         } else {
 
             this.setState({ isLoading: true });
-            const { providerID, providerProducts, provider } = this.props.navigation.state.params;
-            FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, pricing, imageSource, providerID).then((product) => {
-                providerProducts.push(product);
-                this.props.navigation.push("BusinessScreen", {
-                    provider,
-                    providerProducts
-                });
-            });
-
+            const { providerID } = this.props.navigation.state.params;
+            FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, pricing, imageSource, providerID, provider.companyName).then((product) => {
+                //this.props.navigation.goBack();
+                console.log(product);
+            });   
         }
     }
 
@@ -77,7 +74,7 @@ class createProductScreen extends Component {
         return (
             <SafeAreaView style={screenStyle.container}>
                 <View>
-                    <View style={{ flex: 0.1 }}></View>
+                    <View style={{ flex: 0.25 }}></View>
                     <View style={{
                         flexDirection: 'row',
                         justifyContent: 'space-between',
@@ -143,7 +140,7 @@ class createProductScreen extends Component {
                                 value={this.state.serviceDescription} />
                         </View>
                     </View>
-                    <View style={{ flex: 1.25 }}>
+                    <View style={{ flex: 1.5 }}>
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                             <Text style={fontStyles.mainTextStyleBlack}>
                                 {strings.Pricing}</Text>
@@ -169,11 +166,11 @@ class createProductScreen extends Component {
                                 onPress={() => { this.createProduct() }} />
                         </View>
 
-                        <View style={{ flex: 1 }}>
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                             <LoadingSpinner isVisible={this.state.isLoading} />
                         </View>
                     </View>
-                    <View style={{ flex: 1 }}></View>
+                    <View style={{ flex: 0.8 }}></View>
                 </View>
             </SafeAreaView>
         )

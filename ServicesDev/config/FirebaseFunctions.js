@@ -167,42 +167,44 @@ export default class FirebaseFunctions {
     //This method will take information about a new product and add it to the firestore database. It will
     //first add it to the firestore containing products, then it will add the service IDs to the provider
     //products
-    static async addProductToDatabase(serviceTitle, serviceDescription, pricing, imageSource, providerID) {
-        let product = "";
-        //First will retrieve the provider information in order to know the name of the company
-        FirebaseFunctions.getProviderByID(providerID).then((provider) => {
+    static async addProductToDatabase(serviceTitle, serviceDescription, pricing, imageSource, providerID, companyName) {
+        //Creates the product object
+        let product = {
+            serviceTitle,
+            serviceDescription,
+            requests: {
+                currentRequests: [],
+                completedRequests: [],
+            },
+            pricing,
+            imageSource,
+            offeredByID: providerID,
+            offeredByName: companyName
+        };
 
-            this.products.add({
-
-                serviceTitle,
-                serviceDescription,
-                requests: {
-                    currentRequests: [],
-                    completedRequests: [],
-                },
-                pricing,
-                imageSource,
-                offeredByID: providerID,
-                offeredByName: provider.companyName
-
-            }).then(async (newProduct) => {
-                //Will deal with the ID of the product by adding it as a field and pushing to the
-                //provider's field
-                const batch = this.database.batch();
-                const serviceID = newProduct.id;
-                batch.update(newProduct, { serviceID });
-
-                const providerRef = this.providers.doc(providerID)
-                const providerDoc = await providerRef.get();
-                const serviceIDsArray = providerDoc.data().serviceIDs;
-                serviceIDsArray.push(serviceID);
-                batch.update(providerRef, { serviceIDs: serviceIDsArray });
-
-                batch.commit();
-                product = newProduct;
-            });
+        //Adds the product to the database of products
+        this.products.add(product).then(async newProduct => {
+            const id = await newProduct.id;
+            return id;
         });
+
+        //Will deal with the ID of the product by adding it as a field and pushing to the
+        //provider's field
+        /*
+        const batch = this.database.batch();
+        const serviceID = newProduct.id;
+        const productRef = this.products.doc(serviceID);
+        batch.update(productRef, { serviceID });
+
+        const providerRef = this.providers.doc(providerID)
+        const providerDoc = await providerRef.get();
+        const serviceIDsArray = providerDoc.data().serviceIDs;
+        serviceIDsArray.push(serviceID);
+        await batch.update(providerRef, { serviceIDs: serviceIDsArray });
+
+        batch.commit();
         return product;
+        */
     }
 
     //Sends a message by adding that conversation to the database. If the conversation is a new one,
@@ -256,14 +258,11 @@ export default class FirebaseFunctions {
     //Returns an array of all the conversation that this user has had, depending on if they are a 
     //requseter or a provider
     static async getAllUserConversations(userID, isRequester) {
-        console.log(isRequester);
-        console.log(userID);
         let allUserConversations = [];
         if (isRequester === true) {
             const ref = this.messages.where("requesterID", "==", userID);
             const query = await ref.get();
             const docs = query.docs;
-            console.log(docs);
             allUserConversations = docs.map((doc) => (doc.data()));
         } else {
             const ref = this.messages.where("providerID", "==", userID);
@@ -272,7 +271,6 @@ export default class FirebaseFunctions {
             allUserConversations = docs.map((doc) => (doc.data()));
         }
 
-        console.log(allUserConversations);
         return allUserConversations;
 
     }
