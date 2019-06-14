@@ -56,7 +56,7 @@ class reportIssueScreen extends Component {
                                     this.props.navigation.push('IssueReportedScreen', {
                                         user: this.props.navigation.state.params.user
                                     })
-                                    this.reportIssue()
+                                    this.reportIssue();
                                 }} />
                         </View>
                         <View style={{ flex: 1.5 }}></View>
