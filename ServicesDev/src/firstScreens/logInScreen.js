@@ -2,7 +2,7 @@
 //created. Since there will be no payments or anything secure in the mvp, then users will only 
 //log in with their phone numbers. And that will be what is linked with their accoun
 import React, { Component } from 'react';
-import { View, Text, Keyboard, SafeAreaView } from 'react-native';
+import { View, Text, Keyboard, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
@@ -75,59 +75,60 @@ class logInScreen extends Component {
 
     render() {
         return (
-            <SafeAreaView style={screenStyle.container}>
-                <View>
-                    <View style={{ flex: 1, justifyContent: 'center' }}>
-                        <View>
-                            <Text style={fontStyles.mainTextStyleBlack}>{strings.Email}</Text>
+            <KeyboardAvoidingView enabled behavior="padding" style={screenStyle.container}>
+                <SafeAreaView>
+                    <View>
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
+                            <View>
+                                <Text style={fontStyles.mainTextStyleBlack}>{strings.Email}</Text>
+                            </View>
+
+                            <View>
+                                <OneLineTextInput
+                                    placeholder={strings.EnterYourEmail}
+                                    onChangeText={(input) => this.setState({ email: input })}
+                                    value={this.state.email}
+                                />
+                            </View>
                         </View>
 
-                        <View>
-                            <OneLineTextInput
-                                placeholder={strings.EnterYourEmail}
-                                onChangeText={(input) => this.setState({ email: input })}
-                                value={this.state.email}
-                            />
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
+                            <View>
+                                <Text style={fontStyles.mainTextStyleBlack}>{strings.Password}</Text>
+                            </View>
+
+                            <View>
+                                <OneLineTextInput
+                                    placeholder={strings.EnterYourPassword}
+                                    onChangeText={(input) => this.setState({ password: input })}
+                                    value={this.state.password}
+                                />
+                            </View>
                         </View>
+
+                        <View style={{ flex: 1, alignItems: 'center' }}>
+                            <View style={{ flex: 1 }}>
+                                <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
+                            </View>
+
+                            <View style={{ flex: 1 }}>
+                                <RoundBlueButton
+                                    title={strings.LogIn}
+                                    style={roundBlueButtonStyle.MediumSizeButton}
+                                    textStyle={fontStyles.bigTextStyleWhite}
+                                    //Method logs the person in based on what is entered into the text
+                                    //input
+                                    onPress={() => { this.logIn() }} />
+                            </View>
+                            <View style={{ flex: 1 }}>
+                                <LoadingSpinner isVisible={this.state.isLoading} />
+                            </View>
+                        </View>
+
+                        <View style={{ flex: 2 }}></View>
                     </View>
-
-                    <View style={{ flex: 1, justifyContent: 'center' }}>
-                        <View>
-                            <Text style={fontStyles.mainTextStyleBlack}>{strings.Password}</Text>
-                        </View>
-
-                        <View>
-                            <OneLineTextInput
-                                placeholder={strings.EnterYourPassword}
-                                onChangeText={(input) => this.setState({ password: input })}
-                                value={this.state.password}
-                            />
-                        </View>
-                    </View>
-
-                    <View style={{ flex: 1, alignItems: 'center' }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
-                        </View>
-
-                        <View style={{ flex: 1 }}>
-                            <RoundBlueButton
-                                title={strings.LogIn}
-                                style={roundBlueButtonStyle.MediumSizeButton}
-                                textStyle={fontStyles.bigTextStyleWhite}
-                                //Method logs the person in based on what is entered into the text
-                                //input
-                                onPress={() => { this.logIn() }} />
-                        </View>
-                        <View style={{ flex: 1 }}>
-                            <LoadingSpinner isVisible={this.state.isLoading} />
-                        </View>
-                    </View>
-
-                    <View style={{ flex: 2 }}></View>
-                </View>
-            </SafeAreaView>
-
+                </SafeAreaView>
+            </KeyboardAvoidingView>
         );
     }
 };

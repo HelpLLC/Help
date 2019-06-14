@@ -1,7 +1,7 @@
 //This screen will be the one that allows the user to edit the product or to even delete the product
 //itself.
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, Image, Dimensions, TouchableOpacity, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../../components/RoundBlueButton';
@@ -67,104 +67,106 @@ class editProductScreen extends Component {
 
     render() {
         return (
-            <SafeAreaView style={screenStyle.container}>
-                <View>
-                    <View style={{ flex: 0.1 }}></View>
-                    <View style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        width: Dimensions.get('window').width - 40,
-                        flex: 1,
-                        alignItems: 'center'
-                    }}>
+            <KeyboardAvoidingView enabled behavior="padding" style={screenStyle.container}>
+                <SafeAreaView>
+                    <View>
+                        <View style={{ flex: 0.1 }}></View>
+                        <View style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            width: Dimensions.get('window').width - 40,
+                            flex: 1,
+                            alignItems: 'center'
+                        }}>
 
-                        <View style={{ flexDirection: 'column' }}>
-                            <Text style={fontStyles.mainTextStyleBlack}>{strings.EditTitle}</Text>
+                            <View style={{ flexDirection: 'column' }}>
+                                <Text style={fontStyles.mainTextStyleBlack}>{strings.EditTitle}</Text>
 
-                            <View>
-                                <OneLineTextInput
-                                    onChangeText={(input) => this.setState({ serviceTitle: input })}
-                                    value={this.state.serviceTitle}
-                                    width={140} />
+                                <View>
+                                    <OneLineTextInput
+                                        onChangeText={(input) => this.setState({ serviceTitle: input })}
+                                        value={this.state.serviceTitle}
+                                        width={140} />
+                                </View>
+                            </View>
+
+                            <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                                <BoxShadow setting={{
+                                    width: 140,
+                                    height: 110,
+                                    color: colors.gray,
+                                    border: 10,
+                                    radius: 50,
+                                    opacity: 0.2,
+                                    x: 0,
+                                    y: 5
+                                }}>
+                                    <Image
+                                        source={this.state.imageSource}
+                                        style={{
+                                            width: 140,
+                                            height: 110,
+                                            borderColor: colors.lightBlue,
+                                            borderWidth: 6,
+                                            borderRadius: 50
+                                        }} />
+                                </BoxShadow>
+
+                                <TouchableOpacity
+                                    onPress={() => { this.chooseImage() }}
+                                    style={{ justifyContent: 'flex-end' }}>
+                                    <Text style={fontStyles.subTextStyleGray}>
+                                        {strings.EditImage}</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <View style={{ flex: 1, justifyContent: 'center' }}>
+                                <Text style={fontStyles.mainTextStyleBlack}>
+                                    {strings.EditDescription}</Text>
+                            </View>
+                            <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+                                <RoundTextInput
+                                    width={Dimensions.get('window').width - 40}
+                                    height={100}
+                                    onChangeText={(input) => this.setState({ serviceDescription: input })}
+                                    value={this.state.serviceDescription} />
                             </View>
                         </View>
-
-                        <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                            <BoxShadow setting={{
-                                width: 140,
-                                height: 110,
-                                color: colors.gray,
-                                border: 10,
-                                radius: 50,
-                                opacity: 0.2,
-                                x: 0,
-                                y: 5
-                            }}>
-                                <Image
-                                    source={this.state.imageSource}
-                                    style={{
-                                        width: 140,
-                                        height: 110,
-                                        borderColor: colors.lightBlue,
-                                        borderWidth: 6,
-                                        borderRadius: 50
-                                    }} />
-                            </BoxShadow>
-
-                            <TouchableOpacity
-                                onPress={() => { this.chooseImage() }}
-                                style={{ justifyContent: 'flex-end' }}>
-                                <Text style={fontStyles.subTextStyleGray}>
-                                    {strings.EditImage}</Text>
-                            </TouchableOpacity>
+                        <View style={{ flex: 1.25 }}>
+                            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                                <Text style={fontStyles.mainTextStyleBlack}>
+                                    {strings.EditPrice}</Text>
+                            </View>
+                            <View style={{ flex: 1, justifyContent: 'center' }}>
+                                <OneLineTextInput
+                                    onChangeText={(input) => this.setState({ pricing: input })}
+                                    value={this.state.pricing}
+                                    width={Dimensions.get('window').width - 40} />
+                            </View>
                         </View>
+                        <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
+                            <View style={{ flex: 1 }}>
+                                <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
+                            </View>
 
+                            <View style={{ flex: 1 }}>
+                                <RoundBlueButton
+                                    title={strings.Done}
+                                    style={roundBlueButtonStyle.MediumSizeButton}
+                                    textStyle={fontStyles.bigTextStyleWhite}
+                                    onPress={() => { this.saveProduct() }} />
+                            </View>
+
+                            <View style={{ flex: 1 }}>
+                                <LoadingSpinner isVisible={this.state.isLoading} />
+                            </View>
+                        </View>
+                        <View style={{ flex: 1 }}></View>
                     </View>
-                    <View style={{ flex: 1 }}>
-                        <View style={{ flex: 1, justifyContent: 'center' }}>
-                            <Text style={fontStyles.mainTextStyleBlack}>
-                                {strings.EditDescription}</Text>
-                        </View>
-                        <View style={{ flex: 1, justifyContent: 'flex-start' }}>
-                            <RoundTextInput
-                                width={Dimensions.get('window').width - 40}
-                                height={100}
-                                onChangeText={(input) => this.setState({ serviceDescription: input })}
-                                value={this.state.serviceDescription} />
-                        </View>
-                    </View>
-                    <View style={{ flex: 1.25 }}>
-                        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                            <Text style={fontStyles.mainTextStyleBlack}>
-                                {strings.EditPrice}</Text>
-                        </View>
-                        <View style={{ flex: 1, justifyContent: 'center' }}>
-                            <OneLineTextInput
-                                onChangeText={(input) => this.setState({ pricing: input })}
-                                value={this.state.pricing}
-                                width={Dimensions.get('window').width - 40} />
-                        </View>
-                    </View>
-                    <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
-                        </View>
-
-                        <View style={{ flex: 1 }}>
-                            <RoundBlueButton
-                                title={strings.Done}
-                                style={roundBlueButtonStyle.MediumSizeButton}
-                                textStyle={fontStyles.bigTextStyleWhite}
-                                onPress={() => { this.saveProduct() }} />
-                        </View>
-
-                        <View style={{ flex: 1 }}>
-                            <LoadingSpinner isVisible={this.state.isLoading} />
-                        </View>
-                    </View>
-                    <View style={{ flex: 1 }}></View>
-                </View>
-            </SafeAreaView>
+                </SafeAreaView>
+            </KeyboardAvoidingView>
         )
     }
 }
