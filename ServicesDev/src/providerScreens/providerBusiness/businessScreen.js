@@ -34,28 +34,26 @@ class businessScreen extends Component {
     async fetchDatabaseData() {
 
         const { providerID } = this.props.navigation.state.params;
-        FirebaseFunctions.getProviderByID(providerID).then(async (provider) => {
-            this.setState({ provider });
-            if (provider.serviceIDs.length === 0) {
-                this.setState({ isLoading: false });
-            } else {
-                const serviceIDs = provider.serviceIDs;
-                await serviceIDs.forEach((ID) => {
-                    FirebaseFunctions.getServiceByID(ID).then((service) => {
-                        const newArrayOfProducts = this.state.providerProducts;
-                        newArrayOfProducts.push(service);
-                        this.setState({
-                            providerProducts: newArrayOfProducts
-                        });
-                    })
-                });
+        const provider = await FirebaseFunctions.getProviderByID(providerID);
+        this.setState({ provider });
+        if (provider.serviceIDs.length === 0) {
+            this.setState({ isLoading: false });
+        } else {
+            const serviceIDs = provider.serviceIDs;
+            serviceIDs.forEach(async (ID) => {
+                const service = await FirebaseFunctions.getServiceByID(ID);
+                const newArrayOfProducts = this.state.providerProducts;
+                newArrayOfProducts.push(service);
                 this.setState({
-                    isLoading: false,
-                    serviceIDsLength: serviceIDs.length,
+                    providerProducts: newArrayOfProducts
                 });
-            }
-        });
-
+            });
+            this.setState({
+                isLoading: false,
+                serviceIDsLength: provider.serviceIDs.length,
+            });
+        }
+        return;
     }
 
     //This will fetch the data about this provider and his products from firestore
@@ -63,10 +61,9 @@ class businessScreen extends Component {
 
         this.setState({ isLoading: true });
         //Adds the listener to add the listener to refetch the data once this component is returned to
-        this.willFocusListener = this.props.navigation.addListener('willFocus', () => {
-            this.fetchDatabaseData().then(() => {
-                this.setState({ isLoading: false });
-            })
+        this.willFocusListener = await this.props.navigation.addListener('willFocus', async () => {
+            await this.fetchDatabaseData();
+            this.setState({ isLoading: false });
         });
 
     }
@@ -143,11 +140,11 @@ class businessScreen extends Component {
         if (isLoading === true || (providerProducts.length == 0 && serviceIDsLength > 0) || provider === "") {
             return (
                 <SafeAreaView style={screenStyle.container}>
-                    <View style={{ alignItems: 'center' }}>
-                        <LoadingSpinner isVisible={isLoading} />
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                        <LoadingSpinner isVisible={true} />
                     </View>
                 </SafeAreaView>
-            )
+            );
         } else if (serviceIDsLength === 0) {
             return (
                 <SafeAreaView style={screenStyle.container}>
@@ -195,43 +192,43 @@ class businessScreen extends Component {
                             }} />
                     </View>
                 </SafeAreaView>
-            )
+            );
         } else {
             return (
                 <SafeAreaView style={screenStyle.container}>
-                    <View style={{ flex: 0.4 }}>
-                        {topView}
-                    </View>
+                <View style={{ flex: 0.4 }}>
+                    {topView}
+                </View>
+                <View style={{ flex: 0.025 }}></View>
+                <ScrollView
+                    style={{ flex: 1 }}
+                    contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+                    showsVerticalScrollIndicator={false}>
+                    <FlatList
+                        data={providerProducts}
+                        keyExtractor={(item, index) => {
+                            return (provider.companyName + " Product #" + index);
+                        }}
+                        renderItem={({ item, index }) => (
+                            <ServiceCard
+                                key={index}
+                                serviceTitle={item.serviceTitle}
+                                serviceDescription={item.serviceDescription}
+                                pricing={item.pricing}
+                                image={item.imageSource}
+                                numCurrentRequests={item.requests.currentRequests.length}
+                                onPress={() => {
+                                    this.props.navigation.push('ProviderProductScreen', {
+                                        productID: item.serviceID,
+                                        providerID: provider.providerID
+                                    });
+                                }}
+                            />
+                        )}
+                    />
                     <View style={{ flex: 0.025 }}></View>
-                    <ScrollView
-                        style={{ flex: 1 }}
-                        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
-                        showsVerticalScrollIndicator={false}>
-                        <FlatList
-                            data={providerProducts}
-                            keyExtractor={(item, index) => {
-                                return (provider.companyName + " Product #" + index);
-                            }}
-                            renderItem={({ item, index }) => (
-                                <ServiceCard
-                                    key={index}
-                                    serviceTitle={item.serviceTitle}
-                                    serviceDescription={item.serviceDescription}
-                                    pricing={item.pricing}
-                                    image={item.imageSource}
-                                    numCurrentRequests={item.requests.currentRequests.length}
-                                    onPress={() => {
-                                        this.props.navigation.push('ProviderProductScreen', {
-                                            productID: item.serviceID,
-                                            providerID: provider.providerID
-                                        });
-                                    }}
-                                />
-                            )}
-                        />
-                        <View style={{ flex: 0.025 }}></View>
-                    </ScrollView>
-                </SafeAreaView>
+                </ScrollView>
+            </SafeAreaView>
             );
         }
     }

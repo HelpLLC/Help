@@ -46,7 +46,7 @@ class editProductScreen extends Component {
 
         //Retrieves the state of the input fields
         const { serviceTitle, serviceDescription, pricing, imageSource } = this.state;
-        const { product, productID } = this.props.navigation.state.params;
+        const { product, productID, providerID } = this.props.navigation.state.params;
 
         //Tests if any fields have been changed... if not, then it will just return to the last screen
         if (serviceTitle === product.serviceTitle &&
@@ -60,7 +60,9 @@ class editProductScreen extends Component {
             this.setState({ isLoading: true });
             FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, imageSource).then(() => {
                 this.setState({ isLoading: false });
-                this.props.navigation.goBack();
+                this.props.navigation.push("ProviderScreens", {
+                    providerID
+                });
             });
         }
     }

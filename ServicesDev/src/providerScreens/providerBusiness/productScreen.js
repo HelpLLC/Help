@@ -163,7 +163,8 @@ class productScreen extends Component {
                                     onPress={() => {
                                         this.props.navigation.push('ProviderEditProductScreen', {
                                             product,
-                                            productID
+                                            productID,
+                                            providerID
                                         });
                                     }}
                                     style={{ flex: 0.5, justifyContent: 'flex-end' }}>

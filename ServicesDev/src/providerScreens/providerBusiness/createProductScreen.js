@@ -2,7 +2,7 @@
 //clicking the plus sign, or clicking create on the business's first product. It will allow the user
 //to give the product a picture from their camera roll, and a name and a description and a price
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, TouchableOpacity, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Image, Dimensions, TouchableOpacity, SafeAreaView, KeyboardAvoidingView , Keyboard} from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../../components/RoundBlueButton';
@@ -48,7 +48,7 @@ class createProductScreen extends Component {
     }
 
     //Creates the product with the entered information to "this" provider
-    createProduct() {
+    async createProduct() {
 
         //Retrieves the state of the input fields
         const { serviceTitle, serviceDescription, pricing, imageSource } = this.state;
@@ -63,9 +63,12 @@ class createProductScreen extends Component {
 
             this.setState({ isLoading: true });
             const { providerID } = this.props.navigation.state.params;
-            FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, pricing, imageSource, providerID, provider.companyName).then((product) => {
-                this.props.navigation.goBack();
+            await FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, pricing, imageSource, providerID, provider.companyName);
+            this.setState({ isLoading: false });
+            this.props.navigation.push("ProviderScreens", {
+                providerID: provider.providerID
             });
+            return;
         }
     }
 
@@ -118,7 +121,10 @@ class createProductScreen extends Component {
                                 </BoxShadow>
 
                                 <TouchableOpacity
-                                    onPress={() => { this.chooseImage() }}
+                                    onPress={() => { 
+                                        Keyboard.dismiss();
+                                        this.chooseImage(); 
+                                    }}
                                     style={{ justifyContent: 'flex-end' }}>
                                     <Text style={fontStyles.subTextStyleGray}>
                                         {strings.EditImage}</Text>
@@ -159,16 +165,20 @@ class createProductScreen extends Component {
                             </View>
 
                             <View style={{ flex: 1 }}>
-                                <RoundBlueButton
-                                    title={strings.Create}
-                                    style={roundBlueButtonStyle.MediumSizeButton}
-                                    textStyle={fontStyles.bigTextStyleWhite}
-                                    onPress={() => { this.createProduct() }} />
+                                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                                    <RoundBlueButton
+                                        title={strings.Create}
+                                        style={roundBlueButtonStyle.MediumSizeButton}
+                                        textStyle={fontStyles.bigTextStyleWhite}
+                                        onPress={async () => {
+                                            await this.createProduct();
+                                        }} />
+                                </View>
+                                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                    <LoadingSpinner isVisible={this.state.isLoading} />
+                                </View>
                             </View>
 
-                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                <LoadingSpinner isVisible={this.state.isLoading} />
-                            </View>
                         </View>
                         <View style={{ flex: 0.8 }}></View>
                     </View>

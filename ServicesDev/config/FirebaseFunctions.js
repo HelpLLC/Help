@@ -21,7 +21,7 @@ export default class FirebaseFunctions {
 
         //Returns the array which contains all the docs
         const array = snapshot.docs.map((doc) => doc.data());
-            
+
         //Removes the example from product from the array
         const newArray = array.filter((element) => {
             return element.serviceTitle !== "Example Service";
@@ -30,7 +30,7 @@ export default class FirebaseFunctions {
         //Returns the correct array
         console.log(array);
         console.log(newArray);
-        return newArray; 
+        return newArray;
     }
 
     //This method will return an array of all of the providers
@@ -193,10 +193,7 @@ export default class FirebaseFunctions {
         };
 
         //Adds the product to the database of products
-        this.products.add(product).then(async newProduct => {
-            const id = await newProduct.id;
-            return id;
-        });
+        const newProduct = await this.products.add(product);
 
         //Will deal with the ID of the product by adding it as a field and pushing to the
         //provider's field
@@ -204,15 +201,13 @@ export default class FirebaseFunctions {
         const serviceID = newProduct.id;
         const productRef = this.products.doc(serviceID);
         batch.update(productRef, { serviceID });
-
         const providerRef = this.providers.doc(providerID)
         const providerDoc = await providerRef.get();
         const serviceIDsArray = providerDoc.data().serviceIDs;
         serviceIDsArray.push(serviceID);
-        await batch.update(providerRef, { serviceIDs: serviceIDsArray });
-
+        batch.update(providerRef, { serviceIDs: serviceIDsArray });
         batch.commit();
-        return product;
+        return;
     }
 
     //Sends a message by adding that conversation to the database. If the conversation is a new one,

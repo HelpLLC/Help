@@ -12,6 +12,7 @@ import MessagingScreen from './chats/messagingScreen';
 import aboutScreen from './settingsScreens/aboutScreen';
 import privacyScreen from './settingsScreens/privacyScreen';
 import reportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';
+import providerScreensNavigator from './providerScreens/providerScreensNavigator';
 import TopBanner from './components/TopBanner';
 import React from 'react';
 import strings from 'config/strings';
@@ -24,6 +25,14 @@ const routeConfig = {
     //The route leading to the first run screens
     FirstScreens: {
         screen: FirstScreensNavigator,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        })
+    },
+
+    //Takes you to the provider screen navigator's default route
+    ProviderScreens: {
+        screen: providerScreensNavigator,
         navigationOptions: ({ navigation }) => ({
             header: null
         })
