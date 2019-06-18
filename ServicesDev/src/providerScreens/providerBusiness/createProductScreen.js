@@ -165,7 +165,7 @@ class createProductScreen extends Component {
                             </View>
 
                             <View style={{ flex: 1 }}>
-                                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
                                     <RoundBlueButton
                                         title={strings.Create}
                                         style={roundBlueButtonStyle.MediumSizeButton}
@@ -174,6 +174,7 @@ class createProductScreen extends Component {
                                             await this.createProduct();
                                         }} />
                                 </View>
+                                <View style={{ flex: 0.5 }}></View>
                                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                                     <LoadingSpinner isVisible={this.state.isLoading} />
                                 </View>
