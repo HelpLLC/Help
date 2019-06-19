@@ -45,7 +45,7 @@ export default class Yardwork extends Component {
                                 onPress={() => {
                                     FirebaseFunctions.getProviderByID(item.offeredByID).then((provider) => {
                                         this.props.navigation.push('RequesterServiceScreen', {
-                                            product: item,
+                                            productID: item.serviceID,
                                             requester,
                                             provider
                                         });

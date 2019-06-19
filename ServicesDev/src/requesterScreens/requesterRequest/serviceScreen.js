@@ -20,13 +20,15 @@ class serviceScreen extends Component {
         super();
         this.state = {
             isLoading: true,
+            product: "",
             isRequested: ""
         }
     }
 
     //Fetches the data associated with this screen
     async fetchDatabaseData() {
-        const { product, requester } = this.props.navigation.state.params;
+        const { productID, requester } = this.props.navigation.state.params;
+        const product = await FirebaseFunctions.getServiceByID(productID);
         const isRequested = product.requests.currentRequests.findIndex((request) => {
             return request.requesterID === requester.requesterID
         });
@@ -34,12 +36,14 @@ class serviceScreen extends Component {
         if (isRequested === -1) {
             this.setState({
                 isLoading: false,
-                isRequested: false
+                isRequested: false,
+                product
             });
         } else {
             this.setState({
                 isLoading: false,
-                isRequested: true
+                isRequested: true,
+                product
             });
         }
 
@@ -79,7 +83,8 @@ class serviceScreen extends Component {
             [
                 {
                     text: 'Request', onPress: () => {
-                        const { product, requester } = this.props.navigation.state.params;
+                        const { product } = this.state;
+                        const { requester } = this.props.navigation.state.params;
                         FirebaseFunctions.requestService(product.serviceID, requester);
                         this.setState({ isRequested: true });
                     }
@@ -99,7 +104,8 @@ class serviceScreen extends Component {
             [
                 {
                     text: 'Yes', onPress: () => {
-                        const { product, requester } = this.props.navigation.state.params;
+                        const { product } = this.state;
+                        const { requester } = this.props.navigation.state.params;
                         FirebaseFunctions.deleteRequest(product.serviceID, requester.requesterID);
                         this.setState({ isRequested: false });
                     }
@@ -113,12 +119,12 @@ class serviceScreen extends Component {
 
     //Renders the UI
     render() {
-        const { isLoading, isRequested } = this.state;
-        const { product, requester, provider } = this.props.navigation.state.params;
+        const { product, isLoading, isRequested } = this.state;
+        const { requester, provider } = this.props.navigation.state.params;
         if (isLoading === true || isRequested === "") {
             return (
                 <SafeAreaView style={screenStyle.container}>
-                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
                         <LoadingSpinner isVisible={isLoading} />
                     </View>
                 </SafeAreaView>
