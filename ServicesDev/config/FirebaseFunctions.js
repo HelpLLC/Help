@@ -289,6 +289,17 @@ export default class FirebaseFunctions {
             companyDescription: newBusinessInfo
         });
 
+        //Goes through and edits all of the products that belong to this business & updated the
+        //field that connects them to the correct provider to the new businessName
+        const query = this.products.where("offeredByID", "==", providerID);
+        const result = await query.get();
+        result.docs.forEach((doc) => {
+            const docRef = doc.ref;
+            batch.update(docRef, {
+                offeredByName: newBusinessName
+            });
+        });
+
         batch.commit();
 
     }

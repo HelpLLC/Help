@@ -72,7 +72,9 @@ const routeConfig = {
                 <TopBanner
                     title={strings.Service}
                     leftIconName="angle-left"
-                    leftOnPress={() => navigation.goBack()} />
+                    leftOnPress={() => navigation.push("ProviderScreens", {
+                        providerID: navigation.state.params.providerID
+                    })} />
             )
         })
     },

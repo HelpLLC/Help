@@ -66,7 +66,7 @@ class settingsScreen extends Component {
                                 text={strings.LogOut}
                                 mainTextStyle={fontStyles.subTextStyleRed}
                                 //To-Do: Needs to call a logout function
-                                onPress={() => this.props.navigation.push('SplashScreen')}
+                                onPress={() => this.props.navigation.push('FirstScreens')}
                             />
                         </View>
                         <View style={{ flex: 3 }}></View>
