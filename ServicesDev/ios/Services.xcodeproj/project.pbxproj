@@ -43,15 +43,12 @@
 		2DCD954D1E0B4F2C00145EB5 /* ServicesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ServicesTests.m */; };
 		2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		30DDC81001784150918455F9 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD114EA69DA495088356150 /* libRNFirebase.a */; };
-		3BDCECC36D6A4FC8BED1D25F /* arial_rounded.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 708FF1B032A3450F9870EB42 /* arial_rounded.ttf */; };
-		3FCA5640CAA94404893658B8 /* arial_rounded.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F9EEB7EB529466495C6185F /* arial_rounded.ttf */; };
 		405FB7CCC961E06BC4306763 /* Pods_Services_tvOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DC87859C8915C98F9D175D6 /* Pods_Services_tvOS.framework */; };
 		41FA94322FB9439BBC1BC7E3 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5564FCEFA5864AFF904DC2EF /* MaterialIcons.ttf */; };
 		4466F3EB22BB489F005A0D60 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4466F3EA22BB489F005A0D60 /* GoogleService-Info.plist */; };
 		4E8B33C00C544B779CF24A74 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF301A6FE9B24BC39452CD28 /* libRNSVG.a */; };
 		52194567AF73485EA5592085 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3C7C51E682C64DE6A16C6A5B /* SimpleLineIcons.ttf */; };
 		5521B42DA3C54BD1997F5916 /* libRNSVG-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78F71F3871AF4321B4C282D3 /* libRNSVG-tvOS.a */; };
-		66E6CA1881DA4D5E88C13E3A /* arial_rounded.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 29D0B3F56CA24BA48C348CA0 /* arial_rounded.ttf */; };
 		6D21204CC5F64AC2A0288D5A /* libRNSpinkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94667C2ECE0542B28574D975 /* libRNSpinkit.a */; };
 		712EFDC8019A4B2D888B0754 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A44AC9151ABA440D812BDBBB /* AntDesign.ttf */; };
 		7AE5AC52CA0743E88DBD4CEA /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FADB9EA8EA742F38BA96569 /* FontAwesome.ttf */; };
@@ -59,7 +56,6 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		92E4C54B5A8ED23A66522B61 /* Pods_Services_tvOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A7DDDB83C0BE0A1B5D54F20 /* Pods_Services_tvOSTests.framework */; };
 		946203E002FC45E180BE9F68 /* libRNGestureHandler-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F2EB5F1D3244B26AFE5ED27 /* libRNGestureHandler-tvOS.a */; };
-		A65F69ED47D84178977A6AE6 /* arialrounded.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 209272C82C10406F8D4892A9 /* arialrounded.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		AEC6461A28099A7936297B6B /* Pods_ServicesTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8FAA7185EEC3AE92B6946A2 /* Pods_ServicesTests.framework */; };
 		AF17B7C4AFB24A08AA055FE0 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14F23B2585284906A200DC7F /* libRNVectorIcons.a */; };
@@ -71,7 +67,6 @@
 		D7A67FDE0AC449778D5C7E1A /* libRNReanimated.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7404E567A683412F85A57DE8 /* libRNReanimated.a */; };
 		E41CD8580B19433482725257 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 708E9A51C5794B6CAEC2176C /* MaterialCommunityIcons.ttf */; };
 		E4495E3B268144E3BFBE1CAC /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA5D62381C6A482693DB3FF9 /* libRNGestureHandler.a */; };
-		E5CF2A599C564836826F0862 /* arial_rounded.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1953A045F61E4C9893E1213A /* arial_rounded.ttf */; };
 		E8D9B48F30974E369274CA34 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F49A99E6726A4FE5B1458DDE /* Feather.ttf */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
@@ -711,7 +706,6 @@
 				9830E779BD42FCAC9E946836 /* Pods-ServicesTests.debug.xcconfig */,
 				7C7B7AAA8D1C44FA53397256 /* Pods-ServicesTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -1496,12 +1490,7 @@
 				B4E6B1A78E44419CBB051EFD /* Octicons.ttf in Resources */,
 				52194567AF73485EA5592085 /* SimpleLineIcons.ttf in Resources */,
 				C30FC54754584C78AF77B17E /* Zocial.ttf in Resources */,
-				3FCA5640CAA94404893658B8 /* arial_rounded.ttf in Resources */,
-				E5CF2A599C564836826F0862 /* arial_rounded.ttf in Resources */,
 				4466F3EB22BB489F005A0D60 /* GoogleService-Info.plist in Resources */,
-				66E6CA1881DA4D5E88C13E3A /* arial_rounded.ttf in Resources */,
-				3BDCECC36D6A4FC8BED1D25F /* arial_rounded.ttf in Resources */,
-				A65F69ED47D84178977A6AE6 /* arialrounded.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
