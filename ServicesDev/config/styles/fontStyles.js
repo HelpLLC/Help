@@ -4,7 +4,7 @@ import colors from '../colors';
 import { StyleSheet, Platform } from 'react-native';
 
 //Gets the correct font based on either iOS or Android
-const font = (Platform.OS === 'ios' ? 'arialrounded' : 'sans-serif-medium');
+const font = (Platform.OS === 'ios' ? 'Arial Rounded MT Bold' : 'sans-serif-medium');
 export default StyleSheet.create({
 
     //The style for all big text that will be colored black
