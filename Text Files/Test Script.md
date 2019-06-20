@@ -21,3 +21,5 @@ The Help application must always be able to do the following:
 19. User is able to request a product from a customer account
 20. User is able to delete an existing request from a customer account
 21. User is able to log out of a customer account
+22. User is able to report an issue from a customer account
+23. User is able to report an issue from a business account

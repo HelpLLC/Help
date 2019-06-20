@@ -3,6 +3,7 @@
 //route. 
 import reportIssueScreen from './reportIssueScreen';
 import issueReportedScreen from './issueReportedScreen';
+import React from 'react';
 import fadeOutTransition from 'config/transitions/fadeOutTransition';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import TopBanner from '../../components/TopBanner';
