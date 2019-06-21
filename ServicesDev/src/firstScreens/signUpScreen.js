@@ -165,8 +165,19 @@ class signUpScreen extends Component {
                         </View>
                         <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
                             <View style={{ flex: 1, alignItems: 'center' }}>
-                                <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
+                            {
+                                this.state.warningMessage !== strings.EmailExists ? (
+                                    <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
+                                ) : (
+                                    <View>
+                                        <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage.substring(0, this.state.warningMessage.indexOf(".") + 1)}</Text>
+                                        <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage.substring(this.state.warningMessage.indexOf(".") + 2)}</Text>
+                                    </View>
+                                )
+                            }
+                                
                             </View>
+                            <View style={{ flex: 1 }}></View>
                             <View style={{ flex: 1, alignItems: 'center' }}>
                                 <RoundBlueButton
                                     title={strings.SignUp}
