@@ -2,7 +2,7 @@
 //an icon, a title, and another icon that will all be equally seperated
 import React, { Component } from 'React';
 import PropTypes from 'prop-types';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
 import colors from 'config/colors';
 import { Icon } from 'react-native-elements';
 import topBannerStyle from 'config/styles/componentStyles/topBannerStyle';
@@ -14,7 +14,7 @@ class TopBanner extends Component {
         //and right icon
         const { leftIconName, leftOnPress, title, rightIconName, rightOnPress } = this.props;
         return (
-            <View>
+            <SafeAreaView>
                 <View style={topBannerStyle.style}>
                     <TouchableOpacity style={{ paddingLeft: 25 }}
                         onPress={() => { leftOnPress() }}>
@@ -36,7 +36,7 @@ class TopBanner extends Component {
                             color={colors.lightBlue} />
                     </TouchableOpacity>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
 }

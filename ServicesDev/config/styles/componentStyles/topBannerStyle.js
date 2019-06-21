@@ -1,6 +1,6 @@
 //This will be the style used by the top banner
 import colors from '../../colors';
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 
 export default {
     style: {
