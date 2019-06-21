@@ -49,7 +49,9 @@ class editProductScreen extends Component {
         const { product, productID, providerID } = this.props.navigation.state.params;
 
         //Tests if any fields have been changed... if not, then it will just return to the last screen
-        if (serviceTitle === product.serviceTitle &&
+        if (serviceTitle.trim() === "" || serviceDescription.trim() === "" || pricing.trim() == "") {
+            this.setState({ warningMessage: strings.PleaseCompleteAllTheFields });
+        } else if (serviceTitle === product.serviceTitle &&
             serviceDescription === product.serviceDescription &&
             pricing === product.pricing &&
             imageSource === product.imageSource) {
