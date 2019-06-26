@@ -10,7 +10,7 @@
       android:name=".MainApplication"
       android:label="@string/app_name"
       android:icon="@mipmap/help_logo"
-      android:roundIcon="@mipmap/help_logo"
+      android:roundIcon="@mipmap/help_logo_rounded"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
       <activity
