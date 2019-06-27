@@ -28,8 +28,6 @@ export default class FirebaseFunctions {
         });
 
         //Returns the correct array
-        console.log(array);
-        console.log(newArray);
         return newArray;
     }
 
