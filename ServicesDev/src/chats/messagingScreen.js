@@ -22,12 +22,11 @@ class messagingScreen extends Component {
 
         const { providerID, requesterID } = this.props.navigation.state.params;
         //Fetches the conversation, if it is a new one, it will set a boolean to true
-        FirebaseFunctions.getConversationByID(providerID, requesterID).then((conversation) => {
-            this.setState({
-                isLoading: false,
-                messages: conversation.conversationMessages,
-                isNewConversation: (conversation.conversationMessages.length === 0 ? true : false)
-            });
+        const conversation = await FirebaseFunctions.getConversationByID(providerID, requesterID);
+        this.setState({
+            isLoading: false,
+            messages: conversation.conversationMessages,
+            isNewConversation: (conversation.conversationMessages.length === 0 ? true : false)
         });
 
     }
@@ -41,7 +40,7 @@ class messagingScreen extends Component {
 
         this.setState({ isNewConversation: false });
 
-        const { providerID, requesterID } = this.props.navigation.state.params; 
+        const { providerID, requesterID } = this.props.navigation.state.params;
 
         //Adds the message to the database of messages
         FirebaseFunctions.sendMessage(

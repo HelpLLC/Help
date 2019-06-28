@@ -32,9 +32,11 @@ class signUpScreen extends Component {
 
     //This method signs up the user & creates an account for them based on what they chose and their
     //username
-    signUp() {
+    async signUp() {
         //fetches the entered email and password
         const { email, password, buttonSelected } = this.state;
+        email = email.trim();
+        password = password.trim();
 
         //If no username was entered, or all empty spaces, then an error message will pop up
         if (email.trim().length === 0 || password.trim().length === 0) {
@@ -53,7 +55,8 @@ class signUpScreen extends Component {
             //If the accout already exists, then an error will appear
             //If the account is new, then it will go through the normal process to create
             //the account
-            firebase.auth().fetchSignInMethodsForEmail(email).then((array) => {
+            try {
+                const array = await firebase.auth().fetchSignInMethodsForEmail(email);
                 if (array.length > 0) {
                     this.setState({ warningMessage: strings.EmailExists });
                     this.setState({ isLoading: false });
@@ -62,16 +65,13 @@ class signUpScreen extends Component {
                         //If this is a customer, then the account will be created here and
                         //along with the new requester being added to the database then
                         //the screen will shift to the new account's screen
-                        firebase.auth().createUserWithEmailAndPassword(email, password).then((account) => {
-                            FirebaseFunctions.addRequesterToDatabase(account, email).then((requester) => {
-                                firebase.auth().signInWithEmailAndPassword(email, password);
-                                FirebaseFunctions.getAllProducts().then((allProducts) => {
-                                    this.props.navigation.push('RequesterScreens', {
-                                        requester,
-                                        allProducts
-                                    });
-                                });
-                            });
+                        const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
+                        const requester = await FirebaseFunctions.addRequesterToDatabase(account, email);
+                        await firebase.auth().signInWithEmailAndPassword(email, password);
+                        const allProducts = await FirebaseFunctions.getAllProducts();
+                        this.props.navigation.push('RequesterScreens', {
+                            requester,
+                            allProducts
                         });
 
                     } else {
@@ -83,7 +83,10 @@ class signUpScreen extends Component {
                         });
                     }
                 }
-            });
+            } catch (error) {
+                this.setState({ warningMessage: strings.SomethingWentWrong, isLoading: false });
+                FirebaseFunctions.reportIssue("App Error", error.message);
+            }
         }
     }
 
@@ -117,6 +120,7 @@ class signUpScreen extends Component {
                                     placeholder={strings.ChooseAPassword}
                                     onChangeText={(input) => this.setState({ password: input })}
                                     value={this.state.password}
+                                    password={true}
                                 />
                             </View>
                         </View>
@@ -165,17 +169,17 @@ class signUpScreen extends Component {
                         </View>
                         <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
                             <View style={{ flex: 1, alignItems: 'center' }}>
-                            {
-                                this.state.warningMessage !== strings.EmailExists ? (
-                                    <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
-                                ) : (
-                                    <View>
-                                        <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage.substring(0, this.state.warningMessage.indexOf(".") + 1)}</Text>
-                                        <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage.substring(this.state.warningMessage.indexOf(".") + 2)}</Text>
-                                    </View>
-                                )
-                            }
-                                
+                                {
+                                    this.state.warningMessage !== strings.EmailExists ? (
+                                        <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
+                                    ) : (
+                                            <View>
+                                                <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage.substring(0, this.state.warningMessage.indexOf(".") + 1)}</Text>
+                                                <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage.substring(this.state.warningMessage.indexOf(".") + 2)}</Text>
+                                            </View>
+                                        )
+                                }
+
                             </View>
                             <View style={{ flex: 1 }}></View>
                             <View style={{ flex: 1, alignItems: 'center' }}>

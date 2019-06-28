@@ -29,13 +29,13 @@ class productScreen extends Component {
     async fetchDatabaseData() {
 
         const { productID } = this.props.navigation.state.params;
-        FirebaseFunctions.getServiceByID(productID).then((service) => {
-            this.setState({
-                isLoading: false,
-                currentRequests: service.requests.currentRequests,
-                product: service
-            });
+        const service = FirebaseFunctions.getServiceByID(productID);
+        this.setState({
+            isLoading: false,
+            currentRequests: service.requests.currentRequests,
+            product: service
         });
+        return 0;
 
     }
 
@@ -44,10 +44,9 @@ class productScreen extends Component {
 
         this.setState({ isLoading: true });
         //Adds the listener to add the listener to refetch the data once this component is returned to
-        this.willFocusListener = this.props.navigation.addListener('willFocus', () => {
-            this.fetchDatabaseData().then(() => {
-                this.setState({ isLoading: false });
-            })
+        this.willFocusListener = this.props.navigation.addListener('willFocus', async () => {
+            await this.fetchDatabaseData();
+            this.setState({ isLoading: false });
         });
 
     }

@@ -141,7 +141,7 @@ export default class FirebaseFunctions {
         }
 
         batch.set(ref, newRequester);
-        batch.commit();
+        await batch.commit();
 
         //This is a promise that won't be resolved while offline
         return newRequester;
@@ -166,7 +166,7 @@ export default class FirebaseFunctions {
         }
 
         batch.set(ref, newProvider);
-        batch.commit();
+        await batch.commit();
 
         return newProvider;
 
@@ -199,13 +199,13 @@ export default class FirebaseFunctions {
         const serviceID = newProduct.id;
         const productRef = this.products.doc(serviceID);
         batch.update(productRef, { serviceID });
-        const providerRef = this.providers.doc(providerID)
+        const providerRef = this.providers.doc(providerID);
         const providerDoc = await providerRef.get();
         const serviceIDsArray = providerDoc.data().serviceIDs;
         serviceIDsArray.push(serviceID);
         batch.update(providerRef, { serviceIDs: serviceIDsArray });
-        batch.commit();
-        return;
+        await batch.commit();
+        return 0;
     }
 
     //Sends a message by adding that conversation to the database. If the conversation is a new one,
@@ -222,17 +222,15 @@ export default class FirebaseFunctions {
             conversationMessages.push(messageWithCorrectDate);
             //Retrieves the names of the requester and the provider so that can be added to the database
             //as well
-            FirebaseFunctions.getProviderByID(providerID).then((provider) => {
-                FirebaseFunctions.getRequesterByID(requesterID).then((requester) => {
-                    this.messages.add({
-                        conversationMessages,
-                        providerID,
-                        requesterID,
-                        requesterName: requester.username,
-                        providerName: provider.companyName
-                    })
-                })
-            })
+            const provider = await FirebaseFunctions.getProviderByID(providerID);
+            const requester = await FirebaseFunctions.getRequesterByID(requesterID);
+            await this.messages.add({
+                conversationMessages,
+                providerID,
+                requesterID,
+                requesterName: requester.username,
+                providerName: provider.companyName
+            });
         } else {
             const ref = this.messages.where("providerID", "==", providerID).where("requesterID", "==", requesterID);
             const query = await ref.get();
@@ -251,9 +249,10 @@ export default class FirebaseFunctions {
                 conversationMessages: oldConversationMessages
             });
 
-            batch.commit();
+            await batch.commit();
 
         }
+        return 0;
     }
 
     //Returns an array of all the conversation that this user has had, depending on if they are a 
@@ -298,8 +297,8 @@ export default class FirebaseFunctions {
             });
         });
 
-        batch.commit();
-
+        await batch.commit();
+        return 0;
     }
 
     //This method will update the information for a specific product by taking in all of the new
@@ -315,8 +314,8 @@ export default class FirebaseFunctions {
             imageSource
         });
 
-        batch.commit();
-
+        await batch.commit();
+        return 0;
     }
 
     //This method will take in a product ID and a requester ID and then delete that requester's request
@@ -341,7 +340,8 @@ export default class FirebaseFunctions {
             }
         });
 
-        batch.commit();
+        await batch.commit();
+        return 0;
 
     }
 
@@ -376,8 +376,9 @@ export default class FirebaseFunctions {
             }
         });
 
-        batch.commit();
-        FirebaseFunctions.deleteRequest(productID, requesterID)
+        await batch.commit();
+        await FirebaseFunctions.deleteRequest(productID, requesterID);
+        return 0;
 
     }
 
@@ -403,7 +404,8 @@ export default class FirebaseFunctions {
             }
         });
 
-        batch.commit();
+        await batch.commit();
+        return 0;
 
     }
 
@@ -414,13 +416,21 @@ export default class FirebaseFunctions {
 
         //tests whether or not the user is a requester or a provider and adds a "r-" or "p-" before their
         //ID respectivly
-        const userID = (user.requesterID ? ("r-" + user.requesterID) : ("p-" + user));
+        const userID = user === "App Error" ? "App Error" : (
+            (user.requesterID ? ("r-" + user.requesterID) : ("p-" + user))
+        );
 
-        this.issues.add({
+        await this.issues.add({
             issue,
             userID
         });
+        return 0;
+    }
 
+    //This method will log out the current user of the app
+    static async logOut() {
+        await firebase.auth().signOut();
+        return 0;
     }
 
 }

@@ -11,6 +11,7 @@ import WhiteCard from '../components/WhiteCard';
 import { Icon } from 'react-native-elements';
 import colors from 'config/colors';
 import strings from 'config/strings';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 
 class settingsScreen extends Component {
     render() {
@@ -66,7 +67,10 @@ class settingsScreen extends Component {
                                 text={strings.LogOut}
                                 mainTextStyle={fontStyles.subTextStyleRed}
                                 //To-Do: Needs to call a logout function
-                                onPress={() => this.props.navigation.push('FirstScreens')}
+                                onPress={async () => {
+                                    await FirebaseFunctions.logOut();
+                                    this.props.navigation.push('FirstScreens');
+                                }}
                             />
                         </View>
                         <View style={{ flex: 3 }}></View>

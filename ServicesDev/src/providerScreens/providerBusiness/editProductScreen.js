@@ -42,7 +42,7 @@ class editProductScreen extends Component {
     }
 
     //Saves the product if any fields have been changed
-    saveProduct() {
+    async saveProduct() {
 
         //Retrieves the state of the input fields
         const { serviceTitle, serviceDescription, pricing, imageSource } = this.state;
@@ -60,11 +60,10 @@ class editProductScreen extends Component {
 
             //Updates the correct product corresponding with the correct user
             this.setState({ isLoading: true });
-            FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, imageSource).then(() => {
-                this.setState({ isLoading: false });
-                this.props.navigation.push("ProviderScreens", {
-                    providerID
-                });
+            await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, imageSource);
+            this.setState({ isLoading: false });
+            this.props.navigation.push("ProviderScreens", {
+                providerID
             });
         }
     }

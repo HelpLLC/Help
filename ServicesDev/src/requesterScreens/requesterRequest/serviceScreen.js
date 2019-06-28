@@ -46,6 +46,7 @@ class serviceScreen extends Component {
                 product
             });
         }
+        return 0;
 
     }
 
@@ -54,10 +55,9 @@ class serviceScreen extends Component {
 
         this.setState({ isLoading: true });
         //Adds the listener to add the listener to refetch the data once this component is returned to
-        this.willFocusListener = this.props.navigation.addListener('willFocus', () => {
-            this.fetchDatabaseData().then(() => {
-                this.setState({ isLoading: false });
-            })
+        this.willFocusListener = this.props.navigation.addListener('willFocus', async () => {
+            await this.fetchDatabaseData();
+            this.setState({ isLoading: false });
         });
 
     }

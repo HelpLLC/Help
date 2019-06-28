@@ -32,7 +32,7 @@ class logInScreen extends Component {
 
     //This function will login based on the entered phone number... if the number is non existent,
     //Then the user will be instructed to go create an account or try again
-    logIn() {
+    async logIn() {
 
         const { email, password } = this.state;
         Keyboard.dismiss();
@@ -43,33 +43,35 @@ class logInScreen extends Component {
 
             //Turns on the loading indicator
             this.setState({ isLoading: true });
-            firebase.auth().signInWithEmailAndPassword(email, password).then((account) => {
-
-                //Tests whether this is a provider or a requester & based on that, navigates to the
-                //correct screen
-                const { uid } = account.user;
-                //Starts with searching if this is a requester since that is more common
-                FirebaseFunctions.getRequesterByID(uid).then((requester) => {
+            try {
+                const account = await firebase.auth().signInWithEmailAndPassword(email, password);
+                try {
+                    //Tests whether this is a provider or a requester & based on that, navigates to the
+                    //correct screen
+                    const { uid } = account.user;
+                    //Starts with searching if this is a requester since that is more common
+                    const requester = await FirebaseFunctions.getRequesterByID(uid);
                     if (requester === -1) {
                         //This means this account is a provider since a requester with this ID was not found
                         this.props.navigation.push('ProviderScreens', {
                             providerID: uid
                         });
                     } else {
-                        FirebaseFunctions.getAllProducts().then((allProducts) => {
-                            //If this is a requester, then it will navigate to the screens & pass in the
-                            //correct params
-                            this.props.navigation.push('RequesterScreens', {
-                                requester: requester,
-                                allProducts
-                            });
-                        })
+                        const allProducts = await FirebaseFunctions.getAllProducts();
+                        //If this is a requester, then it will navigate to the screens & pass in the
+                        //correct params
+                        this.props.navigation.push('RequesterScreens', {
+                            requester: requester,
+                            allProducts
+                        });
                     }
-                });
-            }).catch((error) => {
+                } catch (error) {
+                    this.setState({ warningMessage: strings.SomethingWentWrong, isLoading: false });
+                    FirebaseFunctions.reportIssue("App Error", error.message);
+                }
+            } catch (error) {
                 this.setState({ warningMessage: strings.IncorrectInfo, isLoading: false });
-            })
-
+            }
         }
     }
 
@@ -102,6 +104,7 @@ class logInScreen extends Component {
                                     placeholder={strings.EnterYourPassword}
                                     onChangeText={(input) => this.setState({ password: input })}
                                     value={this.state.password}
+                                    password={true}
                                 />
                             </View>
                         </View>

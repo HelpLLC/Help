@@ -2,6 +2,9 @@
 //Each new defined string must be defined and accessed through this object
 export default {
 
+    //------------------- Default Error Message ----------------
+    SomethingWentWrong: "Something went wrong, please try again later",
+
     //------------------- Tab Bar Navigators -------------------
     Business: 'Business',
     Chats: 'Chats',
@@ -49,7 +52,7 @@ export default {
     MarketingMessage: 'Empowering people with the right technology to become more efficient & effective in an fast paced world',
     Version: 'Version',
     //Make sure this number is always up to date
-    CurrentVersionNumber: '1.0.0',
+    CurrentVersionNumber: '1.3',
     PublishedBy: 'Published By',
     HelpLLC: 'Help LLC',
     Contact: 'Contact',

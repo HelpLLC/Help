@@ -68,7 +68,7 @@ class createProductScreen extends Component {
             this.props.navigation.push("ProviderScreens", {
                 providerID: provider.providerID
             });
-            return;
+            return 0;
         }
     }
 

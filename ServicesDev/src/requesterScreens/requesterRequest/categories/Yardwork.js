@@ -32,25 +32,22 @@ export default class Yardwork extends Component {
                                 pricing={item.pricing}
                                 image={item.imageSource}
                                 numCurrentRequests={0}
-                                offeredByOnPress={() => {
-                                    FirebaseFunctions.getProviderByID(item.offeredByID).then((provider) => {
-                                        this.props.navigation.push('RequesterCompanyProfileScreen', {
-                                            provider,
-                                            requester
-                                        });
-                                    })
+                                offeredByOnPress={async () => {
+                                    const provider = await FirebaseFunctions.getProviderByID(item.offeredByID);
+                                    this.props.navigation.push('RequesterCompanyProfileScreen', {
+                                        provider,
+                                        requester
+                                    });
                                 }}
                                 //Passes all of the necessary props to the actual screen that contains
                                 //more information about the service
-                                onPress={() => {
-                                    FirebaseFunctions.getProviderByID(item.offeredByID).then((provider) => {
-                                        this.props.navigation.push('RequesterServiceScreen', {
-                                            productID: item.serviceID,
-                                            requester,
-                                            provider
-                                        });
-                                    })
-
+                                onPress={async () => {
+                                    const provider = await FirebaseFunctions.getProviderByID(item.offeredByID);
+                                    this.props.navigation.push('RequesterServiceScreen', {
+                                        productID: item.serviceID,
+                                        requester,
+                                        provider
+                                    });
                                 }}
                             />
                         )}

@@ -40,7 +40,7 @@ class businessScreen extends Component {
             this.setState({ isLoading: false });
         } else {
             const serviceIDs = provider.serviceIDs;
-            serviceIDs.forEach(async (ID) => {
+            await serviceIDs.forEach(async (ID) => {
                 const service = await FirebaseFunctions.getServiceByID(ID);
                 const newArrayOfProducts = this.state.providerProducts;
                 newArrayOfProducts.push(service);
@@ -53,7 +53,7 @@ class businessScreen extends Component {
                 serviceIDsLength: provider.serviceIDs.length,
             });
         }
-        return;
+        return 0;
     }
 
     //This will fetch the data about this provider and his products from firestore

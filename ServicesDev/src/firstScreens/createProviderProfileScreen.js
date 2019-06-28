@@ -43,7 +43,7 @@ class createProviderProfileScreen extends Component {
     }
 
     //This method will register the business into the database based on the entered info
-    signUp() {
+    async signUp() {
 
         //Dismisses the keyboard
         Keyboard.dismiss();
@@ -65,23 +65,26 @@ class createProviderProfileScreen extends Component {
 
             //If the business name is already taken, then a warning message will appear,
             //Else, the profile will be created
-            this.isCompanyNameTaken(businessName).then((isCompanyNameTaken) => {
-                if (isCompanyNameTaken === true) {
-                    this.setState({ warningMessage: strings.CompanyNameTakenPleaseChooseAnotherName, isLoading: false });
-                } else {
+            const isCompanyNameTaken = await this.isCompanyNameTaken(businessName);
+            if (isCompanyNameTaken === true) {
+                this.setState({ warningMessage: strings.CompanyNameTakenPleaseChooseAnotherName, isLoading: false });
+            } else {
 
-                    //Creates the account and then navigates to the correct screens while passing in
-                    //the correct params and logs in
-                    firebase.auth().createUserWithEmailAndPassword(email, password).then((account) => {
-                        FirebaseFunctions.addProviderToDatabase(account, email, businessName, businessInfo).then((provider) => {
-                            firebase.auth().signInWithEmailAndPassword(email, password);
-                            this.props.navigation.push('ProviderScreens', {
-                                providerID: provider.providerID
-                            });
-                        });
-                    })
+                //Creates the account and then navigates to the correct screens while passing in
+                //the correct params and logs in
+                try {
+                    const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
+                    const provider = await FirebaseFunctions.addProviderToDatabase(account, email, businessName, businessInfo);
+                    await firebase.auth().signInWithEmailAndPassword(email, password);
+                    this.props.navigation.push('ProviderScreens', {
+                        providerID: provider.providerID
+                    });
+                } catch (error) {
+                    this.setState({ warningMessage: strings.SomethingWentWrong, isLoading: false });
+                    FirebaseFunctions.reportIssue("App Error", error.message);
                 }
-            })
+                
+            }
         }
     }
 

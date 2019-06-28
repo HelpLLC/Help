@@ -23,7 +23,7 @@ class editCompanyProfileScreen extends Component {
     }
 
     //Saves the edited company profile to the redux persist state
-    saveCompanyInfo() {
+    async saveCompanyInfo() {
 
         //retrieves what was entered along with the current provider
         const { provider, providerID } = this.props.navigation.state.params;
@@ -46,11 +46,10 @@ class editCompanyProfileScreen extends Component {
 
             //Calls the firebase function to update the provider's information
             this.setState({ isLoading: true });
-            FirebaseFunctions.updateProviderInfo(providerID, newBusinessName, newBusinessInfo).then(() => {
-                //Navigates back to the business screen
-                this.setState({ isLoading: false });
-                this.props.navigation.goBack();
-            });
+            await FirebaseFunctions.updateProviderInfo(providerID, newBusinessName, newBusinessInfo);
+            //Navigates back to the business screen
+            this.setState({ isLoading: false });
+            this.props.navigation.goBack();
         }
     }
 

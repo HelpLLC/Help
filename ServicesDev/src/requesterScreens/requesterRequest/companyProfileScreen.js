@@ -35,21 +35,20 @@ class companyProfileScreen extends Component {
             this.setState({ isLoading: false });
         } else {
             const serviceIDs = provider.serviceIDs;
-            await serviceIDs.forEach((ID) => {
-                FirebaseFunctions.getServiceByID(ID).then((service) => {
-                    const newArrayOfProducts = this.state.providerProducts;
-                    newArrayOfProducts.push(service);
-                    this.setState({
-                        providerProducts: newArrayOfProducts
-                    });
-                })
+            await serviceIDs.forEach(async (ID) => {
+                const service = FirebaseFunctions.getServiceByID(ID);
+                const newArrayOfProducts = this.state.providerProducts;
+                newArrayOfProducts.push(service);
+                this.setState({
+                    providerProducts: newArrayOfProducts
+                });
             });
             this.setState({
                 isLoading: false,
                 serviceIDsLength: serviceIDs.length,
             });
         }
-
+        return 0;
     }
 
 
@@ -58,10 +57,9 @@ class companyProfileScreen extends Component {
 
         this.setState({ isLoading: true });
         //Adds the listener to add the listener to refetch the data once this component is returned to
-        this.willFocusListener = this.props.navigation.addListener('willFocus', () => {
-            this.fetchDatabaseData().then(() => {
-                this.setState({ isLoading: false });
-            })
+        this.willFocusListener = this.props.navigation.addListener('willFocus', async () => {
+            await this.fetchDatabaseData();
+            this.setState({ isLoading: false });
         });
 
     }

@@ -27,23 +27,21 @@ class chatsScreen extends Component {
         //First determines whether this is a requester or a provider and then sets the userID
         if (this.props.navigation.state.params.providerID) {
             //Fetches all the conversations that this user has done and stores them in an array
-            FirebaseFunctions.getAllUserConversations(this.props.navigation.state.params.providerID, false).then((userConvos) => {
-                this.setState({
-                    userID: this.props.navigation.state.params.providerID,
-                    isRequester: false,
-                    userConversations: userConvos,
-                    isLoading: false
-                });
+            const convos = await FirebaseFunctions.getAllUserConversations(this.props.navigation.state.params.providerID, false);
+            this.setState({
+                userID: this.props.navigation.state.params.providerID,
+                isRequester: false,
+                userConversations: convos,
+                isLoading: false
             });
         } else {
             //Fetches all the conversations that this user has done and stores them in an array
-            FirebaseFunctions.getAllUserConversations(this.props.navigation.state.params.requester.requesterID, true).then((userConvos) => {
-                this.setState({
-                    userID: this.props.navigation.state.params.requester.requesterID,
-                    isRequester: true,
-                    userConversations: userConvos,
-                    isLoading: false
-                });
+            const convos = FirebaseFunctions.getAllUserConversations(this.props.navigation.state.params.requester.requesterID, true);
+            this.setState({
+                userID: this.props.navigation.state.params.requester.requesterID,
+                isRequester: true,
+                userConversations: convos,
+                isLoading: false
             });
         }
     }
