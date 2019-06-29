@@ -25,7 +25,7 @@ class OneLineTextInput extends Component {
                         borderTopColor: colors.lightGray,
                         width: width ? width : 250
                     }}
-                    secureTextEntry={password ? password: false}
+                    secureTextEntry={password}
                     value={value}
                     maxLength={maxLength} />
             </View>

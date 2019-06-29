@@ -94,7 +94,9 @@ class createProductScreen extends Component {
                                         onChangeText={(input) => this.setState({ serviceTitle: input })}
                                         placeholder={strings.GiveItATitleDotDotDot}
                                         value={this.state.serviceTitle}
-                                        width={140} />
+                                        password={false}
+                                        width={140}
+                                        pass />
                                 </View>
                             </View>
 
@@ -156,6 +158,7 @@ class createProductScreen extends Component {
                                     onChangeText={(input) => this.setState({ pricing: input })}
                                     placeholder={strings.HowMuchWillYouChargeDotDotDot}
                                     value={this.state.pricing}
+                                    password={false}
                                     width={Dimensions.get('window').width - 40} />
                             </View>
                         </View>

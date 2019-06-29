@@ -34,7 +34,7 @@ class signUpScreen extends Component {
     //username
     async signUp() {
         //fetches the entered email and password
-        const { email, password, buttonSelected } = this.state;
+        let { email, password, buttonSelected } = this.state;
         email = email.trim();
         password = password.trim();
 
@@ -106,6 +106,7 @@ class signUpScreen extends Component {
                                     placeholder={strings.EnterAnEmail}
                                     onChangeText={(input) => this.setState({ email: input })}
                                     value={this.state.email}
+                                    password={false}
                                 />
                             </View>
                         </View>

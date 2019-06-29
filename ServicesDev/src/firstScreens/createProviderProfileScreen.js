@@ -104,6 +104,7 @@ class createProviderProfileScreen extends Component {
                                     placeholder={strings.EnterCompanyNameDotDotDot}
                                     onChangeText={(input) => this.setState({ businessName: input })}
                                     value={this.state.businessName}
+                                    password={false}
                                     maxLength={18}
                                 />
                             </View>

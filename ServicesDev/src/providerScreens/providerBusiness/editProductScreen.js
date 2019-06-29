@@ -89,7 +89,8 @@ class editProductScreen extends Component {
                                     <OneLineTextInput
                                         onChangeText={(input) => this.setState({ serviceTitle: input })}
                                         value={this.state.serviceTitle}
-                                        width={140} />
+                                        width={140}
+                                        password={false} />
                                 </View>
                             </View>
 
@@ -146,7 +147,8 @@ class editProductScreen extends Component {
                                 <OneLineTextInput
                                     onChangeText={(input) => this.setState({ pricing: input })}
                                     value={this.state.pricing}
-                                    width={Dimensions.get('window').width - 40} />
+                                    width={Dimensions.get('window').width - 40}
+                                    password={false} />
                             </View>
                         </View>
                         <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>

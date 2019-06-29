@@ -34,7 +34,9 @@ class logInScreen extends Component {
     //Then the user will be instructed to go create an account or try again
     async logIn() {
 
-        const { email, password } = this.state;
+        let { email, password } = this.state;
+        email = email.trim();
+        password = password.trim();
         Keyboard.dismiss();
         //If no username was entered, or all empty spaces, then an error message will pop up
         if (email.trim().length === 0 || password.trim().length === 0) {
@@ -90,6 +92,7 @@ class logInScreen extends Component {
                                     placeholder={strings.EnterYourEmail}
                                     onChangeText={(input) => this.setState({ email: input })}
                                     value={this.state.email}
+                                    password={false}
                                 />
                             </View>
                         </View>
