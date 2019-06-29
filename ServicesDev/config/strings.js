@@ -52,7 +52,7 @@ export default {
     MarketingMessage: 'Empowering people with the right technology to become more efficient & effective in an fast paced world',
     Version: 'Version',
     //Make sure this number is always up to date
-    CurrentVersionNumber: '1.3',
+    CurrentVersionNumber: '1.4',
     PublishedBy: 'Published By',
     HelpLLC: 'Help LLC',
     Contact: 'Contact',
