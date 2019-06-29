@@ -29,7 +29,7 @@ class productScreen extends Component {
     async fetchDatabaseData() {
 
         const { productID } = this.props.navigation.state.params;
-        const service = FirebaseFunctions.getServiceByID(productID);
+        const service = await FirebaseFunctions.getServiceByID(productID);
         this.setState({
             isLoading: false,
             currentRequests: service.requests.currentRequests,
