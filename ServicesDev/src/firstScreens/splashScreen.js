@@ -73,15 +73,18 @@ class splashScreen extends Component {
                     <View style={{ flex: 1, justifyContent: 'center' }}>
                         <Text style={fontStyles.bigTitleStyleBlue}>{strings.HelpExclamation}</Text>
                     </View>
-                    <View style={{ flex: 1 }}>
-                        <RoundBlueButton
-                            title={strings.GetStarted}
-                            style={roundBlueButtonStyle.MainScreenButton}
-                            textStyle={fontStyles.bigTextStyleWhite}
-                            onPress={() => {
-                                this.props.navigation.push('SignUpScreen');
-                            }} />
-                        <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flex: 0.75 }}>
+                        <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+                            <RoundBlueButton
+                                title={strings.GetStarted}
+                                style={roundBlueButtonStyle.MainScreenButton}
+                                textStyle={fontStyles.bigTextStyleWhite}
+                                onPress={() => {
+                                    this.props.navigation.push('SignUpScreen');
+                                }} />
+                        </View>
+                        <View style={{ flex: 0.000001 }}></View>
+                        <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'flex-start' }}>
                             <Text style={fontStyles.subTextStyleBlack}>{strings.HaveAnAccountQuestion}</Text>
                             <Text style={fontStyles.subTextStyleBlack}> </Text>
                             <TouchableOpacity

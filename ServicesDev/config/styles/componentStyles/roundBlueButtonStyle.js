@@ -5,12 +5,11 @@ export default {
     //The button that appears in the splash screen of the app
     MainScreenButton: {
         backgroundColor: colors.lightBlue,
-        margin: 10,
-        borderRadius: 37,
-        paddingTop: 21,
-        paddingBottom: 21,
-        paddingRight: 12,
-        paddingLeft: 12
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 35,
+        width: 160,
+        height: 60,
     },
 
     //Default button size to use
