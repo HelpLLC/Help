@@ -69,6 +69,7 @@ class signUpScreen extends Component {
                         const requester = await FirebaseFunctions.addRequesterToDatabase(account, email);
                         await firebase.auth().signInWithEmailAndPassword(email, password);
                         const allProducts = await FirebaseFunctions.getAllProducts();
+                        this.setState({ isLoading: false });
                         this.props.navigation.push('RequesterScreens', {
                             requester,
                             allProducts
@@ -77,6 +78,7 @@ class signUpScreen extends Component {
                     } else {
                         //If this is a business account, then it will navigate to the create provider
                         //profile screen to finish creating the account there
+                        this.setState({ isLoading: false });
                         this.props.navigation.push("CreateProviderProfileScreen", {
                             email,
                             password
