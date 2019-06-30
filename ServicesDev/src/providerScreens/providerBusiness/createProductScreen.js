@@ -61,7 +61,7 @@ class createProductScreen extends Component {
             this.setState({ warningMessage: strings.PleaseAddAnImage });
         } else {
 
-            this.setState({ isLoading: true });
+            this.setState({ isLoading: true, warningMessage: "" });
             const { providerID } = this.props.navigation.state.params;
             await FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, pricing, imageSource, providerID, provider.companyName);
             this.setState({ isLoading: false });

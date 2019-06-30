@@ -40,7 +40,8 @@ public class MainApplication extends Application implements ReactApplication {
             new RNFirebasePackage(),
             new RNFirebaseFirestorePackage(),
             new SvgPackage(),
-            new RNFirebaseAuthPackage()
+            new RNFirebaseAuthPackage(),
+            new RNFirebaseCrashlyticsPackage()
       );
     }
 
