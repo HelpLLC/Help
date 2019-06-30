@@ -7,10 +7,10 @@ import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import TopBanner from '../../components/TopBanner';
 import colors from 'config/colors';
 import { BoxShadow } from 'react-native-shadow';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import ErrorAlert from '../../components/ErrorAlert';
 
 //The class representing the screen
 class productScreen extends Component {
@@ -21,20 +21,27 @@ class productScreen extends Component {
         this.state = {
             isLoading: true,
             currentRequests: [],
-            product: ""
+            product: "",
+            isErrorVisible: false
         }
     }
 
     //Fetches the data associated with this screen
     async fetchDatabaseData() {
 
-        const { productID } = this.props.navigation.state.params;
-        const service = await FirebaseFunctions.getServiceByID(productID);
-        this.setState({
-            isLoading: false,
-            currentRequests: service.requests.currentRequests,
-            product: service
-        });
+        try {
+            const { productID } = this.props.navigation.state.params;
+            const service = await FirebaseFunctions.getServiceByID(productID);
+            this.setState({
+                isLoading: false,
+                currentRequests: service.requests.currentRequests,
+                product: service
+            });
+        } catch (error) {
+            this.setState({ isLoading: false, isErrorVisible: true });
+            FirebaseFunctions.logIssue(error);
+        }
+
         return 0;
 
     }
@@ -77,15 +84,21 @@ class productScreen extends Component {
             [
                 {
                     text: 'Complete', onPress: () => {
-                        FirebaseFunctions.completeRequest(productID, requesterID);
-                        //Updates the state of the screen to remove the product from
-                        //the screen
-                        const oldArray = this.state.currentRequests;
-                        const indexOfRequest = oldArray.findIndex((request) => {
-                            return request.requesterID === requesterID;
-                        });
-                        oldArray.splice(indexOfRequest, 1);
-                        this.setState({ currentRequests: oldArray });
+                        try {
+                            FirebaseFunctions.completeRequest(productID, requesterID);
+                            //Updates the state of the screen to remove the product from
+                            //the screen
+                            const oldArray = this.state.currentRequests;
+                            const indexOfRequest = oldArray.findIndex((request) => {
+                                return request.requesterID === requesterID;
+                            });
+                            oldArray.splice(indexOfRequest, 1);
+                            this.setState({ currentRequests: oldArray });
+                        } catch (error) {
+                            this.setState({ isLoading: false, isErrorVisible: true });
+                            FirebaseFunctions.logIssue(error);
+                        }
+
                     }
                 },
 
@@ -104,15 +117,20 @@ class productScreen extends Component {
             [
                 {
                     text: 'Delete', onPress: () => {
-                        FirebaseFunctions.deleteRequest(productID, requesterID);
-                        //Updates the state of the screen to remove the product from
-                        //the screen
-                        const oldArray = this.state.currentRequests;
-                        const indexOfRequest = oldArray.findIndex((request) => {
-                            return request.requesterID === requesterID;
-                        });
-                        oldArray.splice(indexOfRequest, 1);
-                        this.setState({ currentRequests: oldArray });
+                        try {
+                            FirebaseFunctions.deleteRequest(productID, requesterID);
+                            //Updates the state of the screen to remove the product from
+                            //the screen
+                            const oldArray = this.state.currentRequests;
+                            const indexOfRequest = oldArray.findIndex((request) => {
+                                return request.requesterID === requesterID;
+                            });
+                            oldArray.splice(indexOfRequest, 1);
+                            this.setState({ currentRequests: oldArray });
+                        } catch (error) {
+                            this.setState({ isLoading: false, isErrorVisible: true });
+                            FirebaseFunctions.logIssue(error);
+                        }
                     }
                 },
 
@@ -135,6 +153,10 @@ class productScreen extends Component {
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: "center" }}>
                         <LoadingSpinner isVisible={isLoading} />
                     </View>
+                    <ErrorAlert
+                        isVisible={this.state.isErrorVisible}
+                        onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    />
                 </SafeAreaView>
             )
         } else {
@@ -320,6 +342,10 @@ class productScreen extends Component {
 
                         }
                     </View>
+                    <ErrorAlert
+                        isVisible={this.state.isErrorVisible}
+                        onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    />
                 </SafeAreaView>
             );
         }

@@ -32,34 +32,39 @@ class splashScreen extends Component {
     //If no user is logged in, the function will return false. If there is one logged in, it will return the
     //right data to navigate to the correct screen
     async isUserLoggedIn() {
-        await firebase.auth().onAuthStateChanged(async (user) => {
-            if (user) {
-                try {
-                    const { uid } = user;
-                    //Starts with searching if this is a requester since that is more common
-                    const requester = await FirebaseFunctions.getRequesterByID(uid);
-                    if (requester === -1) {
-                        //This means this account is a provider since a requester with this ID was not found
-                        this.props.navigation.push('ProviderScreens', {
-                            providerID: uid
-                        });
-                    } else {
-                        const allProducts = await FirebaseFunctions.getAllProducts();
-                        //If this is a requester, then it will navigate to the screens & pass in the
-                        //correct params
-                        this.props.navigation.push('RequesterScreens', {
-                            requester: requester,
-                            allProducts
-                        });
+        try {
+            await firebase.auth().onAuthStateChanged(async (user) => {
+                if (user) {
+                    try {
+                        const { uid } = user;
+                        //Starts with searching if this is a requester since that is more common
+                        const requester = await FirebaseFunctions.getRequesterByID(uid);
+                        if (requester === -1) {
+                            //This means this account is a provider since a requester with this ID was not found
+                            this.props.navigation.push('ProviderScreens', {
+                                providerID: uid
+                            });
+                        } else {
+                            const allProducts = await FirebaseFunctions.getAllProducts();
+                            //If this is a requester, then it will navigate to the screens & pass in the
+                            //correct params
+                            this.props.navigation.push('RequesterScreens', {
+                                requester: requester,
+                                allProducts
+                            });
+                        }
+                    } catch (error) {
+                        this.setState({ isUserLoggedIn: false, isLoading: false });
+                        FirebaseFunctions.reportIssue("App Error", error.message);
                     }
-                } catch (error) {
+                } else {
                     this.setState({ isUserLoggedIn: false, isLoading: false });
-                    FirebaseFunctions.reportIssue("App Error", error.message);
                 }
-            } else {
-                this.setState({ isUserLoggedIn: false, isLoading: false });
-            }
-        });
+            });
+        } catch (error) {
+            this.setState({ isLoading: false, isErrorVisible: true });
+            FirebaseFunctions.logIssue(error);
+        }
         return 0;
     }
 
@@ -90,8 +95,7 @@ class splashScreen extends Component {
                                 style={roundBlueButtonStyle.MainScreenButton}
                                 textStyle={fontStyles.bigTextStyleWhite}
                                 onPress={() => {
-                                    this.setState({ isErrorVisible: true });
-                                    //this.props.navigation.push('SignUpScreen');
+                                    this.props.navigation.push('SignUpScreen');
                                 }} />
                         </View>
                         <View style={{ flex: 0.000001 }}></View>
@@ -118,6 +122,10 @@ class splashScreen extends Component {
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <LoadingSpinner isVisible={true} />
                     </View>
+                    <ErrorAlert
+                        isVisible={isErrorVisible}
+                        onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    />
                 </SafeAreaView>
             );
         }

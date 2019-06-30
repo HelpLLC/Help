@@ -13,6 +13,7 @@ import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import { Icon } from 'react-native-elements';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import ErrorAlert from '../../components/ErrorAlert';
 
 class companyProfileScreen extends Component {
 
@@ -22,7 +23,8 @@ class companyProfileScreen extends Component {
         this.state = {
             isLoading: true,
             serviceIDsLength: 0,
-            providerProducts: []
+            providerProducts: [],
+            isErrorVisible: false
         }
     }
 
@@ -34,19 +36,24 @@ class companyProfileScreen extends Component {
         if (provider.serviceIDs.length === 0) {
             this.setState({ isLoading: false });
         } else {
-            const serviceIDs = provider.serviceIDs;
-            await serviceIDs.forEach(async (ID) => {
-                const service = await FirebaseFunctions.getServiceByID(ID);
-                const newArrayOfProducts = this.state.providerProducts;
-                newArrayOfProducts.push(service);
-                this.setState({
-                    providerProducts: newArrayOfProducts
+            try {
+                const serviceIDs = provider.serviceIDs;
+                await serviceIDs.forEach(async (ID) => {
+                    const service = await FirebaseFunctions.getServiceByID(ID);
+                    const newArrayOfProducts = this.state.providerProducts;
+                    newArrayOfProducts.push(service);
+                    this.setState({
+                        providerProducts: newArrayOfProducts
+                    });
                 });
-            });
-            this.setState({
-                isLoading: false,
-                serviceIDsLength: serviceIDs.length,
-            });
+                this.setState({
+                    isLoading: false,
+                    serviceIDsLength: serviceIDs.length,
+                });
+            } catch (error) {
+                this.setState({ isLoading: false, isErrorVisible: true });
+                FirebaseFunctions.logIssue(error);
+            }
         }
         return 0;
     }
@@ -163,6 +170,10 @@ class companyProfileScreen extends Component {
                             <View style={{ flex: 0.025 }}></View>
                         </ScrollView>
                     </View>
+                    <ErrorAlert
+                        isVisible={this.state.isErrorVisible}
+                        onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    />
                 </SafeAreaView >
             );
         }

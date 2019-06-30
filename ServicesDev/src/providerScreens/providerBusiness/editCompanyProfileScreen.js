@@ -11,6 +11,7 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import strings from 'config/strings';
+import ErrorAlert from '../../components/ErrorAlert';
 
 class editCompanyProfileScreen extends Component {
 
@@ -19,7 +20,8 @@ class editCompanyProfileScreen extends Component {
         businessName: this.props.navigation.state.params.provider.companyName,
         businessInfo: this.props.navigation.state.params.provider.companyDescription,
         warningMessage: "",
-        isLoading: false
+        isLoading: false,
+        isErrorVisible: false
     }
 
     //Saves the edited company profile to the redux persist state
@@ -44,12 +46,18 @@ class editCompanyProfileScreen extends Component {
             this.props.navigation.goBack();
         } else {
 
-            //Calls the firebase function to update the provider's information
-            this.setState({ isLoading: true });
-            await FirebaseFunctions.updateProviderInfo(providerID, newBusinessName, newBusinessInfo);
-            //Navigates back to the business screen
-            this.setState({ isLoading: false });
-            this.props.navigation.goBack();
+            try {
+                //Calls the firebase function to update the provider's information
+                this.setState({ isLoading: true });
+                await FirebaseFunctions.updateProviderInfo(providerID, newBusinessName, newBusinessInfo);
+                //Navigates back to the business screen
+                this.setState({ isLoading: false });
+                this.props.navigation.goBack();
+            } catch (error) {
+                this.setState({ isLoading: false, isErrorVisible: true });
+                FirebaseFunctions.logIssue(error);
+            }
+
         }
     }
 
@@ -111,6 +119,10 @@ class editCompanyProfileScreen extends Component {
                         </View>
                     </View>
                     <View style={{ flex: 0.025 }}></View>
+                    <ErrorAlert
+                        isVisible={this.state.isErrorVisible}
+                        onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    />
                 </SafeAreaView>
             </KeyboardAvoidingView>
         )

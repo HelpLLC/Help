@@ -16,6 +16,7 @@ import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonS
 import fontStyles from 'config/styles/fontStyles';
 import { BoxShadow } from 'react-native-shadow';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import ErrorAlert from '../../components/ErrorAlert';
 
 class businessScreen extends Component {
 
@@ -26,32 +27,38 @@ class businessScreen extends Component {
             isLoading: true,
             serviceIDsLength: 0,
             provider: "",
-            providerProducts: []
+            providerProducts: [],
+            isErrorVisible: false
         }
     }
 
     //Fetches the data associated with this screen
     async fetchDatabaseData() {
 
-        const { providerID } = this.props.navigation.state.params;
-        const provider = await FirebaseFunctions.getProviderByID(providerID);
-        this.setState({ provider });
-        if (provider.serviceIDs.length === 0) {
-            this.setState({ isLoading: false });
-        } else {
-            const serviceIDs = provider.serviceIDs;
-            await serviceIDs.forEach(async (ID) => {
-                const service = await FirebaseFunctions.getServiceByID(ID);
-                const newArrayOfProducts = this.state.providerProducts;
-                newArrayOfProducts.push(service);
-                this.setState({
-                    providerProducts: newArrayOfProducts
+        try {
+            const { providerID } = this.props.navigation.state.params;
+            const provider = await FirebaseFunctions.getProviderByID(providerID);
+            this.setState({ provider });
+            if (provider.serviceIDs.length === 0) {
+                this.setState({ isLoading: false });
+            } else {
+                const serviceIDs = provider.serviceIDs;
+                await serviceIDs.forEach(async (ID) => {
+                    const service = await FirebaseFunctions.getServiceByID(ID);
+                    const newArrayOfProducts = this.state.providerProducts;
+                    newArrayOfProducts.push(service);
+                    this.setState({
+                        providerProducts: newArrayOfProducts
+                    });
                 });
-            });
-            this.setState({
-                isLoading: false,
-                serviceIDsLength: provider.serviceIDs.length,
-            });
+                this.setState({
+                    isLoading: false,
+                    serviceIDsLength: provider.serviceIDs.length,
+                });
+            }
+        } catch (error) {
+            this.setState({ isLoading: false, isErrorVisible: true });
+            FirebaseFunctions.logIssue(error);
         }
         return 0;
     }
@@ -142,6 +149,10 @@ class businessScreen extends Component {
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                         <LoadingSpinner isVisible={true} />
                     </View>
+                    <ErrorAlert
+                        isVisible={this.state.isErrorVisible}
+                        onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    />
                 </SafeAreaView>
             );
         } else if (serviceIDsLength === 0) {
@@ -190,44 +201,52 @@ class businessScreen extends Component {
                                 });
                             }} />
                     </View>
+                    <ErrorAlert
+                        isVisible={this.state.isErrorVisible}
+                        onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    />
                 </SafeAreaView>
             );
         } else {
             return (
                 <SafeAreaView style={screenStyle.container}>
-                <View style={{ flex: 0.4 }}>
-                    {topView}
-                </View>
-                <View style={{ flex: 0.025 }}></View>
-                <ScrollView
-                    style={{ flex: 1 }}
-                    contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
-                    showsVerticalScrollIndicator={false}>
-                    <FlatList
-                        data={providerProducts}
-                        keyExtractor={(item, index) => {
-                            return (provider.companyName + " Product #" + index);
-                        }}
-                        renderItem={({ item, index }) => (
-                            <ServiceCard
-                                key={index}
-                                serviceTitle={item.serviceTitle}
-                                serviceDescription={item.serviceDescription}
-                                pricing={item.pricing}
-                                image={item.imageSource}
-                                numCurrentRequests={item.requests.currentRequests.length}
-                                onPress={() => {
-                                    this.props.navigation.push('ProviderProductScreen', {
-                                        productID: item.serviceID,
-                                        providerID: provider.providerID
-                                    });
-                                }}
-                            />
-                        )}
-                    />
+                    <View style={{ flex: 0.4 }}>
+                        {topView}
+                    </View>
                     <View style={{ flex: 0.025 }}></View>
-                </ScrollView>
-            </SafeAreaView>
+                    <ScrollView
+                        style={{ flex: 1 }}
+                        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+                        showsVerticalScrollIndicator={false}>
+                        <FlatList
+                            data={providerProducts}
+                            keyExtractor={(item, index) => {
+                                return (provider.companyName + " Product #" + index);
+                            }}
+                            renderItem={({ item, index }) => (
+                                <ServiceCard
+                                    key={index}
+                                    serviceTitle={item.serviceTitle}
+                                    serviceDescription={item.serviceDescription}
+                                    pricing={item.pricing}
+                                    image={item.imageSource}
+                                    numCurrentRequests={item.requests.currentRequests.length}
+                                    onPress={() => {
+                                        this.props.navigation.push('ProviderProductScreen', {
+                                            productID: item.serviceID,
+                                            providerID: provider.providerID
+                                        });
+                                    }}
+                                />
+                            )}
+                        />
+                        <View style={{ flex: 0.025 }}></View>
+                        <ErrorAlert
+                            isVisible={this.state.isErrorVisible}
+                            onPress={() => { this.setState({ isErrorVisible: false }) }}
+                        />
+                    </ScrollView>
+                </SafeAreaView>
             );
         }
     }

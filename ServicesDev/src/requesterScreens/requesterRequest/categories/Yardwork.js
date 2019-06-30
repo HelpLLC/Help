@@ -4,8 +4,13 @@ import { View, FlatList, ScrollView, SafeAreaView } from 'react-native';
 import ServiceCard from '../../../components/ServiceCard';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
+import ErrorAlert from '../../../components/ErrorAlert';
 
 export default class Yardwork extends Component {
+
+    state = {
+        isErrorVisible: false
+    }
 
     render() {
 
@@ -33,27 +38,43 @@ export default class Yardwork extends Component {
                                 image={item.imageSource}
                                 numCurrentRequests={0}
                                 offeredByOnPress={async () => {
-                                    const provider = await FirebaseFunctions.getProviderByID(item.offeredByID);
-                                    this.props.navigation.push('RequesterCompanyProfileScreen', {
-                                        provider,
-                                        requester
-                                    });
+                                    try {
+                                        const provider = await FirebaseFunctions.getProviderByID(item.offeredByID);
+                                        this.props.navigation.push('RequesterCompanyProfileScreen', {
+                                            provider,
+                                            requester
+                                        });
+                                    } catch (error) {
+                                        this.setState({ isErrorVisible: true });
+                                        FirebaseFunctions.logIssue(error);
+                                    }
+
                                 }}
                                 //Passes all of the necessary props to the actual screen that contains
                                 //more information about the service
                                 onPress={async () => {
-                                    const provider = await FirebaseFunctions.getProviderByID(item.offeredByID);
-                                    this.props.navigation.push('RequesterServiceScreen', {
-                                        productID: item.serviceID,
-                                        requester,
-                                        provider
-                                    });
+                                    try {
+                                        const provider = await FirebaseFunctions.getProviderByID(item.offeredByID);
+                                        this.props.navigation.push('RequesterServiceScreen', {
+                                            productID: item.serviceID,
+                                            requester,
+                                            provider
+                                        });
+                                    } catch (error) {
+                                        this.setState({ isLoading: false, isErrorVisible: true });
+                                        FirebaseFunctions.logIssue(error);
+                                    }
+
                                 }}
                             />
                         )}
                     />
                     <View style={{ flex: 0.2 }}></View>
                 </ScrollView>
+                <ErrorAlert
+                    isVisible={this.state.isErrorVisible}
+                    onPress={() => { this.setState({ isErrorVisible: false }) }}
+                />
             </SafeAreaView>
         )
     }

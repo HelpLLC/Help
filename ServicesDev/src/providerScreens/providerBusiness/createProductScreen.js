@@ -2,7 +2,7 @@
 //clicking the plus sign, or clicking create on the business's first product. It will allow the user
 //to give the product a picture from their camera roll, and a name and a description and a price
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, TouchableOpacity, SafeAreaView, KeyboardAvoidingView , Keyboard} from 'react-native';
+import { View, Text, Image, Dimensions, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, Keyboard } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../../components/RoundBlueButton';
@@ -16,6 +16,7 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import ErrorAlert from '../../components/ErrorAlert';
 
 class createProductScreen extends Component {
 
@@ -26,7 +27,8 @@ class createProductScreen extends Component {
         pricing: '',
         imageSource: images.BlankWhite,
         warningMessage: '',
-        isLoading: false
+        isLoading: false,
+        isErrorVisible: false,
     }
 
     //Chooses the image from camera roll or picture and sets it to the image source
@@ -60,14 +62,18 @@ class createProductScreen extends Component {
         } else if (imageSource === images.BlankWhite) {
             this.setState({ warningMessage: strings.PleaseAddAnImage });
         } else {
-
-            this.setState({ isLoading: true, warningMessage: "" });
-            const { providerID } = this.props.navigation.state.params;
-            await FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, pricing, imageSource, providerID, provider.companyName);
-            this.setState({ isLoading: false });
-            this.props.navigation.push("ProviderScreens", {
-                providerID: provider.providerID
-            });
+            try {
+                this.setState({ isLoading: true, warningMessage: "" });
+                const { providerID } = this.props.navigation.state.params;
+                await FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, pricing, imageSource, providerID, provider.companyName);
+                this.setState({ isLoading: false });
+                this.props.navigation.push("ProviderScreens", {
+                    providerID: provider.providerID
+                });
+            } catch (error) {
+                this.setState({ isLoading: false, isErrorVisible: true });
+                FirebaseFunctions.logIssue(error);
+            }
             return 0;
         }
     }
@@ -123,9 +129,9 @@ class createProductScreen extends Component {
                                 </BoxShadow>
 
                                 <TouchableOpacity
-                                    onPress={() => { 
+                                    onPress={() => {
                                         Keyboard.dismiss();
-                                        this.chooseImage(); 
+                                        this.chooseImage();
                                     }}
                                     style={{ justifyContent: 'flex-end' }}>
                                     <Text style={fontStyles.subTextStyleGray}>
@@ -186,6 +192,10 @@ class createProductScreen extends Component {
                         </View>
                         <View style={{ flex: 0.8 }}></View>
                     </View>
+                    <ErrorAlert
+                        isVisible={this.state.isErrorVisible}
+                        onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    />
                 </SafeAreaView>
             </KeyboardAvoidingView>
         )

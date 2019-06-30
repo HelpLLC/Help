@@ -12,6 +12,7 @@ import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonS
 import { BoxShadow } from 'react-native-shadow';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
+import ErrorAlert from '../../components/ErrorAlert';
 
 class serviceScreen extends Component {
 
@@ -21,31 +22,38 @@ class serviceScreen extends Component {
         this.state = {
             isLoading: true,
             product: "",
-            isRequested: ""
+            isRequested: "",
+            isErrorVisible: false
         }
     }
 
     //Fetches the data associated with this screen
     async fetchDatabaseData() {
-        const { productID, requester } = this.props.navigation.state.params;
-        const product = await FirebaseFunctions.getServiceByID(productID);
-        const isRequested = product.requests.currentRequests.findIndex((request) => {
-            return request.requesterID === requester.requesterID
-        });
+        try {
+            const { productID, requester } = this.props.navigation.state.params;
+            const product = await FirebaseFunctions.getServiceByID(productID);
+            const isRequested = product.requests.currentRequests.findIndex((request) => {
+                return request.requesterID === requester.requesterID
+            });
 
-        if (isRequested === -1) {
-            this.setState({
-                isLoading: false,
-                isRequested: false,
-                product
-            });
-        } else {
-            this.setState({
-                isLoading: false,
-                isRequested: true,
-                product
-            });
+            if (isRequested === -1) {
+                this.setState({
+                    isLoading: false,
+                    isRequested: false,
+                    product
+                });
+            } else {
+                this.setState({
+                    isLoading: false,
+                    isRequested: true,
+                    product
+                });
+            }
+        } catch (error) {
+            this.setState({ isLoading: false, isErrorVisible: true });
+            FirebaseFunctions.logIssue(error);
         }
+
         return 0;
 
     }
@@ -85,8 +93,14 @@ class serviceScreen extends Component {
                     text: 'Request', onPress: () => {
                         const { product } = this.state;
                         const { requester } = this.props.navigation.state.params;
-                        FirebaseFunctions.requestService(product.serviceID, requester);
-                        this.setState({ isRequested: true });
+                        try {
+                            FirebaseFunctions.requestService(product.serviceID, requester);
+                            this.setState({ isRequested: true });
+                        } catch (error) {
+                            this.setState({ isLoading: false, isErrorVisible: true });
+                            FirebaseFunctions.logIssue(error);
+                        }
+
                     }
                 },
 
@@ -106,8 +120,14 @@ class serviceScreen extends Component {
                     text: 'Yes', onPress: () => {
                         const { product } = this.state;
                         const { requester } = this.props.navigation.state.params;
-                        FirebaseFunctions.deleteRequest(product.serviceID, requester.requesterID);
-                        this.setState({ isRequested: false });
+                        try {
+                            FirebaseFunctions.deleteRequest(product.serviceID, requester.requesterID);
+                            this.setState({ isRequested: false });
+                        } catch (error) {
+                            this.setState({ isLoading: false, isErrorVisible: true });
+                            FirebaseFunctions.logIssue(error);
+                        }
+
                     }
                 },
 
@@ -231,6 +251,10 @@ class serviceScreen extends Component {
                                 )
                         }
                     </View>
+                    <ErrorAlert
+                        isVisible={this.state.isErrorVisible}
+                        onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    />
                 </SafeAreaView>
             );
         }

@@ -11,6 +11,7 @@ import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineTextInput from '../components/OneLineTextInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import firebase from 'react-native-firebase';
+import ErrorAlert from '../components/ErrorAlert';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 
 //The class that will create the look of this screen
@@ -27,7 +28,8 @@ class logInScreen extends Component {
         warningMessage: "",
 
         //This will determine whether the loading widget appears or not. Initially false
-        isLoading: false
+        isLoading: false,
+        isErrorVisible: false
     }
 
     //This function will login based on the entered phone number... if the number is non existent,
@@ -46,32 +48,36 @@ class logInScreen extends Component {
             //Turns on the loading indicator
             this.setState({ isLoading: true });
             try {
-                try {
-                    const account = await firebase.auth().signInWithEmailAndPassword(email, password);
-                    //Tests whether this is a provider or a requester & based on that, navigates to the
-                    //correct screen
-                    const { uid } = account.user;
-                    //Starts with searching if this is a requester since that is more common
-                    const requester = await FirebaseFunctions.getRequesterByID(uid);
-                    if (requester === -1) {
-                        //This means this account is a provider since a requester with this ID was not found
-                        this.props.navigation.push('ProviderScreens', {
-                            providerID: uid
-                        });
-                    } else {
-                        const allProducts = await FirebaseFunctions.getAllProducts();
-                        //If this is a requester, then it will navigate to the screens & pass in the
-                        //correct params
-                        this.props.navigation.push('RequesterScreens', {
-                            requester: requester,
-                            allProducts
-                        });
-                    }
-                } catch (error) {
-                    
+                const account = await firebase.auth().signInWithEmailAndPassword(email, password);
+                //Tests whether this is a provider or a requester & based on that, navigates to the
+                //correct screen
+                const { uid } = account.user;
+                //Starts with searching if this is a requester since that is more common
+                const requester = await FirebaseFunctions.getRequesterByID(uid);
+                if (requester === -1) {
+                    //This means this account is a provider since a requester with this ID was not found
+                    this.props.navigation.push('ProviderScreens', {
+                        providerID: uid
+                    });
+                } else {
+                    const allProducts = await FirebaseFunctions.getAllProducts();
+                    //If this is a requester, then it will navigate to the screens & pass in the
+                    //correct params
+                    this.props.navigation.push('RequesterScreens', {
+                        requester: requester,
+                        allProducts
+                    });
                 }
             } catch (error) {
-                this.setState({ warningMessage: strings.IncorrectInfo, isLoading: false });
+                
+                if (error.message === "The password is invalid or the user does not have a password." ||
+                error.message === "The email address is badly formatted." ||
+                error.message === "There is no user record corresponding to this identifier. The user may have been deleted.") {
+                    this.setState({ warningMessage: strings.IncorrectInfo, isLoading: false });
+                } else {
+                    this.setState({ isLoading: false, isErrorVisible: true });
+                    FirebaseFunctions.logIssue(error);
+                }
             }
         }
     }
@@ -133,6 +139,10 @@ class logInScreen extends Component {
 
                         <View style={{ flex: 2 }}></View>
                     </View>
+                    <ErrorAlert
+                        isVisible={this.state.isErrorVisible}
+                        onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    />
                 </SafeAreaView>
             </KeyboardAvoidingView>
         );

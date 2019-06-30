@@ -11,6 +11,7 @@ import OneLineTextInput from '../components/OneLineTextInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import RoundTextInput from '../components/RoundTextInput';
 import FirebaseFunctions from 'config/FirebaseFunctions';
+import ErrorAlert from '../components/ErrorAlert';
 import firebase from 'react-native-firebase';
 
 //The class that will create the look of this screen
@@ -22,7 +23,8 @@ class createProviderProfileScreen extends Component {
         businessName: "",
         businessInfo: "",
         warningMessage: "",
-        isLoading: false
+        isLoading: false,
+        isErrorVisible: false
     }
 
     //This method will return whether the company name is taken or not (boolean)
@@ -30,19 +32,14 @@ class createProviderProfileScreen extends Component {
     async isCompanyNameTaken(businessName) {
 
         //Queries the providers to see if a provider exists
-        try {
-            const ref = FirebaseFunctions.providers.where("companyName", "==", businessName);
-            const snapshot = await ref.get();
+        const ref = FirebaseFunctions.providers.where("companyName", "==", businessName);
+        const snapshot = await ref.get();
 
-            //If the array contains anything, then the name is taken and true will be returned
-            if (snapshot.docs.length === 0) {
-                return false;
-            } else {
-                return true;
-            }
-        } catch (error) {
-            FirebaseFunctions.logIssue(error);
-            this.setState({ isLoading: false });
+        //If the array contains anything, then the name is taken and true will be returned
+        if (snapshot.docs.length === 0) {
+            return false;
+        } else {
+            return true;
         }
 
     }
@@ -70,25 +67,30 @@ class createProviderProfileScreen extends Component {
 
             //If the business name is already taken, then a warning message will appear,
             //Else, the profile will be created
-            const isCompanyNameTaken = await this.isCompanyNameTaken(businessName);
-            if (isCompanyNameTaken === true) {
-                this.setState({ warningMessage: strings.CompanyNameTakenPleaseChooseAnotherName, isLoading: false });
-            } else {
+            try {
+                const isCompanyNameTaken = await this.isCompanyNameTaken(businessName);
+                if (isCompanyNameTaken === true) {
+                    this.setState({ warningMessage: strings.CompanyNameTakenPleaseChooseAnotherName, isLoading: false });
+                } else {
 
-                //Creates the account and then navigates to the correct screens while passing in
-                //the correct params and logs in
-                try {
-                    const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
-                    const provider = await FirebaseFunctions.addProviderToDatabase(account, email, businessName, businessInfo);
-                    await firebase.auth().signInWithEmailAndPassword(email, password);
-                    this.props.navigation.push('ProviderScreens', {
-                        providerID: provider.providerID
-                    });
-                } catch (error) {
-                    this.setState({ warningMessage: strings.SomethingWentWrong, isLoading: false });
-                    FirebaseFunctions.reportIssue("App Error", error.message);
+                    //Creates the account and then navigates to the correct screens while passing in
+                    //the correct params and logs in
+                    try {
+                        const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
+                        const provider = await FirebaseFunctions.addProviderToDatabase(account, email, businessName, businessInfo);
+                        await firebase.auth().signInWithEmailAndPassword(email, password);
+                        this.props.navigation.push('ProviderScreens', {
+                            providerID: provider.providerID
+                        });
+                    } catch (error) {
+                        this.setState({ warningMessage: strings.SomethingWentWrong, isLoading: false });
+                        FirebaseFunctions.reportIssue("App Error", error.message);
+                    }
+
                 }
-
+            } catch (error) {
+                this.setState({ isLoading: false, isErrorVisible: true });
+                FirebaseFunctions.logIssue(error);
             }
         }
     }
@@ -151,6 +153,10 @@ class createProviderProfileScreen extends Component {
 
                         <View style={{ flex: 1 }}></View>
                     </View>
+                    <ErrorAlert
+                        isVisible={this.state.isErrorVisible}
+                        onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    />
                 </SafeAreaView>
             </KeyboardAvoidingView>
         );

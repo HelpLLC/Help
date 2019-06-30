@@ -12,6 +12,7 @@ import OneLineTextInput from '../components/OneLineTextInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import firebase from 'react-native-firebase';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
+import ErrorAlert from '../components/ErrorAlert';
 
 
 //The class that will create the look of this screen
@@ -27,7 +28,8 @@ class signUpScreen extends Component {
         password: "",
         buttonSelected: "",
         warningMessage: "",
-        isLoading: false
+        isLoading: false,
+        isErrorVisible: false
     }
 
     //This method signs up the user & creates an account for them based on what they chose and their
@@ -86,8 +88,8 @@ class signUpScreen extends Component {
                     }
                 }
             } catch (error) {
-                this.setState({ warningMessage: strings.SomethingWentWrong, isLoading: false });
-                FirebaseFunctions.reportIssue("App Error", error.message);
+                this.setState({ isLoading: false, isErrorVisible: true });
+                FirebaseFunctions.logIssue(error);
             }
         }
     }
@@ -199,6 +201,10 @@ class signUpScreen extends Component {
                         </View>
                         <View style={{ flex: 1.6 }}></View>
                     </View>
+                    <ErrorAlert
+                        isVisible={this.state.isErrorVisible}
+                        onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    />
                 </SafeAreaView>
             </KeyboardAvoidingView>
         );

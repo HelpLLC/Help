@@ -13,6 +13,7 @@ import ImagePicker from 'react-native-image-picker';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import strings from 'config/strings';
+import ErrorAlert from '../../components/ErrorAlert';
 import colors from 'config/colors';
 
 class editProductScreen extends Component {
@@ -58,13 +59,19 @@ class editProductScreen extends Component {
             this.props.navigation.goBack();
         } else {
 
-            //Updates the correct product corresponding with the correct user
-            this.setState({ isLoading: true });
-            await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, imageSource);
-            this.setState({ isLoading: false });
-            this.props.navigation.push("ProviderScreens", {
-                providerID
-            });
+            try {
+                //Updates the correct product corresponding with the correct user
+                this.setState({ isLoading: true });
+                await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, imageSource);
+                this.setState({ isLoading: false });
+                this.props.navigation.push("ProviderScreens", {
+                    providerID
+                });
+            } catch (error) {
+                this.setState({ isLoading: false, isErrorVisible: true });
+                FirebaseFunctions.logIssue(error);
+            }
+
         }
     }
 
@@ -170,6 +177,10 @@ class editProductScreen extends Component {
                         </View>
                         <View style={{ flex: 1 }}></View>
                     </View>
+                    <ErrorAlert
+                        isVisible={this.state.isErrorVisible}
+                        onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    />
                 </SafeAreaView>
             </KeyboardAvoidingView>
         )

@@ -6,6 +6,7 @@ import screenStyle from 'config/styles/screenStyle';
 import RoundTextInput from '../../components/RoundTextInput';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../../components/RoundBlueButton';
+import ErrorAlert from '../../components/ErrorAlert';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -16,7 +17,8 @@ class reportIssueScreen extends Component {
     //and the screen will confirm this, then rerender
     state = {
         userInput: "",
-        warningMessage: ""
+        warningMessage: "",
+        isErrorVisible: false
     }
 
     //This method will report the issue to the developers as well as confirm the reported issue 
@@ -28,10 +30,16 @@ class reportIssueScreen extends Component {
         if (userInput.trim() === "") {
             this.setState({ warningMessage: strings.PleaseFillOutAllFields });
         } else {
-            FirebaseFunctions.reportIssue(user, this.state.userInput);
-            this.props.navigation.push('IssueReportedScreen', {
-                user: this.props.navigation.state.params.user
-            });
+            try {
+                FirebaseFunctions.reportIssue(user, this.state.userInput);
+                this.props.navigation.push('IssueReportedScreen', {
+                    user: this.props.navigation.state.params.user
+                });
+            } catch (error) {
+                this.setState({ isLoading: false, isErrorVisible: true });
+                FirebaseFunctions.logIssue(error);
+            }
+
         }
 
     }
@@ -74,6 +82,10 @@ class reportIssueScreen extends Component {
                         <View style={{ flex: 1.5 }}></View>
                     </View>
                 </SafeAreaView>
+                <ErrorAlert
+                    isVisible={this.state.isErrorVisible}
+                    onPress={() => { this.setState({ isErrorVisible: false }) }}
+                />
             </KeyboardAvoidingView>
         )
     }
