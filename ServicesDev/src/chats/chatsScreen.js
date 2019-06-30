@@ -23,7 +23,7 @@ class chatsScreen extends Component {
     }
 
     //The method that is called to load all of the data
-    async componentDidMount() {
+    async fetchDatabaseData() {
         //First determines whether this is a requester or a provider and then sets the userID
         if (this.props.navigation.state.params.providerID) {
             //Fetches all the conversations that this user has done and stores them in an array
@@ -44,6 +44,21 @@ class chatsScreen extends Component {
                 isLoading: false
             });
         }
+    }
+
+    //The method that is called to load all of the data
+    async componentDidMount() {
+        //Adds the listener to add the listener to refetch the data once this component is returned to
+        this.willFocusListener = await this.props.navigation.addListener('willFocus', async () => {
+            await this.fetchDatabaseData();
+        });
+    }
+
+    //Removes the listener when the screen is switched away from 
+    componentWillUnmount() {
+
+        this.willFocusListener.remove();
+
     }
 
     render() {

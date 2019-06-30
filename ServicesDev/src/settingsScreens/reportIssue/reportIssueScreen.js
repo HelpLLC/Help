@@ -39,7 +39,7 @@ class reportIssueScreen extends Component {
     render() {
         return (
             //View that dismisses the keyboard when clicked anywhere else
-            <KeyboardAvoidingView enabled style={screenStyle.container}>
+            <KeyboardAvoidingView enabled behavior="padding" style={screenStyle.container}>
                 <SafeAreaView>
                     <View>
                         <View style={{ flex: 1, justifyContent: 'center' }}>

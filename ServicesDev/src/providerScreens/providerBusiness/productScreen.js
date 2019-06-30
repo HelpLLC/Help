@@ -132,7 +132,7 @@ class productScreen extends Component {
         if (isLoading === true) {
             return (
                 <SafeAreaView style={screenStyle.container}>
-                    <View style={{ alignItems: 'center', justifyContent: "center" }}>
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: "center" }}>
                         <LoadingSpinner isVisible={isLoading} />
                     </View>
                 </SafeAreaView>

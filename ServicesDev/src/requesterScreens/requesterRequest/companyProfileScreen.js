@@ -36,7 +36,7 @@ class companyProfileScreen extends Component {
         } else {
             const serviceIDs = provider.serviceIDs;
             await serviceIDs.forEach(async (ID) => {
-                const service = FirebaseFunctions.getServiceByID(ID);
+                const service = await FirebaseFunctions.getServiceByID(ID);
                 const newArrayOfProducts = this.state.providerProducts;
                 newArrayOfProducts.push(service);
                 this.setState({
