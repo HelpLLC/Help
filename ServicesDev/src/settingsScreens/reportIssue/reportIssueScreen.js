@@ -15,7 +15,8 @@ class reportIssueScreen extends Component {
     //The current state of the screen. If the button clicked, then the issue will be reported
     //and the screen will confirm this, then rerender
     state = {
-        userInput: ""
+        userInput: "",
+        warningMessage: ""
     }
 
     //This method will report the issue to the developers as well as confirm the reported issue 
@@ -23,20 +24,29 @@ class reportIssueScreen extends Component {
     reportIssue() {
 
         const { user } = this.props.navigation.state.params;
-        FirebaseFunctions.reportIssue(user, this.state.userInput);
+        const { userInput } = this.state;
+        if (userInput.trim() === "") {
+            this.setState({ warningMessage: strings.PleaseFillOutAllFields });
+        } else {
+            FirebaseFunctions.reportIssue(user, this.state.userInput);
+            this.props.navigation.push('IssueReportedScreen', {
+                user: this.props.navigation.state.params.user
+            });
+        }
 
     }
 
     render() {
         return (
             //View that dismisses the keyboard when clicked anywhere else
-            <KeyboardAvoidingView enabled behavior="padding" style={screenStyle.container}>
+            <KeyboardAvoidingView enabled style={screenStyle.container}>
                 <SafeAreaView>
                     <View>
                         <View style={{ flex: 1, justifyContent: 'center' }}>
                             <Text style={fontStyles.mainTextStyleBlack}>
                                 {strings.WhatSeemsToBeTheProblemQuestion}</Text>
                         </View>
+                        <View style={{ flex: 0.5 }}></View>
                         <View style={{ flex: 1, justifyContent: 'center' }}>
                             <RoundTextInput
                                 width={275}
@@ -45,19 +55,21 @@ class reportIssueScreen extends Component {
                                 onChangeText={(input) => this.setState({ userInput: input })}
                                 value={this.state.userInput} />
                         </View>
-
-
+                        <View style={{ flex: 0.5 }}></View>
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                            <RoundBlueButton
-                                title={strings.Report}
-                                style={roundBlueButtonStyle.MediumSizeButton}
-                                textStyle={fontStyles.reportIssueButtonTextStyle}
-                                onPress={() => {
-                                    this.props.navigation.push('IssueReportedScreen', {
-                                        user: this.props.navigation.state.params.user
-                                    })
-                                    this.reportIssue();
-                                }} />
+                            <View style={{ flex: 1, justifyContent: 'center' }}>
+                                <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
+                            </View>
+                            <View style={{ flex: 0.025 }}></View>
+                            <View style={{ flex: 1 }}>
+                                <RoundBlueButton
+                                    title={strings.Report}
+                                    style={roundBlueButtonStyle.MediumSizeButton}
+                                    textStyle={fontStyles.reportIssueButtonTextStyle}
+                                    onPress={() => {
+                                        this.reportIssue();
+                                    }} />
+                            </View>
                         </View>
                         <View style={{ flex: 1.5 }}></View>
                     </View>

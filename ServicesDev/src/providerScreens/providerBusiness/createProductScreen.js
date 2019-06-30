@@ -153,7 +153,7 @@ class createProductScreen extends Component {
                                 <Text style={fontStyles.mainTextStyleBlack}>
                                     {strings.Pricing}</Text>
                             </View>
-                            <View style={{ flex: 1, justifyContent: 'center' }}>
+                            <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                                 <OneLineTextInput
                                     onChangeText={(input) => this.setState({ pricing: input })}
                                     placeholder={strings.HowMuchWillYouChargeDotDotDot}
