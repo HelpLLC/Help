@@ -32,22 +32,27 @@ class splashScreen extends Component {
     async isUserLoggedIn() {
         await firebase.auth().onAuthStateChanged(async (user) => {
             if (user) {
-                const { uid } = user;
-                //Starts with searching if this is a requester since that is more common
-                const requester = await FirebaseFunctions.getRequesterByID(uid);
-                if (requester === -1) {
-                    //This means this account is a provider since a requester with this ID was not found
-                    this.props.navigation.push('ProviderScreens', {
-                        providerID: uid
-                    });
-                } else {
-                    const allProducts = await FirebaseFunctions.getAllProducts();
-                    //If this is a requester, then it will navigate to the screens & pass in the
-                    //correct params
-                    this.props.navigation.push('RequesterScreens', {
-                        requester: requester,
-                        allProducts
-                    });
+                try {
+                    const { uid } = user;
+                    //Starts with searching if this is a requester since that is more common
+                    const requester = await FirebaseFunctions.getRequesterByID(uid);
+                    if (requester === -1) {
+                        //This means this account is a provider since a requester with this ID was not found
+                        this.props.navigation.push('ProviderScreens', {
+                            providerID: uid
+                        });
+                    } else {
+                        const allProducts = await FirebaseFunctions.getAllProducts();
+                        //If this is a requester, then it will navigate to the screens & pass in the
+                        //correct params
+                        this.props.navigation.push('RequesterScreens', {
+                            requester: requester,
+                            allProducts
+                        });
+                    }
+                } catch (error) {
+                    this.setState({ isUserLoggedIn: false, isLoading: false });
+                    FirebaseFunctions.reportIssue("App Error", error.message);
                 }
             } else {
                 this.setState({ isUserLoggedIn: false, isLoading: false });
