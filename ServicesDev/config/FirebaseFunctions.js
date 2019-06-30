@@ -14,6 +14,7 @@ export default class FirebaseFunctions {
     static products = this.database.collection("products");
     static messages = this.database.collection("messages");
     static issues = this.database.collection("issues");
+    static crashlytics = firebase.crashlytics();
 
     //This method will return an array containing an all products currently in the market
     static async getAllProducts() {
@@ -416,9 +417,7 @@ export default class FirebaseFunctions {
 
         //tests whether or not the user is a requester or a provider and adds a "r-" or "p-" before their
         //ID respectivly
-        const userID = user === "App Error" ? "App Error" : (
-            (user.requesterID ? ("r-" + user.requesterID) : ("p-" + user))
-        );
+        const userID = (user.requesterID ? ("r-" + user.requesterID) : ("p-" + user));
 
         await this.issues.add({
             issue,
@@ -431,6 +430,11 @@ export default class FirebaseFunctions {
     static async logOut() {
         await firebase.auth().signOut();
         return 0;
+    }
+
+    //This method will take in an error message and log it into firebase crashlytics
+    static logIssue(error) {
+        this.crashlytics.log(error);
     }
 
 }

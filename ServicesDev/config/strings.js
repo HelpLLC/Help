@@ -165,6 +165,10 @@ export default {
         'Although most changes are likely to be minor, Help LLC may change its Privacy Policy from time to time, and in Help LLC\'s sole discretion. Help LLC encourages visitors to frequently check this page for any changes to its Privacy Policy. Your continued use of this site after any change in this Privacy Policy will constitute your acceptance of such change.' +
         '- Email Addresses  Collected email addresses in order to create account information from customers.' +
         '- Credit & Contact Information' +
-        'This privacy policy was created at https://termsandconditionstemplate.com/privacy-policy-generator/. If you have any questions about this Privacy Policy, please contact us via or phone.'
+        'This privacy policy was created at https://termsandconditionstemplate.com/privacy-policy-generator/. If you have any questions about this Privacy Policy, please contact us via or phone.',
+
+    //------------------- Miscellaneous -----------------
+    Whoops: 'Whoops',
+    Ok: 'Ok'
 
 };

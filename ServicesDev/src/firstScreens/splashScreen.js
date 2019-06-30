@@ -11,6 +11,7 @@ import fontStyles from 'config/styles/fontStyles';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import firebase from 'react-native-firebase';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorAlert from '../components/ErrorAlert';
 
 
 class splashScreen extends Component {
@@ -18,6 +19,7 @@ class splashScreen extends Component {
 
     state = {
         isLoading: true,
+        isErrorVisible: false,
         isUserLoggedIn: ""
     }
 
@@ -62,14 +64,17 @@ class splashScreen extends Component {
     }
 
     render() {
-        const { isLoading, isUserLoggedIn } = this.state;
-        console.log(isUserLoggedIn);
+        const { isLoading, isUserLoggedIn, isErrorVisible } = this.state;
         if (isLoading === true) {
             return (
                 <SafeAreaView style={screenStyle.container}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <LoadingSpinner isVisible={true} />
                     </View>
+                    <ErrorAlert
+                        isVisible={isErrorVisible}
+                        onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    />
                 </SafeAreaView>
             );
         } else if (isUserLoggedIn === false) {
@@ -85,7 +90,8 @@ class splashScreen extends Component {
                                 style={roundBlueButtonStyle.MainScreenButton}
                                 textStyle={fontStyles.bigTextStyleWhite}
                                 onPress={() => {
-                                    this.props.navigation.push('SignUpScreen');
+                                    this.setState({ isErrorVisible: true });
+                                    //this.props.navigation.push('SignUpScreen');
                                 }} />
                         </View>
                         <View style={{ flex: 0.000001 }}></View>
@@ -100,6 +106,10 @@ class splashScreen extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>
+                    <ErrorAlert
+                        isVisible={isErrorVisible}
+                        onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    />
                 </SafeAreaView>
             );
         } else {

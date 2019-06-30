@@ -46,8 +46,8 @@ class logInScreen extends Component {
             //Turns on the loading indicator
             this.setState({ isLoading: true });
             try {
-                const account = await firebase.auth().signInWithEmailAndPassword(email, password);
                 try {
+                    const account = await firebase.auth().signInWithEmailAndPassword(email, password);
                     //Tests whether this is a provider or a requester & based on that, navigates to the
                     //correct screen
                     const { uid } = account.user;
@@ -68,14 +68,14 @@ class logInScreen extends Component {
                         });
                     }
                 } catch (error) {
-                    this.setState({ warningMessage: strings.SomethingWentWrong, isLoading: false });
-                    FirebaseFunctions.reportIssue("App Error", error.message);
+                    
                 }
             } catch (error) {
                 this.setState({ warningMessage: strings.IncorrectInfo, isLoading: false });
             }
         }
     }
+
 
     render() {
         return (

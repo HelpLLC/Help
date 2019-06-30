@@ -30,14 +30,19 @@ class createProviderProfileScreen extends Component {
     async isCompanyNameTaken(businessName) {
 
         //Queries the providers to see if a provider exists
-        const ref = FirebaseFunctions.providers.where("companyName", "==", businessName);
-        const snapshot = await ref.get();
+        try {
+            const ref = FirebaseFunctions.providers.where("companyName", "==", businessName);
+            const snapshot = await ref.get();
 
-        //If the array contains anything, then the name is taken and true will be returned
-        if (snapshot.docs.length === 0) {
-            return false;
-        } else {
-            return true;
+            //If the array contains anything, then the name is taken and true will be returned
+            if (snapshot.docs.length === 0) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (error) {
+            FirebaseFunctions.logIssue(error);
+            this.setState({ isLoading: false });
         }
 
     }
@@ -83,7 +88,7 @@ class createProviderProfileScreen extends Component {
                     this.setState({ warningMessage: strings.SomethingWentWrong, isLoading: false });
                     FirebaseFunctions.reportIssue("App Error", error.message);
                 }
-                
+
             }
         }
     }
