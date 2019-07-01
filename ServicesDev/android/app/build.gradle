@@ -106,8 +106,8 @@ android {
         applicationId "com.Help.Help"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 16
-        versionName "1.42"
+        versionCode 17
+        versionName "1.43"
         multiDexEnabled true
     }
     signingConfigs {
