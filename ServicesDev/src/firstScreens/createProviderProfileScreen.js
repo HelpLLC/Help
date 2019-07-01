@@ -75,18 +75,12 @@ class createProviderProfileScreen extends Component {
 
                     //Creates the account and then navigates to the correct screens while passing in
                     //the correct params and logs in
-                    try {
-                        const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
-                        const provider = await FirebaseFunctions.addProviderToDatabase(account, email, businessName, businessInfo);
-                        await firebase.auth().signInWithEmailAndPassword(email, password);
-                        this.props.navigation.push('ProviderScreens', {
-                            providerID: provider.providerID
-                        });
-                    } catch (error) {
-                        this.setState({ warningMessage: strings.SomethingWentWrong, isLoading: false });
-                        FirebaseFunctions.reportIssue("App Error", error.message);
-                    }
-
+                    const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
+                    const provider = await FirebaseFunctions.addProviderToDatabase(account, email, businessName, businessInfo);
+                    await firebase.auth().signInWithEmailAndPassword(email, password);
+                    this.props.navigation.push('ProviderScreens', {
+                        providerID: provider.providerID
+                    });
                 }
             } catch (error) {
                 this.setState({ isLoading: false, isErrorVisible: true });
