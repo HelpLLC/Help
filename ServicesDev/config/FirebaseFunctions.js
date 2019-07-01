@@ -434,7 +434,7 @@ export default class FirebaseFunctions {
 
     //This method will take in an error message and log it into firebase crashlytics
     static logIssue(error) {
-        this.crashlytics.log(error);
+        this.crashlytics.recordError(error.message);
     }
 
 }
