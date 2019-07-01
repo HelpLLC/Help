@@ -25,7 +25,8 @@ class editProductScreen extends Component {
         pricing: this.props.navigation.state.params.product.pricing,
         imageSource: this.props.navigation.state.params.product.imageSource,
         warningMessage: '',
-        isLoading: false
+        isLoading: false,
+        isErrorVisible: false
     }
 
     //Chooses the image from camera roll or picture and sets it to the image source
@@ -35,9 +36,13 @@ class editProductScreen extends Component {
         ImagePicker.showImagePicker(null, (response) => {
 
             //Retrieves the source of the selected image and sets it to the ImageSource state
-            this.setState({
-                imageSource: response,
-            });
+            const source = { uri: 'data:image/jpeg;base64,' + response.data };
+            if (!(source.uri === "data:image/jpeg;base64,undefined")) {
+                //Sets the source of the image if one has been selected
+                this.setState({
+                    imageSource: source,
+                });
+            }
 
         });
     }
