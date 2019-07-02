@@ -19,9 +19,10 @@ class editCompanyProfileScreen extends Component {
     state = {
         businessName: this.props.navigation.state.params.provider.companyName,
         businessInfo: this.props.navigation.state.params.provider.companyDescription,
-        warningMessage: "",
         isLoading: false,
-        isErrorVisible: false
+        isErrorVisible: false,
+        nameError: false,
+        descriptionError: false
     }
 
     //Saves the edited company profile to the redux persist state
@@ -34,9 +35,9 @@ class editCompanyProfileScreen extends Component {
 
         //If either of the two inputs is empty, an error message will be displayed
         if (newBusinessName === "") {
-            this.setState({ warningMessage: strings.PleaseEnterACompanyName });
+            this.setState({ nameError: true });
         } else if (newBusinessInfo === "") {
-            this.setState({ warningMessage: strings.PleaseEnterADescription });
+            this.setState({ descriptionError: true });
 
             //This next statement checks if any information has been changed, if not, then it will
             //not update any information to save memory & simply return the previous screen
@@ -98,11 +99,8 @@ class editCompanyProfileScreen extends Component {
                                     value={this.state.businessInfo} />
                             </View>
                         </View>
-
+                        <View style={{ flex: 0.001 }}></View>
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                            <View style={{ flex: 1 }}>
-                                <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
-                            </View>
 
                             <View style={{ flex: 1 }}>
                                 <RoundBlueButton
@@ -122,6 +120,20 @@ class editCompanyProfileScreen extends Component {
                     <ErrorAlert
                         isVisible={this.state.isErrorVisible}
                         onPress={() => { this.setState({ isErrorVisible: false }) }}
+                        title={strings.Whoops}
+                        message={strings.SomethingWentWrong}
+                    />
+                    <ErrorAlert
+                        isVisible={this.state.nameError}
+                        onPress={() => { this.setState({ nameError: false }) }}
+                        title={strings.Whoops}
+                        message={strings.PleaseEnterACompanyName}
+                    />
+                    <ErrorAlert
+                        isVisible={this.state.descriptionError}
+                        onPress={() => { this.setState({ descriptionError: false }) }}
+                        title={strings.Whoops}
+                        message={strings.PleaseEnterADescription}
                     />
                 </SafeAreaView>
             </KeyboardAvoidingView>

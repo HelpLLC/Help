@@ -27,7 +27,11 @@ class signUpScreen extends Component {
         email: "",
         password: "",
         buttonSelected: "",
-        warningMessage: "",
+        fieldsError: false,
+        emailError: false,
+        buttonError: false,
+        passwordError: false,
+        emailExistsError: false,
         isLoading: false,
         isErrorVisible: false
     }
@@ -42,15 +46,15 @@ class signUpScreen extends Component {
 
         //If no username was entered, or all empty spaces, then an error message will pop up
         if (email.trim().length === 0 || password.trim().length === 0) {
-            this.setState({ inputText: "", warningMessage: strings.PleaseFillOutAllFields });
+            this.setState({ inputText: "", fieldsError: true });
 
             //If no button was selected a different error message would appear
         } else if (buttonSelected === "") {
-            this.setState({ warningMessage: strings.NoButtonSelected });
+            this.setState({ buttonError: true });
         } else if (!email.includes("@")) {
-            this.setState({ warningMessage: strings.PleaseEnterAValidEmail });
+            this.setState({ emailError: true });
         } else if (password.length < 6) {
-            this.setState({ warningMessage: strings.ShortPassword });
+            this.setState({ passwordError: true });
         } else {
 
             this.setState({ isLoading: true });
@@ -60,7 +64,7 @@ class signUpScreen extends Component {
             try {
                 const array = await firebase.auth().fetchSignInMethodsForEmail(email);
                 if (array.length > 0) {
-                    this.setState({ warningMessage: strings.EmailExists });
+                    this.setState({ emailExistsError: true });
                     this.setState({ isLoading: false });
                 } else {
                     if (buttonSelected === "Customer") {
@@ -172,20 +176,8 @@ class signUpScreen extends Component {
                                     onPress={() => { this.setState({ buttonSelected: "Customer" }) }} />
                             </View>
                         </View>
+                        <View style={{ flex: 0.001 }}></View>
                         <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
-                            <View style={{ flex: 1, alignItems: 'center' }}>
-                                {
-                                    this.state.warningMessage !== strings.EmailExists ? (
-                                        <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
-                                    ) : (
-                                            <View>
-                                                <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage.substring(0, this.state.warningMessage.indexOf(".") + 1)}</Text>
-                                                <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage.substring(this.state.warningMessage.indexOf(".") + 2)}</Text>
-                                            </View>
-                                        )
-                                }
-
-                            </View>
                             <View style={{ flex: 1 }}></View>
                             <View style={{ flex: 1, alignItems: 'center' }}>
                                 <RoundBlueButton
@@ -204,6 +196,38 @@ class signUpScreen extends Component {
                     <ErrorAlert
                         isVisible={this.state.isErrorVisible}
                         onPress={() => { this.setState({ isErrorVisible: false }) }}
+                        title={strings.Whoops}
+                        message={strings.SomethingWentWrong}
+                    />
+                    <ErrorAlert
+                        isVisible={this.state.fieldsError}
+                        onPress={() => { this.setState({ fieldsError: false }) }}
+                        title={strings.Whoops}
+                        message={strings.PleaseFillOutAllFields}
+                    />
+                    <ErrorAlert
+                        isVisible={this.state.buttonError}
+                        onPress={() => { this.setState({ buttonError: false }) }}
+                        title={strings.Whoops}
+                        message={strings.NoButtonSelected}
+                    />
+                    <ErrorAlert
+                        isVisible={this.state.emailError}
+                        onPress={() => { this.setState({ emailError: false }) }}
+                        title={strings.Whoops}
+                        message={strings.PleaseEnterAValidEmail}
+                    />
+                    <ErrorAlert
+                        isVisible={this.state.passwordError}
+                        onPress={() => { this.setState({ passwordError: false }) }}
+                        title={strings.Whoops}
+                        message={strings.ShortPassword}
+                    />
+                    <ErrorAlert
+                        isVisible={this.state.emailExistsError}
+                        onPress={() => { this.setState({ emailExistsError: false }) }}
+                        title={strings.Whoops}
+                        message={strings.EmailExists}
                     />
                 </SafeAreaView>
             </KeyboardAvoidingView>

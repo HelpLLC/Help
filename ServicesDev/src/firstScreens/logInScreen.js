@@ -25,7 +25,8 @@ class logInScreen extends Component {
         password: "",
 
         //The message which will display if the user types in a phone number which doesn't exist
-        warningMessage: "",
+        infoError: false,
+        fieldsError: false,
 
         //This will determine whether the loading widget appears or not. Initially false
         isLoading: false,
@@ -42,7 +43,7 @@ class logInScreen extends Component {
         Keyboard.dismiss();
         //If no username was entered, or all empty spaces, then an error message will pop up
         if (email.trim().length === 0 || password.trim().length === 0) {
-            this.setState({ warningMessage: strings.PleaseFillOutAllFields });
+            this.setState({ fieldsError: true });
         } else {
 
             //Turns on the loading indicator
@@ -73,7 +74,7 @@ class logInScreen extends Component {
                 if (error.message === "The password is invalid or the user does not have a password." ||
                 error.message === "The email address is badly formatted." ||
                 error.message === "There is no user record corresponding to this identifier. The user may have been deleted.") {
-                    this.setState({ warningMessage: strings.IncorrectInfo, isLoading: false });
+                    this.setState({ infoError: true, isLoading: false });
                 } else {
                     this.setState({ isLoading: false, isErrorVisible: true });
                     FirebaseFunctions.logIssue(error);
@@ -117,11 +118,8 @@ class logInScreen extends Component {
                                 />
                             </View>
                         </View>
-
+                        <View style={{ flex: 0.001 }}></View>
                         <View style={{ flex: 1, alignItems: 'center' }}>
-                            <View style={{ flex: 1 }}>
-                                <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
-                            </View>
 
                             <View style={{ flex: 1 }}>
                                 <RoundBlueButton
@@ -142,6 +140,20 @@ class logInScreen extends Component {
                     <ErrorAlert
                         isVisible={this.state.isErrorVisible}
                         onPress={() => { this.setState({ isErrorVisible: false }) }}
+                        title={strings.Whoops}
+                        message={strings.SomethingWentWrong}
+                    />
+                    <ErrorAlert
+                        isVisible={this.state.fieldsError}
+                        onPress={() => { this.setState({ fieldsError: false }) }}
+                        title={strings.Whoops}
+                        message={strings.PleaseFillOutAllFields}
+                    />
+                    <ErrorAlert
+                        isVisible={this.state.infoError}
+                        onPress={() => { this.setState({ infoError: false }) }}
+                        title={strings.Whoops}
+                        message={strings.IncorrectInfo}
                     />
                 </SafeAreaView>
             </KeyboardAvoidingView>
