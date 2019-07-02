@@ -15,6 +15,7 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import com.horcrux.svg.SvgPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
+import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
@@ -42,7 +43,8 @@ public class MainApplication extends Application implements ReactApplication {
             new RNFirebaseFirestorePackage(),
             new SvgPackage(),
             new RNFirebaseAuthPackage(),
-            new RNFirebaseCrashlyticsPackage()
+            new RNFirebaseCrashlyticsPackage(),
+            new NetInfoPackage()
       );
     }
 
