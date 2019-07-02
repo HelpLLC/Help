@@ -17,7 +17,7 @@ class reportIssueScreen extends Component {
     //and the screen will confirm this, then rerender
     state = {
         userInput: "",
-        warningMessage: "",
+        fieldsError: false,
         isErrorVisible: false
     }
 
@@ -28,7 +28,7 @@ class reportIssueScreen extends Component {
         const { user } = this.props.navigation.state.params;
         const { userInput } = this.state;
         if (userInput.trim() === "") {
-            this.setState({ warningMessage: strings.PleaseFillOutAllFields });
+            this.setState({ fieldsError: true });
         } else {
             try {
                 FirebaseFunctions.reportIssue(user, this.state.userInput);
@@ -65,9 +65,6 @@ class reportIssueScreen extends Component {
                         </View>
                         <View style={{ flex: 0.5 }}></View>
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                            <View style={{ flex: 1, justifyContent: 'center' }}>
-                                <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
-                            </View>
                             <View style={{ flex: 0.025 }}></View>
                             <View style={{ flex: 1 }}>
                                 <RoundBlueButton
@@ -87,6 +84,12 @@ class reportIssueScreen extends Component {
                     onPress={() => { this.setState({ isErrorVisible: false }) }}
                     title={strings.Whoops}
                     message={strings.SomethingWentWrong}
+                />
+                <ErrorAlert
+                    isVisible={this.state.fieldsError}
+                    onPress={() => { this.setState({ fieldsError: false }) }}
+                    title={strings.Whoops}
+                    message={strings.PleaseFillOutAllFields}
                 />
             </KeyboardAvoidingView>
         )

@@ -24,7 +24,7 @@ class editProductScreen extends Component {
         serviceDescription: this.props.navigation.state.params.product.serviceDescription,
         pricing: this.props.navigation.state.params.product.pricing,
         imageSource: this.props.navigation.state.params.product.imageSource,
-        warningMessage: '',
+        fieldsError: false,
         isLoading: false,
         isErrorVisible: false
     }
@@ -56,7 +56,7 @@ class editProductScreen extends Component {
 
         //Tests if any fields have been changed... if not, then it will just return to the last screen
         if (serviceTitle.trim() === "" || serviceDescription.trim() === "" || pricing.trim() == "") {
-            this.setState({ warningMessage: strings.PleaseCompleteAllTheFields });
+            this.setState({ fieldsError: true });
         } else if (serviceTitle === product.serviceTitle &&
             serviceDescription === product.serviceDescription &&
             pricing === product.pricing &&
@@ -163,10 +163,8 @@ class editProductScreen extends Component {
                                     password={false} />
                             </View>
                         </View>
+                        <View style={{ flex: 0.001 }}></View>
                         <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
-                            <View style={{ flex: 1 }}>
-                                <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
-                            </View>
 
                             <View style={{ flex: 1 }}>
                                 <RoundBlueButton
@@ -187,6 +185,12 @@ class editProductScreen extends Component {
                         onPress={() => { this.setState({ isErrorVisible: false }) }}
                         title={strings.Whoops}
                         message={strings.SomethingWentWrong}
+                    />
+                    <ErrorAlert
+                        isVisible={this.state.fieldsError}
+                        onPress={() => { this.setState({ fieldsError: false }) }}
+                        title={strings.Whoops}
+                        message={strings.PleaseCompleteAllTheFields}
                     />
                 </SafeAreaView>
             </KeyboardAvoidingView>

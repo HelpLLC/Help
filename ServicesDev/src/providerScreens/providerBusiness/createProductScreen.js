@@ -26,9 +26,10 @@ class createProductScreen extends Component {
         serviceDescription: '',
         pricing: '',
         imageSource: images.BlankWhite,
-        warningMessage: '',
         isLoading: false,
         isErrorVisible: false,
+        fieldsError: false,
+        imageError: false
     }
 
     //Chooses the image from camera roll or picture and sets it to the image source
@@ -58,12 +59,12 @@ class createProductScreen extends Component {
 
         //If any of the fields are empty, a warning message will display
         if (serviceTitle.trim() === "" || serviceDescription.trim() === "" || pricing.trim() == "") {
-            this.setState({ warningMessage: strings.PleaseCompleteAllTheFields });
+            this.setState({ fieldsError: true });
         } else if (imageSource === images.BlankWhite) {
-            this.setState({ warningMessage: strings.PleaseAddAnImage });
+            this.setState({ imageError: true });
         } else {
             try {
-                this.setState({ isLoading: true, warningMessage: "" });
+                this.setState({ isLoading: true });
                 const { providerID } = this.props.navigation.state.params;
                 await FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, pricing, imageSource, providerID, provider.companyName);
                 this.setState({ isLoading: false });
@@ -168,10 +169,8 @@ class createProductScreen extends Component {
                                     width={Dimensions.get('window').width - 40} />
                             </View>
                         </View>
+                        <View style={{ flex: 0.001 }}></View>
                         <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
-                            <View style={{ flex: 1 }}>
-                                <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
-                            </View>
 
                             <View style={{ flex: 1 }}>
                                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
@@ -197,6 +196,18 @@ class createProductScreen extends Component {
                         onPress={() => { this.setState({ isErrorVisible: false }) }}
                         title={strings.Whoops}
                         message={strings.SomethingWentWrong}
+                    />
+                    <ErrorAlert
+                        isVisible={this.state.fieldsError}
+                        onPress={() => { this.setState({ fieldsError: false }) }}
+                        title={strings.Whoops}
+                        message={strings.PleaseCompleteAllTheFields}
+                    />
+                    <ErrorAlert
+                        isVisible={this.state.imageError}
+                        onPress={() => { this.setState({ imageError: false }) }}
+                        title={strings.Whoops}
+                        message={strings.PleaseAddAnImage}
                     />
                 </SafeAreaView>
             </KeyboardAvoidingView>
