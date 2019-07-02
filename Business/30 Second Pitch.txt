@@ -1,0 +1,14 @@
+30 Second Pitch
+----------------
+1) What does your company do?
+A) At Help, we allow people to order services like lawn mowing and babysitting from 
+businesses that offer those kinds of services.
+
+2) How big is the market for your company?
+A) In the United States, service-producing businesses account for roughly 70% of the GDP,
+giving us about 539 billion dollars worth of business activity per year. Globally, that
+same math gives us a global market of almost 3 trillion dollars per year.
+
+3) How much traction do you have?
+A) I came up with the idea in February, had a beta ready by April, and launched the app
+in June.
