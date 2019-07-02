@@ -12,7 +12,7 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 import firebase from 'react-native-firebase';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorAlert from '../components/ErrorAlert';
-
+import NetInfo from '@react-native-community/netinfo';
 
 class splashScreen extends Component {
 
@@ -20,13 +20,19 @@ class splashScreen extends Component {
     state = {
         isLoading: true,
         isErrorVisible: false,
-        isUserLoggedIn: ""
+        isUserLoggedIn: "",
+        internetConnection: true
     }
 
     //This function will call when the component is mounted to test if a user is currently logged in
     //or not
     async componentDidMount() {
-        await this.isUserLoggedIn();
+        const networkState = await NetInfo.fetch();
+        if (networkState.type === "none" || networkState === "unknown") {
+            this.setState({ internetConnection: false, isLoading: false });
+        } else {
+            await this.isUserLoggedIn();
+        }
     }
 
     //If no user is logged in, the function will return false. If there is one logged in, it will return the
@@ -64,7 +70,7 @@ class splashScreen extends Component {
     }
 
     render() {
-        const { isLoading, isUserLoggedIn, isErrorVisible } = this.state;
+        const { isLoading, isUserLoggedIn, isErrorVisible, internetConnection } = this.state;
         if (isLoading === true) {
             return (
                 <SafeAreaView style={screenStyle.container}>
@@ -76,6 +82,12 @@ class splashScreen extends Component {
                         onPress={() => { this.setState({ isErrorVisible: false }) }}
                         title={strings.Whoops}
                         message={strings.SomethingWentWrong}
+                    />
+                    <ErrorAlert
+                        isVisible={!internetConnection}
+                        onPress={() => { this.forceUpdate() }}
+                        title={strings.Whoops}
+                        message={strings.NoConnection}
                     />
                 </SafeAreaView>
             );

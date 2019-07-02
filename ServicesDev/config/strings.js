@@ -169,6 +169,7 @@ export default {
 
     //------------------- Miscellaneous -----------------
     Whoops: 'Whoops',
-    Ok: 'Ok'
+    Ok: 'Ok',
+    NoConnection: 'Something went wrong. Check your internet connection & try again'
 
 };
