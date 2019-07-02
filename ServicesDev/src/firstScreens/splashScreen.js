@@ -74,6 +74,8 @@ class splashScreen extends Component {
                     <ErrorAlert
                         isVisible={isErrorVisible}
                         onPress={() => { this.setState({ isErrorVisible: false }) }}
+                        title={strings.Whoops}
+                        message={strings.SomethingWentWrong}
                     />
                 </SafeAreaView>
             );
@@ -108,6 +110,8 @@ class splashScreen extends Component {
                     <ErrorAlert
                         isVisible={isErrorVisible}
                         onPress={() => { this.setState({ isErrorVisible: false }) }}
+                        title={strings.Whoops}
+                        message={strings.SomethingWentWrong}
                     />
                 </SafeAreaView>
             );
@@ -120,6 +124,8 @@ class splashScreen extends Component {
                     <ErrorAlert
                         isVisible={isErrorVisible}
                         onPress={() => { this.setState({ isErrorVisible: false }) }}
+                        title={strings.Whoops}
+                        message={strings.SomethingWentWrong}
                     />
                 </SafeAreaView>
             );

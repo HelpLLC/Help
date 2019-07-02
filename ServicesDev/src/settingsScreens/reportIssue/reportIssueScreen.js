@@ -85,6 +85,8 @@ class reportIssueScreen extends Component {
                 <ErrorAlert
                     isVisible={this.state.isErrorVisible}
                     onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    title={strings.Whoops}
+                    message={strings.SomethingWentWrong}
                 />
             </KeyboardAvoidingView>
         )

@@ -142,6 +142,8 @@ class logInScreen extends Component {
                     <ErrorAlert
                         isVisible={this.state.isErrorVisible}
                         onPress={() => { this.setState({ isErrorVisible: false }) }}
+                        title={strings.Whoops}
+                        message={strings.SomethingWentWrong}
                     />
                 </SafeAreaView>
             </KeyboardAvoidingView>
