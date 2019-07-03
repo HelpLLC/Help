@@ -105,6 +105,13 @@ export default {
     Message: 'Message',
     Delete: 'Delete',
     MarkAsComplete: 'Mark as complete',
+    CompleteRequest: 'Complete Request',
+    AreYouSureCompleteRequest: 'Are you sure you want to complete this request?',
+    Complete: 'Complete',
+    Cancel: 'Cancel',
+    DeleteRequest: 'Delete Request',
+    AreYouSureDeleteRequest: 'Are you sure you want to delete this request?',
+    Delete: 'Delete',
 
     //------------------- Edit Product Screen -------------------
     EditTitle: 'Edit Title',
@@ -126,6 +133,11 @@ export default {
     //------------------- Requester Service Screen -------------------
     ServiceRequested: 'Service Requested',
     CancelRequest: 'Cancel Request',
+    RequestService: 'Request Service',
+    AreYouSureRequestService: 'Are you sure you want to request this service?',
+    AreYouSureCancelRequest: 'Are you sure you want to cancel your request for this service?',
+    Yes: 'Yes',
+
 
     //------------------- Requester Side Company Profile Screen -------------------
     CompanyProfile: 'Company Profile',

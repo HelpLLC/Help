@@ -14,6 +14,7 @@ import screenStyle from 'config/styles/screenStyle';
 import { Icon } from 'react-native-elements';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
+import strings from 'config/strings';
 
 class companyProfileScreen extends Component {
 
@@ -159,7 +160,7 @@ class companyProfileScreen extends Component {
                                         //more information about the service
                                         onPress={() => {
                                             this.props.navigation.push('RequesterServiceScreen', {
-                                                product: item,
+                                                productID: item.serviceID,
                                                 requester,
                                                 provider
                                             });

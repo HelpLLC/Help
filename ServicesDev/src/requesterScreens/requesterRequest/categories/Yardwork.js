@@ -5,6 +5,7 @@ import ServiceCard from '../../../components/ServiceCard';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
 import ErrorAlert from '../../../components/ErrorAlert';
+import strings from 'config/strings';
 
 export default class Yardwork extends Component {
 

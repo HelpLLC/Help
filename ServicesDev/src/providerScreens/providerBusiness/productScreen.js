@@ -2,7 +2,7 @@
 //as well as any current requests. You will also be able to access history & edit the product from this
 //screen
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, Dimensions, ScrollView, FlatList, Alert, SafeAreaView } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Dimensions, ScrollView, FlatList, SafeAreaView } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import screenStyle from 'config/styles/screenStyle';
@@ -11,6 +11,7 @@ import colors from 'config/colors';
 import { BoxShadow } from 'react-native-shadow';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
+import OptionPicker from '../../components/OptionPicker';
 
 //The class representing the screen
 class productScreen extends Component {
@@ -22,7 +23,10 @@ class productScreen extends Component {
             isLoading: true,
             currentRequests: [],
             product: "",
-            isErrorVisible: false
+            isErrorVisible: false,
+            isCompleteRequestVisible: false,
+            currentRequestID: "",
+            isDeleteRequestVisible: false
         }
     }
 
@@ -75,76 +79,12 @@ class productScreen extends Component {
         });
     }
 
-    //This method will complete a specific request based on the passed in requester ID
-    markAsComplete(productID, requesterID) {
-        //Will make sure the user wants to mark this request as complete
-        Alert.alert(
-            'Complete Request',
-            'Are you sure you want to complete this request?',
-            [
-                {
-                    text: 'Complete', onPress: () => {
-                        try {
-                            FirebaseFunctions.completeRequest(productID, requesterID);
-                            //Updates the state of the screen to remove the product from
-                            //the screen
-                            const oldArray = this.state.currentRequests;
-                            const indexOfRequest = oldArray.findIndex((request) => {
-                                return request.requesterID === requesterID;
-                            });
-                            oldArray.splice(indexOfRequest, 1);
-                            this.setState({ currentRequests: oldArray });
-                        } catch (error) {
-                            this.setState({ isLoading: false, isErrorVisible: true });
-                            FirebaseFunctions.logIssue(error);
-                        }
-
-                    }
-                },
-
-                { text: 'Cancel', style: 'cancel' },
-            ]
-        );
-    }
-
-    //This method will delete the request WITHOUT completing it based on the passed in ID
-    deleteRequest(productID, requesterID) {
-
-        //Will make sure the user wants to delete this request
-        Alert.alert(
-            'Delete Request',
-            'Are you sure you want to delete this request?',
-            [
-                {
-                    text: 'Delete', onPress: () => {
-                        try {
-                            FirebaseFunctions.deleteRequest(productID, requesterID);
-                            //Updates the state of the screen to remove the product from
-                            //the screen
-                            const oldArray = this.state.currentRequests;
-                            const indexOfRequest = oldArray.findIndex((request) => {
-                                return request.requesterID === requesterID;
-                            });
-                            oldArray.splice(indexOfRequest, 1);
-                            this.setState({ currentRequests: oldArray });
-                        } catch (error) {
-                            this.setState({ isLoading: false, isErrorVisible: true });
-                            FirebaseFunctions.logIssue(error);
-                        }
-                    }
-                },
-
-                { text: 'Cancel', style: 'cancel' },
-            ]
-        );
-    }
-
     //renders the UI
     render() {
 
         //fetches the params passed in (the product, productID)
         const { productID, providerID } = this.props.navigation.state.params;
-        const { isLoading, product, currentRequests } = this.state;
+        const { isLoading, product, currentRequests, isCompleteRequestVisible, isErrorVisible, isDeleteRequestVisible } = this.state;
 
         //If the state is still loading, the spinner will appear
         if (isLoading === true) {
@@ -316,13 +256,23 @@ class productScreen extends Component {
                                                                     height: 70,
                                                                     justifyContent: 'center',
                                                                 }}
-                                                                onPress={() => this.markAsComplete(productID, item.requesterID)}>
+                                                                onPress={() => {
+                                                                    this.setState({
+                                                                        currentRequestID: item.requesterID,
+                                                                        isCompleteRequestVisible: true,  
+                                                                    });
+                                                                }}>
                                                                 <Text style={fontStyles.subTextStyleBlue}>
                                                                     {strings.MarkAsComplete}</Text>
                                                             </TouchableOpacity>
 
                                                             <TouchableOpacity
-                                                                onPress={() => this.deleteRequest(productID, item.requesterID)}>
+                                                                onPress={() => {
+                                                                    this.setState({
+                                                                        currentRequestID: item.requesterID,
+                                                                        isDeleteRequestVisible: true, 
+                                                                    })
+                                                                }}>
                                                                 <Text style={fontStyles.subTextStyleRed}>
                                                                     {strings.Delete}</Text>
                                                             </TouchableOpacity>
@@ -344,8 +294,59 @@ class productScreen extends Component {
 
                         }
                     </View>
+                    <OptionPicker
+                        isVisible={isCompleteRequestVisible}
+                        title={strings.CompleteRequest}
+                        message={strings.AreYouSureCompleteRequest}
+                        confirmText={strings.Complete}
+                        cancelText={strings.Cancel}
+                        confirmOnPress={async () => {
+                            this.setState({ isCompleteRequestVisible: false });
+                            //This method will complete a specific request based on the passed in requester ID
+                            try {
+                                this.setState({ isLoading: true });
+                                await FirebaseFunctions.completeRequest(productID, this.state.currentRequestID);
+                                //Updates the state of the screen to remove the product from
+                                //the screen
+                                const oldArray = this.state.currentRequests;
+                                const indexOfRequest = oldArray.findIndex((request) => {
+                                    return request.requesterID === this.state.currentRequestID;
+                                });
+                                oldArray.splice(indexOfRequest, 1);
+                                this.setState({ currentRequests: oldArray, isLoading: false });
+                            } catch (error) {
+                                this.setState({ isLoading: false, isErrorVisible: true });
+                                FirebaseFunctions.logIssue(error);
+                            }
+                        }}
+                        cancelOnPress={() => { this.setState({ isCompleteRequestVisible: false }); }} />
+                    <OptionPicker
+                        isVisible={isDeleteRequestVisible}
+                        title={strings.DeleteRequest}
+                        message={strings.AreYouSureDeleteRequest}
+                        confirmText={strings.Delete}
+                        cancelText={strings.Cancel}
+                        confirmOnPress={async () => {
+                            this.setState({ isDeleteRequestVisible: false });
+                            //This method will delete a specific request based on the passed in requester ID
+                            try {
+                                FirebaseFunctions.deleteRequest(productID, this.state.currentRequestID);
+                                //Updates the state of the screen to remove the product from
+                                //the screen
+                                const oldArray = this.state.currentRequests;
+                                const indexOfRequest = oldArray.findIndex((request) => {
+                                    return request.requesterID === this.state.currentRequestID;
+                                });
+                                oldArray.splice(indexOfRequest, 1);
+                                this.setState({ currentRequests: oldArray });
+                            } catch (error) {
+                                this.setState({ isLoading: false, isErrorVisible: true });
+                                FirebaseFunctions.logIssue(error);
+                            }
+                        }}
+                        cancelOnPress={() => { this.setState({ isDeleteRequestVisible: false }); }} />
                     <ErrorAlert
-                        isVisible={this.state.isErrorVisible}
+                        isVisible={isErrorVisible}
                         onPress={() => { this.setState({ isErrorVisible: false }) }}
                         title={strings.Whoops}
                         message={strings.SomethingWentWrong}

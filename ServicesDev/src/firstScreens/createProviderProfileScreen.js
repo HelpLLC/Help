@@ -22,7 +22,9 @@ class createProviderProfileScreen extends Component {
     state = {
         businessName: "",
         businessInfo: "",
-        warningMessage: "",
+        companyNameTakenError: false,
+        nameError: false,
+        descriptionError: false,
         isLoading: false,
         isErrorVisible: false
     }
@@ -52,11 +54,11 @@ class createProviderProfileScreen extends Component {
         //If either of the two inputs is empty, an error message will be displayed
         if (this.state.businessName.trim() === "") {
 
-            this.setState({ warningMessage: strings.PleaseEnterACompanyName });
+            this.setState({ nameError: true });
 
         } else if (this.state.businessInfo.trim() === "") {
 
-            this.setState({ warningMessage: strings.PleaseEnterADescription });
+            this.setState({ descriptionError: true });
 
         } else {
 
@@ -70,7 +72,7 @@ class createProviderProfileScreen extends Component {
             try {
                 const isCompanyNameTaken = await this.isCompanyNameTaken(businessName);
                 if (isCompanyNameTaken === true) {
-                    this.setState({ warningMessage: strings.CompanyNameTakenPleaseChooseAnotherName, isLoading: false });
+                    this.setState({ companyNameTakenError: true, isLoading: false });
                 } else {
 
                     //Creates the account and then navigates to the correct screens while passing in
@@ -126,11 +128,8 @@ class createProviderProfileScreen extends Component {
                                     value={this.state.businessInfo} />
                             </View>
                         </View>
-
+                        <View style={{ flex: 0.001 }}></View>
                         <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
-                            <View style={{ flex: 1, justifyContent: 'center' }}>
-                                <Text style={fontStyles.subTextStyleRed}>{this.state.warningMessage}</Text>
-                            </View>
 
                             <View style={{ flex: 1, alignItems: 'center' }}>
                                 <RoundBlueButton
@@ -152,6 +151,24 @@ class createProviderProfileScreen extends Component {
                         onPress={() => { this.setState({ isErrorVisible: false }) }}
                         title={strings.Whoops}
                         message={strings.SomethingWentWrong}
+                    />
+                    <ErrorAlert
+                        isVisible={this.state.nameError}
+                        onPress={() => { this.setState({ nameError: false }) }}
+                        title={strings.Whoops}
+                        message={strings.PleaseEnterACompanyName}
+                    />
+                    <ErrorAlert
+                        isVisible={this.state.descriptionError}
+                        onPress={() => { this.setState({ descriptionError: false }) }}
+                        title={strings.Whoops}
+                        message={strings.PleaseEnterADescription}
+                    />
+                    <ErrorAlert
+                        isVisible={this.state.companyNameTakenError}
+                        onPress={() => { this.setState({ companyNameTakenError: false }) }}
+                        title={strings.Whoops}
+                        message={strings.CompanyNameTakenPleaseChooseAnotherName}
                     />
                 </SafeAreaView>
             </KeyboardAvoidingView>

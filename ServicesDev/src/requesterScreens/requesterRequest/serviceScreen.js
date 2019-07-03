@@ -13,6 +13,7 @@ import { BoxShadow } from 'react-native-shadow';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import ErrorAlert from '../../components/ErrorAlert';
+import OptionPicker from '../../components/OptionPicker';
 
 class serviceScreen extends Component {
 
@@ -23,7 +24,9 @@ class serviceScreen extends Component {
             isLoading: true,
             product: "",
             isRequested: "",
-            isErrorVisible: false
+            isErrorVisible: false,
+            isRequestServiceVisible: false,
+            isCancelRequestVisible: false
         }
     }
 
@@ -77,69 +80,9 @@ class serviceScreen extends Component {
 
     }
 
-    //This method will request this service from the company providing it by pushing the request to the
-    //provider.
-    //After confirming to the requester that the request has been processed, the program will
-    //automatically send a message to the provider with a default message saying that this requester wants
-    //to buy this service. Then will push the requester to the chats screen.
-    requestService() {
-
-        //Will make sure that the user wants to request the service
-        Alert.alert(
-            'Request Service',
-            'Are you sure you want to request this service?',
-            [
-                {
-                    text: 'Request', onPress: () => {
-                        const { product } = this.state;
-                        const { requester } = this.props.navigation.state.params;
-                        try {
-                            FirebaseFunctions.requestService(product.serviceID, requester);
-                            this.setState({ isRequested: true });
-                        } catch (error) {
-                            this.setState({ isLoading: false, isErrorVisible: true });
-                            FirebaseFunctions.logIssue(error);
-                        }
-
-                    }
-                },
-
-                { text: 'Cancel', style: 'cancel' },
-            ]
-        );
-    }
-
-    //This method will cancel the request by making sure the user wants to cancel it
-    cancelRequest() {
-        //Will make sure that the user wants to request the service
-        Alert.alert(
-            'Cancel Request',
-            'Are you sure you want to cancel your request for this service?',
-            [
-                {
-                    text: 'Yes', onPress: () => {
-                        const { product } = this.state;
-                        const { requester } = this.props.navigation.state.params;
-                        try {
-                            FirebaseFunctions.deleteRequest(product.serviceID, requester.requesterID);
-                            this.setState({ isRequested: false });
-                        } catch (error) {
-                            this.setState({ isLoading: false, isErrorVisible: true });
-                            FirebaseFunctions.logIssue(error);
-                        }
-
-                    }
-                },
-
-                { text: 'No', style: 'cancel' },
-            ]
-        );
-    }
-
-
     //Renders the UI
     render() {
-        const { product, isLoading, isRequested } = this.state;
+        const { product, isLoading, isRequested, isCancelRequestVisible, isRequestServiceVisible } = this.state;
         const { requester, provider } = this.props.navigation.state.params;
         if (isLoading === true || isRequested === "") {
             return (
@@ -234,7 +177,7 @@ class serviceScreen extends Component {
                                         title={strings.Request}
                                         style={roundBlueButtonStyle.MediumSizeButton}
                                         textStyle={fontStyles.bigTextStyleWhite}
-                                        onPress={() => { this.requestService() }} />
+                                        onPress={() => { this.setState({ isRequestServiceVisible: true }) }} />
                                 </View>
                             ) : (
                                     <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
@@ -242,7 +185,7 @@ class serviceScreen extends Component {
                                             <Text style={fontStyles.bigTextStyleBlue}>{strings.ServiceRequested}</Text>
                                         </View>
                                         <TouchableOpacity
-                                            onPress={() => this.cancelRequest()}
+                                            onPress={() => this.setState({ isCancelRequestVisible: true })}
                                             style={{ flex: 1 }}>
                                             <Text style={fontStyles.mainTextStyleRed}>{strings.CancelRequest}</Text>
                                         </TouchableOpacity>
@@ -257,6 +200,52 @@ class serviceScreen extends Component {
                         title={strings.Whoops}
                         message={strings.SomethingWentWrong}
                     />
+                    <OptionPicker
+                        isVisible={isRequestServiceVisible}
+                        title={strings.RequestService}
+                        message={strings.AreYouSureRequestService}
+                        confirmText={strings.Request}
+                        cancelText={strings.Cancel}
+                        confirmOnPress={async () => {
+                            this.setState({ isRequestServiceVisible: false, isLoading: true });
+                            //This method will request this service from the company providing it by pushing the request to the
+                            //provider.
+                            //After confirming to the requester that the request has been processed, the program will
+                            //automatically send a message to the provider with a default message saying that this requester wants
+                            //to buy this service. Then will push the requester to the chats screen.
+                            const { product } = this.state;
+                            const { requester } = this.props.navigation.state.params;
+                            try {
+                                await FirebaseFunctions.requestService(product.serviceID, requester);
+                                this.setState({ isRequested: true, isLoading: false });
+                            } catch (error) {
+                                this.setState({ isLoading: false, isErrorVisible: true });
+                                FirebaseFunctions.logIssue(error);
+                            }
+                        }}
+                        cancelOnPress={() => { this.setState({ isRequestServiceVisible: false }); }} />
+                    <OptionPicker
+                        isVisible={isCancelRequestVisible}
+                        title={strings.CancelRequest}
+                        message={strings.AreYouSureCancelRequest}
+                        confirmText={strings.Yes}
+                        cancelText={strings.Cancel}
+                        confirmOnPress={async () => {
+                            this.setState({ isCancelRequestVisible: false, isLoading: true });
+                            //This method will cancel the request by making sure the user wants to cancel it
+                            const { product } = this.state;
+                            const { requester } = this.props.navigation.state.params;
+                            try {
+                                await FirebaseFunctions.deleteRequest(product.serviceID, requester.requesterID);
+                                this.setState({ isRequested: false, isLoading: false });
+                            } catch (error) {
+                                this.setState({ isLoading: false, isErrorVisible: true });
+                                FirebaseFunctions.logIssue(error);
+                            }
+
+                        }
+                        }
+                        cancelOnPress={() => { this.setState({ isCancelRequestVisible: false }); }} />
                 </SafeAreaView>
             );
         }
