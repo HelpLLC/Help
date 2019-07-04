@@ -4,7 +4,7 @@ import { Dimensions, Platform } from 'react-native';
 
 export default {
     style: {
-        height: 83.5,
+        height: (Dimensions.get('window').height * 0.12),
         flexDirection: 'row',
         width: Dimensions.get('window').width,
         justifyContent: 'space-between',

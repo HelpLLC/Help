@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 class LoadingSpinner extends Component {
     render() {
         return (
-            <View style={{ marginTop: 20 }}>
+            <View>
                 <Spinner
                     isVisible={this.props.isVisible}
                     size={60}

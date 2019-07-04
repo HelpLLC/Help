@@ -202,7 +202,7 @@ class productScreen extends Component {
                                     }}>
                                         <View>
                                             <View style={{ flex: 0 }}>
-                                                <Text style={fontStyles.mainTextStyleRed}>
+                                                <Text style={fontStyles.mainTextStyleBlack}>
                                                     {currentRequests.length}
                                                     {
                                                         currentRequests.length > 1 ?

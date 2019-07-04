@@ -2,7 +2,7 @@
 //It will show the username of the person you are chatting with along with a preview of the most recent
 //message. It will also have some compoenent on the right to indicate an onPress method
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text, Dimensions } from 'react-native';
 import chatCardStyle from 'config/styles/componentStyles/chatCardStyle';
 import PropTypes from 'prop-types';
 import fontStyles from 'config/styles/fontStyles';
@@ -12,25 +12,23 @@ class ChatCard extends Component {
 
     //Renders the component
     render() {
-
         //The props for this component will be a username, preview text, and a component and an onPress
         //method
-        const { username, previewText, comp, onPress } = this.props;
+        const { username, previewText, onPress } = this.props;
 
         return (
             <TouchableOpacity onPress={onPress}>
 
                 <View style={chatCardStyle.style}>
+                    <View style={{ flex: 0.05 }}></View>
                     <View style={{
+                        flex: 1,
+                        alignItems: 'flex-start',
                         flexDirection: 'column',
                         justifyContent: 'space-evenly',
-                        paddingLeft: 30
                     }}>
-                        <Text style={[fontStyles.mainTextStyleBlack, { paddingBottom: 3 }]}>{username}</Text>
+                        <Text style={fontStyles.mainTextStyleBlack}>{username}</Text>
                         <Text style={fontStyles.subTextStyleGray}>{previewText}</Text>
-                    </View>
-                    <View style={{ paddingRight: 30, paddingBottom: 10 }}>
-                        {comp}
                     </View>
                 </View>
 

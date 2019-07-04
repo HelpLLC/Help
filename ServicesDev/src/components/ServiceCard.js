@@ -33,7 +33,7 @@ class ServiceCard extends Component {
                 alignItems: 'center',
                 justifyContent: 'center'
             }}>
-                <View style={{ marginBottom: 30 }}>
+                <View style={{  }}>
                     <BoxShadow setting={{
                         width: Dimensions.get('window').width - 40,
                         height: 150,
@@ -45,17 +45,20 @@ class ServiceCard extends Component {
                         y: 5
                     }}>
                         <View style={serviceCardStyle.style}>
-                            <Image
-                                source={image}
-                                style={{
-                                    width: (Dimensions.get('window').width - 40) * 0.45,
-                                    height: 138,
-                                    borderRadius: 23.5
-                                }}
-                            />
+                            <View style={{ flex: 1 }}>
+                                <Image
+                                    source={image}
+                                    style={{
+                                        width: (Dimensions.get('window').width - 40) * 0.45,
+                                        height: 138,
+                                        borderRadius: 23.5
+                                    }}
+                                />
+                            </View>
+                            <View style={{ flex: 0.05 }}></View>
                             <View style={{
                                 flexDirection: 'column', flex: 1, alignItems: 'flex-start',
-                                justifyContent: 'space-evenly', paddingLeft: 20
+                                justifyContent: 'space-evenly'
                             }}>
                                 <Text style={fontStyles.mainTextStyleBlack}>{serviceTitle}</Text>
                                 {
@@ -88,7 +91,7 @@ class ServiceCard extends Component {
                         value={numCurrentRequests}
                         badgeStyle={{ width: 40, height: 40, borderRadius: 20 }}
                         textStyle={fontStyles.mainTextStyleWhite}
-                        containerStyle={{ position: 'absolute', top: 4, right: 8 }}
+                        containerStyle={{ position: 'absolute', top: 16, right: 12 }}
                     />
                 ) : (
                         <View></View>

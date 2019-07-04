@@ -15,12 +15,14 @@ class WhiteCard extends Component {
             //on the left, and some icon or component on the right
             <TouchableOpacity onPress={() => { onPress() }}>
                 <View style={style}>
-                    <View style={{ flexDirection: 'column', paddingLeft: 15 }}>
+                    <View style={{ flex: 0.1 }}></View>
+                    <View style={{ flexDirection: 'column', flex: 1, alignItems: 'flex-start' }}>
                         <Text style={mainTextStyle}>{text}</Text>
                     </View>
-                    <View style={{ paddingRight: 15 }}>
+                    <View style={{ flex: 1.3, alignItems: 'flex-end' }}>
                         {comp}
                     </View>
+                    <View style={{ flex: 0.1 }}></View>
                 </View>
             </TouchableOpacity>
         );

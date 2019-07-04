@@ -1,7 +1,7 @@
 //This component will represest a single lined text input that will have a bottom border
 //color and a placeholder
 import React, { Component } from 'react';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, Dimensions } from 'react-native';
 import colors from 'config/colors';
 import PropTypes from 'prop-types';
 
@@ -23,7 +23,7 @@ class OneLineTextInput extends Component {
                         borderLeftColor: colors.lightGray,
                         borderRightColor: colors.lightGray,
                         borderTopColor: colors.lightGray,
-                        width: width ? width : 250
+                        width: width ? width : (Dimensions.get('window').width * 0.6)
                     }}
                     secureTextEntry={password}
                     value={value}

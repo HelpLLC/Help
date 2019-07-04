@@ -42,7 +42,7 @@ class aboutScreen extends Component {
                             style={whiteCardStyle.whiteCardStyle}
                             text={strings.Contact}
                             mainTextStyle={fontStyles.subTextStyleBlack}
-                            comp={<Text style={fontStyles.subTextStyleBlack}>
+                            comp={<Text style={fontStyles.subTextStyleBlack} numberOfLines={1} >
                                 {strings.ContactEmail}</Text>}
                             onPress={() => { }}
                         />
