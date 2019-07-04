@@ -70,10 +70,10 @@ class logInScreen extends Component {
                     });
                 }
             } catch (error) {
-                
+
                 if (error.message === "The password is invalid or the user does not have a password." ||
-                error.message === "The email address is badly formatted." ||
-                error.message === "There is no user record corresponding to this identifier. The user may have been deleted.") {
+                    error.message === "The email address is badly formatted." ||
+                    error.message === "There is no user record corresponding to this identifier. The user may have been deleted.") {
                     this.setState({ infoError: true, isLoading: false });
                 } else {
                     this.setState({ isLoading: false, isErrorVisible: true });

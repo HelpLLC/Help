@@ -33,7 +33,7 @@ class ServiceCard extends Component {
                 alignItems: 'center',
                 justifyContent: 'center'
             }}>
-                <View style={{  }}>
+                <View style={{}}>
                     <BoxShadow setting={{
                         width: Dimensions.get('window').width - 40,
                         height: 150,

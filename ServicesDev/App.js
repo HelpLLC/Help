@@ -10,7 +10,7 @@ export default class App extends Component {
     //Ignores a specific warning
     YellowBox.ignoreWarnings(['ViewPagerAndroid']);
     return (
-          <MainStackNavigator />
+      <MainStackNavigator />
     );
   }
 };

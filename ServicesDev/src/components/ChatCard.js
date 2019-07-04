@@ -2,7 +2,7 @@
 //It will show the username of the person you are chatting with along with a preview of the most recent
 //message. It will also have some compoenent on the right to indicate an onPress method
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Text, Dimensions } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import chatCardStyle from 'config/styles/componentStyles/chatCardStyle';
 import PropTypes from 'prop-types';
 import fontStyles from 'config/styles/fontStyles';

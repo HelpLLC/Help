@@ -3,7 +3,6 @@
 import React from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import splashScreen from './splashScreen';
-import { SafeAreaView } from 'react-native';
 import providerScreensNavigator from '../providerScreens/providerScreensNavigator';
 import requesterScreensNavigator from '../requesterScreens/requesterScreensNavigator';
 import logInScreen from './logInScreen';
@@ -58,7 +57,7 @@ const routeConfig = {
                 <TopBanner
                     title={strings.SignUp}
                     leftIconName="angle-left"
-                    leftOnPress={() => { 
+                    leftOnPress={() => {
                         //Method will go back to the splash screen
                         navigation.goBack();
                     }} />

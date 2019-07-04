@@ -1,6 +1,5 @@
 //This navigator represents the bottom tab in which the requester will be able to navigate from
 //screen to screen. It will lead to the settings screen, request screen, and the chats screen.
-import React from 'react';
 import { createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
 import chatsScreen from '../chats/chatsScreen';
 import settingsScreens from '../settingsScreens/settingsScreen';

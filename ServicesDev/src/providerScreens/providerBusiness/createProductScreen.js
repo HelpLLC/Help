@@ -2,7 +2,7 @@
 //clicking the plus sign, or clicking create on the business's first product. It will allow the user
 //to give the product a picture from their camera roll, and a name and a description and a price
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, Keyboard } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, Keyboard } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../../components/RoundBlueButton';
