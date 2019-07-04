@@ -2,7 +2,7 @@
 //an icon, a title, and another icon that will all be equally seperated
 import React, { Component } from 'React';
 import PropTypes from 'prop-types';
-import { Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Text, View, TouchableOpacity, SafeAreaView, Dimensions } from 'react-native';
 import colors from 'config/colors';
 import { Icon } from 'react-native-elements';
 import topBannerStyle from 'config/styles/componentStyles/topBannerStyle';
@@ -16,7 +16,14 @@ class TopBanner extends Component {
         return (
             <SafeAreaView>
                 <View style={topBannerStyle.style}>
-                    <TouchableOpacity style={{ paddingLeft: 25 }}
+                    <View style={{ flex: 0.2 }}></View>
+                    <TouchableOpacity
+                        style={{
+                            flex: 1,
+                            justifyContent: 'center',
+                            alignItems: 'flex-start',
+                            height: (Dimensions.get('window').height * 0.12)
+                        }}
                         onPress={() => { leftOnPress() }}>
                         <Icon
                             name={leftIconName}
@@ -24,10 +31,18 @@ class TopBanner extends Component {
                             size={40}
                             color={colors.lightBlue} />
                     </TouchableOpacity>
-                    <View>
+                    <View style={{ flex: 0.2 }}></View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={fontStyles.bigTextStyleBlue}>{title}</Text>
                     </View>
-                    <TouchableOpacity style={{ paddingRight: 25 }}
+                    <View style={{ flex: 0.2 }}></View>
+                    <TouchableOpacity
+                        style={{
+                            flex: 1,
+                            justifyContent: 'center',
+                            alignItems: 'flex-end',
+                            height: (Dimensions.get('window').height * 0.12)
+                        }}
                         onPress={() => { rightOnPress() }}>
                         <Icon
                             name={rightIconName}
@@ -35,6 +50,7 @@ class TopBanner extends Component {
                             size={40}
                             color={colors.lightBlue} />
                     </TouchableOpacity>
+                    <View style={{ flex: 0.2 }}></View>
                 </View>
             </SafeAreaView>
         );
