@@ -32,7 +32,7 @@ class TopBanner extends Component {
                             color={colors.lightBlue} />
                     </TouchableOpacity>
                     <View style={{ flex: 0.2 }}></View>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={fontStyles.bigTextStyleBlue}>{title}</Text>
                     </View>
                     <View style={{ flex: 0.2 }}></View>

@@ -9,14 +9,13 @@ import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import OneLineTextInput from '../../components/OneLineTextInput';
 import RoundTextInput from '../../components/RoundTextInput';
-import { BoxShadow } from 'react-native-shadow';
 import images from 'config/images/images';
 import ImagePicker from 'react-native-image-picker';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import strings from 'config/strings';
-import colors from 'config/colors';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
+import ImageWithBorder from '../../components/ImageWithBorder';
 
 class createProductScreen extends Component {
 
@@ -102,33 +101,15 @@ class createProductScreen extends Component {
                                         placeholder={strings.GiveItATitleDotDotDot}
                                         value={this.state.serviceTitle}
                                         password={false}
-                                        width={140}
-                                        pass />
+                                        width={140} />
                                 </View>
                             </View>
 
                             <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                                <BoxShadow setting={{
-                                    width: 140,
-                                    height: 110,
-                                    color: colors.gray,
-                                    border: 10,
-                                    radius: 50,
-                                    opacity: 0.2,
-                                    x: 0,
-                                    y: 5
-                                }}>
-                                    <Image
-                                        source={this.state.imageSource}
-                                        style={{
-                                            width: 140,
-                                            height: 110,
-                                            borderColor: colors.lightBlue,
-                                            borderWidth: 6,
-                                            borderRadius: 50
-                                        }} />
-                                </BoxShadow>
-
+                                <ImageWithBorder
+                                    width={Dimensions.get('window').width * 0.33}
+                                    height={Dimensions.get('window').height * 0.16}
+                                    imageSource={this.state.imageSource} />
                                 <TouchableOpacity
                                     onPress={() => {
                                         Keyboard.dismiss();

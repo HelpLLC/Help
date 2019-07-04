@@ -2,14 +2,14 @@
 //the date and the customer name, but in the future, this will show ratings/reviews/tips, and other
 //factors.
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, FlatList, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, Dimensions, FlatList, ScrollView, SafeAreaView } from 'react-native';
 import WhiteCard from '../../components/WhiteCard';
 import whiteCardStyle from 'config/styles/componentStyles/whiteCardStyle';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
-import { BoxShadow } from 'react-native-shadow';
+import ImageWithBorder from '../../components/ImageWithBorder';
 
 
 //The class for this screen
@@ -38,26 +38,10 @@ class productHistoryScreen extends Component {
 
                         <Text style={fontStyles.bigTextStyleBlack}>{product.serviceTitle}</Text>
 
-                        <BoxShadow setting={{
-                            width: 140,
-                            height: 110,
-                            color: colors.gray,
-                            border: 10,
-                            radius: 50,
-                            opacity: 0.2,
-                            x: 0,
-                            y: 5
-                        }}>
-                            <Image
-                                source={product.imageSource}
-                                style={{
-                                    width: 140,
-                                    height: 110,
-                                    borderColor: colors.lightBlue,
-                                    borderWidth: 6,
-                                    borderRadius: 50,
-                                }} />
-                        </BoxShadow>
+                        <ImageWithBorder
+                            width={Dimensions.get('window').width * 0.33}
+                            height={Dimensions.get('window').height * 0.16}
+                            imageSource={product.imageSource} />
 
                     </View>
                     <View style={{ flex: 0.025 }}></View>

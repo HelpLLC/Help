@@ -1,20 +1,19 @@
 //This screen will be the one that allows the user to edit the product or to even delete the product
 //itself.
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, TouchableOpacity, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import OneLineTextInput from '../../components/OneLineTextInput';
 import RoundTextInput from '../../components/RoundTextInput';
-import { BoxShadow } from 'react-native-shadow';
 import ImagePicker from 'react-native-image-picker';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import strings from 'config/strings';
 import ErrorAlert from '../../components/ErrorAlert';
-import colors from 'config/colors';
+import ImageWithBorder from '../../components/ImageWithBorder';
 
 class editProductScreen extends Component {
 
@@ -85,7 +84,7 @@ class editProductScreen extends Component {
             <KeyboardAvoidingView enabled behavior="padding" style={screenStyle.container}>
                 <SafeAreaView>
                     <View>
-                        <View style={{ flex: 0.1 }}></View>
+                        <View style={{ flex: 0.25 }}></View>
                         <View style={{
                             flexDirection: 'row',
                             justifyContent: 'space-between',
@@ -107,26 +106,10 @@ class editProductScreen extends Component {
                             </View>
 
                             <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                                <BoxShadow setting={{
-                                    width: 140,
-                                    height: 110,
-                                    color: colors.gray,
-                                    border: 10,
-                                    radius: 50,
-                                    opacity: 0.2,
-                                    x: 0,
-                                    y: 5
-                                }}>
-                                    <Image
-                                        source={this.state.imageSource}
-                                        style={{
-                                            width: 140,
-                                            height: 110,
-                                            borderColor: colors.lightBlue,
-                                            borderWidth: 6,
-                                            borderRadius: 50
-                                        }} />
-                                </BoxShadow>
+                                <ImageWithBorder
+                                    width={Dimensions.get('window').width * 0.33}
+                                    height={Dimensions.get('window').height * 0.16}
+                                    imageSource={this.state.imageSource} />
 
                                 <TouchableOpacity
                                     onPress={() => { this.chooseImage() }}

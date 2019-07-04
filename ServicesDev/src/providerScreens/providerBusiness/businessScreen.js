@@ -3,7 +3,7 @@
 //first time that the user logs in or if they do not yet have products, then the screen will 
 //display prompting the user to sign in.
 import React, { Component } from 'react';
-import { View, ScrollView, Text, Dimensions, TouchableOpacity, Image, FlatList, SafeAreaView } from 'react-native';
+import { View, ScrollView, Text, Dimensions, TouchableOpacity, FlatList, SafeAreaView } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import colors from 'config/colors';
@@ -14,9 +14,9 @@ import TopBanner from '../../components/TopBanner';
 import ServiceCard from '../../components/ServiceCard';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import fontStyles from 'config/styles/fontStyles';
-import { BoxShadow } from 'react-native-shadow';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
+import ImageWithBorder from '../../components/ImageWithBorder';
 
 class businessScreen extends Component {
 
@@ -82,7 +82,6 @@ class businessScreen extends Component {
     }
 
     render() {
-
         //Gets the provider & the products from the state
         const { isLoading, providerProducts, serviceIDsLength, provider } = this.state;
         //Stores the top part of this view
@@ -169,26 +168,10 @@ class businessScreen extends Component {
                     </View>
 
                     <View style={{ flex: 1, justifyContent: 'center' }}>
-                        <BoxShadow setting={{
-                            width: 280,
-                            height: 160,
-                            color: colors.gray,
-                            border: 10,
-                            radius: 50,
-                            opacity: 0.2,
-                            x: 0,
-                            y: 5
-                        }}>
-                            <Image
-                                source={images.LawnMowing}
-                                style={{
-                                    width: 280,
-                                    height: 160,
-                                    borderColor: colors.lightBlue,
-                                    borderWidth: 6,
-                                    borderRadius: 50,
-                                }} />
-                        </BoxShadow>
+                        <ImageWithBorder
+                            width={Dimensions.get('window').width * 0.65}
+                            height={Dimensions.get('window').height * 0.22}
+                            imageSource={images.LawnMowing} />
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center' }}>
                         <RoundBlueButton

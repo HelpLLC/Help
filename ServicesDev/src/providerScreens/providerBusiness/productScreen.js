@@ -2,16 +2,16 @@
 //as well as any current requests. You will also be able to access history & edit the product from this
 //screen
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, Dimensions, ScrollView, FlatList, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions, ScrollView, FlatList, SafeAreaView } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import colors from 'config/colors';
-import { BoxShadow } from 'react-native-shadow';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
 import OptionPicker from '../../components/OptionPicker';
+import ImageWithBorder from '../../components/ImageWithBorder';
 
 //The class representing the screen
 class productScreen extends Component {
@@ -146,29 +146,10 @@ class productScreen extends Component {
                                         {strings.History}</Text>
                                 </TouchableOpacity>
                             </View>
-
-                            <View style={{}}>
-                                <BoxShadow setting={{
-                                    width: 140,
-                                    height: 110,
-                                    color: colors.gray,
-                                    border: 10,
-                                    radius: 50,
-                                    opacity: 0.2,
-                                    x: 0,
-                                    y: 5
-                                }}>
-                                    <Image
-                                        source={product.imageSource}
-                                        style={{
-                                            width: 140,
-                                            height: 110,
-                                            borderColor: colors.lightBlue,
-                                            borderWidth: 6,
-                                            borderRadius: 50
-                                        }} />
-                                </BoxShadow>
-                            </View>
+                            <ImageWithBorder
+                                width={(Dimensions.get('window').width * 0.31)}
+                                height={(Dimensions.get('window').height * 0.15)}
+                                imageSource={product.imageSource} />
                         </View>
                         <View style={{ flex: 0.025 }}></View>
                         <View style={{
@@ -259,7 +240,7 @@ class productScreen extends Component {
                                                                 onPress={() => {
                                                                     this.setState({
                                                                         currentRequestID: item.requesterID,
-                                                                        isCompleteRequestVisible: true,  
+                                                                        isCompleteRequestVisible: true,
                                                                     });
                                                                 }}>
                                                                 <Text style={fontStyles.subTextStyleBlue}>
@@ -270,7 +251,7 @@ class productScreen extends Component {
                                                                 onPress={() => {
                                                                     this.setState({
                                                                         currentRequestID: item.requesterID,
-                                                                        isDeleteRequestVisible: true, 
+                                                                        isDeleteRequestVisible: true,
                                                                     })
                                                                 }}>
                                                                 <Text style={fontStyles.subTextStyleRed}>

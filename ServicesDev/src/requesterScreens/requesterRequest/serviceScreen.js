@@ -2,18 +2,18 @@
 //of the company providing it, etc. There will be a button at the bottom of the screen allowing the 
 //requester to request the service.
 import React, { Component } from 'react';
-import { View, Dimensions, TouchableOpacity, Text, Image, Alert, SafeAreaView } from 'react-native';
+import { View, Dimensions, TouchableOpacity, Text, SafeAreaView } from 'react-native';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import { BoxShadow } from 'react-native-shadow';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import ErrorAlert from '../../components/ErrorAlert';
 import OptionPicker from '../../components/OptionPicker';
+import ImageWithBorder from '../../components/ImageWithBorder';
 
 class serviceScreen extends Component {
 
@@ -129,26 +129,10 @@ class serviceScreen extends Component {
                             </View>
 
                             <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}>
-                                <BoxShadow setting={{
-                                    width: 140,
-                                    height: 110,
-                                    color: colors.gray,
-                                    border: 10,
-                                    radius: 50,
-                                    opacity: 0.2,
-                                    x: 0,
-                                    y: 5
-                                }}>
-                                    <Image
-                                        source={product.imageSource}
-                                        style={{
-                                            width: 140,
-                                            height: 110,
-                                            borderColor: colors.lightBlue,
-                                            borderWidth: 6,
-                                            borderRadius: 50
-                                        }} />
-                                </BoxShadow>
+                                <ImageWithBorder
+                                    width={(Dimensions.get('window').width * 0.31)}
+                                    height={(Dimensions.get('window').height * 0.15)}
+                                    imageSource={product.imageSource} />
                             </View>
                         </View>
                         <View style={{
