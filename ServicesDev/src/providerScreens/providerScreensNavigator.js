@@ -7,7 +7,6 @@ import chatsScreen from '../chats/chatsScreen';
 import businessScreen from './providerBusiness/businessScreen';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
-import TopBanner from '../components/TopBanner';
 import colors from 'config/colors';
 
 //will configure the routes of each screen title to go to the correct screen when clicked on.

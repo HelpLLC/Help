@@ -1,7 +1,7 @@
 //This is the screen that will pop up when users first come to sign up for the app, it will
 //ask for an email and a password, and what type of account they want to create
 import React, { Component } from 'react';
-import { View, Text, Dimensions, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Dimensions, SafeAreaView, KeyboardAvoidingView, Keyboard } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
@@ -39,6 +39,8 @@ class signUpScreen extends Component {
     //This method signs up the user & creates an account for them based on what they chose and their
     //username
     async signUp() {
+
+        Keyboard.dismiss();
         //fetches the entered email and password
         let { email, password, buttonSelected } = this.state;
         email = email.trim();

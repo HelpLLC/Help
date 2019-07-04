@@ -190,7 +190,7 @@ const routeConfig = {
 //The navigation config containing the initial route name
 const navigatorConfig = {
     initialRouteName: 'FirstScreens',
-    gesturesEnabled: false
+    gesturesEnabled: false,
 };
 
 //Creates & exports the stack navigator

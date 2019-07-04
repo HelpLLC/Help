@@ -1,7 +1,7 @@
 //This screen will allow the user to edit his/her company profile... which includes the name of
 //of the business and the description
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, SafeAreaView, KeyboardAvoidingView, Keyboard } from 'react-native';
 import OneLineTextInput from '../../components/OneLineTextInput';
 import fontStyles from 'config/styles/fontStyles';
 import RoundTextInput from '../../components/RoundTextInput';
@@ -28,6 +28,7 @@ class editCompanyProfileScreen extends Component {
     //Saves the edited company profile to the redux persist state
     async saveCompanyInfo() {
 
+        Keyboard.dismiss();
         //retrieves what was entered along with the current provider
         const { provider, providerID } = this.props.navigation.state.params;
         const newBusinessName = this.state.businessName;

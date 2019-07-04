@@ -34,6 +34,7 @@ class createProductScreen extends Component {
     //Chooses the image from camera roll or picture and sets it to the image source
     chooseImage() {
 
+        Keyboard.dismiss();
         //Shows the image picker with the default options
         ImagePicker.showImagePicker(null, (response) => {
 
@@ -52,6 +53,7 @@ class createProductScreen extends Component {
     //Creates the product with the entered information to "this" provider
     async createProduct() {
 
+        Keyboard.dismiss();
         //Retrieves the state of the input fields
         const { serviceTitle, serviceDescription, pricing, imageSource } = this.state;
         const { provider } = this.props.navigation.state.params;

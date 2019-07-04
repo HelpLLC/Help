@@ -1,7 +1,7 @@
 //This screen will be the one that allows the user to edit the product or to even delete the product
 //itself.
 import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, Keyboard } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../../components/RoundBlueButton';
@@ -31,6 +31,7 @@ class editProductScreen extends Component {
     //Chooses the image from camera roll or picture and sets it to the image source
     chooseImage() {
 
+        Keyboard.dismiss();
         //Shows the image picker with the default options
         ImagePicker.showImagePicker(null, (response) => {
 
@@ -48,7 +49,7 @@ class editProductScreen extends Component {
 
     //Saves the product if any fields have been changed
     async saveProduct() {
-
+        Keyboard.dismiss();
         //Retrieves the state of the input fields
         const { serviceTitle, serviceDescription, pricing, imageSource } = this.state;
         const { product, productID, providerID } = this.props.navigation.state.params;
