@@ -14,6 +14,9 @@ class aboutScreen extends Component {
         return (
             <SafeAreaView style={screenStyle.container}>
                 <View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={fontStyles.bigTitleStyleBlue}>{strings.HelpExclamation}</Text>
+                    </View>
                     <View style={{ flex: 0.75, justifyContent: 'center', flexDirection: 'row', alignItems: 'center' }}>
                         <View style={{ flex: 2 }}></View>
                         <View style={{ flex: 50 }}>

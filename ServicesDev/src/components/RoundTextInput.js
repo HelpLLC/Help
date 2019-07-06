@@ -1,7 +1,7 @@
 //This component will represent the TextInput that will be rounded and allow users to type
 //multiple lines within it.
 import React, { Component } from 'react';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, Dimensions } from 'react-native';
 import colors from 'config/colors';
 import PropTypes from 'prop-types';
 
@@ -22,7 +22,7 @@ class RoundTextInput extends Component {
                 justifyContent: 'center',
                 height: height,
                 width: width,
-                borderRadius: 20
+                borderRadius: (Dimensions.get('window').height * 0.0292825769)
             }} >
                 <TextInput
                     style={{ height: (height - 5), width: (width - 15) }}

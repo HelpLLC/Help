@@ -1,7 +1,7 @@
 //This screen will allow the user to edit his/her company profile... which includes the name of
 //of the business and the description
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, KeyboardAvoidingView, Keyboard } from 'react-native';
+import { View, Text, SafeAreaView, KeyboardAvoidingView, Keyboard, Dimensions } from 'react-native';
 import OneLineTextInput from '../../components/OneLineTextInput';
 import fontStyles from 'config/styles/fontStyles';
 import RoundTextInput from '../../components/RoundTextInput';
@@ -94,8 +94,8 @@ class editCompanyProfileScreen extends Component {
 
                             <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                                 <RoundTextInput
-                                    width={275}
-                                    height={100}
+                                    width={(Dimensions.get('window').width * 0.669)}
+                                    height={(Dimensions.get('window').height * 0.14641)}
                                     onChangeText={(input) => this.setState({ businessInfo: input })}
                                     value={this.state.businessInfo} />
                             </View>

@@ -1,7 +1,7 @@
 //This will be the screen where the businesses will actually create their profiles & provide info
 //such as company name, description etc.
 import React, { Component } from 'react';
-import { View, Text, Keyboard, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, Keyboard, SafeAreaView, KeyboardAvoidingView, Dimensions } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
@@ -121,8 +121,8 @@ class createProviderProfileScreen extends Component {
 
                             <View>
                                 <RoundTextInput
-                                    width={275}
-                                    height={100}
+                                    width={(Dimensions.get('window').width * 0.669)}
+                                    height={(Dimensions.get('window').height * 0.14641)}
                                     placeholder={strings.TellYourCustomersAboutYourselfDotDotDot}
                                     onChangeText={(input) => this.setState({ businessInfo: input })}
                                     value={this.state.businessInfo} />

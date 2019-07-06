@@ -140,7 +140,7 @@ class serviceScreen extends Component {
                             borderBottomColor: colors.black,
                             borderWidth: 0.5,
                             width: Dimensions.get('window').width - 40,
-                            height: 120
+                            height: (Dimensions.get('window').height * 0.17569)
                         }}>
                             <View style={{ flex: 1, justifyContent: 'center' }}>
                                 <Text style={fontStyles.subTextStyleBlack}>

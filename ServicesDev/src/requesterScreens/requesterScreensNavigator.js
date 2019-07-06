@@ -1,6 +1,7 @@
 //This navigator represents the bottom tab in which the requester will be able to navigate from
 //screen to screen. It will lead to the settings screen, request screen, and the chats screen.
 import { createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
+import { Dimensions } from 'react-native';
 import chatsScreen from '../chats/chatsScreen';
 import settingsScreens from '../settingsScreens/settingsScreen';
 import requestScreen from './requesterRequest/requestScreen';
@@ -63,8 +64,8 @@ const navigatorConfig = {
         //This styles the tabBar itself; the color, height, etc.
         style: {
             backgroundColor: colors.white,
-            height: 70,
-            padding: 10,
+            height: (Dimensions.get('window').height * 0.1),
+            padding: (Dimensions.get('window').height * 0.1) / 7,
         },
         //This styles the tabBarLabel
         labelStyle: fontStyles.tabLabelStyle

@@ -1,7 +1,7 @@
 //This is the screen which will allow users to report some kind of bug or issue with the app.
 //The user will report it and the report will be visible to the developers
 import React, { Component } from 'react';
-import { View, Text, KeyboardAvoidingView, SafeAreaView, Keyboard } from 'react-native';
+import { View, Text, KeyboardAvoidingView, SafeAreaView, Keyboard, Dimensions } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
 import RoundTextInput from '../../components/RoundTextInput';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
@@ -51,15 +51,15 @@ class reportIssueScreen extends Component {
             <KeyboardAvoidingView enabled behavior="padding" style={screenStyle.container}>
                 <SafeAreaView>
                     <View>
-                        <View style={{ flex: 1, justifyContent: 'center' }}>
+                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                             <Text style={fontStyles.mainTextStyleBlack}>
                                 {strings.WhatSeemsToBeTheProblemQuestion}</Text>
                         </View>
                         <View style={{ flex: 0.5 }}></View>
                         <View style={{ flex: 1, justifyContent: 'center' }}>
                             <RoundTextInput
-                                width={275}
-                                height={200}
+                                width={(Dimensions.get('window').width * 0.66909)}
+                                height={(Dimensions.get('window').height * 0.29282577)}
                                 placeholder={strings.DescribeYourIssueHereDotDotDot}
                                 onChangeText={(input) => this.setState({ userInput: input })}
                                 value={this.state.userInput} />

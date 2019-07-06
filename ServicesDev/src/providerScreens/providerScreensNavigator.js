@@ -6,6 +6,7 @@ import chatsScreen from '../chats/chatsScreen';
 import businessScreen from './providerBusiness/businessScreen';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
+import { Dimensions } from 'react-native';
 import colors from 'config/colors';
 
 //will configure the routes of each screen title to go to the correct screen when clicked on.
@@ -63,8 +64,8 @@ const navigatorConfig = {
         //This styles the tabBar itself; the color, height, etc.
         style: {
             backgroundColor: colors.white,
-            height: 70,
-            padding: 10,
+            height: (Dimensions.get('window').height * 0.1),
+            padding: (Dimensions.get('window').height * 0.1) / 7,
         },
         //This styles the tabBarLabel
         labelStyle: fontStyles.tabLabelStyle

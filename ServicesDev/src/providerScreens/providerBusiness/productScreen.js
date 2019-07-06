@@ -158,7 +158,7 @@ class productScreen extends Component {
                             borderWidth: 0.5,
                             width: Dimensions.get('window').width - 40,
                             alignSelf: 'center',
-                            height: 120
+                            height: (Dimensions.get('window').height * 0.176)
                         }}>
                             <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                                 <Text style={fontStyles.subTextStyleBlack}>
@@ -202,7 +202,7 @@ class productScreen extends Component {
                                                             flexDirection: 'column',
                                                             justifyContent: 'center',
                                                             width: Dimensions.get('window').width,
-                                                            height: 50,
+                                                            height: (Dimensions.get('window').height * 0.073),
                                                             alignItems: 'center',
                                                             backgroundColor: colors.white,
                                                         }}>
@@ -220,7 +220,7 @@ class productScreen extends Component {
                                                             justifyContent: 'space-evenly',
                                                             alignItems: 'center',
                                                             width: Dimensions.get('window').width,
-                                                            height: 70,
+                                                            height: (Dimensions.get('window').height * 0.1024),
                                                             backgroundColor: colors.white,
                                                             borderBottomStartRadius: 35,
                                                             borderBottomEndRadius: 35,
@@ -234,7 +234,7 @@ class productScreen extends Component {
 
                                                             <TouchableOpacity
                                                                 style={{
-                                                                    height: 70,
+                                                                    height: (Dimensions.get('window').height * 0.1024),
                                                                     justifyContent: 'center',
                                                                 }}
                                                                 onPress={() => {
@@ -259,7 +259,7 @@ class productScreen extends Component {
                                                             </TouchableOpacity>
                                                         </View>
                                                     </View>
-                                                    <View style={{ height: 20 }}></View>
+                                                    <View style={{ height: (Dimensions.get('window').height * 0.02928) }}></View>
                                                 </View>
                                             )}
                                         />

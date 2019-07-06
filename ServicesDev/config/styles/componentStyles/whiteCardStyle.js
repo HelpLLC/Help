@@ -6,7 +6,7 @@ export default {
 
     //This is the card that appears in the about section & the settings screen
     whiteCardStyle: {
-        height: 45,
+        height: Dimensions.get('window').height * 0.07,
         width: Dimensions.get('window').width,
         backgroundColor: colors.white,
         flexDirection: 'row',

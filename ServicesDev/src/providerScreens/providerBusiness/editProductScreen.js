@@ -101,7 +101,7 @@ class editProductScreen extends Component {
                                     <OneLineTextInput
                                         onChangeText={(input) => this.setState({ serviceTitle: input })}
                                         value={this.state.serviceTitle}
-                                        width={140}
+                                        width={(Dimensions.get('window').width * 0.34)}
                                         password={false} />
                                 </View>
                             </View>
@@ -128,8 +128,8 @@ class editProductScreen extends Component {
                             </View>
                             <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                                 <RoundTextInput
-                                    width={Dimensions.get('window').width - 40}
-                                    height={100}
+                                    width={(Dimensions.get('window').width * 0.669)}
+                                    height={(Dimensions.get('window').height * 0.14641)}
                                     onChangeText={(input) => this.setState({ serviceDescription: input })}
                                     value={this.state.serviceDescription} />
                             </View>

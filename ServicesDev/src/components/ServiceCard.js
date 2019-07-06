@@ -29,17 +29,17 @@ class ServiceCard extends Component {
         return (
             <TouchableOpacity onPress={onPress} style={{
                 width: Dimensions.get('window').width,
-                height: 210,
+                height: (Dimensions.get('window').height * 0.31),
                 alignItems: 'center',
                 justifyContent: 'center'
             }}>
                 <View style={{}}>
                     <BoxShadow setting={{
                         width: Dimensions.get('window').width - 40,
-                        height: 150,
+                        height: (Dimensions.get('window').height * 0.21961933),
                         color: colors.gray,
                         border: 10,
-                        radius: 30,
+                        radius: (Dimensions.get('window').height * 0.04392387),
                         opacity: 0.2,
                         x: 0,
                         y: 5
@@ -50,8 +50,8 @@ class ServiceCard extends Component {
                                     source={image}
                                     style={{
                                         width: (Dimensions.get('window').width - 40) * 0.45,
-                                        height: 138,
-                                        borderRadius: 23.5
+                                        height: (Dimensions.get('window').height * 0.21961933) - 12,
+                                        borderRadius: (Dimensions.get('window').height * 0.03440703)
                                     }}
                                 />
                             </View>
@@ -89,7 +89,11 @@ class ServiceCard extends Component {
                     <Badge
                         status="error"
                         value={numCurrentRequests}
-                        badgeStyle={{ width: 40, height: 40, borderRadius: 20 }}
+                        badgeStyle={{
+                            width: (Dimensions.get('window').width * 0.0973),
+                            height: (Dimensions.get('window').height * 0.0586), 
+                            borderRadius: (Dimensions.get('window').width * 0.0973) / 2
+                        }}
                         textStyle={fontStyles.mainTextStyleWhite}
                         containerStyle={{ position: 'absolute', top: 16, right: 12 }}
                     />

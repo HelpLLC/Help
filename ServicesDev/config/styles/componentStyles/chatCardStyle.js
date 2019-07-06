@@ -7,7 +7,7 @@ export default {
         width: Dimensions.get('window').width,
         backgroundColor: colors.white,
         flexDirection: 'row',
-        height: 80,
+        height: (Dimensions.get('window').height * 0.12),
         alignItems: 'center',
         justifyContent: 'space-between',
         borderColor: colors.lightGray,

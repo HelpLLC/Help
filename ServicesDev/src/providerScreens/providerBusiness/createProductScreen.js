@@ -103,7 +103,7 @@ class createProductScreen extends Component {
                                         placeholder={strings.GiveItATitleDotDotDot}
                                         value={this.state.serviceTitle}
                                         password={false}
-                                        width={140} />
+                                        width={Dimensions.get('window').width * 0.3406} />
                                 </View>
                             </View>
 

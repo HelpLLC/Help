@@ -69,7 +69,6 @@ class businessScreen extends Component {
         //Adds the listener to add the listener to refetch the data once this component is returned to
         this.willFocusListener = await this.props.navigation.addListener('willFocus', async () => {
             await this.fetchDatabaseData();
-            this.setState({ isLoading: false });
         });
 
     }
@@ -82,6 +81,7 @@ class businessScreen extends Component {
     }
 
     render() {
+        console.log(this.state);
         //Gets the provider & the products from the state
         const { isLoading, providerProducts, serviceIDsLength, provider } = this.state;
         //Stores the top part of this view
