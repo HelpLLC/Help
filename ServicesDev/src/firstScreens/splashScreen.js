@@ -39,27 +39,31 @@ class splashScreen extends Component {
     //right data to navigate to the correct screen
     async isUserLoggedIn() {
         try {
-            await firebase.auth().onAuthStateChanged(async (user) => {
-                if (user) {
-                    const { uid } = user;
-                    //Starts with searching if this is a requester since that is more common
-                    const requester = await FirebaseFunctions.getRequesterByID(uid);
-                    if (requester === -1) {
-                        //This means this account is a provider since a requester with this ID was not found
-                        this.props.navigation.push('ProviderScreens', {
-                            providerID: uid
-                        });
+            let alreadyCalled = false;
+            firebase.auth().onAuthStateChanged(async (user) => {
+                if (alreadyCalled === false) {
+                    alreadyCalled = true;
+                    if (user) {
+                        const { uid } = user;
+                        //Starts with searching if this is a requester since that is more common
+                        const requester = await FirebaseFunctions.getRequesterByID(uid);
+                        if (requester === -1) {
+                            //This means this account is a provider since a requester with this ID was not found
+                            this.props.navigation.push('ProviderScreens', {
+                                providerID: uid
+                            });
+                        } else {
+                            const allProducts = await FirebaseFunctions.getAllProducts();
+                            //If this is a requester, then it will navigate to the screens & pass in the
+                            //correct params
+                            this.props.navigation.push('RequesterScreens', {
+                                requester: requester,
+                                allProducts
+                            });
+                        }
                     } else {
-                        const allProducts = await FirebaseFunctions.getAllProducts();
-                        //If this is a requester, then it will navigate to the screens & pass in the
-                        //correct params
-                        this.props.navigation.push('RequesterScreens', {
-                            requester: requester,
-                            allProducts
-                        });
+                        this.setState({ isUserLoggedIn: false, isLoading: false });
                     }
-                } else {
-                    this.setState({ isUserLoggedIn: false, isLoading: false });
                 }
             });
         } catch (error) {

@@ -101,8 +101,6 @@ class signUpScreen extends Component {
     }
 
     render() {
-        console.log(Dimensions.get('window').width);
-        console.log(Dimensions.get('window').height);
         return (
             //View that dismisses the keyboard when clicked anywhere else
             <KeyboardAvoidingView style={screenStyle.container} enabled behavior="padding">

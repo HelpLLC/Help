@@ -81,7 +81,6 @@ class businessScreen extends Component {
     }
 
     render() {
-        console.log(this.state);
         //Gets the provider & the products from the state
         const { isLoading, providerProducts, serviceIDsLength, provider } = this.state;
         //Stores the top part of this view
