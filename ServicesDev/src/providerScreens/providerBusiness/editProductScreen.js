@@ -10,6 +10,7 @@ import RoundTextInput from '../../components/RoundTextInput';
 import ImagePicker from 'react-native-image-picker';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import FirebaseFunctions from 'config/FirebaseFunctions';
+import screenStyle from 'config/screenStyle';
 import strings from 'config/strings';
 import HelpView from '../../components/HelpView';
 import ErrorAlert from '../../components/ErrorAlert';
@@ -82,7 +83,7 @@ class editProductScreen extends Component {
 
     render() {
         return (
-            <HelpView>
+            <HelpView style={screenStyle.container}>
                 <View>
                     <View style={{ flex: 0.25 }}></View>
                     <View style={{

@@ -7,6 +7,7 @@ import fontStyles from 'config/styles/fontStyles';
 import RoundTextInput from '../../components/RoundTextInput';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import screenStyle from 'config/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import strings from 'config/strings';
@@ -66,7 +67,7 @@ class editCompanyProfileScreen extends Component {
     //Renders main UI
     render() {
         return (
-            <HelpView>
+            <HelpView style={screenStyle.container}>
                 <View style={{ flex: 0.025 }}></View>
                 <View style={{ flex: 1, justifyContent: 'center' }}>
                     <View>

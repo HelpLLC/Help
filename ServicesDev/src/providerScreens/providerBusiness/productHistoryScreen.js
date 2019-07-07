@@ -9,6 +9,7 @@ import strings from 'config/strings';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import HelpView from '../../components/HelpView';
+import screenStyle from 'config/screenStyle';
 import ImageWithBorder from '../../components/ImageWithBorder';
 
 
@@ -22,7 +23,7 @@ class productHistoryScreen extends Component {
         const { product } = this.props.navigation.state.params;
 
         return (
-            <HelpView>
+            <HelpView style={screenStyle.container}>
                 <View>
                     <View style={{
                         flexDirection: 'row',

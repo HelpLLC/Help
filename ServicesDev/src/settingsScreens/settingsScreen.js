@@ -9,6 +9,7 @@ import fontStyles from 'config/styles/fontStyles';
 import WhiteCard from '../components/WhiteCard';
 import { Icon } from 'react-native-elements';
 import colors from 'config/colors';
+import screenStyle from 'config/screenStyle';
 import HelpView from '../components/HelpView';
 import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -22,7 +23,7 @@ class settingsScreen extends Component {
         const user = (this.props.navigation.state.params.providerID ? this.props.navigation.state.params.providerID :
             this.props.navigation.state.params.requester);
         return (
-            <HelpView>
+            <HelpView style={screenStyle.container}>
                 <View>
                     <TopBanner title={strings.Settings} />
                 </View>

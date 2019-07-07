@@ -13,6 +13,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import ErrorAlert from '../../components/ErrorAlert';
 import OptionPicker from '../../components/OptionPicker';
+import screenStyle from 'config/screenStyle';
 import ImageWithBorder from '../../components/ImageWithBorder';
 
 class serviceScreen extends Component {
@@ -86,7 +87,7 @@ class serviceScreen extends Component {
         const { requester, provider } = this.props.navigation.state.params;
         if (isLoading === true || isRequested === "") {
             return (
-                <HelpView>
+                <HelpView style={screenStyle.container}>
                     <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
                         <LoadingSpinner isVisible={isLoading} />
                     </View>
@@ -94,7 +95,7 @@ class serviceScreen extends Component {
             )
         } else {
             return (
-                <HelpView>
+                <HelpView style={screenStyle.container}>
                     <View>
                         <View style={{ flex: 0.01 }}></View>
                         <View style={{

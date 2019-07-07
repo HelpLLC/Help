@@ -4,11 +4,12 @@ import { View, Text } from 'react-native';
 import strings from 'config/strings';
 import { ScrollView } from 'react-native-gesture-handler';
 import HelpView from '../components/HelpView';
+import screenStyle from 'config/screenStyle';
 
 class aboutScreen extends Component {
     render() {
         return (
-            <HelpView>
+            <HelpView style={screenStyle.container}>
                 <ScrollView>
                     <View>
                         <Text>{strings.PrivacyPolicy}</Text>

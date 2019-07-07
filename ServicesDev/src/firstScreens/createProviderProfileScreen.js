@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { View, Text, Keyboard, Dimensions } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
+import screenStyle from 'config/screenStyle';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../components/RoundBlueButton';
@@ -93,7 +94,7 @@ class createProviderProfileScreen extends Component {
 
     render() {
         return (
-            <HelpView>
+            <HelpView style={screenStyle.container}>
                 <View>
                     <View style={{ flex: 0.7, justifyContent: 'center', alignSelf: 'center' }}>
                         <View>
@@ -112,7 +113,7 @@ class createProviderProfileScreen extends Component {
                         </View>
                     </View>
 
-                    <View style={{ flex: 0.7 }}>
+                    <View style={{ flex: 0.7, justifyContent: 'center', alignSelf: 'center' }}>
                         <View style={{ flex: 1, justifyContent: 'center' }}>
                             <Text style={fontStyles.mainTextStyleBlack}>
                                 {strings.WhatDoesYourBusinessDoQuestion}</Text>

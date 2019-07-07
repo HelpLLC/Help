@@ -77,7 +77,7 @@ class splashScreen extends Component {
         const { isLoading, isUserLoggedIn, isErrorVisible, internetConnection } = this.state;
         if (isLoading === true) {
             return (
-                <HelpView>
+                <HelpView style={screenStyle.container}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <LoadingSpinner isVisible={true} />
                     </View>
@@ -97,7 +97,7 @@ class splashScreen extends Component {
             );
         } else if (isUserLoggedIn === false) {
             return (
-                <HelpView>
+                <HelpView style={screenStyle.container}>
                     <View style={{ flex: 1, justifyContent: 'center' }}>
                         <Text style={fontStyles.bigTitleStyleBlue}>{strings.HelpExclamation}</Text>
                     </View>
@@ -133,7 +133,7 @@ class splashScreen extends Component {
             );
         } else {
             return (
-                <HelpView>
+                <HelpView style={screenStyle.container}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <LoadingSpinner isVisible={true} />
                     </View>

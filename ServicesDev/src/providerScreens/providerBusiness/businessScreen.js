@@ -12,6 +12,7 @@ import RoundBlueButton from '../../components/RoundBlueButton';
 import TopBanner from '../../components/TopBanner';
 import ServiceCard from '../../components/ServiceCard';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import screenStyle from 'config/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
@@ -143,7 +144,7 @@ class businessScreen extends Component {
         //the provider's normal products will be displayed. 
         if (isLoading === true || (providerProducts.length == 0 && serviceIDsLength > 0) || provider === "") {
             return (
-                <HelpView>
+                <HelpView style={screenStyle.container}>
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                         <LoadingSpinner isVisible={true} />
                     </View>
@@ -157,7 +158,7 @@ class businessScreen extends Component {
             );
         } else if (serviceIDsLength === 0) {
             return (
-                <HelpView style={{ alignItems: 'center' }}>
+                <HelpView  style={screenStyle.container}>
                     <View style={{ flex: 1.1 }}>
                         {topView}
                     </View>
@@ -195,7 +196,7 @@ class businessScreen extends Component {
             );
         } else {
             return (
-                <HelpView>
+                <HelpView style={screenStyle.container}>
                     <View style={{ flex: 0.4 }}>
                         {topView}
                     </View>

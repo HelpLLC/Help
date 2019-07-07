@@ -6,6 +6,7 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 import ErrorAlert from '../../../components/ErrorAlert';
 import strings from 'config/strings';
 import HelpView from '../../../components/HelpView';
+import screenStyle from 'config/screenStyle';
 
 export default class Yardwork extends Component {
 
@@ -19,7 +20,7 @@ export default class Yardwork extends Component {
         const { yardwordProducts, requester } = this.props;
 
         return (
-            <HelpView>
+            <HelpView style={screenStyle.container}>
                 <View style={{ flex: 0.025 }}></View>
                 <ScrollView
                     style={{ flex: 50 }}

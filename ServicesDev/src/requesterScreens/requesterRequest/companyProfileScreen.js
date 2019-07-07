@@ -10,6 +10,7 @@ import ServiceCard from '../../components/ServiceCard';
 import colors from 'config/colors';
 import HelpView from '../../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
+import screenStyle from 'config/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import { Icon } from 'react-native-elements';
 import LoadingSpinner from '../../components/LoadingSpinner';
@@ -94,7 +95,7 @@ class companyProfileScreen extends Component {
         const { isLoading, providerProducts, serviceIDsLength } = this.state;
         if (isLoading === true || (providerProducts.length == 0 && serviceIDsLength > 0)) {
             return (
-                <HelpView>
+                <HelpView style={screenStyle.container}>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                         <LoadingSpinner isVisible={isLoading} />
                     </View>
@@ -103,7 +104,7 @@ class companyProfileScreen extends Component {
         } else {
             const { provider, requester } = this.props.navigation.state.params;
             return (
-                <HelpView>
+                <HelpView style={screenStyle.container}>
                     <View>
                         <View style={{ flex: 0.025 }}></View>
                         <View style={{

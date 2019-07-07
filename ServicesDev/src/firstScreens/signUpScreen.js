@@ -10,6 +10,7 @@ import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineTextInput from '../components/OneLineTextInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import HelpView from '../components/HelpView';
+import screenStyle from 'config/screenStyle';
 import firebase from 'react-native-firebase';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import ErrorAlert from '../components/ErrorAlert';
@@ -103,7 +104,7 @@ class signUpScreen extends Component {
     render() {
         return (
             //View that dismisses the keyboard when clicked anywhere else
-            <HelpView>
+            <HelpView style={screenStyle.container}>
                 <View>
                     <View style={{ flex: 1.2, justifyContent: 'center', alignSelf: 'center' }}>
                         <View>
@@ -160,7 +161,10 @@ class signUpScreen extends Component {
                                 }]}
                                 textStyle={fontStyles.mainTextStyleBlue}
                                 //Method selects the business button and deselects the other
-                                onPress={() => { this.setState({ buttonSelected: "Business" }) }} />
+                                onPress={() => {
+                                    this.setState({ buttonSelected: "Business" })
+                                    Keyboard.dismiss();
+                                }} />
                         </View>
                         <View style={{ flex: 1, alignItems: 'center' }}>
                             <RoundBlueButton
@@ -173,7 +177,10 @@ class signUpScreen extends Component {
                                 }]}
                                 textStyle={fontStyles.mainTextStyleBlue}
                                 //Method selects the customer button and deselects the other
-                                onPress={() => { this.setState({ buttonSelected: "Customer" }) }} />
+                                onPress={() => {
+                                    this.setState({ buttonSelected: "Customer" })
+                                    Keyboard.dismiss();
+                                }} />
                         </View>
                     </View>
                     <View style={{ flex: 0.001 }}></View>

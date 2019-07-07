@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
+import screenStyle from 'config/screenStyle';
 import HelpView from '../../components/HelpView';
 
 export default class issueReportedScreen extends Component {
@@ -23,7 +24,7 @@ export default class issueReportedScreen extends Component {
     //Renders the UI
     render() {
         return (
-            <HelpView>
+            <HelpView style={screenStyle.container}>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                     <Text
                         style={fontStyles.mainTextStyleBlack}>

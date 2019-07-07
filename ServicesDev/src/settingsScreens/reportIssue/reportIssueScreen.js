@@ -7,6 +7,7 @@ import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonS
 import RoundBlueButton from '../../components/RoundBlueButton';
 import ErrorAlert from '../../components/ErrorAlert';
 import fontStyles from 'config/styles/fontStyles';
+import screenStyle from 'config/screenStyle';
 import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import HelpView from '../../components/HelpView';
@@ -48,7 +49,7 @@ class reportIssueScreen extends Component {
     render() {
         return (
             //View that dismisses the keyboard when clicked anywhere else
-            <HelpView>
+            <HelpView style={screenStyle.container}>
                 <View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={fontStyles.mainTextStyleBlack}>

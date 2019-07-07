@@ -11,6 +11,7 @@ import OneLineTextInput from '../components/OneLineTextInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import HelpView from '../components/HelpView';
 import firebase from 'react-native-firebase';
+import screenStyle from 'config/screenStyle';
 import ErrorAlert from '../components/ErrorAlert';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 
@@ -86,7 +87,7 @@ class logInScreen extends Component {
 
     render() {
         return (
-            <HelpView>
+            <HelpView style={screenStyle.container}>
                 <View>
                     <View style={{ flex: 1, justifyContent: 'center' }}>
                         <View>

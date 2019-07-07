@@ -8,11 +8,12 @@ import WhiteCard from '../components/WhiteCard';
 import strings from 'config/strings';
 import whiteCardStyle from '../../config/styles/componentStyles/whiteCardStyle';
 import HelpView from '../components/HelpView';
+import screenStyle from 'config/screenStyle';
 
 class aboutScreen extends Component {
     render() {
         return (
-            <HelpView>
+            <HelpView style={screenStyle.container}>
                 <View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={fontStyles.bigTitleStyleBlue}>{strings.HelpExclamation}</Text>

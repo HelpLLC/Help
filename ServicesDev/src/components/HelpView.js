@@ -4,13 +4,12 @@
 //color and everything
 import React from 'react';
 import { SafeAreaView, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native';
-import screenStyle from 'config/styles/screenStyle';
 
 //Creates the higher order component
 const HelpViewHOC = (Comp) => {
     return ({ children, ...props }) => (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <KeyboardAvoidingView style={screenStyle.container} enabled behavior='padding'>
+            <KeyboardAvoidingView enabled behavior='padding'>
                 <Comp {...props} >
                     {children}
                 </Comp>

@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Dimensions, ScrollView, FlatList } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
+import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import colors from 'config/colors';
@@ -11,6 +12,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
 import HelpView from '../../components/HelpView';
 import OptionPicker from '../../components/OptionPicker';
+import screenStyle from 'config/screenStyle';
 import ImageWithBorder from '../../components/ImageWithBorder';
 
 //The class representing the screen
@@ -89,7 +91,7 @@ class productScreen extends Component {
         //If the state is still loading, the spinner will appear
         if (isLoading === true) {
             return (
-                <HelpView>
+                <HelpView style={screenStyle.container}>
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: "center" }}>
                         <LoadingSpinner isVisible={isLoading} />
                     </View>
@@ -103,7 +105,7 @@ class productScreen extends Component {
             )
         } else {
             return (
-                <HelpView>
+                <HelpView style={screenStyle.container}>
                     <View>
                         <View style={{
                             flexDirection: 'row',
