@@ -26,6 +26,7 @@ class OneLineTextInput extends Component {
                         width: width ? width : (Dimensions.get('window').width * 0.6)
                     }}
                     secureTextEntry={password}
+                    blurOnSubmit={true}
                     value={value}
                     maxLength={maxLength} />
             </View>

@@ -31,7 +31,9 @@ class RoundTextInput extends Component {
                     placeholder={placeholder}
                     placeholderTextColor={colors.gray}
                     onChangeText={(input) => onChangeText(input)}
-                    value={value} />
+                    value={value}
+                    returnKeyType={'done'}
+                    blurOnSubmit={true} />
             </View>
         );
     }
