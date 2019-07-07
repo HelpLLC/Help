@@ -13,7 +13,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import ErrorAlert from '../../components/ErrorAlert';
 import OptionPicker from '../../components/OptionPicker';
-import screenStyle from 'config/screenStyle';
+import screenStyle from 'config/styles/screenStyle';
 import ImageWithBorder from '../../components/ImageWithBorder';
 
 class serviceScreen extends Component {

@@ -7,7 +7,7 @@ import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonS
 import RoundBlueButton from '../../components/RoundBlueButton';
 import ErrorAlert from '../../components/ErrorAlert';
 import fontStyles from 'config/styles/fontStyles';
-import screenStyle from 'config/screenStyle';
+import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import HelpView from '../../components/HelpView';

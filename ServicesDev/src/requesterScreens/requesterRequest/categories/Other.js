@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
 import HelpView from '../../../components/HelpView';
-import screenStyle from 'config/screenStyle';
+import screenStyle from 'config/styles/screenStyle';
 
 
 export default class other extends Component {

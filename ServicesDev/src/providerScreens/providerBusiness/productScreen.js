@@ -12,7 +12,6 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
 import HelpView from '../../components/HelpView';
 import OptionPicker from '../../components/OptionPicker';
-import screenStyle from 'config/screenStyle';
 import ImageWithBorder from '../../components/ImageWithBorder';
 
 //The class representing the screen

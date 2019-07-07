@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 import strings from 'config/strings';
 import { ScrollView } from 'react-native-gesture-handler';
 import HelpView from '../components/HelpView';
-import screenStyle from 'config/screenStyle';
+import screenStyle from 'config/styles/screenStyle';
 
 class aboutScreen extends Component {
     render() {

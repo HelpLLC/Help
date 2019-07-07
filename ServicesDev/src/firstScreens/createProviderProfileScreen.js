@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { View, Text, Keyboard, Dimensions } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
-import screenStyle from 'config/screenStyle';
+import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../components/RoundBlueButton';

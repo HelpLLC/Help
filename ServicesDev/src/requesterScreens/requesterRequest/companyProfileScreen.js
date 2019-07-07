@@ -10,7 +10,7 @@ import ServiceCard from '../../components/ServiceCard';
 import colors from 'config/colors';
 import HelpView from '../../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import screenStyle from 'config/screenStyle';
+import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import { Icon } from 'react-native-elements';
 import LoadingSpinner from '../../components/LoadingSpinner';

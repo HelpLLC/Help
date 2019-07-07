@@ -9,7 +9,7 @@ import strings from 'config/strings';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import HelpView from '../../components/HelpView';
-import screenStyle from 'config/screenStyle';
+import screenStyle from 'config/styles/screenStyle';
 import ImageWithBorder from '../../components/ImageWithBorder';
 
 

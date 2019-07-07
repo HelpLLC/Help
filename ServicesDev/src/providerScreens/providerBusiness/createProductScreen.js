@@ -12,7 +12,7 @@ import RoundTextInput from '../../components/RoundTextInput';
 import images from 'config/images/images';
 import ImagePicker from 'react-native-image-picker';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import screenStyle from 'config/screenStyle';
+import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';

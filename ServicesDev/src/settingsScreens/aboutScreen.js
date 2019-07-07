@@ -8,7 +8,7 @@ import WhiteCard from '../components/WhiteCard';
 import strings from 'config/strings';
 import whiteCardStyle from '../../config/styles/componentStyles/whiteCardStyle';
 import HelpView from '../components/HelpView';
-import screenStyle from 'config/screenStyle';
+import screenStyle from 'config/styles/screenStyle';
 
 class aboutScreen extends Component {
     render() {

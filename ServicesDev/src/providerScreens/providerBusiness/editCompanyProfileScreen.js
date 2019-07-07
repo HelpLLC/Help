@@ -7,7 +7,7 @@ import fontStyles from 'config/styles/fontStyles';
 import RoundTextInput from '../../components/RoundTextInput';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import screenStyle from 'config/screenStyle';
+import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import strings from 'config/strings';

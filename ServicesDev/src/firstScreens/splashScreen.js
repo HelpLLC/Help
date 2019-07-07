@@ -13,6 +13,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorAlert from '../components/ErrorAlert';
 import NetInfo from '@react-native-community/netinfo';
 import HelpView from '../components/HelpView';
+import screenStyle from 'config/styles/screenStyle'
 
 class splashScreen extends Component {
 

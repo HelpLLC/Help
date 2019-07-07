@@ -10,7 +10,7 @@ import RoundTextInput from '../../components/RoundTextInput';
 import ImagePicker from 'react-native-image-picker';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import screenStyle from 'config/screenStyle';
+import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import HelpView from '../../components/HelpView';
 import ErrorAlert from '../../components/ErrorAlert';

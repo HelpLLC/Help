@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
-import screenStyle from 'config/screenStyle';
+import screenStyle from 'config/styles/screenStyle';
 import HelpView from '../../components/HelpView';
 
 export default class issueReportedScreen extends Component {

@@ -9,7 +9,7 @@ import fontStyles from 'config/styles/fontStyles';
 import WhiteCard from '../components/WhiteCard';
 import { Icon } from 'react-native-elements';
 import colors from 'config/colors';
-import screenStyle from 'config/screenStyle';
+import screenStyle from 'config/styles/screenStyle';
 import HelpView from '../components/HelpView';
 import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
