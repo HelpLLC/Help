@@ -1,11 +1,11 @@
 //This class will represent the "yardwork" tab within the categories that the requester can choose from
 import React, { Component } from 'react';
-import { View, FlatList, ScrollView, SafeAreaView } from 'react-native';
+import { View, FlatList, ScrollView } from 'react-native';
 import ServiceCard from '../../../components/ServiceCard';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import screenStyle from 'config/styles/screenStyle';
 import ErrorAlert from '../../../components/ErrorAlert';
 import strings from 'config/strings';
+import HelpView from '../../../components/HelpView';
 
 export default class Yardwork extends Component {
 
@@ -19,7 +19,7 @@ export default class Yardwork extends Component {
         const { yardwordProducts, requester } = this.props;
 
         return (
-            <SafeAreaView style={screenStyle.container}>
+            <HelpView>
                 <View style={{ flex: 0.025 }}></View>
                 <ScrollView
                     style={{ flex: 50 }}
@@ -78,7 +78,7 @@ export default class Yardwork extends Component {
                     title={strings.Whoops}
                     message={strings.SomethingWentWrong}
                 />
-            </SafeAreaView>
+            </HelpView>
         )
     }
 }

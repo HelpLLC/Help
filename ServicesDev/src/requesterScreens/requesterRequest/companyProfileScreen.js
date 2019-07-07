@@ -5,12 +5,12 @@
 //of the company providing it, etc. There will be a button at the bottom of the screen allowing the 
 //requester to request the service.
 import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, ScrollView, FlatList, SafeAreaView } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import ServiceCard from '../../components/ServiceCard';
 import colors from 'config/colors';
+import HelpView from '../../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import fontStyles from 'config/styles/fontStyles';
-import screenStyle from 'config/styles/screenStyle';
 import { Icon } from 'react-native-elements';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
@@ -94,16 +94,16 @@ class companyProfileScreen extends Component {
         const { isLoading, providerProducts, serviceIDsLength } = this.state;
         if (isLoading === true || (providerProducts.length == 0 && serviceIDsLength > 0)) {
             return (
-                <SafeAreaView style={screenStyle.container}>
+                <HelpView>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                         <LoadingSpinner isVisible={isLoading} />
                     </View>
-                </SafeAreaView>
+                </HelpView>
             )
         } else {
             const { provider, requester } = this.props.navigation.state.params;
             return (
-                <SafeAreaView style={screenStyle.container}>
+                <HelpView>
                     <View>
                         <View style={{ flex: 0.025 }}></View>
                         <View style={{
@@ -177,7 +177,7 @@ class companyProfileScreen extends Component {
                         title={strings.Whoops}
                         message={strings.SomethingWentWrong}
                     />
-                </SafeAreaView >
+                </HelpView>
             );
         }
     }

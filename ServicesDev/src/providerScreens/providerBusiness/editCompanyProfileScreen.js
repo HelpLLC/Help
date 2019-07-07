@@ -1,16 +1,16 @@
 //This screen will allow the user to edit his/her company profile... which includes the name of
 //of the business and the description
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, KeyboardAvoidingView, Keyboard, Dimensions } from 'react-native';
+import { View, Text, Keyboard, Dimensions } from 'react-native';
 import OneLineTextInput from '../../components/OneLineTextInput';
 import fontStyles from 'config/styles/fontStyles';
 import RoundTextInput from '../../components/RoundTextInput';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import screenStyle from 'config/styles/screenStyle';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import strings from 'config/strings';
+import HelpView from '../../components/HelpView';
 import ErrorAlert from '../../components/ErrorAlert';
 
 class editCompanyProfileScreen extends Component {
@@ -66,78 +66,76 @@ class editCompanyProfileScreen extends Component {
     //Renders main UI
     render() {
         return (
-            <KeyboardAvoidingView enabled behavior="padding" style={screenStyle.container}>
-                <SafeAreaView>
-                    <View style={{ flex: 0.025 }}></View>
-                    <View style={{ flex: 1, justifyContent: 'center' }}>
-                        <View>
-                            <View style={{}}>
-                                <Text style={fontStyles.mainTextStyleBlack}>
-                                    {strings.EditName}</Text>
-                            </View>
-
-                            <View style={{}}>
-                                <OneLineTextInput
-                                    onChangeText={(input) => this.setState({ businessName: input })}
-                                    value={this.state.businessName}
-                                    maxLength={18}
-                                    password={false}
-                                />
-                            </View>
+            <HelpView>
+                <View style={{ flex: 0.025 }}></View>
+                <View style={{ flex: 1, justifyContent: 'center' }}>
+                    <View>
+                        <View style={{}}>
+                            <Text style={fontStyles.mainTextStyleBlack}>
+                                {strings.EditName}</Text>
                         </View>
 
-                        <View style={{ flex: 1, justifyContent: 'center' }}>
-                            <View style={{ flex: 0.5, justifyContent: 'center' }}>
-                                <Text style={fontStyles.mainTextStyleBlack}>
-                                    {strings.EditDescription}</Text>
-                            </View>
-
-                            <View style={{ flex: 1, justifyContent: 'flex-start' }}>
-                                <RoundTextInput
-                                    width={(Dimensions.get('window').width * 0.669)}
-                                    height={(Dimensions.get('window').height * 0.14641)}
-                                    onChangeText={(input) => this.setState({ businessInfo: input })}
-                                    value={this.state.businessInfo} />
-                            </View>
-                        </View>
-                        <View style={{ flex: 0.001 }}></View>
-                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-
-                            <View style={{ flex: 1 }}>
-                                <RoundBlueButton
-                                    title={strings.Done}
-                                    style={roundBlueButtonStyle.MediumSizeButton}
-                                    textStyle={fontStyles.bigTextStyleWhite}
-                                    onPress={() => { this.saveCompanyInfo() }}
-                                />
-                            </View>
-
-                            <View style={{ flex: 1 }}>
-                                <LoadingSpinner isVisible={this.state.isLoading} />
-                            </View>
+                        <View style={{}}>
+                            <OneLineTextInput
+                                onChangeText={(input) => this.setState({ businessName: input })}
+                                value={this.state.businessName}
+                                maxLength={18}
+                                password={false}
+                            />
                         </View>
                     </View>
-                    <View style={{ flex: 0.025 }}></View>
-                    <ErrorAlert
-                        isVisible={this.state.isErrorVisible}
-                        onPress={() => { this.setState({ isErrorVisible: false }) }}
-                        title={strings.Whoops}
-                        message={strings.SomethingWentWrong}
-                    />
-                    <ErrorAlert
-                        isVisible={this.state.nameError}
-                        onPress={() => { this.setState({ nameError: false }) }}
-                        title={strings.Whoops}
-                        message={strings.PleaseEnterACompanyName}
-                    />
-                    <ErrorAlert
-                        isVisible={this.state.descriptionError}
-                        onPress={() => { this.setState({ descriptionError: false }) }}
-                        title={strings.Whoops}
-                        message={strings.PleaseEnterADescription}
-                    />
-                </SafeAreaView>
-            </KeyboardAvoidingView>
+
+                    <View style={{ flex: 1, justifyContent: 'center' }}>
+                        <View style={{ flex: 0.5, justifyContent: 'center' }}>
+                            <Text style={fontStyles.mainTextStyleBlack}>
+                                {strings.EditDescription}</Text>
+                        </View>
+
+                        <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+                            <RoundTextInput
+                                width={(Dimensions.get('window').width * 0.669)}
+                                height={(Dimensions.get('window').height * 0.14641)}
+                                onChangeText={(input) => this.setState({ businessInfo: input })}
+                                value={this.state.businessInfo} />
+                        </View>
+                    </View>
+                    <View style={{ flex: 0.001 }}></View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+
+                        <View style={{ flex: 1 }}>
+                            <RoundBlueButton
+                                title={strings.Done}
+                                style={roundBlueButtonStyle.MediumSizeButton}
+                                textStyle={fontStyles.bigTextStyleWhite}
+                                onPress={() => { this.saveCompanyInfo() }}
+                            />
+                        </View>
+
+                        <View style={{ flex: 1 }}>
+                            <LoadingSpinner isVisible={this.state.isLoading} />
+                        </View>
+                    </View>
+                </View>
+                <View style={{ flex: 0.025 }}></View>
+                <ErrorAlert
+                    isVisible={this.state.isErrorVisible}
+                    onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    title={strings.Whoops}
+                    message={strings.SomethingWentWrong}
+                />
+                <ErrorAlert
+                    isVisible={this.state.nameError}
+                    onPress={() => { this.setState({ nameError: false }) }}
+                    title={strings.Whoops}
+                    message={strings.PleaseEnterACompanyName}
+                />
+                <ErrorAlert
+                    isVisible={this.state.descriptionError}
+                    onPress={() => { this.setState({ descriptionError: false }) }}
+                    title={strings.Whoops}
+                    message={strings.PleaseEnterADescription}
+                />
+            </HelpView>
         )
     }
 }

@@ -40,19 +40,17 @@ class requestScreen extends Component {
                     }
                 }}
                 renderTabBar={props =>
-                    < View >
+                    <View>
                         <TopBanner
-                            title={strings.Request}
-                        />
+                            title={strings.Request} />
                         <TabBar
                             {...props}
                             style={{ backgroundColor: colors.white }}
                             indicatorStyle={{ backgroundColor: colors.white }}
                             activeColor={colors.lightBlue}
                             inactiveColor={colors.black}
-                            labelStyle={fontStyles.tabLabelStyle}
-                        />
-                    </View >
+                            labelStyle={fontStyles.tabLabelStyle} />
+                    </View>
                 }
                 onIndexChange={index => this.setState({ index })}
                 initialLayout={{ width: Dimensions.get('window').width }}

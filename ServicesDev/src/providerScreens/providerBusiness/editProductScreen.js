@@ -1,8 +1,7 @@
 //This screen will be the one that allows the user to edit the product or to even delete the product
 //itself.
 import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, Keyboard } from 'react-native';
-import screenStyle from 'config/styles/screenStyle';
+import { View, Text, Dimensions, TouchableOpacity, Keyboard } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
@@ -12,6 +11,7 @@ import ImagePicker from 'react-native-image-picker';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import strings from 'config/strings';
+import HelpView from '../../components/HelpView';
 import ErrorAlert from '../../components/ErrorAlert';
 import ImageWithBorder from '../../components/ImageWithBorder';
 
@@ -82,102 +82,100 @@ class editProductScreen extends Component {
 
     render() {
         return (
-            <KeyboardAvoidingView enabled behavior="padding" style={screenStyle.container}>
-                <SafeAreaView>
-                    <View>
-                        <View style={{ flex: 0.25 }}></View>
-                        <View style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            width: Dimensions.get('window').width - 40,
-                            flex: 1,
-                            alignItems: 'center'
-                        }}>
+            <HelpView>
+                <View>
+                    <View style={{ flex: 0.25 }}></View>
+                    <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        width: Dimensions.get('window').width - 40,
+                        flex: 1,
+                        alignItems: 'center'
+                    }}>
 
-                            <View style={{ flexDirection: 'column' }}>
-                                <Text style={fontStyles.mainTextStyleBlack}>{strings.EditTitle}</Text>
+                        <View style={{ flexDirection: 'column' }}>
+                            <Text style={fontStyles.mainTextStyleBlack}>{strings.EditTitle}</Text>
 
-                                <View>
-                                    <OneLineTextInput
-                                        onChangeText={(input) => this.setState({ serviceTitle: input })}
-                                        value={this.state.serviceTitle}
-                                        width={(Dimensions.get('window').width * 0.34)}
-                                        password={false} />
-                                </View>
-                            </View>
-
-                            <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                                <ImageWithBorder
-                                    width={Dimensions.get('window').width * 0.33}
-                                    height={Dimensions.get('window').height * 0.16}
-                                    imageSource={this.state.imageSource} />
-
-                                <TouchableOpacity
-                                    onPress={() => { this.chooseImage() }}
-                                    style={{ justifyContent: 'flex-end' }}>
-                                    <Text style={fontStyles.subTextStyleGray}>
-                                        {strings.EditImage}</Text>
-                                </TouchableOpacity>
-                            </View>
-
-                        </View>
-                        <View style={{ flex: 1 }}>
-                            <View style={{ flex: 1, justifyContent: 'center' }}>
-                                <Text style={fontStyles.mainTextStyleBlack}>
-                                    {strings.EditDescription}</Text>
-                            </View>
-                            <View style={{ flex: 1, justifyContent: 'flex-start' }}>
-                                <RoundTextInput
-                                    width={(Dimensions.get('window').width * 0.669)}
-                                    height={(Dimensions.get('window').height * 0.14641)}
-                                    onChangeText={(input) => this.setState({ serviceDescription: input })}
-                                    value={this.state.serviceDescription} />
-                            </View>
-                        </View>
-                        <View style={{ flex: 1.25 }}>
-                            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                                <Text style={fontStyles.mainTextStyleBlack}>
-                                    {strings.EditPrice}</Text>
-                            </View>
-                            <View style={{ flex: 1, justifyContent: 'center' }}>
+                            <View>
                                 <OneLineTextInput
-                                    onChangeText={(input) => this.setState({ pricing: input })}
-                                    value={this.state.pricing}
-                                    width={Dimensions.get('window').width - 40}
+                                    onChangeText={(input) => this.setState({ serviceTitle: input })}
+                                    value={this.state.serviceTitle}
+                                    width={(Dimensions.get('window').width * 0.34)}
                                     password={false} />
                             </View>
                         </View>
-                        <View style={{ flex: 0.001 }}></View>
-                        <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
 
-                            <View style={{ flex: 1 }}>
-                                <RoundBlueButton
-                                    title={strings.Done}
-                                    style={roundBlueButtonStyle.MediumSizeButton}
-                                    textStyle={fontStyles.bigTextStyleWhite}
-                                    onPress={() => { this.saveProduct() }} />
-                            </View>
+                        <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                            <ImageWithBorder
+                                width={Dimensions.get('window').width * 0.33}
+                                height={Dimensions.get('window').height * 0.16}
+                                imageSource={this.state.imageSource} />
 
-                            <View style={{ flex: 1 }}>
-                                <LoadingSpinner isVisible={this.state.isLoading} />
-                            </View>
+                            <TouchableOpacity
+                                onPress={() => { this.chooseImage() }}
+                                style={{ justifyContent: 'flex-end' }}>
+                                <Text style={fontStyles.subTextStyleGray}>
+                                    {strings.EditImage}</Text>
+                            </TouchableOpacity>
                         </View>
-                        <View style={{ flex: 1 }}></View>
+
                     </View>
-                    <ErrorAlert
-                        isVisible={this.state.isErrorVisible}
-                        onPress={() => { this.setState({ isErrorVisible: false }) }}
-                        title={strings.Whoops}
-                        message={strings.SomethingWentWrong}
-                    />
-                    <ErrorAlert
-                        isVisible={this.state.fieldsError}
-                        onPress={() => { this.setState({ fieldsError: false }) }}
-                        title={strings.Whoops}
-                        message={strings.PleaseCompleteAllTheFields}
-                    />
-                </SafeAreaView>
-            </KeyboardAvoidingView>
+                    <View style={{ flex: 1 }}>
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
+                            <Text style={fontStyles.mainTextStyleBlack}>
+                                {strings.EditDescription}</Text>
+                        </View>
+                        <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+                            <RoundTextInput
+                                width={(Dimensions.get('window').width * 0.669)}
+                                height={(Dimensions.get('window').height * 0.14641)}
+                                onChangeText={(input) => this.setState({ serviceDescription: input })}
+                                value={this.state.serviceDescription} />
+                        </View>
+                    </View>
+                    <View style={{ flex: 1.25 }}>
+                        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                            <Text style={fontStyles.mainTextStyleBlack}>
+                                {strings.EditPrice}</Text>
+                        </View>
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
+                            <OneLineTextInput
+                                onChangeText={(input) => this.setState({ pricing: input })}
+                                value={this.state.pricing}
+                                width={Dimensions.get('window').width - 40}
+                                password={false} />
+                        </View>
+                    </View>
+                    <View style={{ flex: 0.001 }}></View>
+                    <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
+
+                        <View style={{ flex: 1 }}>
+                            <RoundBlueButton
+                                title={strings.Done}
+                                style={roundBlueButtonStyle.MediumSizeButton}
+                                textStyle={fontStyles.bigTextStyleWhite}
+                                onPress={() => { this.saveProduct() }} />
+                        </View>
+
+                        <View style={{ flex: 1 }}>
+                            <LoadingSpinner isVisible={this.state.isLoading} />
+                        </View>
+                    </View>
+                    <View style={{ flex: 1 }}></View>
+                </View>
+                <ErrorAlert
+                    isVisible={this.state.isErrorVisible}
+                    onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    title={strings.Whoops}
+                    message={strings.SomethingWentWrong}
+                />
+                <ErrorAlert
+                    isVisible={this.state.fieldsError}
+                    onPress={() => { this.setState({ fieldsError: false }) }}
+                    title={strings.Whoops}
+                    message={strings.PleaseCompleteAllTheFields}
+                />
+            </HelpView>
         )
     }
 }

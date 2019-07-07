@@ -3,8 +3,7 @@
 //first time that the user logs in or if they do not yet have products, then the screen will 
 //display prompting the user to sign in.
 import React, { Component } from 'react';
-import { View, ScrollView, Text, Dimensions, TouchableOpacity, FlatList, SafeAreaView } from 'react-native';
-import screenStyle from 'config/styles/screenStyle';
+import { View, ScrollView, Text, Dimensions, TouchableOpacity, FlatList } from 'react-native';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -16,6 +15,7 @@ import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonS
 import fontStyles from 'config/styles/fontStyles';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
+import HelpView from '../../components/HelpView';
 import ImageWithBorder from '../../components/ImageWithBorder';
 
 class businessScreen extends Component {
@@ -143,7 +143,7 @@ class businessScreen extends Component {
         //the provider's normal products will be displayed. 
         if (isLoading === true || (providerProducts.length == 0 && serviceIDsLength > 0) || provider === "") {
             return (
-                <SafeAreaView style={screenStyle.container}>
+                <HelpView>
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                         <LoadingSpinner isVisible={true} />
                     </View>
@@ -153,11 +153,11 @@ class businessScreen extends Component {
                         title={strings.Whoops}
                         message={strings.SomethingWentWrong}
                     />
-                </SafeAreaView>
+                </HelpView>
             );
         } else if (serviceIDsLength === 0) {
             return (
-                <SafeAreaView style={screenStyle.container}>
+                <HelpView style={{ alignItems: 'center' }}>
                     <View style={{ flex: 1.1 }}>
                         {topView}
                     </View>
@@ -191,11 +191,11 @@ class businessScreen extends Component {
                         title={strings.Whoops}
                         message={strings.SomethingWentWrong}
                     />
-                </SafeAreaView>
+                </HelpView>
             );
         } else {
             return (
-                <SafeAreaView style={screenStyle.container}>
+                <HelpView>
                     <View style={{ flex: 0.4 }}>
                         {topView}
                     </View>
@@ -234,7 +234,7 @@ class businessScreen extends Component {
                             message={strings.SomethingWentWrong}
                         />
                     </ScrollView>
-                </SafeAreaView>
+                </HelpView>
             );
         }
     }

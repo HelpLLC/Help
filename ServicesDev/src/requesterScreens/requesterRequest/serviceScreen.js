@@ -2,11 +2,11 @@
 //of the company providing it, etc. There will be a button at the bottom of the screen allowing the 
 //requester to request the service.
 import React, { Component } from 'react';
-import { View, Dimensions, TouchableOpacity, Text, SafeAreaView } from 'react-native';
+import { View, Dimensions, TouchableOpacity, Text } from 'react-native';
+import HelpView from '../../components/HelpView';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
-import screenStyle from 'config/styles/screenStyle';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import LoadingSpinner from '../../components/LoadingSpinner';
@@ -86,15 +86,15 @@ class serviceScreen extends Component {
         const { requester, provider } = this.props.navigation.state.params;
         if (isLoading === true || isRequested === "") {
             return (
-                <SafeAreaView style={screenStyle.container}>
+                <HelpView>
                     <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
                         <LoadingSpinner isVisible={isLoading} />
                     </View>
-                </SafeAreaView>
+                </HelpView>
             )
         } else {
             return (
-                <SafeAreaView style={screenStyle.container}>
+                <HelpView>
                     <View>
                         <View style={{ flex: 0.01 }}></View>
                         <View style={{
@@ -230,7 +230,7 @@ class serviceScreen extends Component {
                         }
                         }
                         cancelOnPress={() => { this.setState({ isCancelRequestVisible: false }); }} />
-                </SafeAreaView>
+                </HelpView>
             );
         }
     }

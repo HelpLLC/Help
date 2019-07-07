@@ -2,10 +2,10 @@
 //developers. The screen will stay visible for about 4 seconds and then will shift back
 //to the reportIssueScreen
 import React, { Component } from 'react';
-import screenStyle from 'config/styles/screenStyle';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
+import HelpView from '../../components/HelpView';
 
 export default class issueReportedScreen extends Component {
     //This method will wait 5 seconds then return to the reportIssueScreen
@@ -23,7 +23,7 @@ export default class issueReportedScreen extends Component {
     //Renders the UI
     render() {
         return (
-            <SafeAreaView style={screenStyle.container}>
+            <HelpView>
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                     <Text
                         style={fontStyles.mainTextStyleBlack}>
@@ -33,8 +33,7 @@ export default class issueReportedScreen extends Component {
                         style={fontStyles.mainTextStyleBlack}>
                         {strings.WellFixItRightAway}</Text>
                 </View>
-
-            </SafeAreaView>
+            </HelpView>
         );
     }
 }

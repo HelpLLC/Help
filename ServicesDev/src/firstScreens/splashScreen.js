@@ -2,8 +2,7 @@
 //will lead the requester pages, while the text underneath will direct the user to the working
 //section of the application
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native';
-import screenStyle from 'config/styles/screenStyle';
+import { View, Text, TouchableOpacity } from 'react-native';
 import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import strings from 'config/strings';
@@ -13,6 +12,7 @@ import firebase from 'react-native-firebase';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorAlert from '../components/ErrorAlert';
 import NetInfo from '@react-native-community/netinfo';
+import HelpView from '../components/HelpView';
 
 class splashScreen extends Component {
 
@@ -77,7 +77,7 @@ class splashScreen extends Component {
         const { isLoading, isUserLoggedIn, isErrorVisible, internetConnection } = this.state;
         if (isLoading === true) {
             return (
-                <SafeAreaView style={screenStyle.container}>
+                <HelpView>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <LoadingSpinner isVisible={true} />
                     </View>
@@ -93,11 +93,11 @@ class splashScreen extends Component {
                         title={strings.Whoops}
                         message={strings.NoConnection}
                     />
-                </SafeAreaView>
+                </HelpView>
             );
         } else if (isUserLoggedIn === false) {
             return (
-                <SafeAreaView style={screenStyle.container}>
+                <HelpView>
                     <View style={{ flex: 1, justifyContent: 'center' }}>
                         <Text style={fontStyles.bigTitleStyleBlue}>{strings.HelpExclamation}</Text>
                     </View>
@@ -129,11 +129,11 @@ class splashScreen extends Component {
                         title={strings.Whoops}
                         message={strings.SomethingWentWrong}
                     />
-                </SafeAreaView>
+                </HelpView>
             );
         } else {
             return (
-                <SafeAreaView style={screenStyle.container}>
+                <HelpView>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <LoadingSpinner isVisible={true} />
                     </View>
@@ -143,7 +143,7 @@ class splashScreen extends Component {
                         title={strings.Whoops}
                         message={strings.SomethingWentWrong}
                     />
-                </SafeAreaView>
+                </HelpView>
             );
         }
 

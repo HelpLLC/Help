@@ -2,14 +2,14 @@
 //screens. It will contain multiple options the user can choose from that will take them to seperate
 //screens using a StackNavigator
 import React, { Component } from 'react';
-import { View, SafeAreaView } from 'react-native';
+import { View } from 'react-native';
 import TopBanner from '../components/TopBanner';
-import screenStyle from 'config/styles/screenStyle';
 import whiteCardStyle from '../../config/styles/componentStyles/whiteCardStyle';
 import fontStyles from 'config/styles/fontStyles';
 import WhiteCard from '../components/WhiteCard';
 import { Icon } from 'react-native-elements';
 import colors from 'config/colors';
+import HelpView from '../components/HelpView';
 import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 
@@ -22,7 +22,7 @@ class settingsScreen extends Component {
         const user = (this.props.navigation.state.params.providerID ? this.props.navigation.state.params.providerID :
             this.props.navigation.state.params.requester);
         return (
-            <SafeAreaView style={screenStyle.container}>
+            <HelpView>
                 <View>
                     <TopBanner title={strings.Settings} />
                 </View>
@@ -76,7 +76,7 @@ class settingsScreen extends Component {
                         <View style={{ flex: 3 }}></View>
                     </View>
                 </View>
-            </SafeAreaView>
+            </HelpView>
         )
     }
 }

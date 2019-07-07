@@ -1,14 +1,14 @@
 //This will be the screen where the businesses will actually create their profiles & provide info
 //such as company name, description etc.
 import React, { Component } from 'react';
-import { View, Text, Keyboard, SafeAreaView, KeyboardAvoidingView, Dimensions } from 'react-native';
+import { View, Text, Keyboard, Dimensions } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
-import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineTextInput from '../components/OneLineTextInput';
 import LoadingSpinner from '../components/LoadingSpinner';
+import HelpView from '../components/HelpView';
 import RoundTextInput from '../components/RoundTextInput';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import ErrorAlert from '../components/ErrorAlert';
@@ -93,85 +93,83 @@ class createProviderProfileScreen extends Component {
 
     render() {
         return (
-            <KeyboardAvoidingView enabled behavior="padding" style={screenStyle.container}>
-                <SafeAreaView>
-                    <View>
-                        <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
-                            <View>
-                                <Text style={fontStyles.mainTextStyleBlack}>
-                                    {strings.WhatsYourBusinessCalledQuestion}</Text>
-                            </View>
-
-                            <View>
-                                <OneLineTextInput
-                                    placeholder={strings.EnterCompanyNameDotDotDot}
-                                    onChangeText={(input) => this.setState({ businessName: input })}
-                                    value={this.state.businessName}
-                                    password={false}
-                                    maxLength={18}
-                                />
-                            </View>
+            <HelpView>
+                <View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
+                        <View>
+                            <Text style={fontStyles.mainTextStyleBlack}>
+                                {strings.WhatsYourBusinessCalledQuestion}</Text>
                         </View>
 
-                        <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
-                            <View>
-                                <Text style={fontStyles.mainTextStyleBlack}>
-                                    {strings.WhatDoesYourBusinessDoQuestion}</Text>
-                            </View>
-
-                            <View>
-                                <RoundTextInput
-                                    width={(Dimensions.get('window').width * 0.669)}
-                                    height={(Dimensions.get('window').height * 0.14641)}
-                                    placeholder={strings.TellYourCustomersAboutYourselfDotDotDot}
-                                    onChangeText={(input) => this.setState({ businessInfo: input })}
-                                    value={this.state.businessInfo} />
-                            </View>
+                        <View>
+                            <OneLineTextInput
+                                placeholder={strings.EnterCompanyNameDotDotDot}
+                                onChangeText={(input) => this.setState({ businessName: input })}
+                                value={this.state.businessName}
+                                password={false}
+                                maxLength={18}
+                            />
                         </View>
-                        <View style={{ flex: 0.001 }}></View>
-                        <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
-
-                            <View style={{ flex: 1, alignItems: 'center' }}>
-                                <RoundBlueButton
-                                    title={strings.GetStarted}
-                                    style={roundBlueButtonStyle.MediumSizeButton}
-                                    textStyle={fontStyles.bigTextStyleWhite}
-                                    onPress={() => { this.signUp() }}
-                                />
-                            </View>
-                            <View style={{ flex: 1, alignItems: 'center' }}>
-                                <LoadingSpinner isVisible={this.state.isLoading} />
-                            </View>
-                        </View>
-
-                        <View style={{ flex: 1 }}></View>
                     </View>
-                    <ErrorAlert
-                        isVisible={this.state.isErrorVisible}
-                        onPress={() => { this.setState({ isErrorVisible: false }) }}
-                        title={strings.Whoops}
-                        message={strings.SomethingWentWrong}
-                    />
-                    <ErrorAlert
-                        isVisible={this.state.nameError}
-                        onPress={() => { this.setState({ nameError: false }) }}
-                        title={strings.Whoops}
-                        message={strings.PleaseEnterACompanyName}
-                    />
-                    <ErrorAlert
-                        isVisible={this.state.descriptionError}
-                        onPress={() => { this.setState({ descriptionError: false }) }}
-                        title={strings.Whoops}
-                        message={strings.PleaseEnterADescription}
-                    />
-                    <ErrorAlert
-                        isVisible={this.state.companyNameTakenError}
-                        onPress={() => { this.setState({ companyNameTakenError: false }) }}
-                        title={strings.Whoops}
-                        message={strings.CompanyNameTakenPleaseChooseAnotherName}
-                    />
-                </SafeAreaView>
-            </KeyboardAvoidingView>
+
+                    <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
+                        <View>
+                            <Text style={fontStyles.mainTextStyleBlack}>
+                                {strings.WhatDoesYourBusinessDoQuestion}</Text>
+                        </View>
+
+                        <View>
+                            <RoundTextInput
+                                width={(Dimensions.get('window').width * 0.669)}
+                                height={(Dimensions.get('window').height * 0.14641)}
+                                placeholder={strings.TellYourCustomersAboutYourselfDotDotDot}
+                                onChangeText={(input) => this.setState({ businessInfo: input })}
+                                value={this.state.businessInfo} />
+                        </View>
+                    </View>
+                    <View style={{ flex: 0.001 }}></View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
+
+                        <View style={{ flex: 1, alignItems: 'center' }}>
+                            <RoundBlueButton
+                                title={strings.GetStarted}
+                                style={roundBlueButtonStyle.MediumSizeButton}
+                                textStyle={fontStyles.bigTextStyleWhite}
+                                onPress={() => { this.signUp() }}
+                            />
+                        </View>
+                        <View style={{ flex: 1, alignItems: 'center' }}>
+                            <LoadingSpinner isVisible={this.state.isLoading} />
+                        </View>
+                    </View>
+
+                    <View style={{ flex: 1 }}></View>
+                </View>
+                <ErrorAlert
+                    isVisible={this.state.isErrorVisible}
+                    onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    title={strings.Whoops}
+                    message={strings.SomethingWentWrong}
+                />
+                <ErrorAlert
+                    isVisible={this.state.nameError}
+                    onPress={() => { this.setState({ nameError: false }) }}
+                    title={strings.Whoops}
+                    message={strings.PleaseEnterACompanyName}
+                />
+                <ErrorAlert
+                    isVisible={this.state.descriptionError}
+                    onPress={() => { this.setState({ descriptionError: false }) }}
+                    title={strings.Whoops}
+                    message={strings.PleaseEnterADescription}
+                />
+                <ErrorAlert
+                    isVisible={this.state.companyNameTakenError}
+                    onPress={() => { this.setState({ companyNameTakenError: false }) }}
+                    title={strings.Whoops}
+                    message={strings.CompanyNameTakenPleaseChooseAnotherName}
+                />
+            </HelpView>
         );
     }
 };
