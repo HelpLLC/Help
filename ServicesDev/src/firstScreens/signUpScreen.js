@@ -187,6 +187,7 @@ class signUpScreen extends Component {
                                 onPress={() => { this.signUp() }}
                             />
                         </View>
+                        <View style={{ flex: 2 }}></View>
                         <View style={{ flex: 1, alignItems: 'center' }}>
                             <LoadingSpinner isVisible={this.state.isLoading} />
                         </View>

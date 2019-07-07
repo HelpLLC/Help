@@ -95,7 +95,7 @@ class createProviderProfileScreen extends Component {
         return (
             <HelpView>
                 <View>
-                    <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
+                    <View style={{ flex: 0.7, justifyContent: 'center', alignSelf: 'center' }}>
                         <View>
                             <Text style={fontStyles.mainTextStyleBlack}>
                                 {strings.WhatsYourBusinessCalledQuestion}</Text>
@@ -112,13 +112,12 @@ class createProviderProfileScreen extends Component {
                         </View>
                     </View>
 
-                    <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
-                        <View>
+                    <View style={{ flex: 0.7 }}>
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
                             <Text style={fontStyles.mainTextStyleBlack}>
                                 {strings.WhatDoesYourBusinessDoQuestion}</Text>
                         </View>
-
-                        <View>
+                        <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                             <RoundTextInput
                                 width={(Dimensions.get('window').width * 0.669)}
                                 height={(Dimensions.get('window').height * 0.14641)}
@@ -127,7 +126,7 @@ class createProviderProfileScreen extends Component {
                                 value={this.state.businessInfo} />
                         </View>
                     </View>
-                    <View style={{ flex: 0.001 }}></View>
+                    <View style={{ flex: 1 }}></View>
                     <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
 
                         <View style={{ flex: 1, alignItems: 'center' }}>
@@ -143,7 +142,6 @@ class createProviderProfileScreen extends Component {
                         </View>
                     </View>
 
-                    <View style={{ flex: 1 }}></View>
                 </View>
                 <ErrorAlert
                     isVisible={this.state.isErrorVisible}
