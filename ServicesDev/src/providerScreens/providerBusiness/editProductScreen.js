@@ -128,13 +128,13 @@ class editProductScreen extends Component {
                         </View>
                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                             <RoundTextInput
-                                width={(Dimensions.get('window').width * 0.669)}
+                                width={Dimensions.get('window').width - 40}
                                 height={(Dimensions.get('window').height * 0.14641)}
                                 onChangeText={(input) => this.setState({ serviceDescription: input })}
                                 value={this.state.serviceDescription} />
                         </View>
                     </View>
-                    <View style={{ flex: 1.25 }}>
+                    <View style={{ flex: 1.5 }}>
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                             <Text style={fontStyles.mainTextStyleBlack}>
                                 {strings.EditPrice}</Text>
@@ -162,7 +162,7 @@ class editProductScreen extends Component {
                             <LoadingSpinner isVisible={this.state.isLoading} />
                         </View>
                     </View>
-                    <View style={{ flex: 1 }}></View>
+                    <View style={{ flex: 0.8 }}></View>
                 </View>
                 <ErrorAlert
                     isVisible={this.state.isErrorVisible}

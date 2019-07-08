@@ -64,7 +64,7 @@ class reportIssueScreen extends Component {
                             onChangeText={(input) => this.setState({ userInput: input })}
                             value={this.state.userInput} />
                     </View>
-                    <View style={{ flex: 0.5 }}></View>
+                    <View style={{ flex: 0.8 }}></View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <View style={{ flex: 0.025 }}></View>
                         <View style={{ flex: 1 }}>
@@ -77,7 +77,7 @@ class reportIssueScreen extends Component {
                                 }} />
                         </View>
                     </View>
-                    <View style={{ flex: 1.5 }}></View>
+                    <View style={{ flex: 1 }}></View>
                 </View>
                 <ErrorAlert
                     isVisible={this.state.isErrorVisible}

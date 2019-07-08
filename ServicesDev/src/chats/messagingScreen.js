@@ -3,8 +3,9 @@
 import React, { Component } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
 import colors from 'config/colors';
+import HelpView from '../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import { View } from 'react-native';
+import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 class messagingScreen extends Component {
@@ -55,25 +56,27 @@ class messagingScreen extends Component {
     render(props) {
         const { userID } = this.props.navigation.state.params;
         return (
-            <View style={{ backgroundColor: colors.lightGray, flex: 1 }}>
-                {
-                    this.state.isLoading ? (
-                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                            <LoadingSpinner isVisible={this.state.isLoading} />
-                        </View>
-                    ) : (
-                            <GiftedChat
-                                {...props}
-                                messages={this.state.messages}
-                                placeholder={"Type a message..."}
-                                user={{
-                                    _id: userID
-                                }}
-                                renderAvatar={null}
-                                onSend={(message) => { this.sendMessage(message) }} />
-                        )
-                }
-            </View>
+            <TouchableWithoutFeedback accessible={false} onPress={Keyboard.dismiss}>
+                <View style={{ flex: 1, backgroundColor: colors.lightGray }} >
+                    {
+                        this.state.isLoading ? (
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                                <LoadingSpinner isVisible={this.state.isLoading} />
+                            </View>
+                        ) : (
+                                <GiftedChat
+                                    {...props}
+                                    messages={this.state.messages}
+                                    placeholder={"Type a message..."}
+                                    user={{
+                                        _id: userID
+                                    }}
+                                    renderAvatar={null}
+                                    onSend={(message) => { this.sendMessage(message) }} />
+                            )
+                    }
+                </View>
+            </TouchableWithoutFeedback>
         )
     }
 }

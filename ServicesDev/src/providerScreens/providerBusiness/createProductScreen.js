@@ -132,7 +132,7 @@ class createProductScreen extends Component {
                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                             <RoundTextInput
                                 width={Dimensions.get('window').width - 40}
-                                height={100}
+                                height={(Dimensions.get('window').height * 0.14641)}
                                 placeholder={strings.EnterDescriptionForCustomersDotDotDot}
                                 onChangeText={(input) => this.setState({ serviceDescription: input })}
                                 value={this.state.serviceDescription} />
