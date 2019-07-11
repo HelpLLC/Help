@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "464417078624",
+    "firebase_url": "https://help-d194d.firebaseio.com",
+    "project_id": "help-d194d",
+    "storage_bucket": "help-d194d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464417078624:android:1fedf5f8dffed436",
+        "android_client_info": {
+          "package_name": "com.Help"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464417078624-9fibq2t2geu5ks4pvluoc10o9dom8kl0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Help",
+            "certificate_hash": "d0adc7e5059ddb916042d13ba8913e1632abe06f"
+          }
+        },
+        {
+          "client_id": "464417078624-jthi96jr4obh3t3iieb06au3gkmmq8lr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5gXruGkGvtrwSraYDPMqVCp2TCnCREEQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464417078624-jthi96jr4obh3t3iieb06au3gkmmq8lr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "464417078624-hf4eh0uv2i4n7hhtiiri2bmngo0me4bm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.help",
+                "app_store_id": "1468626210"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464417078624:android:a3be995ae3cf6ea5",
+        "android_client_info": {
+          "package_name": "com.help"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464417078624-jthi96jr4obh3t3iieb06au3gkmmq8lr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5gXruGkGvtrwSraYDPMqVCp2TCnCREEQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464417078624-jthi96jr4obh3t3iieb06au3gkmmq8lr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "464417078624-hf4eh0uv2i4n7hhtiiri2bmngo0me4bm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.help",
+                "app_store_id": "1468626210"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
