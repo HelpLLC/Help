@@ -36,6 +36,8 @@ target 'Help' do
   pod 'Fabric', '~> 1.10.2'
   pod 'Crashlytics', '~> 3.13.2'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'HelpTests' do
     inherit! :search_paths
     # Pods for testing
