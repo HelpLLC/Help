@@ -138,7 +138,8 @@ export default class FirebaseFunctions {
 
         const newRequester = {
             requesterID: uid,
-            username: email.substring(0, email.indexOf("@"))
+            username: email.substring(0, email.indexOf("@")),
+            blockedUsers: []
         }
 
         batch.set(ref, newRequester);

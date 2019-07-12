@@ -12,6 +12,7 @@
     "jetifier": "^1.6.2",
     "react": "16.8.6",
     "react-native": "0.60.2",
+    "react-native-actionsheet": "^2.4.2",
     "react-native-awesome-alerts": "^1.2.0",
     "react-native-check-box": "^2.1.7",
     "react-native-elements": "^1.1.0",

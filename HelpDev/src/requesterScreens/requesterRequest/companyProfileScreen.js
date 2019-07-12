@@ -13,6 +13,7 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import { Icon } from 'react-native-elements';
+import ActionSheet from 'react-native-actionsheet'
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
 import strings from 'config/strings';
@@ -26,7 +27,8 @@ class companyProfileScreen extends Component {
             isLoading: true,
             serviceIDsLength: 0,
             providerProducts: [],
-            isErrorVisible: false
+            isErrorVisible: false,
+            isCompanyReportedVisible: false
         }
     }
 
@@ -91,6 +93,24 @@ class companyProfileScreen extends Component {
         });
     }
 
+    //This method will make sure that the company is blocked from this requester's perspective
+    blockCompany() {
+
+    }
+
+    //This method will allow the requester to report the company which will then be reviewed by
+    //the developers
+    reportCompany() {
+        const { provider, requester } = this.props.navigation.state.params;
+        FirebaseFunctions.reportIssue(requester.requesterID, {
+            report: "Report against a company",
+            companyID: provider.providerID,
+            companyName: provider.companyName
+        });
+        this.ActionSheet.hide();
+        this.setState({ isCompanyReportedVisible: true });
+    }
+
     render() {
         const { isLoading, providerProducts, serviceIDsLength } = this.state;
         if (isLoading === true || (providerProducts.length == 0 && serviceIDsLength > 0)) {
@@ -128,14 +148,25 @@ class companyProfileScreen extends Component {
                                 </View>
                             </View>
 
-                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-end' }}>
-                                <TouchableOpacity onPress={() => this.messageProvider()}>
+                            <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                                <TouchableOpacity
+                                    style={{ flex: 1 }}
+                                    onPress={() => this.messageProvider()}>
                                     <Icon
                                         name="comment"
                                         type="font-awesome"
                                         size={40}
-                                        color={colors.lightBlue}
-                                    />
+                                        color={colors.lightBlue} />
+                                </TouchableOpacity>
+                                <View style={{ flex: 0.5 }}></View>
+                                <TouchableOpacity
+                                    style={{ flex: 1 }}
+                                    onPress={() => this.ActionSheet.show()}>
+                                    <Icon
+                                        name="ellipsis-h"
+                                        type="font-awesome"
+                                        size={40}
+                                        color={colors.lightBlue} />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -176,7 +207,28 @@ class companyProfileScreen extends Component {
                         isVisible={this.state.isErrorVisible}
                         onPress={() => { this.setState({ isErrorVisible: false }) }}
                         title={strings.Whoops}
-                        message={strings.SomethingWentWrong}
+                        message={strings.SomethingWentWrong} />
+                    <ErrorAlert
+                        isVisible={this.state.isCompanyReportedVisible}
+                        onPress={() => { this.setState({ isCompanyReportedVisible: false }) }}
+                        title={strings.CompanyReported}
+                        message={strings.CompanyHasBeenReported} />
+                    <ActionSheet
+                        ref={o => this.ActionSheet = o}
+                        title={provider.companyName}
+                        options={[strings.Report, strings.Block, strings.Cancel]}
+                        cancelButtonIndex={2}
+                        styles={{
+                            titleText: fontStyles.subTextStyleBlue
+                        }}
+                        destructiveButtonIndex={2}
+                        onPress={(index) => {
+                            if (index === 0) {
+                                this.reportCompany();
+                            } else if (index === 1) {
+                                this.blockCompany();
+                            }
+                        }}
                     />
                 </HelpView>
             );

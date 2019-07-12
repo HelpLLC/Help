@@ -144,6 +144,9 @@ export default {
 
     //------------------- Requester Side Company Profile Screen -------------------
     CompanyProfile: 'Company Profile',
+    Block: 'Block',
+    CompanyReported: 'Company Reported',
+    CompanyHasBeenReported: 'This company has been reported. Help staff will take a look. Thank you for your patience.',
 
     //------------------- Chats Screen -------------------
     NoMessagesYet: 'No messages yet',
