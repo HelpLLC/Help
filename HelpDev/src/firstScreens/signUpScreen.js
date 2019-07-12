@@ -1,9 +1,10 @@
 //This is the screen that will pop up when users first come to sign up for the app, it will
 //ask for an email and a password, and what type of account they want to create
 import React, { Component } from 'react';
-import { View, Text, Dimensions, Keyboard } from 'react-native';
+import { View, Text, Dimensions, Keyboard, TouchableOpacity } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
+import CheckBox from 'react-native-check-box'
 import colors from 'config/colors';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../components/RoundBlueButton';
@@ -34,7 +35,9 @@ class signUpScreen extends Component {
         passwordError: false,
         emailExistsError: false,
         isLoading: false,
-        isErrorVisible: false
+        isErrorVisible: false,
+        isChecked: false,
+        termsAndConditionsError: false
     }
 
     //This method signs up the user & creates an account for them based on what they chose and their
@@ -43,7 +46,7 @@ class signUpScreen extends Component {
 
         Keyboard.dismiss();
         //fetches the entered email and password
-        let { email, password, buttonSelected } = this.state;
+        let { email, password, buttonSelected, isChecked } = this.state;
         email = email.trim();
         password = password.trim();
 
@@ -58,6 +61,8 @@ class signUpScreen extends Component {
             this.setState({ emailError: true });
         } else if (password.length < 6) {
             this.setState({ passwordError: true });
+        } else if (isChecked === false) {
+            this.setState({ termsAndConditionsError: true });
         } else {
 
             this.setState({ isLoading: true });
@@ -183,6 +188,21 @@ class signUpScreen extends Component {
                                 }} />
                         </View>
                     </View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+                        <CheckBox
+                            onClick={() => { this.setState({ isChecked: !this.state.isChecked }) }}
+                            isChecked={this.state.isChecked}
+                            checkedCheckBoxColor={colors.lightBlue}
+                            checkBoxColor={colors.lightBlue} />
+                        <Text>{" "}</Text>
+                        <Text style={fontStyles.mainTextStyleBlack}>{strings.IAcceptThe}</Text>
+                        <TouchableOpacity onPress={() => {
+                            //Navigates to the Terms and Conditions screen
+                            this.props.navigation.push("TermsAndConditionsScreen");
+                        }}>
+                            <Text style={fontStyles.mainTextStyleBlue}>{strings.TermsAndConditions}</Text>
+                        </TouchableOpacity>
+                    </View>
                     <View style={{ flex: 0.001 }}></View>
                     <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
                         <View style={{ flex: 1 }}></View>
@@ -236,6 +256,12 @@ class signUpScreen extends Component {
                     onPress={() => { this.setState({ emailExistsError: false }) }}
                     title={strings.Whoops}
                     message={strings.EmailExists}
+                />
+                <ErrorAlert
+                    isVisible={this.state.termsAndConditionsError}
+                    onPress={() => { this.setState({ termsAndConditionsError: false }) }}
+                    title={strings.Whoops}
+                    message={strings.CheckTermsAndConditions}
                 />
             </HelpView>
         );

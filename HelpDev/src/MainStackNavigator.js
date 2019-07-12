@@ -17,6 +17,7 @@ import TopBanner from './components/TopBanner';
 import React from 'react';
 import strings from 'config/strings';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
+import termsAndConditionsScreen from './firstScreens/termsAndConditionsScreen';
 
 
 //The route config for all of the screens
@@ -179,6 +180,19 @@ const routeConfig = {
             header: (
                 <TopBanner
                     title={strings.Privacy}
+                    leftIconName="angle-left"
+                    leftOnPress={() => navigation.goBack()} />
+            )
+        })
+    },
+
+    //Takes you to the terms and conditions screen
+    TermsAndConditionsScreen: {
+        screen: termsAndConditionsScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: (
+                <TopBanner
+                    title={strings.TermsAndConditions}
                     leftIconName="angle-left"
                     leftOnPress={() => navigation.goBack()} />
             )

@@ -65,6 +65,16 @@ class settingsScreen extends Component {
                         <View style={{ flex: 1 }}>
                             <WhiteCard
                                 style={whiteCardStyle.whiteCardStyle}
+                                text={strings.TermsAndConditions}
+                                mainTextStyle={fontStyles.subTextStyleBlack}
+                                comp={angleRightIcon}
+                                //Pressing this leads to the about screen page
+                                onPress={() => this.props.navigation.push('TermsAndConditionsScreen')}
+                            />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                            <WhiteCard
+                                style={whiteCardStyle.whiteCardStyle}
                                 text={strings.LogOut}
                                 mainTextStyle={fontStyles.subTextStyleRed}
                                 //To-Do: Needs to call a logout function

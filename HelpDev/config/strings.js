@@ -40,6 +40,9 @@ export default {
     NoButtonSelected: 'Please select an account type',
     EmailExists: 'An account with this email already exists. Go back and log into this account',
     ShortPassword: 'Password must be at least 6 characters',
+    IAcceptThe: 'I accept the ',
+    TermsAndConditions: 'Terms and Conditions',
+    CheckTermsAndConditions: 'You must accept the terms and conditions to use Help',
 
     //------------------- Settings Screen -------------------
     History: 'History',
@@ -145,7 +148,7 @@ export default {
     //------------------- Chats Screen -------------------
     NoMessagesYet: 'No messages yet',
 
-    //------------------- Privacy Policy -----------------
+    //------------------- Documents -----------------
     PrivacyPolicy: 'Welcome to our Privacy Policy' +
         '-- Your privacy is critically important to us.' +
         'Help LLC is located at:' +
