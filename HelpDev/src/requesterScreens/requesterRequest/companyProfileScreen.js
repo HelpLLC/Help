@@ -15,6 +15,7 @@ import fontStyles from 'config/styles/fontStyles';
 import { Icon } from 'react-native-elements';
 import ActionSheet from 'react-native-actionsheet'
 import LoadingSpinner from '../../components/LoadingSpinner';
+import OptionPicker from '../../components/OptionPicker';
 import ErrorAlert from '../../components/ErrorAlert';
 import strings from 'config/strings';
 
@@ -28,7 +29,8 @@ class companyProfileScreen extends Component {
             serviceIDsLength: 0,
             providerProducts: [],
             isErrorVisible: false,
-            isCompanyReportedVisible: false
+            isCompanyReportedVisible: false,
+            isBlockCompanyVisible: false
         }
     }
 
@@ -94,7 +96,24 @@ class companyProfileScreen extends Component {
     }
 
     //This method will make sure that the company is blocked from this requester's perspective
-    blockCompany() {
+    async blockCompany() {
+
+        const { provider, requester } = this.props.navigation.state.params;
+
+        //First blocks the user
+        this.setState({ isLoading: true });
+        await FirebaseFunctions.blockCompany(requester, provider);
+
+        //Navigates back to the request screen
+        try {
+            const allProducts = await FirebaseFunctions.getAllProducts();
+            this.props.navigation.push('RequesterScreens', {
+                requester,
+                allProducts
+            });
+        } catch (error) {
+            this.setState({ isLoading: false, isErrorVisible: true });
+        }
 
     }
 
@@ -102,12 +121,11 @@ class companyProfileScreen extends Component {
     //the developers
     reportCompany() {
         const { provider, requester } = this.props.navigation.state.params;
-        FirebaseFunctions.reportIssue(requester.requesterID, {
+        FirebaseFunctions.reportIssue(requester, {
             report: "Report against a company",
             companyID: provider.providerID,
             companyName: provider.companyName
         });
-        this.ActionSheet.hide();
         this.setState({ isCompanyReportedVisible: true });
     }
 
@@ -116,7 +134,7 @@ class companyProfileScreen extends Component {
         if (isLoading === true || (providerProducts.length == 0 && serviceIDsLength > 0)) {
             return (
                 <HelpView style={screenStyle.container}>
-                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
                         <LoadingSpinner isVisible={isLoading} />
                     </View>
                 </HelpView>
@@ -226,10 +244,20 @@ class companyProfileScreen extends Component {
                             if (index === 0) {
                                 this.reportCompany();
                             } else if (index === 1) {
-                                this.blockCompany();
+                                this.setState({ isBlockCompanyVisible: true });
                             }
+                        }} />
+                    <OptionPicker
+                        isVisible={this.state.isBlockCompanyVisible}
+                        title={strings.Block}
+                        message={strings.AreYouSureYouWantToBlock + " " + provider.companyName + "?"}
+                        confirmText={strings.Yes}
+                        cancelText={strings.Cancel}
+                        confirmOnPress={() => {
+                            this.blockCompany();
                         }}
-                    />
+                        cancelOnPress={() => { this.setState({ isBlockCompanyVisible: false }); }} />
+
                 </HelpView>
             );
         }

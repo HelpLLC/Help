@@ -13,6 +13,7 @@ import aboutScreen from './settingsScreens/aboutScreen';
 import privacyScreen from './settingsScreens/privacyScreen';
 import reportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';
 import providerScreensNavigator from './providerScreens/providerScreensNavigator';
+import requesterScreensNavigator from './requesterScreens/requesterScreensNavigator';
 import TopBanner from './components/TopBanner';
 import React from 'react';
 import strings from 'config/strings';
@@ -140,6 +141,14 @@ const routeConfig = {
                     leftIconName="angle-left"
                     leftOnPress={() => navigation.goBack()} />
             )
+        })
+    },
+
+    //Takes you to the requester screen navigator's default route
+    RequesterScreens: {
+        screen: requesterScreensNavigator,
+        navigationOptions: ({ navigation }) => ({
+            header: null
         })
     },
 

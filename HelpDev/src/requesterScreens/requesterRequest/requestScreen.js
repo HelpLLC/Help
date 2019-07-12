@@ -22,6 +22,13 @@ class requestScreen extends Component {
     };
 
     render() {
+
+        //Filters the products and removes any that are posted by blocked users
+        let { allProducts, requester } = this.props.navigation.state.params;
+        allProducts = allProducts.filter((product) => {
+            return !(requester.blockedUsers.includes(product.offeredByID));
+        })
+
         return (
             <TabView
                 navigationState={this.state}
@@ -34,7 +41,7 @@ class requestScreen extends Component {
                                 requester={this.props.navigation.state.params.requester}
                                 //To-Do: Make a classification model that only retrieves the yardwork
                                 //products
-                                yardwordProducts={this.props.navigation.state.params.allProducts} />;
+                                yardwordProducts={allProducts} />;
                         case 'other':
                             return <Other jumpTo={jumpTo} />;
                     }

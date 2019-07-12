@@ -139,7 +139,7 @@ export default class FirebaseFunctions {
         const newRequester = {
             requesterID: uid,
             username: email.substring(0, email.indexOf("@")),
-            blockedUsers: []
+            blockedUsers: ["Example Business"]
         }
 
         batch.set(ref, newRequester);
@@ -424,6 +424,28 @@ export default class FirebaseFunctions {
             issue,
             userID
         });
+        return 0;
+    }
+
+    //This method will take in a request and a provider and block that provider from being able to sell
+    //to the requester or get in contact with them. It does this by addind the provider's ID to the array
+    //of blocked users that belongs to the requesters
+    static async blockCompany(requester, provider) {
+
+        //Fetches the old array of blocked companies by this requester and appends this provider to
+        //that list
+        const arrayOfBlockedCompanies = requester.blockedUsers;
+        arrayOfBlockedCompanies.push(provider.providerID);
+
+        //Updates this array in the firebase firestore
+        const batch = this.database.batch();
+        const ref = this.requesters.doc(requester.requesterID);
+        batch.update(ref, {
+            blockedUsers: arrayOfBlockedCompanies
+        });
+
+        //commits the batch
+        await batch.commit();
         return 0;
     }
 

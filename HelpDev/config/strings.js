@@ -146,6 +146,7 @@ export default {
     CompanyProfile: 'Company Profile',
     Block: 'Block',
     CompanyReported: 'Company Reported',
+    AreYouSureYouWantToBlock: 'Are you sure your want to block',
     CompanyHasBeenReported: 'This company has been reported. Help staff will take a look. Thank you for your patience.',
 
     //------------------- Chats Screen -------------------
