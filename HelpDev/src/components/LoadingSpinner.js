@@ -1,7 +1,6 @@
 //This component will be the default loading spinner that should be user throughout the entire app
 import React, { Component } from 'react';
-import { View } from 'react-native';
-import Spinner from 'react-native-spinkit';
+import { View, ActivityIndicator } from 'react-native';
 import colors from 'config/colors';
 import PropTypes from 'prop-types';
 
@@ -10,10 +9,9 @@ class LoadingSpinner extends Component {
     render() {
         return (
             <View>
-                <Spinner
-                    isVisible={this.props.isVisible}
-                    size={60}
-                    type={"ThreeBounce"}
+                <ActivityIndicator
+                    animating={this.props.isVisible}
+                    size={'small'}
                     color={colors.lightBlue} />
             </View>
         );

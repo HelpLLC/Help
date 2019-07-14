@@ -2,7 +2,7 @@
 //will lead the requester pages, while the text underneath will direct the user to the working
 //section of the application
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, NetInfo } from 'react-native';
 import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import strings from 'config/strings';
@@ -11,7 +11,6 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 import firebase from 'react-native-firebase';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorAlert from '../components/ErrorAlert';
-import NetInfo from '@react-native-community/netinfo';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle'
 
