@@ -1,6 +1,7 @@
 //This class will represent the "yardwork" tab within the categories that the requester can choose from
 import React, { Component } from 'react';
-import { View, FlatList, ScrollView } from 'react-native';
+import { View, FlatList, ScrollView, Text } from 'react-native';
+import fontStyles from 'config/styles/fontStyles';
 import ServiceCard from '../../../components/ServiceCard';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import ErrorAlert from '../../../components/ErrorAlert';
@@ -11,13 +12,26 @@ import screenStyle from 'config/styles/screenStyle';
 export default class Yardwork extends Component {
 
     state = {
-        isErrorVisible: false
+        isErrorVisible: false,
+        isLoading: false
     }
 
     render() {
 
         //Fetches this requester and all the products currently in the market
         const { yardwordProducts, requester } = this.props;
+
+        //If there are no current products available in the market, then a message will be displayed saying
+        //there are no current products
+        if (yardwordProducts.length === 0) {
+            return (
+                <HelpView style={screenStyle.container}>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
+                        <Text style={fontStyles.mainTextStyleBlack}>{strings.NoCurrentServices}</Text>
+                    </View>
+                </HelpView>
+            )
+        }
 
         return (
             <HelpView style={screenStyle.container}>

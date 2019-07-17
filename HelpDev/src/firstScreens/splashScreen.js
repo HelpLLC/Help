@@ -74,7 +74,7 @@ class splashScreen extends Component {
             return (
                 <HelpView style={screenStyle.container}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <LoadingSpinner isVisible={true} />
+                        <LoadingSpinner isVisible={isLoading} />
                     </View>
                     <ErrorAlert
                         isVisible={isErrorVisible}

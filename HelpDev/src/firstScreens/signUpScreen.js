@@ -111,6 +111,7 @@ class signUpScreen extends Component {
             //View that dismisses the keyboard when clicked anywhere else
             <HelpView style={screenStyle.container}>
                 <View>
+                    <View style={{ flex: 0.25 }}></View>
                     <View style={{ flex: 1.2, justifyContent: 'center', alignSelf: 'center' }}>
                         <View>
                             <Text style={fontStyles.mainTextStyleBlack}>{strings.Email}</Text>

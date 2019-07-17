@@ -1,0 +1,4 @@
+- Made it so if there are no current services available to request, customers are presented
+with a message saying so
+- Changed current loading spinner with a three dot loading animation
+- Made the app take the full height of the screen

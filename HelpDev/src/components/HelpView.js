@@ -3,8 +3,7 @@
 //that if the keyboard is clicked away from, it should hide. It will take care of the screen's background
 //color and everything
 import React from 'react';
-import { Header } from 'react-navigation';
-import { SafeAreaView, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native';
+import { View, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
 
 //Creates the higher order component
@@ -21,5 +20,5 @@ const HelpViewHOC = (Comp) => {
 }
 
 //Creats the component & exports it
-const HelpView = HelpViewHOC(SafeAreaView);
+const HelpView = HelpViewHOC(View);
 export default HelpView;

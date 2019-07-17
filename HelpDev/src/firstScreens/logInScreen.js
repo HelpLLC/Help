@@ -65,6 +65,7 @@ class logInScreen extends Component {
                     const allProducts = await FirebaseFunctions.getAllProducts();
                     //If this is a requester, then it will navigate to the screens & pass in the
                     //correct params
+                    this.setState({ isLoading: false });
                     this.props.navigation.push('RequesterScreens', {
                         requester: requester,
                         allProducts

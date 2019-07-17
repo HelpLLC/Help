@@ -132,6 +132,7 @@ export default {
     Other: 'Other',
     MoreCategoriesComingSoonExclamation: 'More categories coming soon!',
     OfferedBy: 'Offered by',
+    NoCurrentServices: 'There are no current services available to request. Check back soon!',
 
     //------------------- Requester Service Screen -------------------
     ServiceRequested: 'Service Requested',
