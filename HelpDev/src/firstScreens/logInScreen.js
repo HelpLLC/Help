@@ -129,7 +129,8 @@ class logInScreen extends Component {
                                 textStyle={fontStyles.bigTextStyleWhite}
                                 //Method logs the person in based on what is entered into the text
                                 //input
-                                onPress={() => { this.logIn() }} />
+                                onPress={() => { this.logIn() }}
+                                disabled={this.state.isLoading} />
                         </View>
                         <View style={{ flex: 1 }}>
                             <LoadingSpinner isVisible={this.state.isLoading} />

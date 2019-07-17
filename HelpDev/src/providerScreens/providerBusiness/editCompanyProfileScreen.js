@@ -109,6 +109,7 @@ class editCompanyProfileScreen extends Component {
                                 style={roundBlueButtonStyle.MediumSizeButton}
                                 textStyle={fontStyles.bigTextStyleWhite}
                                 onPress={() => { this.saveCompanyInfo() }}
+                                disabled={this.state.isLoading}
                             />
                         </View>
 

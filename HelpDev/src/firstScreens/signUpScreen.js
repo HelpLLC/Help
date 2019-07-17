@@ -170,7 +170,8 @@ class signUpScreen extends Component {
                                 onPress={() => {
                                     this.setState({ buttonSelected: "Business" })
                                     Keyboard.dismiss();
-                                }} />
+                                }}
+                                disabled={this.state.isLoading} />
                         </View>
                         <View style={{ flex: 1, alignItems: 'center' }}>
                             <RoundBlueButton
@@ -186,7 +187,8 @@ class signUpScreen extends Component {
                                 onPress={() => {
                                     this.setState({ buttonSelected: "Customer" })
                                     Keyboard.dismiss();
-                                }} />
+                                }}
+                                disabled={this.state.isLoading} />
                         </View>
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
@@ -213,6 +215,7 @@ class signUpScreen extends Component {
                                 style={roundBlueButtonStyle.MediumSizeButton}
                                 textStyle={fontStyles.bigTextStyleWhite}
                                 onPress={() => { this.signUp() }}
+                                disabled={this.state.isLoading}
                             />
                         </View>
                         <View style={{ flex: 2 }}></View>

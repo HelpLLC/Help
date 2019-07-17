@@ -163,7 +163,8 @@ class createProductScreen extends Component {
                                     textStyle={fontStyles.bigTextStyleWhite}
                                     onPress={async () => {
                                         await this.createProduct();
-                                    }} />
+                                    }}
+                                    disabled={this.state.isLoading} />
                             </View>
                             <View style={{ flex: 0.5 }}></View>
                             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

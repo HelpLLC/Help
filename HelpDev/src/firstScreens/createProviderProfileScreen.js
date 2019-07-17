@@ -136,6 +136,7 @@ class createProviderProfileScreen extends Component {
                                 style={roundBlueButtonStyle.MediumSizeButton}
                                 textStyle={fontStyles.bigTextStyleWhite}
                                 onPress={() => { this.signUp() }}
+                                disabled={this.state.isLoading}
                             />
                         </View>
                         <View style={{ flex: 1, alignItems: 'center' }}>

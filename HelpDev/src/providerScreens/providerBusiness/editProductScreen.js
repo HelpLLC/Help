@@ -155,7 +155,8 @@ class editProductScreen extends Component {
                                 title={strings.Done}
                                 style={roundBlueButtonStyle.MediumSizeButton}
                                 textStyle={fontStyles.bigTextStyleWhite}
-                                onPress={() => { this.saveProduct() }} />
+                                onPress={() => { this.saveProduct() }}
+                                disabled={this.state.isLoading} />
                         </View>
 
                         <View style={{ flex: 1 }}>
