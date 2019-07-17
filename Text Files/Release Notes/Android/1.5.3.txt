@@ -3,3 +3,4 @@ with a message saying so
 - Fixed issues with loading dots
 - Made the app take the full height of the screen
 - Made sure all buttons are disabled while a screen is loading
+- Sorted a business's products by the order of requests each service has
