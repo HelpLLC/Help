@@ -27,7 +27,7 @@ export default class Yardwork extends Component {
             return (
                 <HelpView style={screenStyle.container}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
-                        <Text style={fontStyles.mainTextStyleBlack}>{strings.NoCurrentServices}</Text>
+                        <Text style={[fontStyles.mainTextStyleBlack, { textAlign: 'center' }]}>{strings.NoCurrentServices}</Text>
                     </View>
                 </HelpView>
             )
