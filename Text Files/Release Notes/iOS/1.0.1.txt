@@ -2,3 +2,4 @@
 with a message saying so
 - Changed current loading spinner with a three dot loading animation
 - Made the app take the full height of the screen
+- Made all buttons disabled while a screen is loading

@@ -48,14 +48,20 @@ class businessScreen extends Component {
                     const service = await FirebaseFunctions.getServiceByID(ID);
                     const newArrayOfProducts = this.state.providerProducts;
                     newArrayOfProducts.push(service);
+                    newArrayOfProducts.sort((productA, productB) => {
+                        return productB.requests.currentRequests.length - productA.requests.currentRequests.length;
+                    });
                     this.setState({
                         providerProducts: newArrayOfProducts
                     });
                 });
-                this.setState({
-                    isLoading: false,
-                    serviceIDsLength: provider.serviceIDs.length,
-                });
+                //Waits an additional second to make sure the screen is loaded
+                this.timeoutHandle = setTimeout(() => {
+                    this.setState({ serviceIDsLength: provider.serviceIDs.length });
+                    this.setState({ isLoading: false });
+                    //Makes sure the screen only stays on for three seconds
+                }, 500);
+
             }
         } catch (error) {
             this.setState({ isLoading: false, isErrorVisible: true });
@@ -158,7 +164,7 @@ class businessScreen extends Component {
             );
         } else if (serviceIDsLength === 0) {
             return (
-                <HelpView  style={screenStyle.container}>
+                <HelpView style={screenStyle.container}>
                     <View style={{ flex: 1.1 }}>
                         {topView}
                     </View>
