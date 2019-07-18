@@ -191,21 +191,24 @@ class signUpScreen extends Component {
                                 disabled={this.state.isLoading} />
                         </View>
                     </View>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+                    <View style={{ flex: 0.5}}></View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
                         <CheckBox
                             onClick={() => { this.setState({ isChecked: !this.state.isChecked }) }}
                             isChecked={this.state.isChecked}
                             checkedCheckBoxColor={colors.lightBlue}
                             checkBoxColor={colors.lightBlue} />
-                        <Text>{" "}</Text>
                         <Text style={fontStyles.mainTextStyleBlack}>{strings.IAcceptThe}</Text>
                         <TouchableOpacity onPress={() => {
                             //Navigates to the Terms and Conditions screen
                             this.props.navigation.push("TermsAndConditionsScreen");
                         }}>
-                            <Text style={fontStyles.mainTextStyleBlue}>{strings.TermsAndConditions}</Text>
+                            <Text style={[fontStyles.mainTextStyleBlue, { flexWrap: 'wrap' }]}>
+                                {strings.TermsAndConditions}
+                            </Text>
                         </TouchableOpacity>
                     </View>
+                    <View style={{ flex: 0.5}}></View>
                     <View style={{ flex: 0.001 }}></View>
                     <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
                         <View style={{ flex: 1 }}></View>

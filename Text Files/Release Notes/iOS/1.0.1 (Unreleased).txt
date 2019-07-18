@@ -8,3 +8,4 @@ with a message saying so
 deleting a request
 - Fixed an issue where the Terms & Conditions, and Privacy Policy weren't scrollable
 - Fixed alignment issues in the sign up screen
+- Fixed issue where Keyboard would push texts into each other
