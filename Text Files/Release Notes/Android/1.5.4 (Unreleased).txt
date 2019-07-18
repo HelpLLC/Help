@@ -1,0 +1,2 @@
+- Made the product history from the business side update directly after completing or
+deleting a request

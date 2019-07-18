@@ -4,3 +4,5 @@ with a message saying so
 - Made the app take the full height of the screen
 - Made all buttons disabled while a screen is loading
 - Sorted a business's products by the order of requests each service has
+- Made the product history from the business side update directly after completing or
+deleting a request

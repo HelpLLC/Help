@@ -288,14 +288,9 @@ class productScreen extends Component {
                             try {
                                 this.setState({ isLoading: true });
                                 await FirebaseFunctions.completeRequest(productID, this.state.currentRequestID);
-                                //Updates the state of the screen to remove the product from
-                                //the screen
-                                const oldArray = this.state.currentRequests;
-                                const indexOfRequest = oldArray.findIndex((request) => {
-                                    return request.requesterID === this.state.currentRequestID;
-                                });
-                                oldArray.splice(indexOfRequest, 1);
-                                this.setState({ currentRequests: oldArray, isLoading: false });
+                                //Updates the state of the screen to remove the request from
+                                //the screen & add it to the history
+                                this.fetchDatabaseData();
                             } catch (error) {
                                 this.setState({ isLoading: false, isErrorVisible: true });
                                 FirebaseFunctions.logIssue(error);
@@ -312,15 +307,11 @@ class productScreen extends Component {
                             this.setState({ isDeleteRequestVisible: false });
                             //This method will delete a specific request based on the passed in requester ID
                             try {
-                                FirebaseFunctions.deleteRequest(productID, this.state.currentRequestID);
-                                //Updates the state of the screen to remove the product from
+                                this.setState({ isLoading: true });
+                                await FirebaseFunctions.deleteRequest(productID, this.state.currentRequestID);
+                                //Updates the state of the screen to remove the request from
                                 //the screen
-                                const oldArray = this.state.currentRequests;
-                                const indexOfRequest = oldArray.findIndex((request) => {
-                                    return request.requesterID === this.state.currentRequestID;
-                                });
-                                oldArray.splice(indexOfRequest, 1);
-                                this.setState({ currentRequests: oldArray });
+                                this.fetchDatabaseData();
                             } catch (error) {
                                 this.setState({ isLoading: false, isErrorVisible: true });
                                 FirebaseFunctions.logIssue(error);
