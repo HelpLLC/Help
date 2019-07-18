@@ -218,8 +218,7 @@ class signUpScreen extends Component {
                                 style={roundBlueButtonStyle.MediumSizeButton}
                                 textStyle={fontStyles.bigTextStyleWhite}
                                 onPress={() => { this.signUp() }}
-                                disabled={this.state.isLoading}
-                            />
+                                disabled={this.state.isLoading} />
                         </View>
                         <View style={{ flex: 5 }}></View>
                         <View style={{ flex: 1, alignItems: 'center' }}>

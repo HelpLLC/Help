@@ -97,7 +97,7 @@ class splashScreen extends Component {
                         <Text style={fontStyles.bigTitleStyleBlue}>{strings.HelpExclamation}</Text>
                     </View>
                     <View style={{ flex: 0.75 }}>
-                        <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+                        <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
                             <RoundBlueButton
                                 title={strings.GetStarted}
                                 style={roundBlueButtonStyle.MediumSizeButton}
