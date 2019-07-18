@@ -7,6 +7,6 @@ with a message saying so
 - Made the product history from the business side update directly after completing or
 deleting a request
 - Fixed an issue where the Terms & Conditions, and Privacy Policy weren't scrollable
-- Fixed alignment issues in the sign up screen
+- Fixed alignment issues
 - Fixed issue where the Keyboard would push texts into each other
 - Fixed an issue where you couldn't accept terms and conditions on small screens
