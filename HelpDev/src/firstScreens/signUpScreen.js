@@ -218,7 +218,7 @@ class signUpScreen extends Component {
                                 disabled={this.state.isLoading}
                             />
                         </View>
-                        <View style={{ flex: 2 }}></View>
+                        <View style={{ flex: 5 }}></View>
                         <View style={{ flex: 1, alignItems: 'center' }}>
                             <LoadingSpinner isVisible={this.state.isLoading} />
                         </View>
