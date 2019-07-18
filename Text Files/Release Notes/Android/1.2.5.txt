@@ -1,0 +1,3 @@
+- Edited the rounded Android home logo
+- Edited Firebase configs
+- Made app work

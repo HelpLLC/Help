@@ -1,0 +1,5 @@
+- Added a terms and conditions that must be agreed upon on signup
+- Gave users the ability to report a specific business
+- Gave users the ability to block a specific business
+- Bug fixes
+- Made app work

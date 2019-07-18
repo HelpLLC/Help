@@ -1,0 +1,6 @@
+- Fixed UI issues
+- Fixed some keyboard issues
+- Fixed some text positioning issues
+- Fixed an issue where some screens weren't aligned correctly
+- Made keyboard close when clicked away from in messaging screen
+- Made app work

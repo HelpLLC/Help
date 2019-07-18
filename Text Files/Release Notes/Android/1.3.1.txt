@@ -1,0 +1,3 @@
+- Fixed bug with log-in screen
+- Hide passwords on sign up & log in screen
+- Made App Work

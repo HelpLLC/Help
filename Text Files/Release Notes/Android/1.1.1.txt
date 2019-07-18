@@ -1,0 +1,3 @@
+- Added Firebase configs
+- Added Internet Permissions
+- Made App Work

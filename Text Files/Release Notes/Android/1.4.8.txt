@@ -1,0 +1,4 @@
+- Edited the about page to include the Help name
+- Fixed all sizing issues across the app to make everything positioned correctly
+on all phones
+- Fixed issue where app seems to "double load" every time it is opened

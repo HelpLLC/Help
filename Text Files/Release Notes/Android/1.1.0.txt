@@ -1,0 +1,2 @@
+- Fixed issue with infinite loading screens
+- Made app work

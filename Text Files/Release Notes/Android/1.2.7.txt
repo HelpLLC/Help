@@ -1,0 +1,2 @@
+- Fixed firebase configs
+- Made app work

@@ -1,0 +1,6 @@
+- Fixed issue where customer messages weren't loading correctly, causing that whole side
+not to work
+- Fixed issue where you could report empty issues
+- Fixed issue where new conversations not showing up in chats from customer side
+- Fixed issue where most recent text wasn't showing after a new text was sent
+- Fixed issue where services weren't showing up when a company was clicked on

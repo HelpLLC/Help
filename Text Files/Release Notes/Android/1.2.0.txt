@@ -1,0 +1,3 @@
+- Added Logo
+- Changed the label for the app
+- Made the app work

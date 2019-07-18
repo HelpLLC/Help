@@ -1,0 +1,4 @@
+- Fixed error where no internet connection would get stuck on a loading screen
+- Replaced all red error messages with custom pop up
+- Replaced all default android Alerts with a custom pop up
+- Fixed bug where you couldn't access any products from a company's profile screen

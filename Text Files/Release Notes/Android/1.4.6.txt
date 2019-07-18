@@ -1,0 +1,5 @@
+- Removed red texts that were not errors
+- Fixed sizing for all buttons & other aspects etc.
+- Fixed issue with "difficult to click" Top Banner
+- Fixed issue where image was too big & overflowed when viewing a product
+- Made sure the keyboard always closes when a button is clicked

@@ -1,0 +1,4 @@
+- Added error messages for loading screens
+- Fixed all firebase configurations
+- Fixed some strings across the app
+- Made app work

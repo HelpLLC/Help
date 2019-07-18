@@ -1,0 +1,2 @@
+- Fixed issue where editing an existing service produced error & sometimes crashed
+- Fixed how crash reports are reported

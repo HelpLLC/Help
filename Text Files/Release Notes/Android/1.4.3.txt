@@ -1,0 +1,2 @@
+- Added Firebase Crashlytics to detect crashes & other errors
+- Added a custom pop up for error messages

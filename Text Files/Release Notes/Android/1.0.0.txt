@@ -1,0 +1,4 @@
+- Allowed for creation of both customer & business accounts
+- Allowed for creation of services offered by businesses
+- Allowed for service ordering by customers
+- Allowed for in-app messaging between customers & businesses

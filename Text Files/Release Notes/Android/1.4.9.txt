@@ -1,0 +1,7 @@
+- Made the keyboard disappear once the "return" or "done" key is clicked
+- Made the keyboard disappear when you click away from it
+- Made all buttons near the bottom of the screen where it is easily clickable
+- Fixed issue where keyboard would push texts into each other
+- Made loading spinner in sign up screen more visible
+- Fixed all keyboard issues
+- Made app work

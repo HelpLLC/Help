@@ -1,0 +1,6 @@
+- Allowed users to stay logged into their account until signed out
+- Hooked up logging out with the Firebase database
+- Removed exclamation point in name of the app
+- Fixed positioning on entry screen
+- Fixed bug where viewing your own services as a provider wasn't loading
+- Fixed bug where an error occurred when you tried to create a new accoun

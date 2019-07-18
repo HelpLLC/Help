@@ -1,0 +1,3 @@
+- Fixed issues with Firebase configs
+- Fixed start-up crashing issue
+- Made App Work
