@@ -10,7 +10,7 @@ import screenStyle from 'config/styles/screenStyle';
 const HelpViewHOC = (Comp) => {
     return ({ children, ...props }) => (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <KeyboardAvoidingView style={screenStyle.container} enabled behavior="padding">
+            <KeyboardAvoidingView style={screenStyle.container} enabled behavior={null}>
                 <Comp {...props} >
                     {children}
                 </Comp>
