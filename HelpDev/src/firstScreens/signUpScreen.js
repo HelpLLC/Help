@@ -191,7 +191,7 @@ class signUpScreen extends Component {
                                 disabled={this.state.isLoading} />
                         </View>
                     </View>
-                    <View style={{ flex: 0.5}}></View>
+                    <View style={{ flex: 0.5 }}></View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
                         <CheckBox
                             onClick={() => { this.setState({ isChecked: !this.state.isChecked }) }}
@@ -208,23 +208,19 @@ class signUpScreen extends Component {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={{ flex: 0.5}}></View>
+                    <View style={{ flex: 0.5 }}></View>
                     <View style={{ flex: 0.001 }}></View>
-                    <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
-                        <View style={{ flex: 1 }}></View>
-                        <View style={{ flex: 1, alignItems: 'center' }}>
+                    <View style={{ flex: 1, justifyContent: 'flex-end', alignSelf: 'center' }}>
                             <RoundBlueButton
                                 title={strings.SignUp}
                                 style={roundBlueButtonStyle.MediumSizeButton}
                                 textStyle={fontStyles.bigTextStyleWhite}
                                 onPress={() => { this.signUp() }}
-                                disabled={this.state.isLoading} />
-                        </View>
-                        <View style={{ flex: 5 }}></View>
-                        <View style={{ flex: 1, alignItems: 'center' }}>
+                                disabled={this.state.isLoading} />       
+                    </View>
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
                             <LoadingSpinner isVisible={this.state.isLoading} />
                         </View>
-                    </View>
                     <View style={{ flex: 1.6 }}></View>
                 </View>
                 <ErrorAlert
