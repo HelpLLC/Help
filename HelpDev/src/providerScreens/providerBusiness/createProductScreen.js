@@ -65,7 +65,7 @@ class createProductScreen extends Component {
         } else if (imageSource === images.BlankWhite) {
             this.setState({ imageError: true });
         } else {
-            try {
+            //try {
                 this.setState({ isLoading: true });
                 const { providerID } = this.props.navigation.state.params;
                 await FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, pricing, imageSource, providerID, provider.companyName);
@@ -73,10 +73,10 @@ class createProductScreen extends Component {
                 this.props.navigation.push("ProviderScreens", {
                     providerID: provider.providerID
                 });
-            } catch (error) {
-                this.setState({ isLoading: false, isErrorVisible: true });
-                FirebaseFunctions.logIssue(error);
-            }
+            //} catch (error) {
+            //    this.setState({ isLoading: false, isErrorVisible: true });
+            //    FirebaseFunctions.logIssue(error);
+            //}
             return 0;
         }
     }
@@ -108,19 +108,24 @@ class createProductScreen extends Component {
                         </View>
 
                         <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                            <ImageWithBorder
-                                width={Dimensions.get('window').width * 0.33}
-                                height={Dimensions.get('window').height * 0.16}
-                                imageSource={this.state.imageSource} />
-                            <TouchableOpacity
-                                onPress={() => {
-                                    Keyboard.dismiss();
-                                    this.chooseImage();
-                                }}
-                                style={{ justifyContent: 'flex-end' }}>
-                                <Text style={fontStyles.subTextStyleGray}>
-                                    {strings.EditImage}</Text>
-                            </TouchableOpacity>
+                            <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+                                <ImageWithBorder
+                                    width={Dimensions.get('window').width * 0.25}
+                                    height={Dimensions.get('window').height * 0.125}
+                                    imageSource={this.state.imageSource} />
+                            </View>
+                            <View style={{ flex: 1 }}></View>
+                            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        Keyboard.dismiss();
+                                        this.chooseImage();
+                                    }}
+                                    style={{ justifyContent: 'flex-end' }}>
+                                    <Text style={fontStyles.subTextStyleGray}>
+                                        {strings.EditImage}</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
 
                     </View>
@@ -138,7 +143,7 @@ class createProductScreen extends Component {
                                 value={this.state.serviceDescription} />
                         </View>
                     </View>
-                    <View style={{ flex: 1.5 }}>
+                    <View style={{ flex: 1.5, justifyContent: 'flex-end' }}>
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                             <Text style={fontStyles.mainTextStyleBlack}>
                                 {strings.Pricing}</Text>
@@ -173,7 +178,7 @@ class createProductScreen extends Component {
                         </View>
 
                     </View>
-                    <View style={{ flex: 0.8 }}></View>
+                    <View style={{ flex: 0.5 }}></View>
                 </View>
                 <ErrorAlert
                     isVisible={this.state.isErrorVisible}

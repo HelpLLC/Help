@@ -113,7 +113,7 @@ class businessScreen extends Component {
                                 <Text style={fontStyles.bigTextStyleBlack}>
                                     {provider.companyName}</Text>
                             </View>
-
+                            <View style={{ flex: 0.25 }}></View>
                             <TouchableOpacity
                                 style={{ flex: 1, justifyContent: 'flex-start' }}
                                 onPress={() => {

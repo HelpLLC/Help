@@ -27,7 +27,7 @@ export default {
     //The round button that appears in the business screen in the provider screens and has a plus
     BusinessScreenPlusButton: {
         backgroundColor: colors.lightBlue,
-        width: (Dimensions.get('window').width * 0.12165),
+        width: (Dimensions.get('window').height * 0.0732),
         height: (Dimensions.get('window').height * 0.0732),
         alignItems: 'center',
         justifyContent: 'center',

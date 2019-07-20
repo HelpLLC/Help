@@ -1,6 +1,6 @@
 //This screen will represent all the chats belonging to this current user
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, FlatList, ScrollView } from 'react-native';
+import { View, Text, FlatList, ScrollView } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../components/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
@@ -64,7 +64,7 @@ class chatsScreen extends Component {
     render() {
         if (this.state.isLoading === true) {
             return (
-                <SafeAreaView style={screenStyle.container}>
+                <View style={screenStyle.container}>
                     <View>
                         <TopBanner title={strings.Chats} />
                     </View>
@@ -73,11 +73,11 @@ class chatsScreen extends Component {
                             <LoadingSpinner isVisible={this.state.isLoading} />
                         </View>
                     </View>
-                </SafeAreaView>
+                </View>
             )
         } else {
             return (
-                <SafeAreaView style={screenStyle.container}>
+                <View style={screenStyle.container}>
                     <View>
                         <TopBanner title={strings.Chats} />
                     </View>
@@ -132,7 +132,7 @@ class chatsScreen extends Component {
                                 )
                         }
                     </View>
-                </SafeAreaView>
+                </View>
             )
         }
     }
