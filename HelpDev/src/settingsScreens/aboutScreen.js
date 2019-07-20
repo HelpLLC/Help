@@ -28,14 +28,6 @@ class aboutScreen extends Component {
                     <View style={{ flexDirection: 'column', flex: 3 }}>
                         <WhiteCard
                             style={whiteCardStyle.whiteCardStyle}
-                            text={strings.Version}
-                            mainTextStyle={fontStyles.subTextStyleBlack}
-                            comp={<Text style={fontStyles.subTextStyleBlack}>
-                                {strings.CurrentVersionNumber}</Text>}
-                            onPress={() => { }}
-                        />
-                        <WhiteCard
-                            style={whiteCardStyle.whiteCardStyle}
                             text={strings.PublishedBy}
                             mainTextStyle={fontStyles.subTextStyleBlack}
                             comp={<Text style={fontStyles.subTextStyleBlack}>

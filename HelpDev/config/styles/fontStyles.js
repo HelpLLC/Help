@@ -10,7 +10,7 @@ const font = (Platform.OS === 'ios' ? 'Arial Rounded MT Bold' : 'sans-serif-medi
 let baseFontSize = (Platform.OS === 'android' ? 20 : 18);
 const pixelRatio = PixelRatio.get();
 if (pixelRatio < 3) {
-    baseFontSize = (Platform.OS === 'android' ? 16 : 13.5);
+    baseFontSize = (Platform.OS === 'android' ? 16 : 14.4);
 }
 
 export default StyleSheet.create({
@@ -74,42 +74,42 @@ export default StyleSheet.create({
     //The style for all non-main text that is black
     subTextStyleBlack: {
         fontFamily: font,
-        fontSize: baseFontSize * 0.75,
+        fontSize: baseFontSize * 0.9,
         color: colors.black
     },
 
     //The style for all non-main text that is blue
     subTextStyleBlue: {
         fontFamily: font,
-        fontSize: baseFontSize * 0.75,
+        fontSize: baseFontSize * 0.9,
         color: colors.lightBlue
     },
 
     //The style for all non-main text that is red
     subTextStyleRed: {
         fontFamily: font,
-        fontSize: baseFontSize * 0.75,
+        fontSize: baseFontSize * 0.9,
         color: colors.red
     },
 
     //The style for all non-main text that is gray
     subTextStyleGray: {
         fontFamily: font,
-        fontSize: baseFontSize * 0.75,
+        fontSize: baseFontSize * 0.9,
         color: colors.gray
     },
 
     //The style for all non-main text that is white
     subTextStyleWhite: {
         fontFamily: font,
-        fontSize: baseFontSize * 0.75,
+        fontSize: baseFontSize * 0.9,
         color: colors.white
     },
 
     //The style for the tab label at the bottom of the screens
     tabLabelStyle: {
         fontFamily: font,
-        fontSize: baseFontSize * 0.75
+        fontSize: baseFontSize * 0.9
     },
 
     //The style for the text on the button on the report issue screen

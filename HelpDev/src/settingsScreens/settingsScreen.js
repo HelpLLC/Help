@@ -34,7 +34,7 @@ class settingsScreen extends Component {
                             <WhiteCard
                                 style={whiteCardStyle.whiteCardStyle}
                                 text={strings.ReportAnIssue}
-                                mainTextStyle={fontStyles.subTextStyleBlack}
+                                mainTextStyle={fontStyles.mainTextStyleBlack}
                                 comp={angleRightIcon}
                                 //Pressing this leads to the report an issue screen
                                 onPress={() => this.props.navigation.push('ReportIssueScreen', {
@@ -46,7 +46,7 @@ class settingsScreen extends Component {
                             <WhiteCard
                                 style={whiteCardStyle.whiteCardStyle}
                                 text={strings.About}
-                                mainTextStyle={fontStyles.subTextStyleBlack}
+                                mainTextStyle={fontStyles.mainTextStyleBlack}
                                 comp={angleRightIcon}
                                 //Pressing this leads to the about screen page
                                 onPress={() => this.props.navigation.push('AboutScreen')}
@@ -56,7 +56,7 @@ class settingsScreen extends Component {
                             <WhiteCard
                                 style={whiteCardStyle.whiteCardStyle}
                                 text={strings.Privacy}
-                                mainTextStyle={fontStyles.subTextStyleBlack}
+                                mainTextStyle={fontStyles.mainTextStyleBlack}
                                 comp={angleRightIcon}
                                 //Pressing this leads to the about screen page
                                 onPress={() => this.props.navigation.push('PrivacyScreen')}
@@ -66,7 +66,7 @@ class settingsScreen extends Component {
                             <WhiteCard
                                 style={whiteCardStyle.whiteCardStyle}
                                 text={strings.TermsAndConditions}
-                                mainTextStyle={fontStyles.subTextStyleBlack}
+                                mainTextStyle={fontStyles.mainTextStyleBlack}
                                 comp={angleRightIcon}
                                 //Pressing this leads to the about screen page
                                 onPress={() => this.props.navigation.push('TermsAndConditionsScreen')}
@@ -76,7 +76,7 @@ class settingsScreen extends Component {
                             <WhiteCard
                                 style={whiteCardStyle.whiteCardStyle}
                                 text={strings.LogOut}
-                                mainTextStyle={fontStyles.subTextStyleRed}
+                                mainTextStyle={fontStyles.mainTextStyleRed}
                                 //To-Do: Needs to call a logout function
                                 onPress={async () => {
                                     await FirebaseFunctions.logOut();

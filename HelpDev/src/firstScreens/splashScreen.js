@@ -108,13 +108,13 @@ class splashScreen extends Component {
                         </View>
                         <View style={{ flex: 0.000001 }}></View>
                         <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'center' }}>
-                            <Text style={fontStyles.subTextStyleBlack}>{strings.HaveAnAccountQuestion}</Text>
-                            <Text style={fontStyles.subTextStyleBlack}> </Text>
+                            <Text style={fontStyles.mainTextStyleBlack}>{strings.HaveAnAccountQuestion}</Text>
+                            <Text style={fontStyles.mainTextStyleBlue}> </Text>
                             <TouchableOpacity
                                 onPress={() => {
                                     this.props.navigation.push('LogInScreen')
                                 }}>
-                                <Text style={fontStyles.subTextStyleBlue}>{strings.LogIn}</Text>
+                                <Text style={fontStyles.mainTextStyleBlue}>{strings.LogIn}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

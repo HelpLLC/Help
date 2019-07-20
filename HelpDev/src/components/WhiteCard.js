@@ -1,8 +1,9 @@
 //This component will represent the generic card that will hold text on the left side and some
 //icon or button on the right side.
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
+import colors from 'config/colors';
 
 class WhiteCard extends Component {
     render() {
@@ -13,17 +14,22 @@ class WhiteCard extends Component {
         return (
             //The component will render a view based on the given style which should always be text
             //on the left, and some icon or component on the right
-            <TouchableOpacity onPress={() => { onPress() }}>
+            <TouchableOpacity style={{
+                height: Dimensions.get('window').height * 0.07,
+                width: Dimensions.get('window').width,
+                backgroundColor: colors.white,
+                alignItems: 'center'
+            }} onPress={() => { onPress() }}>
+
                 <View style={style}>
-                    <View style={{ flex: 0.1 }}></View>
-                    <View style={{ flexDirection: 'column', flex: 1, alignItems: 'flex-start' }}>
+                    <View style={{ flexDirection: 'column', }}>
                         <Text style={mainTextStyle}>{text}</Text>
                     </View>
-                    <View style={{ flex: 1.3, alignItems: 'flex-end' }}>
+                    <View style={{}}>
                         {comp}
                     </View>
-                    <View style={{ flex: 0.1 }}></View>
                 </View>
+                <Text> </Text>
             </TouchableOpacity>
         );
     }
