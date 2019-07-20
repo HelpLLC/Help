@@ -4,3 +4,4 @@ deleting a request
 - Fixed alignment issues
 - Fixed issue where Keyboard would push texts up, sometimes into texts above it
 - Fixed an issue where you couldn't accept terms and conditions on small screens
+- Made the font size depend on the type of phone that is being used
