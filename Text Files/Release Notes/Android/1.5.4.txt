@@ -1,7 +1,0 @@
-- Made the product history from the business side update directly after completing or
-deleting a request
-- Fixed an issue where the Terms & Conditions, and Privacy Policy weren't scrollable
-- Fixed alignment issues
-- Fixed issue where Keyboard would push texts up, sometimes into texts above it
-- Fixed an issue where you couldn't accept terms and conditions on small screens
-- Made the font size depend on the type of phone that is being used
