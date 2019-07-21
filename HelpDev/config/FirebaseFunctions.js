@@ -185,6 +185,8 @@ export default class FirebaseFunctions {
         let absolutePath = "";
         if (Platform.OS === 'android') {
             absolutePath = ("file://" + response.path);
+        } else {
+            absolutePath = (response.uri);
         }
 
         //Creates the reference & uploads the image (async)
