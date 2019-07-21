@@ -175,6 +175,20 @@ export default class FirebaseFunctions {
 
     }
 
+    //This method will take in an image respose & the desired reference in which to call the image and upload it 
+    //to the firebase storage. This async function will take some time since image are 5-10 MB. Will be
+    //used to upload product images
+    static async uploadImage(reference, response) {
+
+        console.log(response);
+
+        //Creates the reference & uploads the image (async)
+        await this.storage.ref(reference).putFile(response.uri);
+
+        return 0;
+
+    }
+
     //This method will take in a reference to a picture (the same as the product ID it is fetching)
     //and return the download URL for the image which is used as an image source
     static async getImageByID(ID) {
@@ -206,8 +220,7 @@ export default class FirebaseFunctions {
         const newProduct = await this.products.add(product);
 
         //Uploads the image to the database (longest process)
-        console.log(response.uri);
-        await this.storage.ref(newProduct.id).putFile(response.uri);
+        await this.uploadImage(newProduct.id, response);
 
         //Will deal with the ID of the product by adding it as a field and pushing to the
         //provider's field
