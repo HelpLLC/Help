@@ -107,17 +107,24 @@ class editProductScreen extends Component {
                         </View>
 
                         <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                            <ImageWithBorder
-                                width={Dimensions.get('window').width * 0.33}
-                                height={Dimensions.get('window').height * 0.16}
-                                imageSource={this.state.imageSource} />
-
-                            <TouchableOpacity
-                                onPress={() => { this.chooseImage() }}
-                                style={{ justifyContent: 'flex-end' }}>
-                                <Text style={fontStyles.subTextStyleGray}>
-                                    {strings.EditImage}</Text>
-                            </TouchableOpacity>
+                            <View style={{ justifyContent: 'flex-start' }}>
+                                <ImageWithBorder
+                                    width={Dimensions.get('window').width * 0.25}
+                                    height={Dimensions.get('window').width * 0.25}
+                                    imageSource={this.state.imageSource} />
+                            </View>
+                            <Text> </Text>
+                            <View style={{ justifyContent: 'flex-end' }}>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        Keyboard.dismiss();
+                                        this.chooseImage();
+                                    }}
+                                    style={{ justifyContent: 'flex-end' }}>
+                                    <Text style={fontStyles.subTextStyleGray}>
+                                        {strings.EditImage}</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
 
                     </View>

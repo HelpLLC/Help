@@ -148,8 +148,8 @@ class productScreen extends Component {
                                 </TouchableOpacity>
                             </View>
                             <ImageWithBorder
-                                width={(Dimensions.get('window').width * 0.31)}
-                                height={(Dimensions.get('window').height * 0.15)}
+                                width={(Dimensions.get('window').width * 0.25)}
+                                height={(Dimensions.get('window').width * 0.25)}
                                 imageSource={product.imageSource} />
                         </View>
                         <View style={{ flex: 0.025 }}></View>

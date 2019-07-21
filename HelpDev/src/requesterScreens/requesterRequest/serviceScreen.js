@@ -131,8 +131,8 @@ class serviceScreen extends Component {
 
                             <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}>
                                 <ImageWithBorder
-                                    width={(Dimensions.get('window').width * 0.31)}
-                                    height={(Dimensions.get('window').height * 0.15)}
+                                    width={(Dimensions.get('window').width * 0.25)}
+                                    height={(Dimensions.get('window').width * 0.25)}
                                     imageSource={product.imageSource} />
                             </View>
                         </View>

@@ -40,8 +40,8 @@ class productHistoryScreen extends Component {
                         <Text style={fontStyles.bigTextStyleBlack}>{product.serviceTitle}</Text>
 
                         <ImageWithBorder
-                            width={Dimensions.get('window').width * 0.33}
-                            height={Dimensions.get('window').height * 0.16}
+                            width={Dimensions.get('window').width * 0.25}
+                            height={Dimensions.get('window').width * 0.25}
                             imageSource={product.imageSource} />
 
                     </View>
