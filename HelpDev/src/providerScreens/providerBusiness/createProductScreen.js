@@ -112,7 +112,7 @@ class createProductScreen extends Component {
                             <View style={{ justifyContent: 'flex-start' }}>
                                 <ImageWithBorder
                                     width={Dimensions.get('window').width * 0.25}
-                                    height={Dimensions.get('window').height * 0.125}
+                                    height={Dimensions.get('window').width * 0.25}
                                     imageSource={this.state.imageSource} />
                             </View>
                             <Text> </Text>
