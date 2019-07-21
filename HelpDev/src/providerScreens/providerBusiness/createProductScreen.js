@@ -109,14 +109,14 @@ class createProductScreen extends Component {
                         </View>
 
                         <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                            <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+                            <View style={{ justifyContent: 'flex-start' }}>
                                 <ImageWithBorder
                                     width={Dimensions.get('window').width * 0.25}
                                     height={Dimensions.get('window').height * 0.125}
                                     imageSource={this.state.imageSource} />
                             </View>
-                            <View style={{ flex: 1 }}></View>
-                            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                            <Text> </Text>
+                            <View style={{ justifyContent: 'flex-end' }}>
                                 <TouchableOpacity
                                     onPress={() => {
                                         Keyboard.dismiss();
