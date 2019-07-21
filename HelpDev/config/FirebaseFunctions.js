@@ -2,6 +2,7 @@
 //application. The point of this class is to reduce code clutter throughout the application. The class
 //will connect with the firebase firestore in order to retrieve the necessary data. 
 import firebase from 'react-native-firebase';
+import { Platform } from 'react-native';
 
 //All methods should be labeled static. There will also be static variable that reference the collections
 //in the cloud firestore
@@ -180,10 +181,14 @@ export default class FirebaseFunctions {
     //used to upload product images
     static async uploadImage(reference, response) {
 
-        console.log(response);
+        //Fetches the absolute path of the image (depending on android or ios)
+        let absolutePath = "";
+        if (Platform.OS === 'android') {
+            absolutePath = ("file://" + response.path);
+        }
 
         //Creates the reference & uploads the image (async)
-        await this.storage.ref(reference).putFile(response.uri);
+        await this.storage.ref(reference).putFile(absolutePath);
 
         return 0;
 
