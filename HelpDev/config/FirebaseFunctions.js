@@ -7,8 +7,9 @@ import firebase from 'react-native-firebase';
 //in the cloud firestore
 export default class FirebaseFunctions {
 
-    //The four collections that will be used by this class (references)
+    //The collections & references that will be used by this class
     static database = firebase.firestore();
+    static storage = firebase.storage();
     static providers = this.database.collection("providers");
     static requesters = this.database.collection("requesters");
     static products = this.database.collection("products");
@@ -174,10 +175,20 @@ export default class FirebaseFunctions {
 
     }
 
+    //This method will take in a reference to a picture (the same as the product ID it is fetching)
+    //and return the download URL for the image which is used as an image source
+    static async getImageByID(ID) {
+
+        //Creates the reference
+        const url = await this.storage.ref(ID).ref.getDownloadURL();
+        return { url };
+
+    }
+
     //This method will take information about a new product and add it to the firestore database. It will
     //first add it to the firestore containing products, then it will add the service IDs to the provider
     //products
-    static async addProductToDatabase(serviceTitle, serviceDescription, pricing, imageSource, providerID, companyName) {
+    static async addProductToDatabase(serviceTitle, serviceDescription, pricing, response, providerID, companyName) {
         //Creates the product object
         let product = {
             serviceTitle,
@@ -187,13 +198,16 @@ export default class FirebaseFunctions {
                 completedRequests: [],
             },
             pricing,
-            imageSource,
             offeredByID: providerID,
             offeredByName: companyName
         };
 
         //Adds the product to the database of products
         const newProduct = await this.products.add(product);
+
+        //Uploads the image to the database (longest process)
+        console.log(response.uri);
+        await this.storage.ref(newProduct.id).putFile(response.uri);
 
         //Will deal with the ID of the product by adding it as a field and pushing to the
         //provider's field
@@ -305,17 +319,20 @@ export default class FirebaseFunctions {
 
     //This method will update the information for a specific product by taking in all of the new
     //product information and updating those fields in firestore
-    static async updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, imageSource) {
+    static async updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, imageURI) {
 
         const batch = this.database.batch();
         const ref = this.products.doc(productID);
         batch.update(ref, {
             serviceTitle,
             serviceDescription,
-            pricing,
-            imageSource
+            pricing
         });
 
+        //Removes the old image and then uploads the new one
+        const imageRef = this.storage.ref(productID);
+        await imageRef.delete();
+        await imageRef.putFile(imageURI);
         await batch.commit();
         return 0;
     }

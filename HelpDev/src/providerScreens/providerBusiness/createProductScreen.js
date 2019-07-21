@@ -44,6 +44,7 @@ class createProductScreen extends Component {
                 //Sets the source of the image if one has been selected
                 this.setState({
                     imageSource: source,
+                    response
                 });
             }
 
@@ -56,7 +57,7 @@ class createProductScreen extends Component {
 
         Keyboard.dismiss();
         //Retrieves the state of the input fields
-        const { serviceTitle, serviceDescription, pricing, imageSource } = this.state;
+        const { serviceTitle, serviceDescription, pricing, imageSource, response } = this.state;
         const { provider } = this.props.navigation.state.params;
 
         //If any of the fields are empty, a warning message will display
@@ -65,18 +66,18 @@ class createProductScreen extends Component {
         } else if (imageSource === images.BlankWhite) {
             this.setState({ imageError: true });
         } else {
-            try {
+            //try {
                 this.setState({ isLoading: true });
                 const { providerID } = this.props.navigation.state.params;
-                await FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, pricing, imageSource, providerID, provider.companyName);
+                await FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, pricing, response, providerID, provider.companyName);
                 this.setState({ isLoading: false });
                 this.props.navigation.push("ProviderScreens", {
                     providerID: provider.providerID
                 });
-            } catch (error) {
+            /*} catch (error) {
                 this.setState({ isLoading: false, isErrorVisible: true });
                 FirebaseFunctions.logIssue(error);
-            }
+            }*/
             return 0;
         }
     }
