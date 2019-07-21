@@ -1,0 +1,2 @@
+- Fixed all image resizing
+- Made all uploaded pictures get uploaded to a secure database

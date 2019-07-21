@@ -5,3 +5,5 @@ deleting a request
 - Fixed issue where Keyboard would push texts up, sometimes into texts above it
 - Fixed an issue where you couldn't accept terms and conditions on small screens
 - Made the font size depend on the type of phone that is being used
+- Fixed all image sizes
+- Made all uploaded pictures get uploaded to a secure database
