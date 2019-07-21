@@ -66,7 +66,7 @@ class createProductScreen extends Component {
         } else if (imageSource === images.BlankWhite) {
             this.setState({ imageError: true });
         } else {
-            //try {
+            try {
                 this.setState({ isLoading: true });
                 const { providerID } = this.props.navigation.state.params;
                 await FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, pricing, response, providerID, provider.companyName);
@@ -74,10 +74,10 @@ class createProductScreen extends Component {
                 this.props.navigation.push("ProviderScreens", {
                     providerID: provider.providerID
                 });
-            /*} catch (error) {
+            } catch (error) {
                 this.setState({ isLoading: false, isErrorVisible: true });
                 FirebaseFunctions.logIssue(error);
-            }*/
+            }
             return 0;
         }
     }
