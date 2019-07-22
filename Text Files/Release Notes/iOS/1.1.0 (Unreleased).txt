@@ -1,2 +1,3 @@
 - Fixed all image resizing
 - Made all uploaded pictures get uploaded to a secure database
+- Made all images load before displaying a blank image
