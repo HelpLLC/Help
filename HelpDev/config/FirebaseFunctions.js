@@ -201,8 +201,8 @@ export default class FirebaseFunctions {
     static async getImageByID(ID) {
 
         //Creates the reference
-        const url = await this.storage.ref(ID).ref.getDownloadURL();
-        return { url };
+        const uri = await this.storage.ref(ID).getDownloadURL();
+        return { uri };
 
     }
 
@@ -492,9 +492,15 @@ export default class FirebaseFunctions {
         return 0;
     }
 
-    //This method will take in an error message and log it into firebase crashlytics
+    //This method will take in an error message and log it into firebase firestore where errors
+    //are stored
     static logIssue(error) {
-        this.crashlytics.recordError(error.message);
+        //Adds it to the report issue section
+        this.issues.add({
+            userID: 'App Error',
+            errorName: error.name,
+            errorMessage: error.message
+        })
     }
 
 }
