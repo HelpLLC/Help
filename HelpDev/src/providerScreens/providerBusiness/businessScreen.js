@@ -177,7 +177,10 @@ class businessScreen extends Component {
                         <ImageWithBorder
                             width={Dimensions.get('window').width * 0.65}
                             height={Dimensions.get('window').height * 0.22}
-                            imageSource={images.LawnMowing} />
+                            imageFunction={async () => {
+                                //Passes in the function to retrieve the image of this product
+                                return images.LawnMowing;
+                            }} />
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center' }}>
                         <RoundBlueButton
@@ -214,7 +217,7 @@ class businessScreen extends Component {
                         <FlatList
                             data={providerProducts}
                             keyExtractor={(item, index) => {
-                                return (provider.companyName + " Product #" + index);
+                                return (item.serviceID);
                             }}
                             renderItem={({ item, index }) => (
                                 <ServiceCard
@@ -222,7 +225,10 @@ class businessScreen extends Component {
                                     serviceTitle={item.serviceTitle}
                                     serviceDescription={item.serviceDescription}
                                     pricing={item.pricing}
-                                    image={item.imageSource}
+                                    imageFunction={async () => {
+                                        //Passes in the function to retrieve the image of this product
+                                        return await FirebaseFunctions.getImageByID(item.serviceID)
+                                    }}
                                     numCurrentRequests={item.requests.currentRequests.length}
                                     onPress={() => {
                                         this.props.navigation.push('ProviderProductScreen', {

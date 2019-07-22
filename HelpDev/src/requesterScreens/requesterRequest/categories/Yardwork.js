@@ -51,7 +51,10 @@ export default class Yardwork extends Component {
                                 serviceTitle={item.serviceTitle}
                                 offeredBy={item.offeredByName}
                                 pricing={item.pricing}
-                                image={item.imageSource}
+                                imageFunction={async () => {
+                                    //Passes in the function to retrieve the image of this product
+                                    return await FirebaseFunctions.getImageByID(item.serviceID)
+                                }}
                                 numCurrentRequests={0}
                                 offeredByOnPress={async () => {
                                     try {

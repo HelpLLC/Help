@@ -204,7 +204,10 @@ class companyProfileScreen extends Component {
                                         serviceTitle={item.serviceTitle}
                                         serviceDescription={item.serviceDescription}
                                         pricing={item.pricing}
-                                        image={item.imageSource}
+                                        imageFunction={async () => {
+                                            //Passes in the function to retrieve the image of this product
+                                            return await FirebaseFunctions.getImageByID(item.serviceID)
+                                        }}
                                         numCurrentRequests={0}
                                         //Passes all of the necessary props to the actual screen that contains
                                         //more information about the service

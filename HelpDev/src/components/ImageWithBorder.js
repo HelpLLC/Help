@@ -2,16 +2,36 @@
 //specific product. It will also have a small shadow to give it a floating effect
 import React, { Component } from 'react';
 import { BoxShadow } from 'react-native-shadow';
-import { Image } from 'react-native';
+import { Image, View } from 'react-native';
 import colors from 'config/colors';
 import PropTypes from 'prop-types';
+import LoadingSpinner from './LoadingSpinner';
 
 class ImageWithBorder extends Component {
+
+    //Starts out the loading state as true until the image is downloaded from the database
+    state = {
+        isImageLoading: true,
+        image: ""
+    }
+
+    //Loads the image (async)
+    async componentDidMount() {
+        const { imageFunction } = this.props;
+        const url = await imageFunction();
+        this.setState({
+            isImageLoading: false,
+            image: url
+        });
+    }
+
     //Renders the component
     render() {
         //Fetches the height and width which will be passed in as props, along with of course the actual
         //image
-        const { width, height, imageSource } = this.props;
+        const { width, height } = this.props;
+        const { isImageLoading, image } = this.state;
+
         return (
             <BoxShadow setting={{
                 width: width,
@@ -23,15 +43,23 @@ class ImageWithBorder extends Component {
                 x: 0,
                 y: 5
             }}>
-                <Image
-                    source={imageSource}
-                    style={{
-                        width: width,
-                        height: height,
-                        borderColor: colors.lightBlue,
-                        borderWidth: height / 17,
-                        borderRadius: height / 2
-                    }} />
+                {
+                    isImageLoading === true ? (
+                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                            <LoadingSpinner isVisible={true} />
+                        </View>
+                    ) : (
+                            <Image
+                                source={image}
+                                style={{
+                                    width: width,
+                                    height: height,
+                                    borderColor: colors.lightBlue,
+                                    borderWidth: height / 17,
+                                    borderRadius: height / 2
+                                }} />
+                        )
+                }
             </BoxShadow>
         )
     }
@@ -42,7 +70,7 @@ class ImageWithBorder extends Component {
 ImageWithBorder.propTypes = {
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
-    imageSource: PropTypes.any.isRequired
+    imageFunction: PropTypes.func.isRequired,
 }
 
 //Exports the module

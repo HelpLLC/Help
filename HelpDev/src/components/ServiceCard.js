@@ -10,20 +10,39 @@ import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import PropTypes from 'prop-types';
 import { Badge } from 'react-native-elements';
+import LoadingSpinner from './LoadingSpinner';
 import { BoxShadow } from 'react-native-shadow';
 import strings from 'config/strings';
 
 //The component class
 class ServiceCard extends Component {
 
+    //Starts out the loading state as true until the image is downloaded from the database
+    state = {
+        isImageLoading: true,
+        image: ""
+    }
+
+    //Loads the image (async)
+    async componentDidMount() {
+        const { imageFunction } = this.props;
+        const url = await imageFunction();
+        this.setState({
+            isImageLoading: false,
+            image: url
+        });
+    }
+
     //Renders the component
     render() {
         //The props for the ServiceCard. It will take in a service title, a description, a price, and an
         //image to display, along with an onPress method. An additional prop is also how many current
         //requests this product currently has. This prop should only be used by the provider screens
-        const { serviceTitle, serviceDescription, pricing, image, onPress, numCurrentRequests, offeredBy,
-            offeredByOnPress } =
-            this.props;
+        const { serviceTitle, serviceDescription, pricing, onPress, numCurrentRequests, offeredBy,
+            offeredByOnPress } = this.props;
+
+        //Fetches the image and the isImageLoading from the state
+        const { isImageLoading, image } = this.state;
 
         //Returns the rendered component
         return (
@@ -33,7 +52,7 @@ class ServiceCard extends Component {
                 alignItems: 'center',
                 justifyContent: 'center'
             }}>
-                <View style={{}}>
+                <View>
                     <BoxShadow setting={{
                         width: Dimensions.get('window').width - 40,
                         height: (Dimensions.get('window').height * 0.21961933),
@@ -46,14 +65,21 @@ class ServiceCard extends Component {
                     }}>
                         <View style={serviceCardStyle.style}>
                             <View style={{ flex: 1 }}>
-                                <Image
-                                    source={image}
-                                    style={{
-                                        width: (Dimensions.get('window').width - 40) * 0.45,
-                                        height: (Dimensions.get('window').height * 0.21961933) - 12,
-                                        borderRadius: (Dimensions.get('window').height * 0.03440703)
-                                    }}
-                                />
+                                {
+                                    isImageLoading === true ? (
+                                        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                            <LoadingSpinner isVisible={true} />
+                                        </View>
+                                    ) : (
+                                            <Image
+                                                source={image}
+                                                style={{
+                                                    width: (Dimensions.get('window').width - 40) * 0.45,
+                                                    height: (Dimensions.get('window').height * 0.21961933) - 12,
+                                                    borderRadius: (Dimensions.get('window').height * 0.03440703)
+                                                }} />
+                                        )
+                                }
                             </View>
                             <View style={{ flex: 0.05 }}></View>
                             <View style={{
@@ -91,7 +117,7 @@ class ServiceCard extends Component {
                         value={numCurrentRequests}
                         badgeStyle={{
                             width: (Dimensions.get('window').width * 0.0973),
-                            height: (Dimensions.get('window').height * 0.0586), 
+                            height: (Dimensions.get('window').height * 0.0586),
                             borderRadius: (Dimensions.get('window').width * 0.0973) / 2
                         }}
                         textStyle={fontStyles.mainTextStyleWhite}
@@ -113,7 +139,7 @@ ServiceCard.propTypes = {
     offeredBy: PropTypes.string,
     offeredByOnPress: PropTypes.func,
     pricing: PropTypes.string.isRequired,
-    image: PropTypes.number.isRequired,
+    imageFunction: PropTypes.func.isRequired,
     onPress: PropTypes.func.isRequired,
 }
 

@@ -133,7 +133,10 @@ class serviceScreen extends Component {
                                 <ImageWithBorder
                                     width={(Dimensions.get('window').width * 0.25)}
                                     height={(Dimensions.get('window').width * 0.25)}
-                                    imageSource={product.imageSource} />
+                                    imageFunction={async () => {
+                                        //Passes in the function to retrieve the image of this product
+                                        return await FirebaseFunctions.getImageByID(product.serviceID)
+                                    }} />
                             </View>
                         </View>
                         <View style={{

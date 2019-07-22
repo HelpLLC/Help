@@ -150,7 +150,10 @@ class productScreen extends Component {
                             <ImageWithBorder
                                 width={(Dimensions.get('window').width * 0.25)}
                                 height={(Dimensions.get('window').width * 0.25)}
-                                imageSource={product.imageSource} />
+                                imageFunction={async () => {
+                                    //Passes in the function to retrieve the image of this product
+                                    return await FirebaseFunctions.getImageByID(productID);
+                                }} />
                         </View>
                         <View style={{ flex: 0.025 }}></View>
                         <View style={{

@@ -2,10 +2,11 @@
 //clicking the plus sign, or clicking create on the business's first product. It will allow the user
 //to give the product a picture from their camera roll, and a name and a description and a price
 import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, Keyboard } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, Keyboard, Image } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import { BoxShadow } from 'react-native-shadow';
 import OneLineTextInput from '../../components/OneLineTextInput';
 import HelpView from '../../components/HelpView';
 import RoundTextInput from '../../components/RoundTextInput';
@@ -16,7 +17,7 @@ import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
-import ImageWithBorder from '../../components/ImageWithBorder';
+import colors from 'config/colors';
 
 class createProductScreen extends Component {
 
@@ -110,10 +111,26 @@ class createProductScreen extends Component {
 
                         <View style={{ flexDirection: 'column', alignItems: 'center' }}>
                             <View style={{ justifyContent: 'flex-start' }}>
-                                <ImageWithBorder
-                                    width={Dimensions.get('window').width * 0.25}
-                                    height={Dimensions.get('window').width * 0.25}
-                                    imageSource={this.state.imageSource} />
+                                <BoxShadow setting={{
+                                    width: (Dimensions.get('window').width * 0.25),
+                                    height: (Dimensions.get('window').width * 0.25),
+                                    color: colors.gray,
+                                    border: 10,
+                                    radius: (Dimensions.get('window').width * 0.25) / 2,
+                                    opacity: 0.2,
+                                    x: 0,
+                                    y: 5
+                                }}>
+                                    <Image
+                                        source={this.state.imageSource}
+                                        style={{
+                                            width: Dimensions.get('window').width * 0.25,
+                                            height: (Dimensions.get('window').width * 0.25),
+                                            borderColor: colors.lightBlue,
+                                            borderWidth: (Dimensions.get('window').width * 0.25) / 17,
+                                            borderRadius: (Dimensions.get('window').width * 0.25) / 2
+                                        }} />
+                                </BoxShadow>
                             </View>
                             <Text> </Text>
                             <View style={{ justifyContent: 'flex-end' }}>

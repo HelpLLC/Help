@@ -10,6 +10,7 @@ import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 import ImageWithBorder from '../../components/ImageWithBorder';
 
 
@@ -42,7 +43,10 @@ class productHistoryScreen extends Component {
                         <ImageWithBorder
                             width={Dimensions.get('window').width * 0.25}
                             height={Dimensions.get('window').width * 0.25}
-                            imageSource={product.imageSource} />
+                            imageFunction={async () => {
+                                //Passes in the function to retrieve the image of this product
+                                return await FirebaseFunctions.getImageByID(product.serviceID)
+                            }} />
 
                     </View>
                     <View style={{ flex: 0.025 }}></View>
