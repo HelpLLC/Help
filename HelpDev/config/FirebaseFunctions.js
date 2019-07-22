@@ -16,7 +16,6 @@ export default class FirebaseFunctions {
     static products = this.database.collection("products");
     static messages = this.database.collection("messages");
     static issues = this.database.collection("issues");
-    static crashlytics = firebase.crashlytics();
 
     //This method will return an array containing an all products currently in the market
     static async getAllProducts() {
