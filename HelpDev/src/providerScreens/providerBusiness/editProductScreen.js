@@ -1,8 +1,10 @@
 //This screen will be the one that allows the user to edit the product or to even delete the product
 //itself.
 import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, Keyboard } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, Keyboard, Image } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
+import colors from 'config/colors';
+import { BoxShadow } from 'react-native-shadow';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import OneLineTextInput from '../../components/OneLineTextInput';
@@ -21,9 +23,9 @@ class editProductScreen extends Component {
     //The state which will keep track of what the user has entered for the product information
     state = {
         serviceTitle: this.props.navigation.state.params.product.serviceTitle,
+        serviceID: this.props.navigation.state.params.productID,
         serviceDescription: this.props.navigation.state.params.product.serviceDescription,
         pricing: this.props.navigation.state.params.product.pricing,
-        imageSource: this.props.navigation.state.params.product.imageSource,
         fieldsError: false,
         isLoading: false,
         isErrorVisible: false
@@ -42,6 +44,7 @@ class editProductScreen extends Component {
                 //Sets the source of the image if one has been selected
                 this.setState({
                     imageSource: source,
+                    response
                 });
             }
 
@@ -52,7 +55,7 @@ class editProductScreen extends Component {
     async saveProduct() {
         Keyboard.dismiss();
         //Retrieves the state of the input fields
-        const { serviceTitle, serviceDescription, pricing, imageSource } = this.state;
+        const { serviceTitle, serviceDescription, pricing, imageSource, response } = this.state;
         const { product, productID, providerID } = this.props.navigation.state.params;
 
         //Tests if any fields have been changed... if not, then it will just return to the last screen
@@ -68,7 +71,7 @@ class editProductScreen extends Component {
             try {
                 //Updates the correct product corresponding with the correct user
                 this.setState({ isLoading: true });
-                await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, imageSource);
+                await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, response);
                 this.setState({ isLoading: false });
                 this.props.navigation.push("ProviderScreens", {
                     providerID
@@ -108,10 +111,39 @@ class editProductScreen extends Component {
 
                         <View style={{ flexDirection: 'column', alignItems: 'center' }}>
                             <View style={{ justifyContent: 'flex-start' }}>
-                                <ImageWithBorder
-                                    width={Dimensions.get('window').width * 0.25}
-                                    height={Dimensions.get('window').width * 0.25}
-                                    imageSource={this.state.imageSource} />
+                                {
+                                    (this.state.imageSource ? (
+                                        <BoxShadow setting={{
+                                            width: (Dimensions.get('window').width * 0.25),
+                                            height: (Dimensions.get('window').width * 0.25),
+                                            color: colors.gray,
+                                            border: 10,
+                                            radius: (Dimensions.get('window').width * 0.25) / 2,
+                                            opacity: 0.2,
+                                            x: 0,
+                                            y: 5
+                                        }}>
+                                            <Image
+                                                source={this.state.imageSource}
+                                                style={{
+                                                    width: Dimensions.get('window').width * 0.25,
+                                                    height: (Dimensions.get('window').width * 0.25),
+                                                    borderColor: colors.lightBlue,
+                                                    borderWidth: (Dimensions.get('window').width * 0.25) / 17,
+                                                    borderRadius: (Dimensions.get('window').width * 0.25) / 2
+                                                }} />
+                                        </BoxShadow>
+                                    ) : (
+                                            <ImageWithBorder
+                                                width={Dimensions.get('window').width * 0.25}
+                                                height={Dimensions.get('window').width * 0.25}
+                                                imageFunction={async () => {
+                                                    //Passes in the function to retrieve the image of this product
+                                                    return await FirebaseFunctions.getImageByID(this.state.serviceID)
+                                                }} />
+                                        ))
+                                }
+
                             </View>
                             <Text> </Text>
                             <View style={{ justifyContent: 'flex-end' }}>

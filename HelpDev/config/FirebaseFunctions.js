@@ -338,7 +338,7 @@ export default class FirebaseFunctions {
 
     //This method will update the information for a specific product by taking in all of the new
     //product information and updating those fields in firestore
-    static async updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, imageURI) {
+    static async updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, response) {
 
         const batch = this.database.batch();
         const ref = this.products.doc(productID);
@@ -351,7 +351,7 @@ export default class FirebaseFunctions {
         //Removes the old image and then uploads the new one
         const imageRef = this.storage.ref(productID);
         await imageRef.delete();
-        await imageRef.putFile(imageURI);
+        await this.uploadImage(productID, response);
         await batch.commit();
         return 0;
     }
