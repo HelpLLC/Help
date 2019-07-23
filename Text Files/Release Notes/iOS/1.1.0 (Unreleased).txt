@@ -1,4 +1,5 @@
 - Fixed all image resizing
 - Made all uploaded pictures get uploaded to a secure database
 - Made all images load before displaying a blank image
+- Fixed a bug for businesses not allowing them to create products
 - Disabled landscape mode
