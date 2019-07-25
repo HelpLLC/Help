@@ -59,7 +59,6 @@ class businessScreen extends Component {
                 this.timeoutHandle = setTimeout(() => {
                     this.setState({ serviceIDsLength: provider.serviceIDs.length });
                     this.setState({ isLoading: false });
-                    //Makes sure the screen only stays on for three seconds
                 }, 500);
 
             }

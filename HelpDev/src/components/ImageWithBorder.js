@@ -23,6 +23,7 @@ class ImageWithBorder extends Component {
             isImageLoading: false,
             image: url
         });
+
     }
 
     //Renders the component

@@ -31,6 +31,7 @@ class ServiceCard extends Component {
             isImageLoading: false,
             image: url
         });
+
     }
 
     //Renders the component
