@@ -2,7 +2,7 @@
 //clicking the plus sign, or clicking create on the business's first product. It will allow the user
 //to give the product a picture from their camera roll, and a name and a description and a price
 import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, Keyboard, Image } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, Keyboard, Image, Platform } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
@@ -73,7 +73,14 @@ class createProductScreen extends Component {
             try {
                 this.setState({ isLoading: true });
                 const { providerID } = this.props.navigation.state.params;
-                await FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, pricing, response, providerID, provider.companyName);
+                //Fetches the absolute path of the image (depending on android or ios)
+                let absolutePath = "";
+                if (Platform.OS === 'android') {
+                    absolutePath = ("file://" + response.path);
+                } else {
+                    absolutePath = (response.uri);
+                }
+                await FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, pricing, absolutePath, providerID, provider.companyName);
                 this.setState({ isLoading: false });
                 this.props.navigation.push("ProviderScreens", {
                     providerID: provider.providerID

@@ -18,70 +18,50 @@ export default class FirebaseFunctions {
 
     //This method will return an array containing an all products currently in the market
     static async getAllProducts() {
-        const snapshot = await this.products.get();
 
-        //Returns the array which contains all the docs
-        const array = snapshot.docs.map((doc) => doc.data());
+        return await this.functions.httpsCallable("getAllProducts")();
 
-        //Removes the example from product from the array
-        const newArray = array.filter((element) => {
-            return element.serviceTitle !== "Example Service";
-        });
-
-        //Returns the correct array
-        return newArray;
     }
 
     //This method will return an array of all of the providers
     static async getAllProviders() {
-        const snapshot = await this.providers.get();
 
-        //Returns the array which contains all of the docs
-        return snapshot.docs.map((doc) => doc.data());
+        return await this.functions.httpsCallable("getAllProviders")();
+
     }
 
     //This method will return an array of all of the requesters
     static async getAllRequesters() {
-        const snapshot = await this.requesters.get();
+        
+        return await this.functions.httpsCallable("getAllRequesters")();
 
-        //Returns the array which contains all of the docs
-        return snapshot.docs.map((doc) => doc.data());
     }
 
     //This method will return an array of all of the message objects
     static async getAllMessages() {
-        const snapshot = await this.messages.get();
+        
+        return await this.functions.httpsCallable("getAllMessages")();
 
-        //Returns the array which contains all of the docs
-        return snapshot.docs.map((doc) => doc.data());
     }
 
     //This method will take in an ID of a requester and then retrieve the requester from the firestore
     //database by getting a reference to the doc and then calling it from the database. If the user
     //doesn't exist, then -1 will be returned
     static async getRequesterByID(requesterID) {
-        const ref = this.requesters.doc(requesterID + "");
-        const doc = await ref.get();
 
-        if (doc.exists) {
-            return doc.data();
-        } else {
-            return -1;
-        }
+        return await this.functions.httpsCallable("getRequesterByID")({
+            requesterID
+        });
 
     }
 
     //This method will take in an ID of a requester and then call the firestore database and get the
     //provider. If the user isn't found, then -1 is returned
     static async getProviderByID(providerID) {
-        const ref = this.providers.doc(providerID + "");
-        const doc = await ref.get();
-
-        if (doc.exists) {
-            return doc.data();
-        } else {
-            return -1;
-        }
+        
+        return await this.functions.httpsCallable("getProviderByID")({
+            providerID
+        });
 
     }
 
@@ -89,13 +69,9 @@ export default class FirebaseFunctions {
     //object
     static async getServiceByID(serviceID) {
 
-        const ref = this.products.doc(serviceID + "");
-        const doc = await ref.get();
-
-        if (doc.exists) {
-            return doc.data();
-        }
-        return -1;
+        return await this.functions.httpsCallable("getServiceByID")({
+            serviceID
+        });
 
     }
 
@@ -103,27 +79,10 @@ export default class FirebaseFunctions {
     //containing the conversation between the two
     static async getConversationByID(providerID, requesterID) {
 
-        const ref = this.messages.where("providerID", "==", providerID).where("requesterID", "==", requesterID).limit(1);
-        const query = await ref.get();
-
-        if (query.docs.length > 0) {
-            const doc = query.docs[0];
-            const docData = doc.data();
-            //Sorts the conversation messages by time
-            const conversationMessages = docData.conversationMessages.sort((a, b) => {
-                return b.createdAt - a.createdAt;
-            });
-            return {
-                conversationMessages,
-                providerID,
-                requesterID
-            }
-        }
-        return {
-            conversationMessages: [],
+        return await this.functions.httpsCallable("getConversationByID")({
             providerID,
             requesterID
-        }
+        });
 
     }
 
@@ -132,21 +91,10 @@ export default class FirebaseFunctions {
     //without the "@"
     static async addRequesterToDatabase(account, email) {
 
-        const batch = this.database.batch();
-        const uid = account.user.uid;
-        const ref = this.requesters.doc(uid);
-
-        const newRequester = {
-            requesterID: uid,
-            username: email.substring(0, email.indexOf("@")),
-            blockedUsers: ["Example Business"]
-        }
-
-        batch.set(ref, newRequester);
-        await batch.commit();
-
-        //This is a promise that won't be resolved while offline
-        return newRequester;
+        return await this.functions.httpsCallable("addRequesterToDatabase")({
+            account,
+            email
+        });
 
     }
 
@@ -155,22 +103,12 @@ export default class FirebaseFunctions {
     //the "@". It will also have the companyName and the companyDescription that is passed
     static async addProviderToDatabase(account, email, businessName, businessInfo) {
 
-        const batch = this.database.batch();
-        const uid = account.user.uid;
-        const ref = this.providers.doc(uid);
-
-        const newProvider = {
-            companyName: businessName,
-            companyDescription: businessInfo,
-            providerID: account.user.uid,
-            serviceIDs: [],
-            username: email.substring(0, email.indexOf("@"))
-        }
-
-        batch.set(ref, newProvider);
-        await batch.commit();
-
-        return newProvider;
+        return await this.functions.httpsCallable("addProviderToDatabase")({
+            account,
+            email,
+            businessName, 
+            businessInfo
+        });
 
     }
 
@@ -179,18 +117,10 @@ export default class FirebaseFunctions {
     //used to upload product images
     static async uploadImage(reference, response) {
 
-        //Fetches the absolute path of the image (depending on android or ios)
-        let absolutePath = "";
-        if (Platform.OS === 'android') {
-            absolutePath = ("file://" + response.path);
-        } else {
-            absolutePath = (response.uri);
-        }
-
-        //Creates the reference & uploads the image (async)
-        await this.storage.ref(reference).putFile(absolutePath);
-
-        return 0;
+        return await this.functions.httpsCallable("uploadImage")({
+            reference,
+            response
+        });
 
     }
 
@@ -198,9 +128,9 @@ export default class FirebaseFunctions {
     //and return the download URL for the image which is used as an image source
     static async getImageByID(ID) {
 
-        //Creates the reference
-        const uri = await this.storage.ref(ID).getDownloadURL();
-        return { uri };
+        return await this.functions.httpsCallable("getImageByID")({
+            ID
+        });
 
     }
 
@@ -208,104 +138,39 @@ export default class FirebaseFunctions {
     //first add it to the firestore containing products, then it will add the service IDs to the provider
     //products
     static async addProductToDatabase(serviceTitle, serviceDescription, pricing, response, providerID, companyName) {
-        //Creates the product object
-        let product = {
+        
+        return await this.functions.httpsCallable("addProductToDatabase")({
             serviceTitle,
             serviceDescription,
-            requests: {
-                currentRequests: [],
-                completedRequests: [],
-            },
             pricing,
-            offeredByID: providerID,
-            offeredByName: companyName
-        };
+            response,
+            providerID,
+            companyName
+        });
 
-        //Adds the product to the database of products
-        const newProduct = await this.products.add(product);
-
-        //Uploads the image to the database (longest process)
-        await this.uploadImage(newProduct.id, response);
-
-        //Will deal with the ID of the product by adding it as a field and pushing to the
-        //provider's field
-        const batch = this.database.batch();
-        const serviceID = newProduct.id;
-        const productRef = this.products.doc(serviceID);
-        batch.update(productRef, { serviceID });
-        const providerRef = this.providers.doc(providerID);
-        const providerDoc = await providerRef.get();
-        const serviceIDsArray = providerDoc.data().serviceIDs;
-        serviceIDsArray.push(serviceID);
-        batch.update(providerRef, { serviceIDs: serviceIDsArray });
-        await batch.commit();
-        return 0;
     }
 
     //Sends a message by adding that conversation to the database. If the conversation is a new one,
     //then it will create a new messages object between the two communicators
     static async sendMessage(providerID, requesterID, message, isNewConversation) {
-        if (isNewConversation === true) {
-            const conversationMessages = []
-            const messageWithCorrectDate = {
-                _id: message[0]._id,
-                createdAt: new Date(message[0].createdAt).getTime(),
-                text: message[0].text,
-                user: message[0].user
-            }
-            conversationMessages.push(messageWithCorrectDate);
-            //Retrieves the names of the requester and the provider so that can be added to the database
-            //as well
-            const provider = await FirebaseFunctions.getProviderByID(providerID);
-            const requester = await FirebaseFunctions.getRequesterByID(requesterID);
-            await this.messages.add({
-                conversationMessages,
-                providerID,
-                requesterID,
-                requesterName: requester.username,
-                providerName: provider.companyName
-            });
-        } else {
-            const ref = this.messages.where("providerID", "==", providerID).where("requesterID", "==", requesterID);
-            const query = await ref.get();
-            const doc = query.docs[0];
-            const docData = doc.data();
-            const oldConversationMessages = docData.conversationMessages;
-            const messageWithCorrectDate = {
-                _id: message[0]._id,
-                createdAt: new Date(message[0].createdAt).getTime(),
-                text: message[0].text,
-                user: message[0].user
-            }
-            oldConversationMessages.push(messageWithCorrectDate);
-            const batch = this.database.batch();
-            batch.update(doc.ref, {
-                conversationMessages: oldConversationMessages
-            });
+        
+        return await this.functions.httpsCallable("sendMessage")({
+            providerID,
+            requesterID,
+            message,
+            isNewConversation
+        });
 
-            await batch.commit();
-
-        }
-        return 0;
     }
 
     //Returns an array of all the conversation that this user has had, depending on if they are a 
     //requseter or a provider
     static async getAllUserConversations(userID, isRequester) {
-        let allUserConversations = [];
-        if (isRequester === true) {
-            const ref = this.messages.where("requesterID", "==", userID);
-            const query = await ref.get();
-            const docs = query.docs;
-            allUserConversations = docs.map((doc) => (doc.data()));
-        } else {
-            const ref = this.messages.where("providerID", "==", userID);
-            const query = await ref.get();
-            const docs = query.docs;
-            allUserConversations = docs.map((doc) => (doc.data()));
-        }
-
-        return allUserConversations;
+        
+        return await this.functions.httpsCallable("getAllUserConversations")({
+            userID,
+            isRequester
+        });
 
     }
 
@@ -313,72 +178,36 @@ export default class FirebaseFunctions {
     //and new company info and updating those fields in the firestore
     static async updateProviderInfo(providerID, newBusinessName, newBusinessInfo) {
 
-        const batch = this.database.batch();
-        const ref = this.providers.doc(providerID);
-        batch.update(ref, {
-            companyName: newBusinessName,
-            companyDescription: newBusinessInfo
+        return await this.functions.httpsCallable("updateProviderInfo")({
+            providerID,
+            newBusinessName,
+            newBusinessInfo
         });
 
-        //Goes through and edits all of the products that belong to this business & updated the
-        //field that connects them to the correct provider to the new businessName
-        const query = this.products.where("offeredByID", "==", providerID);
-        const result = await query.get();
-        result.docs.forEach((doc) => {
-            const docRef = doc.ref;
-            batch.update(docRef, {
-                offeredByName: newBusinessName
-            });
-        });
-
-        await batch.commit();
-        return 0;
     }
 
     //This method will update the information for a specific product by taking in all of the new
     //product information and updating those fields in firestore
     static async updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, response) {
 
-        const batch = this.database.batch();
-        const ref = this.products.doc(productID);
-        batch.update(ref, {
+        return await this.functions.httpsCallable("updateServiceInfo")({
+            productID,
             serviceTitle,
             serviceDescription,
-            pricing
+            pricing,
+            response
         });
 
-        //Removes the old image and then uploads the new one
-        const imageRef = this.storage.ref(productID);
-        await imageRef.delete();
-        await this.uploadImage(productID, response);
-        await batch.commit();
-        return 0;
     }
 
     //This method will take in a product ID and a requester ID and then delete that requester's request
     //from the array of the product's current requests
     static async deleteRequest(productID, requesterID) {
 
-        const batch = this.database.batch();
-        const ref = this.products.doc(productID);
-        const doc = await ref.get();
-
-        //Creates a copy of the array of requests minus the request corresponding to this requester ID
-        const oldRequests = doc.data().requests.currentRequests;
-        const indexOfRequest = oldRequests.findIndex((request) => {
-            return request.requesterID === requesterID;
+        return await this.functions.httpsCallable("deleteRequest")({
+            productID,
+            requesterID
         });
-
-        oldRequests.splice(indexOfRequest, 1);
-        batch.update(ref, {
-            requests: {
-                currentRequests: oldRequests,
-                completedRequests: doc.data().requests.completedRequests
-            }
-        });
-
-        await batch.commit();
-        return 0;
 
     }
 
@@ -386,36 +215,10 @@ export default class FirebaseFunctions {
     //it from the array of current requests and adding it to the array of completed requests
     static async completeRequest(productID, requesterID) {
 
-        const batch = this.database.batch();
-        const ref = this.products.doc(productID);
-        const doc = await ref.get();
-        const product = doc.data();
-
-        const requestToComplete = product.requests.currentRequests.find((eachRequest) => {
-            return eachRequest.requesterID === requesterID;
+        return await this.functions.httpsCallable("completeRequest")({
+            productID,
+            requesterID
         });
-
-        //Gets the old array of completed requests and adds the new completed request to that array,
-        //then sets that new array to it
-        const oldCompletedRequests = product.requests.completedRequests;
-        const newCompletedRequest = {
-            dateCompleted: new Date().toLocaleDateString("en-US"),
-            dateRequested: requestToComplete.dateRequested,
-            requesterID,
-            requesterName: requestToComplete.requesterName
-        }
-        oldCompletedRequests.push(newCompletedRequest);
-
-        batch.update(ref, {
-            requests: {
-                completedRequests: oldCompletedRequests,
-                currentRequests: product.requests.currentRequests
-            }
-        });
-
-        await batch.commit();
-        await FirebaseFunctions.deleteRequest(productID, requesterID);
-        return 0;
 
     }
 
@@ -423,26 +226,10 @@ export default class FirebaseFunctions {
     //requests corresponding with the product
     static async requestService(serviceID, requester) {
 
-        const batch = this.database.batch();
-        const ref = this.products.doc(serviceID);
-        const doc = await ref.get();
-
-        const oldArray = doc.data().requests.currentRequests;
-        oldArray.push({
-            dateRequested: new Date().toLocaleDateString("en-US"),
-            requesterID: requester.requesterID,
-            requesterName: requester.username
+        return await this.functions.httpsCallable("requestService")({
+            serviceID,
+            requester
         });
-
-        batch.update(ref, {
-            requests: {
-                completedRequests: doc.data().requests.completedRequests,
-                currentRequests: oldArray
-            }
-        });
-
-        await batch.commit();
-        return 0;
 
     }
 
@@ -453,6 +240,7 @@ export default class FirebaseFunctions {
             user,
             issue
         });
+
     }
 
     //This method will take in a request and a provider and block that provider from being able to sell
@@ -460,38 +248,29 @@ export default class FirebaseFunctions {
     //of blocked users that belongs to the requesters
     static async blockCompany(requester, provider) {
 
-        //Fetches the old array of blocked companies by this requester and appends this provider to
-        //that list
-        const arrayOfBlockedCompanies = requester.blockedUsers;
-        arrayOfBlockedCompanies.push(provider.providerID);
-
-        //Updates this array in the firebase firestore
-        const batch = this.database.batch();
-        const ref = this.requesters.doc(requester.requesterID);
-        batch.update(ref, {
-            blockedUsers: arrayOfBlockedCompanies
+        return await this.functions.httpsCallable("blockCompany")({
+            requester,
+            provider
         });
 
-        //commits the batch
-        await batch.commit();
-        return 0;
     }
 
     //This method will log out the current user of the app
     static async logOut() {
+        
         await firebase.auth().signOut();
         return 0;
+
     }
 
     //This method will take in an error message and log it into firebase firestore where errors
     //are stored
     static logIssue(error) {
-        //Adds it to the report issue section
-        this.issues.add({
-            userID: 'App Error',
-            errorName: error.name,
-            errorMessage: error.message
-        })
+        
+        return await this.functions.httpsCallable("addProductToDatabase")({
+            error
+        });
+
     }
 
 }
