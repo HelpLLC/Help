@@ -36,7 +36,10 @@ class editProductScreen extends Component {
 
         Keyboard.dismiss();
         //Shows the image picker with the default options
-        ImagePicker.showImagePicker(null, (response) => {
+        ImagePicker.showImagePicker({
+            maxHeight: 200,
+            maxWidth: 180
+        }, (response) => {
 
             //Retrieves the source of the selected image and sets it to the ImageSource state
             const source = { uri: 'data:image/jpeg;base64,' + response.data };

@@ -38,7 +38,10 @@ class createProductScreen extends Component {
 
         Keyboard.dismiss();
         //Shows the image picker with the default options
-        ImagePicker.showImagePicker(null, (response) => {
+        ImagePicker.showImagePicker({
+            maxHeight: 200,
+            maxWidth: 180
+        }, (response) => {
 
             const source = { uri: 'data:image/jpeg;base64,' + response.data };
             if (!(source.uri === "data:image/jpeg;base64,undefined")) {
