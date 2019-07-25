@@ -34,6 +34,7 @@ target 'Help' do
   pod 'Firebase/Storage', '~> 6.3.0'
   pod 'Fabric', '~> 1.10.2'
   pod 'Crashlytics', '~> 3.13.4'
+  pod 'Firebase/Functions', '~> 6.3.0'
 
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'

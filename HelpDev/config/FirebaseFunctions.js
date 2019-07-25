@@ -1,14 +1,13 @@
-//This class will contain a bunch of static functions that are common and will be used through out the
-//application. The point of this class is to reduce code clutter throughout the application. The class
-//will connect with the firebase firestore in order to retrieve the necessary data. 
+//This class only serves as a reference to the cloud functions class
 import firebase from 'react-native-firebase';
 import { Platform } from 'react-native';
-
-//All methods should be labeled static. There will also be static variable that reference the collections
-//in the cloud firestore
+//Descriptions for all methods located in the index.js file in the 
+//Firebase Functions directoy (not file)
 export default class FirebaseFunctions {
 
     //The collections & references that will be used by this class
+    static functions = firebase.functions();
+    
     static database = firebase.firestore();
     static storage = firebase.storage();
     static providers = this.database.collection("providers");
@@ -447,20 +446,13 @@ export default class FirebaseFunctions {
 
     }
 
-    //This method will take in a username of a user, the user's UID, and a string containing the issue.
-    //Then it will add the issue to be viewed in the database (in the future, should send an email to 
-    //the email of the company)
+    
     static async reportIssue(user, issue) {
-
-        //tests whether or not the user is a requester or a provider and adds a "r-" or "p-" before their
-        //ID respectivly
-        const userID = (user.requesterID ? ("r-" + user.requesterID) : ("p-" + user));
-
-        await this.issues.add({
-            issue,
-            userID
+        
+        return await this.functions.httpsCallable("reportIssue")({
+            user,
+            issue
         });
-        return 0;
     }
 
     //This method will take in a request and a provider and block that provider from being able to sell
