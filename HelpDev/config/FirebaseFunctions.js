@@ -189,7 +189,7 @@ export default class FirebaseFunctions {
         }
 
         //Creates the reference & uploads the image (async)
-        await this.storage.ref(reference).putFile(absolutePath);
+        await this.storage.ref('products/' + reference).putFile(absolutePath);
 
         return 0;
 
@@ -200,7 +200,7 @@ export default class FirebaseFunctions {
     static async getImageByID(ID) {
 
         //Creates the reference
-        const uri = await this.storage.ref(ID).getDownloadURL();
+        const uri = await this.storage.ref('products/' + ID).getDownloadURL();
         return { uri };
 
     }
