@@ -4,12 +4,15 @@
 //functions .js file located in config/FirebaseFunctions.
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const gcs = require('@google-cloud/storage')({
+    keyFilename: "serviceAccountKey.json"
+});
 admin.initializeApp();
 
 //These are all the collections and reference that'll be used in
 //the cloud functions
 const database = admin.firestore();
-const storage = admin.storage().bucket('gs://help-d194d.appspot.com');
+const storage = gcs.bucket('gs://help-d194d.appspot.com');
 const providers = database.collection("providers");
 const requesters = database.collection("requesters");
 const products = database.collection("products");
@@ -22,9 +25,7 @@ These are abstracted functions that are used by multiple cloud functions
 const uploadImage = async (reference, response) => {
 
     //Creates the reference & uploads the image (async)
-    await storage.upload(response, {
-        destination: reference
-    });
+    await storage.upload(response);
 
     return 0;
 

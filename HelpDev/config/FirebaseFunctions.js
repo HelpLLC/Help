@@ -1,20 +1,11 @@
 //This class only serves as a reference to the cloud functions class
 import firebase from 'react-native-firebase';
-import { Platform } from 'react-native';
 //Descriptions for all methods located in the index.js file in the 
 //Firebase Functions directoy (not file)
 export default class FirebaseFunctions {
 
-    //The collections & references that will be used by this class
-    static functions = firebase.functions();
     
-    static database = firebase.firestore();
-    static storage = firebase.storage();
-    static providers = this.database.collection("providers");
-    static requesters = this.database.collection("requesters");
-    static products = this.database.collection("products");
-    static messages = this.database.collection("messages");
-    static issues = this.database.collection("issues");
+    static functions = firebase.functions();
 
     //This method will return an array containing an all products currently in the market
     static async getAllProducts() {
