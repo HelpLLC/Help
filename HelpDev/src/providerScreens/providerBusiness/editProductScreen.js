@@ -1,7 +1,7 @@
 //This screen will be the one that allows the user to edit the product or to even delete the product
 //itself.
 import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, Keyboard, Image, Platform } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, Keyboard, Image } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import colors from 'config/colors';
 import { BoxShadow } from 'react-native-shadow';
@@ -74,14 +74,7 @@ class editProductScreen extends Component {
             try {
                 //Updates the correct product corresponding with the correct user
                 this.setState({ isLoading: true });
-                //Fetches the absolute path of the image (depending on android or ios)
-                let absolutePath = "";
-                if (Platform.OS === 'android') {
-                    absolutePath = ("file://" + response.path);
-                } else {
-                    absolutePath = (response.uri);
-                }
-                await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, absolutePath);
+                await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, response);
                 this.setState({ isLoading: false });
                 this.props.navigation.push("ProviderScreens", {
                     providerID

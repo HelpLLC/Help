@@ -1,9 +1,9 @@
 {
-  "name": "config",
-  "version": "0.0.1",
-  "rnpm": {
-    "assets": [
-      "./config/fonts/"
-    ]
-  }
+    "name": "config",
+    "version": "0.0.1",
+    "rnpm": {
+      "assets": [
+        "./config/fonts/"
+      ]
+    }
 }
