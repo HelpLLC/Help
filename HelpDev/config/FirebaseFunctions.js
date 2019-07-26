@@ -267,7 +267,7 @@ export default class FirebaseFunctions {
     //are stored
     static logIssue(error) {
         
-        return await this.functions.httpsCallable("logIssue")({
+        return this.functions.httpsCallable("logIssue")({
             error
         });
 
