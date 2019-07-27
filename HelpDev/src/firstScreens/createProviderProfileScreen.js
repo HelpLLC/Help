@@ -71,6 +71,7 @@ class createProviderProfileScreen extends Component {
             //If the business name is already taken, then a warning message will appear,
             //Else, the profile will be created
             try {
+                firebase.auth().signInAnonymously();
                 const isCompanyNameTaken = await this.isCompanyNameTaken(businessName);
                 if (isCompanyNameTaken === true) {
                     this.setState({ companyNameTakenError: true, isLoading: false });
@@ -80,6 +81,7 @@ class createProviderProfileScreen extends Component {
                     //the correct params and logs in
                     const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
                     const provider = await FirebaseFunctions.addProviderToDatabase(account, email, businessName, businessInfo);
+                    await firebase.auth().signInWithEmailAndPassword(email, password);
                     this.props.navigation.push('ProviderScreens', {
                         providerID: provider.providerID
                     });

@@ -118,11 +118,11 @@ class ServiceCard extends Component {
                         value={numCurrentRequests}
                         badgeStyle={{
                             width: (Dimensions.get('window').width * 0.0973),
-                            height: (Dimensions.get('window').height * 0.0586),
+                            height: (Dimensions.get('window').width * 0.0973),
                             borderRadius: (Dimensions.get('window').width * 0.0973) / 2
                         }}
                         textStyle={fontStyles.mainTextStyleWhite}
-                        containerStyle={{ position: 'absolute', top: 16, right: 12 }}
+                        containerStyle={{ position: 'absolute', top: 24, right: 20 }}
                     />
                 ) : (
                         <View></View>

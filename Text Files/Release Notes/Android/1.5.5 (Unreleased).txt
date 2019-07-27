@@ -1,1 +1,2 @@
 - Optimized how images are stored and downloaded
+- Improved data security

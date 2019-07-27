@@ -349,7 +349,7 @@ export default class FirebaseFunctions {
         });
 
         //Removes the old image and then uploads the new one
-        const imageRef = this.storage.ref(productID);
+        const imageRef = this.storage.ref('products/' + productID);
         await imageRef.delete();
         await this.uploadImage(productID, response);
         await batch.commit();
