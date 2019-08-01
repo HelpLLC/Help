@@ -3,6 +3,7 @@
 //section of the application
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import NetInfo from "@react-native-community/netinfo";
 import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import strings from 'config/strings';
@@ -27,7 +28,12 @@ class splashScreen extends Component {
     //This function will call when the component is mounted to test if a user is currently logged in
     //or not
     async componentDidMount() {
-        await this.isUserLoggedIn();
+        const isConnected = await NetInfo.fetch();
+        if (isConnected.isConnected && isConnected.isInternetReachable) {
+            await this.isUserLoggedIn();
+        } else {
+            this.setState({ internetConnection: false });
+        }
     }
 
     //If no user is logged in, the function will return false. If there is one logged in, it will return the
