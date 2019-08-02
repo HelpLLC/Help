@@ -108,7 +108,8 @@ class createProductScreen extends Component {
                                     placeholder={strings.GiveItATitleDotDotDot}
                                     value={this.state.serviceTitle}
                                     password={false}
-                                    width={Dimensions.get('window').width * 0.3406} />
+                                    maxLength={21}
+                                    width={Dimensions.get('window').width * 0.35} />
                             </View>
                         </View>
 
@@ -161,7 +162,8 @@ class createProductScreen extends Component {
                                 height={(Dimensions.get('window').height * 0.14641)}
                                 placeholder={strings.EnterDescriptionForCustomersDotDotDot}
                                 onChangeText={(input) => this.setState({ serviceDescription: input })}
-                                value={this.state.serviceDescription} />
+                                value={this.state.serviceDescription}
+                                maxLength={240} />
                         </View>
                     </View>
                     <View style={{ flex: 1.5, justifyContent: 'flex-end' }}>
@@ -175,7 +177,8 @@ class createProductScreen extends Component {
                                 placeholder={strings.HowMuchWillYouChargeDotDotDot}
                                 value={this.state.pricing}
                                 password={false}
-                                width={Dimensions.get('window').width - 40} />
+                                width={Dimensions.get('window').width - 40}
+                                maxLength={50} />
                         </View>
                     </View>
                     <View style={{ flex: 0.001 }}></View>

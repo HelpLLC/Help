@@ -67,14 +67,20 @@ class editProductScreen extends Component {
         } else if (serviceTitle === product.serviceTitle &&
             serviceDescription === product.serviceDescription &&
             pricing === product.pricing &&
-            imageSource === product.imageSource) {
+            (!this.state.response)) {
             this.props.navigation.goBack();
         } else {
 
             try {
+               
                 //Updates the correct product corresponding with the correct user
                 this.setState({ isLoading: true });
-                await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, response);
+                if (!this.state.response) {
+                    await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, null);
+                } else {
+                    await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, response);
+                }
+               
                 this.setState({ isLoading: false });
                 this.props.navigation.push("ProviderScreens", {
                     providerID
@@ -107,7 +113,8 @@ class editProductScreen extends Component {
                                 <OneLineTextInput
                                     onChangeText={(input) => this.setState({ serviceTitle: input })}
                                     value={this.state.serviceTitle}
-                                    width={(Dimensions.get('window').width * 0.34)}
+                                    width={(Dimensions.get('window').width * 0.35)}
+                                    maxLength={21}
                                     password={false} />
                             </View>
                         </View>
@@ -173,7 +180,8 @@ class editProductScreen extends Component {
                                 width={Dimensions.get('window').width - 40}
                                 height={(Dimensions.get('window').height * 0.14641)}
                                 onChangeText={(input) => this.setState({ serviceDescription: input })}
-                                value={this.state.serviceDescription} />
+                                value={this.state.serviceDescription}
+                                maxLength={240} />
                         </View>
                     </View>
                     <View style={{ flex: 1.5 }}>
@@ -186,7 +194,8 @@ class editProductScreen extends Component {
                                 onChangeText={(input) => this.setState({ pricing: input })}
                                 value={this.state.pricing}
                                 width={Dimensions.get('window').width - 40}
-                                password={false} />
+                                password={false}
+                                maxLength={50}  />
                         </View>
                     </View>
                     <View style={{ flex: 0.001 }}></View>

@@ -115,7 +115,7 @@ class productScreen extends Component {
                             alignItems: 'center',
                             alignSelf: 'center',
                             justifyContent: 'space-between',
-                            flex: (currentRequests.length > 0 ? 0.35 : 0.5)
+                            flex: 0.75
                         }}>
                             <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
                                 <View style={{ flex: 1, justifyContent: 'flex-end' }}>
@@ -162,7 +162,7 @@ class productScreen extends Component {
                             borderWidth: 0.5,
                             width: Dimensions.get('window').width - 40,
                             alignSelf: 'center',
-                            height: (Dimensions.get('window').height * 0.176)
+                            flex: 1
                         }}>
                             <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                                 <Text style={fontStyles.subTextStyleBlack}>
@@ -270,7 +270,7 @@ class productScreen extends Component {
                                     </ScrollView>
                                 </View>
                             ) : (
-                                    <View style={{ alignSelf: 'center', justifyContent: 'center' }}>
+                                    <View style={{ flex: 1, alignSelf: 'center', justifyContent: 'center' }}>
                                         <Text style={fontStyles.bigTextStyleBlack}>
                                             {strings.NoCurrentRequests}
                                         </Text>

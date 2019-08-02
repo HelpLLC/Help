@@ -11,8 +11,8 @@ class RoundTextInput extends Component {
         //The class will take in properties that are the value that the textinput will hold when it 
         //is first accessed, i.e, the instructions for what the user should type. It will also 
         //contain a height & width for how big the textInput will be along with some functions to
-        //retrieve the input
-        const { width, height, placeholder, onChangeText, value } = this.props;
+        //retrieve the input, and a max length that can be entered
+        const { width, height, placeholder, onChangeText, value, maxLength } = this.props;
         return (
             //Creates a view that includes the interior TextInput so that the curvature doesn't 
             //impact the text
@@ -33,6 +33,7 @@ class RoundTextInput extends Component {
                     onChangeText={(input) => onChangeText(input)}
                     value={value}
                     returnKeyType={'done'}
+                    maxLength={maxLength}
                     blurOnSubmit={true} />
             </View>
         );
@@ -48,7 +49,8 @@ RoundTextInput.propTypes = {
     width: PropTypes.number.isRequired,
     placeHolder: PropTypes.string,
     onChangeText: PropTypes.func.isRequired,
-    value: PropTypes.string
+    value: PropTypes.string,
+    maxLength: PropTypes.number
 }
 
 export default RoundTextInput;

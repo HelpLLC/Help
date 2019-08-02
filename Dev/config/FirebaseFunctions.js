@@ -348,10 +348,13 @@ export default class FirebaseFunctions {
             pricing
         });
 
-        //Removes the old image and then uploads the new one
-        const imageRef = this.storage.ref('products/' + productID);
-        await imageRef.delete();
-        await this.uploadImage(productID, response);
+        //Removes the old image and then uploads the new one if the image has been changed
+        if (response !== null) {
+            const imageRef = this.storage.ref('products/' + productID);
+
+            await imageRef.delete();
+            await this.uploadImage(productID, response);
+        }
         await batch.commit();
         return 0;
     }

@@ -104,7 +104,7 @@ class serviceScreen extends Component {
                             borderColor: colors.lightGray,
                             borderBottomColor: colors.black,
                             borderWidth: 0.5,
-                            flex: 0.5
+                            flex: 0.75
                         }}>
                             <View style={{ flexDirection: 'column', flex: 1 }}>
                                 <View style={{ flex: 1, justifyContent: 'center' }}>
@@ -144,7 +144,7 @@ class serviceScreen extends Component {
                             borderBottomColor: colors.black,
                             borderWidth: 0.5,
                             width: Dimensions.get('window').width - 40,
-                            height: (Dimensions.get('window').height * 0.17569)
+                            flex: 1
                         }}>
                             <View style={{ flex: 1, justifyContent: 'center' }}>
                                 <Text style={fontStyles.subTextStyleBlack}>
