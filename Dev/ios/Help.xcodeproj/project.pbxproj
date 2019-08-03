@@ -39,6 +39,7 @@
 		97E70E374A9BE9CB0755C1E0 /* libPods-HelpTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9800C9EFB4F0F1950663C121 /* libPods-HelpTests.a */; };
 		99741D7C785B7878ADF71AC7 /* Pods_Help_tvOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 111E74F60685DA649649A7E1 /* Pods_Help_tvOSTests.framework */; };
 		9B19C1AA22E2B7870078CF9E /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B19C1A922E2B7870078CF9E /* File.swift */; };
+		9B9D44A422F62A55004CC1EC /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B9D44A322F62A55004CC1EC /* UserNotifications.framework */; };
 		9C03D6BC2F0D42FF81E45202 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3EFFFA83A8A4D419A009728 /* Fontisto.ttf */; };
 		9F637A9A890E4F53A4C404C7 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD6D45C9C5E04A2DA1394548 /* EvilIcons.ttf */; };
 		D5666FE38D10454284805655 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD28F1259CC94058A6B770F3 /* AntDesign.ttf */; };
@@ -59,6 +60,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "Help-tvOS";
+		};
+		9B9D44A122F62A2F004CC1EC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9B9D449D22F62A2F004CC1EC /* RNFirebase.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNFirebase;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -98,6 +106,8 @@
 		9B0393CA22F61E9A002C0894 /* Help.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Help.entitlements; path = Help/Help.entitlements; sourceTree = "<group>"; };
 		9B19C1A822E2B7870078CF9E /* Help-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Help-Bridging-Header.h"; sourceTree = "<group>"; };
 		9B19C1A922E2B7870078CF9E /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		9B9D449D22F62A2F004CC1EC /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
+		9B9D44A322F62A55004CC1EC /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		9D438E24472605E5AECD963F /* Pods-Help-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Help-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-Help-tvOSTests/Pods-Help-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		9E358330832225763A76A987 /* Pods-Help.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Help.debug.xcconfig"; path = "Target Support Files/Pods-Help/Pods-Help.debug.xcconfig"; sourceTree = "<group>"; };
 		A5D7A8B526467DAFBF45A36E /* Pods_Help_tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Help_tvOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,6 +140,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B9D44A422F62A55004CC1EC /* UserNotifications.framework in Frameworks */,
 				44C9224C22DAEF40003DD74E /* libRNFirebase.a in Frameworks */,
 				444109FA22DACA550020B496 /* libFirebaseAuth.a in Frameworks */,
 				444109FC22DACA550020B496 /* libFirebaseCore.a in Frameworks */,
@@ -194,6 +205,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9B9D44A322F62A55004CC1EC /* UserNotifications.framework */,
 				44C9224B22DAEF40003DD74E /* libRNFirebase.a */,
 				444109F922DACA550020B496 /* libFirebaseAuth.a */,
 				444109FB22DACA550020B496 /* libFirebaseCore.a */,
@@ -227,6 +239,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				9B9D449D22F62A2F004CC1EC /* RNFirebase.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -256,6 +269,14 @@
 				00E356EE1AD99517003FC87E /* HelpTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* Help-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* Help-tvOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9B9D449E22F62A2F004CC1EC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9B9D44A222F62A2F004CC1EC /* libRNFirebase.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -414,6 +435,12 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 9B9D449E22F62A2F004CC1EC /* Products */;
+					ProjectRef = 9B9D449D22F62A2F004CC1EC /* RNFirebase.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* Help */,
@@ -423,6 +450,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		9B9D44A222F62A2F004CC1EC /* libRNFirebase.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFirebase.a;
+			remoteRef = 9B9D44A122F62A2F004CC1EC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		00E356EC1AD99517003FC87E /* Resources */ = {
@@ -870,6 +907,7 @@
 					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../../react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase",
 				);
 				INFOPLIST_FILE = Help/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -993,6 +1031,7 @@
 					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../../react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase",
 				);
 				INFOPLIST_FILE = Help/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
