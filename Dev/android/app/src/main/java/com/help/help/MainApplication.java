@@ -16,6 +16,8 @@ import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
@@ -39,6 +41,8 @@ public class MainApplication extends Application implements ReactApplication {
       packages.add(new RNFirebaseAuthPackage());
       packages.add(new RNFirebaseFirestorePackage());
       packages.add(new RNFirebaseStoragePackage());
+      packages.add(new RNFirebaseMessagingPackage());
+      packages.add(new RNFirebaseNotificationsPackage());
       return packages;
     }
 
