@@ -29,7 +29,7 @@ class splashScreen extends Component {
     //or not
     async componentDidMount() {
         const isConnected = await NetInfo.fetch();
-        if (isConnected.isConnected && isConnected.isInternetReachable) {
+        if (isConnected.isConnected !== false && isConnected.isInternetReachable !== false) {
             await this.isUserLoggedIn();
         } else {
             this.setState({ internetConnection: false });
@@ -90,7 +90,14 @@ class splashScreen extends Component {
                     />
                     <ErrorAlert
                         isVisible={!internetConnection}
-                        onPress={() => { this.forceUpdate() }}
+                        onPress={() => {
+                            this.setState({
+                                isLoading: true,
+                                isErrorVisible: false,
+                                isUserLoggedIn: "",
+                                internetConnection: true
+                            })
+                        }}
                         title={strings.Whoops}
                         message={strings.NoConnection}
                     />
