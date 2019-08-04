@@ -19,14 +19,14 @@ admin.initializeApp({
 exports.sendNotification = functions.https.onCall(async (input, context) => {
 
     const { topic, title, body } = input;
-    await admin.messaging().sendToTopic(topic,
+    await admin.messaging().send(
         {
             notification: {
                 title,
                 body
-            }
-        },
-        null
+            },
+            topic
+        }
     );
     return 0;
     
