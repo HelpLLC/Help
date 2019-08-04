@@ -17,7 +17,6 @@ import screenStyle from 'config/styles/screenStyle'
 
 class splashScreen extends Component {
 
-
     state = {
         isLoading: true,
         isErrorVisible: false,

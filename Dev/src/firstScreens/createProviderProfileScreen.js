@@ -81,7 +81,7 @@ class createProviderProfileScreen extends Component {
                     //the correct params and logs in
                     const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
                     const provider = await FirebaseFunctions.addProviderToDatabase(account, email, businessName, businessInfo);
-                    await firebase.auth().signInWithEmailAndPassword(email, password);
+                    await FirebaseFunctions.logIn(email, password);
                     this.props.navigation.push('ProviderScreens', {
                         providerID: provider.providerID
                     });

@@ -81,7 +81,7 @@ class signUpScreen extends Component {
                         //the screen will shift to the new account's screen
                         const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
                         const requester = await FirebaseFunctions.addRequesterToDatabase(account, email);
-                        await firebase.auth().signInWithEmailAndPassword(email, password);
+                        await FirebaseFunctions.logIn(email, password);
                         const allProducts = await FirebaseFunctions.getAllProducts();
                         this.setState({ isLoading: false });
                         this.props.navigation.push('RequesterScreens', {

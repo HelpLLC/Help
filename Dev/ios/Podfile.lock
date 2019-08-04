@@ -184,7 +184,7 @@ PODS:
     - React-cxxreact (= 0.60.3)
     - React-jsi (= 0.60.3)
   - React-jsinspector (0.60.3)
-  - react-native-image-picker (1.0.1):
+  - react-native-image-picker (1.0.2):
     - React
   - react-native-netinfo (4.1.3):
     - React
@@ -214,11 +214,13 @@ PODS:
   - React-RCTWebSocket (0.60.3):
     - React-Core (= 0.60.3)
     - React-fishhook (= 0.60.3)
-  - RNFirebase (5.5.5):
+  - RNCAsyncStorage (1.6.1):
+    - React
+  - RNFirebase (5.5.6):
     - Firebase/Core
     - React
-    - RNFirebase/Crashlytics (= 5.5.5)
-  - RNFirebase/Crashlytics (5.5.5):
+    - RNFirebase/Crashlytics (= 5.5.6)
+  - RNFirebase/Crashlytics (5.5.6):
     - Crashlytics
     - Fabric
     - Firebase/Core
@@ -266,6 +268,7 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-RCTWebSocket (from `../node_modules/react-native/Libraries/WebSocket`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNFirebase (from `../node_modules/react-native-firebase/ios`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -349,6 +352,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   React-RCTWebSocket:
     :path: "../node_modules/react-native/Libraries/WebSocket"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-community/async-storage"
   RNFirebase:
     :path: "../node_modules/react-native-firebase/ios"
   RNGestureHandler:
@@ -397,7 +402,7 @@ SPEC CHECKSUMS:
   React-jsi: c2b6e57836bcae2677a036384111dc2c58e94369
   React-jsiexecutor: d9023c5c199114d2b6f38ec861a4d923c73d0735
   React-jsinspector: 817b64f3c8a807f09d78620f4f505868d89b26f3
-  react-native-image-picker: 4ffb12aa6e9a09ac5ada77a8deaf3a3f6495aa34
+  react-native-image-picker: 4c1d9b0377a3291d9b9a0e65c89e87d435e74516
   react-native-netinfo: c8798d4becf1df39247d1625abc623ee65832c75
   react-native-spinkit: 9a5d2f95aa975d5660fd3e76b7eac38e7329e46c
   React-RCTActionSheet: 9c42321fd5652515d706dd722c5a10b1970d7ec8
@@ -410,7 +415,8 @@ SPEC CHECKSUMS:
   React-RCTText: b026f8350c2cbe0daeb9880dd9c6e018fce0daf7
   React-RCTVibration: 5d9ed4a968e9d42880ddcc7c29bee3417c745408
   React-RCTWebSocket: 69d8565d66043f244b4129f3d7154c5689fb7d3e
-  RNFirebase: b627e5991bb10bf34cea84806819f98f95f39f8b
+  RNCAsyncStorage: 621bad7a889b5bf1583a52547f2dcd3a4d1ff15e
+  RNFirebase: ac0de8b24c6f91ae9459575491ed6a77327619c6
   RNGestureHandler: 5329a942fce3d41c68b84c2c2276ce06a696d8b0
   RNReanimated: 7a52c90473b5e81c13408d40d797b98387eaddde
   RNSVG: 90c76b7cf235654d45e54655b6c189ea4041057c

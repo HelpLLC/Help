@@ -20,8 +20,19 @@ class settingsScreen extends Component {
         //in this class
         const angleRightIcon = <Icon name={"angle-right"} type="font-awesome" color={colors.lightBlue} />;
         //Retrieves the current user from the params
-        const user = (this.props.navigation.state.params.providerID ? this.props.navigation.state.params.providerID :
-            this.props.navigation.state.params.requester);
+        let user = "";
+        let isRequester = "";
+        let uid = "";
+        if (this.props.navigation.state.params.providerID) {
+            user = this.props.navigation.state.params.providerID;
+            isRequester = false;
+            uid = this.props.navigation.state.params.providerID;
+        } else {
+            user = this.props.navigation.state.params.requester;
+            isRequester = true;
+            uid = this.props.navigation.state.params.requester.requesterID;
+        }
+        
         return (
             <HelpView style={screenStyle.container}>
                 <View>
@@ -79,7 +90,7 @@ class settingsScreen extends Component {
                                 mainTextStyle={fontStyles.mainTextStyleRed}
                                 //To-Do: Needs to call a logout function
                                 onPress={async () => {
-                                    await FirebaseFunctions.logOut();
+                                    await FirebaseFunctions.logOut(isRequester, uid);
                                     this.props.navigation.push('FirstScreens');
                                 }}
                             />

@@ -50,19 +50,19 @@ class logInScreen extends Component {
             //Turns on the loading indicator
             this.setState({ isLoading: true });
             try {
-                const account = await firebase.auth().signInWithEmailAndPassword(email, password);
+                //Uses the firebase functions method to log in, and based on the return, it determines if the
+                //account belongs to a requester or not, and navigates to the correct screen
+                const account = await FirebaseFunctions.logIn(email, password);
                 //Tests whether this is a provider or a requester & based on that, navigates to the
                 //correct screen
-                const { uid } = account.user;
-                //Starts with searching if this is a requester since that is more common
-                const requester = await FirebaseFunctions.getRequesterByID(uid);
-                if (requester === -1) {
+                if (account.charAt(0) === 'p') {
                     //This means this account is a provider since a requester with this ID was not found
                     this.props.navigation.push('ProviderScreens', {
-                        providerID: uid
+                        providerID: (account.substring(2))
                     });
                 } else {
                     const allProducts = await FirebaseFunctions.getAllProducts();
+                    const requester = await FirebaseFunctions.getRequesterByID(account.substring(2));
                     //If this is a requester, then it will navigate to the screens & pass in the
                     //correct params
                     this.setState({ isLoading: false });

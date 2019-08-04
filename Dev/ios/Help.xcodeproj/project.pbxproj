@@ -398,6 +398,7 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 3JN2Y9YRF9;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
@@ -806,6 +807,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 3JN2Y9YRF9;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -831,6 +833,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 3JN2Y9YRF9;
 				INFOPLIST_FILE = HelpTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -907,7 +910,6 @@
 					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../../react-native/React/**",
-					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase",
 				);
 				INFOPLIST_FILE = Help/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1031,7 +1033,6 @@
 					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../../react-native/React/**",
-					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase",
 				);
 				INFOPLIST_FILE = Help/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
