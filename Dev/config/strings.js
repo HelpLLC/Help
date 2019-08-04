@@ -153,6 +153,10 @@ export default {
     //------------------- Chats Screen -------------------
     NoMessagesYet: 'No messages yet',
 
+    //------------------- Notifications -------------------
+    NewRequest: 'New Request',
+    YouHaveNewRequestFor: 'You have a new request for ',
+
     //------------------- Documents -----------------
     PrivacyPolicy: 'Welcome to our Privacy Policy' +
         '-- Your privacy is critically important to us.' +
