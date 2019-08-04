@@ -209,6 +209,7 @@ dependencies {
     implementation 'me.leolin:ShortcutBadger:1.1.21@aar'
     implementation project(':react-native-gesture-handler')
     implementation "com.google.firebase:firebase-auth:17.0.0"
+    implementation "com.google.firebase:firebase-functions:17.0.0"
     implementation "com.google.firebase:firebase-firestore:19.0.0"
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules

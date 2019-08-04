@@ -4,14 +4,6 @@
 import firebase from 'react-native-firebase';
 import { Platform } from 'react-native';
 
-//Initializes the admit sdk
-const admin = require("firebase-admin");
-const serviceAccount = require("./serviceAccountKey.json");
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://help-d194d.firebaseio.com"
-});
-
 //All methods should be labeled static. There will also be static variable that reference the collections
 //in the cloud firestore
 export default class FirebaseFunctions {
@@ -19,7 +11,8 @@ export default class FirebaseFunctions {
     //The collections & references that will be used by this class
     static database = firebase.firestore();
     static storage = firebase.storage();
-    static fcm = admin.messaging();
+    static fcm = firebase.messaging();
+    static functions = firebase.functions();
     static providers = this.database.collection("providers");
     static requesters = this.database.collection("requesters");
     static products = this.database.collection("products");
@@ -456,15 +449,12 @@ export default class FirebaseFunctions {
 
         await batch.commit();
         //Notifies the provider whose service this belongs to
-        await this.fcm.sendToTopic("p-" + doc.data().offeredByID, 
-            {
-                notification: {
-                    title: "Request",
-                    body: "Someone requested " + doc.data().serviceTitle + " from you"
-                }
-            },
-            null
-        );
+        this.functions.httpsCallable('sendNotification')({
+            topic: "p-" + doc.data().offeredByID,
+            title: "Request",
+            body: "Someone requested " + doc.data().serviceTitle + " from you"
+        })
+
         return 0;
 
     }
