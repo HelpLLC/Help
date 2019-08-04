@@ -23,7 +23,9 @@ exports.sendNotification = functions.https.onCall(async (input, context) => {
         {
             notification: {
                 title,
-                body
+                body,
+                icon: '@mipmap/help_logo_rounded',
+                badge: 1
             },
             topic
         }

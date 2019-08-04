@@ -2,6 +2,7 @@
 //application. The point of this class is to reduce code clutter throughout the application. The class
 //will connect with the firebase firestore in order to retrieve the necessary data. 
 import firebase from 'react-native-firebase';
+import strings from 'config/strings';
 import { Platform } from 'react-native';
 
 //All methods should be labeled static. There will also be static variable that reference the collections
@@ -451,8 +452,8 @@ export default class FirebaseFunctions {
         //Notifies the provider whose service this belongs to
         this.functions.httpsCallable('sendNotification')({
             topic: "p-" + doc.data().offeredByID,
-            title: "Request",
-            body: "Someone requested " + doc.data().serviceTitle + " from you"
+            title: strings.NewRequest,
+            body: strings.YouHaveNewRequestFor + doc.data().serviceTitle
         })
 
         return 0;
