@@ -1,0 +1,3 @@
+- Fixed issue where a product description was getting cut off
+- Fixed bug where business couldn't edit a service
+- Added notification when a business receives a request

@@ -289,6 +289,22 @@ export default class FirebaseFunctions {
 
             await batch.commit();
 
+            //Notifies the user who RECIEVED the message (the opposite of whoever message[0].user is)
+            //Notifies the provider whose service this belongs to
+            if (message[0].user._id === providerID) {
+                this.functions.httpsCallable('sendNotification')({
+                    topic: "r-" + requesterID,
+                    title: provider.companyName,
+                    body: message[0].text
+                });
+            } else {
+                this.functions.httpsCallable('sendNotification')({
+                    topic: "p-" + providerID,
+                    title: requester.username,
+                    body: message[0].text
+                });
+            }
+
         }
         return 0;
     }
@@ -454,7 +470,7 @@ export default class FirebaseFunctions {
             topic: "p-" + doc.data().offeredByID,
             title: strings.NewRequest,
             body: strings.YouHaveNewRequestFor + doc.data().serviceTitle
-        })
+        });
 
         return 0;
 
@@ -465,88 +481,88 @@ export default class FirebaseFunctions {
     //the email of the company)
     static async reportIssue(user, issue) {
 
-    //tests whether or not the user is a requester or a provider and adds a "r-" or "p-" before their
-    //ID respectivly
-    const userID = (user.requesterID ? ("r-" + user.requesterID) : ("p-" + user));
+        //tests whether or not the user is a requester or a provider and adds a "r-" or "p-" before their
+        //ID respectivly
+        const userID = (user.requesterID ? ("r-" + user.requesterID) : ("p-" + user));
 
-    await this.issues.add({
-        issue,
-        userID
-    });
-    return 0;
-}
+        await this.issues.add({
+            issue,
+            userID
+        });
+        return 0;
+    }
 
     //This method will take in a request and a provider and block that provider from being able to sell
     //to the requester or get in contact with them. It does this by addind the provider's ID to the array
     //of blocked users that belongs to the requesters
     static async blockCompany(requester, provider) {
 
-    //Fetches the old array of blocked companies by this requester and appends this provider to
-    //that list
-    const arrayOfBlockedCompanies = requester.blockedUsers;
-    arrayOfBlockedCompanies.push(provider.providerID);
+        //Fetches the old array of blocked companies by this requester and appends this provider to
+        //that list
+        const arrayOfBlockedCompanies = requester.blockedUsers;
+        arrayOfBlockedCompanies.push(provider.providerID);
 
-    //Updates this array in the firebase firestore
-    const batch = this.database.batch();
-    const ref = this.requesters.doc(requester.requesterID);
-    batch.update(ref, {
-        blockedUsers: arrayOfBlockedCompanies
-    });
+        //Updates this array in the firebase firestore
+        const batch = this.database.batch();
+        const ref = this.requesters.doc(requester.requesterID);
+        batch.update(ref, {
+            blockedUsers: arrayOfBlockedCompanies
+        });
 
-    //commits the batch
-    await batch.commit();
-    return 0;
-}
+        //commits the batch
+        await batch.commit();
+        return 0;
+    }
 
     //Logs the user in and subscribes to the notification service associated with his/her account
     //If the user is a requester, the topic will be named "r-accountUID", and if they are a provider, it will be
     //"p-accountUID". The method will then return the topic name
     static async logIn(email, password) {
 
-    const account = await firebase.auth().signInWithEmailAndPassword(email, password);
-    //Tests whether this is a provider or a requester & based on that, subscribes to the correct channel
-    const { uid } = account.user;
-    //Starts with searching if this is a requester since that is more common
-    const requester = await this.getRequesterByID(uid);
-    if (requester === -1) {
-        //Subscribes to the provider channel
-        const topicName = "p-" + uid;
-        await this.fcm.subscribeToTopic(topicName);
-        return topicName;
-    } else {
-        //Subscribes to the requester channel
-        const topicName = "r-" + uid;
-        await this.fcm.subscribeToTopic(topicName);
-        return topicName;
-    }
+        const account = await firebase.auth().signInWithEmailAndPassword(email, password);
+        //Tests whether this is a provider or a requester & based on that, subscribes to the correct channel
+        const { uid } = account.user;
+        //Starts with searching if this is a requester since that is more common
+        const requester = await this.getRequesterByID(uid);
+        if (requester === -1) {
+            //Subscribes to the provider channel
+            const topicName = "p-" + uid;
+            await this.fcm.subscribeToTopic(topicName);
+            return topicName;
+        } else {
+            //Subscribes to the requester channel
+            const topicName = "r-" + uid;
+            await this.fcm.subscribeToTopic(topicName);
+            return topicName;
+        }
 
-}
+    }
 
     //This method will log out the current user of the app & unsubscribed to the notification channel associated with
     //this user
     static async logOut(isRequester, uid) {
 
-    await firebase.auth().signOut();
-    if (isRequester === true) {
-        this.fcm.unsubscribeFromTopic("r-" + uid);
-    } else {
-        this.fcm.unsubscribeFromTopic("p-" + uid);
-    }
-    return 0;
+        await firebase.auth().signOut();
+        if (isRequester === true) {
+            this.fcm.unsubscribeFromTopic("r-" + uid);
+        } else {
+            this.fcm.unsubscribeFromTopic("p-" + uid);
+        }
+        return 0;
 
-}
+    }
 
     //This method will take in an error message and log it into firebase firestore where errors
     //are stored
     static logIssue(error) {
 
-    //Adds it to the report issue section
-    this.issues.add({
-        userID: 'App Error',
-        errorName: error.name,
-        errorMessage: error.message
-    })
-}
+        //Adds it to the report issue section
+        this.issues.add({
+            userID: 'App Error',
+            errorName: error.name,
+            errorMessage: error.message
+        })
+    }
 
 }
 
