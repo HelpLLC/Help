@@ -95,9 +95,10 @@ class businessScreen extends Component {
         //Stores the top part of this view
         const topView = (
             <View style={{ alignItems: 'center' }}>
-                <View>
+                <View style={{ flex: 1 }}>
                     <TopBanner title={strings.Business} />
                 </View>
+                <View style={{ flex: 0.125 }}></View>
                 <View style={{ flex: 1, justifyContent: 'center' }}>
                     <View style={{
                         flexDirection: 'row',
