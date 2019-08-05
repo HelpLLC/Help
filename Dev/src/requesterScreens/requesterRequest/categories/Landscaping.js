@@ -1,4 +1,4 @@
-//This class will represent the "yardwork" tab within the categories that the requester can choose from
+//This class will represent the "Landscaping" tab within the categories that the requester can choose from
 import React, { Component } from 'react';
 import { View, FlatList, ScrollView, Text } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
@@ -9,7 +9,7 @@ import strings from 'config/strings';
 import HelpView from '../../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 
-export default class Yardwork extends Component {
+export default class Landscaping extends Component {
 
     state = {
         isErrorVisible: false,
@@ -19,11 +19,11 @@ export default class Yardwork extends Component {
     render() {
 
         //Fetches this requester and all the products currently in the market
-        const { yardwordProducts, requester } = this.props;
+        const { landscapingProducts, requester } = this.props;
 
         //If there are no current products available in the market, then a message will be displayed saying
         //there are no current products
-        if (yardwordProducts.length === 0) {
+        if (landscapingProducts.length === 0) {
             return (
                 <HelpView style={screenStyle.container}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
@@ -41,7 +41,7 @@ export default class Yardwork extends Component {
                     contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
                     showsVerticalScrollIndicator={false}>
                     <FlatList
-                        data={yardwordProducts}
+                        data={landscapingProducts}
                         keyExtractor={(item, index) => {
                             return (item.serviceID + "");
                         }}
@@ -65,7 +65,10 @@ export default class Yardwork extends Component {
                                         });
                                     } catch (error) {
                                         this.setState({ isErrorVisible: true });
-                                        FirebaseFunctions.logIssue(error);
+                                        FirebaseFunctions.logIssue(error, {
+                                            screen: 'Landscaping',
+                                            userID: 'r-' + requester.requesterID
+                                        });
                                     }
 
                                 }}
@@ -81,7 +84,10 @@ export default class Yardwork extends Component {
                                         });
                                     } catch (error) {
                                         this.setState({ isLoading: false, isErrorVisible: true });
-                                        FirebaseFunctions.logIssue(error);
+                                        FirebaseFunctions.logIssue(error, {
+                                            screen: 'Landscaping',
+                                            userID: 'r-' + requester.requesterID
+                                        });
                                     }
 
                                 }}

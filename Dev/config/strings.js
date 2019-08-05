@@ -128,7 +128,7 @@ export default {
     NoHistoryForThisProductYet: 'No history for this product yet',
 
     //------------------- Request Screen -------------------
-    Yardwork: 'Yardwork',
+    Landscaping: 'Landscaping',
     Other: 'Other',
     MoreCategoriesComingSoonExclamation: 'More categories coming soon!',
     OfferedBy: 'Offered by',

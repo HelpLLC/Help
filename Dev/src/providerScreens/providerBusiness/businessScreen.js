@@ -64,7 +64,10 @@ class businessScreen extends Component {
             }
         } catch (error) {
             this.setState({ isLoading: false, isErrorVisible: true });
-            FirebaseFunctions.logIssue(error);
+            FirebaseFunctions.logIssue(error, {
+                screen: 'BusinessScreen',
+                userID: 'p-' + this.props.navigation.state.params.providerID
+            });
         }
         return 0;
     }

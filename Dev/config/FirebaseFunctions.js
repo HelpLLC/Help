@@ -554,11 +554,12 @@ export default class FirebaseFunctions {
 
     //This method will take in an error message and log it into firebase firestore where errors
     //are stored
-    static logIssue(error) {
+    static logIssue(error, userID) {
 
         //Adds it to the report issue section
         this.issues.add({
-            userID: 'App Error',
+            userID,
+            appError: true,
             errorName: error.name,
             errorMessage: error.message
         })

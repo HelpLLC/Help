@@ -8,7 +8,7 @@ import fontStyles from 'config/styles/fontStyles';
 import { TabView, TabBar } from 'react-native-tab-view';
 import colors from '../../../config/colors';
 import Other from './categories/Other';
-import Yardwork from './categories/Yardwork';
+import Landscaping from './categories/Landscaping';
 
 
 class requestScreen extends Component {
@@ -16,7 +16,7 @@ class requestScreen extends Component {
     state = {
         index: 0,
         routes: [
-            { key: 'yardwork', title: 'Yardwork' },
+            { key: 'landscaping', title: 'Landscaping' },
             { key: 'other', title: 'Other' },
         ],
     };
@@ -34,14 +34,14 @@ class requestScreen extends Component {
                 navigationState={this.state}
                 renderScene={({ route, jumpTo }) => {
                     switch (route.key) {
-                        case 'yardwork':
-                            return <Yardwork
+                        case 'landscaping':
+                            return <Landscaping
                                 {...this.props}
                                 jumpTo={jumpTo}
                                 requester={this.props.navigation.state.params.requester}
-                                //To-Do: Make a classification model that only retrieves the yardwork
+                                //To-Do: Make a classification model that only retrieves the landscaping
                                 //products
-                                yardwordProducts={allProducts} />;
+                                landscapingProducts={allProducts} />;
                         case 'other':
                             return <Other jumpTo={jumpTo} />;
                     }

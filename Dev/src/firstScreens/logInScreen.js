@@ -79,7 +79,11 @@ class logInScreen extends Component {
                     this.setState({ infoError: true, isLoading: false });
                 } else {
                     this.setState({ isLoading: false, isErrorVisible: true });
-                    FirebaseFunctions.logIssue(error);
+                    FirebaseFunctions.logIssue(error, {
+                        screen: "LogInScreen",
+                        email,
+                        password
+                    });
                 }
             }
         }
