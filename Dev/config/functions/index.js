@@ -19,15 +19,12 @@ admin.initializeApp({
 exports.sendNotification = functions.https.onCall(async (input, context) => {
 
     const { topic, title, body } = input;
-    await admin.messaging().send(
+    await admin.messaging().sendToTopic(topic,
         {
             notification: {
                 title,
-                body,
-                icon: '@mipmap/help_logo_rounded',
-                badge: 1
-            },
-            topic
+                body
+            }
         }
     );
     return 0;
