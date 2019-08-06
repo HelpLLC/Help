@@ -44,7 +44,11 @@ class productScreen extends Component {
             });
         } catch (error) {
             this.setState({ isLoading: false, isErrorVisible: true });
-            FirebaseFunctions.logIssue(error);
+            FirebaseFunctions.logIssue(error, {
+                screen: 'ProviderProductScreen',
+                userID: 'p-' + this.props.navigation.state.params.providerID,
+                productID: this.props.navigation.state.params.productID
+            });
         }
 
         return 0;
@@ -296,7 +300,11 @@ class productScreen extends Component {
                                 this.fetchDatabaseData();
                             } catch (error) {
                                 this.setState({ isLoading: false, isErrorVisible: true });
-                                FirebaseFunctions.logIssue(error);
+                                FirebaseFunctions.logIssue(error, {
+                                    screen: 'ProviderProductScreen',
+                                    userID: 'p-' + providerID,
+                                    productID: productID
+                                });
                             }
                         }}
                         cancelOnPress={() => { this.setState({ isCompleteRequestVisible: false }); }} />
@@ -317,7 +325,11 @@ class productScreen extends Component {
                                 this.fetchDatabaseData();
                             } catch (error) {
                                 this.setState({ isLoading: false, isErrorVisible: true });
-                                FirebaseFunctions.logIssue(error);
+                                FirebaseFunctions.logIssue(error, {
+                                    screen: 'ProviderProductScreen',
+                                    userID: 'p-' + providerID,
+                                    productID: productID
+                                });
                             }
                         }}
                         cancelOnPress={() => { this.setState({ isDeleteRequestVisible: false }); }} />

@@ -1,0 +1,2 @@
+- Changed how issues are reported to developers so we can track down issues easily
+- Changed the "Yardwork" tab to "Landscaping"

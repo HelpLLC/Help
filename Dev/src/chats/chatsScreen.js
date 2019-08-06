@@ -65,7 +65,7 @@ class chatsScreen extends Component {
         if (this.state.isLoading === true) {
             return (
                 <View style={screenStyle.container}>
-                    <View>
+                    <View style={{ flex: 1 }}>
                         <TopBanner title={strings.Chats} />
                     </View>
                     <View>
@@ -80,8 +80,6 @@ class chatsScreen extends Component {
                 <View style={screenStyle.container}>
                     <View>
                         <TopBanner title={strings.Chats} />
-                    </View>
-                    <View>
                         { //Tests whether or not the provider has any conversations
                             this.state.userConversations.length === 0 ?
                                 (

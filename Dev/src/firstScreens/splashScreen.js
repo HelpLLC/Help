@@ -68,7 +68,7 @@ class splashScreen extends Component {
             });
         } catch (error) {
             this.setState({ isLoading: false, isErrorVisible: true });
-            FirebaseFunctions.logIssue(error);
+            FirebaseFunctions.logIssue(error, "SplashScreen");
         }
         return 0;
     }

@@ -87,7 +87,11 @@ class editProductScreen extends Component {
                 });
             } catch (error) {
                 this.setState({ isLoading: false, isErrorVisible: true });
-                FirebaseFunctions.logIssue(error);
+                FirebaseFunctions.logIssue(error, {
+                    screen: 'EditProductScreen',
+                    userID: 'p-' + providerID,
+                    productID: productID
+                });
             }
 
         }

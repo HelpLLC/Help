@@ -58,7 +58,10 @@ class editCompanyProfileScreen extends Component {
                 this.props.navigation.goBack();
             } catch (error) {
                 this.setState({ isLoading: false, isErrorVisible: true });
-                FirebaseFunctions.logIssue(error);
+                FirebaseFunctions.logIssue(error, {
+                    screen: 'EditCompanyProfileScreen',
+                    userID: 'p-' + providerID
+                });
             }
 
         }

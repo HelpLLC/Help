@@ -55,7 +55,11 @@ class serviceScreen extends Component {
             }
         } catch (error) {
             this.setState({ isLoading: false, isErrorVisible: true });
-            FirebaseFunctions.logIssue(error);
+            FirebaseFunctions.logIssue(error, {
+                screen: 'RequesterServiceScreen',
+                userID: 'r-' + requesterID,
+                productID
+            });
         }
 
         return 0;
@@ -208,7 +212,11 @@ class serviceScreen extends Component {
                                 this.setState({ isRequested: true, isLoading: false });
                             } catch (error) {
                                 this.setState({ isLoading: false, isErrorVisible: true });
-                                FirebaseFunctions.logIssue(error);
+                                FirebaseFunctions.logIssue(error, {
+                                    screen: 'RequesterServiceScreen',
+                                    userID: 'r-' + requester.requesterID,
+                                    productID: product.productID
+                                });
                             }
                         }}
                         cancelOnPress={() => { this.setState({ isRequestServiceVisible: false }); }} />
@@ -228,7 +236,11 @@ class serviceScreen extends Component {
                                 this.setState({ isRequested: false, isLoading: false });
                             } catch (error) {
                                 this.setState({ isLoading: false, isErrorVisible: true });
-                                FirebaseFunctions.logIssue(error);
+                                FirebaseFunctions.logIssue(error, {
+                                    screen: 'RequesterServiceScreen',
+                                    userID: 'r-' + requester.requesterID,
+                                    productID: product.productID
+                                });
                             }
 
                         }

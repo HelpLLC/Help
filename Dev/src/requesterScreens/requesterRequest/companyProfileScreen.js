@@ -58,7 +58,11 @@ class companyProfileScreen extends Component {
                 });
             } catch (error) {
                 this.setState({ isLoading: false, isErrorVisible: true });
-                FirebaseFunctions.logIssue(error);
+                FirebaseFunctions.logIssue(error, {
+                    screen: 'CompanyProfileScreen',
+                    userID: 'r-' + this.props.navigation.state.params.requesterID,
+                    companyID: provider.providerID
+                });
             }
         }
         return 0;

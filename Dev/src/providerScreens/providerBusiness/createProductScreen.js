@@ -80,7 +80,10 @@ class createProductScreen extends Component {
                 });
             } catch (error) {
                 this.setState({ isLoading: false, isErrorVisible: true });
-                FirebaseFunctions.logIssue(error);
+                FirebaseFunctions.logIssue(error, {
+                    screen: 'CreateProductScreen',
+                    userID: 'p-' + provider.providerID
+                });
             }
             return 0;
         }

@@ -32,13 +32,11 @@ class settingsScreen extends Component {
             isRequester = true;
             uid = this.props.navigation.state.params.requester.requesterID;
         }
-        
+
         return (
             <HelpView style={screenStyle.container}>
                 <View>
                     <TopBanner title={strings.Settings} />
-                </View>
-                <View>
                     <View style={{ flex: 0.1 }}></View>
                     <View style={{ flex: 2 }}>
                         <View style={{ flex: 1 }}>
