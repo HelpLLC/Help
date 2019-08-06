@@ -5,16 +5,23 @@
 import React from 'react';
 import { View, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 //Creates the higher order component
 const HelpViewHOC = (Comp) => {
     return ({ children, ...props }) => (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-            <KeyboardAvoidingView style={screenStyle.container} enabled behavior={null}>
-                <Comp {...props} >
-                    {children}
-                </Comp>
-            </KeyboardAvoidingView>
+            <KeyboardAwareScrollView
+                resetScrollToCoords={{ x: 0, y: 0 }}
+                scrollEnabled={true}
+                contentContainerStyle={screenStyle.container}
+                extraScrollHeight={5}>
+                <View>
+                    <Comp {...props} >
+                        {children}
+                    </Comp>
+                </View>
+            </KeyboardAwareScrollView>
         </TouchableWithoutFeedback>
     )
 }
