@@ -150,6 +150,8 @@ export default class FirebaseFunctions {
         batch.set(ref, newRequester);
         await batch.commit();
 
+        //Logs the event in firebase analytics
+        this.analytics.logEvent("requester_sign_up");
         //This is a promise that won't be resolved while offline
         return newRequester;
 
@@ -175,6 +177,8 @@ export default class FirebaseFunctions {
         batch.set(ref, newProvider);
         await batch.commit();
 
+        //Logs the event in firebase analytics
+        this.analytics.logEvent("provider_sign_up");
         return newProvider;
 
     }
@@ -194,6 +198,9 @@ export default class FirebaseFunctions {
 
         //Creates the reference & uploads the image (async)
         await this.storage.ref('products/' + reference).putFile(absolutePath);
+
+        //Logs the event in firebase analytics
+        this.analytics.logEvent("upload_image");
 
         return 0;
 
@@ -244,6 +251,10 @@ export default class FirebaseFunctions {
         serviceIDsArray.push(serviceID);
         batch.update(providerRef, { serviceIDs: serviceIDsArray });
         await batch.commit();
+
+        //Logs the event in firebase analytics
+        this.analytics.logEvent("create_service");
+
         return 0;
     }
 
@@ -307,6 +318,9 @@ export default class FirebaseFunctions {
             }
 
         }
+
+        //Logs the event in firebase analytics
+        this.analytics.logEvent("send_message");
         return 0;
     }
 
@@ -353,6 +367,9 @@ export default class FirebaseFunctions {
         });
 
         await batch.commit();
+
+        //Logs the event in firebase analytics
+        this.analytics.logEvent("update_company_profile");
         return 0;
     }
 
@@ -376,6 +393,9 @@ export default class FirebaseFunctions {
             await this.uploadImage(productID, response);
         }
         await batch.commit();
+
+        //Logs the event in firebase analytics
+        this.analytics.logEvent("update_product");
         return 0;
     }
 
@@ -402,6 +422,9 @@ export default class FirebaseFunctions {
         });
 
         await batch.commit();
+
+        //Logs the event in firebase analytics
+        this.analytics.logEvent("delete_request");
         return 0;
 
     }
@@ -439,6 +462,9 @@ export default class FirebaseFunctions {
 
         await batch.commit();
         await FirebaseFunctions.deleteRequest(productID, requesterID);
+
+        //Logs the event in firebase analytics
+        this.analytics.logEvent("complete_request");
         return 0;
 
     }
@@ -473,6 +499,8 @@ export default class FirebaseFunctions {
             body: strings.YouHaveNewRequestFor + doc.data().serviceTitle
         });
 
+        //Logs the event in firebase analytics
+        this.analytics.logEvent("request_service");
         return 0;
 
     }
@@ -490,6 +518,9 @@ export default class FirebaseFunctions {
             issue,
             userID
         });
+
+        //Logs the event in firebase analytics
+        this.analytics.logEvent("report_issue");
         return 0;
     }
 
@@ -512,6 +543,9 @@ export default class FirebaseFunctions {
 
         //commits the batch
         await batch.commit();
+
+        //Logs the event in firebase analytics
+        this.analytics.logEvent("block_company");
         return 0;
     }
 
@@ -525,16 +559,27 @@ export default class FirebaseFunctions {
         const { uid } = account.user;
         //Starts with searching if this is a requester since that is more common
         const requester = await this.getRequesterByID(uid);
+
         if (requester === -1) {
+
+            //Logs the event in firebase analytics
+            this.analytics.logEvent("provider_log_in");
             //Subscribes to the provider channel
             const topicName = "p-" + uid;
             await this.fcm.subscribeToTopic(topicName);
             return topicName;
+
         } else {
+
+            //Logs the event in firebase analytics
+            this.analytics.logEvent("customer_log_in", {
+                user: "LOL"
+            });
             //Subscribes to the requester channel
             const topicName = "r-" + uid;
             await this.fcm.subscribeToTopic(topicName);
             return topicName;
+
         }
 
     }
@@ -543,10 +588,13 @@ export default class FirebaseFunctions {
     //this user
     static async logOut(isRequester, uid) {
 
+        //Logs the event in firebase analytics & unsubcribes from the notification service
         await firebase.auth().signOut();
         if (isRequester === true) {
+            this.analytics.logEvent("customer_log_out");
             this.fcm.unsubscribeFromTopic("r-" + uid);
         } else {
+            this.analytics.logEvent("provider_log_out");
             this.fcm.unsubscribeFromTopic("p-" + uid);
         }
         return 0;
@@ -564,6 +612,9 @@ export default class FirebaseFunctions {
             errorName: error.name,
             errorMessage: error.message
         })
+
+        //Logs the event in firebase analytics
+        this.analytics.logEvent("log_issue");
     }
 
     //This method will set the current screen to a specific name in firebase analytics
