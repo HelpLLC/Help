@@ -1,4 +1,6 @@
+- Added a cleaning category!!!
 - Changed how issues are reported to developers so we can track down issues easily
 - Changed the "Yardwork" tab to "Landscaping"
 - Refixed the Keyboard covering texts issue
 - Added analytics for the Help Development team to further improve user experience
+- Fixed other bugs and improvement issues
