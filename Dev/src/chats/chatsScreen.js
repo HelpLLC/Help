@@ -106,6 +106,7 @@ class chatsScreen extends Component {
                                                                 )
                                                         }
                                                         previewText={item.conversationMessages[item.conversationMessages.length - 1].text}
+                                                        timeText={item.conversationMessages[item.conversationMessages.length - 1].createdAt}
                                                         onPress={() => {
                                                             this.props.navigation.push("MessagingScreen", {
                                                                 title:

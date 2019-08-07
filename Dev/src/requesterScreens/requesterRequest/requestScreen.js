@@ -9,6 +9,8 @@ import { TabView, TabBar } from 'react-native-tab-view';
 import colors from '../../../config/colors';
 import Other from './categories/Other';
 import Landscaping from './categories/Landscaping';
+import Cleaning from './categories/Cleaning';
+import FirebaseFunctions from '../../../config/FirebaseFunctions';
 
 
 class requestScreen extends Component {
@@ -16,6 +18,7 @@ class requestScreen extends Component {
     state = {
         index: 0,
         routes: [
+            { key: 'cleaning', title: 'Cleaning' },
             { key: 'landscaping', title: 'Landscaping' },
             { key: 'other', title: 'Other' },
         ],
@@ -34,14 +37,26 @@ class requestScreen extends Component {
                 navigationState={this.state}
                 renderScene={({ route, jumpTo }) => {
                     switch (route.key) {
+                        case 'cleaning': 
+                            return <Cleaning
+                                {...this.props}
+                                jumpTo={jumpTo}
+                                requester={this.props.navigation.state.params.requester}
+                                cleaningProducts={
+                                    //Calls a method which filters all the products to return
+                                    //only cleaning products
+                                    FirebaseFunctions.getCategory(allProducts, 'Cleaning')
+                                } />;
                         case 'landscaping':
                             return <Landscaping
                                 {...this.props}
                                 jumpTo={jumpTo}
                                 requester={this.props.navigation.state.params.requester}
-                                //To-Do: Make a classification model that only retrieves the landscaping
-                                //products
-                                landscapingProducts={allProducts} />;
+                                landscapingProducts={
+                                    //Calls a method which filters all the products to return
+                                    //only landscaping products
+                                    FirebaseFunctions.getCategory(allProducts, 'Landscaping')
+                                } />;
                         case 'other':
                             return <Other jumpTo={jumpTo} />;
                     }

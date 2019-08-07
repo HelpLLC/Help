@@ -37,6 +37,22 @@ export default class FirebaseFunctions {
         return newArray;
     }
 
+    //This method will take in all the unblocked products for a requester and then return
+    //all the products associated with a certain category which will be passed in as a second
+    //parameter
+    //TODO: Make some kind of machine learning model to automatically filter the products
+    //depending on features such as product name, description, the company offering it, etc.
+    static getCategory(allProducts, categoryName) {
+
+        //creates the new array
+        const filteredProducts = allProducts.filter((element) => {
+            return element.category === categoryName;
+        });
+
+        return filteredProducts;
+
+    }
+
     //This method will return an array of all of the providers
     static async getAllProviders() {
         const snapshot = await this.providers.get();
@@ -230,7 +246,8 @@ export default class FirebaseFunctions {
             },
             pricing,
             offeredByID: providerID,
-            offeredByName: companyName
+            offeredByName: companyName,
+            category: 'Cleaning'
         };
 
         //Adds the product to the database of products
