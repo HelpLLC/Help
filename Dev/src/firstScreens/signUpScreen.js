@@ -20,6 +20,10 @@ import ErrorAlert from '../components/ErrorAlert';
 //The class that will create the look of this screen
 class signUpScreen extends Component {
 
+    componentDidMount() {
+        FirebaseFunctions.setCurrentScreen("SignUpScreen", "signUpScreen");
+    }
+
     //The state which will contain whatever the user typed in, along with the selected account type
     //Only one account can be selected at a time.
     //The state will also include warning message that will display different messages to the user

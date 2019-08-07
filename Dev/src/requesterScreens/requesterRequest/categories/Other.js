@@ -5,9 +5,15 @@ import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
 import HelpView from '../../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
+import FirebaseFunctions from 'config/FirebaseFunctions'
 
 
-export default class other extends Component {
+export default class Other extends Component {
+
+    componentDidMount() {
+        FirebaseFunctions.setCurrentScreen("OtherScreen", "Other");
+    }
+
     render() {
         return (
             <HelpView style={screenStyle.container}>

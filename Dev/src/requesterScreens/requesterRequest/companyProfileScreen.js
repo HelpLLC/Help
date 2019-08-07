@@ -72,6 +72,8 @@ class companyProfileScreen extends Component {
     //This will fetch the data about this provider and his products from firestore
     async componentDidMount() {
 
+        FirebaseFunctions.setCurrentScreen("RequesterCompanyProfileScreen", "companyProfileScreen");
+
         this.setState({ isLoading: true });
         //Adds the listener to add the listener to refetch the data once this component is returned to
         this.willFocusListener = this.props.navigation.addListener('willFocus', async () => {

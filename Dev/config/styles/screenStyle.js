@@ -5,7 +5,6 @@ export default {
     container: {
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'flex-end',
         backgroundColor: colors.lightGray,
         flex: 1
     }

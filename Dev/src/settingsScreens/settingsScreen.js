@@ -15,6 +15,11 @@ import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 
 class settingsScreen extends Component {
+
+    componentDidMount() {
+        FirebaseFunctions.setCurrentScreen("SettingsScreen", "settingsScreen");
+    }
+
     render() {
         //This constant holds the value for the right angle icon which appears frequently
         //in this class

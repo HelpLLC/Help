@@ -58,6 +58,8 @@ class productScreen extends Component {
     //This will fetch the data about this product from the database
     async componentDidMount() {
 
+        FirebaseFunctions.setCurrentScreen("ProviderProductScreen", "productScreen");
+
         this.setState({ isLoading: true });
         //Adds the listener to add the listener to refetch the data once this component is returned to
         this.willFocusListener = this.props.navigation.addListener('willFocus', async () => {

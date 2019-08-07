@@ -16,6 +16,10 @@ import ErrorAlert from '../../components/ErrorAlert';
 
 class editCompanyProfileScreen extends Component {
 
+    componentDidMount() {
+        FirebaseFunctions.setCurrentScreen("EditCompanyProfileScreen", "editCompanyProfileScreen");
+    }
+
     //The state containing what the user has typed into each input
     state = {
         businessName: this.props.navigation.state.params.provider.companyName,

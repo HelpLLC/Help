@@ -20,6 +20,10 @@ import ImageWithBorder from '../../components/ImageWithBorder';
 
 class editProductScreen extends Component {
 
+    componentDidMount() {
+        FirebaseFunctions.setCurrentScreen("EditProductScreen", "editProductScreen");
+    }
+
     //The state which will keep track of what the user has entered for the product information
     state = {
         serviceTitle: this.props.navigation.state.params.product.serviceTitle,

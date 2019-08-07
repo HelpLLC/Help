@@ -21,6 +21,10 @@ import colors from 'config/colors';
 
 class createProductScreen extends Component {
 
+    componentDidMount() {
+        FirebaseFunctions.setCurrentScreen("CreateProductScreen", "createProductScreen");
+    }
+
     //The state which will keep track of what the user has entered for the product information
     state = {
         serviceTitle: '',

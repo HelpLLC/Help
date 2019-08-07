@@ -18,6 +18,10 @@ import FirebaseFunctions from '../../config/FirebaseFunctions';
 //The class that will create the look of this screen
 class logInScreen extends Component {
 
+    componentDidMount() {
+        FirebaseFunctions.setCurrentScreen("LogInScreen", "logInScreen");
+    }
+
     //This state will contain the current entered text, as well as the text underneeth the text
     //input that will appear if the entered phone number is incorrect
     state = {

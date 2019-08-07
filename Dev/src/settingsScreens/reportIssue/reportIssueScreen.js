@@ -49,6 +49,10 @@ class reportIssueScreen extends Component {
 
     }
 
+    componentDidMount() {
+        FirebaseFunctions.setCurrentScreen("ReportIssueScreen", "reportIssueScreen");
+    }
+
     render() {
         return (
             //View that dismisses the keyboard when clicked anywhere else

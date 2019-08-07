@@ -27,6 +27,8 @@ class splashScreen extends Component {
     //This function will call when the component is mounted to test if a user is currently logged in
     //or not
     async componentDidMount() {
+
+        FirebaseFunctions.setCurrentScreen("SplashScreen", "splashScrenn");
         const isConnected = await NetInfo.fetch();
         if (isConnected.isConnected !== false && isConnected.isInternetReachable !== false) {
             await this.isUserLoggedIn();

@@ -75,6 +75,8 @@ class businessScreen extends Component {
     //This will fetch the data about this provider and his products from firestore
     async componentDidMount() {
 
+        FirebaseFunctions.setCurrentScreen("ProviderBusinessScreen", "businessScreen");
+
         //Adds the listener to add the listener to refetch the data once this component is returned to
         this.willFocusListener = await this.props.navigation.addListener('willFocus', async () => {
             await this.fetchDatabaseData();

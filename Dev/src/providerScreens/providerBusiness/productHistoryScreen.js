@@ -17,6 +17,10 @@ import ImageWithBorder from '../../components/ImageWithBorder';
 //The class for this screen
 class productHistoryScreen extends Component {
 
+    componentDidMount() {
+        FirebaseFunctions.setCurrentScreen("ProductHistoryScreen", "productHistoryScreen");
+    }
+
     //Renders the UI
     render() {
 

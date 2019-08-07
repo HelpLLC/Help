@@ -11,6 +11,10 @@ import screenStyle from 'config/styles/screenStyle';
 
 export default class Landscaping extends Component {
 
+    componentDidMount() {
+        FirebaseFunctions.setCurrentScreen("LandscapingScreen", "Landscaping");
+    }
+
     state = {
         isErrorVisible: false,
         isLoading: false

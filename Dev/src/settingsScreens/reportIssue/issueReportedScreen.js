@@ -7,10 +7,14 @@ import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import screenStyle from 'config/styles/screenStyle';
 import HelpView from '../../components/HelpView';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 
 export default class issueReportedScreen extends Component {
     //This method will wait 5 seconds then return to the reportIssueScreen
     componentDidMount() {
+
+        FirebaseFunctions.setCurrentScreen("IssueReportedScreen", "IssueReportedScreen");
+
         //Start counting when the page is loaded
         this.timeoutHandle = setTimeout(() => {
             //Transitions back to the screen

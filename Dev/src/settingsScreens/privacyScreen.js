@@ -3,8 +3,14 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 import strings from 'config/strings';
 import { ScrollView } from 'react-native-gesture-handler';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 
-class aboutScreen extends Component {
+class privacyScreen extends Component {
+
+    componentDidMount() {
+        FirebaseFunctions.setCurrentScreen("PrivacyPolicyScreen", "privacyScreen");
+    }
+
     render() {
         return (
             <ScrollView>
@@ -14,4 +20,4 @@ class aboutScreen extends Component {
     }
 }
 
-export default aboutScreen;
+export default privacyScreen;

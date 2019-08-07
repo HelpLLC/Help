@@ -9,8 +9,14 @@ import strings from 'config/strings';
 import whiteCardStyle from '../../config/styles/componentStyles/whiteCardStyle';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 
 class aboutScreen extends Component {
+
+    componentDidMount() {
+        FirebaseFunctions.setCurrentScreen("AboutScreen", "aboutScreen");
+    }
+
     render() {
         return (
             <HelpView style={screenStyle.container}>

@@ -18,6 +18,10 @@ import firebase from 'react-native-firebase';
 //The class that will create the look of this screen
 class createProviderProfileScreen extends Component {
 
+    componentDidMount() {
+        FirebaseFunctions.setCurrentScreen("CreateProviderProfileScreen", "createProviderProfileScreen");
+    }
+
     //The state containing what the user has typed into each input and whether the screen is loading
     //or not
     state = {

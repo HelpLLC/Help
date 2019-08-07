@@ -13,6 +13,7 @@ export default class FirebaseFunctions {
     static database = firebase.firestore();
     static storage = firebase.storage();
     static fcm = firebase.messaging();
+    static analytics = firebase.analytics();
     static functions = firebase.functions();
     static providers = this.database.collection("providers");
     static requesters = this.database.collection("requesters");
@@ -563,6 +564,13 @@ export default class FirebaseFunctions {
             errorName: error.name,
             errorMessage: error.message
         })
+    }
+
+    //This method will set the current screen to a specific name in firebase analytics
+    static setCurrentScreen(screenName, screenClassOverride) {
+
+        this.analytics.setCurrentScreen(screenName, screenClassOverride);
+
     }
 
 }
