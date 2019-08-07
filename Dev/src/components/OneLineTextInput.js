@@ -9,7 +9,7 @@ class OneLineTextInput extends Component {
     render() {
         //The one prop this will take is a placeholder text which will disappear when the user
         //starts typing as well as onChangeText function and a value
-        const { placeholder, onChangeText, value, maxLength, width, password } = this.props;
+        const { placeholder, onChangeText, value, maxLength, width, password, autoCompleteType, keyboardType } = this.props;
 
         return (
             <View>
@@ -26,8 +26,10 @@ class OneLineTextInput extends Component {
                         width: width ? width : (Dimensions.get('window').width * 0.6)
                     }}
                     secureTextEntry={password}
+                    keyboardType={keyboardType ? keyboardType : 'default'}
                     blurOnSubmit={true}
                     value={value}
+                    autoCompleteType={autoCompleteType ? autoCompleteType : 'off'}
                     maxLength={maxLength} />
             </View>
         );

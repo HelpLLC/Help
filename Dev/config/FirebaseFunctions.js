@@ -572,9 +572,7 @@ export default class FirebaseFunctions {
         } else {
 
             //Logs the event in firebase analytics
-            this.analytics.logEvent("customer_log_in", {
-                user: "LOL"
-            });
+            this.analytics.logEvent("customer_log_in");
             //Subscribes to the requester channel
             const topicName = "r-" + uid;
             await this.fcm.subscribeToTopic(topicName);

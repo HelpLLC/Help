@@ -127,6 +127,8 @@ class signUpScreen extends Component {
                                 onChangeText={(input) => this.setState({ email: input })}
                                 value={this.state.email}
                                 password={false}
+                                autoCompleteType={'email'}
+                                keyboardType={'email-address'}
                             />
                         </View>
                     </View>
@@ -142,6 +144,7 @@ class signUpScreen extends Component {
                                 onChangeText={(input) => this.setState({ password: input })}
                                 value={this.state.password}
                                 password={true}
+                                autoCompleteType={'password'}
                             />
                         </View>
                     </View>
