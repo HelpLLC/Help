@@ -107,9 +107,11 @@ class createProductScreen extends Component {
                     }}>
 
                         <View style={{ flexDirection: 'column' }}>
-                            <Text style={fontStyles.mainTextStyleBlack}>{strings.ServiceTitle}</Text>
+                            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                                <Text style={fontStyles.bigTextStyleBlack}>{strings.ServiceTitle}</Text>
+                            </View>
 
-                            <View>
+                            <View style={{ flex: 1, justifyContent: 'center' }}>
                                 <OneLineTextInput
                                     onChangeText={(input) => this.setState({ serviceTitle: input })}
                                     placeholder={strings.GiveItATitleDotDotDot}
@@ -151,7 +153,7 @@ class createProductScreen extends Component {
                                         this.chooseImage();
                                     }}
                                     style={{ justifyContent: 'flex-end' }}>
-                                    <Text style={fontStyles.subTextStyleGray}>
+                                    <Text style={fontStyles.mainTextStyleBlue}>
                                         {strings.EditImage}</Text>
                                 </TouchableOpacity>
                             </View>
@@ -160,7 +162,7 @@ class createProductScreen extends Component {
                     </View>
                     <View style={{ flex: 1 }}>
                         <View style={{ flex: 1, justifyContent: 'center' }}>
-                            <Text style={fontStyles.mainTextStyleBlack}>
+                            <Text style={fontStyles.bigTextStyleBlack}>
                                 {strings.ServiceDescription}</Text>
                         </View>
                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>
@@ -173,12 +175,13 @@ class createProductScreen extends Component {
                                 maxLength={240} />
                         </View>
                     </View>
-                    <View style={{ flex: 1.5, justifyContent: 'flex-end' }}>
+                    <View style={{ flex: 0.25 }}></View>
+                    <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                            <Text style={fontStyles.mainTextStyleBlack}>
+                            <Text style={fontStyles.bigTextStyleBlack}>
                                 {strings.Pricing}</Text>
                         </View>
-                        <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
                             <OneLineTextInput
                                 onChangeText={(input) => this.setState({ pricing: input })}
                                 placeholder={strings.HowMuchWillYouChargeDotDotDot}
@@ -188,7 +191,7 @@ class createProductScreen extends Component {
                                 maxLength={50} />
                         </View>
                     </View>
-                    <View style={{ flex: 0.001 }}></View>
+                    <View style={{ flex: 0.25 }}></View>
                     <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
 
                         <View style={{ flex: 1 }}>

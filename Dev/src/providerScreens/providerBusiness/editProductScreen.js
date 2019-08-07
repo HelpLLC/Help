@@ -76,7 +76,7 @@ class editProductScreen extends Component {
         } else {
 
             try {
-               
+
                 //Updates the correct product corresponding with the correct user
                 this.setState({ isLoading: true });
                 if (!this.state.response) {
@@ -84,7 +84,7 @@ class editProductScreen extends Component {
                 } else {
                     await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, response);
                 }
-               
+
                 this.setState({ isLoading: false });
                 this.props.navigation.push("ProviderScreens", {
                     providerID
@@ -115,9 +115,10 @@ class editProductScreen extends Component {
                     }}>
 
                         <View style={{ flexDirection: 'column' }}>
-                            <Text style={fontStyles.mainTextStyleBlack}>{strings.EditTitle}</Text>
-
-                            <View>
+                            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                                <Text style={fontStyles.bigTextStyleBlack}>{strings.EditTitle}</Text>
+                            </View>
+                            <View style={{ flex: 1, justifyContent: 'center' }}>
                                 <OneLineTextInput
                                     onChangeText={(input) => this.setState({ serviceTitle: input })}
                                     value={this.state.serviceTitle}
@@ -170,8 +171,12 @@ class editProductScreen extends Component {
                                         Keyboard.dismiss();
                                         this.chooseImage();
                                     }}
-                                    style={{ justifyContent: 'flex-end' }}>
-                                    <Text style={fontStyles.subTextStyleGray}>
+                                    style={{
+                                        justifyContent: 'flex-end',
+                                        height: Dimensions.get('window').height * 0.03,
+                                        width: Dimensions.get('window').width * 0.25
+                                     }}>
+                                    <Text style={fontStyles.bigTextStyleBlue}>
                                         {strings.EditImage}</Text>
                                 </TouchableOpacity>
                             </View>
@@ -180,7 +185,7 @@ class editProductScreen extends Component {
                     </View>
                     <View style={{ flex: 1 }}>
                         <View style={{ flex: 1, justifyContent: 'center' }}>
-                            <Text style={fontStyles.mainTextStyleBlack}>
+                            <Text style={fontStyles.bigTextStyleBlack}>
                                 {strings.EditDescription}</Text>
                         </View>
                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>
@@ -192,7 +197,8 @@ class editProductScreen extends Component {
                                 maxLength={240} />
                         </View>
                     </View>
-                    <View style={{ flex: 1.5 }}>
+                    <View style={{ flex: 0.25 }}></View>
+                    <View style={{ flex: 1 }}>
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                             <Text style={fontStyles.mainTextStyleBlack}>
                                 {strings.EditPrice}</Text>
@@ -203,10 +209,10 @@ class editProductScreen extends Component {
                                 value={this.state.pricing}
                                 width={Dimensions.get('window').width - 40}
                                 password={false}
-                                maxLength={50}  />
+                                maxLength={50} />
                         </View>
                     </View>
-                    <View style={{ flex: 0.001 }}></View>
+                    <View style={{ flex: 0.25 }}></View>
                     <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
 
                         <View style={{ flex: 1 }}>

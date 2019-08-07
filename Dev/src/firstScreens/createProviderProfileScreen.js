@@ -102,12 +102,12 @@ class createProviderProfileScreen extends Component {
             <HelpView style={screenStyle.container}>
                 <View>
                     <View style={{ flex: 0.7, justifyContent: 'center', alignSelf: 'center' }}>
-                        <View>
-                            <Text style={fontStyles.mainTextStyleBlack}>
+                        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                            <Text style={fontStyles.bigTextStyleBlack}>
                                 {strings.WhatsYourBusinessCalledQuestion}</Text>
                         </View>
 
-                        <View>
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
                             <OneLineTextInput
                                 placeholder={strings.EnterCompanyNameDotDotDot}
                                 onChangeText={(input) => this.setState({ businessName: input })}
@@ -120,7 +120,7 @@ class createProviderProfileScreen extends Component {
 
                     <View style={{ flex: 0.7, justifyContent: 'center', alignSelf: 'center' }}>
                         <View style={{ flex: 1, justifyContent: 'center' }}>
-                            <Text style={fontStyles.mainTextStyleBlack}>
+                            <Text style={fontStyles.bigTextStyleBlack}>
                                 {strings.WhatDoesYourBusinessDoQuestion}</Text>
                         </View>
                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>

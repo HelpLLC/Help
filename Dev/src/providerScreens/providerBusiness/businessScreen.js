@@ -127,7 +127,7 @@ class businessScreen extends Component {
                                         provider
                                     });
                                 }}>
-                                <Text style={fontStyles.subTextStyleGray}>
+                                <Text style={fontStyles.mainTextStyleBlue}>
                                     {strings.EditCompanyProfile}</Text>
                             </TouchableOpacity>
                         </View>

@@ -75,42 +75,42 @@ class editCompanyProfileScreen extends Component {
     render() {
         return (
             <HelpView style={screenStyle.container}>
-                <View style={{ flex: 0.025 }}></View>
-                <View style={{ flex: 1, justifyContent: 'center' }}>
-                    <View>
-                        <View style={{}}>
-                            <Text style={fontStyles.mainTextStyleBlack}>
+                <View>
+                    <View style={{ flex: 0.7, justifyContent: 'center', alignSelf: 'center' }}>
+                        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                            <Text style={fontStyles.bigTextStyleBlack}>
                                 {strings.EditName}</Text>
                         </View>
 
-                        <View style={{}}>
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
                             <OneLineTextInput
+                                placeholder={strings.EnterCompanyNameDotDotDot}
                                 onChangeText={(input) => this.setState({ businessName: input })}
                                 value={this.state.businessName}
-                                maxLength={18}
                                 password={false}
+                                maxLength={18}
                             />
                         </View>
                     </View>
 
-                    <View style={{ flex: 1, justifyContent: 'center' }}>
-                        <View style={{ flex: 0.5, justifyContent: 'center' }}>
-                            <Text style={fontStyles.mainTextStyleBlack}>
+                    <View style={{ flex: 0.7, justifyContent: 'center', alignSelf: 'center' }}>
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
+                            <Text style={fontStyles.bigTextStyleBlack}>
                                 {strings.EditDescription}</Text>
                         </View>
-
                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                             <RoundTextInput
                                 width={(Dimensions.get('window').width * 0.669)}
                                 height={(Dimensions.get('window').height * 0.14641)}
+                                placeholder={strings.TellYourCustomersAboutYourselfDotDotDot}
                                 onChangeText={(input) => this.setState({ businessInfo: input })}
                                 value={this.state.businessInfo} />
                         </View>
                     </View>
-                    <View style={{ flex: 0.001 }}></View>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ flex: 1 }}></View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
 
-                        <View style={{ flex: 1 }}>
+                        <View style={{ flex: 1, alignItems: 'center' }}>
                             <RoundBlueButton
                                 title={strings.Done}
                                 style={roundBlueButtonStyle.MediumSizeButton}
@@ -119,13 +119,12 @@ class editCompanyProfileScreen extends Component {
                                 disabled={this.state.isLoading}
                             />
                         </View>
-
-                        <View style={{ flex: 1 }}>
+                        <View style={{ flex: 1, alignItems: 'center' }}>
                             <LoadingSpinner isVisible={this.state.isLoading} />
                         </View>
                     </View>
+
                 </View>
-                <View style={{ flex: 0.025 }}></View>
                 <ErrorAlert
                     isVisible={this.state.isErrorVisible}
                     onPress={() => { this.setState({ isErrorVisible: false }) }}

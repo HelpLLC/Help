@@ -99,11 +99,11 @@ class logInScreen extends Component {
             <HelpView style={screenStyle.container}>
                 <View>
                     <View style={{ flex: 1, justifyContent: 'center' }}>
-                        <View>
-                            <Text style={fontStyles.mainTextStyleBlack}>{strings.Email}</Text>
+                        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                            <Text style={fontStyles.bigTextStyleBlack}>{strings.Email}</Text>
                         </View>
 
-                        <View>
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
                             <OneLineTextInput
                                 placeholder={strings.EnterYourEmail}
                                 onChangeText={(input) => this.setState({ email: input })}
@@ -116,11 +116,11 @@ class logInScreen extends Component {
                     </View>
 
                     <View style={{ flex: 1, justifyContent: 'center' }}>
-                        <View>
-                            <Text style={fontStyles.mainTextStyleBlack}>{strings.Password}</Text>
+                        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                            <Text style={fontStyles.bigTextStyleBlack}>{strings.Password}</Text>
                         </View>
 
-                        <View>
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
                             <OneLineTextInput
                                 placeholder={strings.EnterYourPassword}
                                 onChangeText={(input) => this.setState({ password: input })}
@@ -147,7 +147,7 @@ class logInScreen extends Component {
                             <LoadingSpinner isVisible={this.state.isLoading} />
                         </View>
                     </View>
-                    
+
                 </View>
                 <ErrorAlert
                     isVisible={this.state.isErrorVisible}

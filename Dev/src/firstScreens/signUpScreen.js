@@ -116,12 +116,12 @@ class signUpScreen extends Component {
             <HelpView style={screenStyle.container}>
                 <View>
                     <View style={{ flex: 0.25 }}></View>
-                    <View style={{ flex: 1.2, justifyContent: 'center', alignSelf: 'center' }}>
-                        <View>
-                            <Text style={fontStyles.mainTextStyleBlack}>{strings.Email}</Text>
+                    <View style={{ flex: 1.5, justifyContent: 'center', alignSelf: 'center' }}>
+                        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                            <Text style={fontStyles.bigTextStyleBlack}>{strings.Email}</Text>
                         </View>
 
-                        <View>
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
                             <OneLineTextInput
                                 placeholder={strings.EnterAnEmail}
                                 onChangeText={(input) => this.setState({ email: input })}
@@ -134,11 +134,11 @@ class signUpScreen extends Component {
                     </View>
                     <View style={{ flex: 0.05 }}></View>
                     <View style={{ flex: 1.2, justifyContent: 'center', alignSelf: 'center' }}>
-                        <View>
-                            <Text style={fontStyles.mainTextStyleBlack}>{strings.Password}</Text>
+                        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                            <Text style={fontStyles.bigTextStyleBlack}>{strings.Password}</Text>
                         </View>
 
-                        <View>
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
                             <OneLineTextInput
                                 placeholder={strings.ChooseAPassword}
                                 onChangeText={(input) => this.setState({ password: input })}
@@ -216,18 +216,18 @@ class signUpScreen extends Component {
                         </TouchableOpacity>
                     </View>
                     <View style={{ flex: 0.5 }}></View>
-                    <View style={{ flex: 0.001 }}></View>
+                    <View style={{ flex: 0.125 }}></View>
                     <View style={{ flex: 1, justifyContent: 'flex-end', alignSelf: 'center' }}>
-                            <RoundBlueButton
-                                title={strings.SignUp}
-                                style={roundBlueButtonStyle.MediumSizeButton}
-                                textStyle={fontStyles.bigTextStyleWhite}
-                                onPress={() => { this.signUp() }}
-                                disabled={this.state.isLoading} />       
+                        <RoundBlueButton
+                            title={strings.SignUp}
+                            style={roundBlueButtonStyle.MediumSizeButton}
+                            textStyle={fontStyles.bigTextStyleWhite}
+                            onPress={() => { this.signUp() }}
+                            disabled={this.state.isLoading} />
                     </View>
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
-                            <LoadingSpinner isVisible={this.state.isLoading} />
-                        </View>
+                        <LoadingSpinner isVisible={this.state.isLoading} />
+                    </View>
                     <View style={{ flex: 1.6 }}></View>
                 </View>
                 <ErrorAlert

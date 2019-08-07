@@ -138,7 +138,7 @@ class productScreen extends Component {
                                         });
                                     }}
                                     style={{ flex: 0.5, justifyContent: 'flex-end' }}>
-                                    <Text style={fontStyles.subTextStyleGray}>
+                                    <Text style={fontStyles.mainTextStyleBlue}>
                                         {strings.EditService}</Text>
                                 </TouchableOpacity>
 
@@ -148,8 +148,8 @@ class productScreen extends Component {
                                             product
                                         });
                                     }}
-                                    style={{ flex: 0.5, justifyContent: 'flex-start' }}>
-                                    <Text style={fontStyles.subTextStyleGray}>
+                                    style={{ flex: 0.5, justifyContent: 'center' }}>
+                                    <Text style={fontStyles.mainTextStyleBlue}>
                                         {strings.History}</Text>
                                 </TouchableOpacity>
                             </View>

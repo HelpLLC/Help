@@ -28,6 +28,7 @@ class OneLineTextInput extends Component {
                     secureTextEntry={password}
                     keyboardType={keyboardType ? keyboardType : 'default'}
                     blurOnSubmit={true}
+                    returnKeyType={'done'}
                     value={value}
                     autoCompleteType={autoCompleteType ? autoCompleteType : 'off'}
                     maxLength={maxLength} />

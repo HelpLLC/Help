@@ -59,11 +59,11 @@ class reportIssueScreen extends Component {
             <HelpView style={screenStyle.container}>
                 <View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style={fontStyles.mainTextStyleBlack}>
+                        <Text style={fontStyles.bigTextStyleBlack}>
                             {strings.WhatSeemsToBeTheProblemQuestion}</Text>
                     </View>
                     <View style={{ flex: 0.5 }}></View>
-                    <View style={{ flex: 1, justifyContent: 'center' }}>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <RoundTextInput
                             width={(Dimensions.get('window').width * 0.66909)}
                             height={(Dimensions.get('window').height * 0.29282577)}
