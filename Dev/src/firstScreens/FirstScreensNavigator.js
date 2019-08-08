@@ -5,11 +5,13 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import splashScreen from './splashScreen';
 import providerScreensNavigator from '../providerScreens/providerScreensNavigator';
 import requesterScreensNavigator from '../requesterScreens/requesterScreensNavigator';
+import accountNotVerifiedScreen from './accountNotVerifiedScreen';
 import logInScreen from './logInScreen';
 import createProviderProfileScreen from './createProviderProfileScreen';
 import signUpScreen from './signUpScreen';
 import TopBanner from '../components/TopBanner';
 import strings from 'config/strings';
+import FirebaseFunctions from '../../config/FirebaseFunctions';
 
 //Route config that leads to all the different possible screens
 const routeConfig = {
@@ -75,6 +77,22 @@ const routeConfig = {
                     leftOnPress={() => {
                         //Method will go back to the splash screen
                         navigation.goBack();
+                    }} />
+            )
+        })
+    },
+    //Takes you to the screen which will display if a business account has not yet been approved
+    AccountNotVerifiedScreen: {
+        screen: accountNotVerifiedScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: (
+                <TopBanner
+                    title={strings.Verification}
+                    leftIconName="angle-left"
+                    leftOnPress={async () => {
+                        //Method will go back to the splash screen and log out
+                        await FirebaseFunctions.logOut();
+                        navigation.push('SplashScreen');
                     }} />
             )
         })

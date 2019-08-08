@@ -175,7 +175,8 @@ export default class FirebaseFunctions {
 
     //This function will take in a new provider ID and then will add that new provider to the firestore
     //as a new provider with a unique provider ID and a username which will just be their email without
-    //the "@". It will also have the companyName and the companyDescription that is passed
+    //the "@". It will also have the companyName and the companyDescription that is passed. Must wait for verfication
+    //by developers (default value for "isVerified" is false), when switched to true, user can log in
     static async addProviderToDatabase(account, email, businessName, businessInfo) {
 
         const batch = this.database.batch();
@@ -187,12 +188,17 @@ export default class FirebaseFunctions {
             companyDescription: businessInfo,
             providerID: account.user.uid,
             serviceIDs: [],
-            username: email.substring(0, email.indexOf("@"))
+            username: email.substring(0, email.indexOf("@")),
+            isVerified: false
         }
 
         batch.set(ref, newProvider);
         await batch.commit();
 
+        this.functions.httpsCallable('sendNewBusinessEmail')({
+            businessName,
+            businessInfo
+        });
         //Logs the event in firebase analytics
         this.analytics.logEvent("provider_sign_up");
         return newProvider;

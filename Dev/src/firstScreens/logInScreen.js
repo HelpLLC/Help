@@ -60,10 +60,19 @@ class logInScreen extends Component {
                 //Tests whether this is a provider or a requester & based on that, navigates to the
                 //correct screen
                 if (account.charAt(0) === 'p') {
-                    //This means this account is a provider since a requester with this ID was not found
-                    this.props.navigation.push('ProviderScreens', {
-                        providerID: (account.substring(2))
-                    });
+                    //Will first test if the business has been verified. If it has not, then it will go to the screen
+                    //which says your account has not yet been approved
+                    const id = account.substring(2);
+                    const provider = await FirebaseFunctions.getProviderByID(id);
+                    if (provider.isVerified === true) {
+                        //This means this account is a provider since a requester with this ID was not found
+                        this.props.navigation.push('ProviderScreens', {
+                            providerID: (account.substring(2))
+                        });
+                    } else {
+                        //Navigates to the account not verified screen
+                        this.props.navigation.push('AccountNotVerifiedScreen');
+                    }
                 } else {
                     const allProducts = await FirebaseFunctions.getAllProducts();
                     const requester = await FirebaseFunctions.getRequesterByID(account.substring(2));

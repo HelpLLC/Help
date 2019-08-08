@@ -86,9 +86,8 @@ class createProviderProfileScreen extends Component {
                     const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
                     const provider = await FirebaseFunctions.addProviderToDatabase(account, email, businessName, businessInfo);
                     await FirebaseFunctions.logIn(email, password);
-                    this.props.navigation.push('ProviderScreens', {
-                        providerID: provider.providerID
-                    });
+                    //Navigates to the screen where it tells the business to wait until their account has been verified
+                    this.props.navigation.push('AccountNotVerifiedScreen');
                 }
             } catch (error) {
                 this.setState({ isLoading: false, isErrorVisible: true });

@@ -25,6 +25,10 @@ export default {
     //------------------- Create Profile Screen -------------------
     CreateProfile: 'Create Profile',
 
+    //------------------- Account Not Verified Screen -------------------
+    AccountNotVerified: 'Your business has been submitted to the Help staff! Give us up to 24 hours to review your information and then you\'ll be good to go!',
+    Verification: 'Verification',
+
     //------------------- Sign Up Screen -------------------
     SignUp: 'Sign Up',
     Email: 'Email',

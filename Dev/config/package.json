@@ -5,5 +5,8 @@
     "assets": [
       "./config/fonts/"
     ]
+  },
+  "dependencies": {
+    "nodemailer": "^6.3.0"
   }
 }
