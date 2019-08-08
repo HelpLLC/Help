@@ -1,4 +1,5 @@
 - Added a cleaning category!!!
+- Made it so any future businesses will have to get approved by Help staff in order for the account to be created
 - Changed how issues are reported to developers so we can track down issues easily
 - Changed the "Yardwork" tab to "Landscaping"
 - Refixed the Keyboard covering texts issue
