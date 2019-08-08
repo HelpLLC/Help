@@ -101,7 +101,7 @@ class ServiceCard extends Component {
                                                     {strings.OfferedBy}</Text>
                                                 <TouchableOpacity
                                                     onPress={offeredByOnPress}>
-                                                    <Text style={fontStyles.subTextStyleBlue}>
+                                                    <Text style={fontStyles.subTextStyleGray}>
                                                         {offeredBy}</Text>
                                                 </TouchableOpacity>
                                             </View>
