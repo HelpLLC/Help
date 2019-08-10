@@ -129,7 +129,7 @@ class serviceScreen extends Component {
                                                 requester
                                             });
                                         }}>
-                                        <Text style={fontStyles.subTextStyleBlue}>
+                                        <Text style={fontStyles.bigTextStyleBlue}>
                                             {provider.companyName}</Text>
                                     </TouchableOpacity>
                                 </View>
