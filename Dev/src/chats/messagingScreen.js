@@ -1,11 +1,12 @@
 //This screen will represent the actual screen where two users communicate with each other. It will be 
 //a simple chat screen only allowing messaging.
 import React, { Component } from 'react';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, Send } from 'react-native-gifted-chat';
 import colors from 'config/colors';
-import HelpView from '../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import firebase from 'react-native-firebase';
+import { View, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native';
+import { Icon } from 'react-native-elements';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 class messagingScreen extends Component {
@@ -19,25 +20,40 @@ class messagingScreen extends Component {
         }
     }
 
+
+
     async componentDidMount() {
 
         const { providerID, requesterID } = this.props.navigation.state.params;
-        //Fetches the conversation, if it is a new one, it will set a boolean to true
-        const conversation = await FirebaseFunctions.getConversationByID(providerID, requesterID);
-        this.setState({
-            isLoading: false,
-            messages: conversation.conversationMessages,
-            isNewConversation: (conversation.conversationMessages.length === 0 ? true : false)
-        });
+
+        //Creates the onsnapshot method to listen for real updates in the database for this document
+        const ref = firebase.firestore().collection('messages').where("providerID", "==", providerID).where("requesterID", "==", requesterID).limit(1);
+        ref.onSnapshot(async (snapshot) => {
+            //Fetches the doc changes and sets them to the new state
+            if (snapshot.docChanges.length > 0) {
+                const docData = await snapshot.docChanges[0].doc.data();
+                //Sorts the conversation messages by time
+                const conversationMessages = docData.conversationMessages.sort((a, b) => {
+                    return b.createdAt - a.createdAt;
+                });
+                this.setState({
+                    isLoading: false,
+                    messages: conversationMessages,
+                    isNewConversation: (false)
+                })
+            } else {
+                this.setState({
+                    isLoading: false,
+                    messages: [],
+                    isNewConversation: (true)
+                })
+            }
+        })
 
     }
 
-    //sends a message to the reciever by adding it to their end and t
+    //sends a message to the reciever by adding it to the shared conversation document
     sendMessage(message) {
-        //refreshes the state so that the new message is displayed
-        this.setState((previousState) => ({
-            messages: GiftedChat.append(previousState.messages, message)
-        }));
 
         this.setState({ isNewConversation: false });
 
@@ -66,6 +82,24 @@ class messagingScreen extends Component {
                         ) : (
                                 <GiftedChat
                                     {...props}
+                                    renderSend={(props) => {
+                                        return (
+                                            <Send {...props}>
+                                                <View style={{
+                                                    width: (Dimensions.get('window').width * 0.10),
+                                                    height: (Dimensions.get('window').height * 0.07),
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                }}>
+                                                    <Icon
+                                                        name={'arrow-circle-up'}
+                                                        type="font-awesome"
+                                                        size={35}
+                                                        color={colors.lightBlue} />
+                                                </View>
+                                            </Send>
+                                        )
+                                    }}
                                     messages={this.state.messages}
                                     placeholder={"Type a message..."}
                                     user={{
