@@ -7,7 +7,6 @@ import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
 import { TabView, TabBar } from 'react-native-tab-view';
 import colors from '../../../config/colors';
-import Other from './categories/Other';
 import RequestTab from './requestTab';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 
@@ -20,7 +19,6 @@ class requestScreen extends Component {
             { key: 'cleaning', title: 'Cleaning' },
             { key: 'landscaping', title: 'Landscaping' },
             { key: 'technical', title: 'Technical' },
-            { key: 'other', title: 'Other' },
         ],
     };
 
@@ -70,8 +68,6 @@ class requestScreen extends Component {
                                     //only technical services
                                     FirebaseFunctions.getCategory(allProducts, 'Technical')
                                 } />
-                        case 'other':
-                            return <Other jumpTo={jumpTo} />;
                     }
                 }}
                 renderTabBar={props =>
