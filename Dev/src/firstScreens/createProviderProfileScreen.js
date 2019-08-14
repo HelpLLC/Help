@@ -128,7 +128,8 @@ class createProviderProfileScreen extends Component {
                                 height={(Dimensions.get('window').height * 0.14641)}
                                 placeholder={strings.TellYourCustomersAboutYourselfDotDotDot}
                                 onChangeText={(input) => this.setState({ businessInfo: input })}
-                                value={this.state.businessInfo} />
+                                value={this.state.businessInfo}
+                                maxLength={350} />
                         </View>
                     </View>
                     <View style={{ flex: 1 }}></View>
