@@ -1,2 +1,3 @@
-- Fixed some UI issues 
+- Fixed UI issues
 - Made chats update in real time
+- Fixed issue with chat notifications
