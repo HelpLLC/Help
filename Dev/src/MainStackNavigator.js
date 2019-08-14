@@ -28,7 +28,8 @@ const routeConfig = {
     FirstScreens: {
         screen: FirstScreensNavigator,
         navigationOptions: ({ navigation }) => ({
-            header: null
+            header: null,
+            gesturesEnabled: false,
         })
     },
 
@@ -36,7 +37,8 @@ const routeConfig = {
     ProviderScreens: {
         screen: providerScreensNavigator,
         navigationOptions: ({ navigation }) => ({
-            header: null
+            header: null,
+            gesturesEnabled: false,
         })
     },
 
@@ -49,7 +51,8 @@ const routeConfig = {
                     title={strings.CreateService}
                     leftIconName="angle-left"
                     leftOnPress={() => navigation.goBack()} />
-            )
+            ),
+            gesturesEnabled: false,
         })
     },
 
@@ -62,7 +65,8 @@ const routeConfig = {
                     title={strings.EditCompany}
                     leftIconName="angle-left"
                     leftOnPress={() => navigation.goBack()} />
-            )
+            ),
+            gesturesEnabled: false,
         })
     },
 
@@ -77,7 +81,8 @@ const routeConfig = {
                     leftOnPress={() => navigation.push("ProviderScreens", {
                         providerID: navigation.state.params.providerID
                     })} />
-            )
+            ),
+            gesturesEnabled: false,
         })
     },
 
@@ -91,7 +96,8 @@ const routeConfig = {
                     leftIconName="angle-left"
                     leftOnPress={() => navigation.goBack()} />
             )
-        })
+        }),
+        gesturesEnabled: false,
     },
 
     //The route going to the product history screen
@@ -103,7 +109,8 @@ const routeConfig = {
                     title={strings.ServiceHistory}
                     leftIconName="angle-left"
                     leftOnPress={() => navigation.goBack()} />)
-        })
+        }),
+        gesturesEnabled: false,
     },
 
     //The route going to the requester service screen
@@ -115,7 +122,8 @@ const routeConfig = {
                     title={strings.Service}
                     leftIconName="angle-left"
                     leftOnPress={() => navigation.goBack()} />)
-        })
+        }),
+        gesturesEnabled: false,
     },
 
     //The route going to the requester company profile screen
@@ -128,7 +136,8 @@ const routeConfig = {
                     leftIconName="angle-left"
                     leftOnPress={() => navigation.goBack()} />
             )
-        })
+        }),
+        gesturesEnabled: false,
     },
 
     //The route going the screen where users can chat
@@ -141,7 +150,8 @@ const routeConfig = {
                     leftIconName="angle-left"
                     leftOnPress={() => navigation.goBack()} />
             )
-        })
+        }),
+        gesturesEnabled: false,
     },
 
     //Takes you to the requester screen navigator's default route
@@ -149,7 +159,8 @@ const routeConfig = {
         screen: requesterScreensNavigator,
         navigationOptions: ({ navigation }) => ({
             header: null
-        })
+        }),
+        gesturesEnabled: false,
     },
 
     //Takes you to the about screen
@@ -161,7 +172,8 @@ const routeConfig = {
                     title={strings.About}
                     leftIconName="angle-left"
                     leftOnPress={() => navigation.goBack()} />)
-        })
+        }),
+        gesturesEnabled: false,
     },
 
     //Takes you to the report an issue screen
@@ -178,7 +190,8 @@ const routeConfig = {
                         navigation.dismiss();
                         navigation.goBack();
                     }} />
-            )
+            ),
+            gesturesEnabled: false,
         })
     },
 
@@ -191,7 +204,8 @@ const routeConfig = {
                     title={strings.Privacy}
                     leftIconName="angle-left"
                     leftOnPress={() => navigation.goBack()} />
-            )
+            ),
+            gesturesEnabled: false,
         })
     },
 
@@ -204,7 +218,8 @@ const routeConfig = {
                     title={strings.TermsAndConditions}
                     leftIconName="angle-left"
                     leftOnPress={() => navigation.goBack()} />
-            )
+            ),
+            gesturesEnabled: false
         })
     }
 
@@ -212,8 +227,7 @@ const routeConfig = {
 
 //The navigation config containing the initial route name
 const navigatorConfig = {
-    initialRouteName: 'FirstScreens',
-    gesturesEnabled: false,
+    initialRouteName: 'FirstScreens'
 };
 
 //Creates & exports the stack navigator

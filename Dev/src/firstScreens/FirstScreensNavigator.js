@@ -19,21 +19,24 @@ const routeConfig = {
     SplashScreen: {
         screen: splashScreen,
         navigationOptions: ({ navigation }) => ({
-            header: null
+            header: null,
+            gesturesEnabled: false,
         })
     },
     //Takes you to the provider screen navigator's default route
     ProviderScreens: {
         screen: providerScreensNavigator,
         navigationOptions: ({ navigation }) => ({
-            header: null
+            header: null,
+            gesturesEnabled: false,
         })
     },
     //Takes you to the requester screen navigator's default route
     RequesterScreens: {
         screen: requesterScreensNavigator,
         navigationOptions: ({ navigation }) => ({
-            header: null
+            header: null,
+            gesturesEnabled: false,
         })
     },
     //Takes you to the log in screen of the app
@@ -48,7 +51,8 @@ const routeConfig = {
                         //Method will go back to the splash screen
                         navigation.goBack();
                     }} />
-            )
+            ),
+            gesturesEnabled: false,
         })
     },
     //Takes you to the sign up screen of the app
@@ -63,7 +67,8 @@ const routeConfig = {
                         //Method will go back to the splash screen
                         navigation.goBack();
                     }} />
-            )
+            ),
+            gesturesEnabled: false,
         })
     },
     //Takes you to the screen where businesses will create their initial profile
@@ -78,7 +83,8 @@ const routeConfig = {
                         //Method will go back to the splash screen
                         navigation.goBack();
                     }} />
-            )
+            ),
+            gesturesEnabled: false,
         })
     },
     //Takes you to the screen which will display if a business account has not yet been approved
@@ -94,7 +100,8 @@ const routeConfig = {
                         await FirebaseFunctions.logOut();
                         navigation.push('SplashScreen');
                     }} />
-            )
+            ),
+            gesturesEnabled: false,
         })
     }
 };
