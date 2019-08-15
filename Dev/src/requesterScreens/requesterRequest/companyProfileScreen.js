@@ -158,20 +158,20 @@ class companyProfileScreen extends Component {
                             borderBottomColor: colors.black,
                             borderWidth: 0.5,
                             alignSelf: 'center',
-                            flex: 0.15
+                            flex: 0.8
                         }}>
-                            <View style={{ flexDirection: 'column', flex: 2 }}>
-                                <View style={{ flex: 1, justifyContent: 'center' }}>
+                            <View style={{ flexDirection: 'column', flex: 2, justifyContent: 'space-around' }}>
+                                <View style={{ }}>
                                     <Text style={fontStyles.bigTextStyleBlack}>
                                         {provider.companyName}</Text>
                                 </View>
 
-                                <View style={{ flex: 1 }}>
+                                <View style={{ }}>
                                     <Text style={fontStyles.subTextStyleBlack}>
                                         {provider.companyDescription}</Text>
                                 </View>
                             </View>
-
+                            <View style={{ flex: 0.1 }}></View>
                             <View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end' }}>
                                 <TouchableOpacity
                                     style={{ flex: 1 }}

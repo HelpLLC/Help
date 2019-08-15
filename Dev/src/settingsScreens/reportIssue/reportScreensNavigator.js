@@ -26,7 +26,8 @@ const routeConfig = {
                         navigation.dismiss();
                         navigation.goBack();
                     }} />
-            )
+            ),
+            gesturesEnabled: false
         })
     },
 
@@ -38,7 +39,8 @@ const routeConfig = {
                 <TopBanner
                     title={strings.ReportAnIssue}
                     leftIconName="angle-left" />
-            )
+            ),
+            gesturesEnabled: false
         })
     }
 };

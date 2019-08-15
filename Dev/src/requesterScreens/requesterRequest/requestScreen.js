@@ -7,9 +7,7 @@ import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
 import { TabView, TabBar } from 'react-native-tab-view';
 import colors from '../../../config/colors';
-import Other from './categories/Other';
-import Landscaping from './categories/Landscaping';
-import Cleaning from './categories/Cleaning';
+import RequestTab from './requestTab';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 
 
@@ -20,7 +18,7 @@ class requestScreen extends Component {
         routes: [
             { key: 'cleaning', title: 'Cleaning' },
             { key: 'landscaping', title: 'Landscaping' },
-            { key: 'other', title: 'Other' },
+            { key: 'technical', title: 'Technical' },
         ],
     };
 
@@ -38,27 +36,38 @@ class requestScreen extends Component {
                 renderScene={({ route, jumpTo }) => {
                     switch (route.key) {
                         case 'cleaning':
-                            return <Cleaning
+                            return <RequestTab
                                 {...this.props}
                                 jumpTo={jumpTo}
                                 requester={this.props.navigation.state.params.requester}
-                                cleaningProducts={
+                                serviceType={"Cleaning"}
+                                products={
                                     //Calls a method which filters all the products to return
-                                    //only cleaning products
+                                    //only cleaning services
                                     FirebaseFunctions.getCategory(allProducts, 'Cleaning')
                                 } />;
                         case 'landscaping':
-                            return <Landscaping
+                            return <RequestTab
                                 {...this.props}
                                 jumpTo={jumpTo}
                                 requester={this.props.navigation.state.params.requester}
-                                landscapingProducts={
+                                serviceType={"Landscaping"}
+                                products={
                                     //Calls a method which filters all the products to return
-                                    //only landscaping products
+                                    //only landscaping services
                                     FirebaseFunctions.getCategory(allProducts, 'Landscaping')
                                 } />;
-                        case 'other':
-                            return <Other jumpTo={jumpTo} />;
+                        case 'technical':
+                            return <RequestTab
+                                {...this.props}
+                                jumpTo={jumpTo}
+                                requester={this.props.navigation.state.params.requester}
+                                serviceType={"Technical"}
+                                products={
+                                    //Calls a method which filters all the products to reutrn
+                                    //only technical services
+                                    FirebaseFunctions.getCategory(allProducts, 'Technical')
+                                } />
                     }
                 }}
                 renderTabBar={props =>
