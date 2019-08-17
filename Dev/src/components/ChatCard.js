@@ -46,7 +46,9 @@ class ChatCard extends Component {
                             justifyContent: 'flex-start',
                         }}>
                             <Text style={fontStyles.mainTextStyleBlack}>{username}</Text>
-                            <Text style={fontStyles.subTextStyleGray}>{previewText}</Text>
+                            <Text style={fontStyles.subTextStyleGray}>{
+                                previewText.length > 35 ? (previewText.substring(0, 35) + "...") :
+                                previewText}</Text>
                         </View>
                         <View style={{
                             flexDirection: 'column',
