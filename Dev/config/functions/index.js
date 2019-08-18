@@ -34,10 +34,30 @@ exports.sendNotification = functions.https.onCall(async (input, context) => {
         {
             notification: {
                 title,
-                body
+                body,
             }
         }
     );
+    return 0;
+
+});
+
+//Method detects when a new business user has been verified & sends them a notification saying they're
+//good to go
+exports.businessGoodToGo = functions.firestore.document('providers/{providerID}').onUpdate(async (change, context) => {
+
+    if (change.after.data().isVerified === true && change.before.data().isVerified === false) {
+        const topic = "p-" + change.after.data().providerID;
+        await admin.messaging().sendToTopic(topic,
+            {
+                notification: {
+                    title: "You're good to go",
+                    body: "You're account has been verified and accepted. Create your first product now!",
+                }
+            }
+        );
+    }
+
     return 0;
 
 });

@@ -3,7 +3,7 @@
 //will connect with the firebase firestore in order to retrieve the necessary data. 
 import firebase from 'react-native-firebase';
 import strings from 'config/strings';
-import { Platform } from 'react-native';
+import { Platform, PushNotificationIOS } from 'react-native';
 
 //All methods should be labeled static. There will also be static variable that reference the collections
 //in the cloud firestore
@@ -333,12 +333,14 @@ export default class FirebaseFunctions {
                     title: provider.companyName,
                     body: message[0].text
                 });
+                PushNotificationIOS.setApplicationIconBadgeNumber(PushNotificationIOS.getApplicationIconBadgeNumber() + 1);
             } else {
                 this.functions.httpsCallable('sendNotification')({
                     topic: "p-" + providerID,
                     title: requester.username,
                     body: message[0].text
                 });
+                PushNotificationIOS.setApplicationIconBadgeNumber(PushNotificationIOS.getApplicationIconBadgeNumber() + 1);
             }
 
         }
@@ -522,7 +524,7 @@ export default class FirebaseFunctions {
             title: strings.NewRequest,
             body: strings.YouHaveNewRequestFor + doc.data().serviceTitle
         });
-
+        PushNotificationIOS.setApplicationIconBadgeNumber(PushNotificationIOS.getApplicationIconBadgeNumber() + 1);
         //Logs the event in firebase analytics
         this.analytics.logEvent("request_service");
         return 0;
