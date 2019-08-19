@@ -1,0 +1,2 @@
+- Added a number badge for push notifications
+- Made the push notification badge disappear when the app is opened
