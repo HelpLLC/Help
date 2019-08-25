@@ -3,12 +3,14 @@
 import React, { Component } from 'react';
 import { Text, ScrollView } from 'react-native';
 import colors from 'config/colors';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 
 export default class termsAndConditionsScreen extends Component {
 
   componentDidMount() {
     FirebaseFunctions.setCurrentScreen("TermsAndConditionsScreen", "termsAndConditionsScreen");
   }
+
   //Renders the screen
   render() {
     return (
