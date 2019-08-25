@@ -136,7 +136,7 @@ class splashScreen extends Component {
                             <Text style={fontStyles.mainTextStyleBlue}> </Text>
                             <TouchableOpacity
                                 onPress={() => {
-                                    this.props.navigation.push('LogInScreen')
+                                    this.props.navigation.navigate('LogInScreen');
                                 }}>
                                 <Text style={fontStyles.mainTextStyleBlue}>{strings.LogIn}</Text>
                             </TouchableOpacity>

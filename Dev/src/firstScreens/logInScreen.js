@@ -10,7 +10,6 @@ import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineTextInput from '../components/OneLineTextInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import HelpView from '../components/HelpView';
-import firebase from 'react-native-firebase';
 import screenStyle from 'config/styles/screenStyle';
 import ErrorAlert from '../components/ErrorAlert';
 import FirebaseFunctions from '../../config/FirebaseFunctions';

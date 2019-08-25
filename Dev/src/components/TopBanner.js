@@ -26,7 +26,7 @@ class TopBanner extends Component {
                             height: (Dimensions.get('window').height * 0.12)
                         }}
                         onPress={leftOnPress ?
-                            leftOnPress()
+                            () => leftOnPress()
                             : () => { }}>
                         <Icon
                             name={leftIconName}
@@ -47,7 +47,8 @@ class TopBanner extends Component {
                             height: (Dimensions.get('window').height * 0.12)
                         }}
                         onPress={() => {
-                            rightOnPress ? rightOnPress()
+                            rightOnPress ? 
+                            () => rightOnPress()
                                 : () => { }
                         }}>
                         <Icon
