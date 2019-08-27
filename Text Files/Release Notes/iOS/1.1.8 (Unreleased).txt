@@ -1,0 +1,1 @@
+- Fixed a crashing issue where you couldn't access the terms & conditions
