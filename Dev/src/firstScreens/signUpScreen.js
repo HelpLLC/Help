@@ -8,7 +8,7 @@ import CheckBox from 'react-native-check-box'
 import colors from 'config/colors';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../components/RoundBlueButton';
-import OneLineTextInput from '../components/OneLineTextInput';
+import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
@@ -119,25 +119,15 @@ class signUpScreen extends Component {
             //View that dismisses the keyboard when clicked anywhere else
             <HelpView style={screenStyle.container}>
                 <View>
-<<<<<<< Updated upstream
-                    <View style={{ flex: 0.25 }}></View>
-                    <View style={{ flex: 1.5, justifyContent: 'center', alignSelf: 'center' }}>
-=======
-                    <View style={{ flex: 1 }}></View>
-                    <View style={{ flex: 2, justifyContent: 'center', alignSelf: 'center' }}>
->>>>>>> Stashed changes
+                    <View style={{ flex: 0.5 }}></View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                             <Text style={fontStyles.bigTextStyleBlack}>{strings.Email}</Text>
                         </View>
 
-<<<<<<< Updated upstream
-                        <View style={{ flex: 1, justifyContent: 'center' }}>
-                            <OneLineTextInput
-=======
                         <View style={{ flex: 0.5 }}></View>
                         <View style={{ flex: 1, justifyContent: 'center' }}>
                             <OneLineRoundedBoxInput
->>>>>>> Stashed changes
                                 placeholder={strings.EnterAnEmail}
                                 onChangeText={(input) => this.setState({ email: input })}
                                 value={this.state.email}
@@ -147,26 +137,16 @@ class signUpScreen extends Component {
                             />
                         </View>
                     </View>
-<<<<<<< Updated upstream
-                    <View style={{ flex: 0.05 }}></View>
-                    <View style={{ flex: 1.2, justifyContent: 'center', alignSelf: 'center' }}>
-=======
 
-                    <View style={{ flex: 1 }}></View>
-                    <View style={{ flex: 2, justifyContent: 'center', alignSelf: 'center' }}>
->>>>>>> Stashed changes
+                    <View style={{ flex: 0.5 }}></View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                             <Text style={fontStyles.bigTextStyleBlack}>{strings.Password}</Text>
                         </View>
 
-<<<<<<< Updated upstream
-                        <View style={{ flex: 1, justifyContent: 'center' }}>
-                            <OneLineTextInput
-=======
                         <View style={{ flex: 0.5 }}></View>
                         <View style={{ flex: 1, justifyContent: 'center' }}>
                             <OneLineRoundedBoxInput
->>>>>>> Stashed changes
                                 placeholder={strings.ChooseAPassword}
                                 onChangeText={(input) => this.setState({ password: input })}
                                 value={this.state.password}
@@ -175,13 +155,9 @@ class signUpScreen extends Component {
                             />
                         </View>
                     </View>
-<<<<<<< Updated upstream
-                    <View style={{ flex: 0.35 }}></View>
-=======
-
-                    <View style={{ flex: 1 }}></View>
+                    <View style={{ flex: 0.5 }}></View>
                     <View style={{
-                        flex: 2, justifyContent: 'center', alignSelf: 'center', opacity: this.state.buttonSelected === "Customer" || this.state.buttonSelected === "Business" ?
+                        flex: 1, justifyContent: 'center', alignSelf: 'center', opacity: this.state.buttonSelected === "Customer" || this.state.buttonSelected === "Business" ?
                             100 : 0
                     }}>
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
@@ -199,9 +175,9 @@ class signUpScreen extends Component {
                         </View>
                     </View>
 
-                    <View style={{ flex: 1 }}></View>
+                    <View style={{ flex: 0.5 }}></View>
                     <View style={{
-                        flex: 2, justifyContent: 'center', alignSelf: 'center', opacity: this.state.buttonSelected === "Customer" ?
+                        flex: 1, justifyContent: 'center', alignSelf: 'center', opacity: this.state.buttonSelected === "Customer" ?
                             100 : 0
                     }}>
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
@@ -219,15 +195,11 @@ class signUpScreen extends Component {
                         </View>
                     </View>
 
-                    <View style={{ flex: 1 }}></View>
->>>>>>> Stashed changes
-                    <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
-                        <View>
+                    <View style={{ flex: 0.25 }}></View>
+                    <View style={{ flex: 0.75, justifyContent: 'center', alignSelf: 'center' }}>
                             <Text style={fontStyles.mainTextStyleBlack}>
                                 {strings.AccountType}</Text>
-                        </View>
                     </View>
-                    <View style={{ flex: 0.25 }}></View>
                     <View style={{
                         flexDirection: 'row',
                         width: Dimensions.get('window').width,
@@ -271,12 +243,7 @@ class signUpScreen extends Component {
                                 disabled={this.state.isLoading} />
                         </View>
                     </View>
-<<<<<<< Updated upstream
-                    <View style={{ flex: 0.5 }}></View>
-=======
-                    <View style={{ flex: 1.5 }}></View>
->>>>>>> Stashed changes
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+                    <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', flexDirection: 'column' }}>
                         <CheckBox
                             onClick={() => { this.setState({ isChecked: !this.state.isChecked }) }}
                             isChecked={this.state.isChecked}
@@ -292,8 +259,7 @@ class signUpScreen extends Component {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={{ flex: 0.5 }}></View>
-                    <View style={{ flex: 0.125 }}></View>
+                    <View style={{ flex: 0.65 }}></View>
                     <View style={{ flex: 1, justifyContent: 'flex-end', alignSelf: 'center' }}>
                         <RoundBlueButton
                             title={strings.SignUp}
@@ -302,11 +268,10 @@ class signUpScreen extends Component {
                             onPress={() => { this.signUp() }}
                             disabled={this.state.isLoading} />
                     </View>
-                    <View style={{ flex: 0.5 }}></View>
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
+                    <View style={{ flex: 0.25 }}></View>
+                    <View style={{ flex: 0.25, alignItems: 'center', justifyContent: 'flex-end' }}>
                         <LoadingSpinner isVisible={this.state.isLoading} />
                     </View>
-                    <View style={{ flex: 0.25 }}></View>
                 </View>
                 <ErrorAlert
                     isVisible={this.state.isErrorVisible}
