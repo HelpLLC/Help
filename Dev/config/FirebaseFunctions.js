@@ -150,8 +150,8 @@ export default class FirebaseFunctions {
 
     //This functions will take in a new requester ID and then will add that requester to the firestore
     //as a new requester with a unique requester ID and a username which will just be their email
-    //without the "@"
-    static async addRequesterToDatabase(account, email) {
+    //without the "@". It will also accept a phone number and an address which are optional for requesters
+    static async addRequesterToDatabase(account, email, phoneNumber, address) {
 
         const batch = this.database.batch();
         const uid = account.user.uid;
@@ -160,6 +160,8 @@ export default class FirebaseFunctions {
         const newRequester = {
             requesterID: uid,
             username: email.substring(0, email.indexOf("@")),
+            phoneNumber,
+            address,
             blockedUsers: ["Example Business"]
         }
 
@@ -175,9 +177,10 @@ export default class FirebaseFunctions {
 
     //This function will take in a new provider ID and then will add that new provider to the firestore
     //as a new provider with a unique provider ID and a username which will just be their email without
-    //the "@". It will also have the companyName and the companyDescription that is passed. Must wait for verfication
-    //by developers (default value for "isVerified" is false), when switched to true, user can log in
-    static async addProviderToDatabase(account, email, businessName, businessInfo) {
+    //the "@". It will also have the companyName and the companyDescription that is passed along with a phone
+    //number. Must wait for verfication by developers (default value for "isVerified" is false), when switched to true, 
+    //user can log in
+    static async addProviderToDatabase(account, email, businessName, businessInfo, phoneNumber) {
 
         const batch = this.database.batch();
         const uid = account.user.uid;
@@ -189,7 +192,8 @@ export default class FirebaseFunctions {
             providerID: account.user.uid,
             serviceIDs: [],
             username: email.substring(0, email.indexOf("@")),
-            isVerified: false
+            isVerified: false,
+            phoneNumber
         }
 
         batch.set(ref, newProvider);

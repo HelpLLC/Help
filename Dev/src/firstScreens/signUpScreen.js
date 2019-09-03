@@ -41,7 +41,8 @@ class signUpScreen extends Component {
         isLoading: false,
         isErrorVisible: false,
         isChecked: false,
-        termsAndConditionsError: false
+        termsAndConditionsError: false,
+        businessPhoneNumberError: false
     }
 
     //This method signs up the user & creates an account for them based on what they chose and their
@@ -50,7 +51,7 @@ class signUpScreen extends Component {
 
         Keyboard.dismiss();
         //fetches the entered email and password
-        let { email, password, buttonSelected, isChecked } = this.state;
+        let { email, password, buttonSelected, isChecked, phoneNumber, address } = this.state;
         email = email.trim();
         password = password.trim();
 
@@ -65,6 +66,8 @@ class signUpScreen extends Component {
             this.setState({ emailError: true });
         } else if (password.length < 6) {
             this.setState({ passwordError: true });
+        } else if (buttonSelected === 'Business' && phoneNumber.trim() === "") {
+            this.setState({ businessPhoneNumberError: true });
         } else if (isChecked === false) {
             this.setState({ termsAndConditionsError: true });
         } else {
@@ -84,7 +87,7 @@ class signUpScreen extends Component {
                         //along with the new requester being added to the database then
                         //the screen will shift to the new account's screen
                         const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
-                        const requester = await FirebaseFunctions.addRequesterToDatabase(account, email);
+                        const requester = await FirebaseFunctions.addRequesterToDatabase(account, email, phoneNumber, address);
                         await FirebaseFunctions.logIn(email, password);
                         const allProducts = await FirebaseFunctions.getAllProducts();
                         this.setState({ isLoading: false });
@@ -99,7 +102,8 @@ class signUpScreen extends Component {
                         this.setState({ isLoading: false });
                         this.props.navigation.push("CreateProviderProfileScreen", {
                             email,
-                            password
+                            password,
+                            phoneNumber
                         });
                     }
                 }
@@ -115,14 +119,25 @@ class signUpScreen extends Component {
             //View that dismisses the keyboard when clicked anywhere else
             <HelpView style={screenStyle.container}>
                 <View>
+<<<<<<< Updated upstream
                     <View style={{ flex: 0.25 }}></View>
                     <View style={{ flex: 1.5, justifyContent: 'center', alignSelf: 'center' }}>
+=======
+                    <View style={{ flex: 1 }}></View>
+                    <View style={{ flex: 2, justifyContent: 'center', alignSelf: 'center' }}>
+>>>>>>> Stashed changes
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                             <Text style={fontStyles.bigTextStyleBlack}>{strings.Email}</Text>
                         </View>
 
+<<<<<<< Updated upstream
                         <View style={{ flex: 1, justifyContent: 'center' }}>
                             <OneLineTextInput
+=======
+                        <View style={{ flex: 0.5 }}></View>
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
+                            <OneLineRoundedBoxInput
+>>>>>>> Stashed changes
                                 placeholder={strings.EnterAnEmail}
                                 onChangeText={(input) => this.setState({ email: input })}
                                 value={this.state.email}
@@ -132,14 +147,26 @@ class signUpScreen extends Component {
                             />
                         </View>
                     </View>
+<<<<<<< Updated upstream
                     <View style={{ flex: 0.05 }}></View>
                     <View style={{ flex: 1.2, justifyContent: 'center', alignSelf: 'center' }}>
+=======
+
+                    <View style={{ flex: 1 }}></View>
+                    <View style={{ flex: 2, justifyContent: 'center', alignSelf: 'center' }}>
+>>>>>>> Stashed changes
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                             <Text style={fontStyles.bigTextStyleBlack}>{strings.Password}</Text>
                         </View>
 
+<<<<<<< Updated upstream
                         <View style={{ flex: 1, justifyContent: 'center' }}>
                             <OneLineTextInput
+=======
+                        <View style={{ flex: 0.5 }}></View>
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
+                            <OneLineRoundedBoxInput
+>>>>>>> Stashed changes
                                 placeholder={strings.ChooseAPassword}
                                 onChangeText={(input) => this.setState({ password: input })}
                                 value={this.state.password}
@@ -148,13 +175,59 @@ class signUpScreen extends Component {
                             />
                         </View>
                     </View>
+<<<<<<< Updated upstream
                     <View style={{ flex: 0.35 }}></View>
+=======
+
+                    <View style={{ flex: 1 }}></View>
+                    <View style={{
+                        flex: 2, justifyContent: 'center', alignSelf: 'center', opacity: this.state.buttonSelected === "Customer" || this.state.buttonSelected === "Business" ?
+                            100 : 0
+                    }}>
+                        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                            <Text style={fontStyles.bigTextStyleBlack}>{strings.PhoneNumber}</Text>
+                        </View>
+                        <View style={{ flex: 0.5 }}></View>
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
+                            <OneLineRoundedBoxInput
+                                placeholder={this.state.buttonSelected === "Customer" ? strings.EnterPhoneNumberOptional : strings.EnterPhoneNumber}
+                                onChangeText={(input) => this.setState({ phoneNumber: input })}
+                                value={this.state.phoneNumber}
+                                password={false}
+                                autoCompleteType={'tel'}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={{ flex: 1 }}></View>
+                    <View style={{
+                        flex: 2, justifyContent: 'center', alignSelf: 'center', opacity: this.state.buttonSelected === "Customer" ?
+                            100 : 0
+                    }}>
+                        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                            <Text style={fontStyles.bigTextStyleBlack}>{strings.Address}</Text>
+                        </View>
+                        <View style={{ flex: 0.5 }}></View>
+                        <View style={{ flex: 1, justifyContent: 'center' }}>
+                            <OneLineRoundedBoxInput
+                                placeholder={strings.EnterAddressOptional}
+                                onChangeText={(input) => this.setState({ address: input })}
+                                value={this.state.address}
+                                password={false}
+                                autoCompleteType={'street-address'}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={{ flex: 1 }}></View>
+>>>>>>> Stashed changes
                     <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
                         <View>
                             <Text style={fontStyles.mainTextStyleBlack}>
                                 {strings.AccountType}</Text>
                         </View>
                     </View>
+                    <View style={{ flex: 0.25 }}></View>
                     <View style={{
                         flexDirection: 'row',
                         width: Dimensions.get('window').width,
@@ -198,7 +271,11 @@ class signUpScreen extends Component {
                                 disabled={this.state.isLoading} />
                         </View>
                     </View>
+<<<<<<< Updated upstream
                     <View style={{ flex: 0.5 }}></View>
+=======
+                    <View style={{ flex: 1.5 }}></View>
+>>>>>>> Stashed changes
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
                         <CheckBox
                             onClick={() => { this.setState({ isChecked: !this.state.isChecked }) }}
@@ -225,10 +302,11 @@ class signUpScreen extends Component {
                             onPress={() => { this.signUp() }}
                             disabled={this.state.isLoading} />
                     </View>
+                    <View style={{ flex: 0.5 }}></View>
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
                         <LoadingSpinner isVisible={this.state.isLoading} />
                     </View>
-                    <View style={{ flex: 1.6 }}></View>
+                    <View style={{ flex: 0.25 }}></View>
                 </View>
                 <ErrorAlert
                     isVisible={this.state.isErrorVisible}
@@ -265,6 +343,12 @@ class signUpScreen extends Component {
                     onPress={() => { this.setState({ emailExistsError: false }) }}
                     title={strings.Whoops}
                     message={strings.EmailExists}
+                />
+                <ErrorAlert
+                    isVisible={this.state.businessPhoneNumberError}
+                    onPress={() => { this.setState({ businessPhoneNumberError: false }) }}
+                    title={strings.Whoops}
+                    message={strings.BusinessPhoneNumberError}
                 />
                 <ErrorAlert
                     isVisible={this.state.termsAndConditionsError}

@@ -69,7 +69,7 @@ class createProviderProfileScreen extends Component {
 
             this.setState({ isLoading: true });
 
-            const { email, password } = this.props.navigation.state.params;
+            const { email, password, phoneNumber } = this.props.navigation.state.params;
             const { businessName, businessInfo } = this.state;
 
             //If the business name is already taken, then a warning message will appear,
@@ -84,7 +84,7 @@ class createProviderProfileScreen extends Component {
                     //Creates the account and then navigates to the correct screens while passing in
                     //the correct params and logs in
                     const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
-                    const provider = await FirebaseFunctions.addProviderToDatabase(account, email, businessName, businessInfo);
+                    const provider = await FirebaseFunctions.addProviderToDatabase(account, email, businessName, businessInfo, phoneNumber);
                     await FirebaseFunctions.logIn(email, password);
                     //Navigates to the screen where it tells the business to wait until their account has been verified
                     this.props.navigation.push('AccountNotVerifiedScreen');
@@ -100,7 +100,7 @@ class createProviderProfileScreen extends Component {
         return (
             <HelpView style={screenStyle.container}>
                 <View>
-                    <View style={{ flex: 0.7, justifyContent: 'center', alignSelf: 'center' }}>
+                    <View style={{ flex: 0.7, justifyContent: 'center', alignSelf: 'center', alignItems: 'center' }}>
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                             <Text style={fontStyles.bigTextStyleBlack}>
                                 {strings.WhatsYourBusinessCalledQuestion}</Text>
@@ -117,7 +117,7 @@ class createProviderProfileScreen extends Component {
                         </View>
                     </View>
 
-                    <View style={{ flex: 0.7, justifyContent: 'center', alignSelf: 'center' }}>
+                    <View style={{ flex: 0.7, justifyContent: 'center', alignSelf: 'center', alignItems: 'center' }}>
                         <View style={{ flex: 1, justifyContent: 'center' }}>
                             <Text style={fontStyles.bigTextStyleBlack}>
                                 {strings.WhatDoesYourBusinessDoQuestion}</Text>
