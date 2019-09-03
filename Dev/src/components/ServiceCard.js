@@ -109,6 +109,7 @@ class ServiceCard extends Component {
                                 }
                                 <Text style={fontStyles.mainTextStyleBlack}>{pricing}</Text>
                             </View>
+                            <View style={{ flex: 0.05 }}></View>
                         </View>
                     </BoxShadow>
                 </View>

@@ -138,8 +138,10 @@ class splashScreen extends Component {
                                 style={roundBlueButtonStyle.MediumSizeButton}
                                 textStyle={fontStyles.bigTextStyleWhite}
                                 onPress={() => {
-                                    this.props.navigation.push('LogInScreen');
-                                }} />}
+                                    this.props.navigation.navigate('LogInScreen');
+                                }}>
+                                <Text style={fontStyles.mainTextStyleBlue}>{strings.LogIn}</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                     <ErrorAlert

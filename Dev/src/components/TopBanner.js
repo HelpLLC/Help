@@ -25,7 +25,9 @@ class TopBanner extends Component {
                             alignItems: 'flex-start',
                             height: (Dimensions.get('window').height * 0.12)
                         }}
-                        onPress={() => { leftOnPress() }}>
+                        onPress={leftOnPress ?
+                            () => leftOnPress()
+                            : () => { }}>
                         <Icon
                             name={leftIconName}
                             type="font-awesome"
@@ -44,7 +46,11 @@ class TopBanner extends Component {
                             alignItems: 'flex-end',
                             height: (Dimensions.get('window').height * 0.12)
                         }}
-                        onPress={() => { rightOnPress() }}>
+                        onPress={() => {
+                            rightOnPress ? 
+                            () => rightOnPress()
+                                : () => { }
+                        }}>
                         <Icon
                             name={rightIconName}
                             type="font-awesome"

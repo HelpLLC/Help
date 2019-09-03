@@ -305,6 +305,7 @@ export default class FirebaseFunctions {
                 providerName: provider.companyName
             });
         } else {
+            const requester = await FirebaseFunctions.getRequesterByID(requesterID);
             const ref = this.messages.where("providerID", "==", providerID).where("requesterID", "==", requesterID);
             const query = await ref.get();
             const doc = query.docs[0];
@@ -521,7 +522,6 @@ export default class FirebaseFunctions {
             title: strings.NewRequest,
             body: strings.YouHaveNewRequestFor + doc.data().serviceTitle
         });
-
         //Logs the event in firebase analytics
         this.analytics.logEvent("request_service");
         return 0;

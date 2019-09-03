@@ -1,0 +1,2 @@
+- Added a technical category!
+- Bug fixes & improvements

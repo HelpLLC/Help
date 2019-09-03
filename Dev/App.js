@@ -102,7 +102,7 @@ export default class App extends Component {
 
   render() {
     //Ignores a specific warning
-    YellowBox.ignoreWarnings(['ViewPagerAndroid']);
+    YellowBox.ignoreWarnings(['ViewPagerAndroid', 'componentWillMount', 'componentWillReceiveProps']);
     if (this.state.isLoading === true) {
       return (
         <HelpView style={screenStyle.container}>

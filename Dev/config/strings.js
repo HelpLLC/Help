@@ -138,8 +138,6 @@ export default {
 
     //------------------- Request Screen -------------------
     Landscaping: 'Landscaping',
-    Other: 'Other',
-    MoreCategoriesComingSoonExclamation: 'More categories coming soon!',
     OfferedBy: 'Offered by',
     NoCurrentServices: 'There are no current services available to request. Check back soon!',
 

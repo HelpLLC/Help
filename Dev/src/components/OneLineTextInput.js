@@ -31,7 +31,8 @@ class OneLineTextInput extends Component {
                     returnKeyType={'done'}
                     value={value}
                     autoCompleteType={autoCompleteType ? autoCompleteType : 'off'}
-                    maxLength={maxLength} />
+                    maxLength={maxLength}
+                    autoCapitalize={password === true || keyboardType === 'email-address' ? 'none' : 'sentences'} />
             </View>
         );
     }
