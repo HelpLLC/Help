@@ -52,6 +52,7 @@ export default {
     IAcceptThe: 'I accept the ',
     TermsAndConditions: 'Terms and Conditions',
     CheckTermsAndConditions: 'You must accept the terms and conditions to use Help',
+    BusinessPhoneNumberError: 'All businesses are required to enter their phone numbers',
 
     //------------------- Settings Screen -------------------
     History: 'History',
