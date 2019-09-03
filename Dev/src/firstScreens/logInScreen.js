@@ -7,7 +7,8 @@ import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../components/RoundBlueButton';
-import OneLineTextInput from '../components/OneLineTextInput';
+// import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
+import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
@@ -112,7 +113,7 @@ class logInScreen extends Component {
                         </View>
 
                         <View style={{ flex: 1, justifyContent: 'center' }}>
-                            <OneLineTextInput
+                            <OneLineRoundedBoxInput
                                 placeholder={strings.EnterYourEmail}
                                 onChangeText={(input) => this.setState({ email: input })}
                                 value={this.state.email}
@@ -129,7 +130,7 @@ class logInScreen extends Component {
                         </View>
 
                         <View style={{ flex: 1, justifyContent: 'center' }}>
-                            <OneLineTextInput
+                            <OneLineRoundedBoxInput
                                 placeholder={strings.EnterYourPassword}
                                 onChangeText={(input) => this.setState({ password: input })}
                                 value={this.state.password}

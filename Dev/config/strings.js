@@ -32,7 +32,12 @@ export default {
     //------------------- Sign Up Screen -------------------
     SignUp: 'Sign Up',
     Email: 'Email',
+    PhoneNumber: 'Phone Number',
+    Address: 'Address',
     EnterAnEmail: 'Enter an email...',
+    EnterPhoneNumber: 'Enter your phone number...',
+    EnterPhoneNumberOptional: 'Enter your phone number (Optional)',
+    EnterAddressOptional: 'Enter your address (Optional)...',
     AccountType: 'Account Type',
     Business: 'Business',
     Password: 'Password',

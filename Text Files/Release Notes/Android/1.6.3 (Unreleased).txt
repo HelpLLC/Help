@@ -1,0 +1,2 @@
+- Redesigned the sign up screen along with the log in screen
+- Fixed a bug where sending a message would sometimes crash the app
