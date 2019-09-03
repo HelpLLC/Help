@@ -8,7 +8,8 @@ import CheckBox from 'react-native-check-box'
 import colors from 'config/colors';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../components/RoundBlueButton';
-import OneLineTextInput from '../components/OneLineTextInput';
+// import OneLineTextInput from '../components/OneLineTextInput';
+import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
@@ -32,7 +33,9 @@ class signUpScreen extends Component {
     state = {
         email: "",
         password: "",
+        phoneNumber: "",
         buttonSelected: "",
+        address: "",
         fieldsError: false,
         emailError: false,
         buttonError: false,
@@ -115,14 +118,15 @@ class signUpScreen extends Component {
             //View that dismisses the keyboard when clicked anywhere else
             <HelpView style={screenStyle.container}>
                 <View>
-                    <View style={{ flex: 0.25 }}></View>
+                    <View style={{ flex: 1 }}></View>
                     <View style={{ flex: 1.5, justifyContent: 'center', alignSelf: 'center' }}>
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                             <Text style={fontStyles.bigTextStyleBlack}>{strings.Email}</Text>
                         </View>
 
-                        <View style={{ flex: 1, justifyContent: 'center' }}>
-                            <OneLineTextInput
+                        <View style={{ flex: 0.5 }}></View>
+                        <View style={{ flex: 5, justifyContent: 'center' }}>
+                            <OneLineRoundedBoxInput
                                 placeholder={strings.EnterAnEmail}
                                 onChangeText={(input) => this.setState({ email: input })}
                                 value={this.state.email}
@@ -132,14 +136,16 @@ class signUpScreen extends Component {
                             />
                         </View>
                     </View>
-                    <View style={{ flex: 0.05 }}></View>
-                    <View style={{ flex: 1.2, justifyContent: 'center', alignSelf: 'center' }}>
+
+                    <View style={{ flex: 1 }}></View>
+                    <View style={{ flex: 1.5, justifyContent: 'center', alignSelf: 'center' }}>
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                             <Text style={fontStyles.bigTextStyleBlack}>{strings.Password}</Text>
                         </View>
 
-                        <View style={{ flex: 1, justifyContent: 'center' }}>
-                            <OneLineTextInput
+                        <View style={{ flex: 0.5 }}></View>
+                        <View style={{ flex: 5, justifyContent: 'center' }}>
+                            <OneLineRoundedBoxInput
                                 placeholder={strings.ChooseAPassword}
                                 onChangeText={(input) => this.setState({ password: input })}
                                 value={this.state.password}
@@ -148,7 +154,46 @@ class signUpScreen extends Component {
                             />
                         </View>
                     </View>
-                    <View style={{ flex: 0.35 }}></View>
+
+                    <View style={{ flex: 1 }}></View>
+                    <View style={{ flex: 1.5, justifyContent: 'center', alignSelf: 'center', opacity: this.state.buttonSelected === "Customer" ||  this.state.buttonSelected === "Business"?
+                                        100 : 0}}>
+                        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                            <Text style={fontStyles.bigTextStyleBlack}>{strings.PhoneNumber}</Text>
+                        </View>
+                        
+                    <View style={{ flex: 0.5 }}></View>
+                        <View style={{ flex: 5, justifyContent: 'center' }}>
+                            <OneLineRoundedBoxInput
+                                placeholder={this.state.buttonSelected === "Customer" ? strings.EnterPhoneNumberOptional: strings.EnterPhoneNumber}
+                                onChangeText={(input) => this.setState({ phoneNumber: input })}
+                                value={this.state.phoneNumber}
+                                password={false}
+                                autoCompleteType={'tel'}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={{ flex: 1 }}></View>
+                    <View style={{ flex: 1.5, justifyContent: 'center', alignSelf: 'center', opacity: this.state.buttonSelected === "Customer" ?
+                                        100 : 0}}>
+                        <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                            <Text style={fontStyles.bigTextStyleBlack}>{strings.Address}</Text>
+                        </View>
+
+                        <View style={{ flex: 0.5 }}></View>
+                        <View style={{ flex: 5, justifyContent: 'center'}}>
+                            <OneLineRoundedBoxInput
+                                placeholder={strings.EnterAddressOptional}
+                                onChangeText={(input) => this.setState({ address: input })}
+                                value={this.state.address}
+                                password={false}
+                                autoCompleteType={'street-address'}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={{ flex: 0.5 }}></View>
                     <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
                         <View>
                             <Text style={fontStyles.mainTextStyleBlack}>
@@ -198,7 +243,7 @@ class signUpScreen extends Component {
                                 disabled={this.state.isLoading} />
                         </View>
                     </View>
-                    <View style={{ flex: 0.5 }}></View>
+                    <View style={{ flex: 2 }}></View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
                         <CheckBox
                             onClick={() => { this.setState({ isChecked: !this.state.isChecked }) }}
@@ -215,8 +260,7 @@ class signUpScreen extends Component {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={{ flex: 0.5 }}></View>
-                    <View style={{ flex: 0.125 }}></View>
+                    <View style={{ flex: 2.5 }}></View>
                     <View style={{ flex: 1, justifyContent: 'flex-end', alignSelf: 'center' }}>
                         <RoundBlueButton
                             title={strings.SignUp}
