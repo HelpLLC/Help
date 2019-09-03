@@ -2,7 +2,7 @@
 //the FirstScreenNavigator which connects to the rest of the screens.
 import React, { Component } from 'react';
 import MainStackNavigator from './src/MainStackNavigator';
-import { YellowBox, View, PushNotificationIOS } from 'react-native';
+import { YellowBox, View } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import LoadingSpinner from './src/components/LoadingSpinner';
 import screenStyle from 'config/styles/screenStyle';
@@ -90,7 +90,6 @@ export default class App extends Component {
   }
 
   async componentWillUnmount() {
-    PushNotificationIOS.setApplicationIconBadgeNumber(0);
     await this.notificationListener();
     await this.notificationOpenedListener();
   }
