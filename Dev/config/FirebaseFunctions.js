@@ -201,7 +201,9 @@ export default class FirebaseFunctions {
 
         this.functions.httpsCallable('sendNewBusinessEmail')({
             businessName,
-            businessInfo
+            businessInfo,
+            businessEmail: email,
+            businessPhoneNumber: phoneNumber
         });
         //Logs the event in firebase analytics
         this.analytics.logEvent("provider_sign_up");
