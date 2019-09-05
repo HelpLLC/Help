@@ -141,7 +141,6 @@ class businessScreen extends Component {
                                     this.props.navigation.push('ProviderCreateProductScreen', {
                                         providerID: provider.providerID,
                                         provider,
-                                        providerProducts
                                     })
                                 }} />
                         </View>
@@ -196,7 +195,6 @@ class businessScreen extends Component {
                                 this.props.navigation.push('ProviderCreateProductScreen', {
                                     providerID: provider.providerID,
                                     provider,
-                                    providerProducts
                                 });
                             }} />
                     </View>
@@ -229,7 +227,7 @@ class businessScreen extends Component {
                                     key={index}
                                     serviceTitle={item.serviceTitle}
                                     serviceDescription={item.serviceDescription}
-                                    pricing={item.pricing}
+                                    price={item.pricing}
                                     imageFunction={async () => {
                                         //Passes in the function to retrieve the image of this product
                                         return await FirebaseFunctions.getImageByID(item.serviceID)

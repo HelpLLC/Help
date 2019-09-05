@@ -10,7 +10,7 @@ import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import HelpView from '../components/HelpView';
-import RoundTextInput from '../components/RoundTextInput';
+import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import ErrorAlert from '../components/ErrorAlert';
 import firebase from 'react-native-firebase';
@@ -123,7 +123,7 @@ class createProviderProfileScreen extends Component {
                                 {strings.WhatDoesYourBusinessDoQuestion}</Text>
                         </View>
                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>
-                            <RoundTextInput
+                            <MultiLineRoundedBoxInput
                                 width={(Dimensions.get('window').width * 0.669)}
                                 height={(Dimensions.get('window').height * 0.14641)}
                                 placeholder={strings.TellYourCustomersAboutYourselfDotDotDot}

@@ -39,7 +39,7 @@ class ServiceCard extends Component {
         //The props for the ServiceCard. It will take in a service title, a description, a price, and an
         //image to display, along with an onPress method. An additional prop is also how many current
         //requests this product currently has. This prop should only be used by the provider screens
-        const { serviceTitle, serviceDescription, pricing, onPress, numCurrentRequests, offeredBy,
+        const { serviceTitle, serviceDescription, price, onPress, numCurrentRequests, offeredBy,
             offeredByOnPress } = this.props;
 
         //Fetches the image and the isImageLoading from the state
@@ -107,7 +107,7 @@ class ServiceCard extends Component {
                                             </View>
                                         )
                                 }
-                                <Text style={fontStyles.mainTextStyleBlack}>{pricing}</Text>
+                                <Text style={fontStyles.mainTextStyleBlack}>{price}</Text>
                             </View>
                             <View style={{ flex: 0.05 }}></View>
                         </View>

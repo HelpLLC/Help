@@ -104,6 +104,14 @@ export default {
     HowMuchWillYouChargeDotDotDot: 'How much will you charge...',
     PleaseCompleteAllTheFields: 'Please complete all the fields',
     PleaseAddAnImage: 'Please add an image',
+    Per: 'Per',
+    Range: 'Range',
+    DollarSign: '$',
+    per: 'per',
+    Hour: 'e.g. Hr',
+    Min: 'Min',
+    Max: 'Max',
+    to: 'to',
 
     //------------------- Edit Company Profile Screen -------------------
     EditCompany: 'Edit Company',

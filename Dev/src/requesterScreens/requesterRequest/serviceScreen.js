@@ -158,9 +158,7 @@ class serviceScreen extends Component {
                             </View>
 
                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={fontStyles.bigTextStyleBlack}>
-                                    {product.pricing}
-                                </Text>
+                                <Text style={fontStyles.bigTextStyleBlack}>{product.pricing}</Text>
                             </View>
                         </View>
 

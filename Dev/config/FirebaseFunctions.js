@@ -247,8 +247,13 @@ export default class FirebaseFunctions {
     //This method will take information about a new product and add it to the firestore database. It will
     //first add it to the firestore containing products, then it will add the service IDs to the provider
     //products
-    static async addProductToDatabase(serviceTitle, serviceDescription, pricing, response, providerID, companyName) {
-        //Creates the product object
+    static async addProductToDatabase(serviceTitle, serviceDescription, price, response, providerID, companyName) {
+        //Creates the product object & the pricing text to be displayed to users
+        let pricing = price.priceType === 'per' ? (
+            '$' + price.price + ' ' + strings.per + ' ' + price.per
+        ) : (
+            '$' + price.min + ' ' + strings.to + ' $' + price.max
+        )
         let product = {
             serviceTitle,
             serviceDescription,
@@ -256,6 +261,7 @@ export default class FirebaseFunctions {
                 currentRequests: [],
                 completedRequests: [],
             },
+            price,
             pricing,
             offeredByID: providerID,
             offeredByName: companyName,
@@ -405,13 +411,20 @@ export default class FirebaseFunctions {
 
     //This method will update the information for a specific product by taking in all of the new
     //product information and updating those fields in firestore
-    static async updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, response) {
+    static async updateServiceInfo(productID, serviceTitle, serviceDescription, price, response) {
 
         const batch = this.database.batch();
         const ref = this.products.doc(productID);
+        //Creates the product object & the pricing text to be displayed to users
+        let pricing = price.priceType === 'per' ? (
+            '$' + price.price + ' ' + strings.per + ' ' + price.per
+        ) : (
+            '$' + price.min + ' ' + strings.to + ' $' + price.max
+        )
         batch.update(ref, {
             serviceTitle,
             serviceDescription,
+            price,
             pricing
         });
 
