@@ -9,7 +9,7 @@ import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonS
 import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import { BoxShadow } from 'react-native-shadow';
 import HelpView from '../../components/HelpView';
-import RoundTextInput from '../../components/RoundTextInput';
+import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
 import images from 'config/images/images';
 import ImagePicker from 'react-native-image-picker';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -302,7 +302,7 @@ class createProductScreen extends Component {
                                 {strings.ServiceDescription}</Text>
                         </View>
                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>
-                            <RoundTextInput
+                            <MultiLineRoundedBoxInput
                                 width={Dimensions.get('window').width - 40}
                                 height={(Dimensions.get('window').height * 0.14641)}
                                 placeholder={strings.EnterDescriptionForCustomersDotDotDot}

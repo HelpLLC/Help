@@ -2,7 +2,7 @@
 //The user will report it and the report will be visible to the developers
 import React, { Component } from 'react';
 import { View, Text, Keyboard, Dimensions } from 'react-native';
-import RoundTextInput from '../../components/RoundTextInput';
+import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import ErrorAlert from '../../components/ErrorAlert';
@@ -64,7 +64,7 @@ class reportIssueScreen extends Component {
                     </View>
                     <View style={{ flex: 0.5 }}></View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <RoundTextInput
+                        <MultiLineRoundedBoxInput
                             width={(Dimensions.get('window').width * 0.66909)}
                             height={(Dimensions.get('window').height * 0.29282577)}
                             placeholder={strings.DescribeYourIssueHereDotDotDot}

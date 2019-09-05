@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { View, Text, Keyboard, Dimensions } from 'react-native';
 import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import fontStyles from 'config/styles/fontStyles';
-import RoundTextInput from '../../components/RoundTextInput';
+import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import screenStyle from 'config/styles/screenStyle';
@@ -99,7 +99,7 @@ class editCompanyProfileScreen extends Component {
                                 {strings.EditDescription}</Text>
                         </View>
                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>
-                            <RoundTextInput
+                            <MultiLineRoundedBoxInput
                                 width={(Dimensions.get('window').width * 0.669)}
                                 height={(Dimensions.get('window').height * 0.14641)}
                                 placeholder={strings.TellYourCustomersAboutYourselfDotDotDot}

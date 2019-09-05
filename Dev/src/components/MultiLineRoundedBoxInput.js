@@ -5,7 +5,7 @@ import { View, TextInput, Dimensions } from 'react-native';
 import colors from 'config/colors';
 import PropTypes from 'prop-types';
 
-class RoundTextInput extends Component {
+class MultiLineRoundedBoxInput extends Component {
 
     render() {
         //The class will take in properties that are the value that the textinput will hold when it 
@@ -41,9 +41,9 @@ class RoundTextInput extends Component {
 
 }
 
-//These are the proptypes for the RoundTextInput componenet, showing which are required and
+//These are the proptypes for the MultiLineRoundedBoxInput componenet, showing which are required and
 //which are not
-RoundTextInput.propTypes = {
+MultiLineRoundedBoxInput.propTypes = {
     //A height & width is required for this component to render
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
@@ -53,4 +53,4 @@ RoundTextInput.propTypes = {
     maxLength: PropTypes.number
 }
 
-export default RoundTextInput;
+export default MultiLineRoundedBoxInput;
