@@ -8,7 +8,6 @@ import RNPickerSelect from 'react-native-picker-select';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import { BoxShadow } from 'react-native-shadow';
-import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import HelpView from '../../components/HelpView';
 import RoundTextInput from '../../components/RoundTextInput';
 import images from 'config/images/images';
@@ -238,7 +237,7 @@ class createProductScreen extends Component {
                             </View>
 
                             <View style={{ flex: 1, justifyContent: 'center' }}>
-                                <OneLineTextInput
+                                <OneLineRoundedBoxInput
                                     onChangeText={(input) => this.setState({ serviceTitle: input })}
                                     placeholder={strings.GiveItATitleDotDotDot}
                                     value={this.state.serviceTitle}

@@ -2,7 +2,7 @@
 //of the business and the description
 import React, { Component } from 'react';
 import { View, Text, Keyboard, Dimensions } from 'react-native';
-import OneLineTextInput from '../../components/OneLineTextInput';
+import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import fontStyles from 'config/styles/fontStyles';
 import RoundTextInput from '../../components/RoundTextInput';
 import RoundBlueButton from '../../components/RoundBlueButton';
@@ -83,7 +83,7 @@ class editCompanyProfileScreen extends Component {
                         </View>
 
                         <View style={{ flex: 1, justifyContent: 'center' }}>
-                            <OneLineTextInput
+                            <OneLineRoundedBoxInput
                                 placeholder={strings.EnterCompanyNameDotDotDot}
                                 onChangeText={(input) => this.setState({ businessName: input })}
                                 value={this.state.businessName}
