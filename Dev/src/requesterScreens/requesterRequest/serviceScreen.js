@@ -158,13 +158,7 @@ class serviceScreen extends Component {
                             </View>
 
                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={fontStyles.bigTextStyleBlack}>
-                                    {price.priceType === 'per' ? (
-                                        price.price + ' ' + strings.per + ' ' + price.per
-                                    ) : (
-                                            price.min + ' ' + strings.to + price.max
-                                        )}
-                                </Text>
+                                <Text style={fontStyles.bigTextStyleBlack}>{product.pricing}</Text>
                             </View>
                         </View>
 

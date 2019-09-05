@@ -54,7 +54,7 @@ export default class requestTab extends Component {
                                 key={index}
                                 serviceTitle={item.serviceTitle}
                                 offeredBy={item.offeredByName}
-                                price={item.price}
+                                price={item.pricing}
                                 imageFunction={async () => {
                                     //Passes in the function to retrieve the image of this product
                                     return await FirebaseFunctions.getImageByID(item.serviceID)

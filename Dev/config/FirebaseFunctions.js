@@ -248,7 +248,12 @@ export default class FirebaseFunctions {
     //first add it to the firestore containing products, then it will add the service IDs to the provider
     //products
     static async addProductToDatabase(serviceTitle, serviceDescription, price, response, providerID, companyName) {
-        //Creates the product object
+        //Creates the product object & the pricing text to be displayed to users
+        let pricing = price.priceType === 'per' ? (
+            price.price + ' ' + strings.per + ' ' + price.per
+        ) : (
+            price.min + ' ' + strings.to + ' ' + price.max
+        )
         let product = {
             serviceTitle,
             serviceDescription,
@@ -257,6 +262,7 @@ export default class FirebaseFunctions {
                 completedRequests: [],
             },
             price,
+            pricing,
             offeredByID: providerID,
             offeredByName: companyName,
             category: 'Cleaning'

@@ -107,11 +107,7 @@ class ServiceCard extends Component {
                                             </View>
                                         )
                                 }
-                                <Text style={fontStyles.mainTextStyleBlack}>{price.priceType === 'per' ? (
-                                    price.price + ' ' + strings.per + ' ' + price.per
-                                ) : (
-                                    price.min + ' ' + strings.to + price.max
-                                )}</Text>
+                                <Text style={fontStyles.mainTextStyleBlack}>{price}</Text>
                             </View>
                             <View style={{ flex: 0.05 }}></View>
                         </View>
@@ -144,7 +140,7 @@ ServiceCard.propTypes = {
     serviceDescription: PropTypes.string,
     offeredBy: PropTypes.string,
     offeredByOnPress: PropTypes.func,
-    price: PropTypes.string.isRequired,
+    pricing: PropTypes.string.isRequired,
     imageFunction: PropTypes.func.isRequired,
     onPress: PropTypes.func.isRequired,
 }

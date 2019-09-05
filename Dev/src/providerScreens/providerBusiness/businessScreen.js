@@ -229,7 +229,7 @@ class businessScreen extends Component {
                                     key={index}
                                     serviceTitle={item.serviceTitle}
                                     serviceDescription={item.serviceDescription}
-                                    price={item.price}
+                                    price={item.pricing}
                                     imageFunction={async () => {
                                         //Passes in the function to retrieve the image of this product
                                         return await FirebaseFunctions.getImageByID(item.serviceID)

@@ -244,7 +244,7 @@ class createProductScreen extends Component {
                                             <Text> </Text>
                                             <OneLineRoundedBoxInput
                                                 placeholder={''}
-                                                onChangeText={(input) => this.setState({ pricePer: input })}
+                                                onChangeText={(input) => this.setState({ pricePerNumber: input })}
                                                 value={this.state.pricePerNumber}
                                                 password={false}
                                                 keyboardType={'numeric'}
@@ -271,8 +271,8 @@ class createProductScreen extends Component {
                                                 <Text> </Text>
                                                 <OneLineRoundedBoxInput
                                                     placeholder={strings.Min}
-                                                    onChangeText={(input) => this.setState({ pricePer: input })}
-                                                    value={this.state.pricePerNumber}
+                                                    onChangeText={(input) => this.setState({ priceMin: input })}
+                                                    value={this.state.priceMin}
                                                     password={false}
                                                     keyboardType={'numeric'}
                                                     width={Dimensions.get('window').width * 0.2} />
@@ -287,8 +287,8 @@ class createProductScreen extends Component {
                                                 <Text> </Text>
                                                 <OneLineRoundedBoxInput
                                                     placeholder={strings.Max}
-                                                    onChangeText={(input) => this.setState({ pricePer: input })}
-                                                    value={this.state.pricePerNumber}
+                                                    onChangeText={(input) => this.setState({ priceMax: input })}
+                                                    value={this.state.priceMax}
                                                     password={false}
                                                     keyboardType={'numeric'}
                                                     width={Dimensions.get('window').width * 0.2} />
