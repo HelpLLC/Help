@@ -5,7 +5,9 @@ import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity, Keyboard, Image } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../../components/RoundBlueButton';
+import RNPickerSelect from 'react-native-picker-select';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import { BoxShadow } from 'react-native-shadow';
 import OneLineTextInput from '../../components/OneLineTextInput';
 import HelpView from '../../components/HelpView';
@@ -17,6 +19,7 @@ import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
+import { Icon } from 'react-native-elements';
 import colors from 'config/colors';
 
 class createProductScreen extends Component {
@@ -29,12 +32,16 @@ class createProductScreen extends Component {
     state = {
         serviceTitle: '',
         serviceDescription: '',
-        pricing: '',
         imageSource: images.BlankWhite,
         isLoading: false,
         isErrorVisible: false,
         fieldsError: false,
-        imageError: false
+        imageError: false,
+        priceType: 'per',
+        pricePerNumber: '',
+        pricePerText: '',
+        priceMin: '',
+        priceMax: ''
     }
 
     //Chooses the image from camera roll or picture and sets it to the image source
@@ -65,17 +72,28 @@ class createProductScreen extends Component {
 
         Keyboard.dismiss();
         //Retrieves the state of the input fields
-        const { serviceTitle, serviceDescription, pricing, imageSource, response } = this.state;
+        const { serviceTitle, serviceDescription, imageSource, response, priceType } = this.state;
         const { provider } = this.props.navigation.state.params;
 
         //If any of the fields are empty, a warning message will display
-        if (serviceTitle.trim() === "" || serviceDescription.trim() === "" || pricing.trim() == "") {
+        if (serviceTitle.trim() === "" || serviceDescription.trim() === "") {
             this.setState({ fieldsError: true });
         } else if (imageSource === images.BlankWhite) {
             this.setState({ imageError: true });
         } else {
             try {
-                this.setState({ isLoading: true });
+                this.setState({ isLoading: true });  
+                //Creates the pricing object
+                const pricing = {
+                    priceType
+                }
+                if (priceType === 'per') {
+                    pricing.price = this.state.pricePerNumber;
+                    pricing.per = this.state.pricePerText;
+                } else {
+                    pricing.min = this.state.priceMin;
+                    pricing.max = this.state.priceMax;
+                }
                 const { providerID } = this.props.navigation.state.params;
                 await FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, pricing, response, providerID, provider.companyName);
                 this.setState({ isLoading: false });
@@ -181,14 +199,103 @@ class createProductScreen extends Component {
                             <Text style={fontStyles.bigTextStyleBlack}>
                                 {strings.Pricing}</Text>
                         </View>
-                        <View style={{ flex: 1, justifyContent: 'center' }}>
-                            <OneLineTextInput
-                                onChangeText={(input) => this.setState({ pricing: input })}
-                                placeholder={strings.HowMuchWillYouChargeDotDotDot}
-                                value={this.state.pricing}
-                                password={false}
-                                width={Dimensions.get('window').width - 40}
-                                maxLength={50} />
+                        <View style={{ flex: 1.5, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={{ flex: 0.5 }}>
+                                <RNPickerSelect
+                                    onValueChange={(value) => this.setState({ priceType: value })}
+                                    items={[
+                                        { label: strings.Per, value: 'per' },
+                                        { label: strings.Range, value: 'range' },
+                                    ]}
+                                    value={this.state.priceType}
+                                    style={{
+                                        iconContainer: {
+                                            top: Dimensions.get('window').height * 0.014,
+                                            right: Dimensions.get('window').width * 0.11
+                                        },
+                                        inputIOS: {
+                                            borderWidth: 1,
+                                            borderColor: colors.lightBlue,
+                                            borderRadius: 20,
+                                            width: Dimensions.get('window').width * 0.2,
+                                            height: Dimensions.get('window').height * 0.05,
+                                            paddingLeft: Dimensions.get('window').height * 0.01
+                                        },
+                                        inputAndroid: {
+                                            borderWidth: 1,
+                                            borderColor: colors.lightBlue,
+                                            borderRadius: 20,
+                                            width: Dimensions.get('window').width * 0.2,
+                                            height: Dimensions.get('window').height * 0.05,
+                                            paddingLeft: Dimensions.get('window').height * 0.01
+                                        }
+                                    }}
+                                    Icon={() =>
+                                        <Icon type='font-awesome' name='arrow-down' color={colors.lightBlue} size={20} />
+                                    } />
+                            </View>
+                            {
+                                this.state.priceType === 'per' ? (
+                                    <View style={{ flex: 1, flexDirection: 'row' }}>
+                                        <View style={{ flex: 1.4, flexDirection: 'row', justifyContent: 'flex-start' }}>
+                                            <Text style={[fontStyles.mainTextStyleBlack, {
+                                                alignSelf: 'center'
+                                            }]}>{strings.DollarSign}</Text>
+                                            <Text> </Text>
+                                            <OneLineRoundedBoxInput
+                                                placeholder={''}
+                                                onChangeText={(input) => this.setState({ pricePer: input })}
+                                                value={this.state.pricePerNumber}
+                                                password={false}
+                                                keyboardType={'numeric'}
+                                                width={Dimensions.get('window').width * 0.2} />
+                                        </View>
+                                        <View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
+                                            <Text style={fontStyles.mainTextStyleBlack}>{strings.per}</Text>
+                                        </View>
+                                        <View style={{ flex: 1.4, alignItems: 'flex-start' }}>
+                                            <OneLineRoundedBoxInput
+                                                placeholder={strings.Hour}
+                                                onChangeText={(input) => this.setState({ pricePerText: input })}
+                                                value={this.state.pricePerText}
+                                                password={false}
+                                                width={Dimensions.get('window').width * 0.2} />
+                                        </View>
+                                    </View>
+                                ) : (
+                                        <View style={{ flex: 1, flexDirection: 'row' }}>
+                                            <View style={{ flex: 1.4, flexDirection: 'row', justifyContent: 'flex-start' }}>
+                                                <Text style={[fontStyles.mainTextStyleBlack, {
+                                                    alignSelf: 'center'
+                                                }]}>{strings.DollarSign}</Text>
+                                                <Text> </Text>
+                                                <OneLineRoundedBoxInput
+                                                    placeholder={strings.Min}
+                                                    onChangeText={(input) => this.setState({ pricePer: input })}
+                                                    value={this.state.pricePerNumber}
+                                                    password={false}
+                                                    keyboardType={'numeric'}
+                                                    width={Dimensions.get('window').width * 0.2} />
+                                            </View>
+                                            <View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
+                                                <Text style={fontStyles.mainTextStyleBlack}>{strings.to}</Text>
+                                            </View>
+                                            <View style={{ flex: 1.4, flexDirection: 'row', alignItems: 'flex-start' }}>
+                                                <Text style={[fontStyles.mainTextStyleBlack, {
+                                                    alignSelf: 'center'
+                                                }]}>{strings.DollarSign}</Text>
+                                                <Text> </Text>
+                                                <OneLineRoundedBoxInput
+                                                    placeholder={strings.Max}
+                                                    onChangeText={(input) => this.setState({ pricePer: input })}
+                                                    value={this.state.pricePerNumber}
+                                                    password={false}
+                                                    keyboardType={'numeric'}
+                                                    width={Dimensions.get('window').width * 0.2} />
+                                            </View>
+                                        </View>
+                                    )
+                            }
                         </View>
                     </View>
                     <View style={{ flex: 0.25 }}></View>
@@ -232,7 +339,7 @@ class createProductScreen extends Component {
                     title={strings.Whoops}
                     message={strings.PleaseAddAnImage}
                 />
-            </HelpView>
+            </HelpView >
         )
     }
 }
