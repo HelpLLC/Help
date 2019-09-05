@@ -22,7 +22,9 @@ class MultiLineRoundedBoxInput extends Component {
                 justifyContent: 'center',
                 height: height,
                 width: width,
-                borderRadius: (Dimensions.get('window').height * 0.0292825769)
+                borderRadius: (Dimensions.get('window').height * 0.0292825769),
+                borderWidth: 3,
+                borderColor: colors.lightBlue,
             }} >
                 <TextInput
                     style={{ height: (height - 5), width: (width - 15) }}
