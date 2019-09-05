@@ -247,7 +247,7 @@ export default class FirebaseFunctions {
     //This method will take information about a new product and add it to the firestore database. It will
     //first add it to the firestore containing products, then it will add the service IDs to the provider
     //products
-    static async addProductToDatabase(serviceTitle, serviceDescription, pricing, response, providerID, companyName) {
+    static async addProductToDatabase(serviceTitle, serviceDescription, price, response, providerID, companyName) {
         //Creates the product object
         let product = {
             serviceTitle,
@@ -256,7 +256,7 @@ export default class FirebaseFunctions {
                 currentRequests: [],
                 completedRequests: [],
             },
-            pricing,
+            price,
             offeredByID: providerID,
             offeredByName: companyName,
             category: 'Cleaning'
@@ -405,14 +405,14 @@ export default class FirebaseFunctions {
 
     //This method will update the information for a specific product by taking in all of the new
     //product information and updating those fields in firestore
-    static async updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, response) {
+    static async updateServiceInfo(productID, serviceTitle, serviceDescription, price, response) {
 
         const batch = this.database.batch();
         const ref = this.products.doc(productID);
         batch.update(ref, {
             serviceTitle,
             serviceDescription,
-            pricing
+            price
         });
 
         //Removes the old image and then uploads the new one if the image has been changed

@@ -29,7 +29,7 @@ class editProductScreen extends Component {
         serviceTitle: this.props.navigation.state.params.product.serviceTitle,
         serviceID: this.props.navigation.state.params.productID,
         serviceDescription: this.props.navigation.state.params.product.serviceDescription,
-        pricing: this.props.navigation.state.params.product.pricing,
+        price: this.props.navigation.state.params.product.price,
         fieldsError: false,
         isLoading: false,
         isErrorVisible: false
@@ -62,15 +62,15 @@ class editProductScreen extends Component {
     async saveProduct() {
         Keyboard.dismiss();
         //Retrieves the state of the input fields
-        const { serviceTitle, serviceDescription, pricing, imageSource, response } = this.state;
+        const { serviceTitle, serviceDescription, price, imageSource, response } = this.state;
         const { product, productID, providerID } = this.props.navigation.state.params;
 
         //Tests if any fields have been changed... if not, then it will just return to the last screen
-        if (serviceTitle.trim() === "" || serviceDescription.trim() === "" || pricing.trim() == "") {
+        if (serviceTitle.trim() === "" || serviceDescription.trim() === "" || price.trim() == "") {
             this.setState({ fieldsError: true });
         } else if (serviceTitle === product.serviceTitle &&
             serviceDescription === product.serviceDescription &&
-            pricing === product.pricing &&
+            price === product.price &&
             (!this.state.response)) {
             this.props.navigation.goBack();
         } else {
@@ -80,9 +80,9 @@ class editProductScreen extends Component {
                 //Updates the correct product corresponding with the correct user
                 this.setState({ isLoading: true });
                 if (!this.state.response) {
-                    await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, null);
+                    await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, price, null);
                 } else {
-                    await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, pricing, response);
+                    await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, price, response);
                 }
 
                 this.setState({ isLoading: false });
@@ -205,8 +205,8 @@ class editProductScreen extends Component {
                         </View>
                         <View style={{ flex: 1, justifyContent: 'center' }}>
                             <OneLineTextInput
-                                onChangeText={(input) => this.setState({ pricing: input })}
-                                value={this.state.pricing}
+                                onChangeText={(input) => this.setState({ price: input })}
+                                value={this.state.price}
                                 width={Dimensions.get('window').width - 40}
                                 password={false}
                                 maxLength={50} />

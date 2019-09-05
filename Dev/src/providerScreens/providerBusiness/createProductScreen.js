@@ -83,19 +83,19 @@ class createProductScreen extends Component {
         } else {
             try {
                 this.setState({ isLoading: true });  
-                //Creates the pricing object
-                const pricing = {
+                //Creates the price object
+                const price = {
                     priceType
                 }
                 if (priceType === 'per') {
-                    pricing.price = this.state.pricePerNumber;
-                    pricing.per = this.state.pricePerText;
+                    price.price = this.state.pricePerNumber;
+                    price.per = this.state.pricePerText;
                 } else {
-                    pricing.min = this.state.priceMin;
-                    pricing.max = this.state.priceMax;
+                    price.min = this.state.priceMin;
+                    price.max = this.state.priceMax;
                 }
                 const { providerID } = this.props.navigation.state.params;
-                await FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, pricing, response, providerID, provider.companyName);
+                await FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, price, response, providerID, provider.companyName);
                 this.setState({ isLoading: false });
                 this.props.navigation.push("ProviderScreens", {
                     providerID: provider.providerID
