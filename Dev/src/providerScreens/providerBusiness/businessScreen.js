@@ -141,7 +141,6 @@ class businessScreen extends Component {
                                     this.props.navigation.push('ProviderCreateProductScreen', {
                                         providerID: provider.providerID,
                                         provider,
-                                        providerProducts
                                     })
                                 }} />
                         </View>
@@ -196,7 +195,6 @@ class businessScreen extends Component {
                                 this.props.navigation.push('ProviderCreateProductScreen', {
                                     providerID: provider.providerID,
                                     provider,
-                                    providerProducts
                                 });
                             }} />
                     </View>

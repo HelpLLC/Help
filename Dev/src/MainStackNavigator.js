@@ -4,7 +4,6 @@ import FirstScreensNavigator from './firstScreens/FirstScreensNavigator';
 import ProviderCreateProductScreen from './providerScreens/providerBusiness/createProductScreen';
 import ProviderEditCompanyProfileScreen from './providerScreens/providerBusiness/editCompanyProfileScreen';
 import ProviderProductScreen from './providerScreens/providerBusiness/productScreen';
-import ProviderEditProductScreen from './providerScreens/providerBusiness/editProductScreen';
 import ProviderProductHistoryScreen from './providerScreens/providerBusiness/productHistoryScreen';
 import RequesterServiceScreen from './requesterScreens/requesterRequest/serviceScreen';
 import RequesterCompanyProfileScreen from './requesterScreens/requesterRequest/companyProfileScreen';

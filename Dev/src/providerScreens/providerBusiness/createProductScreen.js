@@ -1,6 +1,5 @@
-//This will be the screen where the user will create a new product. It will be accessed either by
-//clicking the plus sign, or clicking create on the business's first product. It will allow the user
-//to give the product a picture from their camera roll, and a name and a description and a price
+//This screen will be the product editing screen where the business will either create a new product
+//or edit an old one, depending on where the screen will be accessed from
 import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity, Keyboard, Image } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
@@ -9,7 +8,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import { BoxShadow } from 'react-native-shadow';
-import OneLineTextInput from '../../components/OneLineTextInput';
+import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import HelpView from '../../components/HelpView';
 import RoundTextInput from '../../components/RoundTextInput';
 import images from 'config/images/images';
@@ -19,21 +18,18 @@ import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
+import ImageWithBorder from '../../components/ImageWithBorder';
 import { Icon } from 'react-native-elements';
 import colors from 'config/colors';
 
 class createProductScreen extends Component {
-
-    componentDidMount() {
-        FirebaseFunctions.setCurrentScreen("CreateProductScreen", "createProductScreen");
-    }
 
     //The state which will keep track of what the user has entered for the product information
     state = {
         serviceTitle: '',
         serviceDescription: '',
         imageSource: images.BlankWhite,
-        isLoading: false,
+        isLoading: true,
         isErrorVisible: false,
         fieldsError: false,
         imageError: false,
@@ -42,6 +38,49 @@ class createProductScreen extends Component {
         pricePerText: '',
         priceMin: '',
         priceMax: ''
+    }
+
+    //This componentWillMount method will decide, based on the params that are passed in, whether
+    //this screen is going to edit a product or create a new one.
+    async componentDidMount() {
+
+        if (this.props.navigation.state.params && this.props.navigation.state.params.product) {
+
+            FirebaseFunctions.setCurrentScreen("EditProductScreen", "editProductScreen");
+
+            //This means that this screen is an editing screen
+            const { product, productID } = this.props.navigation.state.params;
+            this.setState({
+                serviceTitle: product.serviceTitle,
+                serviceID: productID,
+                serviceDescription: product.serviceDescription,
+                priceType: product.price.priceType,
+                isLoading: true
+            });
+
+            //Sets the correct price type
+            if (this.state.priceType === 'per') {
+                this.setState({
+                    pricePerNumber: product.price.price,
+                    pricePerText: product.price.per,
+                    isLoading: false
+                });
+            } else {
+                this.setState({
+                    priceMin: product.price.min,
+                    priceMax: product.price.max,
+                    isLoading: false
+                });
+            }
+
+        } else {
+
+            FirebaseFunctions.setCurrentScreen("CreateProductScreen", "createProductScreen");
+            //This means that this screen is going to create a new product
+            this.setState({ isLoading: false });
+
+        }
+
     }
 
     //Chooses the image from camera roll or picture and sets it to the image source
@@ -76,13 +115,15 @@ class createProductScreen extends Component {
         const { provider } = this.props.navigation.state.params;
 
         //If any of the fields are empty, a warning message will display
-        if (serviceTitle.trim() === "" || serviceDescription.trim() === "") {
+        if (serviceTitle.trim() === "" || serviceDescription.trim() === "" ||
+            (priceType === 'per' && (this.state.pricePerNumber === '' || this.state.pricePerText.trim() === "")) ||
+            (priceType === 'range' && (this.state.priceMax === '' || this.state.priceMin === ''))) {
             this.setState({ fieldsError: true });
         } else if (imageSource === images.BlankWhite) {
             this.setState({ imageError: true });
         } else {
             try {
-                this.setState({ isLoading: true });  
+                this.setState({ isLoading: true });
                 //Creates the price object
                 const price = {
                     priceType
@@ -111,7 +152,74 @@ class createProductScreen extends Component {
         }
     }
 
+    //Saves the product if any fields have been changed
+    async saveProduct() {
+        Keyboard.dismiss();
+        //Retrieves the state of the input fields
+        const { serviceTitle, serviceDescription, priceType, imageSource, response } = this.state;
+        const { product, productID, providerID } = this.props.navigation.state.params;
+
+        //Tests if any fields have been changed... if not, then it will just return to the last screen
+        if (serviceTitle.trim() === "" || serviceDescription.trim() === "" ||
+            (priceType === 'per' && (this.state.pricePerNumber === '' || this.state.pricePerText.trim() === "")) ||
+            (priceType === 'range' && (this.state.priceMax === '' || this.state.priceMin === ''))) {
+            this.setState({ fieldsError: true });
+        } else if (serviceTitle === product.serviceTitle &&
+            serviceDescription === product.serviceDescription &&
+            price === product.price &&
+            (!this.state.response)) {
+            this.props.navigation.goBack();
+        } else {
+
+            try {
+
+                //Updates the correct product corresponding with the correct user
+                this.setState({ isLoading: true });
+
+                //Creates the price object
+                const price = {
+                    priceType
+                }
+                if (priceType === 'per') {
+                    price.price = this.state.pricePerNumber;
+                    price.per = this.state.pricePerText;
+                } else {
+                    price.min = this.state.priceMin;
+                    price.max = this.state.priceMax;
+                }
+
+                if (!this.state.response) {
+                    await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, price, null);
+                } else {
+                    await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, price, response);
+                }
+
+                this.setState({ isLoading: false });
+                this.props.navigation.push("ProviderScreens", {
+                    providerID
+                });
+            } catch (error) {
+                this.setState({ isLoading: false, isErrorVisible: true });
+                FirebaseFunctions.logIssue(error, {
+                    screen: 'EditProductScreen',
+                    userID: 'p-' + providerID,
+                    productID: productID
+                });
+            }
+
+        }
+    }
+
     render() {
+
+        if (this.state.isLoading === true) {
+            return (
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <LoadingSpinner isVisible={true} />
+                </View>
+            )
+        }
+
         return (
             <HelpView style={screenStyle.container}>
                 <View>
@@ -142,26 +250,37 @@ class createProductScreen extends Component {
 
                         <View style={{ flexDirection: 'column', alignItems: 'center' }}>
                             <View style={{ justifyContent: 'flex-start' }}>
-                                <BoxShadow setting={{
-                                    width: (Dimensions.get('window').width * 0.25),
-                                    height: (Dimensions.get('window').width * 0.25),
-                                    color: colors.gray,
-                                    border: 10,
-                                    radius: (Dimensions.get('window').width * 0.25) / 2,
-                                    opacity: 0.2,
-                                    x: 0,
-                                    y: 5
-                                }}>
-                                    <Image
-                                        source={this.state.imageSource}
-                                        style={{
-                                            width: Dimensions.get('window').width * 0.25,
-                                            height: (Dimensions.get('window').width * 0.25),
-                                            borderColor: colors.lightBlue,
-                                            borderWidth: (Dimensions.get('window').width * 0.25) / 17,
-                                            borderRadius: (Dimensions.get('window').width * 0.25) / 2
-                                        }} />
-                                </BoxShadow>
+                                {this.state.imageSource === images.BlankWhite ? (
+                                    <BoxShadow setting={{
+                                        width: (Dimensions.get('window').width * 0.25),
+                                        height: (Dimensions.get('window').width * 0.25),
+                                        color: colors.gray,
+                                        border: 10,
+                                        radius: (Dimensions.get('window').width * 0.25) / 2,
+                                        opacity: 0.2,
+                                        x: 0,
+                                        y: 5
+                                    }}>
+                                        <Image
+                                            source={this.state.imageSource}
+                                            style={{
+                                                width: Dimensions.get('window').width * 0.25,
+                                                height: (Dimensions.get('window').width * 0.25),
+                                                borderColor: colors.lightBlue,
+                                                borderWidth: (Dimensions.get('window').width * 0.25) / 17,
+                                                borderRadius: (Dimensions.get('window').width * 0.25) / 2
+                                            }} />
+                                    </BoxShadow>
+                                ) : (
+                                        <ImageWithBorder
+                                            width={Dimensions.get('window').width * 0.25}
+                                            height={Dimensions.get('window').width * 0.25}
+                                            imageFunction={async () => {
+                                                //Passes in the function to retrieve the image of this product
+                                                return await FirebaseFunctions.getImageByID(this.state.serviceID)
+                                            }} />
+                                    )}
+
                             </View>
                             <Text> </Text>
                             <View style={{ justifyContent: 'flex-end' }}>

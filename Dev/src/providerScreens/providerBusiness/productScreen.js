@@ -131,7 +131,7 @@ class productScreen extends Component {
 
                                 <TouchableOpacity
                                     onPress={() => {
-                                        this.props.navigation.push('ProviderEditProductScreen', {
+                                        this.props.navigation.push('ProviderCreateProductScreen', {
                                             product,
                                             productID,
                                             providerID
