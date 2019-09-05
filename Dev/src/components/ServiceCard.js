@@ -107,7 +107,11 @@ class ServiceCard extends Component {
                                             </View>
                                         )
                                 }
-                                <Text style={fontStyles.mainTextStyleBlack}>{pricing}</Text>
+                                <Text style={fontStyles.mainTextStyleBlack}>{pricing.priceType === 'per' ? (
+                                    pricing.price + ' ' + strings.per + ' ' + pricing.per
+                                ) : (
+                                    pricing.min + ' ' + strings.to + pricing.max
+                                )}</Text>
                             </View>
                             <View style={{ flex: 0.05 }}></View>
                         </View>

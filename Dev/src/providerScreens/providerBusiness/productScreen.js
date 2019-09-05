@@ -177,7 +177,11 @@ class productScreen extends Component {
 
                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                 <Text style={fontStyles.bigTextStyleBlack}>
-                                    {product.pricing}
+                                    {pricing.priceType === 'per' ? (
+                                        pricing.price + ' ' + strings.per + ' ' + pricing.per
+                                    ) : (
+                                            pricing.min + ' ' + strings.to + pricing.max
+                                        )}
                                 </Text>
                             </View>
                         </View>
