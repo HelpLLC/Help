@@ -250,9 +250,9 @@ export default class FirebaseFunctions {
     static async addProductToDatabase(serviceTitle, serviceDescription, price, response, providerID, companyName) {
         //Creates the product object & the pricing text to be displayed to users
         let pricing = price.priceType === 'per' ? (
-            price.price + ' ' + strings.per + ' ' + price.per
+            '$' + price.price + ' ' + strings.per + ' ' + price.per
         ) : (
-            price.min + ' ' + strings.to + ' ' + price.max
+            '$' + price.min + ' ' + strings.to + ' $' + price.max
         )
         let product = {
             serviceTitle,
@@ -415,10 +415,17 @@ export default class FirebaseFunctions {
 
         const batch = this.database.batch();
         const ref = this.products.doc(productID);
+        //Creates the product object & the pricing text to be displayed to users
+        let pricing = price.priceType === 'per' ? (
+            '$' + price.price + ' ' + strings.per + ' ' + price.per
+        ) : (
+            '$' + price.min + ' ' + strings.to + ' $' + price.max
+        )
         batch.update(ref, {
             serviceTitle,
             serviceDescription,
-            price
+            price,
+            pricing
         });
 
         //Removes the old image and then uploads the new one if the image has been changed

@@ -23,20 +23,8 @@ import colors from 'config/colors';
 
 class createProductScreen extends Component {
 
-    //The state which will keep track of what the user has entered for the product information
     state = {
-        serviceTitle: '',
-        serviceDescription: '',
-        imageSource: images.BlankWhite,
-        isLoading: true,
-        isErrorVisible: false,
-        fieldsError: false,
-        imageError: false,
-        priceType: 'per',
-        pricePerNumber: '',
-        pricePerText: '',
-        priceMin: '',
-        priceMax: ''
+        isScreenLoading: true
     }
 
     //This componentWillMount method will decide, based on the params that are passed in, whether
@@ -49,26 +37,36 @@ class createProductScreen extends Component {
 
             //This means that this screen is an editing screen
             const { product, productID } = this.props.navigation.state.params;
+
             this.setState({
                 serviceTitle: product.serviceTitle,
                 serviceID: productID,
                 serviceDescription: product.serviceDescription,
+                imageSource: images.BlankWhite,
+                isLoading: false,
+                isScreenLoading: true,
+                isErrorVisible: false,
+                fieldsError: false,
+                imageError: false,
                 priceType: product.price.priceType,
-                isLoading: true
+                pricePerNumber: '',
+                pricePerText: '',
+                priceMin: '',
+                priceMax: ''
             });
 
             //Sets the correct price type
             if (this.state.priceType === 'per') {
                 this.setState({
-                    pricePerNumber: product.price.price,
+                    pricePerNumber: product.price.price + '',
                     pricePerText: product.price.per,
-                    isLoading: false
+                    isScreenLoading: false
                 });
             } else {
                 this.setState({
-                    priceMin: product.price.min,
-                    priceMax: product.price.max,
-                    isLoading: false
+                    priceMin: product.price.min + '',
+                    priceMax: product.price.max + '',
+                    isScreenLoading: false
                 });
             }
 
@@ -76,7 +74,21 @@ class createProductScreen extends Component {
 
             FirebaseFunctions.setCurrentScreen("CreateProductScreen", "createProductScreen");
             //This means that this screen is going to create a new product
-            this.setState({ isLoading: false });
+            this.setState({
+                serviceTitle: '',
+                serviceDescription: '',
+                imageSource: images.BlankWhite,
+                isLoading: false,
+                isScreenLoading: false,
+                isErrorVisible: false,
+                fieldsError: false,
+                imageError: false,
+                priceType: 'per',
+                pricePerNumber: '',
+                pricePerText: '',
+                priceMin: '',
+                priceMax: ''
+            });
 
         }
 
@@ -128,11 +140,11 @@ class createProductScreen extends Component {
                     priceType
                 }
                 if (priceType === 'per') {
-                    price.price = this.state.pricePerNumber;
+                    price.price = parseFloat(this.state.pricePerNumber);
                     price.per = this.state.pricePerText;
                 } else {
-                    price.min = this.state.priceMin;
-                    price.max = this.state.priceMax;
+                    price.min = parseFloat(this.state.priceMin);
+                    price.max = priceFloat(this.state.priceMax);
                 }
                 const { providerID } = this.props.navigation.state.params;
                 await FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, price, response, providerID, provider.companyName);
@@ -156,18 +168,12 @@ class createProductScreen extends Component {
         Keyboard.dismiss();
         //Retrieves the state of the input fields
         const { serviceTitle, serviceDescription, priceType, imageSource, response } = this.state;
-        const { product, productID, providerID } = this.props.navigation.state.params;
+        const { productID, providerID } = this.props.navigation.state.params;
 
-        //Tests if any fields have been changed... if not, then it will just return to the last screen
         if (serviceTitle.trim() === "" || serviceDescription.trim() === "" ||
             (priceType === 'per' && (this.state.pricePerNumber === '' || this.state.pricePerText.trim() === "")) ||
             (priceType === 'range' && (this.state.priceMax === '' || this.state.priceMin === ''))) {
             this.setState({ fieldsError: true });
-        } else if (serviceTitle === product.serviceTitle &&
-            serviceDescription === product.serviceDescription &&
-            price === product.price &&
-            (!this.state.response)) {
-            this.props.navigation.goBack();
         } else {
 
             try {
@@ -180,11 +186,11 @@ class createProductScreen extends Component {
                     priceType
                 }
                 if (priceType === 'per') {
-                    price.price = this.state.pricePerNumber;
+                    price.price = parseFloat(this.state.pricePerNumber);
                     price.per = this.state.pricePerText;
                 } else {
-                    price.min = this.state.priceMin;
-                    price.max = this.state.priceMax;
+                    price.min = parseFloat(this.state.priceMin);
+                    price.max = parseFloat(this.state.priceMax);
                 }
 
                 if (!this.state.response) {
@@ -211,7 +217,7 @@ class createProductScreen extends Component {
 
     render() {
 
-        if (this.state.isLoading === true) {
+        if (this.state.isScreenLoading === true) {
             return (
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                     <LoadingSpinner isVisible={true} />
@@ -249,35 +255,35 @@ class createProductScreen extends Component {
 
                         <View style={{ flexDirection: 'column', alignItems: 'center' }}>
                             <View style={{ justifyContent: 'flex-start' }}>
-                                {this.state.imageSource === images.BlankWhite ? (
-                                    <BoxShadow setting={{
-                                        width: (Dimensions.get('window').width * 0.25),
-                                        height: (Dimensions.get('window').width * 0.25),
-                                        color: colors.gray,
-                                        border: 10,
-                                        radius: (Dimensions.get('window').width * 0.25) / 2,
-                                        opacity: 0.2,
-                                        x: 0,
-                                        y: 5
-                                    }}>
-                                        <Image
-                                            source={this.state.imageSource}
-                                            style={{
-                                                width: Dimensions.get('window').width * 0.25,
-                                                height: (Dimensions.get('window').width * 0.25),
-                                                borderColor: colors.lightBlue,
-                                                borderWidth: (Dimensions.get('window').width * 0.25) / 17,
-                                                borderRadius: (Dimensions.get('window').width * 0.25) / 2
-                                            }} />
-                                    </BoxShadow>
+                                {this.state.serviceID ? (
+                                    <ImageWithBorder
+                                        width={Dimensions.get('window').width * 0.25}
+                                        height={Dimensions.get('window').width * 0.25}
+                                        imageFunction={async () => {
+                                            //Passes in the function to retrieve the image of this product
+                                            return await FirebaseFunctions.getImageByID(this.state.serviceID)
+                                        }} />
                                 ) : (
-                                        <ImageWithBorder
-                                            width={Dimensions.get('window').width * 0.25}
-                                            height={Dimensions.get('window').width * 0.25}
-                                            imageFunction={async () => {
-                                                //Passes in the function to retrieve the image of this product
-                                                return await FirebaseFunctions.getImageByID(this.state.serviceID)
-                                            }} />
+                                        <BoxShadow setting={{
+                                            width: (Dimensions.get('window').width * 0.25),
+                                            height: (Dimensions.get('window').width * 0.25),
+                                            color: colors.gray,
+                                            border: 10,
+                                            radius: (Dimensions.get('window').width * 0.25) / 2,
+                                            opacity: 0.2,
+                                            x: 0,
+                                            y: 5
+                                        }}>
+                                            <Image
+                                                source={this.state.imageSource}
+                                                style={{
+                                                    width: Dimensions.get('window').width * 0.25,
+                                                    height: (Dimensions.get('window').width * 0.25),
+                                                    borderColor: colors.lightBlue,
+                                                    borderWidth: (Dimensions.get('window').width * 0.25) / 17,
+                                                    borderRadius: (Dimensions.get('window').width * 0.25) / 2
+                                                }} />
+                                        </BoxShadow>
                                     )}
 
                             </View>
@@ -311,7 +317,7 @@ class createProductScreen extends Component {
                                 maxLength={240} />
                         </View>
                     </View>
-                    <View style={{ flex: 0.25 }}></View>
+                    <View style={{ flex: 0.5 }}></View>
                     <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                             <Text style={fontStyles.bigTextStyleBlack}>
@@ -355,10 +361,8 @@ class createProductScreen extends Component {
                             {
                                 this.state.priceType === 'per' ? (
                                     <View style={{ flex: 1, flexDirection: 'row' }}>
-                                        <View style={{ flex: 1.4, flexDirection: 'row', justifyContent: 'flex-start' }}>
-                                            <Text style={[fontStyles.mainTextStyleBlack, {
-                                                alignSelf: 'center'
-                                            }]}>{strings.DollarSign}</Text>
+                                        <View style={{ flex: 1.4, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                                            <Text style={fontStyles.mainTextStyleBlack}>{strings.DollarSign}</Text>
                                             <Text> </Text>
                                             <OneLineRoundedBoxInput
                                                 placeholder={''}
@@ -371,7 +375,7 @@ class createProductScreen extends Component {
                                         <View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
                                             <Text style={fontStyles.mainTextStyleBlack}>{strings.per}</Text>
                                         </View>
-                                        <View style={{ flex: 1.4, alignItems: 'flex-start' }}>
+                                        <View style={{ flex: 1.4, alignItems: 'flex-start', justifyContent: 'center' }}>
                                             <OneLineRoundedBoxInput
                                                 placeholder={strings.Hour}
                                                 onChangeText={(input) => this.setState({ pricePerText: input })}
@@ -382,10 +386,8 @@ class createProductScreen extends Component {
                                     </View>
                                 ) : (
                                         <View style={{ flex: 1, flexDirection: 'row' }}>
-                                            <View style={{ flex: 1.4, flexDirection: 'row', justifyContent: 'flex-start' }}>
-                                                <Text style={[fontStyles.mainTextStyleBlack, {
-                                                    alignSelf: 'center'
-                                                }]}>{strings.DollarSign}</Text>
+                                            <View style={{ flex: 1.4, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                                                <Text style={fontStyles.mainTextStyleBlack}>{strings.DollarSign}</Text>
                                                 <Text> </Text>
                                                 <OneLineRoundedBoxInput
                                                     placeholder={strings.Min}
@@ -398,10 +400,8 @@ class createProductScreen extends Component {
                                             <View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
                                                 <Text style={fontStyles.mainTextStyleBlack}>{strings.to}</Text>
                                             </View>
-                                            <View style={{ flex: 1.4, flexDirection: 'row', alignItems: 'flex-start' }}>
-                                                <Text style={[fontStyles.mainTextStyleBlack, {
-                                                    alignSelf: 'center'
-                                                }]}>{strings.DollarSign}</Text>
+                                            <View style={{ flex: 1.4, flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={fontStyles.mainTextStyleBlack}>{strings.DollarSign}</Text>
                                                 <Text> </Text>
                                                 <OneLineRoundedBoxInput
                                                     placeholder={strings.Max}
@@ -422,11 +422,15 @@ class createProductScreen extends Component {
                         <View style={{ flex: 1 }}>
                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
                                 <RoundBlueButton
-                                    title={strings.Create}
+                                    title={this.state.serviceID ? strings.Done : strings.Create}
                                     style={roundBlueButtonStyle.MediumSizeButton}
                                     textStyle={fontStyles.bigTextStyleWhite}
                                     onPress={async () => {
-                                        await this.createProduct();
+                                        if (this.state.serviceID) {
+                                            await this.saveProduct();
+                                        } else {
+                                            await this.createProduct();
+                                        }
                                     }}
                                     disabled={this.state.isLoading} />
                             </View>

@@ -85,20 +85,6 @@ const routeConfig = {
         })
     },
 
-    //The route going to the edit product screen
-    ProviderEditProductScreen: {
-        screen: ProviderEditProductScreen,
-        navigationOptions: ({ navigation }) => ({
-            header: (
-                <TopBanner
-                    title={strings.EditService}
-                    leftIconName="angle-left"
-                    leftOnPress={() => navigation.goBack()} />
-            )
-        }),
-        gesturesEnabled: false,
-    },
-
     //The route going to the product history screen
     ProviderProductHistoryScreen: {
         screen: ProviderProductHistoryScreen,
