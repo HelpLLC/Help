@@ -53,6 +53,7 @@ export default {
     TermsAndConditions: 'Terms and Conditions',
     CheckTermsAndConditions: 'You must accept the terms and conditions to use Help',
     BusinessPhoneNumberError: 'All businesses are required to enter their phone numbers',
+    InvalidPhoneNumberError: 'Please enter a valid 10 digit phone number',
 
     //------------------- Settings Screen -------------------
     History: 'History',

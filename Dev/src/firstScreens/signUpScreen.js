@@ -16,14 +16,13 @@ import firebase from 'react-native-firebase';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import ErrorAlert from '../components/ErrorAlert';
 
-
 //The class that will create the look of this screen
 class signUpScreen extends Component {
 
     componentDidMount() {
         FirebaseFunctions.setCurrentScreen("SignUpScreen", "signUpScreen");
     }
-
+    
     //The state which will contain whatever the user typed in, along with the selected account type
     //Only one account can be selected at a time.
     //The state will also include warning message that will display different messages to the user
@@ -42,7 +41,8 @@ class signUpScreen extends Component {
         isErrorVisible: false,
         isChecked: false,
         termsAndConditionsError: false,
-        businessPhoneNumberError: false
+        businessPhoneNumberError: false,
+        invalidPhoneNumberError: false
     }
 
     //This method signs up the user & creates an account for them based on what they chose and their
@@ -68,7 +68,10 @@ class signUpScreen extends Component {
             this.setState({ passwordError: true });
         } else if (buttonSelected === 'Business' && phoneNumber.trim() === "") {
             this.setState({ businessPhoneNumberError: true });
-        } else if (isChecked === false) {
+        } else if (phoneNumber.trim().length != 10) {
+            this.setState({ invalidPhoneNumberError: true });
+        }
+         else if (isChecked === false) {
             this.setState({ termsAndConditionsError: true });
         } else {
 
@@ -167,10 +170,12 @@ class signUpScreen extends Component {
                         <View style={{ flex: 1, justifyContent: 'center' }}>
                             <OneLineRoundedBoxInput
                                 placeholder={this.state.buttonSelected === "Customer" ? strings.EnterPhoneNumberOptional : strings.EnterPhoneNumber}
-                                onChangeText={(input) => this.setState({ phoneNumber: input })}
+                                onChangeText={(input) => this.setState({phoneNumber: input.replace(/[^0-9]/g, '')})}
                                 value={this.state.phoneNumber}
                                 password={false}
+                                keyboardType="numeric"
                                 autoCompleteType={'tel'}
+                                maxLength={10}
                             />
                         </View>
                     </View>
@@ -314,6 +319,12 @@ class signUpScreen extends Component {
                     onPress={() => { this.setState({ businessPhoneNumberError: false }) }}
                     title={strings.Whoops}
                     message={strings.BusinessPhoneNumberError}
+                />
+                <ErrorAlert
+                    isVisible={this.state.invalidPhoneNumberError}
+                    onPress={() => { this.setState({ invalidPhoneNumberError: false }) }}
+                    title={strings.Whoops}
+                    message={strings.InvalidPhoneNumberError}
                 />
                 <ErrorAlert
                     isVisible={this.state.termsAndConditionsError}
