@@ -18,13 +18,13 @@ class OneLineRoundedBoxInput extends Component {
                     placeholderTextColor={colors.gray}
                     onChangeText={(input) => onChangeText(input)}
                     style={{
-                     borderWidth: 3,
-                     borderColor: colors.lightBlue,
-                     width: width ? width : (Dimensions.get('window').width * 0.6),
-                     height: (Dimensions.get('window').height * 0.05),
-                     borderRadius: 20,
-                     paddingLeft: 10,
-                     backgroundColor: colors.white
+                        borderWidth: 3,
+                        borderColor: colors.lightBlue,
+                        width: width ? width : (Dimensions.get('window').width * 0.6),
+                        height: (Dimensions.get('window').height * 0.05),
+                        borderRadius: 20,
+                        paddingLeft: 10,
+                        backgroundColor: colors.white
                     }}
                     secureTextEntry={password}
                     keyboardType={keyboardType ? keyboardType : 'default'}
@@ -32,7 +32,7 @@ class OneLineRoundedBoxInput extends Component {
                     returnKeyType={'done'}
                     value={value}
                     autoCompleteType={autoCompleteType ? autoCompleteType : 'off'}
-                    autoCapitalize={autoCompleteType === "email" ||  autoCompleteType === "password"? 'none': 'words'}
+                    autoCapitalize={autoCompleteType === "email" || autoCompleteType === "password" ? 'none' : 'sentences'}
                     maxLength={maxLength} />
             </View>
         );
