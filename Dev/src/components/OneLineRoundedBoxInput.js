@@ -32,6 +32,7 @@ class OneLineRoundedBoxInput extends Component {
                     returnKeyType={'done'}
                     value={value}
                     autoCompleteType={autoCompleteType ? autoCompleteType : 'off'}
+                    autoCapitalize={autoCompleteType === "email" ||  autoCompleteType === "password"? 'none': 'words'}
                     maxLength={maxLength} />
             </View>
         );
