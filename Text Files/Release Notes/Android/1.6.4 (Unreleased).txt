@@ -1,7 +1,6 @@
 - Completely redid how prices are now entered for services. Businesses now have the choice
 to choose between a range model, where a price for a service may be "$10 to $30", or 
 what we call a "per" model, where a price for a service may be "$20 per hour" or "$5 per 
-square foot". We believe this is going to set a concrete way of how businesses charge
-their customers.
+square foot".
 - Redesigned some visual aspects of the app to make it more vibrant
 - Bug fixes and improvements
