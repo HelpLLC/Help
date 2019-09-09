@@ -1,0 +1,1 @@
+- Fixed a bug where businesses weren't able to create a product with a price range
