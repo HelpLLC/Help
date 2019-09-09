@@ -144,7 +144,7 @@ class createProductScreen extends Component {
                     price.per = this.state.pricePerText;
                 } else {
                     price.min = parseFloat(this.state.priceMin);
-                    price.max = priceFloat(this.state.priceMax);
+                    price.max = parseFloat(this.state.priceMax);
                 }
                 const { providerID } = this.props.navigation.state.params;
                 await FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, price, response, providerID, provider.companyName);
