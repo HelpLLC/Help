@@ -664,5 +664,8 @@ export default class FirebaseFunctions {
 
     }
 
+    static async forgotPassword(email) {
+        await firebase.auth().sendPasswordResetEmail(email);
+    }
 }
 

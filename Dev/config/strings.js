@@ -21,6 +21,18 @@ export default {
     EnterYourEmail: 'Enter your email...',
     EnterYourPassword: 'Enter your password...',
     IncorrectInfo: "Incorrect email/password",
+    ForgotPassword: "Forgot Password?",
+
+    //------------------- Forgot Password Screen -------------------
+    EnterTheCode: 'Enter the code...',
+    IncorrectCodeErrir: "Incorrect code",
+    ChooseANewPassword: "Choose a new password...",
+    VerificationCode: 'Verification Code',
+    ResetPassword: 'Reset Password',
+    EmailMe: 'Email Me!',
+    IncorrectCodeError: 'Inorrect code, please try again',
+    LinkHasBeenEmailed: 'The link to reset your password has been emailed to you. Please check your inbox and if you do not see the email, please check your spam folder. If you continue to not see it, please try again',
+    AccountDNE: 'There is no account associated with that email, please sign up.',
 
     //------------------- Create Profile Screen -------------------
     CreateProfile: 'Create Profile',
@@ -210,7 +222,7 @@ export default {
 
     //------------------- Miscellaneous -----------------
     Whoops: 'Whoops',
+    Success: 'Success',
     Ok: 'Ok',
     NoConnection: 'Something went wrong. Check your internet connection & try again'
-
 };

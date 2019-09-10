@@ -2,7 +2,7 @@
 //created. Since there will be no payments or anything secure in the mvp, then users will only 
 //log in with their phone numbers. And that will be what is linked with their accoun
 import React, { Component } from 'react';
-import { View, Text, Keyboard } from 'react-native';
+import { View, Text, Keyboard, TouchableOpacity } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
@@ -100,6 +100,7 @@ class logInScreen extends Component {
             }
         }
     }
+    
 
 
     render() {
@@ -151,9 +152,24 @@ class logInScreen extends Component {
                                 onPress={() => { this.logIn() }}
                                 disabled={this.state.isLoading} />
                         </View>
-                        <View style={{ flex: 1 }}>
-                            <LoadingSpinner isVisible={this.state.isLoading} />
-                        </View>
+                    </View>
+
+                        
+
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
+                        <TouchableOpacity onPress={() => {
+                            //Navigates to the Forgot Password screen
+                            this.props.navigation.push("ForgotPasswordScreen");
+                        }}>
+                            <Text style={[fontStyles.mainTextStyleBlue, { flexWrap: 'wrap' }]}>
+                                {strings.ForgotPassword}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+
+
+                    <View style={{ flex: 1 }}>
+                        <LoadingSpinner isVisible={this.state.isLoading} />
                     </View>
 
                 </View>
