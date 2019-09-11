@@ -21,10 +21,10 @@ class OneLineRoundedBoxInput extends Component {
                         borderWidth: 3,
                         borderColor: colors.lightBlue,
                         width: width ? width : (Dimensions.get('window').width * 0.6),
-                        height: (Dimensions.get('window').height * 0.05),
+                        height: (Dimensions.get('window').height * 0.06),
                         borderRadius: 20,
                         paddingLeft: 10,
-                        backgroundColor: colors.white
+                        backgroundColor: colors.white,
                     }}
                     secureTextEntry={password}
                     keyboardType={keyboardType ? keyboardType : 'default'}

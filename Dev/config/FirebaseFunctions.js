@@ -252,8 +252,8 @@ export default class FirebaseFunctions {
         let pricing = price.priceType === 'per' ? (
             '$' + price.price + ' ' + strings.per + ' ' + price.per
         ) : (
-            '$' + price.min + ' ' + strings.to + ' $' + price.max
-        )
+                '$' + price.min + ' ' + strings.to + ' $' + price.max
+            )
         let product = {
             serviceTitle,
             serviceDescription,
@@ -419,8 +419,8 @@ export default class FirebaseFunctions {
         let pricing = price.priceType === 'per' ? (
             '$' + price.price + ' ' + strings.per + ' ' + price.per
         ) : (
-            '$' + price.min + ' ' + strings.to + ' $' + price.max
-        )
+                '$' + price.min + ' ' + strings.to + ' $' + price.max
+            )
         batch.update(ref, {
             serviceTitle,
             serviceDescription,
@@ -641,6 +641,17 @@ export default class FirebaseFunctions {
 
     }
 
+    // This method emails the user a link to go ahead and reset their password if they have forgotten their password
+    // Used in forgotPasswordScreen.js
+    // @param email: the email that the link needs to be sent to
+    static async forgotPassword(email) {
+
+        await firebase.auth().sendPasswordResetEmail(email);
+
+        return 0;
+
+    }
+
     //This method will take in an error message and log it into firebase firestore where errors
     //are stored
     static logIssue(error, userID) {
@@ -662,13 +673,6 @@ export default class FirebaseFunctions {
 
         this.analytics.setCurrentScreen(screenName, screenClassOverride);
 
-    }
-
-    // This method emails the user a link to go ahead and reset their password if they have forgotten their password
-    // Used in forgotPasswordScreen.js
-    // @param email: the email that the link needs to be sent to
-    static async forgotPassword(email) {
-        await firebase.auth().sendPasswordResetEmail(email);
     }
 }
 
