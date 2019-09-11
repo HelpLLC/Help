@@ -66,7 +66,7 @@ class forgotPasswordScreen extends Component {
                                 this.setState({ emailedLink: false, accountDNE: true });
                             } else {
                                 this.setState({ isLoading: true })
-                                await FirebaseFunctions.forgotPassword(this.state.email);
+                                FirebaseFunctions.forgotPassword(this.state.email);
                                 this.setState({ emailedLink: true, isLoading: false });
                             }
                         }}
