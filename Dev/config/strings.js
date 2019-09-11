@@ -24,13 +24,9 @@ export default {
     ForgotPassword: "Forgot Password?",
 
     //------------------- Forgot Password Screen -------------------
-    EnterTheCode: 'Enter the code...',
-    IncorrectCodeErrir: "Incorrect code",
     ChooseANewPassword: "Choose a new password...",
-    VerificationCode: 'Verification Code',
     ResetPassword: 'Reset Password',
     EmailMe: 'Email Me!',
-    IncorrectCodeError: 'Inorrect code, please try again',
     LinkHasBeenEmailed: 'The link to reset your password has been emailed to you. Please check your inbox and if you do not see the email, please check your spam folder. If you continue to not see it, please try again',
     AccountDNE: 'There is no account associated with that email, please sign up.',
 

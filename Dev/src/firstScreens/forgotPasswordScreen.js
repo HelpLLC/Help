@@ -29,15 +29,11 @@ class forgotPasswordScreen extends Component {
     //were selected, etc.
     state = {
         email: "",
-        oldPassword: "",
-        verificationCode: "",
-        newPassword: "",
 
         emailedLink: false,
         fieldsError: false,
         isLoading: false,
         isErrorVisible: false,
-        incorrectCodeError: false,
         accountDNE: false
     }
 
@@ -100,12 +96,6 @@ class forgotPasswordScreen extends Component {
                     onPress={() => { this.setState({ fieldsError: false }) }}
                     title={strings.Whoops}
                     message={strings.PleaseFillOutAllFields}
-                />
-                <ErrorAlert
-                    isVisible={this.state.incorrectCodeError}
-                    onPress={() => { this.setState({ incorrectCodeError: false }) }}
-                    title={strings.Whoops}
-                    message={strings.IncorrectCodeError}
                 />
                 <ErrorAlert
                     isVisible={this.state.emailedLink == true && this.state.accountDNE == false ? true:false}
