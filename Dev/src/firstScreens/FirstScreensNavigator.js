@@ -7,6 +7,7 @@ import providerScreensNavigator from '../providerScreens/providerScreensNavigato
 import requesterScreensNavigator from '../requesterScreens/requesterScreensNavigator';
 import accountNotVerifiedScreen from './accountNotVerifiedScreen';
 import logInScreen from './logInScreen';
+import forgotPasswordScreen from './forgotPasswordScreen';
 import createProviderProfileScreen from './createProviderProfileScreen';
 import signUpScreen from './signUpScreen';
 import TopBanner from '../components/TopBanner';
@@ -62,6 +63,22 @@ const routeConfig = {
             header: (
                 <TopBanner
                     title={strings.SignUp}
+                    leftIconName="angle-left"
+                    leftOnPress={() => {
+                        //Method will go back to the splash screen
+                        navigation.goBack();
+                    }} />
+            ),
+            gesturesEnabled: false,
+        })
+    },
+    //Takes you to the forgot password screen of the app
+    ForgotPasswordScreen: {
+        screen: forgotPasswordScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: (
+                <TopBanner
+                    title={strings.ForgotPassword}
                     leftIconName="angle-left"
                     leftOnPress={() => {
                         //Method will go back to the splash screen
