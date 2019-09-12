@@ -18,7 +18,6 @@ class requestScreen extends Component {
         routes: [
             { key: 'cleaning', title: 'Cleaning' },
             { key: 'landscaping', title: 'Landscaping' },
-            { key: 'technical', title: 'Technical' },
         ],
     };
 
@@ -57,17 +56,6 @@ class requestScreen extends Component {
                                     //only landscaping services
                                     FirebaseFunctions.getCategory(allProducts, 'Landscaping')
                                 } />;
-                        case 'technical':
-                            return <RequestTab
-                                {...this.props}
-                                jumpTo={jumpTo}
-                                requester={this.props.navigation.state.params.requester}
-                                serviceType={"Technical"}
-                                products={
-                                    //Calls a method which filters all the products to reutrn
-                                    //only technical services
-                                    FirebaseFunctions.getCategory(allProducts, 'Technical')
-                                } />
                     }
                 }}
                 renderTabBar={props =>
