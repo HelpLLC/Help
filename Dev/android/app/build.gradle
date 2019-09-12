@@ -131,8 +131,8 @@ android {
         applicationId "com.Help.Help"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 39
-        versionName "1.6.5"
+        versionCode 40
+        versionName "1.6.6"
         multiDexEnabled true
     }
     splits {

@@ -1,0 +1,2 @@
+- Added a "Forgot Password" feature for when you would like to reset your password
+- Removed the technical category due to lack of trustworthy products. We like to keep you, the customer, connected with verified businesses!
