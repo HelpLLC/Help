@@ -100,14 +100,14 @@ class logInScreen extends Component {
             }
         }
     }
-    
+
 
 
     render() {
         return (
             <HelpView style={screenStyle.container}>
                 <View>
-                    <View style={{ flex: 1, justifyContent: 'center' }}>
+                    <View style={{ flex: 1.5, justifyContent: 'center' }}>
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                             <Text style={fontStyles.bigTextStyleBlack}>{strings.Email}</Text>
                         </View>
@@ -124,7 +124,7 @@ class logInScreen extends Component {
                         </View>
                     </View>
 
-                    <View style={{ flex: 1, justifyContent: 'center' }}>
+                    <View style={{ flex: 1.5, justifyContent: 'center' }}>
                         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                             <Text style={fontStyles.bigTextStyleBlack}>{strings.Password}</Text>
                         </View>
@@ -139,7 +139,7 @@ class logInScreen extends Component {
                             />
                         </View>
                     </View>
-                    <View style={{ flex: 1 }}></View>
+                    <View style={{ flex: 0.75 }}></View>
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
 
                         <View style={{ flex: 1 }}>
@@ -154,9 +154,9 @@ class logInScreen extends Component {
                         </View>
                     </View>
 
-                        
 
-                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-end' }}>
+
+                    <View style={{ flex: 0.5, alignItems: 'center', justifyContent: 'flex-end' }}>
                         <TouchableOpacity onPress={() => {
                             //Navigates to the Forgot Password screen
                             this.props.navigation.push("ForgotPasswordScreen");
