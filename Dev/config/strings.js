@@ -22,6 +22,7 @@ export default {
     EnterYourPassword: 'Enter your password...',
     IncorrectInfo: "Incorrect email/password",
     ForgotPassword: "Forgot Password?",
+    ForgotPasswordNoQuestionMark: 'Forgot Password',
 
     //------------------- Forgot Password Screen -------------------
     ChooseANewPassword: "Choose a new password...",
