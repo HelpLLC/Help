@@ -23,6 +23,7 @@ export default class FirebaseFunctions {
 
     //This method will return an array containing an all products currently in the market
     static async getAllProducts() {
+
         const snapshot = await this.products.get();
 
         //Returns the array which contains all the docs
@@ -35,6 +36,7 @@ export default class FirebaseFunctions {
 
         //Returns the correct array
         return newArray;
+
     }
 
     //This method will take in all the unblocked products for a requester and then return
@@ -55,32 +57,39 @@ export default class FirebaseFunctions {
 
     //This method will return an array of all of the providers
     static async getAllProviders() {
+
         const snapshot = await this.providers.get();
 
         //Returns the array which contains all of the docs
         return snapshot.docs.map((doc) => doc.data());
+
     }
 
     //This method will return an array of all of the requesters
     static async getAllRequesters() {
+
         const snapshot = await this.requesters.get();
 
         //Returns the array which contains all of the docs
         return snapshot.docs.map((doc) => doc.data());
+
     }
 
     //This method will return an array of all of the message objects
     static async getAllMessages() {
+
         const snapshot = await this.messages.get();
 
         //Returns the array which contains all of the docs
         return snapshot.docs.map((doc) => doc.data());
+
     }
 
     //This method will take in an ID of a requester and then retrieve the requester from the firestore
     //database by getting a reference to the doc and then calling it from the database. If the user
     //doesn't exist, then -1 will be returned
     static async getRequesterByID(requesterID) {
+
         const ref = this.requesters.doc(requesterID + "");
         const doc = await ref.get();
 
@@ -92,9 +101,24 @@ export default class FirebaseFunctions {
 
     }
 
+    //This method will take in an ID of a requester and update the object with the fields that are passed in using an object which will
+    //be the second parameter of the method. If the requester doesn't exist, then the method will return -1. 
+    static async updateRequesterByID(requesterID, updates) {
+
+        const ref = this.requesters.doc(requesterID);
+        try {
+            ref.update(updates);
+        } catch (error) {
+            return -1;
+        }
+        return 0;
+
+    }
+
     //This method will take in an ID of a requester and then call the firestore database and get the
     //provider. If the user isn't found, then -1 is returned
     static async getProviderByID(providerID) {
+
         const ref = this.providers.doc(providerID + "");
         const doc = await ref.get();
 
@@ -103,6 +127,20 @@ export default class FirebaseFunctions {
         } else {
             return -1;
         }
+
+    }
+
+    //This method will take in an ID of a provider and update the object with the fields that are passed in using an object which will
+    //be the second parameter of the method. If the provider doesn't exist, then the method will return -1. 
+    static async updateProviderByID(providerID, updates) {
+
+        const ref = this.providers.doc(providerID);
+        try {
+            ref.update(updates);
+        } catch (error) {
+            return -1;
+        }
+        return 0;
 
     }
 
@@ -117,6 +155,20 @@ export default class FirebaseFunctions {
             return doc.data();
         }
         return -1;
+
+    }
+
+    //This method will take in an ID of a product and update the object with the fields that are passed in using an object which will
+    //be the second parameter of the method. If the product doesn't exist, then the method will return -1. 
+    static async updateServiceByID(serviceID, updates) {
+
+        const ref = this.products.doc(serviceID);
+        try {
+            ref.update(updates);
+        } catch (error) {
+            return -1;
+        }
+        return 0;
 
     }
 
@@ -248,6 +300,7 @@ export default class FirebaseFunctions {
     //first add it to the firestore containing products, then it will add the service IDs to the provider
     //products
     static async addProductToDatabase(serviceTitle, serviceDescription, price, response, providerID, companyName) {
+
         //Creates the product object & the pricing text to be displayed to users
         let pricing = price.priceType === 'per' ? (
             '$' + price.price + ' ' + strings.per + ' ' + price.per
@@ -291,11 +344,13 @@ export default class FirebaseFunctions {
         this.analytics.logEvent("create_service");
 
         return 0;
+
     }
 
     //Sends a message by adding that conversation to the database. If the conversation is a new one,
     //then it will create a new messages object between the two communicators
     static async sendMessage(providerID, requesterID, message, isNewConversation) {
+
         if (isNewConversation === true) {
             const conversationMessages = []
             const messageWithCorrectDate = {
@@ -358,11 +413,13 @@ export default class FirebaseFunctions {
         //Logs the event in firebase analytics
         this.analytics.logEvent("send_message");
         return 0;
+
     }
 
     //Returns an array of all the conversation that this user has had, depending on if they are a 
     //requseter or a provider
     static async getAllUserConversations(userID, isRequester) {
+
         let allUserConversations = [];
         if (isRequester === true) {
             const ref = this.messages.where("requesterID", "==", userID);
@@ -407,6 +464,7 @@ export default class FirebaseFunctions {
         //Logs the event in firebase analytics
         this.analytics.logEvent("update_company_profile");
         return 0;
+
     }
 
     //This method will update the information for a specific product by taking in all of the new
@@ -440,6 +498,7 @@ export default class FirebaseFunctions {
         //Logs the event in firebase analytics
         this.analytics.logEvent("update_product");
         return 0;
+
     }
 
     //This method will take in a product ID and a requester ID and then delete that requester's request
@@ -564,6 +623,7 @@ export default class FirebaseFunctions {
         //Logs the event in firebase analytics
         this.analytics.logEvent("report_issue");
         return 0;
+
     }
 
     //This method will take in a request and a provider and block that provider from being able to sell
@@ -589,6 +649,7 @@ export default class FirebaseFunctions {
         //Logs the event in firebase analytics
         this.analytics.logEvent("block_company");
         return 0;
+
     }
 
     //Logs the user in and subscribes to the notification service associated with his/her account
@@ -666,6 +727,7 @@ export default class FirebaseFunctions {
 
         //Logs the event in firebase analytics
         this.analytics.logEvent("log_issue");
+
     }
 
     //This method will set the current screen to a specific name in firebase analytics
