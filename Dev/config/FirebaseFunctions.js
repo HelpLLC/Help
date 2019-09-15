@@ -107,7 +107,7 @@ export default class FirebaseFunctions {
 
         const ref = this.requesters.doc(requesterID);
         try {
-            ref.update(updates);
+            await ref.update(updates);
         } catch (error) {
             return -1;
         }
@@ -136,7 +136,7 @@ export default class FirebaseFunctions {
 
         const ref = this.providers.doc(providerID);
         try {
-            ref.update(updates);
+            await ref.update(updates);
         } catch (error) {
             return -1;
         }
@@ -164,7 +164,7 @@ export default class FirebaseFunctions {
 
         const ref = this.products.doc(serviceID);
         try {
-            ref.update(updates);
+            await ref.update(updates);
         } catch (error) {
             return -1;
         }
@@ -206,7 +206,7 @@ export default class FirebaseFunctions {
 
         const ref = this.messages.doc(conversationID);
         try {
-            ref.update(updates);
+            await ref.update(updates);
         } catch (error) {
             return -1;
         }
@@ -251,7 +251,7 @@ export default class FirebaseFunctions {
         const batch = this.database.batch();
         const uid = account.user.uid;
         const ref = this.providers.doc(uid);
-
+        
         const newProvider = {
             companyName: businessName,
             companyDescription: businessInfo,
