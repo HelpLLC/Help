@@ -380,8 +380,24 @@ export default class FirebaseFunctions {
                 requesterName: requester.username,
                 providerName: provider.companyName
             });
+            //Notifies the user who RECIEVED the message (the opposite of whoever message[0].user is)
+            //Notifies the provider whose service this belongs to
+            if (message[0].user._id === providerID) {
+                this.functions.httpsCallable('sendNotification')({
+                    topic: "r-" + requesterID,
+                    title: provider.companyName,
+                    body: message[0].text
+                });
+            } else {
+                this.functions.httpsCallable('sendNotification')({
+                    topic: "p-" + providerID,
+                    title: requester.username,
+                    body: message[0].text
+                });
+            }
         } else {
             const requester = await FirebaseFunctions.getRequesterByID(requesterID);
+            const provider = await FirebaseFunctions.getProviderByID(providerID);
             const ref = this.messages.where("providerID", "==", providerID).where("requesterID", "==", requesterID);
             const query = await ref.get();
             const doc = query.docs[0];
