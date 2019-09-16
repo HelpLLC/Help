@@ -43,7 +43,6 @@ class ServiceCard extends Component {
 
         //Fetches the image and the isImageLoading from the state
         const { isImageLoading, image } = this.state;
-
         //Returns the rendered component
         return (
             <TouchableOpacity onPress={onPress} style={{
@@ -119,7 +118,7 @@ class ServiceCard extends Component {
                             borderRadius: (Dimensions.get('window').width * 0.0973) / 2
                         }}
                         textStyle={fontStyles.mainTextStyleWhite}
-                        containerStyle={{ position: 'absolute', top: 24, right: 20 }}
+                        containerStyle={{ position: 'absolute', top: Dimensions.get('window').height * 0.03, right: Dimensions.get('window').width * 0.04 }}
                     />
                 ) : (
                         <View></View>
