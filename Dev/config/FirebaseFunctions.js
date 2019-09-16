@@ -251,7 +251,7 @@ export default class FirebaseFunctions {
         const batch = this.database.batch();
         const uid = account.user.uid;
         const ref = this.providers.doc(uid);
-        
+
         const newProvider = {
             companyName: businessName,
             companyDescription: businessInfo,
@@ -539,15 +539,22 @@ export default class FirebaseFunctions {
         //Gets the old array of completed requests and adds the new completed request to that array,
         //then sets that new array to it
         const newCompletedRequest = {
-            dateCompleted: new Date().toLocaleDateString("en-US"),
+            dateCompleted: new Date().toLocaleDateString("en-US", {
+                year: 'numeric',
+                month: 'two-digit',
+                day: 'two-digit'
+            }),
             dateRequested: requestToComplete.dateRequested,
             requesterID,
             requesterName: requestToComplete.requesterName
         }
 
+        let arrayOfCompletedRequests = product.requests.completedRequests;
+        arrayOfCompletedRequests.push(newCompletedRequest);
+
         await this.updateServiceByID(productID, {
             requests: {
-                completedRequests: firebase.firestore.FieldValue.arrayUnion(newCompletedRequest),
+                completedRequests: arrayOfCompletedRequests,
                 currentRequests: product.requests.currentRequests
             }
         })
@@ -568,15 +575,22 @@ export default class FirebaseFunctions {
         const doc = await ref.get();
 
         const newRequest = {
-            dateRequested: new Date().toLocaleDateString("en-US"),
+            dateRequested: new Date().toLocaleDateString("en-US", {
+                year: 'numeric',
+                month: 'two-digit',
+                day: 'two-digit'
+            }),
             requesterID: requester.requesterID,
             requesterName: requester.username
         }
 
+        let arrayOfCurrentRequests = doc.data().requests.currentRequests;
+        arrayOfCurrentRequests.push(newRequest);
+
         await this.updateServiceByID(serviceID, {
             requests: {
                 completedRequests: doc.data().requests.completedRequests,
-                currentRequests: firebase.firestore.FieldValue.arrayUnion(newRequest)
+                currentRequests: arrayOfCurrentRequests
             }
         })
 
