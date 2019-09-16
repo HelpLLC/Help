@@ -56,7 +56,7 @@ class createProductScreen extends Component {
             });
 
             //Sets the correct price type
-            if (this.state.priceType === 'per') {
+            if (product.price.priceType === 'per') {
                 this.setState({
                     pricePerNumber: product.price.price + '',
                     pricePerText: product.price.per,

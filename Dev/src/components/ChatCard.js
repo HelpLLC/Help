@@ -11,22 +11,14 @@ import colors from '../../config/colors';
 //The component
 class ChatCard extends Component {
 
-    //Returns the string that represents when the message was sent. If it was sent today,
-    //the time is displayed, if it was sent within the last week, the day is displayed,
-    //if it was sent longer than a week ago, the date is displayed
+    //Returns the string that represents when the message was sent. Needs to be changed to replicated 
+    //imessage format (if same day.... else if this week.... else just return the date)
     getTimeTextString(timeText) {
-        todayDate = new Date();
-        dateSent = new Date(timeText);
 
-        //Same day
-        if (todayDate.getDate() === dateSent.getDate()) {
-            dateSent = dateSent.toLocaleTimeString();
-            dateSent = dateSent.substring(0, dateSent.lastIndexOf(":")) + " " + dateSent.charAt(dateSent.length - 2) + dateSent.charAt(dateSent.length - 1);
-            return dateSent;
-        } else {
-            dateString = dateSent.toDateString();
-            return dateString.substring(dateString.indexOf(" "));
-        }
+        dateSent = new Date(timeText);
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        return dateSent.toLocaleDateString("en-US", options)
+
     }
 
     //Renders the component

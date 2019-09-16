@@ -22,12 +22,13 @@ export default {
     EnterYourPassword: 'Enter your password...',
     IncorrectInfo: "Incorrect email/password",
     ForgotPassword: "Forgot Password?",
+    ForgotPasswordNoQuestionMark: 'Forgot Password',
 
     //------------------- Forgot Password Screen -------------------
     ChooseANewPassword: "Choose a new password...",
     ResetPassword: 'Reset Password',
     EmailMe: 'Email Me!',
-    LinkHasBeenEmailed: 'If a user with this email exists, a link to reset your password has been sent. Please check all your folders.',
+    LinkHasBeenEmailed: 'If a user with this email exists, a link to reset your password has been sent. Please check your spam/junk folders if you don\'t see the email.',
 
     //------------------- Create Profile Screen -------------------
     CreateProfile: 'Create Profile',

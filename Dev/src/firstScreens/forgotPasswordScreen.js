@@ -91,7 +91,7 @@ class forgotPasswordScreen extends Component {
                 />
                 <ErrorAlert
                     isVisible={this.state.emailedLink}
-                    onPress={() => { this.setState({ emailedLink: false }), this.props.navigation.push("LogInScreen"); }}
+                    onPress={() => { this.setState({ emailedLink: false }), this.props.navigation.pop(); }}
                     title={strings.Success}
                     message={strings.LinkHasBeenEmailed}
                 />

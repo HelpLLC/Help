@@ -23,6 +23,7 @@ export default class FirebaseFunctions {
 
     //This method will return an array containing an all products currently in the market
     static async getAllProducts() {
+
         const snapshot = await this.products.get();
 
         //Returns the array which contains all the docs
@@ -35,6 +36,7 @@ export default class FirebaseFunctions {
 
         //Returns the correct array
         return newArray;
+
     }
 
     //This method will take in all the unblocked products for a requester and then return
@@ -55,32 +57,39 @@ export default class FirebaseFunctions {
 
     //This method will return an array of all of the providers
     static async getAllProviders() {
+
         const snapshot = await this.providers.get();
 
         //Returns the array which contains all of the docs
         return snapshot.docs.map((doc) => doc.data());
+
     }
 
     //This method will return an array of all of the requesters
     static async getAllRequesters() {
+
         const snapshot = await this.requesters.get();
 
         //Returns the array which contains all of the docs
         return snapshot.docs.map((doc) => doc.data());
+
     }
 
     //This method will return an array of all of the message objects
     static async getAllMessages() {
+
         const snapshot = await this.messages.get();
 
         //Returns the array which contains all of the docs
         return snapshot.docs.map((doc) => doc.data());
+
     }
 
     //This method will take in an ID of a requester and then retrieve the requester from the firestore
     //database by getting a reference to the doc and then calling it from the database. If the user
     //doesn't exist, then -1 will be returned
     static async getRequesterByID(requesterID) {
+
         const ref = this.requesters.doc(requesterID + "");
         const doc = await ref.get();
 
@@ -92,9 +101,24 @@ export default class FirebaseFunctions {
 
     }
 
+    //This method will take in an ID of a requester and update the object with the fields that are passed in using an object which will
+    //be the second parameter of the method. If the requester doesn't exist, then the method will return -1. 
+    static async updateRequesterByID(requesterID, updates) {
+
+        const ref = this.requesters.doc(requesterID);
+        try {
+            await ref.update(updates);
+        } catch (error) {
+            return -1;
+        }
+        return 0;
+
+    }
+
     //This method will take in an ID of a requester and then call the firestore database and get the
     //provider. If the user isn't found, then -1 is returned
     static async getProviderByID(providerID) {
+
         const ref = this.providers.doc(providerID + "");
         const doc = await ref.get();
 
@@ -103,6 +127,20 @@ export default class FirebaseFunctions {
         } else {
             return -1;
         }
+
+    }
+
+    //This method will take in an ID of a provider and update the object with the fields that are passed in using an object which will
+    //be the second parameter of the method. If the provider doesn't exist, then the method will return -1. 
+    static async updateProviderByID(providerID, updates) {
+
+        const ref = this.providers.doc(providerID);
+        try {
+            await ref.update(updates);
+        } catch (error) {
+            return -1;
+        }
+        return 0;
 
     }
 
@@ -117,6 +155,20 @@ export default class FirebaseFunctions {
             return doc.data();
         }
         return -1;
+
+    }
+
+    //This method will take in an ID of a product and update the object with the fields that are passed in using an object which will
+    //be the second parameter of the method. If the product doesn't exist, then the method will return -1. 
+    static async updateServiceByID(serviceID, updates) {
+
+        const ref = this.products.doc(serviceID);
+        try {
+            await ref.update(updates);
+        } catch (error) {
+            return -1;
+        }
+        return 0;
 
     }
 
@@ -145,6 +197,20 @@ export default class FirebaseFunctions {
             providerID,
             requesterID
         }
+
+    }
+
+    //This method will take in an ID of a conversation and update the object with the fields that are passed in using an object which will
+    //be the second parameter of the method. If the conversation doesn't exist, then the method will return -1. 
+    static async updateCoversationByID(conversationID, updates) {
+
+        const ref = this.messages.doc(conversationID);
+        try {
+            await ref.update(updates);
+        } catch (error) {
+            return -1;
+        }
+        return 0;
 
     }
 
@@ -248,6 +314,7 @@ export default class FirebaseFunctions {
     //first add it to the firestore containing products, then it will add the service IDs to the provider
     //products
     static async addProductToDatabase(serviceTitle, serviceDescription, price, response, providerID, companyName) {
+
         //Creates the product object & the pricing text to be displayed to users
         let pricing = price.priceType === 'per' ? (
             '$' + price.price + ' ' + strings.per + ' ' + price.per
@@ -276,26 +343,23 @@ export default class FirebaseFunctions {
 
         //Will deal with the ID of the product by adding it as a field and pushing to the
         //provider's field
-        const batch = this.database.batch();
-        const serviceID = newProduct.id;
-        const productRef = this.products.doc(serviceID);
-        batch.update(productRef, { serviceID });
-        const providerRef = this.providers.doc(providerID);
-        const providerDoc = await providerRef.get();
-        const serviceIDsArray = providerDoc.data().serviceIDs;
-        serviceIDsArray.push(serviceID);
-        batch.update(providerRef, { serviceIDs: serviceIDsArray });
-        await batch.commit();
-
+        await this.updateServiceByID(newProduct.id, {
+            serviceID: newProduct.id
+        })
+        await this.updateProviderByID(providerID, {
+            serviceIDs: firebase.firestore.FieldValue.arrayUnion(newProduct.id)
+        })
         //Logs the event in firebase analytics
         this.analytics.logEvent("create_service");
 
         return 0;
+
     }
 
     //Sends a message by adding that conversation to the database. If the conversation is a new one,
     //then it will create a new messages object between the two communicators
     static async sendMessage(providerID, requesterID, message, isNewConversation) {
+
         if (isNewConversation === true) {
             const conversationMessages = []
             const messageWithCorrectDate = {
@@ -316,27 +380,37 @@ export default class FirebaseFunctions {
                 requesterName: requester.username,
                 providerName: provider.companyName
             });
+            //Notifies the user who RECIEVED the message (the opposite of whoever message[0].user is)
+            //Notifies the provider whose service this belongs to
+            if (message[0].user._id === providerID) {
+                this.functions.httpsCallable('sendNotification')({
+                    topic: "r-" + requesterID,
+                    title: provider.companyName,
+                    body: message[0].text
+                });
+            } else {
+                this.functions.httpsCallable('sendNotification')({
+                    topic: "p-" + providerID,
+                    title: requester.username,
+                    body: message[0].text
+                });
+            }
         } else {
             const requester = await FirebaseFunctions.getRequesterByID(requesterID);
+            const provider = await FirebaseFunctions.getProviderByID(providerID);
             const ref = this.messages.where("providerID", "==", providerID).where("requesterID", "==", requesterID);
             const query = await ref.get();
             const doc = query.docs[0];
-            const docData = doc.data();
-            const oldConversationMessages = docData.conversationMessages;
+            const conversationID = doc.id;
             const messageWithCorrectDate = {
                 _id: message[0]._id,
                 createdAt: new Date(message[0].createdAt).getTime(),
                 text: message[0].text,
                 user: message[0].user
             }
-            oldConversationMessages.push(messageWithCorrectDate);
-            const batch = this.database.batch();
-            batch.update(doc.ref, {
-                conversationMessages: oldConversationMessages
-            });
-
-            await batch.commit();
-
+            await this.updateCoversationByID(conversationID, {
+                conversationMessages: firebase.firestore.FieldValue.arrayUnion(messageWithCorrectDate)
+            })
             //Notifies the user who RECIEVED the message (the opposite of whoever message[0].user is)
             //Notifies the provider whose service this belongs to
             if (message[0].user._id === providerID) {
@@ -358,11 +432,13 @@ export default class FirebaseFunctions {
         //Logs the event in firebase analytics
         this.analytics.logEvent("send_message");
         return 0;
+
     }
 
     //Returns an array of all the conversation that this user has had, depending on if they are a 
     //requseter or a provider
     static async getAllUserConversations(userID, isRequester) {
+
         let allUserConversations = [];
         if (isRequester === true) {
             const ref = this.messages.where("requesterID", "==", userID);
@@ -384,9 +460,7 @@ export default class FirebaseFunctions {
     //and new company info and updating those fields in the firestore
     static async updateProviderInfo(providerID, newBusinessName, newBusinessInfo) {
 
-        const batch = this.database.batch();
-        const ref = this.providers.doc(providerID);
-        batch.update(ref, {
+        await this.updateProviderByID(providerID, {
             companyName: newBusinessName,
             companyDescription: newBusinessInfo
         });
@@ -395,33 +469,29 @@ export default class FirebaseFunctions {
         //field that connects them to the correct provider to the new businessName
         const query = this.products.where("offeredByID", "==", providerID);
         const result = await query.get();
-        result.docs.forEach((doc) => {
-            const docRef = doc.ref;
-            batch.update(docRef, {
+        result.docs.forEach(async (doc) => {
+            await this.updateServiceByID(doc.id, {
                 offeredByName: newBusinessName
             });
         });
 
-        await batch.commit();
-
         //Logs the event in firebase analytics
         this.analytics.logEvent("update_company_profile");
         return 0;
+
     }
 
     //This method will update the information for a specific product by taking in all of the new
     //product information and updating those fields in firestore
     static async updateServiceInfo(productID, serviceTitle, serviceDescription, price, response) {
 
-        const batch = this.database.batch();
-        const ref = this.products.doc(productID);
         //Creates the product object & the pricing text to be displayed to users
         let pricing = price.priceType === 'per' ? (
             '$' + price.price + ' ' + strings.per + ' ' + price.per
         ) : (
                 '$' + price.min + ' ' + strings.to + ' $' + price.max
             )
-        batch.update(ref, {
+        await this.updateServiceByID(productID, {
             serviceTitle,
             serviceDescription,
             price,
@@ -435,18 +505,17 @@ export default class FirebaseFunctions {
             await imageRef.delete();
             await this.uploadImage(productID, response);
         }
-        await batch.commit();
 
         //Logs the event in firebase analytics
         this.analytics.logEvent("update_product");
         return 0;
+
     }
 
     //This method will take in a product ID and a requester ID and then delete that requester's request
     //from the array of the product's current requests
     static async deleteRequest(productID, requesterID) {
 
-        const batch = this.database.batch();
         const ref = this.products.doc(productID);
         const doc = await ref.get();
 
@@ -457,14 +526,13 @@ export default class FirebaseFunctions {
         });
 
         oldRequests.splice(indexOfRequest, 1);
-        batch.update(ref, {
+        await this.updateServiceByID(productID, {
             requests: {
                 currentRequests: oldRequests,
                 completedRequests: doc.data().requests.completedRequests
             }
-        });
+        })
 
-        await batch.commit();
 
         //Logs the event in firebase analytics
         this.analytics.logEvent("delete_request");
@@ -476,7 +544,6 @@ export default class FirebaseFunctions {
     //it from the array of current requests and adding it to the array of completed requests
     static async completeRequest(productID, requesterID) {
 
-        const batch = this.database.batch();
         const ref = this.products.doc(productID);
         const doc = await ref.get();
         const product = doc.data();
@@ -487,23 +554,27 @@ export default class FirebaseFunctions {
 
         //Gets the old array of completed requests and adds the new completed request to that array,
         //then sets that new array to it
-        const oldCompletedRequests = product.requests.completedRequests;
         const newCompletedRequest = {
-            dateCompleted: new Date().toLocaleDateString("en-US"),
+            dateCompleted: new Date().toLocaleDateString("en-US", {
+                year: 'numeric',
+                month: 'two-digit',
+                day: 'two-digit'
+            }),
             dateRequested: requestToComplete.dateRequested,
             requesterID,
             requesterName: requestToComplete.requesterName
         }
-        oldCompletedRequests.push(newCompletedRequest);
 
-        batch.update(ref, {
+        let arrayOfCompletedRequests = product.requests.completedRequests;
+        arrayOfCompletedRequests.push(newCompletedRequest);
+
+        await this.updateServiceByID(productID, {
             requests: {
-                completedRequests: oldCompletedRequests,
+                completedRequests: arrayOfCompletedRequests,
                 currentRequests: product.requests.currentRequests
             }
-        });
+        })
 
-        await batch.commit();
         await FirebaseFunctions.deleteRequest(productID, requesterID);
 
         //Logs the event in firebase analytics
@@ -516,25 +587,29 @@ export default class FirebaseFunctions {
     //requests corresponding with the product
     static async requestService(serviceID, requester) {
 
-        const batch = this.database.batch();
         const ref = this.products.doc(serviceID);
         const doc = await ref.get();
 
-        const oldArray = doc.data().requests.currentRequests;
-        oldArray.push({
-            dateRequested: new Date().toLocaleDateString("en-US"),
+        const newRequest = {
+            dateRequested: new Date().toLocaleDateString("en-US", {
+                year: 'numeric',
+                month: 'two-digit',
+                day: 'two-digit'
+            }),
             requesterID: requester.requesterID,
             requesterName: requester.username
-        });
+        }
 
-        batch.update(ref, {
+        let arrayOfCurrentRequests = doc.data().requests.currentRequests;
+        arrayOfCurrentRequests.push(newRequest);
+
+        await this.updateServiceByID(serviceID, {
             requests: {
                 completedRequests: doc.data().requests.completedRequests,
-                currentRequests: oldArray
+                currentRequests: arrayOfCurrentRequests
             }
-        });
+        })
 
-        await batch.commit();
         //Notifies the provider whose service this belongs to
         this.functions.httpsCallable('sendNotification')({
             topic: "p-" + doc.data().offeredByID,
@@ -564,6 +639,7 @@ export default class FirebaseFunctions {
         //Logs the event in firebase analytics
         this.analytics.logEvent("report_issue");
         return 0;
+
     }
 
     //This method will take in a request and a provider and block that provider from being able to sell
@@ -573,22 +649,14 @@ export default class FirebaseFunctions {
 
         //Fetches the old array of blocked companies by this requester and appends this provider to
         //that list
-        const arrayOfBlockedCompanies = requester.blockedUsers;
-        arrayOfBlockedCompanies.push(provider.providerID);
-
-        //Updates this array in the firebase firestore
-        const batch = this.database.batch();
-        const ref = this.requesters.doc(requester.requesterID);
-        batch.update(ref, {
-            blockedUsers: arrayOfBlockedCompanies
+        await this.updateRequesterByID(requester.requesterID, {
+            blockedUsers: firebase.firestore.FieldValue.arrayUnion(provider.providerID)
         });
-
-        //commits the batch
-        await batch.commit();
 
         //Logs the event in firebase analytics
         this.analytics.logEvent("block_company");
         return 0;
+
     }
 
     //Logs the user in and subscribes to the notification service associated with his/her account
@@ -666,6 +734,7 @@ export default class FirebaseFunctions {
 
         //Logs the event in firebase analytics
         this.analytics.logEvent("log_issue");
+
     }
 
     //This method will set the current screen to a specific name in firebase analytics
