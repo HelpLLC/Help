@@ -25,6 +25,8 @@ The Help application must always be able to do the following:
 23. User is able to respond to messages from businesses from a customer account
 24. User is able to delete an existing request from a customer account
 25. User is able to report an issue from a customer account
-26. User is able to reset their password
+26. User is able to report a company from a customer account
+27. User is able to block a company from a customer account
+28. User is able to reset their password
 
 
