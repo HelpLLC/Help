@@ -1,0 +1,1 @@
+- Made it so new categories can be added more quickly
