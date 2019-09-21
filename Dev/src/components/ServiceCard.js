@@ -134,7 +134,7 @@ ServiceCard.propTypes = {
     serviceTitle: PropTypes.string.isRequired,
     serviceDescription: PropTypes.string,
     offeredBy: PropTypes.string,
-    pricing: PropTypes.string.isRequired,
+    price: PropTypes.string.isRequired,
     imageFunction: PropTypes.func.isRequired,
     onPress: PropTypes.func.isRequired,
 }

@@ -155,7 +155,6 @@ export default {
     NoHistoryForThisProductYet: 'No history for this product yet',
 
     //------------------- Request Screen -------------------
-    Landscaping: 'Landscaping',
     OfferedBy: 'Offered by',
     NoCurrentServices: 'There are no current services available to request. Check back soon!',
 

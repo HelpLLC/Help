@@ -9,17 +9,32 @@ import { TabView, TabBar } from 'react-native-tab-view';
 import colors from '../../../config/colors';
 import RequestTab from './requestTab';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 
 class requestScreen extends Component {
 
     state = {
         index: 0,
-        routes: [
-            { key: 'cleaning', title: 'Cleaning' },
-            { key: 'landscaping', title: 'Landscaping' },
-        ],
+        routes: [],
+        isLoading: true
     };
+
+    //This method will fetch all the current categories in the market & then set the state to those
+    //categories so that each one of them can be rendered in the TabView containing all the categories
+    async componentDidMount() {
+
+        const arrayOfCategories = await FirebaseFunctions.getCategoryNames();
+        const routes = [];
+        arrayOfCategories.forEach((category) => {
+            routes.push({
+                key: category.toLowerCase(),
+                title: category
+            })
+        });
+        this.setState({ routes, isLoading: false });
+
+    }
 
     render() {
 
@@ -29,34 +44,28 @@ class requestScreen extends Component {
             return !(requester.blockedUsers.includes(product.offeredByID));
         })
 
+        if (this.state.isLoading === true) {
+            return (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <LoadingSpinner isVisible={true} />
+                </View>
+            )
+        }
+
         return (
             <TabView
                 navigationState={this.state}
                 renderScene={({ route, jumpTo }) => {
-                    switch (route.key) {
-                        case 'cleaning':
-                            return <RequestTab
-                                {...this.props}
-                                jumpTo={jumpTo}
-                                requester={this.props.navigation.state.params.requester}
-                                serviceType={"Cleaning"}
-                                products={
-                                    //Calls a method which filters all the products to return
-                                    //only cleaning services
-                                    FirebaseFunctions.getCategory(allProducts, 'Cleaning')
-                                } />;
-                        case 'landscaping':
-                            return <RequestTab
-                                {...this.props}
-                                jumpTo={jumpTo}
-                                requester={this.props.navigation.state.params.requester}
-                                serviceType={"Landscaping"}
-                                products={
-                                    //Calls a method which filters all the products to return
-                                    //only landscaping services
-                                    FirebaseFunctions.getCategory(allProducts, 'Landscaping')
-                                } />;
-                    }
+                    return <RequestTab
+                        {...this.props}
+                        jumpTo={jumpTo}
+                        requester={this.props.navigation.state.params.requester}
+                        serviceType={route.title}
+                        products={
+                            //Calls a method which filters all the products to return
+                            //only cleaning services
+                            FirebaseFunctions.getCategory(allProducts, route.title)
+                        } />;
                 }}
                 renderTabBar={props =>
                     <View>

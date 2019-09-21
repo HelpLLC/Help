@@ -20,6 +20,7 @@ export default class FirebaseFunctions {
     static products = this.database.collection("products");
     static messages = this.database.collection("messages");
     static issues = this.database.collection("issues");
+    static helpDev = this.database.collection("helpDev");
 
     //This method will return an array containing an all products currently in the market
     static async getAllProducts() {
@@ -36,6 +37,16 @@ export default class FirebaseFunctions {
 
         //Returns the correct array
         return newArray;
+
+    }
+
+    //This method will get the names of the current categories that is in the market. This way,
+    //the categories can be located in the cloud, and the app doesn't need to have a new update every
+    //time a new category is added
+    static async getCategoryNames() {
+
+        const categoriesDocument = await this.helpDev.doc("categories").get();
+        return categoriesDocument.data().arrayOfCategories;
 
     }
 
