@@ -568,8 +568,8 @@ export default class FirebaseFunctions {
         const newCompletedRequest = {
             dateCompleted: new Date().toLocaleDateString("en-US", {
                 year: 'numeric',
-                month: 'two-digit',
-                day: 'two-digit'
+                month: '2-digit',
+                day: '2-digit'
             }),
             dateRequested: requestToComplete.dateRequested,
             requesterID,
@@ -604,8 +604,8 @@ export default class FirebaseFunctions {
         const newRequest = {
             dateRequested: new Date().toLocaleDateString("en-US", {
                 year: 'numeric',
-                month: 'two-digit',
-                day: 'two-digit'
+                month: '2-digit',
+                day: '2-digit'
             }),
             requesterID: requester.requesterID,
             requesterName: requester.username
