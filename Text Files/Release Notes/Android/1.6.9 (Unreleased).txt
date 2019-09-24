@@ -1,2 +1,1 @@
-- Released iPad version
 - Bug fixes and improvements
