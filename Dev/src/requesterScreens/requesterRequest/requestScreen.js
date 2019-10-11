@@ -24,44 +24,51 @@ class requestScreen extends Component {
         lng: null
     };
 
-    async requestLocationPermission() {
+    //Fetches the current position and stores it in the state
+    getCurrentPosition() {
+
         let geoOptions = {
             enableHighAccuracy: true,
             timeOut: 20000,
             maximumAge: 60 * 60
         };
-        const isPermissionGranted = await PermissionsAndroid.check("android.permission.ACCESS_FINE_LOCATION");
-        if (isPermissionGranted === true || Platform.OS === 'ios') {
-            Geolocation.requestAuthorization();
-            Geolocation.getCurrentPosition(
-                (position) => {
-                    this.setState({ lat: position.coords.latitude, lng: position.coords.longitude })
-                },
-                (error) => {
-                    FirebaseFunctions.logIssue(error, "RequestScreen");
-                    this.setState({ allProducts: true });
-                },
-                geoOptions
-            )
-        } else {
-            const granted = await PermissionsAndroid.request("android.permission.ACCESS_FINE_LOCATION");
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                Geolocation.getCurrentPosition(
-                    (position) => {
-                        this.setState({ lat: position.coords.latitude, lng: position.coords.longitude })
-                    },
-                    (error) => {
-                        FirebaseFunctions.logIssue(error, "RequestScreen");
-                        this.setState({ allProducts: true });
-                    },
-                    geoOptions
-                );
-            } else {
+        Geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({ lat: position.coords.latitude, lng: position.coords.longitude })
+            },
+            (error) => {
+                FirebaseFunctions.logIssue(error, "RequestScreen");
                 this.setState({ allProducts: true });
+            },
+            geoOptions
+        );
+
+        return 0;
+        
+    }
+
+    //This function deals with the location permissions depending on the OS of the app
+    async requestLocationPermission() {
+
+        if (Platform.OS === 'ios') {
+            Geolocation.requestAuthorization();
+            await this.getCurrentPosition();
+        } else {
+            const isPermissionGranted = await PermissionsAndroid.check("android.permission.ACCESS_FINE_LOCATION");
+            if (isPermissionGranted === true) {
+                await this.getCurrentPosition();
+            } else {
+                const granted = await PermissionsAndroid.request("android.permission.ACCESS_FINE_LOCATION");
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    await this.getCurrentPosition();
+                } else {
+                    this.setState({ allProducts: true });
+                }
             }
         }
 
         return 0;
+
     }
 
     //This method will fetch all the current categories in the market & then set the state to those
