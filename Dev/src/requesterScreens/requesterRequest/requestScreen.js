@@ -11,6 +11,7 @@ import RequestTab from './requestTab';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import Geolocation from 'react-native-geolocation-service';
+import { SystemMessage } from 'react-native-gifted-chat';
 
 
 
@@ -25,14 +26,14 @@ class requestScreen extends Component {
     };
 
     //Fetches the current position and stores it in the state
-    getCurrentPosition() {
+    async getCurrentPosition() {
 
         let geoOptions = {
             enableHighAccuracy: true,
             timeOut: 20000,
             maximumAge: 60 * 60
         };
-        Geolocation.getCurrentPosition(
+        await Geolocation.getCurrentPosition(
             (position) => {
                 this.setState({ lat: position.coords.latitude, lng: position.coords.longitude })
             },
@@ -53,6 +54,8 @@ class requestScreen extends Component {
         if (Platform.OS === 'ios') {
             Geolocation.requestAuthorization();
             await this.getCurrentPosition();
+            console.log('Bilal')
+            console.log(this.state)
         } else {
             const isPermissionGranted = await PermissionsAndroid.check("android.permission.ACCESS_FINE_LOCATION");
             if (isPermissionGranted === true) {
