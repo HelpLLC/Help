@@ -1,7 +1,7 @@
 //This screen represents the main screen that is launched once the requester logs in. Here they will
 //be able to view services from different categories and click on them to go buy them
 import React, { Component } from 'react';
-import { View, Dimensions, Text } from 'react-native';
+import { View, Dimensions, Text, PermissionsAndroid, Platform } from 'react-native';
 import TopBanner from '../../components/TopBanner';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
@@ -20,27 +20,53 @@ class requestScreen extends Component {
         index: 0,
         routes: [],
         isLoading: true,
-        ready: false,
-        where: {lat:null, lng:null},
-        error: null
+        lat: null,
+        lng: null
     };
 
-    geoSuccess = position => {
-        console.log('A')
-        console.log(position)
-        this.setState({ready: true})
-    };
+    async requestLocationPermission() {
+        let geoOptions = {
+            enableHighAccuracy: true,
+            timeOut: 20000,
+            maximumAge: 60 * 60
+        };
+        const isPermissionGranted = await PermissionsAndroid.check("android.permission.ACCESS_FINE_LOCATION");
+        if (isPermissionGranted === true || Platform.OS === 'ios') {
+            Geolocation.requestAuthorization();
+            Geolocation.getCurrentPosition(
+                (position) => {
+                    this.setState({ lat: position.coords.latitude, lng: position.coords.longitude })
+                },
+                (error) => {
+                    FirebaseFunctions.logIssue(error, "RequestScreen");
+                    this.setState({ allProducts: true });
+                },
+                geoOptions
+            )
+        } else {
+            const granted = await PermissionsAndroid.request("android.permission.ACCESS_FINE_LOCATION");
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                Geolocation.getCurrentPosition(
+                    (position) => {
+                        this.setState({ lat: position.coords.latitude, lng: position.coords.longitude })
+                    },
+                    (error) => {
+                        FirebaseFunctions.logIssue(error, "RequestScreen");
+                        this.setState({ allProducts: true });
+                    },
+                    geoOptions
+                );
+            } else {
+                this.setState({ allProducts: true });
+            }
+        }
 
-    geoFailure = err => {
-        this.setState({error: err.message})
-        console.log('b')
-        console.log(err)
-    };
+        return 0;
+    }
 
     //This method will fetch all the current categories in the market & then set the state to those
     //categories so that each one of them can be rendered in the TabView containing all the categories
     async componentDidMount() {
-
 
         const arrayOfCategories = await FirebaseFunctions.getCategoryNames();
         const routes = [];
@@ -50,29 +76,11 @@ class requestScreen extends Component {
                 title: category
             })
         });
+        await this.requestLocationPermission();
         this.setState({ routes, isLoading: false });
 
-        //Options set for geolocation
-        let geoOptions = {
-            //enable High Accuracy firsts attempts to use GPS from phone, if it doesn't work then it will use Wifi
-            enableHighAccuracy: false,
-            //It will timeout in 20000 milliseconds, which is 20 seconds
-            timeOut: 20000,
-            //How long to store their location, seconds * minutes * hours
-            maximumAge: 60 * 60
-        };
-        console.log('before authorization');
-        //geolocation.requestAuthorization();
-        console.log('after authorization');
-        this.setState({ready: false, error: null});
-        Geolocation.getCurrentPosition(
-            (position) => {this.geoSuccess(position)}, 
-            (error) => {this.geoFailure(error)}, 
-            geoOptions
-        )
-        console.log('after getlocation')
     }
-    
+
 
     render() {
 

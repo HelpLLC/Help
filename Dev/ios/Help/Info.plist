@@ -54,8 +54,6 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Help would like access to your photo gallery to change product picture</string>
 	<key>UIAppFonts</key>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<array>
 		<string>AntDesign.ttf</string>
 		<string>Entypo.ttf</string>
