@@ -1,8 +1,9 @@
 //This screen represents the main screen that is launched once the requester logs in. Here they will
 //be able to view services from different categories and click on them to go buy them
 import React, { Component } from 'react';
-import { View, Dimensions, Text, PermissionsAndroid, Platform } from 'react-native';
+import { View, Dimensions, Text, Platform } from 'react-native';
 import TopBanner from '../../components/TopBanner';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
 import { TabView, TabBar } from 'react-native-tab-view';
@@ -11,9 +12,6 @@ import RequestTab from './requestTab';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import Geolocation from 'react-native-geolocation-service';
-import { SystemMessage } from 'react-native-gifted-chat';
-
-
 
 class requestScreen extends Component {
 
@@ -21,7 +19,8 @@ class requestScreen extends Component {
         index: 0,
         routes: [],
         isLoading: true,
-        where: {lat: null, lng: null}
+        latitude: null,
+        longitude: null
     };
 
     //Fetches the current position and stores it in the state
@@ -33,42 +32,62 @@ class requestScreen extends Component {
             maximumAge: 60 * 60
         };
         await Geolocation.getCurrentPosition(
-            (position) => {
-                this.setState({where: {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            }})
+            async (position) => {
+                const { longitude, latitude } = await position.coords;
+                //Waits until the user has given permission to use location, then loads the screen
+                this.setState({
+                    longitude,
+                    latitude,
+                    isLoading: false
+                });
             },
             (error) => {
                 FirebaseFunctions.logIssue(error, "RequestScreen");
-                this.setState({ allProducts: true });
+                this.setState({
+                    allProducts: true,
+                    isLoading: false
+                });
             },
             geoOptions
         );
 
         return 0;
-        
+
     }
 
     //This function deals with the location permissions depending on the OS of the app
     async requestLocationPermission() {
 
         if (Platform.OS === 'ios') {
-            Geolocation.requestAuthorization();
-            await this.getCurrentPosition();
-            console.log('Bilal')
-            console.log(this.state.where.lng)
-            console.log(this.state.where.lat)
-        } else {
-            const isPermissionGranted = await PermissionsAndroid.check("android.permission.ACCESS_FINE_LOCATION");
-            if (isPermissionGranted === true) {
+            const isGranted = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+            if (isGranted === RESULTS.GRANTED) {
                 await this.getCurrentPosition();
             } else {
-                const granted = await PermissionsAndroid.request("android.permission.ACCESS_FINE_LOCATION");
-                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                const requestPermission = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+                if (requestPermission === RESULTS.GRANTED) {
                     await this.getCurrentPosition();
                 } else {
-                    this.setState({ allProducts: true });
+                    FirebaseFunctions.analytics.logEvent("location_permission_denied");
+                    this.setState({
+                        allProducts: true,
+                        isLoading: false
+                    });
+                }
+            }
+        } else {
+            const isGranted = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+            if (isGranted === RESULTS.GRANTED) {
+                await this.getCurrentPosition();
+            } else {
+                const requestPermission = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+                if (requestPermission === RESULTS.GRANTED) {
+                    await this.getCurrentPosition();
+                } else {
+                    FirebaseFunctions.analytics.logEvent("location_permission_denied");
+                    this.setState({
+                        allProducts: true,
+                        isLoading: false
+                    });
                 }
             }
         }
@@ -90,14 +109,13 @@ class requestScreen extends Component {
             })
         });
         await this.requestLocationPermission();
-        this.setState({ routes, isLoading: false });
+        this.setState({ routes });
 
     }
 
 
     render() {
-
-
+        
         //Filters the products and removes any that are posted by blocked users
         let { allProducts, requester } = this.props.navigation.state.params;
         allProducts = allProducts.filter((product) => {
@@ -111,7 +129,6 @@ class requestScreen extends Component {
                 </View>
             )
         }
-
         return (
             <TabView
                 navigationState={this.state}
