@@ -21,8 +21,7 @@ class requestScreen extends Component {
         index: 0,
         routes: [],
         isLoading: true,
-        lat: null,
-        lng: null
+        where: {lat: null, lng: null}
     };
 
     //Fetches the current position and stores it in the state
@@ -35,7 +34,10 @@ class requestScreen extends Component {
         };
         await Geolocation.getCurrentPosition(
             (position) => {
-                this.setState({ lat: position.coords.latitude, lng: position.coords.longitude })
+                this.setState({where: {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            }})
             },
             (error) => {
                 FirebaseFunctions.logIssue(error, "RequestScreen");
@@ -55,7 +57,8 @@ class requestScreen extends Component {
             Geolocation.requestAuthorization();
             await this.getCurrentPosition();
             console.log('Bilal')
-            console.log(this.state)
+            console.log(this.state.where.lng)
+            console.log(this.state.where.lat)
         } else {
             const isPermissionGranted = await PermissionsAndroid.check("android.permission.ACCESS_FINE_LOCATION");
             if (isPermissionGranted === true) {
