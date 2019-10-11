@@ -10,6 +10,8 @@ import colors from '../../../config/colors';
 import RequestTab from './requestTab';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import Geolocation from 'react-native-geolocation-service';
+
 
 
 class requestScreen extends Component {
@@ -17,12 +19,28 @@ class requestScreen extends Component {
     state = {
         index: 0,
         routes: [],
-        isLoading: true
+        isLoading: true,
+        ready: false,
+        where: {lat:null, lng:null},
+        error: null
+    };
+
+    geoSuccess = position => {
+        console.log('A')
+        console.log(position)
+        this.setState({ready: true})
+    };
+
+    geoFailure = err => {
+        this.setState({error: err.message})
+        console.log('b')
+        console.log(err)
     };
 
     //This method will fetch all the current categories in the market & then set the state to those
     //categories so that each one of them can be rendered in the TabView containing all the categories
     async componentDidMount() {
+
 
         const arrayOfCategories = await FirebaseFunctions.getCategoryNames();
         const routes = [];
@@ -34,9 +52,30 @@ class requestScreen extends Component {
         });
         this.setState({ routes, isLoading: false });
 
+        //Options set for geolocation
+        let geoOptions = {
+            //enable High Accuracy firsts attempts to use GPS from phone, if it doesn't work then it will use Wifi
+            enableHighAccuracy: false,
+            //It will timeout in 20000 milliseconds, which is 20 seconds
+            timeOut: 20000,
+            //How long to store their location, seconds * minutes * hours
+            maximumAge: 60 * 60
+        };
+        console.log('before authorization');
+        //geolocation.requestAuthorization();
+        console.log('after authorization');
+        this.setState({ready: false, error: null});
+        Geolocation.getCurrentPosition(
+            (position) => {this.geoSuccess(position)}, 
+            (error) => {this.geoFailure(error)}, 
+            geoOptions
+        )
+        console.log('after getlocation')
     }
+    
 
     render() {
+
 
         //Filters the products and removes any that are posted by blocked users
         let { allProducts, requester } = this.props.navigation.state.params;
