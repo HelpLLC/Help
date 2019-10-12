@@ -42,7 +42,7 @@ class requestScreen extends Component {
                 });
             },
             (error) => {
-                FirebaseFunctions.logIssue(error, "RequestScreen");
+                FirebaseFunctions.analytics.logEvent("location_permission_denied");
                 this.setState({
                     allProducts: true,
                     isLoading: false
