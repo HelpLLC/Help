@@ -145,6 +145,8 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
+  - Permission-LocationWhenInUse (2.0.2):
+    - RNPermissions
   - Protobuf (3.9.0)
   - React (0.60.3):
     - React-Core (= 0.60.3)
@@ -192,6 +194,8 @@ PODS:
     - React-cxxreact (= 0.60.3)
     - React-jsi (= 0.60.3)
   - React-jsinspector (0.60.3)
+  - react-native-geolocation (1.4.2):
+    - React
   - react-native-image-picker (1.0.2):
     - React
   - react-native-netinfo (4.1.3):
@@ -235,6 +239,8 @@ PODS:
     - React
   - RNGestureHandler (1.3.0):
     - React
+  - RNPermissions (2.0.2):
+    - React
   - RNReanimated (1.1.0):
     - React
   - RNSVG (9.5.3):
@@ -257,6 +263,7 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - GoogleIDFASupport (~> 3.14.0)
   - lottie-ios (from `../node_modules/lottie-ios`)
+  - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse.podspec`)
   - React (from `../node_modules/react-native/`)
   - React-Core (from `../node_modules/react-native/React`)
   - React-cxxreact (from `../node_modules/react-native/ReactCommon/cxxreact`)
@@ -265,6 +272,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-spinkit (from `../node_modules/react-native-spinkit`)
@@ -281,6 +289,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNFirebase (from `../node_modules/react-native-firebase/ios`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -322,6 +331,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   lottie-ios:
     :path: "../node_modules/lottie-ios"
+  Permission-LocationWhenInUse:
+    :path: "../node_modules/react-native-permissions/ios/LocationWhenInUse.podspec"
   React:
     :path: "../node_modules/react-native/"
   React-Core:
@@ -338,6 +349,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-geolocation:
+    :path: "../node_modules/@react-native-community/geolocation"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-netinfo:
@@ -370,6 +383,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-firebase/ios"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNSVG:
@@ -407,6 +422,7 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   lottie-ios: 6037add6441183d4ffd100d2ac78724aa8d919d4
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  Permission-LocationWhenInUse: 1482ab86e9a058e963fa51955a0124b6ce458667
   Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
   React: ac23e9cc8d2d4cfe9b536b5cc0c32d19b9937bcf
   React-Core: 84de3cf80e31f0267c5ce0b5b482d59ce30a8a57
@@ -416,6 +432,7 @@ SPEC CHECKSUMS:
   React-jsi: c2b6e57836bcae2677a036384111dc2c58e94369
   React-jsiexecutor: d9023c5c199114d2b6f38ec861a4d923c73d0735
   React-jsinspector: 817b64f3c8a807f09d78620f4f505868d89b26f3
+  react-native-geolocation: 79c743ad7a2e86617811ef23f49308824e92520c
   react-native-image-picker: 4c1d9b0377a3291d9b9a0e65c89e87d435e74516
   react-native-netinfo: c8798d4becf1df39247d1625abc623ee65832c75
   react-native-spinkit: 9a5d2f95aa975d5660fd3e76b7eac38e7329e46c
@@ -432,11 +449,12 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 621bad7a889b5bf1583a52547f2dcd3a4d1ff15e
   RNFirebase: ac0de8b24c6f91ae9459575491ed6a77327619c6
   RNGestureHandler: 5329a942fce3d41c68b84c2c2276ce06a696d8b0
+  RNPermissions: 76d6d5a65496b33378afe4b90ae5b30629ddd900
   RNReanimated: 7a52c90473b5e81c13408d40d797b98387eaddde
   RNSVG: 90c76b7cf235654d45e54655b6c189ea4041057c
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   yoga: 843fe25849b56131275bf3e5da2c468e96f68aff
 
-PODFILE CHECKSUM: b93be34e0fd418749c929c0082a3ab33b3f96d6a
+PODFILE CHECKSUM: 0145fe85926bf89e29d54652d132c0de320d23e8
 
 COCOAPODS: 1.7.5
