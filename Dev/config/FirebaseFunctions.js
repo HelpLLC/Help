@@ -279,6 +279,7 @@ export default class FirebaseFunctions {
         this.functions.httpsCallable('sendNewBusinessEmail')({
             businessName,
             businessInfo,
+            providerID: account.user.uid,
             businessEmail: email,
             businessPhoneNumber: phoneNumber
         });
