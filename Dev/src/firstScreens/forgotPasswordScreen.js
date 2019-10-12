@@ -100,18 +100,6 @@ class forgotPasswordScreen extends Component {
                     onPress={() => { this.setState({ fieldsError: false }) }}
                     title={strings.Whoops}
                     message={strings.PleaseFillOutAllFields}
-                    //     translate('I speak Dutch!', {from: 'en', to: 'nl'}).then(res => {
-                    //     console.log(res.text);
-                    //     //=> Ik spreek Nederlands!
-                    //     console.log(res.from.text.autoCorrected);
-                    //     //=> true
-                    //     console.log(res.from.text.value);
-                    //     //=> I [speak] Dutch!
-                    //     console.log(res.from.text.didYouMean);
-                    //     //=> false
-                    // }).catch(err => {
-                    //     console.error(err);
-                    // })}
                 />
                 <ErrorAlert
                     isVisible={this.state.emailedLink == true && this.state.accountDNE == false ? true:false}
