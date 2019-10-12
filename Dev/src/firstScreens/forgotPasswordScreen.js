@@ -14,7 +14,6 @@ import screenStyle from 'config/styles/screenStyle';
 import firebase from 'react-native-firebase';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import ErrorAlert from '../components/ErrorAlert';
-// const translate = require('google-translate-api');
 
 //The class that will create the look of this screen
 class forgotPasswordScreen extends Component {
