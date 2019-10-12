@@ -39,12 +39,10 @@ class ServiceCard extends Component {
         //The props for the ServiceCard. It will take in a service title, a description, a price, and an
         //image to display, along with an onPress method. An additional prop is also how many current
         //requests this product currently has. This prop should only be used by the provider screens
-        const { serviceTitle, serviceDescription, price, onPress, numCurrentRequests, offeredBy,
-            offeredByOnPress } = this.props;
+        const { serviceTitle, serviceDescription, price, onPress, numCurrentRequests, offeredBy } = this.props;
 
         //Fetches the image and the isImageLoading from the state
         const { isImageLoading, image } = this.state;
-
         //Returns the rendered component
         return (
             <TouchableOpacity onPress={onPress} style={{
@@ -99,11 +97,8 @@ class ServiceCard extends Component {
                                             <View flexDirection='column'>
                                                 <Text style={fontStyles.subTextStyleGray}>
                                                     {strings.OfferedBy}</Text>
-                                                <TouchableOpacity
-                                                    onPress={offeredByOnPress}>
-                                                    <Text style={fontStyles.subTextStyleGray}>
-                                                        {offeredBy}</Text>
-                                                </TouchableOpacity>
+                                                <Text style={fontStyles.subTextStyleGray}>
+                                                    {offeredBy}</Text>
                                             </View>
                                         )
                                 }
@@ -123,7 +118,7 @@ class ServiceCard extends Component {
                             borderRadius: (Dimensions.get('window').width * 0.0973) / 2
                         }}
                         textStyle={fontStyles.mainTextStyleWhite}
-                        containerStyle={{ position: 'absolute', top: 24, right: 20 }}
+                        containerStyle={{ position: 'absolute', top: Dimensions.get('window').height * 0.03, right: Dimensions.get('window').width * 0.04 }}
                     />
                 ) : (
                         <View></View>
@@ -139,8 +134,7 @@ ServiceCard.propTypes = {
     serviceTitle: PropTypes.string.isRequired,
     serviceDescription: PropTypes.string,
     offeredBy: PropTypes.string,
-    offeredByOnPress: PropTypes.func,
-    pricing: PropTypes.string.isRequired,
+    price: PropTypes.string.isRequired,
     imageFunction: PropTypes.func.isRequired,
     onPress: PropTypes.func.isRequired,
 }

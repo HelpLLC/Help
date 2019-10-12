@@ -47,7 +47,7 @@ const routeConfig = {
         navigationOptions: ({ navigation }) => ({
             header: (
                 <TopBanner
-                    title={strings.CreateService}
+                    title={strings.Service}
                     leftIconName="angle-left"
                     leftOnPress={() => navigation.goBack()} />
             ),

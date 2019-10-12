@@ -60,22 +60,6 @@ export default class requestTab extends Component {
                                     return await FirebaseFunctions.getImageByID(item.serviceID)
                                 }}
                                 numCurrentRequests={0}
-                                offeredByOnPress={async () => {
-                                    try {
-                                        const provider = await FirebaseFunctions.getProviderByID(item.offeredByID);
-                                        this.props.navigation.push('RequesterCompanyProfileScreen', {
-                                            provider,
-                                            requester
-                                        });
-                                    } catch (error) {
-                                        this.setState({ isErrorVisible: true });
-                                        FirebaseFunctions.logIssue(error, {
-                                            screen: this.props.serviceType,
-                                            userID: 'r-' + requester.requesterID
-                                        });
-                                    }
-
-                                }}
                                 //Passes all of the necessary props to the actual screen that contains
                                 //more information about the service
                                 onPress={async () => {

@@ -112,9 +112,11 @@ class companyProfileScreen extends Component {
 
         //Navigates back to the request screen
         try {
+
+            const newRequesterObject = await FirebaseFunctions.getRequesterByID(requester.requesterID);
             const allProducts = await FirebaseFunctions.getAllProducts();
             this.props.navigation.push('RequesterScreens', {
-                requester,
+                requester: newRequesterObject,
                 allProducts
             });
         } catch (error) {
@@ -161,12 +163,12 @@ class companyProfileScreen extends Component {
                             flex: 0.8
                         }}>
                             <View style={{ flexDirection: 'column', flex: 2, justifyContent: 'space-around' }}>
-                                <View style={{ }}>
+                                <View style={{}}>
                                     <Text style={fontStyles.bigTextStyleBlack}>
                                         {provider.companyName}</Text>
                                 </View>
 
-                                <View style={{ }}>
+                                <View style={{}}>
                                     <Text style={fontStyles.subTextStyleBlack}>
                                         {provider.companyDescription}</Text>
                                 </View>

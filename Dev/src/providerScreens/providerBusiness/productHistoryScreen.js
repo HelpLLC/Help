@@ -39,7 +39,7 @@ class productHistoryScreen extends Component {
                         alignSelf: 'center',
                         alignItems: 'center',
                         justifyContent: 'space-between',
-                        flex: 0.35
+                        height: Dimensions.get('window').height * 0.2
                     }}>
 
                         <Text style={fontStyles.bigTextStyleBlack}>{product.serviceTitle}</Text>
@@ -53,9 +53,7 @@ class productHistoryScreen extends Component {
                             }} />
 
                     </View>
-                    <View style={{ flex: 0.025 }}></View>
-
-
+                    <View style={{ height: Dimensions.get('window').height * 0.05 }}></View>
                     {
                         //Tests if the current product has had any requests yet
                         product.requests.completedRequests.length > 0 ? (

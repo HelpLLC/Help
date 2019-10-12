@@ -78,7 +78,7 @@ const routeConfig = {
         navigationOptions: ({ navigation }) => ({
             header: (
                 <TopBanner
-                    title={strings.ForgotPassword}
+                    title={strings.ForgotPasswordNoQuestionMark}
                     leftIconName="angle-left"
                     leftOnPress={() => {
                         //Method will go back to the splash screen

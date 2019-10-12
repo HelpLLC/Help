@@ -22,13 +22,13 @@ export default {
     EnterYourPassword: 'Enter your password...',
     IncorrectInfo: "Incorrect email/password",
     ForgotPassword: "Forgot Password?",
+    ForgotPasswordNoQuestionMark: 'Forgot Password',
 
     //------------------- Forgot Password Screen -------------------
     ChooseANewPassword: "Choose a new password...",
     ResetPassword: 'Reset Password',
     EmailMe: 'Email Me!',
-    LinkHasBeenEmailed: 'The link to reset your password has been emailed to you. Please check your inbox and if you do not see the email, please check your spam folder. If you continue to not see it, please try again',
-    AccountDNE: 'There is no account associated with that email, please sign up.',
+    LinkHasBeenEmailed: 'If a user with this email exists, a link to reset your password has been sent. Please check your spam/junk folders if you don\'t see the email.',
 
     //------------------- Create Profile Screen -------------------
     CreateProfile: 'Create Profile',
@@ -155,7 +155,6 @@ export default {
     NoHistoryForThisProductYet: 'No history for this product yet',
 
     //------------------- Request Screen -------------------
-    Landscaping: 'Landscaping',
     OfferedBy: 'Offered by',
     NoCurrentServices: 'There are no current services available to request. Check back soon!',
 
