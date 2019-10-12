@@ -1,1 +1,0 @@
-- Added the usage of location into the app. Customers will now be able to see businesses that are near them
