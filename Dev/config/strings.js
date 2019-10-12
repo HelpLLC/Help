@@ -93,7 +93,7 @@ export default {
     WhatDoesYourBusinessDoQuestion: 'What does your business do?',
     TellYourCustomersAboutYourselfDotDotDot: 'Tell your customers about yourself...',
     PleaseEnterACompanyName: 'Please enter a company name',
-    PleaseEnterADescription: 'Please enter a description',
+    PleaseEnterADescriptionWithAtLeast150Characters: 'Please enter a description with at least 150 characters',
     CompanyNameTakenPleaseChooseAnotherName: 'This company name is taken, please choose another one',
 
     //------------------- Provider Business Screen -------------------

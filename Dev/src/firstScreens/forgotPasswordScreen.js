@@ -14,9 +14,12 @@ import screenStyle from 'config/styles/screenStyle';
 import firebase from 'react-native-firebase';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import ErrorAlert from '../components/ErrorAlert';
+// const translate = require('google-translate-api');
 
 //The class that will create the look of this screen
 class forgotPasswordScreen extends Component {
+
+    
 
     componentDidMount() {
         FirebaseFunctions.setCurrentScreen("ForgotPasswordScreen", "forgotPasswordScreen");
@@ -91,11 +94,24 @@ class forgotPasswordScreen extends Component {
                     title={strings.Whoops}
                     message={strings.SomethingWentWrong}
                 />
+                
                 <ErrorAlert
                     isVisible={this.state.fieldsError}
                     onPress={() => { this.setState({ fieldsError: false }) }}
                     title={strings.Whoops}
                     message={strings.PleaseFillOutAllFields}
+                    //     translate('I speak Dutch!', {from: 'en', to: 'nl'}).then(res => {
+                    //     console.log(res.text);
+                    //     //=> Ik spreek Nederlands!
+                    //     console.log(res.from.text.autoCorrected);
+                    //     //=> true
+                    //     console.log(res.from.text.value);
+                    //     //=> I [speak] Dutch!
+                    //     console.log(res.from.text.didYouMean);
+                    //     //=> false
+                    // }).catch(err => {
+                    //     console.error(err);
+                    // })}
                 />
                 <ErrorAlert
                     isVisible={this.state.emailedLink == true && this.state.accountDNE == false ? true:false}

@@ -61,7 +61,7 @@ class createProviderProfileScreen extends Component {
 
             this.setState({ nameError: true });
 
-        } else if (this.state.businessInfo.trim() === "") {
+        } else if (this.state.businessInfo.trim() === "" || this.state.businessInfo.length < 150) {
 
             this.setState({ descriptionError: true });
 
@@ -166,7 +166,7 @@ class createProviderProfileScreen extends Component {
                     isVisible={this.state.descriptionError}
                     onPress={() => { this.setState({ descriptionError: false }) }}
                     title={strings.Whoops}
-                    message={strings.PleaseEnterADescription}
+                    message={strings.PleaseEnterADescriptionWithAtLeast150Characters}
                 />
                 <ErrorAlert
                     isVisible={this.state.companyNameTakenError}
