@@ -61,7 +61,7 @@ class createProviderProfileScreen extends Component {
 
             this.setState({ nameError: true });
 
-        } else if (this.state.businessInfo.trim() === "" || this.state.businessInfo.length < 150) {
+        } else if (this.state.businessInfo.trim() === "" || this.state.businessInfo.trim().length < 150) {
 
             this.setState({ descriptionError: true });
 

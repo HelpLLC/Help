@@ -121,6 +121,7 @@ export default {
     Min: 'Min',
     Max: 'Max',
     to: 'to',
+    PleaseEnterADescriptionWithAtLeast50Characters: 'Please enter a description with at least 50 characters',
 
     //------------------- Edit Company Profile Screen -------------------
     EditCompany: 'Edit Company',

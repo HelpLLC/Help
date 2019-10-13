@@ -47,6 +47,7 @@ class createProductScreen extends Component {
                 isScreenLoading: true,
                 isErrorVisible: false,
                 fieldsError: false,
+                serviceDescriptionError: false,
                 imageError: false,
                 priceType: product.price.priceType,
                 pricePerNumber: '',
@@ -82,6 +83,7 @@ class createProductScreen extends Component {
                 isScreenLoading: false,
                 isErrorVisible: false,
                 fieldsError: false,
+                serviceDescriptionError: false,
                 imageError: false,
                 priceType: 'per',
                 pricePerNumber: '',
@@ -130,6 +132,8 @@ class createProductScreen extends Component {
             (priceType === 'per' && (this.state.pricePerNumber === '' || this.state.pricePerText.trim() === "")) ||
             (priceType === 'range' && (this.state.priceMax === '' || this.state.priceMin === ''))) {
             this.setState({ fieldsError: true });
+        } else if(serviceDescription.trim().length < 150) {
+            this.setState({ serviceDescriptionError: true });
         } else if (imageSource === images.BlankWhite) {
             this.setState({ imageError: true });
         } else {
@@ -174,6 +178,8 @@ class createProductScreen extends Component {
             (priceType === 'per' && (this.state.pricePerNumber === '' || this.state.pricePerText.trim() === "")) ||
             (priceType === 'range' && (this.state.priceMax === '' || this.state.priceMin === ''))) {
             this.setState({ fieldsError: true });
+        } else if (serviceDescription.trim().length < 150) {
+            this.setState({ serviceDescriptionError: true });
         } else {
 
             try {
@@ -454,6 +460,12 @@ class createProductScreen extends Component {
                     onPress={() => { this.setState({ fieldsError: false }) }}
                     title={strings.Whoops}
                     message={strings.PleaseCompleteAllTheFields}
+                />
+                <ErrorAlert
+                    isVisible={this.state.serviceDescriptionError}
+                    onPress={() => { this.setState({ serviceDescriptionError: false }) }}
+                    title={strings.Whoops}
+                    message={strings.PleaseEnterADescriptionWithAtLeast50Characters}
                 />
                 <ErrorAlert
                     isVisible={this.state.imageError}
