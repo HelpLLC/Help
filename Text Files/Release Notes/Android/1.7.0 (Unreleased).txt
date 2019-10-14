@@ -1,2 +1,0 @@
-- Enhanced how businesses sign up
-- Bug fixes and improvements
