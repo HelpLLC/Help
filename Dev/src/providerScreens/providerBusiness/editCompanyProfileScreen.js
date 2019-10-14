@@ -42,7 +42,7 @@ class editCompanyProfileScreen extends Component {
         //If either of the two inputs is empty, an error message will be displayed
         if (newBusinessName === "") {
             this.setState({ nameError: true });
-        } else if (newBusinessInfo === "") {
+        } else if (newBusinessInfo === "" || newBusinessInfo.trim().length < 150) {
             this.setState({ descriptionError: true });
 
             //This next statement checks if any information has been changed, if not, then it will
@@ -142,7 +142,7 @@ class editCompanyProfileScreen extends Component {
                     isVisible={this.state.descriptionError}
                     onPress={() => { this.setState({ descriptionError: false }) }}
                     title={strings.Whoops}
-                    message={strings.PleaseEnterADescription}
+                    message={strings.PleaseEnterADescriptionWithAtLeast150Characters}
                 />
             </HelpView>
         )

@@ -17,6 +17,8 @@ import ErrorAlert from '../components/ErrorAlert';
 //The class that will create the look of this screen
 class forgotPasswordScreen extends Component {
 
+    
+
     componentDidMount() {
         FirebaseFunctions.setCurrentScreen("ForgotPasswordScreen", "forgotPasswordScreen");
     }
@@ -83,6 +85,7 @@ class forgotPasswordScreen extends Component {
                     title={strings.Whoops}
                     message={strings.SomethingWentWrong}
                 />
+                
                 <ErrorAlert
                     isVisible={this.state.fieldsError}
                     onPress={() => { this.setState({ fieldsError: false }) }}
