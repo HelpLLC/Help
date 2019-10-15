@@ -13,26 +13,30 @@ if (pixelRatio < 3) {
     baseFontSize = (Platform.OS === 'android' ? 16 : 14.4);
 }
 
+const bigFontSize = baseFontSize * 1.2;
+const subTextFontSize = baseFontSize * 0.9;
+const bigTitleFontSize = baseFontSize * 4.4;
+
 export default StyleSheet.create({
 
     //The style for all big text that will be colored black
     bigTextStyleBlack: {
         fontFamily: font,
-        fontSize: baseFontSize * 1.2,
+        fontSize: bigFontSize,
         color: colors.black
     },
 
     //The style for all big text that will be colored white
     bigTextStyleWhite: {
         fontFamily: font,
-        fontSize: baseFontSize * 1.2,
+        fontSize: bigFontSize,
         color: colors.white
     },
 
     //The style for all big text that will be colored blue
     bigTextStyleBlue: {
         fontFamily: font,
-        fontSize: baseFontSize * 1.2,
+        fontSize: bigFontSize,
         color: colors.lightBlue
     },
 
@@ -74,42 +78,42 @@ export default StyleSheet.create({
     //The style for all non-main text that is black
     subTextStyleBlack: {
         fontFamily: font,
-        fontSize: baseFontSize * 0.9,
+        fontSize: subTextFontSize,
         color: colors.black
     },
 
     //The style for all non-main text that is blue
     subTextStyleBlue: {
         fontFamily: font,
-        fontSize: baseFontSize * 0.9,
+        fontSize: subTextFontSize,
         color: colors.lightBlue
     },
 
     //The style for all non-main text that is red
     subTextStyleRed: {
         fontFamily: font,
-        fontSize: baseFontSize * 0.9,
+        fontSize: subTextFontSize,
         color: colors.red
     },
 
     //The style for all non-main text that is gray
     subTextStyleGray: {
         fontFamily: font,
-        fontSize: baseFontSize * 0.9,
+        fontSize: subTextFontSize,
         color: colors.gray
     },
 
     //The style for all non-main text that is white
     subTextStyleWhite: {
         fontFamily: font,
-        fontSize: baseFontSize * 0.9,
+        fontSize: subTextFontSize,
         color: colors.white
     },
 
     //The style for the tab label at the bottom of the screens
     tabLabelStyle: {
         fontFamily: font,
-        fontSize: baseFontSize * 0.9
+        fontSize: subTextFontSize
     },
 
     //The style for the text on the button on the report issue screen
@@ -122,7 +126,7 @@ export default StyleSheet.create({
     //The style for all big blue title texts
     bigTitleStyleBlue: {
         fontFamily: font,
-        fontSize: baseFontSize * 4.4,
+        fontSize: bigTitleFontSize,
         color: colors.lightBlue
     },
 
