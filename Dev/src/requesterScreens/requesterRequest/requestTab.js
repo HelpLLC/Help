@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View, FlatList, ScrollView, Text } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import ServiceCard from '../../components/ServiceCard';
+import NarrowServiceCard from '../../components/NarrowServiceCard';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import ErrorAlert from '../../components/ErrorAlert';
 import strings from 'config/strings';
@@ -50,10 +51,9 @@ export default class requestTab extends Component {
                             return (item.serviceID + "");
                         }}
                         renderItem={({ item, index }) => (
-                            <ServiceCard
+                            <NarrowServiceCard
                                 key={index}
                                 serviceTitle={item.serviceTitle}
-                                offeredBy={item.offeredByName}
                                 price={item.pricing}
                                 imageFunction={async () => {
                                     //Passes in the function to retrieve the image of this product
@@ -82,7 +82,7 @@ export default class requestTab extends Component {
                             />
                         )}
                     />
-                    <View style={{ flex: 0.2 }}></View>
+                    <View style={{ flex: 0.5 }}></View>
                 </ScrollView>
                 <ErrorAlert
                     isVisible={this.state.isErrorVisible}

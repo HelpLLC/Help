@@ -7,6 +7,7 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity, ScrollView, FlatList } from 'react-native';
 import ServiceCard from '../../components/ServiceCard';
+import NarrowServiceCard from '../../components/NarrowServiceCard';
 import colors from 'config/colors';
 import HelpView from '../../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -207,7 +208,7 @@ class companyProfileScreen extends Component {
                                     return (provider.companyName + " Product #" + index);
                                 }}
                                 renderItem={({ item, index }) => (
-                                    <ServiceCard
+                                    <NarrowServiceCard
                                         key={index}
                                         serviceTitle={item.serviceTitle}
                                         serviceDescription={item.serviceDescription}
