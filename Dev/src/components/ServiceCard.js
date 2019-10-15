@@ -43,11 +43,13 @@ class ServiceCard extends Component {
 
         //Fetches the image and the isImageLoading from the state
         const { isImageLoading, image } = this.state;
+
         //Returns the rendered component
         return (
             <TouchableOpacity onPress={onPress} style={{
                 width: Dimensions.get('window').width,
                 height: (Dimensions.get('window').height * 0.31),
+                maxHeight: 210,
                 alignItems: 'center',
                 justifyContent: 'center'
             }}>
@@ -57,6 +59,7 @@ class ServiceCard extends Component {
                         height: (Dimensions.get('window').height * 0.21961933),
                         color: colors.gray,
                         border: 10,
+                        maxHeight: 150,
                         radius: (Dimensions.get('window').height * 0.04392387),
                         opacity: 0.2,
                         x: 0,
