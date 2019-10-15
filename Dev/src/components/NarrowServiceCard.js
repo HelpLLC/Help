@@ -1,11 +1,8 @@
-//This component will represent the card which which will display a service. The card will be accessed
-//from both the requester & the provider screens. From the provider, they'll be able to view their
-//products and if they click on them, they'll be able to see the products & edit them as well as
-//see other kinds of information. From the requester, clicking on the service would allow them to view
+//This component will represent the card which which will display a service as the narrow card. 
+//The card will only be accessible from requester side. Cicking on the service would allow them to view
 //the service and request it if they need it.
 import React, { Component } from 'react';
 import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
-import serviceCardStyle from 'config/styles/componentStyles/serviceCardStyle';
 import narrowServiceCardStyle from 'config/styles/componentStyles/narrowServiceCardStyle';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
@@ -13,7 +10,6 @@ import PropTypes from 'prop-types';
 import { Badge } from 'react-native-elements';
 import LoadingSpinner from './LoadingSpinner';
 import { BoxShadow } from 'react-native-shadow';
-import strings from 'config/strings';
 
 //The component class
 class NarrowServiceCard extends Component {
@@ -40,28 +36,28 @@ class NarrowServiceCard extends Component {
         //The props for the NarrowServiceCard. It will take in a service title, a description, a price, and an
         //image to display, along with an onPress method. An additional prop is also how many current
         //requests this product currently has. This prop should only be used by the provider screens
-        const { serviceTitle, serviceDescription, price, onPress, numCurrentRequests, offeredBy } = this.props;
+        const { serviceTitle, price, onPress, numCurrentRequests } = this.props;
 
         //Fetches the image and the isImageLoading from the state
         const { isImageLoading, image } = this.state;
         //Returns the rendered component
         return (
             <TouchableOpacity onPress={onPress} style={{
-                width: Dimensions.get('window').width,
+                width: Dimensions.get('window').width * 0.45,
                 height: (Dimensions.get('window').height * 0.35),
                 alignItems: 'center',
                 justifyContent: 'center'
             }}>
                 <View>
                     <BoxShadow setting={{
-                        width: (Dimensions.get('window').width - 40) * 0.45,
-                        height: (Dimensions.get('window').height * 0.3),
+                        width: (Dimensions.get('window').width) * 0.45,
+                        height: (Dimensions.get('window').height * 0.26),
                         color: colors.gray,
                         border: 10,
-                        radius: (Dimensions.get('window').height * 0.04392387),
+                        radius: (Dimensions.get('window').height * 0.0439238653),
                         opacity: 0.2,
                         x: 0,
-                        y: 5
+                        y: 10
                     }}>
                         <View style={narrowServiceCardStyle.style}>
                             <View style={{ flex: 1 }}>
@@ -74,40 +70,28 @@ class NarrowServiceCard extends Component {
                                             <Image
                                                 source={image}
                                                 style={{
-                                                    width: (Dimensions.get('window').width - 40) * 0.45,
-                                                    height: (Dimensions.get('window').height * 0.15) - 12,
+                                                    width: (Dimensions.get('window').width) * 0.45 - 12,
+                                                    height: (Dimensions.get('window').height * 0.13),
                                                     borderRadius: (Dimensions.get('window').height * 0.03440703)
                                                 }} />
                                         )
                                 }
                             </View>
-                            {/* <View style={{ flex: 0.05 }}></View> */}
+                            <View style={{ flex: 0.5 }}></View>
                             <View style={{
                                 flexDirection: 'column', flex: 1.5, alignItems: 'flex-start',
                                 justifyContent: 'space-evenly'
                             }}>
-                                <Text style={fontStyles.mainTextStyleBlack}>{serviceTitle}</Text>
-                                <Text style={fontStyles.mainTextStyleBlack}>{price}</Text>
+                                <Text style={[fontStyles.mainTextStyleBlack, {
+                                    paddingLeft: Dimensions.get('window').width * 0.025
+                                }]}>{serviceTitle}</Text>
+                                <Text style={[fontStyles.mainTextStyleBlack, {
+                                    paddingLeft: Dimensions.get('window').width * 0.025
+                                }]}>{price}</Text>
                             </View>
-                            {/* <View style={{ flex: 0.05 }}></View> */}
                         </View>
                     </BoxShadow>
                 </View>
-                {numCurrentRequests > 0 ? (
-                    <Badge
-                        status="error"
-                        value={numCurrentRequests}
-                        badgeStyle={{
-                            width: (Dimensions.get('window').width * 0.0973),
-                            height: (Dimensions.get('window').width * 0.0973),
-                            borderRadius: (Dimensions.get('window').width * 0.0973) / 2
-                        }}
-                        textStyle={fontStyles.mainTextStyleWhite}
-                        containerStyle={{ position: 'absolute', top: Dimensions.get('window').height * 0.03, right: Dimensions.get('window').width * 0.04 }}
-                    />
-                ) : (
-                        <View></View>
-                    )}
             </TouchableOpacity>
         );
     }
@@ -117,8 +101,6 @@ class NarrowServiceCard extends Component {
 //and what their types should be
 NarrowServiceCard.propTypes = {
     serviceTitle: PropTypes.string.isRequired,
-    serviceDescription: PropTypes.string,
-    offeredBy: PropTypes.string,
     price: PropTypes.string.isRequired,
     imageFunction: PropTypes.func.isRequired,
     onPress: PropTypes.func.isRequired,
