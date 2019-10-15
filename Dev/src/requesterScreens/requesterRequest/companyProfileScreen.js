@@ -6,8 +6,7 @@
 //requester to request the service.
 import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity, ScrollView, FlatList } from 'react-native';
-import ServiceCard from '../../components/ServiceCard';
-import NarrowServiceCard from '../../components/NarrowServiceCard';
+import ServicesList from '../../components/ServicesList';
 import colors from 'config/colors';
 import HelpView from '../../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -198,40 +197,7 @@ class companyProfileScreen extends Component {
                             </View>
                         </View>
                         <View style={{ flex: 0.025 }}></View>
-                        <ScrollView
-                            style={{ flex: 1 }}
-                            contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
-                            showsVerticalScrollIndicator={false}>
-                            <FlatList
-                                data={providerProducts}
-                                keyExtractor={(item, index) => {
-                                    return (provider.companyName + " Product #" + index);
-                                }}
-                                renderItem={({ item, index }) => (
-                                    <NarrowServiceCard
-                                        key={index}
-                                        serviceTitle={item.serviceTitle}
-                                        serviceDescription={item.serviceDescription}
-                                        price={item.pricing}
-                                        imageFunction={async () => {
-                                            //Passes in the function to retrieve the image of this product
-                                            return await FirebaseFunctions.getImageByID(item.serviceID)
-                                        }}
-                                        numCurrentRequests={0}
-                                        //Passes all of the necessary props to the actual screen that contains
-                                        //more information about the service
-                                        onPress={() => {
-                                            this.props.navigation.push('RequesterServiceScreen', {
-                                                productID: item.serviceID,
-                                                requester,
-                                                provider
-                                            });
-                                        }}
-                                    />
-                                )}
-                            />
-                            <View style={{ flex: 0.025 }}></View>
-                        </ScrollView>
+                        <ServicesList services={providerProducts} requester={requester} />
                     </View>
                     <ErrorAlert
                         isVisible={this.state.isErrorVisible}
