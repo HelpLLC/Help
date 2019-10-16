@@ -35,43 +35,72 @@ class ServicesList extends Component {
 
         const rowsOfServices = [];
 
+        //The following for loop goes through the array of services and constructs a view with two columns
+        //that has a NarrowServiceCard for each service in the arrary. The if statement deals with if the
+        //the services array has an odd number of elements, so it doesn't index out of bounds
         for (let i = 0; i < services.length; i += 2) {
-            rowsOfServices.push(
-                <View key={i} style={{
-                    flexDirection: 'row',
-                    height: (Dimensions.get('window').height * 0.35),
-                    maxHeight: 255,
-                }}>
-                    <NarrowServiceCard
-                        serviceTitle={services[i].serviceTitle}
-                        price={services[i].pricing}
-                        imageFunction={async () => {
-                            //Passes in the function to retrieve the image of this product
-                            return await FirebaseFunctions.getImageByID(services[i].serviceID)
-                        }}
-                        numCurrentRequests={0}
-                        //Passes all of the necessary props to the actual screen that contains
-                        //more information about the service
-                        onPress={async () => {
-                            await this.goToServiceScreen(i);
-                        }} />
-                    <View style={{ width: Dimensions.get('window').width * 0.03 }}></View>
-                    <NarrowServiceCard
-                        serviceTitle={services[i + 1].serviceTitle}
-                        price={services[i + 1].pricing}
-                        imageFunction={async () => {
-                            //Passes in the function to retrieve the image of this product
-                            return await FirebaseFunctions.getImageByID(services[i + 1].serviceID)
-                        }}
-                        numCurrentRequests={0}
-                        //Passes all of the necessary props to the actual screen that contains
-                        //more information about the service
-                        onPress={async () => {
-                            await this.goToServiceScreen(i + 1);
-                        }}
-                    />
-                </View>
-            )
+            if (i === services.length - 1) {
+                rowsOfServices.push(
+                    <View key={i} style={{
+                        flexDirection: 'row',
+                        height: (Dimensions.get('window').height * 0.35),
+                        maxHeight: 255,
+                    }}>
+                        <NarrowServiceCard
+                            serviceTitle={services[i].serviceTitle}
+                            price={services[i].pricing}
+                            imageFunction={async () => {
+                                //Passes in the function to retrieve the image of this product
+                                return await FirebaseFunctions.getImageByID(services[i].serviceID)
+                            }}
+                            numCurrentRequests={0}
+                            //Passes all of the necessary props to the actual screen that contains
+                            //more information about the service
+                            onPress={async () => {
+                                await this.goToServiceScreen(i);
+                            }} />
+                        <View style={{ width: Dimensions.get('window').width * 0.03 }}></View>
+                        <View style={{ width: (Dimensions.get('window').width) * 0.45 }}></View>
+                    </View>
+                )
+            } else {
+                rowsOfServices.push(
+                    <View key={i} style={{
+                        flexDirection: 'row',
+                        height: (Dimensions.get('window').height * 0.35),
+                        maxHeight: 255,
+                    }}>
+                        <NarrowServiceCard
+                            serviceTitle={services[i].serviceTitle}
+                            price={services[i].pricing}
+                            imageFunction={async () => {
+                                //Passes in the function to retrieve the image of this product
+                                return await FirebaseFunctions.getImageByID(services[i].serviceID)
+                            }}
+                            numCurrentRequests={0}
+                            //Passes all of the necessary props to the actual screen that contains
+                            //more information about the service
+                            onPress={async () => {
+                                await this.goToServiceScreen(i);
+                            }} />
+                        <View style={{ width: Dimensions.get('window').width * 0.03 }}></View>
+                        <NarrowServiceCard
+                            serviceTitle={services[i + 1].serviceTitle}
+                            price={services[i + 1].pricing}
+                            imageFunction={async () => {
+                                //Passes in the function to retrieve the image of this product
+                                return await FirebaseFunctions.getImageByID(services[i + 1].serviceID)
+                            }}
+                            numCurrentRequests={0}
+                            //Passes all of the necessary props to the actual screen that contains
+                            //more information about the service
+                            onPress={async () => {
+                                await this.goToServiceScreen(i + 1);
+                            }}
+                        />
+                    </View>
+                )
+            }
         }
 
         return (
