@@ -68,7 +68,7 @@ class splashScreen extends Component {
                             const allProducts = await FirebaseFunctions.getAllProducts();
                             //If this is a requester, then it will navigate to the screens & pass in the
                             //correct params
-                            this.props.navigation.push('RequestScreen', {
+                            this.props.navigation.push('FeaturedScreen', {
                                 requester: requester,
                                 allProducts
                             });

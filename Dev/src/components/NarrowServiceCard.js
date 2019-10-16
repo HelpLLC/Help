@@ -7,7 +7,6 @@ import narrowServiceCardStyle from 'config/styles/componentStyles/narrowServiceC
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import PropTypes from 'prop-types';
-import { Badge } from 'react-native-elements';
 import LoadingSpinner from './LoadingSpinner';
 import { BoxShadow } from 'react-native-shadow';
 

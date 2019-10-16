@@ -1,19 +1,18 @@
 //This screen represents the main screen that is launched once the requester logs in. Here they will
 //be able to view services from different categories and click on them to go buy them
 import React, { Component } from 'react';
-import { View, Dimensions, Text, Platform } from 'react-native';
-import TopBanner from '../../components/TopBanner';
+import { View, Platform, Text, Dimensions } from 'react-native';
+import fontStyles from 'config/styles/fontStyles';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import strings from 'config/strings';
-import fontStyles from 'config/styles/fontStyles';
-import { TabView, TabBar } from 'react-native-tab-view';
-import colors from '../../../config/colors';
-import RequestTab from './requestTab';
-import FirebaseFunctions from '../../../config/FirebaseFunctions';
-import LoadingSpinner from '../../components/LoadingSpinner';
+import FirebaseFunctions from '../../config/FirebaseFunctions';
+import LoadingSpinner from '../components/LoadingSpinner';
+import screenStyle from 'config/styles/screenStyle';
 import Geolocation from 'react-native-geolocation-service';
+import HelpView from '../components/HelpView';
+import ServicesList from '../components/ServicesList';
 
-class requestScreen extends Component {
+class featuredScreen extends Component {
 
     state = {
         index: 0,
@@ -115,7 +114,7 @@ class requestScreen extends Component {
 
 
     render() {
-        
+
         //Filters the products and removes any that are posted by blocked users
         let { allProducts, requester } = this.props.navigation.state.params;
         allProducts = allProducts.filter((product) => {
@@ -130,45 +129,21 @@ class requestScreen extends Component {
             )
         }
         return (
-            <TabView
-                navigationState={this.state}
-                renderScene={({ route, jumpTo }) => {
-                    return <RequestTab
-                        {...this.props}
-                        jumpTo={jumpTo}
-                        requester={this.props.navigation.state.params.requester}
-                        serviceType={route.title}
-                        products={
-                            //Calls a method which filters all the products to return
-                            //only cleaning services
-                            FirebaseFunctions.getCategory(allProducts, route.title)
-                        } />;
-                }}
-                renderTabBar={props =>
-                    <View>
-                        <TopBanner
-                            title={strings.Request} />
-                        <TabBar
-                            {...props}
-                            style={{ backgroundColor: colors.white }}
-                            renderLabel={({ route, focused, color }) => (
-                                <Text style={[fontStyles.tabLabelStyle, { color }]}>
-                                    {route.title}
-                                </Text>
-                            )}
-                            indicatorStyle={{ backgroundColor: colors.white }}
-                            activeColor={colors.lightBlue}
-                            inactiveColor={colors.black}
-                            labelStyle={fontStyles.tabLabelStyle} />
-                    </View>
-                }
-                onIndexChange={index => this.setState({ index })}
-                initialLayout={{ width: Dimensions.get('window').width }}
-                swipeEnabled={false}
-            />
+            <HelpView style={screenStyle.container}>
+
+                <View style={{
+                    height: Dimensions.get('window').height * 0.05,
+                    width: Dimensions.get('window').width * 0.93,
+                    justifyContent: 'flex-end',
+                    alignItems: 'flex-start'
+                }}>
+                    <Text style={fontStyles.bigTextStyleBlue}>{strings.FeaturedServices}</Text>
+                </View>
+                <ServicesList requester={requester} services={allProducts} />
+            </HelpView>
         )
     }
 }
 
 //Exports the screen
-export default requestScreen;
+export default featuredScreen;

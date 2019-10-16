@@ -2,11 +2,11 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
-import ServicesList from '../../components/ServicesList';
+import ServicesList from '../components/ServicesList';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import ErrorAlert from '../../components/ErrorAlert';
+import ErrorAlert from '../components/ErrorAlert';
 import strings from 'config/strings';
-import HelpView from '../../components/HelpView';
+import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 
 export default class requestTab extends Component {

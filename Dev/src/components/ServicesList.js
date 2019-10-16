@@ -20,6 +20,8 @@ class ServicesList extends Component {
             rowsOfServices.push(
                 <View key={i} style={{
                     flexDirection: 'row',
+                    height: (Dimensions.get('window').height * 0.35),
+                    maxHeight: 255,
                 }}>
                     <NarrowServiceCard
                         serviceTitle={services[i].serviceTitle}
@@ -82,7 +84,10 @@ class ServicesList extends Component {
         }
 
         return (
-            <ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+            <ScrollView
+                contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}
+                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}>
                 {rowsOfServices}
             </ScrollView>
         )

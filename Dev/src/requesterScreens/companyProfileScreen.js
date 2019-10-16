@@ -6,17 +6,17 @@
 //requester to request the service.
 import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity, ScrollView, FlatList } from 'react-native';
-import ServicesList from '../../components/ServicesList';
+import ServicesList from '../components/ServicesList';
 import colors from 'config/colors';
-import HelpView from '../../components/HelpView';
+import HelpView from '../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import { Icon } from 'react-native-elements';
 import ActionSheet from 'react-native-actionsheet'
-import LoadingSpinner from '../../components/LoadingSpinner';
-import OptionPicker from '../../components/OptionPicker';
-import ErrorAlert from '../../components/ErrorAlert';
+import LoadingSpinner from '../components/LoadingSpinner';
+import OptionPicker from '../components/OptionPicker';
+import ErrorAlert from '../components/ErrorAlert';
 import strings from 'config/strings';
 
 class companyProfileScreen extends Component {
@@ -115,7 +115,7 @@ class companyProfileScreen extends Component {
 
             const newRequesterObject = await FirebaseFunctions.getRequesterByID(requester.requesterID);
             const allProducts = await FirebaseFunctions.getAllProducts();
-            this.props.navigation.push('RequestScreen', {
+            this.props.navigation.push('FeaturedScreen', {
                 requester: newRequesterObject,
                 allProducts
             });

@@ -4,7 +4,7 @@ import React from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import splashScreen from './splashScreen';
 import providerScreensNavigator from '../providerScreens/providerScreensNavigator';
-import requestScreen from '../requesterScreens/requesterRequest/requestScreen';
+import featuredScreen from '../requesterScreens/featuredScreen';
 import accountNotVerifiedScreen from './accountNotVerifiedScreen';
 import logInScreen from './logInScreen';
 import forgotPasswordScreen from './forgotPasswordScreen';
@@ -34,7 +34,7 @@ const routeConfig = {
     },
     //Takes you to the requester screen navigator's default route
     RequesterScreens: {
-        screen: requestScreen,
+        screen: featuredScreen,
         navigationOptions: ({ navigation }) => ({
             header: null,
             gesturesEnabled: false,

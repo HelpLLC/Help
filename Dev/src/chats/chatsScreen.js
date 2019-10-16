@@ -88,7 +88,7 @@ class chatsScreen extends Component {
                                     </View>
                                 ) : (
                                     <View>
-                                        <ScrollView style={{ flex: 1 }}>
+                                        <ScrollView style={{ flex: 1 }} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
                                             <FlatList
                                                 data={this.state.userConversations}
                                                 keyExtractor={(item, index) => {
