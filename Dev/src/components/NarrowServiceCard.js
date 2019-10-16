@@ -35,7 +35,7 @@ class NarrowServiceCard extends Component {
         //The props for the NarrowServiceCard. It will take in a service title, a description, a price, and an
         //image to display, along with an onPress method. An additional prop is also how many current
         //requests this product currently has. This prop should only be used by the provider screens
-        const { serviceTitle, price, onPress, numCurrentRequests } = this.props;
+        const { serviceTitle, price, onPress } = this.props;
 
         //Fetches the image and the isImageLoading from the state
         const { isImageLoading, image } = this.state;

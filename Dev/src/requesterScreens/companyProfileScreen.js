@@ -197,7 +197,7 @@ class companyProfileScreen extends Component {
                             </View>
                         </View>
                         <View style={{ flex: 0.025 }}></View>
-                        <ServicesList services={providerProducts} requester={requester} />
+                        <ServicesList navigation={this.props.navigation} services={providerProducts} requester={requester} />
                     </View>
                     <ErrorAlert
                         isVisible={this.state.isErrorVisible}

@@ -139,7 +139,7 @@ class featuredScreen extends Component {
                 }}>
                     <Text style={fontStyles.bigTextStyleBlue}>{strings.FeaturedServices}</Text>
                 </View>
-                <ServicesList requester={requester} services={allProducts} />
+                <ServicesList requester={requester} navigation={this.props.navigation} services={allProducts} />
             </HelpView>
         )
     }

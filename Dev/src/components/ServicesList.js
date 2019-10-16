@@ -9,10 +9,29 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 //Defines the class
 class ServicesList extends Component {
 
+    //This function goes to a screen of a specific service based on its index within the services array
+    async goToServiceScreen(index) {
+        const { services, requester } = this.props;
+        try {
+            const provider = await FirebaseFunctions.getProviderByID(services[index].offeredByID);
+            this.props.navigation.push('RequesterServiceScreen', {
+                productID: services[index].serviceID,
+                requester,
+                provider
+            });
+        } catch (error) {
+            this.setState({ isLoading: false, isErrorVisible: true });
+            FirebaseFunctions.logIssue(error, {
+                screen: "Featured Screen",
+                userID: 'r-' + requester.requesterID
+            });
+        }
+    }
+
     render() {
 
         //Fetches the array of services from the props along with the requester object that is signed in
-        const { services, requester } = this.props;
+        const { services } = this.props;
 
         const rowsOfServices = [];
 
@@ -34,21 +53,7 @@ class ServicesList extends Component {
                         //Passes all of the necessary props to the actual screen that contains
                         //more information about the service
                         onPress={async () => {
-                            try {
-                                const provider = await FirebaseFunctions.getProviderByID(services[i].offeredByID);
-                                this.props.navigation.push('RequesterServiceScreen', {
-                                    productID: services[i].serviceID,
-                                    requester,
-                                    provider
-                                });
-                            } catch (error) {
-                                this.setState({ isLoading: false, isErrorVisible: true });
-                                FirebaseFunctions.logIssue(error, {
-                                    screen: this.props.serviceType,
-                                    userID: 'r-' + requester.requesterID
-                                });
-                            }
-
+                            await this.goToServiceScreen(i);
                         }} />
                     <View style={{ width: Dimensions.get('window').width * 0.03 }}></View>
                     <NarrowServiceCard
@@ -62,21 +67,7 @@ class ServicesList extends Component {
                         //Passes all of the necessary props to the actual screen that contains
                         //more information about the service
                         onPress={async () => {
-                            try {
-                                const provider = await FirebaseFunctions.getProviderByID(services[i + 1].offeredByID);
-                                this.props.navigation.push('RequesterServiceScreen', {
-                                    productID: services[i + 1].serviceID,
-                                    requester,
-                                    provider
-                                });
-                            } catch (error) {
-                                this.setState({ isLoading: false, isErrorVisible: true });
-                                FirebaseFunctions.logIssue(error, {
-                                    screen: this.props.serviceType,
-                                    userID: 'r-' + requester.requesterID
-                                });
-                            }
-
+                            await this.goToServiceScreen(i + 1);
                         }}
                     />
                 </View>
