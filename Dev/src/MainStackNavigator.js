@@ -11,8 +11,10 @@ import MessagingScreen from './chats/messagingScreen';
 import aboutScreen from './settingsScreens/aboutScreen';
 import privacyScreen from './settingsScreens/privacyScreen';
 import reportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';
+import chatsScreen from './chats/chatsScreen';
+import settingsScreen from './settingsScreens/settingsScreen';
 import providerScreensNavigator from './providerScreens/providerScreensNavigator';
-import requesterScreensNavigator from './requesterScreens/requesterScreensNavigator';
+import requestScreen from './requesterScreens/requesterRequest/requestScreen';
 import TopBanner from './components/TopBanner';
 import React from 'react';
 import strings from 'config/strings';
@@ -139,13 +141,26 @@ const routeConfig = {
         gesturesEnabled: false,
     },
 
-    //Takes you to the requester screen navigator's default route
-    RequesterScreens: {
-        screen: requesterScreensNavigator,
+    //Route connecting to the chats screen
+    ChatsScreen: {
+        //connects the object with the chats screen component
+        screen: chatsScreen,
+        //sets up what the tab will be titled
         navigationOptions: ({ navigation }) => ({
-            header: null
-        }),
-        gesturesEnabled: false,
+            tabBarLabel: strings.Chats,
+        })
+    },
+
+    //Route connecting to the request screen
+    RequestScreen: {
+        //connects the object with the help screen component
+        screen: requestScreen,
+    },
+
+    //Route connecting to the settings screen
+    SettingsScreen: {
+        //connects the object with the settings screen component
+        screen: settingsScreen,
     },
 
     //Takes you to the about screen

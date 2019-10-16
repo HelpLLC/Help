@@ -115,7 +115,7 @@ class companyProfileScreen extends Component {
 
             const newRequesterObject = await FirebaseFunctions.getRequesterByID(requester.requesterID);
             const allProducts = await FirebaseFunctions.getAllProducts();
-            this.props.navigation.push('RequesterScreens', {
+            this.props.navigation.push('RequestScreen', {
                 requester: newRequesterObject,
                 allProducts
             });

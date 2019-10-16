@@ -96,7 +96,7 @@ class signUpScreen extends Component {
                         await FirebaseFunctions.logIn(email, password);
                         const allProducts = await FirebaseFunctions.getAllProducts();
                         this.setState({ isLoading: false });
-                        this.props.navigation.push('RequesterScreens', {
+                        this.props.navigation.push('RequestScreen', {
                             requester,
                             allProducts
                         });
