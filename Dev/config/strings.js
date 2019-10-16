@@ -155,9 +155,12 @@ export default {
     Customer: 'Customer',
     NoHistoryForThisProductYet: 'No history for this product yet',
 
-    //------------------- Request Screen -------------------
+    //------------------- Featured Screen -------------------
     OfferedBy: 'Offered by',
     NoCurrentServices: 'There are no current services available to request. Check back soon!',
+    Featured: "Featured",
+    FeaturedServices: 'Featured Services',
+
 
     //------------------- Requester Service Screen -------------------
     ServiceRequested: 'Service Requested',

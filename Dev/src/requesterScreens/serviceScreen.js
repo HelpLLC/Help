@@ -3,18 +3,18 @@
 //requester to request the service.
 import React, { Component } from 'react';
 import { View, Dimensions, TouchableOpacity, Text } from 'react-native';
-import HelpView from '../../components/HelpView';
+import HelpView from '../components/HelpView';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
-import RoundBlueButton from '../../components/RoundBlueButton';
+import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import LoadingSpinner from '../../components/LoadingSpinner';
-import FirebaseFunctions from '../../../config/FirebaseFunctions';
-import ErrorAlert from '../../components/ErrorAlert';
-import OptionPicker from '../../components/OptionPicker';
+import LoadingSpinner from '../components/LoadingSpinner';
+import FirebaseFunctions from '../../config/FirebaseFunctions';
+import ErrorAlert from '../components/ErrorAlert';
+import OptionPicker from '../components/OptionPicker';
 import screenStyle from 'config/styles/screenStyle';
-import ImageWithBorder from '../../components/ImageWithBorder';
+import ImageWithBorder from '../components/ImageWithBorder';
 
 class serviceScreen extends Component {
 

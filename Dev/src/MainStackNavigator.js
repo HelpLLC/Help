@@ -5,14 +5,16 @@ import ProviderCreateProductScreen from './providerScreens/providerBusiness/crea
 import ProviderEditCompanyProfileScreen from './providerScreens/providerBusiness/editCompanyProfileScreen';
 import ProviderProductScreen from './providerScreens/providerBusiness/productScreen';
 import ProviderProductHistoryScreen from './providerScreens/providerBusiness/productHistoryScreen';
-import RequesterServiceScreen from './requesterScreens/requesterRequest/serviceScreen';
-import RequesterCompanyProfileScreen from './requesterScreens/requesterRequest/companyProfileScreen';
+import RequesterServiceScreen from './requesterScreens/serviceScreen';
+import RequesterCompanyProfileScreen from './requesterScreens/companyProfileScreen';
 import MessagingScreen from './chats/messagingScreen';
 import aboutScreen from './settingsScreens/aboutScreen';
 import privacyScreen from './settingsScreens/privacyScreen';
 import reportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';
+import chatsScreen from './chats/chatsScreen';
+import settingsScreen from './settingsScreens/settingsScreen';
 import providerScreensNavigator from './providerScreens/providerScreensNavigator';
-import requesterScreensNavigator from './requesterScreens/requesterScreensNavigator';
+import featuredScreen from './requesterScreens/featuredScreen';
 import TopBanner from './components/TopBanner';
 import React from 'react';
 import strings from 'config/strings';
@@ -139,13 +141,35 @@ const routeConfig = {
         gesturesEnabled: false,
     },
 
-    //Takes you to the requester screen navigator's default route
-    RequesterScreens: {
-        screen: requesterScreensNavigator,
+    //Route connecting to the chats screen
+    ChatsScreen: {
+        //connects the object with the chats screen component
+        screen: chatsScreen,
+        //sets up what the tab will be titled
+        navigationOptions: ({ navigation }) => ({
+            header: null,
+        })
+    },
+
+    //Route connecting to the featured screen
+    FeaturedScreen: {
+        //connects the object with the help screen component
+        screen: featuredScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: (
+                <TopBanner
+                    title={strings.Featured} />
+            )
+        }),
+    },
+
+    //Route connecting to the settings screen
+    SettingsScreen: {
+        //connects the object with the settings screen component
+        screen: settingsScreen,
         navigationOptions: ({ navigation }) => ({
             header: null
         }),
-        gesturesEnabled: false,
     },
 
     //Takes you to the about screen

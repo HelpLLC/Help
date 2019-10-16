@@ -132,7 +132,7 @@ class createProductScreen extends Component {
             (priceType === 'per' && (this.state.pricePerNumber === '' || this.state.pricePerText.trim() === "")) ||
             (priceType === 'range' && (this.state.priceMax === '' || this.state.priceMin === ''))) {
             this.setState({ fieldsError: true });
-        } else if(serviceDescription.trim().length < 150) {
+        } else if (serviceDescription.trim().length < 150) {
             this.setState({ serviceDescriptionError: true });
         } else if (imageSource === images.BlankWhite) {
             this.setState({ imageError: true });
@@ -260,51 +260,51 @@ class createProductScreen extends Component {
                         </View>
 
                         <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                            <View style={{ justifyContent: 'flex-start' }}>
-                                {this.state.serviceID ? (
-                                    <ImageWithBorder
-                                        width={Dimensions.get('window').width * 0.25}
-                                        height={Dimensions.get('window').width * 0.25}
-                                        imageFunction={async () => {
-                                            //Passes in the function to retrieve the image of this product
-                                            return await FirebaseFunctions.getImageByID(this.state.serviceID)
-                                        }} />
-                                ) : (
-                                        <BoxShadow setting={{
-                                            width: (Dimensions.get('window').width * 0.25),
-                                            height: (Dimensions.get('window').width * 0.25),
-                                            color: colors.gray,
-                                            border: 10,
-                                            radius: (Dimensions.get('window').width * 0.25) / 2,
-                                            opacity: 0.2,
-                                            x: 0,
-                                            y: 5
-                                        }}>
-                                            <Image
-                                                source={this.state.imageSource}
-                                                style={{
-                                                    width: Dimensions.get('window').width * 0.25,
-                                                    height: (Dimensions.get('window').width * 0.25),
-                                                    borderColor: colors.lightBlue,
-                                                    borderWidth: (Dimensions.get('window').width * 0.25) / 17,
-                                                    borderRadius: (Dimensions.get('window').width * 0.25) / 2
-                                                }} />
-                                        </BoxShadow>
-                                    )}
+                            <TouchableOpacity
+                                onPress={() => {
+                                    Keyboard.dismiss();
+                                    this.chooseImage();
+                                }}
+                                style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                <View style={{ justifyContent: 'flex-start' }}>
+                                    {this.state.serviceID ? (
+                                        <ImageWithBorder
+                                            width={Dimensions.get('window').width * 0.25}
+                                            height={Dimensions.get('window').width * 0.25}
+                                            imageFunction={async () => {
+                                                //Passes in the function to retrieve the image of this product
+                                                return await FirebaseFunctions.getImageByID(this.state.serviceID)
+                                            }} />
+                                    ) : (
+                                            <BoxShadow setting={{
+                                                width: (Dimensions.get('window').width * 0.25),
+                                                height: (Dimensions.get('window').width * 0.25),
+                                                color: colors.gray,
+                                                border: 10,
+                                                radius: (Dimensions.get('window').width * 0.25) / 2,
+                                                opacity: 0.2,
+                                                x: 0,
+                                                y: 5
+                                            }}>
+                                                <Image
+                                                    source={this.state.imageSource}
+                                                    style={{
+                                                        width: Dimensions.get('window').width * 0.25,
+                                                        height: (Dimensions.get('window').width * 0.25),
+                                                        borderColor: colors.lightBlue,
+                                                        borderWidth: (Dimensions.get('window').width * 0.25) / 17,
+                                                        borderRadius: (Dimensions.get('window').width * 0.25) / 2
+                                                    }} />
+                                            </BoxShadow>
+                                        )}
 
-                            </View>
-                            <Text> </Text>
-                            <View style={{ justifyContent: 'flex-end' }}>
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        Keyboard.dismiss();
-                                        this.chooseImage();
-                                    }}
-                                    style={{ justifyContent: 'flex-end' }}>
+                                </View>
+                                <Text> </Text>
+                                <View style={{ justifyContent: 'flex-end' }}>
                                     <Text style={fontStyles.mainTextStyleBlue}>
                                         {strings.EditImage}</Text>
-                                </TouchableOpacity>
-                            </View>
+                                </View>
+                            </TouchableOpacity>
                         </View>
 
                     </View>

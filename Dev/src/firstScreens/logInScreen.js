@@ -78,7 +78,7 @@ class logInScreen extends Component {
                     //If this is a requester, then it will navigate to the screens & pass in the
                     //correct params
                     this.setState({ isLoading: false });
-                    this.props.navigation.push('RequesterScreens', {
+                    this.props.navigation.push('FeaturedScreen', {
                         requester: requester,
                         allProducts
                     });
