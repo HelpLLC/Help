@@ -26,6 +26,7 @@ class OneLineRoundedBoxInput extends Component {
                         paddingLeft: 10,
                         maxHeight: 42,
                         backgroundColor: colors.white,
+                        color: colors.black
                     }}
                     secureTextEntry={password}
                     keyboardType={keyboardType ? keyboardType : 'default'}
