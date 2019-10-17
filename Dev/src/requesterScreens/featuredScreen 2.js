@@ -1,7 +1,7 @@
 //This screen represents the main screen that is launched once the requester logs in. Here they will
 //be able to view services from different categories and click on them to go buy them
 import React, { Component } from "react";
-import { View, Platform, Text, Dimensions, Image } from "react-native";
+import { View, Platform, Text, Dimensions } from "react-native";
 import fontStyles from "config/styles/fontStyles";
 import { check, request, PERMISSIONS, RESULTS } from "react-native-permissions";
 import strings from "config/strings";
@@ -11,9 +11,9 @@ import screenStyle from "config/styles/screenStyle";
 import Geolocation from "react-native-geolocation-service";
 import HelpView from "../components/HelpView";
 import ServicesList from "../components/ServicesList";
-import LeftMenu from "./LeftMenu";
-import SideMenu from "react-native-side-menu";
-import TopBanner from "../components/TopBanner";
+import SideMenu from '../requesterScreens/sideMenu'
+
+const SideBar = require("react-native-side-menu");
 
 class featuredScreen extends Component {
   state = {
@@ -21,8 +21,7 @@ class featuredScreen extends Component {
     routes: [],
     isLoading: true,
     latitude: null,
-    longitude: null,
-    isOpen: false
+    longitude: null
   };
 
   //Fetches the current position and stores it in the state
@@ -129,26 +128,12 @@ class featuredScreen extends Component {
         </View>
       );
     }
-
     return (
-      <SideMenu
-        isOpen={this.state.isOpen}
-        menu={
-          <LeftMenu
-            navigation={this.props.navigation}
-            allProducts={allProducts}
-            requester={requester}
-          />
-        }
-      >
+    <SideBar menu = {<SideMenu 
+        requester = {requester}
+        allProducts = {allProducts}
+    /> }>
         <HelpView style={screenStyle.container}>
-          <TopBanner
-            leftIconName="navicon"
-            leftOnPress={() => {
-              this.setState({ isOpen: true });
-            }}
-            title={strings.Featured}
-          />
           <View
             style={{
               height: Dimensions.get("window").height * 0.05,
@@ -167,7 +152,7 @@ class featuredScreen extends Component {
             services={allProducts}
           />
         </HelpView>
-      </SideMenu>
+      </SideBar>
     );
   }
 }

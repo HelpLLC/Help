@@ -170,6 +170,14 @@ export default {
     AreYouSureCancelRequest: 'Are you sure you want to cancel your request for this service?',
     Yes: 'Yes',
 
+    //----------------------- Side Menu -----------------------------------
+
+    Home: 'Home',
+    Chats: 'Chats',
+    Settings: 'Settings',
+    LogOut: 'Log Out',
+
+
 
     //------------------- Requester Side Company Profile Screen -------------------
     CompanyProfile: 'Company Profile',

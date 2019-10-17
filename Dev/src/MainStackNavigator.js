@@ -157,8 +157,7 @@ const routeConfig = {
         screen: featuredScreen,
         navigationOptions: ({ navigation }) => ({
             header: (
-                <TopBanner
-                    title={strings.Featured} />
+                null
             )
         }),
     },
