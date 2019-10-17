@@ -27,7 +27,11 @@ class MultiLineRoundedBoxInput extends Component {
                 borderColor: colors.lightBlue,
             }} >
                 <TextInput
-                    style={{ height: (height - 5), width: (width - 15) }}
+                    style={{ 
+                        height: (height * 0.9), 
+                        width: (width * 0.935),
+                        color: colors.black 
+                    }}
                     multiline={true}
                     textAlignVertical='top'
                     placeholder={placeholder}
