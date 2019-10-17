@@ -68,6 +68,7 @@ export default {
     Privacy: 'Privacy',
     ReportAnIssue: 'Report an Issue',
     About: 'About',
+    IconMadeBySmashIconsFromFlaticon: 'Icon made by SmashIcons from www.flaticon.com',
     LogOut: 'Log Out',
 
     //------------------- About Screen -------------------

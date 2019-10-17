@@ -98,6 +98,16 @@ class settingsScreen extends Component {
                                 }}
                             />
                         </View>
+                        <View style={{ flex: 1 }}>
+                            <WhiteCard
+                                style={whiteCardStyle.whiteCardStyle}
+                                text={strings.IconMadeBySmashIconsFromFlaticon}
+                                mainTextStyle={fontStyles.mainTextStyleBlack}
+                                comp={angleRightIcon}
+                                //Pressing this leads to the about screen page
+                                onPress={() => this.props.navigation.push('FeaturedScreen')}
+                            />
+                        </View>
                         <View style={{ flex: 3 }}></View>
                     </View>
                 </View>
