@@ -41,55 +41,55 @@ class CategoryCard extends Component {
       //Returns the rendered component
       return (
          <TouchableOpacity onPress={onPress} style={{
-             width: Dimensions.get('window').width * 0.45,
-             height: (Dimensions.get('window').height * 0.35),
-             alignItems: 'center',
-             justifyContent: 'center'
+            width: Dimensions.get('window').width * 0.45,
+            height: (Dimensions.get('window').height * 0.35),
+            alignItems: 'center',
+            justifyContent: 'center'
          }}>
-             <View>
-                 <BoxShadow setting={{
-                     width: (Dimensions.get('window').width) * 0.45,
-                     height: (Dimensions.get('window').height * 0.225),
-                     color: colors.gray,
-                     border: 10,
-                     radius: (Dimensions.get('window').height * 0.0439238653),
-                     opacity: 0.2,
-                     x: 0,
-                     y: 10
-                 }}>
-                     <View style={categoryCardStyle.style}>
-                         <View style={{ flex: 1 }}>
-                             {
-                                 isImageLoading === true ? (
-                                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                         <LoadingSpinner isVisible={true} />
-                                     </View>
-                                 ) : (
-                                         <Image
-                                             source={image}
-                                             style={{
-                                                 width: (Dimensions.get('window').width) * 0.45,
-                                                 height: (Dimensions.get('window').height * 0.2),
-                                                 borderRadius: (Dimensions.get('window').height * 0.03440703)
-                                             }} />
-                                     )
-                             }
-                         </View>
-                         {/* <View style={{ flex: 2.5 }}></View> */}
-                         <View style={{
-                             flexDirection: 'column', flex: 0, alignItems: 'flex-start',
-                             justifyContent: 'space-evenly'
-                         }}>
-                             <Text style={[fontStyles.mainTextStyleBlack, {
-                                 paddingLeft: Dimensions.get('window').width * 0.025
-                             }]}>{categoryTitle}</Text>
-                         </View>
+            <View>
+               <BoxShadow setting={{
+                  width: (Dimensions.get('window').width) * 0.45,
+                  height: (Dimensions.get('window').height * 0.225),
+                  color: colors.gray,
+                  border: 10,
+                  radius: (Dimensions.get('window').height * 0.0439238653),
+                  opacity: 0.2,
+                  x: 0,
+                  y: 10
+               }}>
+                  <View style={categoryCardStyle.style}>
+                     <View style={{ flex: 1 }}>
+                        {
+                           isImageLoading === true ? (
+                              <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                 <LoadingSpinner isVisible={true} />
+                              </View>
+                           ) : (
+                                 <Image
+                                    source={image}
+                                    style={{
+                                       width: (Dimensions.get('window').width) * 0.45,
+                                       height: (Dimensions.get('window').height * 0.2),
+                                       borderRadius: (Dimensions.get('window').height * 0.03440703)
+                                    }} />
+                              )
+                        }
                      </View>
-                 </BoxShadow>
-             </View>
+                     {/* <View style={{ flex: 2.5 }}></View> */}
+                     <View style={{
+                        flexDirection: 'column', flex: 0, alignItems: 'flex-start',
+                        justifyContent: 'space-evenly'
+                     }}>
+                        <Text style={[fontStyles.mainTextStyleBlack, {
+                           paddingLeft: Dimensions.get('window').width * 0.025
+                        }]}>{categoryTitle}</Text>
+                     </View>
+                  </View>
+               </BoxShadow>
+            </View>
          </TouchableOpacity>
-     );
- }
+      );
+   }
 }
 
 //These are the propTypes for the topBanner component. It defines whether they are required or not
