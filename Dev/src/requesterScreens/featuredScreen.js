@@ -147,6 +147,7 @@ class featuredScreen extends Component {
             leftOnPress={() => {
               this.setState({ isOpen: true });
             }}
+            size={30}
             title={strings.Featured}
           />
           <View

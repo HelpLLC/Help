@@ -42,13 +42,23 @@ class settingsScreen extends Component {
     return (
       <HelpView style={screenStyle.container}>
         <View>
-          <TopBanner
-            leftIconName="navicon"
-            leftOnPress={() => {
-              this.setState({ isOpen: true });
-            }}
-            title={strings.Settings}
-          />
+          {
+            this.props.navigation.state.params.providerID ? (
+              <TopBanner
+                title={strings.Settings}
+              />
+            ) : (
+                <TopBanner
+                  leftIconName="navicon"
+                  leftOnPress={() => {
+                    this.setState({ isOpen: true });
+                  }}
+                  size={30}
+                  title={strings.Settings}
+                />
+              )
+          }
+
           <View style={{ flex: 0.1 }}></View>
           <View style={{ flex: 2 }}>
             <View style={{ flex: 1 }}>

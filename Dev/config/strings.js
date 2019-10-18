@@ -177,8 +177,6 @@ export default {
     Settings: 'Settings',
     LogOut: 'Log Out',
 
-
-
     //------------------- Requester Side Company Profile Screen -------------------
     CompanyProfile: 'Company Profile',
     Block: 'Block',
