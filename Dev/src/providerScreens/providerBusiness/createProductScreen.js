@@ -349,7 +349,8 @@ class createProductScreen extends Component {
                                             borderRadius: 20,
                                             width: Dimensions.get('window').width * 0.2,
                                             height: Dimensions.get('window').height * 0.05,
-                                            paddingLeft: Dimensions.get('window').height * 0.01
+                                            paddingLeft: Dimensions.get('window').height * 0.01,
+                                            color: colors.black
                                         },
                                         inputAndroid: {
                                             borderWidth: 1,
@@ -357,7 +358,8 @@ class createProductScreen extends Component {
                                             borderRadius: 20,
                                             width: Dimensions.get('window').width * 0.2,
                                             height: Dimensions.get('window').height * 0.05,
-                                            paddingLeft: Dimensions.get('window').height * 0.01
+                                            paddingLeft: Dimensions.get('window').height * 0.01,
+                                            color: colors.black
                                         }
                                     }}
                                     Icon={() =>

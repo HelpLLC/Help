@@ -88,7 +88,7 @@ class editCompanyProfileScreen extends Component {
                                 onChangeText={(input) => this.setState({ businessName: input })}
                                 value={this.state.businessName}
                                 password={false}
-                                maxLength={18}
+                                maxLength={20}
                             />
                         </View>
                     </View>
