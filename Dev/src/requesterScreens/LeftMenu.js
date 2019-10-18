@@ -1,17 +1,18 @@
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity, Dimensions } from "react-native";
+import { Text, View, TouchableOpacity, Dimensions, StyleSheet } from "react-native";
 import HelpView from "../components/HelpView";
 import fontStyles from "config/styles/fontStyles";
 import strings from "config/strings";
 import FirebaseFunctions from "config/FirebaseFunctions";
 import screenStyle from "config/styles/screenStyle";
+import colors from "../../config/colors";
 //This screen is the side menu where you can navigate to all the screens for the customer
 class LeftMenu extends Component {
   render() {
     return (
       <HelpView style={screenStyle.container}>
         <View style={{ flex: 1, justifyContent: "space-evenly" }}>
-          <TouchableOpacity
+          <TouchableOpacity style = {styles.borderBottom}
             onPress={() => {
               //Home leads to featured screen
               this.props.navigation.push("FeaturedScreen", {
@@ -42,7 +43,7 @@ class LeftMenu extends Component {
               });
             }}
           >
-            <Text style={fontStyles.mainTextStyleBlue}>{strings.Settings}</Text>
+            <Text style={[fontStyles.mainTextStyleBlue, {}]}>{strings.Settings}</Text>
           </TouchableOpacity>
         </View>
         <View>
@@ -63,5 +64,12 @@ class LeftMenu extends Component {
     );
   }
 }
+const styles = StyleSheet.create({
+  borderBottom: {
+    borderBottomColor:colors.black, 
+    borderBottomWidth: 2,
+    borderBottomColor: colors.lightBlue
+  }
+})
 //exports side menu
 export default LeftMenu;
