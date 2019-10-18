@@ -19,7 +19,8 @@ class chatsScreen extends Component {
       isLoading: true,
       userID: "",
       userConversations: "",
-      isRequester: ""
+      isRequester: "",
+      isOpen: false
     };
   }
 
@@ -36,7 +37,8 @@ class chatsScreen extends Component {
         userID: this.props.navigation.state.params.providerID,
         isRequester: false,
         userConversations: convos,
-        isLoading: false
+        isLoading: false,
+        isOpen: false
       });
     } else {
       //Fetches all the conversations that this user has done and stores them in an array
@@ -48,7 +50,8 @@ class chatsScreen extends Component {
         userID: this.props.navigation.state.params.requester.requesterID,
         isRequester: true,
         userConversations: convos,
-        isLoading: false
+        isLoading: false,
+        isOpen: false
       });
     }
   }

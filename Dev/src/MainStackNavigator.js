@@ -156,9 +156,7 @@ const routeConfig = {
         //connects the object with the help screen component
         screen: featuredScreen,
         navigationOptions: ({ navigation }) => ({
-            header: (
-                null
-            )
+            header: null
         }),
     },
 

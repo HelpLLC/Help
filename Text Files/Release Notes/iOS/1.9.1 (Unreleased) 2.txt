@@ -1,3 +1,0 @@
-- Requested location permissions from customers in preparation for Help 2.0
-- Various bug fixes and improvements
-- Coming soon: Help 2.0

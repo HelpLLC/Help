@@ -120,6 +120,7 @@ class settingsScreen extends Component {
                 />
               </View>
               {this.props.navigation.state.params.providerID ? (
+                //Makes it if they are a provider they can see the log out in settings
                 <View style={{ flex: 1 }}>
                   <WhiteCard
                     style={whiteCardStyle.whiteCardStyle}
@@ -133,7 +134,7 @@ class settingsScreen extends Component {
                   />
                 </View>
               ) : (
-                null
+                <View></View>
               )}
 
               <View style={{ flex: 3 }}></View>
