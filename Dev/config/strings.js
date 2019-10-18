@@ -68,7 +68,7 @@ export default {
     Privacy: 'Privacy',
     ReportAnIssue: 'Report an Issue',
     About: 'About',
-    IconMadeBySmashIconsFromFlaticon: 'Icon made by SmashIcons from www.flaticon.com',
+    Credits: 'Credits',
     LogOut: 'Log Out',
 
     //------------------- About Screen -------------------
@@ -219,6 +219,9 @@ export default {
         '- Email Addresses  Collected email addresses in order to create account information from customers.' +
         '- Credit & Contact Information' +
         'This privacy policy was created at https://termsandconditionstemplate.com/privacy-policy-generator/. If you have any questions about this Privacy Policy, please contact us via or phone.',
+
+    //------------------- Settings Screen -------------------
+    IconMadeBySmashIconsFromFlaticon: 'Icon made by SmashIcons from www.flaticon.com',
 
     //------------------- Miscellaneous -----------------
     Whoops: 'Whoops',

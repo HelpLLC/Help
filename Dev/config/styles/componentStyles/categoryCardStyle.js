@@ -5,7 +5,7 @@ import { Dimensions } from 'react-native';
 
 export default {
    style: {
-      width: (Dimensions.get('window').width) * 0.5,
+      width: (Dimensions.get('window').width) * 0.45,
       height: (Dimensions.get('window').height * 0.275),
       flexDirection: 'column',
       backgroundColor: colors.white,
