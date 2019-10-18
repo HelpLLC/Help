@@ -8,6 +8,8 @@ import strings from "config/strings";
 import ChatCard from "../components/ChatCard";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FirebaseFunctions from "config/FirebaseFunctions";
+import LeftMenu from "../requesterScreens/LeftMenu";
+import SideMenu from "react-native-side-menu";
 
 class chatsScreen extends Component {
   //The constructor that initializes the loading screen to make sure all of the chats have been loaded
@@ -68,27 +70,24 @@ class chatsScreen extends Component {
   }
 
   render() {
-
     const { isRequester } = this.state;
 
     if (this.state.isLoading === true) {
       return (
         <View style={screenStyle.container}>
           <View style={{ flex: 1 }}>
-            {
-              isRequester === true ? (
-                <TopBanner
-                  leftIconName="navicon"
-                  leftOnPress={() => {
-                    this.setState({ isOpen: true });
-                  }}
-                  size={30}
-                  title={strings.Chats}
-                />
-              ) : (
-                  <TopBanner title={strings.Chats} />
-                )
-            }
+            {isRequester === true ? (
+              <TopBanner
+                leftIconName="navicon"
+                leftOnPress={() => {
+                  this.setState({ isOpen: true });
+                }}
+                size={30}
+                title={strings.Chats}
+              />
+            ) : (
+              <TopBanner title={strings.Chats} />
+            )}
           </View>
           <View>
             <View
@@ -105,10 +104,19 @@ class chatsScreen extends Component {
       );
     } else {
       return (
-        <View style={screenStyle.container}>
-          <View>
-            {
-              isRequester === true ? (
+        <SideMenu
+          isOpen={this.state.isOpen}
+          menu={
+            <LeftMenu
+              navigation={this.props.navigation}
+              allProducts={this.props.navigation.state.params.allProducts}
+              requester={this.props.navigation.state.params.requester}
+            />
+          }
+        >
+          <View style={screenStyle.container}>
+            <View>
+              {isRequester === true ? (
                 <TopBanner
                   leftIconName="navicon"
                   leftOnPress={() => {
@@ -118,10 +126,9 @@ class chatsScreen extends Component {
                   title={strings.Chats}
                 />
               ) : (
-                  <TopBanner title={strings.Chats} />
-                )
-            }
-            {//Tests whether or not the provider has any conversations
+                <TopBanner title={strings.Chats} />
+              )}
+              {//Tests whether or not the provider has any conversations
               this.state.userConversations.length === 0 ? (
                 <View
                   style={{
@@ -135,61 +142,62 @@ class chatsScreen extends Component {
                   </Text>
                 </View>
               ) : (
-                  <View>
-                    <ScrollView
-                      style={{ flex: 1 }}
-                      showsHorizontalScrollIndicator={false}
-                      showsVerticalScrollIndicator={false}
-                    >
-                      <FlatList
-                        data={this.state.userConversations}
-                        keyExtractor={(item, index) => {
-                          return (
-                            "Provider #" +
-                            item.providerID +
-                            " + Requester #" +
-                            item.requesterID
-                          );
-                        }}
-                        renderItem={({ item, index }) => (
-                          <ChatCard
-                            username={
-                              //Will test if this is the provider or the requester in
-                              //order to know which username to display
-                              this.state.isRequester
+                <View>
+                  <ScrollView
+                    style={{ flex: 1 }}
+                    showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
+                  >
+                    <FlatList
+                      data={this.state.userConversations}
+                      keyExtractor={(item, index) => {
+                        return (
+                          "Provider #" +
+                          item.providerID +
+                          " + Requester #" +
+                          item.requesterID
+                        );
+                      }}
+                      renderItem={({ item, index }) => (
+                        <ChatCard
+                          username={
+                            //Will test if this is the provider or the requester in
+                            //order to know which username to display
+                            this.state.isRequester
+                              ? item.providerName
+                              : item.requesterName
+                          }
+                          previewText={
+                            item.conversationMessages[
+                              item.conversationMessages.length - 1
+                            ].text
+                          }
+                          timeText={
+                            item.conversationMessages[
+                              item.conversationMessages.length - 1
+                            ].createdAt
+                          }
+                          onPress={() => {
+                            this.props.navigation.push("MessagingScreen", {
+                              title: this.state.isRequester
                                 ? item.providerName
-                                : item.requesterName
-                            }
-                            previewText={
-                              item.conversationMessages[
-                                item.conversationMessages.length - 1
-                              ].text
-                            }
-                            timeText={
-                              item.conversationMessages[
-                                item.conversationMessages.length - 1
-                              ].createdAt
-                            }
-                            onPress={() => {
-                              this.props.navigation.push("MessagingScreen", {
-                                title: this.state.isRequester
-                                  ? item.providerName
-                                  : item.requesterName,
-                                providerID: item.providerID,
-                                requesterID: item.requesterID,
-                                userID: this.state.isRequester
-                                  ? item.requesterID
-                                  : item.providerID
-                              });
-                            }}
-                          />
-                        )}
-                      />
-                    </ScrollView>
-                  </View>
-                )}
+                                : item.requesterName,
+                              providerID: item.providerID,
+                              requesterID: item.requesterID,
+                              userID: this.state.isRequester
+                                ? item.requesterID
+                                : item.providerID
+                            });
+                          }}
+                        />
+                      )}
+                    />
+                  </ScrollView>
+                </View>
+              )}
+            </View>
           </View>
-        </View>
+        </SideMenu>
       );
     }
   }

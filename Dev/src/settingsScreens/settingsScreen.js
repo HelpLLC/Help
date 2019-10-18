@@ -13,8 +13,14 @@ import screenStyle from "config/styles/screenStyle";
 import HelpView from "../components/HelpView";
 import strings from "config/strings";
 import FirebaseFunctions from "config/FirebaseFunctions";
+import LeftMenu from "../requesterScreens/LeftMenu";
+import SideMenu from "react-native-side-menu";
 
 class settingsScreen extends Component {
+  state = {
+    isOpen: false
+  };
+
   componentDidMount() {
     FirebaseFunctions.setCurrentScreen("SettingsScreen", "settingsScreen");
   }
@@ -40,89 +46,101 @@ class settingsScreen extends Component {
     }
 
     return (
-      <HelpView style={screenStyle.container}>
-        <View>
-          {
-            this.props.navigation.state.params.providerID ? (
+      <SideMenu
+        isOpen={this.state.isOpen}
+        menu={
+          <LeftMenu
+            navigation={this.props.navigation}
+            allProducts={this.props.navigation.state.params.allProducts}
+            requester={this.props.navigation.state.params.requester}
+          />
+        }
+      >
+        <HelpView style={screenStyle.container}>
+          <View>
+            {this.props.navigation.state.params.providerID ? (
+              <TopBanner title={strings.Settings} />
+            ) : (
               <TopBanner
+                leftIconName="navicon"
+                leftOnPress={() => {
+                  this.setState({ isOpen: true });
+                }}
+                size={30}
                 title={strings.Settings}
               />
-            ) : (
-                <TopBanner
-                  leftIconName="navicon"
-                  leftOnPress={() => {
-                    this.setState({ isOpen: true });
-                  }}
-                  size={30}
-                  title={strings.Settings}
-                />
-              )
-          }
+            )}
 
-          <View style={{ flex: 0.1 }}></View>
-          <View style={{ flex: 2 }}>
-            <View style={{ flex: 1 }}>
-              <WhiteCard
-                style={whiteCardStyle.whiteCardStyle}
-                text={strings.ReportAnIssue}
-                mainTextStyle={fontStyles.mainTextStyleBlack}
-                comp={angleRightIcon}
-                //Pressing this leads to the report an issue screen
-                onPress={() =>
-                  this.props.navigation.push("ReportIssueScreen", {
-                    user
-                  })
-                }
-              />
+            <View style={{ flex: 0.1 }}></View>
+            <View style={{ flex: 2 }}>
+              <View style={{ flex: 1 }}>
+                <WhiteCard
+                  style={whiteCardStyle.whiteCardStyle}
+                  text={strings.ReportAnIssue}
+                  mainTextStyle={fontStyles.mainTextStyleBlack}
+                  comp={angleRightIcon}
+                  //Pressing this leads to the report an issue screen
+                  onPress={() =>
+                    this.props.navigation.push("ReportIssueScreen", {
+                      user
+                    })
+                  }
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <WhiteCard
+                  style={whiteCardStyle.whiteCardStyle}
+                  text={strings.About}
+                  mainTextStyle={fontStyles.mainTextStyleBlack}
+                  comp={angleRightIcon}
+                  //Pressing this leads to the about screen page
+                  onPress={() => this.props.navigation.push("AboutScreen")}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <WhiteCard
+                  style={whiteCardStyle.whiteCardStyle}
+                  text={strings.Privacy}
+                  mainTextStyle={fontStyles.mainTextStyleBlack}
+                  comp={angleRightIcon}
+                  //Pressing this leads to the about screen page
+                  onPress={() => this.props.navigation.push("PrivacyScreen")}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <WhiteCard
+                  style={whiteCardStyle.whiteCardStyle}
+                  text={strings.TermsAndConditions}
+                  mainTextStyle={fontStyles.mainTextStyleBlack}
+                  comp={angleRightIcon}
+                  //Pressing this leads to the about screen page
+                  onPress={() =>
+                    this.props.navigation.push("TermsAndConditionsScreen")
+                  }
+                />
+              </View>
+              {this.props.navigation.state.params.providerID ? (
+                <View style={{ flex: 1 }}>
+                  <WhiteCard
+                    style={whiteCardStyle.whiteCardStyle}
+                    text={strings.LogOut}
+                    mainTextStyle={fontStyles.mainTextStyleRed}
+                    //To-Do: Needs to call a logout function
+                    onPress={async () => {
+                      await FirebaseFunctions.logOut(isRequester, uid);
+                      this.props.navigation.push("FirstScreens");
+                    }}
+                  />
+                </View>
+              ) : (
+                null
+              )}
+
+              <View style={{ flex: 3 }}></View>
             </View>
-            <View style={{ flex: 1 }}>
-              <WhiteCard
-                style={whiteCardStyle.whiteCardStyle}
-                text={strings.About}
-                mainTextStyle={fontStyles.mainTextStyleBlack}
-                comp={angleRightIcon}
-                //Pressing this leads to the about screen page
-                onPress={() => this.props.navigation.push("AboutScreen")}
-              />
-            </View>
-            <View style={{ flex: 1 }}>
-              <WhiteCard
-                style={whiteCardStyle.whiteCardStyle}
-                text={strings.Privacy}
-                mainTextStyle={fontStyles.mainTextStyleBlack}
-                comp={angleRightIcon}
-                //Pressing this leads to the about screen page
-                onPress={() => this.props.navigation.push("PrivacyScreen")}
-              />
-            </View>
-            <View style={{ flex: 1 }}>
-              <WhiteCard
-                style={whiteCardStyle.whiteCardStyle}
-                text={strings.TermsAndConditions}
-                mainTextStyle={fontStyles.mainTextStyleBlack}
-                comp={angleRightIcon}
-                //Pressing this leads to the about screen page
-                onPress={() =>
-                  this.props.navigation.push("TermsAndConditionsScreen")
-                }
-              />
-            </View>
-            <View style={{ flex: 1 }}>
-              <WhiteCard
-                style={whiteCardStyle.whiteCardStyle}
-                text={strings.LogOut}
-                mainTextStyle={fontStyles.mainTextStyleRed}
-                //To-Do: Needs to call a logout function
-                onPress={async () => {
-                  await FirebaseFunctions.logOut(isRequester, uid);
-                  this.props.navigation.push("FirstScreens");
-                }}
-              />
-            </View>
-            <View style={{ flex: 3 }}></View>
           </View>
-        </View>
-      </HelpView>
+        </HelpView>
+      </SideMenu>
     );
   }
 }
