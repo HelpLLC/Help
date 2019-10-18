@@ -12,7 +12,7 @@ class TopBanner extends Component {
     render() {
         //The properties for the TopBannet components. There will be a left icon, banner title,
         //and right icon
-        const { leftIconName, leftOnPress, title, rightIconName, rightOnPress } = this.props;
+        const { leftIconName, leftOnPress, title, rightIconName, rightOnPress, size } = this.props;
         return (
             <View style={{ flexDirection: 'column' }}>
                 <View style={{ height: 5, backgroundColor: colors.white }}></View>
@@ -31,7 +31,7 @@ class TopBanner extends Component {
                         <Icon
                             name={leftIconName}
                             type="font-awesome"
-                            size={40}
+                            size={size ? size : 40}
                             color={colors.lightBlue} />
                     </TouchableOpacity>
                     <View style={{ flex: 0.2 }}></View>
@@ -54,7 +54,7 @@ class TopBanner extends Component {
                         <Icon
                             name={rightIconName}
                             type="font-awesome"
-                            size={40}
+                            size={size ? size : 40}
                             color={colors.lightBlue} />
                     </TouchableOpacity>
                     <View style={{ flex: 0.2 }}></View>

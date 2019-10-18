@@ -194,7 +194,7 @@ PODS:
     - React-cxxreact (= 0.60.3)
     - React-jsi (= 0.60.3)
   - React-jsinspector (0.60.3)
-  - react-native-geolocation (1.4.2):
+  - react-native-geolocation (2.0.2):
     - React
   - react-native-image-picker (1.0.2):
     - React
@@ -432,7 +432,7 @@ SPEC CHECKSUMS:
   React-jsi: c2b6e57836bcae2677a036384111dc2c58e94369
   React-jsiexecutor: d9023c5c199114d2b6f38ec861a4d923c73d0735
   React-jsinspector: 817b64f3c8a807f09d78620f4f505868d89b26f3
-  react-native-geolocation: 79c743ad7a2e86617811ef23f49308824e92520c
+  react-native-geolocation: cbd9d6bd06bac411eed2671810f454d4908484a8
   react-native-image-picker: 4c1d9b0377a3291d9b9a0e65c89e87d435e74516
   react-native-netinfo: c8798d4becf1df39247d1625abc623ee65832c75
   react-native-spinkit: 9a5d2f95aa975d5660fd3e76b7eac38e7329e46c

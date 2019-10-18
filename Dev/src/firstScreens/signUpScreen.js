@@ -16,6 +16,7 @@ import firebase from 'react-native-firebase';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import ErrorAlert from '../components/ErrorAlert';
 
+
 //The class that will create the look of this screen
 class signUpScreen extends Component {
 
