@@ -158,7 +158,7 @@ class productScreen extends Component {
                                 height={(Dimensions.get('window').width * 0.25)}
                                 imageFunction={async () => {
                                     //Passes in the function to retrieve the image of this product
-                                    return await FirebaseFunctions.getImageByID(productID);
+                                    return await FirebaseFunctions.getProdudctImageByID(productID);
                                 }} />
                         </View>
                         <View style={{ flex: 0.025 }}></View>

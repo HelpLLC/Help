@@ -40,13 +40,24 @@ export default class FirebaseFunctions {
 
     }
 
-    //This method will get the names of the current categories that is in the market. This way,
-    //the categories can be located in the cloud, and the app doesn't need to have a new update every
-    //time a new category is added
-    static async getCategoryNames() {
+    //This method will return an array of category objects. Each object will contain two fields. The first field will be the name
+    //of the category, and the second will be the location of the image as it is stored in Firebase Storage. The image will not actually
+    //be downloaded with this method. Instead you must call the method "getCategoryImageByID" to return the downloaded image
+    static async getCategoryObjects() {
 
+        //Fetches the array from firestore containing the categories
         const categoriesDocument = await this.helpDev.doc("categories").get();
-        return categoriesDocument.data().arrayOfCategories;
+        const { arrayOfCategoriesWithImages } = await categoriesDocument;
+        return arrayOfCategoriesWithImages;
+
+    }
+
+    //This method will take in an ID of a category image and download it from Firebase Storage, storing its URI. 
+    static async getCategoryImageByID(ID) {
+
+        //Creates the reference
+        const uri = await this.storage.ref('categoryIcons/' + ID).getDownloadURL();
+        return { uri };
 
     }
 
@@ -55,7 +66,7 @@ export default class FirebaseFunctions {
     //parameter
     //TODO: Make some kind of machine learning model to automatically filter the products
     //depending on features such as product name, description, the company offering it, etc.
-    static getCategory(allProducts, categoryName) {
+    static getProductsByCategory(allProducts, categoryName) {
 
         //creates the new array
         const filteredProducts = allProducts.filter((element) => {
@@ -314,7 +325,7 @@ export default class FirebaseFunctions {
 
     //This method will take in a reference to a picture (the same as the product ID it is fetching)
     //and return the download URL for the image which is used as an image source
-    static async getImageByID(ID) {
+    static async getProdudctImageByID(ID) {
 
         //Creates the reference
         const uri = await this.storage.ref('products/' + ID).getDownloadURL();
