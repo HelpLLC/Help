@@ -44,7 +44,6 @@ class ServicesList extends Component {
                     <View key={i} style={{
                         flexDirection: 'row',
                         height: (Dimensions.get('window').height * 0.35),
-                        maxHeight: 255,
                     }}>
                         <NarrowServiceCard
                             serviceTitle={services[i].serviceTitle}
@@ -68,7 +67,6 @@ class ServicesList extends Component {
                     <View key={i} style={{
                         flexDirection: 'row',
                         height: (Dimensions.get('window').height * 0.35),
-                        maxHeight: 255,
                     }}>
                         <NarrowServiceCard
                             serviceTitle={services[i].serviceTitle}

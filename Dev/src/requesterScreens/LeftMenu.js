@@ -69,6 +69,23 @@ class LeftMenu extends Component {
           >
             <Text style={fontStyles.mainTextStyleBlue}>{strings.Settings}</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              borderBottomColor: colors.black,
+              borderBottomWidth: 2,
+              borderBottomColor: colors.lightBlue
+            }}
+            onPress={() => {
+              //Leads to the settings screen
+              FirebaseFunctions.analytics.logEvent('settings_card_clicked');
+              this.props.navigation.push('RequesterCategoriesScreen', {
+                requester: this.props.requester,
+                allProducts: this.props.allProducts
+              });
+            }}
+          >
+            <Text style={fontStyles.mainTextStyleBlue}>{strings.Categories}</Text>
+          </TouchableOpacity>
         </View>
         <View>
           <TouchableOpacity

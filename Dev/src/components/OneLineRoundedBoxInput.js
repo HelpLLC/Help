@@ -24,7 +24,6 @@ class OneLineRoundedBoxInput extends Component {
                         height: (Dimensions.get('window').height * 0.06),
                         borderRadius: 20,
                         paddingLeft: 10,
-                        maxHeight: 42,
                         backgroundColor: colors.white,
                         color: colors.black
                     }}

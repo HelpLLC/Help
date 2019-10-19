@@ -9,20 +9,18 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 //Defines the class
 class CategoriesList extends Component {
 
-    //This function goes to a screen of a specific service based on its index within the categories array
-    async goToCategoryScreen(index) {
-        const { categories, requester } = this.props;
+    //This function goes to a screen of a specific category
+    async goToCategoryScreen(categoryName) {
+        const { requester } = this.props;
         try {
-            const provider = await FirebaseFunctions.getProviderByID(categories[index].offeredByID);
             this.props.navigation.push('RequesterCategoryScreen', {
-               categoryID: categories[index].categoryID,
+                nameOfCategory: categoryName,
                 requester,
-                provider
             });
         } catch (error) {
             this.setState({ isLoading: false, isErrorVisible: true });
             FirebaseFunctions.logIssue(error, {
-                screen: "Featured Screen",
+                screen: "Categories Screen",
                 userID: 'r-' + requester.requesterID
             });
         }
@@ -30,9 +28,10 @@ class CategoriesList extends Component {
 
     render() {
 
-        //Fetches the array of categories from the props along with the requester object that is signed in
+        //Fetches the array of categories from the props
         const { categories } = this.props;
 
+        console.log(categories);
         const rowsOfServices = [];
 
         //The following for loop goes through the array of categories and constructs a view with two columns
@@ -44,19 +43,18 @@ class CategoriesList extends Component {
                     <View key={i} style={{
                         flexDirection: 'row',
                         height: (Dimensions.get('window').height * 0.35),
-                        maxHeight: 255,
                     }}>
                         <CategoryCard
-                            categoryTitle={categories[i].categoryTitle}
+                            categoryTitle={categories[i].categoryName}
                             imageFunction={async () => {
                                 //Passes in the function to retrieve the image of this category
-                                return await FirebaseFunctions.getImageByID(categories[i].categoryID)
+                                return await FirebaseFunctions.getCategoryImageByID(categories[i].imageName)
                             }}
                             numCurrentRequests={0}
                             //Passes all of the necessary props to the actual screen that contains
                             //more information about the service
                             onPress={async () => {
-                                await this.goToServiceScreen(i);
+                                await this.goToCategoryScreen(categories[i].categoryName);
                             }} />
                         <View style={{ width: Dimensions.get('window').width * 0.03 }}></View>
                         <View style={{ width: (Dimensions.get('window').width) * 0.45 }}></View>
@@ -67,32 +65,31 @@ class CategoriesList extends Component {
                     <View key={i} style={{
                         flexDirection: 'row',
                         height: (Dimensions.get('window').height * 0.35),
-                        maxHeight: 255,
                     }}>
                         <CategoryCard
-                            categoryTitle={categories[i].categoryTitle}
+                            categoryTitle={categories[i].categoryName}
                             imageFunction={async () => {
                                 //Passes in the function to retrieve the image of this category
-                                return await FirebaseFunctions.getImageByID(categories[i].categoryID)
+                                return await FirebaseFunctions.getCategoryImageByID(categories[i].imageName)
                             }}
                             numCurrentRequests={0}
                             //Passes all of the necessary props to the actual screen that contains
                             //more information about the service
                             onPress={async () => {
-                                await this.goToServiceScreen(i);
+                                await this.goToCategoryScreen(categories[i].categoryName);
                             }} />
                         <View style={{ width: Dimensions.get('window').width * 0.03 }}></View>
                         <CategoryCard
-                            categoryTitle={categories[i].categoryTitle}
+                            categoryTitle={categories[i + 1].categoryName}
                             imageFunction={async () => {
                                 //Passes in the function to retrieve the image of this category
-                                return await FirebaseFunctions.getImageByID(categories[i + 1].categoryIDs)
+                                return await FirebaseFunctions.getCategoryImageByID(categories[i + 1].imageName)
                             }}
                             numCurrentRequests={0}
                             //Passes all of the necessary props to the actual screen that contains
                             //more information about the service
                             onPress={async () => {
-                                await this.goToServiceScreen(i + 1);
+                                await this.goToCategoryScreen(categories[i + 1].categoryName);
                             }}
                         />
                     </View>

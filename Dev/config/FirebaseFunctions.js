@@ -47,7 +47,7 @@ export default class FirebaseFunctions {
 
         //Fetches the array from firestore containing the categories
         const categoriesDocument = await this.helpDev.doc("categories").get();
-        const { arrayOfCategoriesWithImages } = await categoriesDocument;
+        const { arrayOfCategoriesWithImages } = categoriesDocument.data();
         return arrayOfCategoriesWithImages;
 
     }
