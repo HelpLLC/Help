@@ -7,6 +7,7 @@ import fontStyles from 'config/styles/fontStyles';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
+import strings from 'config/strings'
 
 export default class creditsScreen extends Component {
 

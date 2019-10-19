@@ -15,6 +15,7 @@ class LeftMenu extends Component {
           <TouchableOpacity style = {styles.borderBottom}
             onPress={() => {
               //Home leads to featured screen
+              FirebaseFunctions.analytics.logEvent("home_card_clicked");
               this.props.navigation.push("FeaturedScreen", {
                 requester: this.props.requester,
                 allProducts: this.props.allProducts
@@ -23,9 +24,11 @@ class LeftMenu extends Component {
           >
             <Text style={fontStyles.mainTextStyleBlue}>{strings.Home}</Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          <TouchableOpacity 
+            style={styles.borderBottom}
             onPress={() => {
               //Leads to the chats screen
+              FirebaseFunctions.analytics.logEvent("chat_card_clicked");
               this.props.navigation.push("ChatsScreen", {
                 requester: this.props.requester,
                 allProducts: this.props.allProducts
@@ -35,8 +38,10 @@ class LeftMenu extends Component {
             <Text style={fontStyles.mainTextStyleBlue}>{strings.Chats}</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            style={styles.borderBottom}
             onPress={() => {
                 //Leads to the settings screen
+              FirebaseFunctions.analytics.logEvent("settings_sard_slicked");
               this.props.navigation.push("SettingsScreen", {
                 requester: this.props.requester,
                 allProducts: this.props.allProducts
@@ -48,8 +53,10 @@ class LeftMenu extends Component {
         </View>
         <View>
           <TouchableOpacity
-          //Logs out then goes to the first screen
+            style={styles.borderBottom}
+            //Logs out then goes to the first screen
             onPress={async () => {
+              FirebaseFunctions.analytics.logEvent("logged_out_from_sideMenu");
               await FirebaseFunctions.logOut(
                 true,
                 this.props.requester.requesterID
