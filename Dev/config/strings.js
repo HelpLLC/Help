@@ -177,6 +177,7 @@ export default {
     Chats: 'Chats',
     Settings: 'Settings',
     LogOut: 'Log Out',
+    Credits: 'Credits',
 
     //------------------- Requester Side Company Profile Screen -------------------
     CompanyProfile: 'Company Profile',

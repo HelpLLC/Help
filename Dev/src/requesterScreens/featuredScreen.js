@@ -1,5 +1,5 @@
-//This screen represents the main screen that is launched once the requester logs in. Here they will
-//be able to view services from different categories and click on them to go buy them
+//This screen represents the main screen that is launched once the requester logs in. Here will be displayed the featured products
+//where customers will be able to click on them to request them. The side menu  will also be accessible from this screen
 import React, { Component } from "react";
 import { View, Platform, Text, Dimensions, Image } from "react-native";
 import fontStyles from "config/styles/fontStyles";
@@ -17,8 +17,6 @@ import TopBanner from "../components/TopBanner";
 
 class featuredScreen extends Component {
   state = {
-    index: 0,
-    routes: [],
     isLoading: true,
     latitude: null,
     longitude: null,
@@ -101,16 +99,7 @@ class featuredScreen extends Component {
   //This method will fetch all the current categories in the market & then set the state to those
   //categories so that each one of them can be rendered in the TabView containing all the categories
   async componentDidMount() {
-    const arrayOfCategories = await FirebaseFunctions.getCategoryNames();
-    const routes = [];
-    arrayOfCategories.forEach(category => {
-      routes.push({
-        key: category.toLowerCase(),
-        title: category
-      });
-    });
     await this.requestLocationPermission();
-    this.setState({ routes });
   }
 
   render() {
@@ -145,6 +134,7 @@ class featuredScreen extends Component {
           <TopBanner
             leftIconName="navicon"
             leftOnPress={() => {
+              FirebaseFunctions.analytics.logEvent("sidemenu_opened_from_home");
               this.setState({ isOpen: true });
             }}
             size={30}

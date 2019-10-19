@@ -230,7 +230,7 @@ class businessScreen extends Component {
                                     price={item.pricing}
                                     imageFunction={async () => {
                                         //Passes in the function to retrieve the image of this product
-                                        return await FirebaseFunctions.getImageByID(item.serviceID)
+                                        return await FirebaseFunctions.getProdudctImageByID(item.serviceID)
                                     }}
                                     numCurrentRequests={item.requests.currentRequests.length}
                                     onPress={() => {

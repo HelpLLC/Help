@@ -51,7 +51,7 @@ class ServicesList extends Component {
                             price={services[i].pricing}
                             imageFunction={async () => {
                                 //Passes in the function to retrieve the image of this product
-                                return await FirebaseFunctions.getImageByID(services[i].serviceID)
+                                return await FirebaseFunctions.getProdudctImageByID(services[i].serviceID)
                             }}
                             numCurrentRequests={0}
                             //Passes all of the necessary props to the actual screen that contains
@@ -75,7 +75,7 @@ class ServicesList extends Component {
                             price={services[i].pricing}
                             imageFunction={async () => {
                                 //Passes in the function to retrieve the image of this product
-                                return await FirebaseFunctions.getImageByID(services[i].serviceID)
+                                return await FirebaseFunctions.getProdudctImageByID(services[i].serviceID)
                             }}
                             numCurrentRequests={0}
                             //Passes all of the necessary props to the actual screen that contains
@@ -89,7 +89,7 @@ class ServicesList extends Component {
                             price={services[i + 1].pricing}
                             imageFunction={async () => {
                                 //Passes in the function to retrieve the image of this product
-                                return await FirebaseFunctions.getImageByID(services[i + 1].serviceID)
+                                return await FirebaseFunctions.getProdudctImageByID(services[i + 1].serviceID)
                             }}
                             numCurrentRequests={0}
                             //Passes all of the necessary props to the actual screen that contains
