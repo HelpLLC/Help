@@ -60,7 +60,7 @@ class LeftMenu extends Component {
             }}
             onPress={() => {
               //Leads to the settings screen
-              FirebaseFunctions.analytics.logEvent('settings_sard_slicked');
+              FirebaseFunctions.analytics.logEvent('settings_card_clicked');
               this.props.navigation.push('SettingsScreen', {
                 requester: this.props.requester,
                 allProducts: this.props.allProducts
