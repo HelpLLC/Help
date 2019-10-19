@@ -17,7 +17,7 @@ class LeftMenu extends Component {
   render() {
     return (
       <HelpView style={screenStyle.container}>
-        <View style={{ flex: 1, justifyContent: 'space-evenly' }}>
+        <View style={{ flex: 1, marginTop: (Dimensions.get('window').height) * .1 }}>
           <TouchableOpacity
             style={{
               borderBottomColor: colors.black,
@@ -60,7 +60,7 @@ class LeftMenu extends Component {
             }}
             onPress={() => {
               //Leads to the settings screen
-              FirebaseFunctions.analytics.logEvent('settings_sard_slicked');
+              FirebaseFunctions.analytics.logEvent('settings_card_clicked');
               this.props.navigation.push('SettingsScreen', {
                 requester: this.props.requester,
                 allProducts: this.props.allProducts
@@ -94,12 +94,6 @@ class LeftMenu extends Component {
     );
   }
 }
-const styles = StyleSheet.create({
-  borderBottom: {
-    borderBottomColor: colors.black,
-    borderBottomWidth: 2,
-    borderBottomColor: colors.lightBlue
-  }
-});
+
 //exports side menu
 export default LeftMenu;
