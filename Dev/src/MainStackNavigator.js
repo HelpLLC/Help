@@ -21,6 +21,7 @@ import strings from 'config/strings';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import termsAndConditionsScreen from './firstScreens/termsAndConditionsScreen';
 import creditsScreen from './settingsScreens/creditsScreen';
+import RequesterCategoriesScreen from './requesterScreens/categoriesScreen';
 
 
 //The route config for all of the screens
@@ -112,6 +113,13 @@ const routeConfig = {
                     leftOnPress={() => navigation.goBack()} />)
         }),
         gesturesEnabled: false,
+    },
+
+    RequesterCategoriesScreen: {
+        screen: RequesterCategoriesScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        })
     },
 
     //The route going to the requester company profile screen

@@ -162,6 +162,9 @@ export default {
     Featured: "Featured",
     FeaturedServices: 'Featured Services',
 
+    //------------------- Categories Screen -------------------
+    FeaturedCategories: 'Featured Categories',
+
 
     //------------------- Requester Service Screen -------------------
     ServiceRequested: 'Service Requested',
@@ -178,6 +181,7 @@ export default {
     Settings: 'Settings',
     LogOut: 'Log Out',
     Credits: 'Credits',
+    Categories: 'Categories',
 
     //------------------- Requester Side Company Profile Screen -------------------
     CompanyProfile: 'Company Profile',
