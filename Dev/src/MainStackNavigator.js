@@ -20,6 +20,7 @@ import React from 'react';
 import strings from 'config/strings';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import termsAndConditionsScreen from './firstScreens/termsAndConditionsScreen';
+import creditsScreen from './settingsScreens/creditsScreen';
 
 
 //The route config for all of the screens
@@ -222,6 +223,19 @@ const routeConfig = {
             header: (
                 <TopBanner
                     title={strings.TermsAndConditions}
+                    leftIconName="angle-left"
+                    leftOnPress={() => navigation.goBack()} />
+            ),
+            gesturesEnabled: false
+        })
+    },
+
+    CreditsScreen: {
+        screen: creditsScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: (
+                <TopBanner
+                    title={strings.Credits}
                     leftIconName="angle-left"
                     leftOnPress={() => navigation.goBack()} />
             ),
