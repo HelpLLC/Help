@@ -83,6 +83,7 @@ class chatsScreen extends Component {
               <TopBanner
                 leftIconName="navicon"
                 leftOnPress={() => {
+                  FirebaseFunctions.analytics.logEvent("sidemenu_opened_from_chats");
                   this.setState({ isOpen: true });
                 }}
                 size={30}
