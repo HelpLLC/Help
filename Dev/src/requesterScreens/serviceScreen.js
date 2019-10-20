@@ -208,7 +208,7 @@ class serviceScreen extends Component {
                             const { product } = this.state;
                             const { requester } = this.props.navigation.state.params;
                             try {
-                                await FirebaseFunctions.requestService(product.serviceID, requester);
+                                await FirebaseFunctions.requestService(product.serviceID, requester.requesterID);
                                 this.setState({ isRequested: true, isLoading: false });
                             } catch (error) {
                                 this.setState({ isLoading: false, isErrorVisible: true });

@@ -536,7 +536,8 @@ export default class FirebaseFunctions {
     }
 
     //This method will take in a product ID and a requester ID and then delete that requester's request
-    //from the array of the product's current requests
+    //from the array of the product's current requests. It will also remove the request from the inProgress section of
+    //the requester's orders array
     static async deleteRequest(productID, requesterID) {
 
         const ref = this.products.doc(productID);
@@ -554,6 +555,19 @@ export default class FirebaseFunctions {
                 currentRequests: oldRequests,
                 completedRequests: doc.data().requests.completedRequests
             }
+        });
+
+        const requester = await this.getRequesterByID(requesterID);
+        let { inProgress } = requester.orderHistory;
+        const indexOfRequestInOrderHistory = inProgress.findIndex((request) => {
+            return request.serviceID === productID;
+        });
+        inProgress.splice(indexOfRequestInOrderHistory, 1);
+        await this.updateRequesterByID(requesterID, {
+            orderHistory: {
+                inProgress,
+                completed: requester.orderHistory.completed
+            }
         })
 
 
@@ -564,7 +578,8 @@ export default class FirebaseFunctions {
     }
 
     //This method will take in a product ID and a requester ID and then complete the request by removing
-    //it from the array of current requests and adding it to the array of completed requests
+    //it from the array of current requests and adding it to the array of completed requests. It also removes
+    //the service from the "inProgress" section of the orderHistory to the "completed section"
     static async completeRequest(productID, requesterID) {
 
         const ref = this.products.doc(productID);
@@ -596,6 +611,26 @@ export default class FirebaseFunctions {
                 completedRequests: arrayOfCompletedRequests,
                 currentRequests: product.requests.currentRequests
             }
+        });
+
+        const requester = await this.getRequesterByID(requesterID);
+        const { orderHistory } = requester;
+        let { completed } = orderHistory;
+        completed.push({
+            serviceID: productID,
+            dateRequested: requestToComplete.dateRequested,
+            dateCompleted: new Date().toLocaleDateString("en-US", {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }),
+        });
+
+        await this.updateRequesterByID(requesterID, {
+            orderHistory: {
+                inProgress: orderHistory.inProgress,
+                completed
+            }
         })
 
         await FirebaseFunctions.deleteRequest(productID, requesterID);
@@ -607,11 +642,13 @@ export default class FirebaseFunctions {
     }
 
     //This method will take in a product ID and a requester ID and add the request to the array of current
-    //requests corresponding with the product
-    static async requestService(serviceID, requester) {
+    //requests corresponding with the product. Also adds the product to the array of inProgress products in the requester's
+    //order history
+    static async requestService(serviceID, requesterID) {
 
         const ref = this.products.doc(serviceID);
         const doc = await ref.get();
+        const requester = await this.getRequesterByID(requesterID);
 
         const newRequest = {
             dateRequested: new Date().toLocaleDateString("en-US", {
@@ -631,7 +668,23 @@ export default class FirebaseFunctions {
                 completedRequests: doc.data().requests.completedRequests,
                 currentRequests: arrayOfCurrentRequests
             }
+        });
+
+        let { inProgress } = requester.orderHistory;
+        inProgress.push({
+            serviceID,
+            dateRequested: new Date().toLocaleDateString("en-US", {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }),
         })
+        await this.updateRequesterByID(requester.requesterID, {
+            orderHistory: {
+                inProgress,
+                completed: requester.orderHistory.completed
+            }
+        });
 
         //Notifies the provider whose service this belongs to
         this.functions.httpsCallable('sendNotification')({
