@@ -12,10 +12,12 @@ class CategoriesList extends Component {
     //This function goes to a screen of a specific category
     async goToCategoryScreen(categoryName) {
         const { requester } = this.props;
+        const { allProducts} = this.props;
         try {
-            this.props.navigation.push('RequesterCategoryScreen', {
-                nameOfCategory: categoryName,
-                requester,
+            this.props.navigation.push('CategoryScreen', {
+                categoryName: categoryName,
+                requester: requester,
+                allProducts: allProducts
             });
         } catch (error) {
             this.setState({ isLoading: false, isErrorVisible: true });
