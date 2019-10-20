@@ -16,14 +16,15 @@ import colors from '../../config/colors';
 class LeftMenu extends Component {
   render() {
     return (
-      <HelpView style={screenStyle.container}>
-        <View style={{ flex: 1, marginTop: (Dimensions.get('window').height) * .1 }}>
+      <HelpView style={{ backgroundColor: colors.lightGray, flex: 1 }}>
+        <View
+          style={{
+            flex: 1,
+            marginTop: Dimensions.get('window').height * 0.1,
+            marginLeft: Dimensions.get('window').width * -0.25
+          }}
+        >
           <TouchableOpacity
-            style={{
-              borderBottomColor: colors.black,
-              borderBottomWidth: 2,
-              borderBottomColor: colors.lightBlue
-            }}
             onPress={() => {
               //Home leads to featured screen
               FirebaseFunctions.analytics.logEvent('home_card_clicked');
@@ -33,13 +34,30 @@ class LeftMenu extends Component {
               });
             }}
           >
-            <Text style={fontStyles.mainTextStyleBlue}>{strings.Home}</Text>
+            <Text style={[fontStyles.mainTextStyleBlue, { fontSize: 25 }]}>
+              {strings.Home}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
-              borderBottomColor: colors.black,
-              borderBottomWidth: 2,
-              borderBottomColor: colors.lightBlue
+              marginTop: Dimensions.get('window').height * 0.01
+            }}
+            onPress={() => {
+              //Home leads to featured screen
+              FirebaseFunctions.analytics.logEvent('category_card_clicked');
+              this.props.navigation.push('RequesterCategoriesScreen', {
+                requester: this.props.requester,
+                allProducts: this.props.allProducts,
+              });
+            }}
+          >
+            <Text style={[fontStyles.mainTextStyleBlue, { fontSize: 25 }]}>
+              {strings.Categories}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginTop: Dimensions.get('window').height * 0.01
             }}
             onPress={() => {
               //Leads to the chats screen
@@ -50,13 +68,13 @@ class LeftMenu extends Component {
               });
             }}
           >
-            <Text style={fontStyles.mainTextStyleBlue}>{strings.Chats}</Text>
+            <Text style={[fontStyles.mainTextStyleBlue, { fontSize: 25 }]}>
+              {strings.Chats}
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
-              borderBottomColor: colors.black,
-              borderBottomWidth: 2,
-              borderBottomColor: colors.lightBlue
+              marginTop: Dimensions.get('window').height * 0.01
             }}
             onPress={() => {
               //Leads to the settings screen
@@ -67,32 +85,20 @@ class LeftMenu extends Component {
               });
             }}
           >
-            <Text style={fontStyles.mainTextStyleBlue}>{strings.Settings}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              borderBottomColor: colors.black,
-              borderBottomWidth: 2,
-              borderBottomColor: colors.lightBlue
-            }}
-            onPress={() => {
-              //Leads to the settings screen
-              FirebaseFunctions.analytics.logEvent('settings_card_clicked');
-              this.props.navigation.push('RequesterCategoriesScreen', {
-                requester: this.props.requester,
-                allProducts: this.props.allProducts
-              });
-            }}
-          >
-            <Text style={fontStyles.mainTextStyleBlue}>{strings.Categories}</Text>
+            <Text style={[fontStyles.mainTextStyleBlue, { fontSize: 25 }]}>
+              {strings.Settings}
+            </Text>
           </TouchableOpacity>
         </View>
-        <View>
+        <View
+          style={{
+            marginBottom: Dimensions.get('window').height * 0.05,
+            marginLeft: Dimensions.get('window').width * -0.25
+          }}
+        >
           <TouchableOpacity
             style={{
-              borderBottomColor: colors.black,
-              borderBottomWidth: 2,
-              borderBottomColor: colors.lightBlue
+              marginTop: Dimensions.get('window').height * 0.01
             }}
             //Logs out then goes to the first screen
             onPress={async () => {
@@ -104,7 +110,9 @@ class LeftMenu extends Component {
               this.props.navigation.push('FirstScreens');
             }}
           >
-            <Text style={fontStyles.mainTextStyleRed}>{strings.LogOut}</Text>
+            <Text style={[fontStyles.mainTextStyleRed, { fontSize: 25 }]}>
+              {strings.LogOut}
+            </Text>
           </TouchableOpacity>
         </View>
       </HelpView>
