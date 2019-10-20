@@ -9,7 +9,6 @@ import ServicesList from '../components/ServicesList';
 import TopBanner from '../components/TopBanner';
 
 class categoryScreen extends Component {
-
   state = {
     isOpen: false,
     isLoading: true,
@@ -19,11 +18,14 @@ class categoryScreen extends Component {
   //Fetches the products for this category
   async componentDidMount() {
 
+    //Gets products from parameters
     const { allProducts, categoryName, requester } = this.props.navigation.state.params;
+    //Gets products from categories
     let products = await FirebaseFunctions.getProductsByCategory(allProducts, categoryName);
     products = products.filter(product => {
       return !requester.blockedUsers.includes(product.offeredByID);
     });
+    //sets the state
     this.setState({
       products,
       isLoading: false
@@ -38,7 +40,7 @@ class categoryScreen extends Component {
     //Fetches the correct 
     const { requester, categoryName } = this.props.navigation.state.params;
     const { products } = this.state;
-
+    //If loading it shows loading spinner
     if (this.state.isLoading === true) {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -49,19 +51,13 @@ class categoryScreen extends Component {
 
     return (
       <HelpView style={screenStyle.container}>
+        { /* Header */ }
         <TopBanner
           title={categoryName}
           leftIconName='angle-left'
           leftOnPress={() => this.props.navigation.goBack()}
         />
-        <View
-          style={{
-            height: Dimensions.get('window').height * 0.05,
-            width: Dimensions.get('window').width * 0.93,
-            justifyContent: 'flex-end',
-            alignItems: 'flex-start'
-          }}
-        ></View>
+        { /* Shows all Products */ }
         <ServicesList
           requester={requester}
           navigation={this.props.navigation}
@@ -72,4 +68,5 @@ class categoryScreen extends Component {
   }
 }
 
+//exports screen
 export default categoryScreen;
