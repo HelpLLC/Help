@@ -32,8 +32,6 @@ class CategoriesList extends Component {
 
         //Fetches the array of categories from the props
         const { categories } = this.props;
-
-        console.log(categories);
         const rowsOfServices = [];
 
         //The following for loop goes through the array of categories and constructs a view with two columns

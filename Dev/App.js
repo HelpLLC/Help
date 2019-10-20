@@ -8,6 +8,7 @@ import LoadingSpinner from './src/components/LoadingSpinner';
 import screenStyle from 'config/styles/screenStyle';
 import HelpView from './src/components/HelpView';
 import firebase from 'react-native-firebase';
+import FirebaseFunctions from './config/FirebaseFunctions';
 
 //Launches the app with the persisted store
 export default class App extends Component {
