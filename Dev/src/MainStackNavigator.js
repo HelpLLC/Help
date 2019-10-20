@@ -22,6 +22,7 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import termsAndConditionsScreen from './firstScreens/termsAndConditionsScreen';
 import creditsScreen from './settingsScreens/creditsScreen';
 import RequesterCategoriesScreen from './requesterScreens/categoriesScreen';
+import categoryScreen from './requesterScreens/categoryScreen'
 
 
 //The route config for all of the screens
@@ -117,6 +118,12 @@ const routeConfig = {
 
     RequesterCategoriesScreen: {
         screen: RequesterCategoriesScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        })
+    },
+    CategoryScreen: {
+        screen: categoryScreen,
         navigationOptions: ({ navigation }) => ({
             header: null
         })

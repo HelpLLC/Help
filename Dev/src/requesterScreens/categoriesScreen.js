@@ -48,7 +48,7 @@ export default class categoriesScreen extends Component {
                     menu={
                         <LeftMenu
                             navigation={this.props.navigation}
-                            allProducts={this.props.allProducts}
+                            allProducts={this.props.navigation.state.params.allProducts}
                             requester={this.state.requester}
                         />
                     }>
@@ -74,7 +74,10 @@ export default class categoriesScreen extends Component {
                         </View>
                         <CategoriesList
                             categories={this.state.categories}
-                            requester={this.state.requester} />
+                            requester={this.state.requester}
+                            allProducts={this.props.navigation.state.params.allProducts} 
+                            navigation={this.props.navigation}
+                        />
                     </HelpView>
                 </SideMenu>
             )
