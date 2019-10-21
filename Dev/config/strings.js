@@ -174,7 +174,10 @@ export default {
     AreYouSureCancelRequest: 'Are you sure you want to cancel your request for this service?',
     Yes: 'Yes',
 
-    //----------------------- Side Menu -----------------------------------
+    //------------------- Requester Order History Screen -------------------
+    OrderHistory: 'Order History',
+
+    //----------------------- Requester Side Menu -----------------------------------
 
     Home: 'Home',
     Chats: 'Chats',
