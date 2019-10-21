@@ -38,7 +38,7 @@ class categoryScreen extends Component {
 
   render() {
 
-    //Fetches the correct 
+    //Fetches the correct params
     const { requester, categoryName } = this.props.navigation.state.params;
     const { products } = this.state;
     //If loading it shows loading spinner

@@ -5,6 +5,8 @@ import { View, Dimensions, ScrollView } from 'react-native';
 import NarrowServiceCard from './NarrowServiceCard';
 import PropTypes from 'prop-types';
 import FirebaseFunctions from 'config/FirebaseFunctions';
+import ErrorAlert from './ErrorAlert'
+import strings from 'config/strings';
 
 //Defines the class
 class ServicesList extends Component {
@@ -20,12 +22,17 @@ class ServicesList extends Component {
                 provider
             });
         } catch (error) {
-            this.setState({ isLoading: false, isErrorVisible: true });
+            this.setState({ isErrorVisible: true });
             FirebaseFunctions.logIssue(error, {
                 screen: "Featured Screen",
                 userID: 'r-' + requester.requesterID
             });
         }
+    }
+
+    //The initial state to make sure the error is not visible
+    state = {
+        isErrorVisible: false
     }
 
     render() {
@@ -47,7 +54,7 @@ class ServicesList extends Component {
                     }}>
                         <NarrowServiceCard
                             serviceTitle={services[i].serviceTitle}
-                            price={services[i].pricing}
+                            price={this.props.dateRequested ? services[i].dateRequested : services[i].pricing}
                             imageFunction={async () => {
                                 //Passes in the function to retrieve the image of this product
                                 return await FirebaseFunctions.getProdudctImageByID(services[i].serviceID)
@@ -70,7 +77,7 @@ class ServicesList extends Component {
                     }}>
                         <NarrowServiceCard
                             serviceTitle={services[i].serviceTitle}
-                            price={services[i].pricing}
+                            price={this.props.dateRequested ? services[i].dateRequested : services[i].pricing}
                             imageFunction={async () => {
                                 //Passes in the function to retrieve the image of this product
                                 return await FirebaseFunctions.getProdudctImageByID(services[i].serviceID)
@@ -84,7 +91,7 @@ class ServicesList extends Component {
                         <View style={{ width: Dimensions.get('window').width * 0.03 }}></View>
                         <NarrowServiceCard
                             serviceTitle={services[i + 1].serviceTitle}
-                            price={services[i + 1].pricing}
+                            price={this.props.dateRequested ? services[i + 1].dateRequested : services[i + 1].pricing}
                             imageFunction={async () => {
                                 //Passes in the function to retrieve the image of this product
                                 return await FirebaseFunctions.getProdudctImageByID(services[i + 1].serviceID)
@@ -107,6 +114,12 @@ class ServicesList extends Component {
                 showsHorizontalScrollIndicator={false}
                 showsVerticalScrollIndicator={false}>
                 {rowsOfServices}
+                <ErrorAlert
+                    isVisible={this.state.isErrorVisible}
+                    onPress={() => { this.setState({ isErrorVisible: false }) }}
+                    title={strings.Whoops}
+                    message={strings.SomethingWentWrong}
+                />
             </ScrollView>
         )
 
@@ -114,10 +127,12 @@ class ServicesList extends Component {
 }
 
 //Sets the PropTypes for this component. There will be and it is required. "services" which will be of type array & requester object
-//who will be the one requesting the services
+//who will be the one requesting the services.  It will also take in an optional boolean to display the date requester of a product
+//instead of a price (used in RequesterOrderHistoryScreen)
 ServicesList.propTypes = {
     services: PropTypes.array.isRequired,
-    requester: PropTypes.object.isRequired
+    requester: PropTypes.object.isRequired,
+    dateRequested: PropTypes.bool
 }
 
 //Exports the module

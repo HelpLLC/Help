@@ -176,6 +176,9 @@ export default {
 
     //------------------- Requester Order History Screen -------------------
     OrderHistory: 'Order History',
+    InProgress: "In Progress",
+    Completed: 'Completed',
+    NoRequestsYet: 'You haven\'t requested anything yet! Go check out our services by going to Home',
 
     //----------------------- Requester Side Menu -----------------------------------
 
