@@ -18,6 +18,7 @@ class categoryScreen extends Component {
   //Fetches the products for this category
   async componentDidMount() {
 
+    FirebaseFunctions.setCurrentScreen("CategoryScreen", "categoryScreen");
     //Gets products from parameters
     const { allProducts, categoryName, requester } = this.props.navigation.state.params;
     //Gets products from categories
