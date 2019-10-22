@@ -12,7 +12,7 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 import strings from 'config/strings';
 import LeftMenu from './LeftMenu';
 import fontStyles from 'config/styles/fontStyles';
-import { SearchBar } from 'react-native-elements';
+import HelpSearchBar from '../components/HelpSearchBar';
 import colors from 'config/colors';
 
 export default class categoriesScreen extends Component {
@@ -23,11 +23,6 @@ export default class categoriesScreen extends Component {
     requester: this.props.navigation.state.params.requester,
     isOpen: false,
     search: ''
-  };
-
-  //Where we implement logic for search
-  updateSearch = search => {
-    this.setState({ search });
   };
 
   async componentDidMount() {
@@ -49,7 +44,9 @@ export default class categoriesScreen extends Component {
         </View>
       );
     } else {
+
       const { search } = this.state;
+
       return (
         <SideMenu
           isOpen={this.state.isOpen}
@@ -73,29 +70,15 @@ export default class categoriesScreen extends Component {
               size={30}
               title={strings.Categories}
             />
-            <View
-              style={{
-                height: Dimensions.get('window').height * 0.05,
-                width: Dimensions.get('window').width * 0.96
-              }}
-            >
-              {/*  Where we display search */}
-              <SearchBar
-                placeholder='Type Here...'
-                onChangeText={this.updateSearch}
-                value={search}
-                containerStyle={{
-                  backgroundColor: colors.lightBlue,
-                  borderWidth: 0.002,
-                  borderRadius: 30
-                }}
-                inputContainerStyle={{
-                  backgroundColor: colors.white,
-                  borderWidth: 2,
-                  borderRadius: 20
-                }}
-              />
-            </View>
+            <HelpSearchBar
+              placeholderText={strings.SearchCategoriesDotDotDot}
+              value={search}
+              onChangeText={(text) => {
+
+                //Logic for searching
+                this.setState({ search: text });
+
+              }} />
             <View
               style={{
                 height: Dimensions.get('window').height * 0.05,

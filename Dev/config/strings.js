@@ -240,9 +240,15 @@ export default {
     //------------------- Settings Screen -------------------
     IconMadeBySmashIconsFromFlaticon: 'Icon made by SmashIcons from www.flaticon.com',
 
+    //------------------- Search Bar -------------------
+    WhatAreYouLookingForQuestion: 'What are you looking for?',
+    SearchIn: "Search in",
+    SearchCategoriesDotDotDot: "Search categories...",
+
     //------------------- Miscellaneous -----------------
     Whoops: 'Whoops',
     Success: 'Success',
     Ok: 'Ok',
-    NoConnection: 'Something went wrong. Check your internet connection & try again'
+    NoConnection: 'Something went wrong. Check your internet connection & try again',
+
 };

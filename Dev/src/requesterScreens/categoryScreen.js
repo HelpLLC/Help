@@ -7,12 +7,15 @@ import screenStyle from 'config/styles/screenStyle';
 import HelpView from '../components/HelpView';
 import ServicesList from '../components/ServicesList';
 import TopBanner from '../components/TopBanner';
+import HelpSearchBar from '../components/HelpSearchBar';
+import strings from '../../config/strings';
 
 class categoryScreen extends Component {
   state = {
     isOpen: false,
     isLoading: true,
-    products: ""
+    products: "",
+    search: "",
   };
 
   //Fetches the products for this category
@@ -29,7 +32,7 @@ class categoryScreen extends Component {
     //sets the state
     this.setState({
       products,
-      isLoading: false
+      isLoading: false,
     });
 
     return 0;
@@ -40,7 +43,7 @@ class categoryScreen extends Component {
 
     //Fetches the correct params
     const { requester, categoryName } = this.props.navigation.state.params;
-    const { products } = this.state;
+    const { products, search } = this.state;
     //If loading it shows loading spinner
     if (this.state.isLoading === true) {
       return (
@@ -52,13 +55,22 @@ class categoryScreen extends Component {
 
     return (
       <HelpView style={screenStyle.container}>
-        { /* Header */ }
+        { /* Header */}
         <TopBanner
           title={categoryName}
           leftIconName='angle-left'
           leftOnPress={() => this.props.navigation.goBack()}
         />
-        { /* Shows all Products */ }
+        <HelpSearchBar
+          placeholderText={strings.SearchIn + " " + categoryName.toLowerCase() + "..."}
+          value={search}
+          onChangeText={(text) => {
+
+            //Logic for searching
+            this.setState({ search: text });
+
+          }} />
+        { /* Shows all Products */}
         <ServicesList
           requester={requester}
           navigation={this.props.navigation}

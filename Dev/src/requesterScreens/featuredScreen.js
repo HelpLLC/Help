@@ -14,8 +14,7 @@ import ServicesList from '../components/ServicesList';
 import LeftMenu from './LeftMenu';
 import SideMenu from 'react-native-side-menu';
 import TopBanner from '../components/TopBanner';
-import { SearchBar } from 'react-native-elements';
-import colors from 'config/colors';
+import HelpSearchBar from '../components/HelpSearchBar';
 
 class featuredScreen extends Component {
   state = {
@@ -24,10 +23,6 @@ class featuredScreen extends Component {
     longitude: null,
     isOpen: false,
     search: ''
-  };
-
-  updateSearch = search => {
-    this.setState({ search });
   };
 
   //Fetches the current position and stores it in the state
@@ -126,6 +121,7 @@ class featuredScreen extends Component {
     }
 
     const { search } = this.state;
+
     return (
       <SideMenu
         isOpen={this.state.isOpen}
@@ -147,28 +143,15 @@ class featuredScreen extends Component {
             size={30}
             title={strings.Featured}
           />
-          <View
-            style={{
-              height: Dimensions.get('window').height * 0.05,
-              width: Dimensions.get('window').width * 0.96
-            }}
-          >
-            <SearchBar
-              placeholder='Type Here...'
-              onChangeText={this.updateSearch}
-              value={search}
-              containerStyle={{
-                backgroundColor: colors.lightBlue,
-                borderWidth: 0.002,
-                borderRadius: 30
-              }}
-              inputContainerStyle={{
-                backgroundColor: colors.white,
-                borderWidth: 2,
-                borderRadius: 20
-              }}
-            />
-          </View>
+          <HelpSearchBar
+            placeholderText={strings.WhatAreYouLookingForQuestion}
+            value={search}
+            onChangeText={(text) => {
+
+              //Logic for searching
+              this.setState({ search: text });
+
+            }} />
           <View
             style={{
               height: Dimensions.get('window').height * 0.05,
