@@ -16,6 +16,7 @@ import ServicesList from '../components/ServicesList';
 import ServiceCard from '../components/ServiceCard';
 import { ScrollView } from 'react-native-gesture-handler';
 import ErrorAlert from '../components/ErrorAlert';
+import colors from 'config/colors';
 
 export default class orderHistoryScreen extends Component {
 
@@ -119,12 +120,13 @@ export default class orderHistoryScreen extends Component {
                                                 <View>
                                                     <View
                                                         style={{
-                                                            height: Dimensions.get("window").height * 0.05,
-                                                            justifyContent: "flex-start",
-                                                            alignItems: "flex-end",
-                                                            flexDirection: 'row'
+                                                            width: Dimensions.get('window').width * 0.86,
+                                                            height: Dimensions.get('window').height * 0.06,
+                                                            justifyContent: 'center',
+                                                            alignSelf: 'center',
+                                                            borderBottomColor: colors.lightBlue,
+                                                            borderBottomWidth: 1
                                                         }}>
-                                                        <View style={{ width: Dimensions.get('window').width * 0.07 }}></View>
                                                         <Text style={fontStyles.bigTextStyleBlue}>
                                                             {strings.InProgress + " (" + serviceObjectsInProgress.length + ")"}
                                                         </Text>
@@ -145,12 +147,13 @@ export default class orderHistoryScreen extends Component {
                                                 <View>
                                                     <View
                                                         style={{
-                                                            height: Dimensions.get("window").height * 0.05,
-                                                            justifyContent: "flex-start",
-                                                            alignItems: "flex-end",
-                                                            flexDirection: 'row'
+                                                            width: Dimensions.get('window').width * 0.86,
+                                                            height: Dimensions.get('window').height * 0.06,
+                                                            justifyContent: 'center',
+                                                            alignSelf: 'center',
+                                                            borderBottomColor: colors.black,
+                                                            borderBottomWidth: 1
                                                         }}>
-                                                        <View style={{ width: Dimensions.get('window').width * 0.07 }}></View>
                                                         <Text style={fontStyles.bigTextStyleBlack}>
                                                             {strings.Completed}
                                                         </Text>
