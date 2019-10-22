@@ -25,6 +25,7 @@ export default class categoriesScreen extends Component {
 
     async componentDidMount() {
 
+        FirebaseFunctions.setCurrentScreen("CategoriesScreen", "categoriesScreen");
         const categories = await FirebaseFunctions.getCategoryObjects();
         this.setState({
             categories,

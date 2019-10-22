@@ -250,6 +250,7 @@ export default class FirebaseFunctions {
             username: email.substring(0, email.indexOf("@")),
             phoneNumber,
             address,
+            orderHistory: [],
             blockedUsers: ["Example Business"]
         }
 

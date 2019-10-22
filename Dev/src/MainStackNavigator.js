@@ -15,6 +15,7 @@ import chatsScreen from './chats/chatsScreen';
 import settingsScreen from './settingsScreens/settingsScreen';
 import providerScreensNavigator from './providerScreens/providerScreensNavigator';
 import featuredScreen from './requesterScreens/featuredScreen';
+import RequesterOrderHistoryScreen from './requesterScreens/orderHistoryScreen';
 import TopBanner from './components/TopBanner';
 import React from 'react';
 import strings from 'config/strings';
@@ -171,6 +172,15 @@ const routeConfig = {
     FeaturedScreen: {
         //connects the object with the help screen component
         screen: featuredScreen,
+        navigationOptions: ({ navigation }) => ({
+            header: null
+        }),
+    },
+
+    //Route connecting to the order history screen
+    RequesterOrderHistoryScreen: {
+        //connects the object with the help screen component
+        screen: RequesterOrderHistoryScreen,
         navigationOptions: ({ navigation }) => ({
             header: null
         }),

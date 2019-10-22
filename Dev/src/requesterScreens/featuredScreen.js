@@ -96,10 +96,11 @@ class featuredScreen extends Component {
     return 0;
   }
 
-  //This method will fetch all the current categories in the market & then set the state to those
-  //categories so that each one of them can be rendered in the TabView containing all the categories
   async componentDidMount() {
+
+    FirebaseFunctions.setCurrentScreen("FeaturedScreen", "featuredScreen");
     await this.requestLocationPermission();
+
   }
 
   render() {
