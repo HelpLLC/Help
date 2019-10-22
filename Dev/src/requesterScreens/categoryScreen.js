@@ -54,6 +54,7 @@ class categoryScreen extends Component {
     }
 
     return (
+      
       <HelpView style={screenStyle.container}>
         { /* Header */}
         <TopBanner
