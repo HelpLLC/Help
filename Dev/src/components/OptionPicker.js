@@ -26,8 +26,9 @@ class OptionPicker extends Component {
                         cancelButtonColor={colors.gray}
                         confirmText={confirmText}
                         cancelText={cancelText}
-                        onConfirmPressed={confirmOnPress}
-                        onCancelPressed={cancelOnPress}
+                        onConfirmPressed={() => { confirmOnPress() }}
+                        onCancelPressed={() => { cancelOnPress() }}
+                        onDismiss={() => { cancelOnPress() }}
                     />
                 </Modal>
             </View>
