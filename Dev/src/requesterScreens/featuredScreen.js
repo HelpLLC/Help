@@ -1,26 +1,28 @@
 //This screen represents the main screen that is launched once the requester logs in. Here will be displayed the featured products
 //where customers will be able to click on them to request them. The side menu  will also be accessible from this screen
-import React, { Component } from "react";
-import { View, Platform, Text, Dimensions, Image } from "react-native";
-import fontStyles from "config/styles/fontStyles";
-import { check, request, PERMISSIONS, RESULTS } from "react-native-permissions";
-import strings from "config/strings";
-import FirebaseFunctions from "../../config/FirebaseFunctions";
-import LoadingSpinner from "../components/LoadingSpinner";
-import screenStyle from "config/styles/screenStyle";
-import Geolocation from "react-native-geolocation-service";
-import HelpView from "../components/HelpView";
-import ServicesList from "../components/ServicesList";
-import LeftMenu from "./LeftMenu";
-import SideMenu from "react-native-side-menu";
-import TopBanner from "../components/TopBanner";
+import React, { Component } from 'react';
+import { View, Platform, Text, Dimensions, Image } from 'react-native';
+import fontStyles from 'config/styles/fontStyles';
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import strings from 'config/strings';
+import FirebaseFunctions from '../../config/FirebaseFunctions';
+import LoadingSpinner from '../components/LoadingSpinner';
+import screenStyle from 'config/styles/screenStyle';
+import Geolocation from 'react-native-geolocation-service';
+import HelpView from '../components/HelpView';
+import ServicesList from '../components/ServicesList';
+import LeftMenu from './LeftMenu';
+import SideMenu from 'react-native-side-menu';
+import TopBanner from '../components/TopBanner';
+import HelpSearchBar from '../components/HelpSearchBar';
 
 class featuredScreen extends Component {
   state = {
     isLoading: true,
     latitude: null,
     longitude: null,
-    isOpen: false
+    isOpen: false,
+    search: ''
   };
 
   //Fetches the current position and stores it in the state
@@ -41,7 +43,7 @@ class featuredScreen extends Component {
         });
       },
       error => {
-        FirebaseFunctions.analytics.logEvent("location_permission_denied");
+        FirebaseFunctions.analytics.logEvent('location_permission_denied');
         this.setState({
           allProducts: true,
           isLoading: false
@@ -55,7 +57,7 @@ class featuredScreen extends Component {
 
   //This function deals with the location permissions depending on the OS of the app
   async requestLocationPermission() {
-    if (Platform.OS === "ios") {
+    if (Platform.OS === 'ios') {
       const isGranted = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
       if (isGranted === RESULTS.GRANTED) {
         await this.getCurrentPosition();
@@ -66,7 +68,7 @@ class featuredScreen extends Component {
         if (requestPermission === RESULTS.GRANTED) {
           await this.getCurrentPosition();
         } else {
-          FirebaseFunctions.analytics.logEvent("location_permission_denied");
+          FirebaseFunctions.analytics.logEvent('location_permission_denied');
           this.setState({
             allProducts: true,
             isLoading: false
@@ -84,7 +86,7 @@ class featuredScreen extends Component {
         if (requestPermission === RESULTS.GRANTED) {
           await this.getCurrentPosition();
         } else {
-          FirebaseFunctions.analytics.logEvent("location_permission_denied");
+          FirebaseFunctions.analytics.logEvent('location_permission_denied');
           this.setState({
             allProducts: true,
             isLoading: false
@@ -97,10 +99,8 @@ class featuredScreen extends Component {
   }
 
   async componentDidMount() {
-
-    FirebaseFunctions.setCurrentScreen("FeaturedScreen", "featuredScreen");
+    FirebaseFunctions.setCurrentScreen('FeaturedScreen', 'featuredScreen');
     await this.requestLocationPermission();
-
   }
 
   render() {
@@ -113,12 +113,14 @@ class featuredScreen extends Component {
     if (this.state.isLoading === true) {
       return (
         <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
         >
           <LoadingSpinner isVisible={true} />
         </View>
       );
     }
+
+    const { search } = this.state;
 
     return (
       <SideMenu
@@ -133,20 +135,29 @@ class featuredScreen extends Component {
       >
         <HelpView style={screenStyle.container}>
           <TopBanner
-            leftIconName="navicon"
+            leftIconName='navicon'
             leftOnPress={() => {
-              FirebaseFunctions.analytics.logEvent("sidemenu_opened_from_home");
+              FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_home');
               this.setState({ isOpen: true });
             }}
             size={30}
             title={strings.Featured}
           />
+          <HelpSearchBar
+            placeholderText={strings.WhatAreYouLookingForQuestion}
+            value={search}
+            onChangeText={(text) => {
+
+              //Logic for searching
+              this.setState({ search: text });
+
+            }} />
           <View
             style={{
-              height: Dimensions.get("window").height * 0.05,
-              width: Dimensions.get("window").width * 0.93,
-              justifyContent: "flex-end",
-              alignItems: "flex-start"
+              height: Dimensions.get('window').height * 0.05,
+              width: Dimensions.get('window').width * 0.93,
+              justifyContent: 'flex-end',
+              alignItems: 'flex-start'
             }}
           >
             <Text style={fontStyles.bigTextStyleBlue}>
