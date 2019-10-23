@@ -9,7 +9,7 @@ import ErrorAlert from './ErrorAlert'
 import strings from 'config/strings';
 
 //Defines the class
-class ServicesList extends Component {
+class NarrowServiceCardList extends Component {
 
     //This function goes to a screen of a specific service based on its index within the services array
     async goToServiceScreen(index) {
@@ -129,11 +129,11 @@ class ServicesList extends Component {
 //Sets the PropTypes for this component. There will be and it is required. "services" which will be of type array & requester object
 //who will be the one requesting the services.  It will also take in an optional boolean to display the date requester of a product
 //instead of a price (used in RequesterOrderHistoryScreen)
-ServicesList.propTypes = {
+NarrowServiceCardList.propTypes = {
     services: PropTypes.array.isRequired,
     requester: PropTypes.object.isRequired,
     dateRequested: PropTypes.bool
 }
 
 //Exports the module
-export default ServicesList;
+export default NarrowServiceCardList;

@@ -5,7 +5,7 @@ import FirebaseFunctions from '../../config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import screenStyle from 'config/styles/screenStyle';
 import HelpView from '../components/HelpView';
-import ServicesList from '../components/ServicesList';
+import NarrowServiceCardList from '../components/NarrowServiceCardList';
 import TopBanner from '../components/TopBanner';
 import HelpSearchBar from '../components/HelpSearchBar';
 import strings from '../../config/strings';
@@ -72,7 +72,7 @@ class categoryScreen extends Component {
 
           }} />
         { /* Shows all Products */}
-        <ServicesList
+        <NarrowServiceCardList
           requester={requester}
           navigation={this.props.navigation}
           services={products}

@@ -8,13 +8,13 @@ import LeftMenu from './LeftMenu';
 import SideMenu from 'react-native-side-menu';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import strings from 'config/strings';
-import { View, Text, Dimensions, FlatList } from 'react-native';
+import { View, Text, Dimensions } from 'react-native';
 import LoadingSpinner from '../components/LoadingSpinner';
 import fontStyles from 'config/styles/fontStyles';
 import TopBanner from '../components/TopBanner';
-import ServicesList from '../components/ServicesList';
-import ServiceCard from '../components/ServiceCard';
+import NarrowServiceCardList from '../components/NarrowServiceCardList';
 import { ScrollView } from 'react-native-gesture-handler';
+import ServiceCardList from '../components/ServiceCardList';
 import ErrorAlert from '../components/ErrorAlert';
 import colors from 'config/colors';
 
@@ -131,7 +131,7 @@ export default class orderHistoryScreen extends Component {
                                                             {strings.InProgress + " (" + serviceObjectsInProgress.length + ")"}
                                                         </Text>
                                                     </View>
-                                                    <ServicesList
+                                                    <NarrowServiceCardList
                                                         requester={requester}
                                                         navigation={this.props.navigation}
                                                         services={serviceObjectsInProgress}
@@ -158,43 +158,26 @@ export default class orderHistoryScreen extends Component {
                                                             {strings.Completed}
                                                         </Text>
                                                     </View>
-                                                    <FlatList
-                                                        data={serviceObjectsCompleted}
-                                                        keyExtractor={(item, index) => {
-                                                            return (item.serviceID);
-                                                        }}
-                                                        renderItem={({ item, index }) => (
-                                                            <ServiceCard
-                                                                key={index}
-                                                                serviceTitle={item.serviceTitle}
-                                                                serviceDescription={item.serviceDescription}
-                                                                //Displays the date completed instead of the pricing
-                                                                price={item.dateCompleted}
-                                                                imageFunction={async () => {
-                                                                    //Passes in the function to retrieve the image of this product
-                                                                    return await FirebaseFunctions.getProdudctImageByID(item.serviceID)
-                                                                }}
-                                                                numCurrentRequests={item.requests.currentRequests.length}
-                                                                onPress={async () => {
-                                                                    //Navigates to the ServiceScreen
-                                                                    try {
-                                                                        const provider = await FirebaseFunctions.getProviderByID(item.offeredByID);
-                                                                        this.props.navigation.push('RequesterServiceScreen', {
-                                                                            productID: item.serviceID,
-                                                                            requester,
-                                                                            provider
-                                                                        });
-                                                                    } catch (error) {
-                                                                        this.setState({ isLoading: false, isErrorVisible: true });
-                                                                        FirebaseFunctions.logIssue(error, {
-                                                                            screen: "Featured Screen",
-                                                                            userID: 'r-' + requester.requesterID
-                                                                        });
-                                                                    }
-                                                                }}
-                                                            />
-                                                        )}
-                                                    />
+                                                    <ServiceCardList
+                                                        services={serviceObjectsCompleted}
+                                                        dateCompleted={true}
+                                                        onPress={async (service) => {
+                                                            //Navigates to the ServiceScreen
+                                                            try {
+                                                                const provider = await FirebaseFunctions.getProviderByID(service.offeredByID);
+                                                                this.props.navigation.push('RequesterServiceScreen', {
+                                                                    productID: service.serviceID,
+                                                                    requester,
+                                                                    provider
+                                                                });
+                                                            } catch (error) {
+                                                                this.setState({ isLoading: false, isErrorVisible: true });
+                                                                FirebaseFunctions.logIssue(error, {
+                                                                    screen: "Featured Screen",
+                                                                    userID: 'r-' + requester.requesterID
+                                                                });
+                                                            }
+                                                        }} />
                                                 </View>
                                             ) : (
                                                     <View></View>
