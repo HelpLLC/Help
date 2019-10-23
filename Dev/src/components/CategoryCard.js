@@ -23,6 +23,7 @@ class CategoryCard extends Component {
    async componentDidMount() {
       const { imageFunction } = this.props;
       const url = await imageFunction();
+
       this.setState({
          isImageLoading: false,
          image: url
@@ -57,7 +58,7 @@ class CategoryCard extends Component {
                   y: 10
                }}>
                   <View style={categoryCardStyle.style}>
-                     <View style={{ flex: 1 }}>
+                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         {
                            isImageLoading === true ? (
                               <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -67,9 +68,8 @@ class CategoryCard extends Component {
                                  <Image
                                     source={image}
                                     style={{
-                                       width: (Dimensions.get('window').width) * 0.42,
-                                       height: (Dimensions.get('window').height * 0.18),
-                                       borderRadius: (Dimensions.get('window').height * 0.03440703)
+                                       width: (Dimensions.get('window').width) * 0.25,
+                                       height: (Dimensions.get('window').width * 0.25),
                                     }} />
                               )
                         }
