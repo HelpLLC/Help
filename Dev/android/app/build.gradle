@@ -133,7 +133,6 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 45
         versionName "1.9.0"
-        vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
     splits {

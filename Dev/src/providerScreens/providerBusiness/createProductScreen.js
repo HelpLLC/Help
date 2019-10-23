@@ -11,13 +11,13 @@ import { BoxShadow } from 'react-native-shadow';
 import HelpView from '../../components/HelpView';
 import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
 import images from 'config/images/images';
+import ImagePicker from 'react-native-image-picker';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
 import ImageWithBorder from '../../components/ImageWithBorder';
-import ImagePicker from 'react-native-image-crop-picker';
 import { Icon } from 'react-native-elements';
 import colors from 'config/colors';
 
@@ -101,9 +101,9 @@ class createProductScreen extends Component {
 
         Keyboard.dismiss();
         //Shows the image picker with the default options
-        ImagePicker.openPicker({
-            height: 512,
-            width: 512
+        ImagePicker.showImagePicker({
+            maxHeight: 200,
+            maxWidth: 180
         }, (response) => {
 
             const source = { uri: 'data:image/jpeg;base64,' + response.data };

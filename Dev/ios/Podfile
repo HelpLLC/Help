@@ -47,7 +47,6 @@ target 'Help' do
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
   pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
   pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
-  pod 'QBImagePickerController', :path => '../node_modules/react-native-image-crop-picker/ios/QBImagePicker/QBImagePickerController.podspec'
 
   target 'HelpTests' do
     inherit! :search_paths
