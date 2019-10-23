@@ -148,6 +148,7 @@ PODS:
   - Permission-LocationWhenInUse (2.0.2):
     - RNPermissions
   - Protobuf (3.9.0)
+  - QBImagePickerController (3.4.0)
   - React (0.60.3):
     - React-Core (= 0.60.3)
     - React-DevSupport (= 0.60.3)
@@ -239,6 +240,11 @@ PODS:
     - React
   - RNGestureHandler (1.3.0):
     - React
+  - RNImageCropPicker (0.26.1):
+    - QBImagePickerController
+    - React-Core
+    - React-RCTImage
+    - RSKImageCropper
   - RNPermissions (2.0.2):
     - React
   - RNReanimated (1.1.0):
@@ -247,6 +253,7 @@ PODS:
     - React
   - RNVectorIcons (6.6.0):
     - React
+  - RSKImageCropper (2.2.3)
   - yoga (0.60.3.React)
 
 DEPENDENCIES:
@@ -264,6 +271,7 @@ DEPENDENCIES:
   - GoogleIDFASupport (~> 3.14.0)
   - lottie-ios (from `../node_modules/lottie-ios`)
   - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse.podspec`)
+  - QBImagePickerController (from `../node_modules/react-native-image-crop-picker/ios/QBImagePicker/QBImagePickerController.podspec`)
   - React (from `../node_modules/react-native/`)
   - React-Core (from `../node_modules/react-native/React`)
   - React-cxxreact (from `../node_modules/react-native/ReactCommon/cxxreact`)
@@ -289,6 +297,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNFirebase (from `../node_modules/react-native-firebase/ios`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -321,6 +330,8 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - Protobuf
+  trunk:
+    - RSKImageCropper
 
 EXTERNAL SOURCES:
   DoubleConversion:
@@ -333,6 +344,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/lottie-ios"
   Permission-LocationWhenInUse:
     :path: "../node_modules/react-native-permissions/ios/LocationWhenInUse.podspec"
+  QBImagePickerController:
+    :path: "../node_modules/react-native-image-crop-picker/ios/QBImagePicker/QBImagePickerController.podspec"
   React:
     :path: "../node_modules/react-native/"
   React-Core:
@@ -383,6 +396,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-firebase/ios"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNImageCropPicker:
+    :path: "../node_modules/react-native-image-crop-picker"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
   RNReanimated:
@@ -424,6 +439,7 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Permission-LocationWhenInUse: 1482ab86e9a058e963fa51955a0124b6ce458667
   Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
+  QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   React: ac23e9cc8d2d4cfe9b536b5cc0c32d19b9937bcf
   React-Core: 84de3cf80e31f0267c5ce0b5b482d59ce30a8a57
   React-cxxreact: a802a1c6b14f3de66ba032460b424c17ececd1e2
@@ -449,12 +465,14 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 621bad7a889b5bf1583a52547f2dcd3a4d1ff15e
   RNFirebase: ac0de8b24c6f91ae9459575491ed6a77327619c6
   RNGestureHandler: 5329a942fce3d41c68b84c2c2276ce06a696d8b0
+  RNImageCropPicker: e1d8c3381e5b05a1bdcd13ea57a4f1c020a09cef
   RNPermissions: 76d6d5a65496b33378afe4b90ae5b30629ddd900
   RNReanimated: 7a52c90473b5e81c13408d40d797b98387eaddde
   RNSVG: 90c76b7cf235654d45e54655b6c189ea4041057c
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
+  RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
   yoga: 843fe25849b56131275bf3e5da2c468e96f68aff
 
-PODFILE CHECKSUM: 0145fe85926bf89e29d54652d132c0de320d23e8
+PODFILE CHECKSUM: 186410e3bcef0cb9a13993aebadaedfb909c2738
 
 COCOAPODS: 1.8.3
