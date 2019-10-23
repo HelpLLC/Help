@@ -23,6 +23,7 @@ class CategoryCard extends Component {
    async componentDidMount() {
       const { imageFunction } = this.props;
       const url = await imageFunction();
+
       this.setState({
          isImageLoading: false,
          image: url
@@ -67,8 +68,8 @@ class CategoryCard extends Component {
                                  <Image
                                     source={image}
                                     style={{
-                                       width: (Dimensions.get('window').width) * 0.3,
-                                       height: (Dimensions.get('window').height * 0.3),
+                                       width: (Dimensions.get('window').width) * 0.25,
+                                       height: (Dimensions.get('window').width * 0.25),
                                     }} />
                               )
                         }
