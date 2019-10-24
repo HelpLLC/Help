@@ -6,31 +6,28 @@ import leftMenuCardStyle from 'config/styles/componentStyles/leftMenuCardStyle';
 import fontStyles from 'config/styles/fontStyles';
 
 class LeftMenuCard extends Component {
+	render() {
+		const { onPress, text, textColor, renderBorder } = this.props;
 
-    render() {
-
-        const { onPress, text, textColor, renderBorder } = this.props;
-
-        return (
-            <TouchableOpacity
-                style={renderBorder === true ? leftMenuCardStyle.mainStyleWithBorderBottom : leftMenuCardStyle.mainStyle}
-                onPress={() => { onPress() }}>
-                <Text style={[fontStyles.mainTextStyleBlue, { color: textColor }]}>{text}</Text>
-            </TouchableOpacity>
-        )
-
-    }
-
+		return (
+			<TouchableOpacity
+				style={renderBorder === true ? leftMenuCardStyle.mainStyleWithBorderBottom : leftMenuCardStyle.mainStyle}
+				onPress={() => {
+					onPress();
+				}}>
+				<Text style={[fontStyles.mainTextStyleBlue, { color: textColor }]}>{text}</Text>
+			</TouchableOpacity>
+		);
+	}
 }
 
 //This component will take four different props. The Text to display, the onPress method for when the touchable opacity is clicked,
 //the color of the text, and whether to render a border at the bottom of the touchable opacity
 LeftMenuCard.propTypes = {
-    text: PropTypes.string.isRequired,
-    onPress: PropTypes.func.isRequired,
-    textColor: PropTypes.string.isRequired,
-    renderBorder: PropTypes.bool.isRequired
-}
+	text: PropTypes.string.isRequired,
+	onPress: PropTypes.func.isRequired,
+	textColor: PropTypes.string.isRequired,
+	renderBorder: PropTypes.bool.isRequired
+};
 
 export default LeftMenuCard;
-
