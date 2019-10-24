@@ -38,8 +38,6 @@ class signUpScreen extends Component {
     email: '',
     password: '',
     buttonSelected: '',
-    address: '',
-    phoneNumber: '',
     fieldsError: false,
     emailError: false,
     buttonError: false,
