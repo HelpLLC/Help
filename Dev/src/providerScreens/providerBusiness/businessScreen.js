@@ -3,14 +3,13 @@
 //first time that the user logs in or if they do not yet have products, then the screen will 
 //display prompting the user to sign in.
 import React, { Component } from 'react';
-import { View, ScrollView, Text, Dimensions, TouchableOpacity, FlatList } from 'react-native';
+import { View, ScrollView, Text, Dimensions, TouchableOpacity } from 'react-native';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import images from 'config/images/images';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import TopBanner from '../../components/TopBanner';
-import ServiceCard from '../../components/ServiceCard';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
@@ -18,6 +17,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
 import HelpView from '../../components/HelpView';
 import ImageWithBorder from '../../components/ImageWithBorder';
+import ServiceCardList from '../../components/ServiceCardList';
 
 class businessScreen extends Component {
 
@@ -217,31 +217,14 @@ class businessScreen extends Component {
                         style={{ flex: 1 }}
                         contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
                         showsVerticalScrollIndicator={false}>
-                        <FlatList
-                            data={providerProducts}
-                            keyExtractor={(item, index) => {
-                                return (item.serviceID);
-                            }}
-                            renderItem={({ item, index }) => (
-                                <ServiceCard
-                                    key={index}
-                                    serviceTitle={item.serviceTitle}
-                                    serviceDescription={item.serviceDescription}
-                                    price={item.pricing}
-                                    imageFunction={async () => {
-                                        //Passes in the function to retrieve the image of this product
-                                        return await FirebaseFunctions.getProdudctImageByID(item.serviceID)
-                                    }}
-                                    numCurrentRequests={item.requests.currentRequests.length}
-                                    onPress={() => {
-                                        this.props.navigation.push('ProviderProductScreen', {
-                                            productID: item.serviceID,
-                                            providerID: provider.providerID
-                                        });
-                                    }}
-                                />
-                            )}
-                        />
+                        <ServiceCardList
+                            services={providerProducts}
+                            onPress={(service) => {
+                                this.props.navigation.push('ProviderProductScreen', {
+                                    productID: service.serviceID,
+                                    providerID: provider.providerID
+                                });
+                            }} />
                         <View style={{ flex: 0.025 }}></View>
                         <ErrorAlert
                             isVisible={this.state.isErrorVisible}

@@ -10,7 +10,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import screenStyle from 'config/styles/screenStyle';
 import Geolocation from 'react-native-geolocation-service';
 import HelpView from '../components/HelpView';
-import ServicesList from '../components/ServicesList';
+import NarrowServiceCardList from '../components/NarrowServiceCardList';
 import LeftMenu from './LeftMenu';
 import SideMenu from 'react-native-side-menu';
 import TopBanner from '../components/TopBanner';
@@ -164,7 +164,7 @@ class featuredScreen extends Component {
               {strings.FeaturedServices}
             </Text>
           </View>
-          <ServicesList
+          <NarrowServiceCardList
             requester={requester}
             navigation={this.props.navigation}
             services={allProducts}

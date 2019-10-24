@@ -6,7 +6,7 @@
 //requester to request the service.
 import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity, ScrollView, FlatList } from 'react-native';
-import ServicesList from '../components/ServicesList';
+import NarrowServiceCardList from '../components/NarrowServiceCardList';
 import colors from 'config/colors';
 import HelpView from '../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -197,7 +197,7 @@ class companyProfileScreen extends Component {
                             </View>
                         </View>
                         <View style={{ flex: 0.025 }}></View>
-                        <ServicesList navigation={this.props.navigation} services={providerProducts} requester={requester} />
+                        <NarrowServiceCardList navigation={this.props.navigation} services={providerProducts} requester={requester} />
                     </View>
                     <ErrorAlert
                         isVisible={this.state.isErrorVisible}
