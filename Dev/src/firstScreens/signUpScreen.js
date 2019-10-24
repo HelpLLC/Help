@@ -82,10 +82,7 @@ class signUpScreen extends Component {
           this.setState({ isLoading: false });
         } else {
           if (buttonSelected === 'Customer') {
-            //If this is a customer, then the account will be created here and
-            //along with the new requester being added to the database then
-            //the screen will shift to the new account's screen
-
+            //If this is a customer, it will push to the createrequester screen and create profile there
             this.setState({ isLoading: false });
             this.props.navigation.push('CreateRequesterProfileScreen', {
               email,
