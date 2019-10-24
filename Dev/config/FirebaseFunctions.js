@@ -239,7 +239,7 @@ export default class FirebaseFunctions {
     //This functions will take in a new requester ID and then will add that requester to the firestore
     //as a new requester with a unique requester ID and a username which will just be their email
     //without the "@". It will also accept a phone number and an address which are optional for requesters
-    static async addRequesterToDatabase(account, email, phoneNumber, address) {
+    static async addRequesterToDatabase(account, email, phoneNumber, state, city) {
 
         const batch = this.database.batch();
         const uid = account.user.uid;
@@ -249,7 +249,8 @@ export default class FirebaseFunctions {
             requesterID: uid,
             username: email.substring(0, email.indexOf("@")),
             phoneNumber,
-            address,
+            state,
+            city,
             orderHistory: [],
             blockedUsers: ["Example Business"]
         }
