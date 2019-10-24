@@ -62,6 +62,18 @@ export default {
     CheckTermsAndConditions: 'You must accept the terms and conditions to use Help',
     BusinessPhoneNumberError: 'All businesses are required to enter their phone numbers',
     InvalidPhoneNumberError: 'Please enter a valid 10 digit phone number',
+    BusinessSignUp: 'Business Sign Up',
+    CustomerSignUp: 'Customer Sign Up',
+    Next: 'Next',
+
+
+    //-------------------CustomerSignUp----------------------
+    City: 'City',
+    State: 'State',
+    Name: 'Name',
+    PleaseEnterCity: 'Please enter a city...',
+    PleaseEnterState: 'Please enter a state...',
+    PleaseEnterName: 'Please enter your full name...',
 
     //------------------- Settings Screen -------------------
     History: 'History',
