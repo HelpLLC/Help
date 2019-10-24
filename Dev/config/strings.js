@@ -71,9 +71,9 @@ export default {
     City: 'City',
     State: 'State',
     Name: 'Name',
-    PleaseEnterCity: 'Please enter a city',
-    PleaseEnterState: 'Please enter a state',
-    PleaseEnterName: 'Please enter your full name',
+    PleaseEnterCity: 'Please enter a city...',
+    PleaseEnterState: 'Please enter a state...',
+    PleaseEnterName: 'Please enter your full name...',
 
     //------------------- Settings Screen -------------------
     History: 'History',

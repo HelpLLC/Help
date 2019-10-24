@@ -66,10 +66,14 @@ class signUpScreen extends Component {
       this.setState({ inputText: '', fieldsError: true });
 
       //If no button was selected a different error message would appear
-    } else if (!email.includes("@")) {
-        this.setState({ emailError: true });
+    } else if (!email.includes('@')) {
+      this.setState({ emailError: true });
     } else if (password.length < 6) {
-        this.setState({ passwordError: true });
+      this.setState({ passwordError: true });
+    } else if (buttonSelected === '') {
+      this.setState({ buttonError: true });
+    } else if (isChecked === false) {
+      this.setState({ termsAndConditionsError: true });
     } else {
       this.setState({ isLoading: true });
       //If the accout already exists, then an error will appear
@@ -94,8 +98,7 @@ class signUpScreen extends Component {
             this.setState({ isLoading: false });
             this.props.navigation.push('CreateProviderProfileScreen', {
               email,
-              password,
-              phoneNumber
+              password
             });
           }
         }
@@ -138,9 +141,6 @@ class signUpScreen extends Component {
             </View>
           </View>
           <View
-            style={{ height: Dimensions.get('window').height * 0.03 }}
-          ></View>
-          <View
             style={{
               height: Dimensions.get('window').height * 0.12,
               justifyContent: 'center',
@@ -152,8 +152,7 @@ class signUpScreen extends Component {
                 {strings.Password}
               </Text>
             </View>
-            <View style={{ flex: 0.5 }}></View>
-            <View style={{ flex: 1, justifyContent: 'center' }}>
+            <View style={{ flex: 1, justifyContent: 'center', marginTop: Dimensions.get('window').height * .02 }}>
               <OneLineRoundedBoxInput
                 placeholder={strings.ChooseAPassword}
                 onChangeText={input => this.setState({ password: input })}
@@ -163,15 +162,6 @@ class signUpScreen extends Component {
               />
             </View>
           </View>
-          <View
-            style={{ height: Dimensions.get('window').height * 0.03 }}
-          ></View>
-          <View
-            style={{ height: Dimensions.get('window').height * 0.03 }}
-          ></View>
-          <View
-            style={{ height: Dimensions.get('window').height * 0.03 }}
-          ></View>
           <View
             style={{
               height: Dimensions.get('window').height * 0.08,
@@ -352,22 +342,6 @@ class signUpScreen extends Component {
           }}
           title={strings.Whoops}
           message={strings.EmailExists}
-        />
-        <ErrorAlert
-          isVisible={this.state.businessPhoneNumberError}
-          onPress={() => {
-            this.setState({ businessPhoneNumberError: false });
-          }}
-          title={strings.Whoops}
-          message={strings.BusinessPhoneNumberError}
-        />
-        <ErrorAlert
-          isVisible={this.state.invalidPhoneNumberError}
-          onPress={() => {
-            this.setState({ invalidPhoneNumberError: false });
-          }}
-          title={strings.Whoops}
-          message={strings.InvalidPhoneNumberError}
         />
         <ErrorAlert
           isVisible={this.state.termsAndConditionsError}

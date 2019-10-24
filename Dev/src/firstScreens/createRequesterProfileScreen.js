@@ -1,3 +1,5 @@
+//This screen is the screen after you fill out basic info and choose customer and it creates the requester and signs you in
+
 import React, { Component } from 'react';
 import { View, Text, Dimensions, Keyboard } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
@@ -53,7 +55,8 @@ class createRequesterProfileScreen extends Component {
           email,
           phoneNumber,
           state,
-          city
+          city,
+          name
         );
         await FirebaseFunctions.logIn(email, password);
         const allProducts = await FirebaseFunctions.getAllProducts();
