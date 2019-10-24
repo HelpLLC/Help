@@ -9,17 +9,13 @@ import {
 } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
-import CheckBox from 'react-native-check-box';
-import colors from 'config/colors';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import LoadingSpinner from '../components/LoadingSpinner';
-import HelpView from '../components/HelpView';
-import screenStyle from 'config/styles/screenStyle';
+import HelpView from '../components/HelpView';]
 import firebase from 'react-native-firebase';
-import FirebaseFunctions from '../../config/FirebaseFunctions';
-import ErrorAlert from '../components/ErrorAlert';
+import FirebaseFunctions from '../../config/FirebaseFunctions';]
 
 class createRequesterProfileScreen extends Component {
   state = {
