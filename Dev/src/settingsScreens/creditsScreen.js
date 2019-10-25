@@ -22,7 +22,8 @@ export default class creditsScreen extends Component {
 					<Text style={fontStyles.mainTextStyleBlack}>{strings.IconMadeBySmashIconsFromFlaticon}</Text>
 					<Text style={fontStyles.mainTextStyleBlack}>Icons made by "https://www.flaticon.com/authors/kiranshastry"</Text>
 					<Text style={fontStyles.mainTextStyleBlack}>Icons made by "https://www.flaticon.com/authors/smalllikeart"</Text>
-					<Text style={fontStyles.mainTextStyleBlack}>Icons made by https://www.flaticon.com/authors/freepik</Text>
+					<Text style={fontStyles.mainTextStyleBlack}>Icons made by "https://www.flaticon.com/authors/freepik"</Text>
+					<Text style={fontStyles.mainTextStyleBlack}>Icons made by "https://www.flaticon.com/authors/freepik"</Text>
 				</ScrollView>
 			</HelpView>
 		);
