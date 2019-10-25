@@ -124,7 +124,7 @@ class createRequesterProfileScreen extends Component {
 						alignSelf: 'flex-start',
 						marginVertical: Dimensions.get('window').height * 0.02
 					}}>
-					<Text style={fontStyles.bigTextStyleBlack}>{strings.Location}</Text>
+					<Text style={fontStyles.bigTextStyleBlack}>{strings.City}</Text>
 				</View>
 				<View style={{ height: Dimensions.get('window').height * 0.35 }}>
 					<GoogleCityPicker

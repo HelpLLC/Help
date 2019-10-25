@@ -8,8 +8,11 @@ import PropTypes from 'prop-types';
 
 class GoogleCityPicker extends Component {
 	render() {
+
+
 		//This component will only take one prop. The onPress method determining what will happen with  the received data
 		const { onPress } = this.props;
+
 
 		return (
 			<GooglePlacesAutocomplete
@@ -17,7 +20,7 @@ class GoogleCityPicker extends Component {
 				placeholder={strings.EnterCityDotDotDot}
 				autoFocus={false}
 				returnKeyType={'search'}
-				listViewDisplayed='auto'
+				listViewDisplayed={'false'}
 				fetchDetails={true}
 				onPress={(data, details) => {
 					//Fetches the name of the selected city along with the longitude and latitude

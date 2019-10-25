@@ -66,10 +66,8 @@ export default {
 
 	//------------------- Customer Sign Up Screen -------------------
 	City: 'City',
-	State: 'State',
 	Name: 'Name',
 	EnterCityDotDotDot: 'Enter city...',
-	Location: 'Location',
 	PleaseEnterName: 'Please enter your name...',
 
 	//------------------- Settings Screen -------------------
