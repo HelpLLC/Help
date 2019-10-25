@@ -17,162 +17,139 @@ import TopBanner from '../components/TopBanner';
 import HelpSearchBar from '../components/HelpSearchBar';
 
 class featuredScreen extends Component {
-  state = {
-    isLoading: true,
-    latitude: null,
-    longitude: null,
-    isOpen: false,
-    search: ''
-  };
+	state = {
+		isLoading: true,
+		latitude: null,
+		longitude: null,
+		isOpen: false,
+		search: ''
+	};
 
-  //Fetches the current position and stores it in the state
-  async getCurrentPosition() {
-    let geoOptions = {
-      enableHighAccuracy: true,
-      timeOut: 20000,
-      maximumAge: 60 * 60
-    };
-    await Geolocation.getCurrentPosition(
-      async position => {
-        const { longitude, latitude } = await position.coords;
-        //Waits until the user has given permission to use location, then loads the screen
-        this.setState({
-          longitude,
-          latitude,
-          isLoading: false
-        });
-      },
-      error => {
-        FirebaseFunctions.analytics.logEvent('location_permission_denied');
-        this.setState({
-          allProducts: true,
-          isLoading: false
-        });
-      },
-      geoOptions
-    );
+	//Fetches the current position and stores it in the state
+	async getCurrentPosition() {
+		let geoOptions = {
+			enableHighAccuracy: true,
+			timeOut: 20000,
+			maximumAge: 60 * 60
+		};
+		await Geolocation.getCurrentPosition(
+			async (position) => {
+				const { longitude, latitude } = await position.coords;
+				//Waits until the user has given permission to use location, then loads the screen
+				this.setState({
+					longitude,
+					latitude,
+					isLoading: false
+				});
+			},
+			(error) => {
+				FirebaseFunctions.analytics.logEvent('location_permission_denied');
+				this.setState({
+					allProducts: true,
+					isLoading: false
+				});
+			},
+			geoOptions
+		);
 
-    return 0;
-  }
+		return 0;
+	}
 
-  //This function deals with the location permissions depending on the OS of the app
-  async requestLocationPermission() {
-    if (Platform.OS === 'ios') {
-      const isGranted = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
-      if (isGranted === RESULTS.GRANTED) {
-        await this.getCurrentPosition();
-      } else {
-        const requestPermission = await request(
-          PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
-        );
-        if (requestPermission === RESULTS.GRANTED) {
-          await this.getCurrentPosition();
-        } else {
-          FirebaseFunctions.analytics.logEvent('location_permission_denied');
-          this.setState({
-            allProducts: true,
-            isLoading: false
-          });
-        }
-      }
-    } else {
-      const isGranted = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
-      if (isGranted === RESULTS.GRANTED) {
-        await this.getCurrentPosition();
-      } else {
-        const requestPermission = await request(
-          PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
-        );
-        if (requestPermission === RESULTS.GRANTED) {
-          await this.getCurrentPosition();
-        } else {
-          FirebaseFunctions.analytics.logEvent('location_permission_denied');
-          this.setState({
-            allProducts: true,
-            isLoading: false
-          });
-        }
-      }
-    }
+	//This function deals with the location permissions depending on the OS of the app
+	async requestLocationPermission() {
+		if (Platform.OS === 'ios') {
+			const isGranted = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+			if (isGranted === RESULTS.GRANTED) {
+				await this.getCurrentPosition();
+			} else {
+				const requestPermission = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+				if (requestPermission === RESULTS.GRANTED) {
+					await this.getCurrentPosition();
+				} else {
+					FirebaseFunctions.analytics.logEvent('location_permission_denied');
+					this.setState({
+						allProducts: true,
+						isLoading: false
+					});
+				}
+			}
+		} else {
+			const isGranted = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+			if (isGranted === RESULTS.GRANTED) {
+				await this.getCurrentPosition();
+			} else {
+				const requestPermission = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+				if (requestPermission === RESULTS.GRANTED) {
+					await this.getCurrentPosition();
+				} else {
+					FirebaseFunctions.analytics.logEvent('location_permission_denied');
+					this.setState({
+						allProducts: true,
+						isLoading: false
+					});
+				}
+			}
+		}
 
-    return 0;
-  }
+		return 0;
+	}
 
-  async componentDidMount() {
-    FirebaseFunctions.setCurrentScreen('FeaturedScreen', 'featuredScreen');
-    await this.requestLocationPermission();
-  }
+	async componentDidMount() {
+		FirebaseFunctions.setCurrentScreen('FeaturedScreen', 'featuredScreen');
+		await this.requestLocationPermission();
+	}
 
-  render() {
-    //Filters the products and removes any that are posted by blocked users
-    let { allProducts, requester } = this.props.navigation.state.params;
-    allProducts = allProducts.filter(product => {
-      return !requester.blockedUsers.includes(product.offeredByID);
-    });
+	render() {
+		//Filters the products and removes any that are posted by blocked users
+		let { allProducts, requester } = this.props.navigation.state.params;
+		allProducts = allProducts.filter((product) => {
+			return !requester.blockedUsers.includes(product.offeredByID);
+		});
 
-    if (this.state.isLoading === true) {
-      return (
-        <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-        >
-          <LoadingSpinner isVisible={true} />
-        </View>
-      );
-    }
+		if (this.state.isLoading === true) {
+			return (
+				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+					<LoadingSpinner isVisible={true} />
+				</View>
+			);
+		}
 
-    const { search } = this.state;
+		const { search } = this.state;
 
-    return (
-      <SideMenu
-        isOpen={this.state.isOpen}
-        menu={
-          <LeftMenu
-            navigation={this.props.navigation}
-            allProducts={allProducts}
-            requester={requester}
-          />
-        }
-      >
-        <HelpView style={screenStyle.container}>
-          <TopBanner
-            leftIconName='navicon'
-            leftOnPress={() => {
-              FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_home');
-              this.setState({ isOpen: true });
-            }}
-            size={30}
-            title={strings.Featured}
-          />
-          <HelpSearchBar
-            placeholderText={strings.WhatAreYouLookingForQuestion}
-            value={search}
-            onChangeText={(text) => {
-
-              //Logic for searching
-              this.setState({ search: text });
-
-            }} />
-          <View
-            style={{
-              height: Dimensions.get('window').height * 0.05,
-              width: Dimensions.get('window').width * 0.93,
-              justifyContent: 'flex-end',
-              alignItems: 'flex-start'
-            }}
-          >
-            <Text style={fontStyles.bigTextStyleBlue}>
-              {strings.FeaturedServices}
-            </Text>
-          </View>
-          <NarrowServiceCardList
-            requester={requester}
-            navigation={this.props.navigation}
-            services={allProducts}
-          />
-        </HelpView>
-      </SideMenu>
-    );
-  }
+		return (
+			<SideMenu isOpen={this.state.isOpen} menu={<LeftMenu navigation={this.props.navigation} allProducts={allProducts} requester={requester} />}>
+				<HelpView style={screenStyle.container}>
+					<TopBanner
+						leftIconName='navicon'
+						leftOnPress={() => {
+							FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_home');
+							this.setState({ isOpen: true });
+						}}
+						size={30}
+						title={strings.Featured}
+					/>
+					<HelpSearchBar
+						placeholderText={strings.WhatAreYouLookingForQuestion}
+						value={search}
+						onChangeText={(text) => {
+							//Logic for searching
+							this.setState({ search: text });
+						}}
+					/>
+					<View
+						style={{
+							height: Dimensions.get('window').height * 0.05,
+							width: Dimensions.get('window').width * 0.93,
+							justifyContent: 'flex-end',
+							alignItems: 'flex-start'
+						}}>
+						<Text style={fontStyles.bigTextStyleBlue}>{strings.FeaturedServices}</Text>
+					</View>
+					<NarrowServiceCardList requester={requester} navigation={this.props.navigation} services={allProducts} />
+				</HelpView>
+			</SideMenu>
+		);
+	}
 }
 
 //Exports the screen
