@@ -1,4 +1,5 @@
 PODS:
+  - Base64 (1.1.2)
   - boost-for-react-native (1.63.0)
   - BoringSSL-GRPC (0.0.3):
     - BoringSSL-GRPC/Implementation (= 0.0.3)
@@ -6,6 +7,11 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.3):
     - BoringSSL-GRPC/Interface (= 0.0.3)
   - BoringSSL-GRPC/Interface (0.0.3)
+  - CodePush (5.7.0):
+    - Base64 (~> 1.1)
+    - JWT (~> 3.0.0-beta.7)
+    - React
+    - SSZipArchive (~> 2.1)
   - Crashlytics (3.13.4):
     - Fabric (~> 1.10.2)
   - DoubleConversion (1.1.6)
@@ -138,6 +144,8 @@ PODS:
     - nanopb (~> 0.3)
   - gRPC-Core/Interface (1.21.0)
   - GTMSessionFetcher/Core (1.2.2)
+  - JWT (3.0.0-beta.12):
+    - Base64 (~> 1.1.2)
   - leveldb-library (1.20)
   - lottie-ios (3.0.3)
   - nanopb (0.3.901):
@@ -247,9 +255,11 @@ PODS:
     - React
   - RNVectorIcons (6.6.0):
     - React
+  - SSZipArchive (2.2.2)
   - yoga (0.60.3.React)
 
 DEPENDENCIES:
+  - CodePush (from `../node_modules/react-native-code-push`)
   - Crashlytics (~> 3.13.4)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Fabric (~> 1.10.2)
@@ -321,8 +331,14 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - Protobuf
+  trunk:
+    - Base64
+    - JWT
+    - SSZipArchive
 
 EXTERNAL SOURCES:
+  CodePush:
+    :path: "../node_modules/react-native-code-push"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   Folly:
@@ -395,8 +411,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
+  CodePush: fe25db2e24ff1a2fab8b280a9633d9ba520867be
   Crashlytics: 2dfd686bcb918dc10ee0e76f7f853fe42c7bd552
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
@@ -419,6 +437,7 @@ SPEC CHECKSUMS:
   "gRPC-C++": 9dfe7b44821e7b3e44aacad2af29d2c21f7cde83
   gRPC-Core: c9aef9a261a1247e881b18059b84d597293c9947
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
+  JWT: 9b5c05abbcc1a0e69c3c91e1655b3387fc7e581d
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   lottie-ios: 6037add6441183d4ffd100d2ac78724aa8d919d4
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
@@ -453,8 +472,9 @@ SPEC CHECKSUMS:
   RNReanimated: 7a52c90473b5e81c13408d40d797b98387eaddde
   RNSVG: 90c76b7cf235654d45e54655b6c189ea4041057c
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
+  SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   yoga: 843fe25849b56131275bf3e5da2c468e96f68aff
 
-PODFILE CHECKSUM: 0145fe85926bf89e29d54652d132c0de320d23e8
+PODFILE CHECKSUM: 9de5ab2ad91a5f79a0a82c4d2c1c45374652a453
 
 COCOAPODS: 1.8.3
