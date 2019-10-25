@@ -80,7 +80,7 @@ const routeConfig = {
 		navigationOptions: ({ navigation }) => ({
 			header: (
 				<TopBanner
-					title={strings.CustomerSignUp}
+					title={strings.CreateProfile}
 					leftIconName='angle-left'
 					leftOnPress={() => {
 						//Method will go back to the splash screen
