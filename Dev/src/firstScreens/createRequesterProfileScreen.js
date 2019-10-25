@@ -1,7 +1,7 @@
 //This screen is the screen after you fill out basic info and choose customer and it creates the requester and signs you in
 
 import React, { Component } from 'react';
-import { View, Text, Dimensions, Keyboard, ScrollView } from 'react-native';
+import { View, Text, Dimensions, Keyboard } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
