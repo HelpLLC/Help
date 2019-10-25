@@ -62,16 +62,15 @@ export default {
 	BusinessPhoneNumberError: 'All businesses are required to enter their phone numbers',
 	InvalidPhoneNumberError: 'Please enter a valid 10 digit phone number',
 	BusinessSignUp: 'Business Sign Up',
-	CustomerSignUp: 'Customer Sign Up',
 	Next: 'Next',
 
-	//-------------------CustomerSignUp----------------------
+	//------------------- Customer Sign Up Screen -------------------
 	City: 'City',
 	State: 'State',
 	Name: 'Name',
-	PleaseEnterCity: 'Please enter a city...',
-	PleaseEnterState: 'Please enter a state...',
-	PleaseEnterName: 'Please enter your full name...',
+	EnterCityDotDotDot: 'Enter city...',
+	Location: 'Location',
+	PleaseEnterName: 'Please enter your name...',
 
 	//------------------- Settings Screen -------------------
 	History: 'History',

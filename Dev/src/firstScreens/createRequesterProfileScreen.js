@@ -1,7 +1,7 @@
 //This screen is the screen after you fill out basic info and choose customer and it creates the requester and signs you in
 
 import React, { Component } from 'react';
-import { View, Text, Dimensions, Keyboard } from 'react-native';
+import { View, Text, Dimensions, Keyboard, ScrollView } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
@@ -12,6 +12,7 @@ import HelpView from '../components/HelpView';
 import firebase from 'react-native-firebase';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import screenStyle from '../../config/styles/screenStyle';
+import GoogleCityPicker from '../components/GoogleCityPicker';
 
 class createRequesterProfileScreen extends Component {
 	state = {
@@ -25,7 +26,10 @@ class createRequesterProfileScreen extends Component {
 	};
 
 	componentDidMount() {
-		FirebaseFunctions.setCurrentScreen('CreateRequesterProfileScreen', 'createRequesterProfileScreen');
+		FirebaseFunctions.setCurrentScreen(
+			'CreateRequesterProfileScreen',
+			'createRequesterProfileScreen'
+		);
 	}
 
 	async signUp() {
@@ -45,7 +49,14 @@ class createRequesterProfileScreen extends Component {
 				//along with the new requester being added to the database then
 				//the screen will shift to the new account's screen
 				const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
-				const requester = await FirebaseFunctions.addRequesterToDatabase(account, email, phoneNumber, state, city, name);
+				const requester = await FirebaseFunctions.addRequesterToDatabase(
+					account,
+					email,
+					phoneNumber,
+					state,
+					city,
+					name
+				);
 				await FirebaseFunctions.logIn(email, password);
 				const allProducts = await FirebaseFunctions.getAllProducts();
 				this.setState({ isLoading: false });
@@ -63,89 +74,73 @@ class createRequesterProfileScreen extends Component {
 	render() {
 		return (
 			<HelpView style={screenStyle.container}>
-				<View>
-					<View
-						style={{
-							flex: 4,
-							alignSelf: 'center'
-						}}>
-						<View
-							style={{
-								flex: 1,
-								justifyContent: 'flex-end',
-								marginBottom: Dimensions.get('window').height * 0.01
-							}}>
-							<Text style={fontStyles.bigTextStyleBlack}>{strings.Name}</Text>
-						</View>
+				<View
+					style={{
+						alignSelf: 'flex-start',
+						justifyContent: 'flex-end',
+						marginVertical: Dimensions.get('window').height * 0.02
+					}}>
+					<Text style={fontStyles.bigTextStyleBlack}>{strings.Name}</Text>
+				</View>
 
-						<View style={{ flex: 1, justifyContent: 'center' }}>
-							<OneLineRoundedBoxInput placeholder={strings.PleaseEnterName} onChangeText={(input) => this.setState({ name: input })} value={this.state.name} password={false} maxLength={20} />
-						</View>
-						<View
-							style={{
-								flex: 1,
-								justifyContent: 'flex-end',
-								marginBottom: Dimensions.get('window').height * 0.01
-							}}>
-							<Text style={fontStyles.bigTextStyleBlack}>{strings.State}</Text>
-						</View>
+				<View style={{ justifyContent: 'center' }}>
+					<OneLineRoundedBoxInput
+						placeholder={strings.PleaseEnterName}
+						onChangeText={(input) => this.setState({ name: input })}
+						value={this.state.name}
+						password={false}
+						maxLength={20}
+					/>
+				</View>
+				<View
+					style={{
+						alignSelf: 'flex-start',
+						justifyContent: 'flex-end',
+						marginVertical: Dimensions.get('window').height * 0.02
+					}}>
+					<Text style={fontStyles.bigTextStyleBlack}>{strings.PhoneNumber}</Text>
+				</View>
 
-						<View style={{ flex: 1, justifyContent: 'center' }}>
-							<OneLineRoundedBoxInput placeholder={strings.PleaseEnterState} onChangeText={(input) => this.setState({ state: input })} value={this.state.state} password={false} maxLength={20} />
-						</View>
-						<View
-							style={{
-								flex: 1,
-								justifyContent: 'flex-end',
-								marginBottom: Dimensions.get('window').height * 0.01
-							}}>
-							<Text style={fontStyles.bigTextStyleBlack}>{strings.City}</Text>
-						</View>
-
-						<View style={{ flex: 1, justifyContent: 'center' }}>
-							<OneLineRoundedBoxInput placeholder={strings.PleaseEnterCity} onChangeText={(input) => this.setState({ city: input })} value={this.state.city} password={false} maxLength={20} />
-						</View>
-						<View
-							style={{
-								flex: 1,
-								justifyContent: 'flex-end',
-								marginBottom: Dimensions.get('window').height * 0.01
-							}}>
-							<Text style={fontStyles.bigTextStyleBlack}>{strings.PhoneNumber}</Text>
-						</View>
-
-						<View style={{ flex: 1, justifyContent: 'center' }}>
-							<OneLineRoundedBoxInput
-								placeholder={strings.EnterPhoneNumber}
-								onChangeText={(input) => this.setState({ phoneNumber: input.replace(/[^0-9]/g, '') })}
-								value={this.state.phoneNumber}
-								password={false}
-								keyboardType='numeric'
-								autoCompleteType={'tel'}
-								maxLength={10}
-							/>
-						</View>
-					</View>
-
-					<View
-						style={{
-							height: Dimensions.get('window').height * 0.12,
-							justifyContent: 'flex-end',
-							alignSelf: 'center'
-						}}>
-						<RoundBlueButton
-							title={strings.SignUp}
-							style={roundBlueButtonStyle.MediumSizeButton}
-							textStyle={fontStyles.bigTextStyleWhite}
-							onPress={() => {
-								this.signUp();
-							}}
-							disabled={this.state.isLoading}
-						/>
-					</View>
-					<View style={{ flex: 1, alignItems: 'center' }}>
-						<LoadingSpinner isVisible={this.state.isLoading} />
-					</View>
+				<View style={{ justifyContent: 'center' }}>
+					<OneLineRoundedBoxInput
+						placeholder={strings.EnterPhoneNumber}
+						onChangeText={(input) => this.setState({ phoneNumber: input.replace(/[^0-9]/g, '') })}
+						value={this.state.phoneNumber}
+						password={false}
+						keyboardType='numeric'
+						autoCompleteType={'tel'}
+						maxLength={10}
+					/>
+				</View>
+				<View
+					style={{
+						justifyContent: 'flex-end',
+						alignSelf: 'flex-start',
+						marginVertical: Dimensions.get('window').height * 0.02
+					}}>
+					<Text style={fontStyles.bigTextStyleBlack}>{strings.Location}</Text>
+				</View>
+				<View style={{ height: Dimensions.get('window').height * 0.35 }}>
+					<GoogleCityPicker onPress={() => {}} />
+				</View>
+				<View
+					style={{
+						height: Dimensions.get('window').height * 0.1,
+						justifyContent: 'flex-end',
+						alignSelf: 'center'
+					}}>
+					<RoundBlueButton
+						title={strings.SignUp}
+						style={roundBlueButtonStyle.MediumSizeButton}
+						textStyle={fontStyles.bigTextStyleWhite}
+						onPress={() => {
+							this.signUp();
+						}}
+						disabled={this.state.isLoading}
+					/>
+				</View>
+				<View style={{ height: Dimensions.get('window').height * 0.04, alignItems: 'center' }}>
+					<LoadingSpinner isVisible={this.state.isLoading} />
 				</View>
 			</HelpView>
 		);
