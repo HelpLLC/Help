@@ -10,35 +10,30 @@ import HelpView from '../../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 
 export default class issueReportedScreen extends Component {
-    //This method will wait 5 seconds then return to the reportIssueScreen
-    componentDidMount() {
+	//This method will wait 5 seconds then return to the reportIssueScreen
+	componentDidMount() {
+		FirebaseFunctions.setCurrentScreen('IssueReportedScreen', 'IssueReportedScreen');
 
-        FirebaseFunctions.setCurrentScreen("IssueReportedScreen", "IssueReportedScreen");
+		//Start counting when the page is loaded
+		this.timeoutHandle = setTimeout(() => {
+			//Transitions back to the screen
+			this.props.navigation.push('ReportIssueScreen', {
+				user: this.props.navigation.state.params.user
+			});
+			//Makes sure the screen only stays on for three seconds
+		}, 3350);
+	}
 
-        //Start counting when the page is loaded
-        this.timeoutHandle = setTimeout(() => {
-            //Transitions back to the screen
-            this.props.navigation.push('ReportIssueScreen', {
-                user: this.props.navigation.state.params.user
-            });
-            //Makes sure the screen only stays on for three seconds
-        }, 3350);
-    }
-
-    //Renders the UI
-    render() {
-        return (
-            <HelpView style={screenStyle.container}>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text
-                        style={fontStyles.mainTextStyleBlack}>
-                        {strings.ThankYouForReporting}</Text>
-                    <Text style={{}}></Text>
-                    <Text
-                        style={fontStyles.mainTextStyleBlack}>
-                        {strings.WellFixItRightAway}</Text>
-                </View>
-            </HelpView>
-        );
-    }
+	//Renders the UI
+	render() {
+		return (
+			<HelpView style={screenStyle.container}>
+				<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+					<Text style={fontStyles.mainTextStyleBlack}>{strings.ThankYouForReporting}</Text>
+					<Text style={{}}></Text>
+					<Text style={fontStyles.mainTextStyleBlack}>{strings.WellFixItRightAway}</Text>
+				</View>
+			</HelpView>
+		);
+	}
 }

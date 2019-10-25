@@ -13,119 +13,141 @@ import signUpScreen from './signUpScreen';
 import TopBanner from '../components/TopBanner';
 import strings from 'config/strings';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
+import createRequesterProfileScreen from './createRequesterProfileScreen';
 
 //Route config that leads to all the different possible screens
 const routeConfig = {
-    //Takes you to the splash screen of the app
-    SplashScreen: {
-        screen: splashScreen,
-        navigationOptions: ({ navigation }) => ({
-            header: null,
-            gesturesEnabled: false,
-        })
-    },
-    //Takes you to the provider screen navigator's default route
-    ProviderScreens: {
-        screen: providerScreensNavigator,
-        navigationOptions: ({ navigation }) => ({
-            header: null,
-            gesturesEnabled: false,
-        })
-    },
-    //Takes you to the requester screen navigator's default route
-    RequesterScreens: {
-        screen: featuredScreen,
-        navigationOptions: ({ navigation }) => ({
-            header: null,
-            gesturesEnabled: false,
-        })
-    },
-    //Takes you to the log in screen of the app
-    LogInScreen: {
-        screen: logInScreen,
-        navigationOptions: ({ navigation }) => ({
-            header: (
-                <TopBanner
-                    title={strings.LogIn}
-                    leftIconName="angle-left"
-                    leftOnPress={() => {
-                        //Method will go back to the splash screen
-                        navigation.goBack();
-                    }} />
-            ),
-            gesturesEnabled: false,
-        })
-    },
-    //Takes you to the sign up screen of the app
-    SignUpScreen: {
-        screen: signUpScreen,
-        navigationOptions: ({ navigation }) => ({
-            header: (
-                <TopBanner
-                    title={strings.SignUp}
-                    leftIconName="angle-left"
-                    leftOnPress={() => {
-                        //Method will go back to the splash screen
-                        navigation.goBack();
-                    }} />
-            ),
-            gesturesEnabled: false,
-        })
-    },
-    //Takes you to the forgot password screen of the app
-    ForgotPasswordScreen: {
-        screen: forgotPasswordScreen,
-        navigationOptions: ({ navigation }) => ({
-            header: (
-                <TopBanner
-                    title={strings.ForgotPasswordNoQuestionMark}
-                    leftIconName="angle-left"
-                    leftOnPress={() => {
-                        //Method will go back to the splash screen
-                        navigation.goBack();
-                    }} />
-            ),
-            gesturesEnabled: false,
-        })
-    },
-    //Takes you to the screen where businesses will create their initial profile
-    CreateProviderProfileScreen: {
-        screen: createProviderProfileScreen,
-        navigationOptions: ({ navigation }) => ({
-            header: (
-                <TopBanner
-                    title={strings.CreateProfile}
-                    leftIconName="angle-left"
-                    leftOnPress={() => {
-                        //Method will go back to the splash screen
-                        navigation.goBack();
-                    }} />
-            ),
-            gesturesEnabled: false,
-        })
-    },
-    //Takes you to the screen which will display if a business account has not yet been approved
-    AccountNotVerifiedScreen: {
-        screen: accountNotVerifiedScreen,
-        navigationOptions: ({ navigation }) => ({
-            header: (
-                <TopBanner
-                    title={strings.Verification}
-                    leftIconName="angle-left"
-                    leftOnPress={async () => {
-                        //Method will go back to the splash screen and log out
-                        await FirebaseFunctions.logOut();
-                        navigation.push('SplashScreen');
-                    }} />
-            ),
-            gesturesEnabled: false,
-        })
-    }
+	//Takes you to the splash screen of the app
+	SplashScreen: {
+		screen: splashScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: null,
+			gesturesEnabled: false
+		})
+	},
+	//Takes you to the provider screen navigator's default route
+	ProviderScreens: {
+		screen: providerScreensNavigator,
+		navigationOptions: ({ navigation }) => ({
+			header: null,
+			gesturesEnabled: false
+		})
+	},
+	//Takes you to the requester screen navigator's default route
+	RequesterScreens: {
+		screen: featuredScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: null,
+			gesturesEnabled: false
+		})
+	},
+	//Takes you to the log in screen of the app
+	LogInScreen: {
+		screen: logInScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<TopBanner
+					title={strings.LogIn}
+					leftIconName='angle-left'
+					leftOnPress={() => {
+						//Method will go back to the splash screen
+						navigation.goBack();
+					}}
+				/>
+			),
+			gesturesEnabled: false
+		})
+	},
+	//Takes you to the sign up screen of the app
+	SignUpScreen: {
+		screen: signUpScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<TopBanner
+					title={strings.SignUp}
+					leftIconName='angle-left'
+					leftOnPress={() => {
+						//Method will go back to the splash screen
+						navigation.goBack();
+					}}
+				/>
+			),
+			gesturesEnabled: false
+		})
+	},
+	CreateRequesterProfileScreen: {
+		screen: createRequesterProfileScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<TopBanner
+					title={strings.CustomerSignUp}
+					leftIconName='angle-left'
+					leftOnPress={() => {
+						//Method will go back to the splash screen
+						navigation.goBack();
+					}}
+				/>
+			),
+			gesturesEnabled: false
+		})
+	},
+	//Takes you to the forgot password screen of the app
+	ForgotPasswordScreen: {
+		screen: forgotPasswordScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<TopBanner
+					title={strings.ForgotPasswordNoQuestionMark}
+					leftIconName='angle-left'
+					leftOnPress={() => {
+						//Method will go back to the splash screen
+						navigation.goBack();
+					}}
+				/>
+			),
+			gesturesEnabled: false
+		})
+	},
+	//Takes you to the screen where businesses will create their initial profile
+	CreateProviderProfileScreen: {
+		screen: createProviderProfileScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<TopBanner
+					title={strings.CreateProfile}
+					leftIconName='angle-left'
+					leftOnPress={() => {
+						//Method will go back to the splash screen
+						navigation.goBack();
+					}}
+				/>
+			),
+			gesturesEnabled: false
+		})
+	},
+	//Takes you to the screen which will display if a business account has not yet been approved
+	AccountNotVerifiedScreen: {
+		screen: accountNotVerifiedScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<TopBanner
+					title={strings.Verification}
+					leftIconName='angle-left'
+					leftOnPress={async () => {
+						//Method will go back to the splash screen and log out
+						await FirebaseFunctions.logOut();
+						navigation.push('SplashScreen');
+					}}
+				/>
+			),
+			gesturesEnabled: false
+		})
+	}
 };
 
 //Makes it so there is no header in all the navigator's screens
 const navigatorConfig = {
-    initialRouteName: 'SplashScreen',
+	initialRouteName: 'SplashScreen'
 };
 
 //Creates & exports the stack navigator

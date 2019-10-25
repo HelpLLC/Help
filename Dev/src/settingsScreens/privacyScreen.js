@@ -6,18 +6,17 @@ import { ScrollView } from 'react-native-gesture-handler';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 
 class privacyScreen extends Component {
+	componentDidMount() {
+		FirebaseFunctions.setCurrentScreen('PrivacyPolicyScreen', 'privacyScreen');
+	}
 
-    componentDidMount() {
-        FirebaseFunctions.setCurrentScreen("PrivacyPolicyScreen", "privacyScreen");
-    }
-
-    render() {
-        return (
-            <ScrollView>
-                <Text>{strings.PrivacyPolicy}</Text>
-            </ScrollView >
-        )
-    }
+	render() {
+		return (
+			<ScrollView>
+				<Text>{strings.PrivacyPolicy}</Text>
+			</ScrollView>
+		);
+	}
 }
 
 export default privacyScreen;
