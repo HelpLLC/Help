@@ -13,6 +13,7 @@ import firebase from 'react-native-firebase';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import screenStyle from '../../config/styles/screenStyle';
 import GoogleCityPicker from '../components/GoogleCityPicker';
+import ErrorAlert from '../components/ErrorAlert';
 
 class createRequesterProfileScreen extends Component {
 	state = {
@@ -21,8 +22,10 @@ class createRequesterProfileScreen extends Component {
 		phoneNumber: '',
 		name: '',
 		city: '',
-		state: '',
-		isLoading: false
+		coordinates: '',
+		isLoading: false,
+		invalidPhoneNumberError: false,
+		fieldsError: false
 	};
 
 	componentDidMount() {
@@ -36,8 +39,12 @@ class createRequesterProfileScreen extends Component {
 		Keyboard.dismiss();
 		//fetches the entered email and password
 		const { email, password } = this.props.navigation.state.params;
-		const { phoneNumber, name, city, state } = this.state;
-		if (phoneNumber.trim().length != 10) {
+		const { phoneNumber, name, city, coordinates } = this.state;
+		//Tests for empty fields
+		if (phoneNumber === '' || name === '' || city === '' || coordinates === '') {
+			//Displays empty field error
+			this.setState({ fieldsError: true });
+		} else if (phoneNumber.trim().length != 10) {
 			this.setState({ invalidPhoneNumberError: true });
 		} else {
 			this.setState({ isLoading: true });
@@ -51,9 +58,8 @@ class createRequesterProfileScreen extends Component {
 				const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
 				const requester = await FirebaseFunctions.addRequesterToDatabase(
 					account,
-					email,
 					phoneNumber,
-					state,
+					coordinates,
 					city,
 					name
 				);
@@ -121,7 +127,14 @@ class createRequesterProfileScreen extends Component {
 					<Text style={fontStyles.bigTextStyleBlack}>{strings.Location}</Text>
 				</View>
 				<View style={{ height: Dimensions.get('window').height * 0.35 }}>
-					<GoogleCityPicker onPress={() => {}} />
+					<GoogleCityPicker
+						onPress={(locationName, long, lat) => {
+							this.setState({
+								city: locationName,
+								coordinates: { long, lat }
+							});
+						}}
+					/>
 				</View>
 				<View
 					style={{
@@ -142,6 +155,22 @@ class createRequesterProfileScreen extends Component {
 				<View style={{ height: Dimensions.get('window').height * 0.04, alignItems: 'center' }}>
 					<LoadingSpinner isVisible={this.state.isLoading} />
 				</View>
+				<ErrorAlert
+					isVisible={this.state.fieldsError}
+					onPress={() => {
+						this.setState({ fieldsError: false });
+					}}
+					title={strings.Whoops}
+					message={strings.PleaseFillOutAllFields}
+				/>
+				<ErrorAlert
+					isVisible={this.state.invalidPhoneNumberError}
+					onPress={() => {
+						this.setState({ invalidPhoneNumberError: false });
+					}}
+					title={strings.Whoops}
+					message={strings.InvalidPhoneNumberError}
+				/>
 			</HelpView>
 		);
 	}
