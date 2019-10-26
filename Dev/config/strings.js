@@ -105,7 +105,11 @@ export default {
 	TellYourCustomersAboutYourselfDotDotDot: 'Tell your customers about yourself...',
 	PleaseEnterACompanyName: 'Please enter a company name',
 	PleaseEnterADescriptionWithAtLeast150Characters: 'Please enter a description with at least 150 characters',
+	PleaseEnterYourWorkExperienceWithAtLeast100Characters: 'Please enter your work experience with at least 100 characters',
+	PleaseChooseAValidImage: 'Please choose a valid image',
 	CompanyNameTakenPleaseChooseAnotherName: 'This company name is taken, please choose another one',
+	WhatIsYourBusinessExperienceQuestion: 'What is your business experience?',
+	TellYourCustomersAboutYourExperienceDotDotDot: 'Tell your customers about your experience...',
 
 	//------------------- Provider Business Screen -------------------
 	EditCompanyProfile: 'Edit Company Profile',

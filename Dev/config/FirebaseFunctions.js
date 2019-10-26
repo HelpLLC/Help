@@ -270,7 +270,7 @@ export default class FirebaseFunctions {
     //the "@". It will also have the companyName and the companyDescription that is passed along with a phone
     //number. Must wait for verfication by developers (default value for "isVerified" is false), when switched to true, 
     //user can log in
-    static async addProviderToDatabase(account, email, businessName, businessInfo, phoneNumber) {
+    static async addProviderToDatabase(account, email, businessName, businessInfo, businessExperience, businessImage) {
 
         const batch = this.database.batch();
         const uid = account.user.uid;
@@ -279,12 +279,14 @@ export default class FirebaseFunctions {
         const newProvider = {
             companyName: businessName,
             companyDescription: businessInfo,
+            companyExperience: businessExperience,
             providerID: account.user.uid,
             serviceIDs: [],
             username: email.substring(0, email.indexOf("@")),
             isVerified: false,
-            phoneNumber
+            // phoneNumber
         }
+        this.uploadProfileImage(uid, businessImage);
 
         batch.set(ref, newProvider);
         await batch.commit();
@@ -294,11 +296,31 @@ export default class FirebaseFunctions {
             businessInfo,
             providerID: account.user.uid,
             businessEmail: email,
-            businessPhoneNumber: phoneNumber
+            // businessPhoneNumber: phoneNumber
         });
         //Logs the event in firebase analytics
         this.analytics.logEvent("provider_sign_up");
         return newProvider;
+
+    }
+    static async uploadProfileImage(reference, response) {
+
+        //Fetches the absolute path of the image (depending on android or ios)
+        let absolutePath = "";
+        if (Platform.OS === 'android') {
+            absolutePath = ("file://" + response.path);
+        } else {
+            absolutePath = (response.uri);
+        }
+        console.log(response);
+
+        //Creates the reference & uploads the image (async)
+        await this.storage.ref('profilePictures/' + reference).putFile(absolutePath);
+
+        //Logs the event in firebase analytics
+        this.analytics.logEvent("upload_image");
+
+        return 0;
 
     }
 
