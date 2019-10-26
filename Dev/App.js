@@ -113,3 +113,5 @@ class App extends Component {
 //resume from backgroud
 let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
 App = codePush(codePushOptions)(App);
+
+export default App;
