@@ -1,87 +1,94 @@
-//This screen is the screen after you fill out basic info and choose customer and it creates the requester and signs you in
-
+//This will be the screen in which businesses will be able to provide addtional information about their business such as a location,
+//phone number, and an optional website. It will fetch the business name and description from the previosu screen and create
+//the actual business in this screen
 import React, { Component } from 'react';
-import { View, Text, Dimensions, Keyboard, TouchableOpacity } from 'react-native';
-import fontStyles from 'config/styles/fontStyles';
+import HelpView from '../components/HelpView';
+import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import strings from 'config/strings';
+import LoadingSpinner from '../components/LoadingSpinner';
+import screenStyle from 'config/styles/screenStyle';
+import { Text, View, Dimensions, Keyboard, TouchableOpacity } from 'react-native';
+import FirebaseFunctions from 'config/FirebaseFunctions';
+import firebase from 'react-native-firebase';
+import fontStyles from 'config/styles/fontStyles';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../components/RoundBlueButton';
-import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
-import LoadingSpinner from '../components/LoadingSpinner';
-import HelpView from '../components/HelpView';
-import firebase from 'react-native-firebase';
-import FirebaseFunctions from '../../config/FirebaseFunctions';
-import screenStyle from '../../config/styles/screenStyle';
 import GoogleCityPicker from '../components/GoogleCityPicker';
 import ErrorAlert from '../components/ErrorAlert';
-import colors from 'config/colors';
 import { Icon } from 'react-native-elements';
+import colors from 'config/colors';
 import OptionPicker from '../components/OptionPicker';
 
-class createRequesterProfileScreen extends Component {
+export default class providerAdditionalInformationScreen extends Component {
+	//Function sets the name of the current screen
+	componentDidMount() {
+		FirebaseFunctions.setCurrentScreen(
+			'ProviderAdditionalInformationScreen',
+			'providerAdditionalInformationScreen'
+		);
+	}
+
+	//The state which will control the value of the text inputs and the locations
 	state = {
-		email: '',
-		password: '',
 		phoneNumber: '',
-		name: '',
-		city: '',
+		website: '',
+		location: '',
 		coordinates: '',
 		isLoading: false,
-		invalidPhoneNumberError: false,
 		fieldsError: false,
 		locationInfoVisible: false
 	};
 
-	componentDidMount() {
-		FirebaseFunctions.setCurrentScreen(
-			'CreateRequesterProfileScreen',
-			'createRequesterProfileScreen'
-		);
-	}
-
+	//This function takes all of the information that has been collected for the business and registers them  into the database
+	//while also making sure all required fields have been adequetly filled out
 	async signUp() {
 		Keyboard.dismiss();
-		//fetches the entered email and password
-		const { email, password } = this.props.navigation.state.params;
-		const { phoneNumber, name, city, coordinates } = this.state;
-		//Tests for empty fields
-		if (phoneNumber === '' || name === '' || city === '' || coordinates === '') {
-			//Displays empty field error
+
+		if (this.state.location === '' || this.state.phoneNumber === '') {
 			this.setState({ fieldsError: true });
-		} else if (phoneNumber.trim().length != 10) {
-			this.setState({ invalidPhoneNumberError: true });
 		} else {
 			this.setState({ isLoading: true });
-			//If the accout already exists, then an error will appear
-			//If the account is new, then it will go through the normal process to create
-			//the account
 			try {
-				//If this is a customer, then the account will be created here and
-				//along with the new requester being added to the database then
-				//the screen will shift to the new account's screen
+				firebase.auth().signInAnonymously();
+				//Creates the account and then navigates to the correct screens while passing in
+				//the correct params and logs in
+				const { email, password, businessName, businessInfo } = this.props.navigation.state.params;
+				const { phoneNumber, website, location, coordinates } = this.state;
 				const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
-				const requester = await FirebaseFunctions.addRequesterToDatabase(
-					account,
+				//Creates the object of the new provider
+				const newProvider = {
+					companyName: businessName,
+					companyDescription: businessInfo,
+					providerID: account.user.uid,
+					serviceIDs: [],
+					isVerified: false,
 					phoneNumber,
-					coordinates,
-					city,
-					name
-				);
+					website,
+					location,
+					coordinates
+				};
+				await FirebaseFunctions.addProviderToDatabase(account, newProvider);
 				await FirebaseFunctions.logIn(email, password);
-				const allProducts = await FirebaseFunctions.getAllProducts();
-				this.setState({ isLoading: false });
-				this.props.navigation.push('FeaturedScreen', {
-					requester,
-					allProducts
-				});
+				//Navigates to the screen where it tells the business to wait until their account has been verified
+				this.props.navigation.push('AccountNotVerifiedScreen');
 			} catch (error) {
 				this.setState({ isLoading: false, isErrorVisible: true });
-				FirebaseFunctions.logIssue(error, 'SignUpScreen');
+				FirebaseFunctions.logIssue(error, 'ProviderAdditionalInformationScreen');
 			}
 		}
 	}
 
+	//This function renders the screen
 	render() {
+		if (this.state.isLoading === true) {
+			return (
+				<HelpView style={screenStyle.container}>
+					<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+						<LoadingSpinner isVisible={true} />
+					</View>
+				</HelpView>
+			);
+		}
 		return (
 			<HelpView style={screenStyle.container}>
 				<View
@@ -90,16 +97,16 @@ class createRequesterProfileScreen extends Component {
 						justifyContent: 'flex-end',
 						marginVertical: Dimensions.get('window').height * 0.02
 					}}>
-					<Text style={fontStyles.bigTextStyleBlack}>{strings.Name}</Text>
+					<Text style={fontStyles.bigTextStyleBlack}>{strings.Website}</Text>
 				</View>
 
 				<View style={{ justifyContent: 'center' }}>
 					<OneLineRoundedBoxInput
-						placeholder={strings.PleaseEnterName}
-						onChangeText={(input) => this.setState({ name: input })}
-						value={this.state.name}
+						placeholder={strings.EnterWebsiteLink}
+						onChangeText={(input) => this.setState({ website: input })}
+						value={this.state.website}
 						password={false}
-						maxLength={20}
+						autoCapitalize={'none'}
 					/>
 				</View>
 				<View
@@ -133,16 +140,17 @@ class createRequesterProfileScreen extends Component {
 							this.setState({ locationInfoVisible: true });
 						}}
 						style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Text style={fontStyles.bigTextStyleBlack}>{strings.City}</Text>
+						<Text style={fontStyles.bigTextStyleBlack}>{strings.LocationYouServe}</Text>
 						<View style={{ width: Dimensions.get('window').width * 0.01 }}></View>
 						<Icon name={'info-circle'} type='font-awesome' size={25} color={colors.lightBlue} />
 					</TouchableOpacity>
 				</View>
 				<View style={{ height: Dimensions.get('window').height * 0.35 }}>
 					<GoogleCityPicker
+						placeholderText={strings.EnterLocation}
 						onPress={(locationName, long, lat) => {
 							this.setState({
-								city: locationName,
+								location: locationName,
 								coordinates: { long, lat }
 							});
 						}}
@@ -175,14 +183,6 @@ class createRequesterProfileScreen extends Component {
 					title={strings.Whoops}
 					message={strings.PleaseFillOutAllFields}
 				/>
-				<ErrorAlert
-					isVisible={this.state.invalidPhoneNumberError}
-					onPress={() => {
-						this.setState({ invalidPhoneNumberError: false });
-					}}
-					title={strings.Whoops}
-					message={strings.InvalidPhoneNumberError}
-				/>
 				<OptionPicker
 					isVisible={this.state.locationInfoVisible}
 					title={strings.Location}
@@ -197,5 +197,3 @@ class createRequesterProfileScreen extends Component {
 		);
 	}
 }
-
-export default createRequesterProfileScreen;

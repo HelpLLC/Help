@@ -40,8 +40,6 @@ class signUpScreen extends Component {
 		isErrorVisible: false,
 		isChecked: false,
 		termsAndConditionsError: false,
-		businessPhoneNumberError: false,
-		invalidPhoneNumberError: false
 	};
 
 	//This method signs up the user & creates an account for them based on what they chose and their

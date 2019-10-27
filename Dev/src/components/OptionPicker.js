@@ -10,7 +10,7 @@ import colors from 'config/colors';
 //The class that will render the alert
 class OptionPicker extends Component {
 	render() {
-		const { isVisible, confirmText, cancelText, confirmOnPress, cancelOnPress, title, message } = this.props;
+		const { isVisible, confirmText, cancelText, confirmOnPress, cancelOnPress, title, message, oneOption } = this.props;
 		return (
 			<View>
 				<Modal visible={isVisible} transparent={true}>
@@ -19,7 +19,7 @@ class OptionPicker extends Component {
 						title={title}
 						message={message}
 						closeOnTouchOutside={true}
-						showCancelButton={true}
+						showCancelButton={oneOption === true ? false : true}
 						showConfirmButton={true}
 						confirmButtonColor={colors.lightBlue}
 						cancelButtonColor={colors.gray}
@@ -42,13 +42,14 @@ class OptionPicker extends Component {
 }
 
 //Defines the types of props that this component should take. For this, it should only take the state
-//to determine whether it shows or not, as well as the onPress method for the confirm message
+//to determine whether it shows or not, as well as the onPress method for the confirm message.
+//It will take an optional prop to only take in one button making it just an alert
 OptionPicker.propTypes = {
 	isVisible: PropTypes.bool.isRequired,
 	confirmText: PropTypes.string.isRequired,
-	cancelText: PropTypes.string.isRequired,
+	cancelText: PropTypes.string,
 	confirmOnPress: PropTypes.func.isRequired,
-	cancelOnPress: PropTypes.func.isRequired,
+	cancelOnPress: PropTypes.func,
 	title: PropTypes.string.isRequired,
 	message: PropTypes.string.isRequired
 };
