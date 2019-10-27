@@ -7,7 +7,7 @@ import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import strings from 'config/strings';
 import LoadingSpinner from '../components/LoadingSpinner';
 import screenStyle from 'config/styles/screenStyle';
-import { Text, View, Dimensions, Keyboard } from 'react-native';
+import { Text, View, Dimensions, Keyboard, TouchableOpacity } from 'react-native';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import firebase from 'react-native-firebase';
 import fontStyles from 'config/styles/fontStyles';
@@ -15,6 +15,9 @@ import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonS
 import RoundBlueButton from '../components/RoundBlueButton';
 import GoogleCityPicker from '../components/GoogleCityPicker';
 import ErrorAlert from '../components/ErrorAlert';
+import { Icon } from 'react-native-elements';
+import colors from 'config/colors';
+import OptionPicker from '../components/OptionPicker';
 
 export default class providerAdditionalInformationScreen extends Component {
 	//Function sets the name of the current screen
@@ -32,7 +35,8 @@ export default class providerAdditionalInformationScreen extends Component {
 		location: '',
 		coordinates: '',
 		isLoading: false,
-		fieldsError: false
+		fieldsError: false,
+		locationInfoVisible: false
 	};
 
 	//This function takes all of the information that has been collected for the business and registers them  into the database
@@ -131,7 +135,15 @@ export default class providerAdditionalInformationScreen extends Component {
 						alignSelf: 'flex-start',
 						marginVertical: Dimensions.get('window').height * 0.02
 					}}>
-					<Text style={fontStyles.bigTextStyleBlack}>{strings.LocationYouServe}</Text>
+					<TouchableOpacity
+						onPress={() => {
+							this.setState({ locationInfoVisible: true });
+						}}
+						style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={fontStyles.bigTextStyleBlack}>{strings.LocationYouServe}</Text>
+						<View style={{ width: Dimensions.get('window').width * 0.01 }}></View>
+						<Icon name={'info-circle'} type='font-awesome' size={25} color={colors.lightBlue} />
+					</TouchableOpacity>
 				</View>
 				<View style={{ height: Dimensions.get('window').height * 0.35 }}>
 					<GoogleCityPicker
@@ -170,6 +182,16 @@ export default class providerAdditionalInformationScreen extends Component {
 					}}
 					title={strings.Whoops}
 					message={strings.PleaseFillOutAllFields}
+				/>
+				<OptionPicker
+					isVisible={this.state.locationInfoVisible}
+					title={strings.Location}
+					oneOption={true}
+					message={strings.WhyWeUseLocation}
+					confirmText={strings.Ok}
+					confirmOnPress={() => {
+						this.setState({ locationInfoVisible: false });
+					}}
 				/>
 			</HelpView>
 		);

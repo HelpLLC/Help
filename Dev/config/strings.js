@@ -107,6 +107,9 @@ export default {
 	LocationYouServe: 'Location You Serve',
 	EnterLocation: 'Enter a location...',
 	EnterWebsiteLink: 'Enter a link to your site (Optional)...',
+	Ok: 'Ok',
+	Location: 'Location',
+	WhyWeUseLocation: 'We collect locations from users to show customers the business that are nearest to them. We never share customer locations without their consent. Our intent is to provide the best customer experience.',
 
 	//------------------- Provider Business Screen -------------------
 	EditCompanyProfile: 'Edit Company Profile',
