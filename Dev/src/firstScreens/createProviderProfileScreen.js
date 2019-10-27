@@ -1,5 +1,6 @@
-//This will be the screen where the businesses will actually create their profiles & provide info
-//such as company name, description etc.
+//This will be the screen where the businesses will actually create their profiles & provide info such as company name,
+//description etc. It'll be part one of the business creation process. Once they are done and click "Next", they'll be forwarded
+//to another screen where they add some more information
 import React, { Component } from 'react';
 import { View, Text, Keyboard, Dimensions } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
@@ -13,12 +14,14 @@ import HelpView from '../components/HelpView';
 import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import ErrorAlert from '../components/ErrorAlert';
-import firebase from 'react-native-firebase';
 
 //The class that will create the look of this screen
 class createProviderProfileScreen extends Component {
 	componentDidMount() {
-		FirebaseFunctions.setCurrentScreen('CreateProviderProfileScreen', 'createProviderProfileScreen');
+		FirebaseFunctions.setCurrentScreen(
+			'CreateProviderProfileScreen',
+			'createProviderProfileScreen'
+		);
 	}
 
 	//The state containing what the user has typed into each input and whether the screen is loading
@@ -48,40 +51,36 @@ class createProviderProfileScreen extends Component {
 		}
 	}
 
-	//This method will register the business into the database based on the entered info
-	async signUp() {
+	//Double checks that all of the information has been fully filled out and then passes it onto the next screen which collects
+	//additional info then signs them up. It first checks if this company name is already taken
+	async goToAddtionalInfoScreen() {
 		//Dismisses the keyboard
 		Keyboard.dismiss();
 		//If either of the two inputs is empty, an error message will be displayed
 		if (this.state.businessName.trim() === '') {
 			this.setState({ nameError: true });
-		} else if (this.state.businessInfo.trim() === '' || this.state.businessInfo.trim().length < 150) {
+		} else if (
+			this.state.businessInfo.trim() === '' ||
+			this.state.businessInfo.trim().length < 150
+		) {
 			this.setState({ descriptionError: true });
 		} else {
 			this.setState({ isLoading: true });
 
-			const { email, password, phoneNumber } = this.props.navigation.state.params;
+			const { email, password } = this.props.navigation.state.params;
 			const { businessName, businessInfo } = this.state;
-
-			//If the business name is already taken, then a warning message will appear,
-			//Else, the profile will be created
-			try {
-				firebase.auth().signInAnonymously();
-				const isCompanyNameTaken = await this.isCompanyNameTaken(businessName);
-				if (isCompanyNameTaken === true) {
-					this.setState({ companyNameTakenError: true, isLoading: false });
-				} else {
-					//Creates the account and then navigates to the correct screens while passing in
-					//the correct params and logs in
-					const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
-					const provider = await FirebaseFunctions.addProviderToDatabase(account, email, businessName, businessInfo, phoneNumber);
-					await FirebaseFunctions.logIn(email, password);
-					//Navigates to the screen where it tells the business to wait until their account has been verified
-					this.props.navigation.push('AccountNotVerifiedScreen');
-				}
-			} catch (error) {
-				this.setState({ isLoading: false, isErrorVisible: true });
-				FirebaseFunctions.logIssue(error, 'CreateProviderProfileScreen');
+			const isCompanyNameTaken = await this.isCompanyNameTaken(businessName);
+			this.setState({ isLoading: false });
+			if (isCompanyNameTaken === true) {
+				this.setState({ companyNameTakenError: true });
+			} else {
+				//navigates to the next screen
+				this.props.navigation.push('ProviderAdditionalInformationScreen', {
+					email,
+					password,
+					businessInfo,
+					businessName
+				});
 			}
 		}
 	}
@@ -89,67 +88,62 @@ class createProviderProfileScreen extends Component {
 	render() {
 		return (
 			<HelpView style={screenStyle.container}>
-				<View>
-					<View
-						style={{
-							flex: 0.7,
-							justifyContent: 'center',
-							alignSelf: 'center',
-							alignItems: 'center'
-						}}>
-						<View style={{ flex: 1, justifyContent: 'flex-end' }}>
-							<Text style={fontStyles.bigTextStyleBlack}>{strings.WhatsYourBusinessCalledQuestion}</Text>
-						</View>
+				<View
+					style={{
+						alignSelf: 'flex-start',
+						justifyContent: 'flex-end',
+						marginVertical: Dimensions.get('window').height * 0.04
+					}}>
+					<Text style={fontStyles.bigTextStyleBlack}>{strings.BusinessName}</Text>
+				</View>
 
-						<View style={{ flex: 1, justifyContent: 'center' }}>
-							<OneLineRoundedBoxInput
-								placeholder={strings.EnterCompanyNameDotDotDot}
-								onChangeText={(input) => this.setState({ businessName: input })}
-								value={this.state.businessName}
-								password={false}
-								maxLength={20}
-							/>
-						</View>
-					</View>
+				<View style={{ alignSelf: 'flex-start', justifyContent: 'center' }}>
+					<OneLineRoundedBoxInput
+						placeholder={strings.EnterCompanyNameDotDotDot}
+						onChangeText={(input) => this.setState({ businessName: input })}
+						value={this.state.businessName}
+						password={false}
+						maxLength={20}
+					/>
+				</View>
 
-					<View
-						style={{
-							flex: 0.7,
-							justifyContent: 'center',
-							alignSelf: 'center',
-							alignItems: 'center'
-						}}>
-						<View style={{ flex: 1, justifyContent: 'center' }}>
-							<Text style={fontStyles.bigTextStyleBlack}>{strings.WhatDoesYourBusinessDoQuestion}</Text>
-						</View>
-						<View style={{ flex: 1, justifyContent: 'flex-start' }}>
-							<MultiLineRoundedBoxInput
-								width={Dimensions.get('window').width * 0.669}
-								height={Dimensions.get('window').height * 0.14641}
-								placeholder={strings.TellYourCustomersAboutYourselfDotDotDot}
-								onChangeText={(input) => this.setState({ businessInfo: input })}
-								value={this.state.businessInfo}
-								maxLength={350}
-							/>
-						</View>
-					</View>
-					<View style={{ flex: 1 }}></View>
-					<View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
-						<View style={{ flex: 1, alignItems: 'center' }}>
-							<RoundBlueButton
-								title={strings.GetStarted}
-								style={roundBlueButtonStyle.MediumSizeButton}
-								textStyle={fontStyles.bigTextStyleWhite}
-								onPress={() => {
-									this.signUp();
-								}}
-								disabled={this.state.isLoading}
-							/>
-						</View>
-						<View style={{ flex: 1, alignItems: 'center' }}>
-							<LoadingSpinner isVisible={this.state.isLoading} />
-						</View>
-					</View>
+				<View
+					style={{
+						alignSelf: 'flex-start',
+						justifyContent: 'flex-end',
+						marginVertical: Dimensions.get('window').height * 0.04
+					}}>
+					<Text style={fontStyles.bigTextStyleBlack}>{strings.BusinessDescription}</Text>
+				</View>
+				<View style={{ alignSelf: 'flex-start', justifyContent: 'flex-start' }}>
+					<MultiLineRoundedBoxInput
+						width={Dimensions.get('window').width * 0.6}
+						height={Dimensions.get('window').height * 0.14641}
+						placeholder={strings.TellYourCustomersAboutYourselfDotDotDot}
+						onChangeText={(input) => this.setState({ businessInfo: input })}
+						value={this.state.businessInfo}
+						maxLength={350}
+					/>
+				</View>
+				<View
+					style={{
+						height: Dimensions.get('window').height * 0.1,
+						marginTop: Dimensions.get('window').height * 0.25,
+						justifyContent: 'flex-end',
+						alignSelf: 'center'
+					}}>
+					<RoundBlueButton
+						title={strings.Next}
+						style={roundBlueButtonStyle.MediumSizeButton}
+						textStyle={fontStyles.bigTextStyleWhite}
+						onPress={() => {
+							this.goToAddtionalInfoScreen();
+						}}
+						disabled={this.state.isLoading}
+					/>
+				</View>
+				<View style={{ height: Dimensions.get('window').height * 0.04, alignItems: 'center' }}>
+					<LoadingSpinner isVisible={this.state.isLoading} />
 				</View>
 				<ErrorAlert
 					isVisible={this.state.isErrorVisible}

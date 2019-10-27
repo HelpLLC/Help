@@ -52,7 +52,7 @@ exports.businessGoodToGo = functions.firestore.document('providers/{providerID}'
 //has signed up and requires verification
 exports.sendNewBusinessEmail = functions.https.onCall(async (input, context) => {
 	//Fetches the business's name and description from the params
-	const { businessName, businessInfo, businessEmail, businessPhoneNumber, providerID } = input;
+	const { businessName, businessInfo, businessEmail, businessPhoneNumber, businessLocation, businessWebsite, providerID } = input;
 
 	//Configures the email subject, to, and from
 	const mailOptions = {
@@ -95,6 +95,12 @@ exports.sendNewBusinessEmail = functions.https.onCall(async (input, context) => 
 			'\n\n' +
 			'Business Phone Number: ' +
 			businessPhoneNumber +
+			'\n\n' +
+			'Business Location: ' +
+			businessLocation +
+			'\n\n' +
+			'Business Site: ' +
+			businessWebsite +
 			'\n\n' +
 			'To approve this busisness, click this link: \n' +
 			'https://us-central1-help-d194d.cloudfunctions.net/verifyBusiness?businessEmail=' +
