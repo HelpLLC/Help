@@ -439,13 +439,10 @@ export default class FirebaseFunctions {
 		return allUserConversations;
 	}
 
-	//This method will update the information for a provider by taking in the new company name
-	//and new company info and updating those fields in the firestore
-	static async updateProviderInfo(providerID, newBusinessName, newBusinessInfo) {
-		await this.updateProviderByID(providerID, {
-			companyName: newBusinessName,
-			companyDescription: newBusinessInfo
-		});
+	//This method will update the information for a provider by taking in the new provider object and overwriting it in firebase
+	static async updateProviderInfo(providerID, newProviderInfo) {
+		const ref = this.providers.doc(providerID);
+		await ref.set(newProviderInfo);
 
 		//Goes through and edits all of the products that belong to this business & updated the
 		//field that connects them to the correct provider to the new businessName
@@ -453,7 +450,7 @@ export default class FirebaseFunctions {
 		const result = await query.get();
 		result.docs.forEach(async (doc) => {
 			await this.updateServiceByID(doc.id, {
-				offeredByName: newBusinessName
+				offeredByName: newProviderInfo.companyName
 			});
 		});
 

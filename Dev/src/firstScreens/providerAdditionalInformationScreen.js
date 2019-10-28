@@ -27,20 +27,20 @@ export default class providerAdditionalInformationScreen extends Component {
 		if (editing === true) {
 			const { provider, providerID } = this.props.navigation.state.params;
 			this.setState({
-				phoneNumber: provider.phoneNumber ? provider.phoneNumber : "",
-				website: provider.website ? provider.website : "",
-				location: provider.location ? provider.location : "",
-				coordinates: provider.coordinates ? provider.coordinates : "",
+				phoneNumber: provider.phoneNumber ? provider.phoneNumber : '',
+				website: provider.website ? provider.website : '',
+				location: provider.location ? provider.location : '',
+				coordinates: provider.coordinates ? provider.coordinates : '',
 				isLoadingScreen: false,
 				editing,
 				provider,
 				providerID
-			})
+			});
 		} else {
 			this.setState({
 				isLoadingScreen: false,
 				editing
-			})
+			});
 		}
 		FirebaseFunctions.setCurrentScreen(
 			'ProviderAdditionalInformationScreen',
@@ -61,8 +61,10 @@ export default class providerAdditionalInformationScreen extends Component {
 	};
 
 	//This function takes all of the information that has been collected for the business and registers them  into the database
-	//while also making sure all required fields have been adequetly filled out
-	async signUp() {
+	//while also making sure all required fields have been adequetly filled out. That is if this is the non-editing version of the
+	//screen. If this is an existing business editing their information, then it will overwrite their existing information in the data
+	//base.
+	async addProviderInfo() {
 		Keyboard.dismiss();
 
 		if (this.state.location === '' || this.state.phoneNumber === '') {
@@ -70,28 +72,42 @@ export default class providerAdditionalInformationScreen extends Component {
 		} else {
 			this.setState({ isLoading: true });
 			try {
-				firebase.auth().signInAnonymously();
-				//Creates the account and then navigates to the correct screens while passing in
-				//the correct params and logs in
-				const { email, password, businessName, businessInfo } = this.props.navigation.state.params;
+				const { businessName, businessInfo } = this.props.navigation.state.params;
 				const { phoneNumber, website, location, coordinates } = this.state;
-				const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
-				//Creates the object of the new provider
-				const newProvider = {
+				//Creates the base provider object
+				const provider = {
 					companyName: businessName,
 					companyDescription: businessInfo,
-					providerID: account.user.uid,
-					serviceIDs: [],
 					isVerified: false,
 					phoneNumber,
 					website,
 					location,
 					coordinates
 				};
-				await FirebaseFunctions.addProviderToDatabase(account, newProvider);
-				await FirebaseFunctions.logIn(email, password);
-				//Navigates to the screen where it tells the business to wait until their account has been verified
-				this.props.navigation.push('AccountNotVerifiedScreen');
+
+				//If this is a new profile, then it will add them to Firebase Authentication in addition to adding them to the database
+				if (this.state.editing === false) {
+					firebase.auth().signInAnonymously();
+					const { email, password } = this.props.navigation.state.params;
+					const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
+					const newProvider = { ...provider, providerID: account.user.uid };
+					await FirebaseFunctions.addProviderToDatabase(account, newProvider);
+					await FirebaseFunctions.logIn(email, password);
+					//Navigates to the screen where it tells the business to wait until their account has been verified
+					this.props.navigation.push('AccountNotVerifiedScreen');
+				} else {
+					//If this is an existing provider, it will simply overwrite the old data with the new one
+					const providerWithID = {
+						...provider,
+						providerID: this.state.providerID,
+						serviceIDs: this.state.provider.serviceIDs,
+						isVerified: true
+					};
+					await FirebaseFunctions.updateProviderInfo(this.state.providerID, providerWithID);
+					this.props.navigation.push('ProviderScreens', {
+						providerID: this.state.providerID
+					});
+				}
 			} catch (error) {
 				this.setState({ isLoading: false, isErrorVisible: true });
 				FirebaseFunctions.logIssue(error, 'ProviderAdditionalInformationScreen');
@@ -168,7 +184,7 @@ export default class providerAdditionalInformationScreen extends Component {
 				</View>
 				<View style={{ height: Dimensions.get('window').height * 0.35 }}>
 					<GoogleCityPicker
-						initialText={this.state.location !== "" ? this.state.location : ""}
+						initialText={this.state.location !== '' ? this.state.location : ''}
 						placeholderText={strings.EnterLocation}
 						onPress={(locationName, long, lat) => {
 							this.setState({
@@ -189,7 +205,7 @@ export default class providerAdditionalInformationScreen extends Component {
 						style={roundBlueButtonStyle.MediumSizeButton}
 						textStyle={fontStyles.bigTextStyleWhite}
 						onPress={() => {
-							this.signUp();
+							this.addProviderInfo();
 						}}
 						disabled={this.state.isLoading}
 					/>
