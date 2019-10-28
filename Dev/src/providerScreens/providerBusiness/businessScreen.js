@@ -44,7 +44,7 @@ class businessScreen extends Component {
 				this.setState({ isLoading: false });
 			} else {
 				const serviceIDs = provider.serviceIDs;
-				await serviceIDs.forEach(async (ID) => {
+				for (const ID of serviceIDs) {
 					const service = await FirebaseFunctions.getServiceByID(ID);
 					const newArrayOfProducts = this.state.providerProducts;
 					newArrayOfProducts.push(service);
@@ -56,12 +56,11 @@ class businessScreen extends Component {
 					this.setState({
 						providerProducts: newArrayOfProducts
 					});
-				});
-				//Waits an additional second to make sure the screen is loaded
-				this.timeoutHandle = setTimeout(() => {
-					this.setState({ serviceIDsLength: provider.serviceIDs.length });
-					this.setState({ isLoading: false });
-				}, 500);
+				}
+				this.setState({ 
+					serviceIDsLength: provider.serviceIDs.length,
+					isLoading: false
+				 });
 			}
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
@@ -155,11 +154,7 @@ class businessScreen extends Component {
 		//If the screen is loading, then the loading icon will appear. If the provider does not yet have
 		//any products, then the "Create first product" thing will appear. If none of that is true, then
 		//the provider's normal products will be displayed.
-		if (
-			isLoading === true ||
-			(providerProducts.length == 0 && serviceIDsLength > 0) ||
-			provider === ''
-		) {
+		if (isLoading === true) {
 			return (
 				<HelpView style={screenStyle.container}>
 					<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
