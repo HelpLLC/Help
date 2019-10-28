@@ -18,6 +18,7 @@ import ErrorAlert from '../../components/ErrorAlert';
 import HelpView from '../../components/HelpView';
 import ImageWithBorder from '../../components/ImageWithBorder';
 import ServiceCardList from '../../components/ServiceCardList';
+import OptionPicker from '../../components/OptionPicker';
 
 class businessScreen extends Component {
 	//This constructor and componentDidMount will wait until all the products loaded if there are any
@@ -28,7 +29,8 @@ class businessScreen extends Component {
 			serviceIDsLength: 0,
 			provider: '',
 			providerProducts: [],
-			isErrorVisible: false
+			isErrorVisible: false,
+			incompleteProfile: false
 		};
 	}
 
@@ -47,7 +49,9 @@ class businessScreen extends Component {
 					const newArrayOfProducts = this.state.providerProducts;
 					newArrayOfProducts.push(service);
 					newArrayOfProducts.sort((productA, productB) => {
-						return productB.requests.currentRequests.length - productA.requests.currentRequests.length;
+						return (
+							productB.requests.currentRequests.length - productA.requests.currentRequests.length
+						);
 					});
 					this.setState({
 						providerProducts: newArrayOfProducts
@@ -76,6 +80,12 @@ class businessScreen extends Component {
 		//Adds the listener to add the listener to refetch the data once this component is returned to
 		this.willFocusListener = await this.props.navigation.addListener('willFocus', async () => {
 			await this.fetchDatabaseData();
+			//Tests if the profile is complete or not. If it is not, a popup will appear in order to direct the user to go complete
+			//their business profile.
+			const { provider } = this.state;
+			if (!provider.phoneNumber || !provider.location || !provider.coordinates) {
+				this.setState({ incompleteProfile: true });
+			}
 		});
 	}
 
@@ -116,7 +126,8 @@ class businessScreen extends Component {
 								onPress={() => {
 									this.props.navigation.push('ProviderEditCompanyProfileScreen', {
 										providerID: provider.providerID,
-										provider
+										provider,
+										editing: true
 									});
 								}}>
 								<Text style={fontStyles.mainTextStyleBlue}>{strings.EditCompanyProfile}</Text>
@@ -144,7 +155,11 @@ class businessScreen extends Component {
 		//If the screen is loading, then the loading icon will appear. If the provider does not yet have
 		//any products, then the "Create first product" thing will appear. If none of that is true, then
 		//the provider's normal products will be displayed.
-		if (isLoading === true || (providerProducts.length == 0 && serviceIDsLength > 0) || provider === '') {
+		if (
+			isLoading === true ||
+			(providerProducts.length == 0 && serviceIDsLength > 0) ||
+			provider === ''
+		) {
 			return (
 				<HelpView style={screenStyle.container}>
 					<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -165,7 +180,9 @@ class businessScreen extends Component {
 				<HelpView style={screenStyle.container}>
 					<View style={{ flex: 1.1 }}>{topView}</View>
 					<View style={{ flex: 1, justifyContent: 'center' }}>
-						<Text style={fontStyles.bigTextStyleBlack}>{strings.CreateYourFirstProductNowExclamation}</Text>
+						<Text style={fontStyles.bigTextStyleBlack}>
+							{strings.CreateYourFirstProductNowExclamation}
+						</Text>
 					</View>
 
 					<View style={{ flex: 1, justifyContent: 'center' }}>
@@ -206,7 +223,10 @@ class businessScreen extends Component {
 				<HelpView style={screenStyle.container}>
 					<View style={{ flex: 0.4 }}>{topView}</View>
 					<View style={{ flex: 0.025 }}></View>
-					<ScrollView style={{ flex: 1 }} contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }} showsVerticalScrollIndicator={false}>
+					<ScrollView
+						style={{ flex: 1 }}
+						contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+						showsVerticalScrollIndicator={false}>
 						<ServiceCardList
 							services={providerProducts}
 							onPress={(service) => {
@@ -224,6 +244,21 @@ class businessScreen extends Component {
 							}}
 							title={strings.Whoops}
 							message={strings.SomethingWentWrong}
+						/>
+						<OptionPicker
+							isVisible={this.state.incompleteProfile}
+							title={strings.FinishCreatingYourProfile}
+							oneOption={true}
+							message={strings.FinishCreatingYourProfileMessage}
+							confirmText={strings.Ok}
+							confirmOnPress={() => {
+								this.setState({ incompleteProfile: false });
+								this.props.navigation.push('ProviderEditCompanyProfileScreen', {
+									providerID: this.state.provider.providerID,
+									provider: this.state.provider,
+									editing: true
+								});
+							}}
 						/>
 					</ScrollView>
 				</HelpView>

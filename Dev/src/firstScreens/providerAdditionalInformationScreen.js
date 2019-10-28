@@ -20,8 +20,28 @@ import colors from 'config/colors';
 import OptionPicker from '../components/OptionPicker';
 
 export default class providerAdditionalInformationScreen extends Component {
-	//Function sets the name of the current screen
+	//Function sets the name of the current screen & sets the correct state based on whether this is a screen to create a new provider
+	//or edit an existing one
 	componentDidMount() {
+		const { editing } = this.props.navigation.state.params;
+		if (editing === true) {
+			const { provider, providerID } = this.props.navigation.state.params;
+			this.setState({
+				phoneNumber: provider.phoneNumber ? provider.phoneNumber : "",
+				website: provider.website ? provider.website : "",
+				location: provider.location ? provider.location : "",
+				coordinates: provider.coordinates ? provider.coordinates : "",
+				isLoadingScreen: false,
+				editing,
+				provider,
+				providerID
+			})
+		} else {
+			this.setState({
+				isLoadingScreen: false,
+				editing
+			})
+		}
 		FirebaseFunctions.setCurrentScreen(
 			'ProviderAdditionalInformationScreen',
 			'providerAdditionalInformationScreen'
@@ -35,6 +55,7 @@ export default class providerAdditionalInformationScreen extends Component {
 		location: '',
 		coordinates: '',
 		isLoading: false,
+		isLoadingScreen: true,
 		fieldsError: false,
 		locationInfoVisible: false
 	};
@@ -80,7 +101,7 @@ export default class providerAdditionalInformationScreen extends Component {
 
 	//This function renders the screen
 	render() {
-		if (this.state.isLoading === true) {
+		if (this.state.isLoadingScreen === true) {
 			return (
 				<HelpView style={screenStyle.container}>
 					<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -147,6 +168,7 @@ export default class providerAdditionalInformationScreen extends Component {
 				</View>
 				<View style={{ height: Dimensions.get('window').height * 0.35 }}>
 					<GoogleCityPicker
+						initialText={this.state.location !== "" ? this.state.location : ""}
 						placeholderText={strings.EnterLocation}
 						onPress={(locationName, long, lat) => {
 							this.setState({
@@ -163,7 +185,7 @@ export default class providerAdditionalInformationScreen extends Component {
 						alignSelf: 'center'
 					}}>
 					<RoundBlueButton
-						title={strings.SignUp}
+						title={this.state.editing === true ? strings.Done : strings.SignUp}
 						style={roundBlueButtonStyle.MediumSizeButton}
 						textStyle={fontStyles.bigTextStyleWhite}
 						onPress={() => {

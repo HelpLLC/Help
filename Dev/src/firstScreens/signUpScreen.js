@@ -89,7 +89,8 @@ class signUpScreen extends Component {
 						this.setState({ isLoading: false });
 						this.props.navigation.push('CreateProviderProfileScreen', {
 							email,
-							password
+							password,
+							editing: false
 						});
 					}
 				}

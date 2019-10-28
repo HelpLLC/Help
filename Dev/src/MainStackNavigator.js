@@ -2,7 +2,8 @@
 //default slide right transition
 import FirstScreensNavigator from './firstScreens/FirstScreensNavigator';
 import ProviderCreateProductScreen from './providerScreens/providerBusiness/createProductScreen';
-import ProviderEditCompanyProfileScreen from './providerScreens/providerBusiness/editCompanyProfileScreen';
+import ProviderEditCompanyProfileScreen from './firstScreens/createProviderProfileScreen';
+import ProviderAddtionalCompanyInfoScreen from './firstScreens/providerAdditionalInformationScreen';
 import ProviderProductScreen from './providerScreens/providerBusiness/productScreen';
 import ProviderProductHistoryScreen from './providerScreens/providerBusiness/productHistoryScreen';
 import RequesterServiceScreen from './requesterScreens/serviceScreen';
@@ -49,7 +50,13 @@ const routeConfig = {
 	ProviderCreateProductScreen: {
 		screen: ProviderCreateProductScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: <TopBanner title={strings.Service} leftIconName='angle-left' leftOnPress={() => navigation.goBack()} />,
+			header: (
+				<TopBanner
+					title={strings.Service}
+					leftIconName='angle-left'
+					leftOnPress={() => navigation.goBack()}
+				/>
+			),
 			gesturesEnabled: false
 		})
 	},
@@ -58,7 +65,31 @@ const routeConfig = {
 	ProviderEditCompanyProfileScreen: {
 		screen: ProviderEditCompanyProfileScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: <TopBanner title={strings.EditCompany} leftIconName='angle-left' leftOnPress={() => navigation.goBack()} />,
+			header: (
+				<TopBanner
+					title={strings.EditCompany}
+					leftIconName='angle-left'
+					leftOnPress={() => navigation.goBack()}
+				/>
+			),
+			gesturesEnabled: false
+		})
+	},
+
+	//Takes you to the screen which will allow providers to add more information about themselves
+	ProviderAdditionalInformationScreen: {
+		screen: ProviderAddtionalCompanyInfoScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<TopBanner
+					title={strings.EditCompany}
+					leftIconName='angle-left'
+					leftOnPress={() => {
+						//Method will go back to the splash screen
+						navigation.goBack();
+					}}
+				/>
+			),
 			gesturesEnabled: false
 		})
 	},
@@ -86,7 +117,13 @@ const routeConfig = {
 	ProviderProductHistoryScreen: {
 		screen: ProviderProductHistoryScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: <TopBanner title={strings.ServiceHistory} leftIconName='angle-left' leftOnPress={() => navigation.goBack()} />
+			header: (
+				<TopBanner
+					title={strings.ServiceHistory}
+					leftIconName='angle-left'
+					leftOnPress={() => navigation.goBack()}
+				/>
+			)
 		}),
 		gesturesEnabled: false
 	},
@@ -95,7 +132,13 @@ const routeConfig = {
 	RequesterServiceScreen: {
 		screen: RequesterServiceScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: <TopBanner title={strings.Service} leftIconName='angle-left' leftOnPress={() => navigation.goBack()} />
+			header: (
+				<TopBanner
+					title={strings.Service}
+					leftIconName='angle-left'
+					leftOnPress={() => navigation.goBack()}
+				/>
+			)
 		}),
 		gesturesEnabled: false
 	},
@@ -117,7 +160,13 @@ const routeConfig = {
 	RequesterCompanyProfileScreen: {
 		screen: RequesterCompanyProfileScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: <TopBanner title={strings.CompanyProfile} leftIconName='angle-left' leftOnPress={() => navigation.goBack()} />
+			header: (
+				<TopBanner
+					title={strings.CompanyProfile}
+					leftIconName='angle-left'
+					leftOnPress={() => navigation.goBack()}
+				/>
+			)
 		}),
 		gesturesEnabled: false
 	},
@@ -126,7 +175,13 @@ const routeConfig = {
 	MessagingScreen: {
 		screen: MessagingScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: <TopBanner title={navigation.state.params.title} leftIconName='angle-left' leftOnPress={() => navigation.goBack()} />
+			header: (
+				<TopBanner
+					title={navigation.state.params.title}
+					leftIconName='angle-left'
+					leftOnPress={() => navigation.goBack()}
+				/>
+			)
 		}),
 		gesturesEnabled: false
 	},
@@ -172,7 +227,13 @@ const routeConfig = {
 	AboutScreen: {
 		screen: aboutScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: <TopBanner title={strings.About} leftIconName='angle-left' leftOnPress={() => navigation.goBack()} />
+			header: (
+				<TopBanner
+					title={strings.About}
+					leftIconName='angle-left'
+					leftOnPress={() => navigation.goBack()}
+				/>
+			)
 		}),
 		gesturesEnabled: false
 	},
@@ -201,7 +262,13 @@ const routeConfig = {
 	PrivacyScreen: {
 		screen: privacyScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: <TopBanner title={strings.Privacy} leftIconName='angle-left' leftOnPress={() => navigation.goBack()} />,
+			header: (
+				<TopBanner
+					title={strings.Privacy}
+					leftIconName='angle-left'
+					leftOnPress={() => navigation.goBack()}
+				/>
+			),
 			gesturesEnabled: false
 		})
 	},
@@ -210,7 +277,13 @@ const routeConfig = {
 	TermsAndConditionsScreen: {
 		screen: termsAndConditionsScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: <TopBanner title={strings.TermsAndConditions} leftIconName='angle-left' leftOnPress={() => navigation.goBack()} />,
+			header: (
+				<TopBanner
+					title={strings.TermsAndConditions}
+					leftIconName='angle-left'
+					leftOnPress={() => navigation.goBack()}
+				/>
+			),
 			gesturesEnabled: false
 		})
 	},
@@ -218,7 +291,13 @@ const routeConfig = {
 	CreditsScreen: {
 		screen: creditsScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: <TopBanner title={strings.Credits} leftIconName='angle-left' leftOnPress={() => navigation.goBack()} />,
+			header: (
+				<TopBanner
+					title={strings.Credits}
+					leftIconName='angle-left'
+					leftOnPress={() => navigation.goBack()}
+				/>
+			),
 			gesturesEnabled: false
 		})
 	}
