@@ -122,7 +122,8 @@ class createProductScreen extends Component {
 		if (
 			serviceTitle.trim() === '' ||
 			serviceDescription.trim() === '' ||
-			(priceType === 'per' && (this.state.pricePerNumber === '' || this.state.pricePerText.trim() === '')) ||
+			(priceType === 'per' &&
+				(this.state.pricePerNumber === '' || this.state.pricePerText.trim() === '')) ||
 			(priceType === 'range' && (this.state.priceMax === '' || this.state.priceMin === ''))
 		) {
 			this.setState({ fieldsError: true });
@@ -145,7 +146,16 @@ class createProductScreen extends Component {
 					price.max = parseFloat(this.state.priceMax);
 				}
 				const { providerID } = this.props.navigation.state.params;
-				await FirebaseFunctions.addProductToDatabase(serviceTitle, serviceDescription, price, response, providerID, provider.companyName);
+				await FirebaseFunctions.addProductToDatabase(
+					serviceTitle,
+					serviceDescription,
+					price,
+					response,
+					providerID,
+					provider.companyName,
+					provider.coordinates,
+					provider.location
+				);
 				this.setState({ isLoading: false });
 				this.props.navigation.push('ProviderScreens', {
 					providerID: provider.providerID
@@ -167,11 +177,12 @@ class createProductScreen extends Component {
 		//Retrieves the state of the input fields
 		const { serviceTitle, serviceDescription, priceType, imageSource, response } = this.state;
 		const { productID, providerID } = this.props.navigation.state.params;
-
+		const provider = await FirebaseFunctions.getProviderByID(providerID);
 		if (
 			serviceTitle.trim() === '' ||
 			serviceDescription.trim() === '' ||
-			(priceType === 'per' && (this.state.pricePerNumber === '' || this.state.pricePerText.trim() === '')) ||
+			(priceType === 'per' &&
+				(this.state.pricePerNumber === '' || this.state.pricePerText.trim() === '')) ||
 			(priceType === 'range' && (this.state.priceMax === '' || this.state.priceMin === ''))
 		) {
 			this.setState({ fieldsError: true });
@@ -195,9 +206,25 @@ class createProductScreen extends Component {
 				}
 
 				if (!this.state.response) {
-					await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, price, null);
+					await FirebaseFunctions.updateServiceInfo(
+						productID,
+						serviceTitle,
+						serviceDescription,
+						price,
+						null,
+						provider.coordinates,
+						provider.location
+					);
 				} else {
-					await FirebaseFunctions.updateServiceInfo(productID, serviceTitle, serviceDescription, price, response);
+					await FirebaseFunctions.updateServiceInfo(
+						productID,
+						serviceTitle,
+						serviceDescription,
+						price,
+						response,
+						provider.coordinates,
+						provide.location
+					);
 				}
 
 				this.setState({ isLoading: false });
@@ -322,11 +349,20 @@ class createProductScreen extends Component {
 						<View style={{ flex: 1, justifyContent: 'flex-end' }}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.Pricing}</Text>
 						</View>
-						<View style={{ flex: 1.5, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+						<View
+							style={{
+								flex: 1.5,
+								flexDirection: 'row',
+								justifyContent: 'center',
+								alignItems: 'center'
+							}}>
 							<View style={{ flex: 0.5 }}>
 								<RNPickerSelect
 									onValueChange={(value) => this.setState({ priceType: value })}
-									items={[{ label: strings.Per, value: 'per' }, { label: strings.Range, value: 'range' }]}
+									items={[
+										{ label: strings.Per, value: 'per' },
+										{ label: strings.Range, value: 'range' }
+									]}
 									value={this.state.priceType}
 									style={{
 										iconContainer: {
@@ -352,12 +388,25 @@ class createProductScreen extends Component {
 											color: colors.black
 										}
 									}}
-									Icon={() => <Icon type='font-awesome' name='arrow-down' color={colors.lightBlue} size={20} />}
+									Icon={() => (
+										<Icon
+											type='font-awesome'
+											name='arrow-down'
+											color={colors.lightBlue}
+											size={20}
+										/>
+									)}
 								/>
 							</View>
 							{this.state.priceType === 'per' ? (
 								<View style={{ flex: 1, flexDirection: 'row' }}>
-									<View style={{ flex: 1.4, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+									<View
+										style={{
+											flex: 1.4,
+											flexDirection: 'row',
+											justifyContent: 'flex-start',
+											alignItems: 'center'
+										}}>
 										<Text style={fontStyles.mainTextStyleBlack}>{strings.DollarSign}</Text>
 										<Text> </Text>
 										<OneLineRoundedBoxInput
@@ -384,7 +433,13 @@ class createProductScreen extends Component {
 								</View>
 							) : (
 								<View style={{ flex: 1, flexDirection: 'row' }}>
-									<View style={{ flex: 1.4, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+									<View
+										style={{
+											flex: 1.4,
+											flexDirection: 'row',
+											justifyContent: 'flex-start',
+											alignItems: 'center'
+										}}>
 										<Text style={fontStyles.mainTextStyleBlack}>{strings.DollarSign}</Text>
 										<Text> </Text>
 										<OneLineRoundedBoxInput

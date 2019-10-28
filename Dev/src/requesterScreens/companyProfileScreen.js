@@ -42,14 +42,14 @@ class companyProfileScreen extends Component {
 		} else {
 			try {
 				const serviceIDs = provider.serviceIDs;
-				await serviceIDs.forEach(async (ID) => {
+				for (const ID of serviceIDs) {
 					const service = await FirebaseFunctions.getServiceByID(ID);
 					const newArrayOfProducts = this.state.providerProducts;
 					newArrayOfProducts.push(service);
 					this.setState({
 						providerProducts: newArrayOfProducts
 					});
-				});
+				}
 				this.setState({
 					isLoading: false,
 					serviceIDsLength: serviceIDs.length
@@ -74,7 +74,6 @@ class companyProfileScreen extends Component {
 		//Adds the listener to add the listener to refetch the data once this component is returned to
 		this.willFocusListener = this.props.navigation.addListener('willFocus', async () => {
 			await this.fetchDatabaseData();
-			this.setState({ isLoading: false });
 		});
 	}
 
