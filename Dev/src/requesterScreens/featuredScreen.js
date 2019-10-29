@@ -18,22 +18,30 @@ class featuredScreen extends Component {
 	state = {
 		isLoading: true,
 		isOpen: false,
-		search: ''
+		search: '',
+		allProducts: ''
 	};
 
+	//Filters the products by ones that the user has blocked, and also returns only the products that are being offered within 50 miles
 	async componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('FeaturedScreen', 'featuredScreen');
+
+		//Filters the products and removes any that are posted by blocked users
+		let { allProducts, requester } = this.props.navigation.state.params;
+		allProducts = allProducts.filter((product) => {
+			return !requester.blockedUsers.includes(product.offeredByID);
+		});
+		allProducts = await FirebaseFunctions.filterProductsByRequesterLocation(requester, allProducts);
 		this.setState({
+			allProducts,
 			isLoading: false
 		});
 	}
 
 	render() {
 		//Filters the products and removes any that are posted by blocked users
-		let { allProducts, requester } = this.props.navigation.state.params;
-		allProducts = allProducts.filter((product) => {
-			return !requester.blockedUsers.includes(product.offeredByID);
-		});
+		let { requester } = this.props.navigation.state.params;
+		let { allProducts } = this.state;
 
 		if (this.state.isLoading === true) {
 			return (

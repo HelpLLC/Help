@@ -40,8 +40,6 @@ class signUpScreen extends Component {
 		isErrorVisible: false,
 		isChecked: false,
 		termsAndConditionsError: false,
-		businessPhoneNumberError: false,
-		invalidPhoneNumberError: false
 	};
 
 	//This method signs up the user & creates an account for them based on what they chose and their
@@ -91,7 +89,8 @@ class signUpScreen extends Component {
 						this.setState({ isLoading: false });
 						this.props.navigation.push('CreateProviderProfileScreen', {
 							email,
-							password
+							password,
+							editing: false
 						});
 					}
 				}

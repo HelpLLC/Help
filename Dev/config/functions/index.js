@@ -52,7 +52,7 @@ exports.businessGoodToGo = functions.firestore.document('providers/{providerID}'
 //has signed up and requires verification
 exports.sendNewBusinessEmail = functions.https.onCall(async (input, context) => {
 	//Fetches the business's name and description from the params
-	const { businessName, businessInfo, businessEmail, businessPhoneNumber, providerID } = input;
+	const { businessName, businessInfo, businessEmail, businessPhoneNumber, businessLocation, businessWebsite, providerID } = input;
 
 	//Configures the email subject, to, and from
 	const mailOptions = {
@@ -95,6 +95,12 @@ exports.sendNewBusinessEmail = functions.https.onCall(async (input, context) => 
 			'\n\n' +
 			'Business Phone Number: ' +
 			businessPhoneNumber +
+			'\n\n' +
+			'Business Location: ' +
+			businessLocation +
+			'\n\n' +
+			'Business Site: ' +
+			businessWebsite +
 			'\n\n' +
 			'To approve this busisness, click this link: \n' +
 			'https://us-central1-help-d194d.cloudfunctions.net/verifyBusiness?businessEmail=' +
@@ -162,11 +168,11 @@ exports.declineBusiness = functions.https.onRequest(async (req, res) => {
 		};
 		mailOptions.text =
 			'We regret to inform you that your business could not be verified and will not ' +
-			'be able to be registerd on Help. There could be multiple reasons for this. Your specific industry ' +
+			'be able to be registered on Help. There could be multiple reasons for this. Your specific industry ' +
 			'might not be currently supported on Help or your business could not be verified as a legitimate provider. ' +
 			'For more information, email us at helpcocontact@gmail.com and we would be happy to assist you. You can also attempt ' +
 			'to recreate your account with more updated information on your businesses and we will re-review your profile.\n\n' +
-			'We aplogize for the inconvenience.\n\nHelp LLC';
+			'We apologize for the inconvenience.\n\nHelp LLC';
 		await mailTransport.sendMail(mailOptions);
 
 		//Deletes the user object from firestore and deletes the user from Firebase Authentication

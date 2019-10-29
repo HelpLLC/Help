@@ -1,7 +1,7 @@
 //This screen is the screen after you fill out basic info and choose customer and it creates the requester and signs you in
 
 import React, { Component } from 'react';
-import { View, Text, Dimensions, Keyboard } from 'react-native';
+import { View, Text, Dimensions, Keyboard, TouchableOpacity } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
@@ -14,6 +14,9 @@ import FirebaseFunctions from '../../config/FirebaseFunctions';
 import screenStyle from '../../config/styles/screenStyle';
 import GoogleCityPicker from '../components/GoogleCityPicker';
 import ErrorAlert from '../components/ErrorAlert';
+import colors from 'config/colors';
+import { Icon } from 'react-native-elements';
+import OptionPicker from '../components/OptionPicker';
 
 class createRequesterProfileScreen extends Component {
 	state = {
@@ -25,7 +28,8 @@ class createRequesterProfileScreen extends Component {
 		coordinates: '',
 		isLoading: false,
 		invalidPhoneNumberError: false,
-		fieldsError: false
+		fieldsError: false,
+		locationInfoVisible: false
 	};
 
 	componentDidMount() {
@@ -124,7 +128,15 @@ class createRequesterProfileScreen extends Component {
 						alignSelf: 'flex-start',
 						marginVertical: Dimensions.get('window').height * 0.02
 					}}>
-					<Text style={fontStyles.bigTextStyleBlack}>{strings.City}</Text>
+					<TouchableOpacity
+						onPress={() => {
+							this.setState({ locationInfoVisible: true });
+						}}
+						style={{ flexDirection: 'row', alignItems: 'center' }}>
+						<Text style={fontStyles.bigTextStyleBlack}>{strings.City}</Text>
+						<View style={{ width: Dimensions.get('window').width * 0.01 }}></View>
+						<Icon name={'info-circle'} type='font-awesome' size={25} color={colors.lightBlue} />
+					</TouchableOpacity>
 				</View>
 				<View style={{ height: Dimensions.get('window').height * 0.35 }}>
 					<GoogleCityPicker
@@ -170,6 +182,16 @@ class createRequesterProfileScreen extends Component {
 					}}
 					title={strings.Whoops}
 					message={strings.InvalidPhoneNumberError}
+				/>
+				<OptionPicker
+					isVisible={this.state.locationInfoVisible}
+					title={strings.Location}
+					oneOption={true}
+					message={strings.WhyWeUseLocation}
+					confirmText={strings.Ok}
+					confirmOnPress={() => {
+						this.setState({ locationInfoVisible: false });
+					}}
 				/>
 			</HelpView>
 		);

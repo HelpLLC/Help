@@ -7,17 +7,25 @@ import googleCityPickerStyle from 'config/styles/componentStyles/googleCityPicke
 import PropTypes from 'prop-types';
 
 class GoogleCityPicker extends Component {
+
+	//If there is a prop passed in as initial text to display in the text input, this function will do that
+	componentDidMount() {
+		if (this.props.initialText) {
+			this.locationRef.setAddressText(this.props.initialText);
+		}
+	}
+
 	render() {
-
-
 		//This component will only take one prop. The onPress method determining what will happen with  the received data
 		const { onPress } = this.props;
 
-
 		return (
 			<GooglePlacesAutocomplete
+				ref={(instance) => {
+					this.locationRef = instance;
+				}}
 				minLength={2}
-				placeholder={strings.EnterCityDotDotDot}
+				placeholder={this.props.placeholder ? this.props.placeholder : strings.EnterCityDotDotDot}
 				autoFocus={false}
 				returnKeyType={'search'}
 				listViewDisplayed={'false'}
@@ -33,7 +41,7 @@ class GoogleCityPicker extends Component {
 				query={{
 					key: 'AIzaSyCJ39Pp39vFJOy6pbA0NLdjhzXIqSEAzFs',
 					language: 'en',
-					types: '(cities)'
+					types: this.props.returnType ? this.props.returnType : '(cities)'
 				}}
 				styles={{
 					container: null,
@@ -49,8 +57,11 @@ class GoogleCityPicker extends Component {
 }
 
 //Determines the props for this function which will be an onPress method that determines what happens with the selected data
+//some optional parameters will also be passed
 GoogleCityPicker.propTypes = {
-	onPress: PropTypes.func.isRequired
+	onPress: PropTypes.func.isRequired,
+	returnType: PropTypes.string,
+	placeholder: PropTypes.string
 };
 
 //exports the module
