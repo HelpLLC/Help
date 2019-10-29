@@ -294,7 +294,7 @@ class createProductScreen extends Component {
 											height={Dimensions.get('window').width * 0.25}
 											imageFunction={async () => {
 												//Passes in the function to retrieve the image of this product
-												return await FirebaseFunctions.getproductImageByID(this.state.serviceID);
+												return await FirebaseFunctions.getProductImageByID(this.state.serviceID);
 											}}
 										/>
 									) : (

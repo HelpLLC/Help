@@ -18,32 +18,42 @@ import colors from 'config/colors';
 import { Icon } from 'react-native-elements';
 import OptionPicker from '../components/OptionPicker';
 import { BoxShadow } from 'react-native-shadow';
-import images from 'config/images/images';
 import ImagePicker from 'react-native-image-picker';
 
-
 class createRequesterProfileScreen extends Component {
+	//If this screen is editing (editing an existing user), then it will fetch the user's profile picture and allow them to upload
+	//another one
+	async componentDidMount() {
+		if (this.props.isEditing === true) {
+			FirebaseFunctions.setCurrentScreen(
+				'EditRequesterProfileScreen',
+				'editRequesterProfileScreen'
+			);
+		} else {
+			FirebaseFunctions.setCurrentScreen(
+				'CreateRequesterProfileScreen',
+				'createRequesterProfileScreen'
+			);
+		}
 
-	componentDidMount() {
-		FirebaseFunctions.setCurrentScreen(
-			'CreateRequesterProfileScreen',
-			'createRequesterProfileScreen'
-		);
-
-
-		if (this.props.navigation.state.params && this.props.navigation.state.params.requester) {
-
+		if (this.props.navigation.state.params.isEditing === true) {
 			const { requester } = this.props.navigation.state.params;
-
+			const imageSource = await FirebaseFunctions.getProfilePictureByID(requester.requesterID);
 			this.setState({
 				name: requester.username,
 				city: requester.city,
 				coordinates: requester.coordinates,
 				phoneNumber: requester.phoneNumber,
-				requester: requester
-			})
-
-			
+				requester: requester,
+				isEditing: true,
+				isScreenLoading: false,
+				imageSource
+			});
+		} else {
+			this.setState({
+				isScreenLoading: false,
+				isEditing: false
+			});
 		}
 	}
 
@@ -51,68 +61,63 @@ class createRequesterProfileScreen extends Component {
 		email: '',
 		password: '',
 		phoneNumber: '',
+		isScreenLoading: true,
 		name: '',
 		city: '',
 		coordinates: '',
-		imageSource: images.DefaultProfilePic,
+		imageSource: '',
 		isLoading: false,
 		invalidPhoneNumberError: false,
 		fieldsError: false,
 		locationInfoVisible: false,
+		isEditing: null,
 		requester: null
 	};
 
-	async signUp() {
+	//This method will edit requester information in Firebase depending on whether this requester
+	//exists or is a new one
+	async addRequesterInfo() {
 		Keyboard.dismiss();
-		if (this.state.requester) {
-			const { phoneNumber, name, city, coordinates, imageSource } = this.state;
-			const { requester } = this.props.navigation.state.params;
-
-			if (phoneNumber === '' || name === '' || city === '' || coordinates === '') {
-				//Displays empty field error
-				this.setState({ fieldsError: true });
-			} else if (phoneNumber.trim().length != 10) {
-				this.setState({ invalidPhoneNumberError: true });
-			} else {
-				this.setState({ isLoading: true })
+		const { phoneNumber, name, city, coordinates } = this.state;
+		//Tests for empty fields
+		if (phoneNumber === '' || name === '' || city === '' || coordinates === '') {
+			//Displays empty field error
+			this.setState({ fieldsError: true });
+		} else if (phoneNumber.trim().length != 10) {
+			this.setState({ invalidPhoneNumberError: true });
+		} else {
+			this.setState({ isLoading: true });
+			if (this.state.isEditing === true) {
+				const { requester } = this.props.navigation.state.params;
 				try {
 					await FirebaseFunctions.updateRequesterByID(requester.requesterID, {
 						username: name,
 						phoneNumber: phoneNumber,
 						city: city,
 						coordinates: coordinates
-					})
-					await FirebaseFunctions.uploadRequesterImage(requester.requesterID, imageSource)
+					});
+					//If the image has been updated, then it will update it in firebase
+					if (this.state.response) {
+						await FirebaseFunctions.uploadRequesterImage(requester.requesterID, this.state.response);
+					}
 					const allProducts = this.props.navigation.state.params.allProducts;
+					const updatedRequeter = await FirebaseFunctions.getRequesterByID(requester.requesterID);
 					this.props.navigation.push('FeaturedScreen', {
-						requester,
+						requester: updatedRequeter,
 						allProducts
-					})
+					});
 				} catch (error) {
 					this.setState({ isLoading: false, isErrorVisible: true });
-					FirebaseFunctions.logIssue(error, 'SignUpScreen');
+					FirebaseFunctions.logIssue(error, 'CreateRequesterProfileScreen');
 				}
-			}
-		}
-		else {
-			//f{etches the entered email and password
-			const { email, password } = this.props.navigation.state.params;
-			const { phoneNumber, name, city, coordinates } = this.state;
-			//Tests for empty fields
-			if (phoneNumber === '' || name === '' || city === '' || coordinates === '') {
-				//Displays empty field error
-				this.setState({ fieldsError: true });
-			} else if (phoneNumber.trim().length != 10) {
-				this.setState({ invalidPhoneNumberError: true });
 			} else {
-				this.setState({ isLoading: true });
-				//If the accout already exists, then an error will appear
 				//If the account is new, then it will go through the normal process to create
 				//the account
 				try {
 					//If this is a customer, then the account will be created here and
 					//along with the new requester being added to the database then
 					//the screen will shift to the new account's screen
+					const { email, password } = this.props.navigation.state.params;
 					const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
 					const requester = await FirebaseFunctions.addRequesterToDatabase(
 						account,
@@ -130,7 +135,7 @@ class createRequesterProfileScreen extends Component {
 					});
 				} catch (error) {
 					this.setState({ isLoading: false, isErrorVisible: true });
-					FirebaseFunctions.logIssue(error, 'SignUpScreen');
+					FirebaseFunctions.logIssue(error, 'CreateRequesterProfileScreen');
 				}
 			}
 		}
@@ -158,63 +163,66 @@ class createRequesterProfileScreen extends Component {
 	}
 
 	render() {
+		if (this.state.isScreenLoading === true) {
+			return (
+				<HelpView style={screenStyle.container}>
+					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+						<LoadingSpinner isVisible={true} />
+					</View>
+				</HelpView>
+			);
+		}
 		return (
 			<HelpView style={screenStyle.container}>
 				<View
 					style={{
 						width: Dimensions.get('window').width - 40,
-						marginTop: Dimensions.get('window').height *.01
+						marginTop: Dimensions.get('window').height * 0.01
 					}}>
-
-
-					<View style={{ flexDirection: 'column', alignItems: 'center' }}>
-						<TouchableOpacity
-							onPress={() => {
-								Keyboard.dismiss();
-								this.chooseImage();
-							}}
-							style={{ justifyContent: 'center', alignItems: 'center' }}>
-							<View style={{ justifyContent: 'flex-start' }}>
-								{this.state.serviceID ? (
-									<ImageWithBorder
-										width={Dimensions.get('window').width * 0.25}
-										height={Dimensions.get('window').width * 0.25}
-										imageFunction={async () => {
-											//Passes in the function to retrieve the image of this product
-											return await FirebaseFunctions.getRequesterImageByID(this.props.navigation.state.params.requester.requesterID);
-										}}
-									/>
-								) : (
-										<BoxShadow
-											setting={{
+					{this.state.isEditing === true ? (
+						<View style={{ flexDirection: 'column', alignItems: 'center' }}>
+							<TouchableOpacity
+								onPress={() => {
+									Keyboard.dismiss();
+									this.chooseImage();
+								}}
+								style={{ justifyContent: 'center', alignItems: 'center' }}>
+								<View
+									style={{
+										marginBottom: Dimensions.get('window').height * 0.02,
+										justifyContent: 'flex-start'
+									}}>
+									<BoxShadow
+										setting={{
+											width: Dimensions.get('window').width * 0.25,
+											height: Dimensions.get('window').width * 0.25,
+											color: colors.gray,
+											border: 10,
+											radius: (Dimensions.get('window').width * 0.25) / 2,
+											opacity: 0.2,
+											x: 0,
+											y: 5
+										}}>
+										<Image
+											source={this.state.imageSource}
+											style={{
 												width: Dimensions.get('window').width * 0.25,
 												height: Dimensions.get('window').width * 0.25,
-												color: colors.gray,
-												border: 10,
-												radius: (Dimensions.get('window').width * 0.25) / 2,
-												opacity: 0.2,
-												x: 0,
-												y: 5
-											}}>
-											<Image
-												source={this.state.imageSource}
-												style={{
-													width: Dimensions.get('window').width * 0.25,
-													height: Dimensions.get('window').width * 0.25,
-													borderColor: colors.lightBlue,
-													borderWidth: (Dimensions.get('window').width * 0.25) / 17,
-													borderRadius: (Dimensions.get('window').width * 0.25) / 2
-												}}
-											/>
-										</BoxShadow>
-									)}
-							</View>
-							<Text> </Text>
-							<View style={{ justifyContent: 'flex-end' }}>
-								<Text style={fontStyles.mainTextStyleBlue}>{strings.EditImage}</Text>
-							</View>
-						</TouchableOpacity>
-					</View>
+												borderColor: colors.lightBlue,
+												borderWidth: (Dimensions.get('window').width * 0.25) / 17,
+												borderRadius: (Dimensions.get('window').width * 0.25) / 2
+											}}
+										/>
+									</BoxShadow>
+								</View>
+								<View style={{ justifyContent: 'flex-end' }}>
+									<Text style={fontStyles.mainTextStyleBlue}>{strings.EditImage}</Text>
+								</View>
+							</TouchableOpacity>
+						</View>
+					) : (
+						<View></View>
+					)}
 				</View>
 				<View
 					style={{
@@ -225,7 +233,7 @@ class createRequesterProfileScreen extends Component {
 					<Text style={fontStyles.bigTextStyleBlack}>{strings.Name}</Text>
 				</View>
 
-				<View style={{ justifyContent: 'center', }}>
+				<View style={{ justifyContent: 'center' }}>
 					<OneLineRoundedBoxInput
 						placeholder={strings.PleaseEnterName}
 						onChangeText={(input) => this.setState({ name: input })}
@@ -247,7 +255,7 @@ class createRequesterProfileScreen extends Component {
 					<OneLineRoundedBoxInput
 						placeholder={strings.EnterPhoneNumber}
 						onChangeText={(input) => this.setState({ phoneNumber: input.replace(/[^0-9]/g, '') })}
-						value={this.props.navigation.state.params.requester.phoneNumber}
+						value={this.state.phoneNumber}
 						password={false}
 						keyboardType='numeric'
 						autoCompleteType={'tel'}
@@ -272,7 +280,7 @@ class createRequesterProfileScreen extends Component {
 				</View>
 				<View style={{ height: Dimensions.get('window').height * 0.35 }}>
 					<GoogleCityPicker
-						initialText={this.props.navigation.state.params.requester.city}
+						initialText={this.state.city}
 						onPress={(locationName, long, lat) => {
 							this.setState({
 								city: locationName,
@@ -283,7 +291,7 @@ class createRequesterProfileScreen extends Component {
 				</View>
 				<View
 					style={{
-						height: Dimensions.get('window').height *.001,
+						height: Dimensions.get('window').height * 0.001,
 						justifyContent: 'flex-end',
 						alignSelf: 'center',
 						marginBottom: Dimensions.get('window').height * 1
@@ -293,7 +301,7 @@ class createRequesterProfileScreen extends Component {
 						style={roundBlueButtonStyle.MediumSizeButton}
 						textStyle={fontStyles.bigTextStyleWhite}
 						onPress={() => {
-							this.signUp();
+							this.addRequesterInfo();
 						}}
 						disabled={this.state.isLoading}
 					/>

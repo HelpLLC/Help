@@ -37,7 +37,7 @@ class LeftMenu extends Component {
 						onPress={() => {
 							//Home leads to featured screen
 							FirebaseFunctions.analytics.logEvent('home_card_clicked');
-							this.props.navigation.push('CreateRequesterProfileScreen', {
+							this.props.navigation.push('EditRequesterProfileScreen', {
 								requester: this.props.requester,
 								allProducts: this.props.allProducts,
 								isEditing: true

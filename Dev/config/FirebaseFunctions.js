@@ -309,9 +309,9 @@ export default class FirebaseFunctions {
 		this.analytics.logEvent('upload_image');
 
 		return 0;
-    }
-    
-    static async uploadRequesterImage(reference, response) {
+	}
+
+	static async uploadRequesterImage(reference, response) {
 		//Fetches the absolute path of the image (depending on android or ios)
 		let absolutePath = '';
 		if (Platform.OS === 'android') {
@@ -324,25 +324,33 @@ export default class FirebaseFunctions {
 		await this.storage.ref('profilePictures/' + reference).putFile(absolutePath);
 
 		//Logs the event in firebase analytics
-		this.analytics.logEvent('upload_image');
+		this.analytics.logEvent('upload_profile_image');
 
 		return 0;
 	}
 
 	//This method will take in a reference to a picture (the same as the product ID it is fetching)
 	//and return the download URL for the image which is used as an image source
-	static async getproductImageByID(ID) {
+	static async getProductImageByID(ID) {
 		//Creates the reference
 		const uri = await this.storage.ref('products/' + ID).getDownloadURL();
 		return { uri };
-    }
-    
-    //This method will take in a reference to a picture (the same as the product ID it is fetching)
+	}
+
+	//This method will take in a reference to a picture (the same as the profile ID it is fetching)
 	//and return the download URL for the image which is used as an image source
-	static async getRequesterImageByID(ID) {
+	static async getProfilePictureByID(ID) {
 		//Creates the reference
-		const uri = await this.storage.ref('profilePictures/' + ID).getDownloadURL();
-		return { uri };
+		const uri = this.storage.ref('profilePictures/' + ID);
+		try {
+			const downloadURL = await uri.getDownloadURL();
+			return { uri: downloadURL };
+		} catch (error) {
+			const downloadURL = await this.storage
+				.ref('profilePictures/defaultProfilePic.png')
+				.getDownloadURL();
+			return { uri: downloadURL };
+		}
 	}
 
 	//This method will take information about a new product and add it to the firestore database. It will

@@ -57,7 +57,7 @@ class NarrowServiceCardList extends Component {
 							price={this.props.dateRequested ? services[i].dateRequested : services[i].pricing}
 							imageFunction={async () => {
 								//Passes in the function to retrieve the image of this product
-								return await FirebaseFunctions.getproductImageByID(services[i].serviceID);
+								return await FirebaseFunctions.getProductImageByID(services[i].serviceID);
 							}}
 							numCurrentRequests={0}
 							//Passes all of the necessary props to the actual screen that contains
@@ -83,7 +83,7 @@ class NarrowServiceCardList extends Component {
 							price={this.props.dateRequested ? services[i].dateRequested : services[i].pricing}
 							imageFunction={async () => {
 								//Passes in the function to retrieve the image of this product
-								return await FirebaseFunctions.getproductImageByID(services[i].serviceID);
+								return await FirebaseFunctions.getProductImageByID(services[i].serviceID);
 							}}
 							numCurrentRequests={0}
 							//Passes all of the necessary props to the actual screen that contains
@@ -98,7 +98,7 @@ class NarrowServiceCardList extends Component {
 							price={this.props.dateRequested ? services[i + 1].dateRequested : services[i + 1].pricing}
 							imageFunction={async () => {
 								//Passes in the function to retrieve the image of this product
-								return await FirebaseFunctions.getproductImageByID(services[i + 1].serviceID);
+								return await FirebaseFunctions.getProductImageByID(services[i + 1].serviceID);
 							}}
 							numCurrentRequests={0}
 							//Passes all of the necessary props to the actual screen that contains

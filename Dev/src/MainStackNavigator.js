@@ -214,7 +214,7 @@ const routeConfig = {
 			header: null
 		})
 	},
-	CreateRequesterProfileScreen: {
+	EditRequesterProfileScreen: {
 		screen: createRequesterProfileScreen,
 		navigationOptions: ({ navigation }) => ({
 			header: (
