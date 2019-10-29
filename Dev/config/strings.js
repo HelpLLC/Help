@@ -43,8 +43,6 @@ export default {
 	Address: 'Address',
 	EnterAnEmail: 'Enter an email...',
 	EnterPhoneNumber: 'Enter your phone number...',
-	EnterPhoneNumberOptional: 'Enter your phone number (Optional)',
-	EnterAddressOptional: 'Enter your address (Optional)...',
 	AccountType: 'Account Type',
 	Business: 'Business',
 	Password: 'Password',
@@ -62,16 +60,13 @@ export default {
 	BusinessPhoneNumberError: 'All businesses are required to enter their phone numbers',
 	InvalidPhoneNumberError: 'Please enter a valid 10 digit phone number',
 	BusinessSignUp: 'Business Sign Up',
-	CustomerSignUp: 'Customer Sign Up',
 	Next: 'Next',
 
-	//-------------------CustomerSignUp----------------------
+	//------------------- Customer Sign Up Screen -------------------
 	City: 'City',
-	State: 'State',
 	Name: 'Name',
-	PleaseEnterCity: 'Please enter a city...',
-	PleaseEnterState: 'Please enter a state...',
-	PleaseEnterName: 'Please enter your full name...',
+	EnterCityDotDotDot: 'Enter city...',
+	PleaseEnterName: 'Please enter your name...',
 
 	//------------------- Settings Screen -------------------
 	History: 'History',
@@ -99,9 +94,9 @@ export default {
 	WellFixItRightAway: "We'll fix it right away",
 
 	//------------------- Create Provider Profile Screen -------------------
-	WhatsYourBusinessCalledQuestion: "What's your business called?",
-	EnterCompanyNameDotDotDot: 'Enter company name...',
-	WhatDoesYourBusinessDoQuestion: 'What does your business do?',
+	BusinessName: "Business Name",
+	EnterCompanyNameDotDotDot: 'Enter a company name...',
+	BusinessDescription: 'Business Description',
 	TellYourCustomersAboutYourselfDotDotDot: 'Tell your customers about yourself...',
 	PleaseEnterACompanyName: 'Please enter a company name',
 	PleaseEnterADescriptionWithAtLeast150Characters: 'Please enter a description with at least 150 characters',
@@ -111,11 +106,22 @@ export default {
 	WhatIsYourBusinessExperienceQuestion: 'What is your business experience?',
 	TellYourCustomersAboutYourExperienceDotDotDot: 'Tell your customers about your experience...',
 
+	//------------------- Additional Provider Info Screen -------------------
+	Website: 'Website',
+	LocationYouServe: 'Location You Serve',
+	EnterLocation: 'Enter a location...',
+	EnterWebsiteLink: 'Enter a link to your site (Optional)...',
+	Ok: 'Ok',
+	Location: 'Location',
+	WhyWeUseLocation: 'We collect locations from users to show customers the business that are nearest to them. We never share customer locations without their consent. Our intent is to provide the best customer experience.',
+
 	//------------------- Provider Business Screen -------------------
 	EditCompanyProfile: 'Edit Company Profile',
 	PlusSign: '+',
 	CreateYourFirstProductNowExclamation: 'Create your first product now!',
 	Create: 'Create',
+	FinishCreatingYourProfile: 'Finish Creating Your Profile',
+	FinishCreatingYourProfileMessage: 'Your business doesn\'t have all the info customers need! Go complete your profile.',
 
 	//------------------- Create Product Screen -------------------
 	CreateService: 'Create Service',

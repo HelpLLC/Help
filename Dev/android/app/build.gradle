@@ -202,6 +202,7 @@ dependencies {
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-reanimated')
     implementation project(':react-native-firebase')
+    implementation project(':react-native-code-push')
     implementation "com.google.android.gms:play-services-base:16.1.0"
     implementation "com.google.firebase:firebase-core:16.0.9"
     implementation "com.google.firebase:firebase-storage:17.0.0"
@@ -232,3 +233,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 
 apply plugin: 'com.google.gms.google-services'
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"

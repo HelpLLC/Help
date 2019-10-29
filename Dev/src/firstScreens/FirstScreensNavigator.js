@@ -14,6 +14,7 @@ import TopBanner from '../components/TopBanner';
 import strings from 'config/strings';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import createRequesterProfileScreen from './createRequesterProfileScreen';
+import providerAdditionalInformationScreen from './providerAdditionalInformationScreen';
 
 //Route config that leads to all the different possible screens
 const routeConfig = {
@@ -80,7 +81,7 @@ const routeConfig = {
 		navigationOptions: ({ navigation }) => ({
 			header: (
 				<TopBanner
-					title={strings.CustomerSignUp}
+					title={strings.CreateProfile}
 					leftIconName='angle-left'
 					leftOnPress={() => {
 						//Method will go back to the splash screen
@@ -111,6 +112,23 @@ const routeConfig = {
 	//Takes you to the screen where businesses will create their initial profile
 	CreateProviderProfileScreen: {
 		screen: createProviderProfileScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<TopBanner
+					title={strings.CreateProfile}
+					leftIconName='angle-left'
+					leftOnPress={() => {
+						//Method will go back to the splash screen
+						navigation.goBack();
+					}}
+				/>
+			),
+			gesturesEnabled: false
+		})
+	},
+	//Takes you to the screen which will allow providers to add more information about themselves
+	ProviderAdditionalInformationScreen: {
+		screen: providerAdditionalInformationScreen,
 		navigationOptions: ({ navigation }) => ({
 			header: (
 				<TopBanner

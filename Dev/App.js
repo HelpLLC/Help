@@ -8,10 +8,11 @@ import LoadingSpinner from './src/components/LoadingSpinner';
 import screenStyle from 'config/styles/screenStyle';
 import HelpView from './src/components/HelpView';
 import firebase from 'react-native-firebase';
-import FirebaseFunctions from './config/FirebaseFunctions';
+import codePush from 'react-native-code-push';
+
 
 //Launches the app with the persisted store
-export default class App extends Component {
+class App extends Component {
 	state = {
 		isLoading: true
 	};
@@ -107,3 +108,10 @@ export default class App extends Component {
 		return <MainStackNavigator />;
 	}
 }
+
+//Configures the app to connect with the code push server in order to check for updates on app
+//resume from backgroud
+let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
+App = codePush(codePushOptions)(App);
+
+export default App;

@@ -9,7 +9,7 @@ class OneLineRoundedBoxInput extends Component {
 	render() {
 		//The one prop this will take is a placeholder text which will disappear when the user
 		//starts typing as well as onChangeText function and a value
-		const { placeholder, onChangeText, value, maxLength, width, password, autoCompleteType, keyboardType } = this.props;
+		const { placeholder, onChangeText, value, maxLength, width, password, autoCompleteType, keyboardType, autoCapitalize } = this.props;
 
 		return (
 			<View>
@@ -33,7 +33,7 @@ class OneLineRoundedBoxInput extends Component {
 					returnKeyType={'done'}
 					value={value}
 					autoCompleteType={autoCompleteType ? autoCompleteType : 'off'}
-					autoCapitalize={autoCompleteType === 'email' || autoCompleteType === 'password' ? 'none' : 'sentences'}
+					autoCapitalize={autoCompleteType === 'email' || autoCompleteType === 'password' || autoCapitalize === 'none' ? 'none' : 'sentences'}
 					maxLength={maxLength}
 				/>
 			</View>
@@ -44,6 +44,7 @@ class OneLineRoundedBoxInput extends Component {
 //This function makes sure that the correct props are passed into the component
 //A placeholder can be passed in as a prop & it is not required
 //A onChangeText function can be passed as prop but not required
+//There are many other optional ones
 OneLineRoundedBoxInput.propTypes = {
 	placeholder: PropTypes.string,
 	onChangeText: PropTypes.func,

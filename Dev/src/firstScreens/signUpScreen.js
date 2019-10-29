@@ -40,8 +40,6 @@ class signUpScreen extends Component {
 		isErrorVisible: false,
 		isChecked: false,
 		termsAndConditionsError: false,
-		businessPhoneNumberError: false,
-		invalidPhoneNumberError: false
 	};
 
 	//This method signs up the user & creates an account for them based on what they chose and their
@@ -91,7 +89,8 @@ class signUpScreen extends Component {
 						this.setState({ isLoading: false });
 						this.props.navigation.push('CreateProviderProfileScreen', {
 							email,
-							password
+							password,
+							editing: false
 						});
 					}
 				}
@@ -110,7 +109,7 @@ class signUpScreen extends Component {
 					<View style={{ height: Dimensions.get('window').height * 0.03 }}></View>
 					<View
 						style={{
-							height: Dimensions.get('window').height * 0.12,
+							height: Dimensions.get('window').height * 0.15,
 							justifyContent: 'center',
 							alignSelf: 'center'
 						}}>
@@ -132,14 +131,19 @@ class signUpScreen extends Component {
 					</View>
 					<View
 						style={{
-							height: Dimensions.get('window').height * 0.12,
+							height: Dimensions.get('window').height * 0.15,
 							justifyContent: 'center',
 							alignSelf: 'center'
 						}}>
 						<View style={{ flex: 1, justifyContent: 'flex-end' }}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.Password}</Text>
 						</View>
-						<View style={{ flex: 1, justifyContent: 'center', marginTop: Dimensions.get('window').height * 0.02 }}>
+						<View
+							style={{
+								flex: 1,
+								justifyContent: 'center',
+								marginTop: Dimensions.get('window').height * 0.02
+							}}>
 							<OneLineRoundedBoxInput
 								placeholder={strings.ChooseAPassword}
 								onChangeText={(input) => this.setState({ password: input })}
@@ -151,6 +155,7 @@ class signUpScreen extends Component {
 					</View>
 					<View
 						style={{
+							marginTop: Dimensions.get('window').height * 0.06,
 							height: Dimensions.get('window').height * 0.08,
 							justifyContent: 'center',
 							alignSelf: 'center'
@@ -162,7 +167,7 @@ class signUpScreen extends Component {
 							flexDirection: 'row',
 							width: Dimensions.get('window').width,
 							justifyContent: 'space-evenly',
-							height: Dimensions.get('window').height * 0.12,
+							height: Dimensions.get('window').height * 0.08,
 							justifyContent: 'center',
 							alignSelf: 'center'
 						}}>
@@ -174,7 +179,8 @@ class signUpScreen extends Component {
 								style={[
 									roundBlueButtonStyle.AccountTypeButton,
 									{
-										borderColor: this.state.buttonSelected === 'Business' ? colors.lightBlue : colors.white
+										borderColor:
+											this.state.buttonSelected === 'Business' ? colors.lightBlue : colors.white
 									}
 								]}
 								textStyle={fontStyles.mainTextStyleBlue}
@@ -194,7 +200,8 @@ class signUpScreen extends Component {
 								style={[
 									roundBlueButtonStyle.AccountTypeButton,
 									{
-										borderColor: this.state.buttonSelected === 'Customer' ? colors.lightBlue : colors.white
+										borderColor:
+											this.state.buttonSelected === 'Customer' ? colors.lightBlue : colors.white
 									}
 								]}
 								textStyle={fontStyles.mainTextStyleBlue}
@@ -209,7 +216,7 @@ class signUpScreen extends Component {
 					</View>
 					<View
 						style={{
-							height: Dimensions.get('window').height * 0.12,
+							height: Dimensions.get('window').height * 0.1,
 							justifyContent: 'flex-start',
 							alignItems: 'center',
 							flexDirection: 'column'
@@ -228,7 +235,9 @@ class signUpScreen extends Component {
 								//Navigates to the Terms and Conditions screen
 								this.props.navigation.push('TermsAndConditionsScreen');
 							}}>
-							<Text style={[fontStyles.mainTextStyleBlue, { flexWrap: 'wrap' }]}>{strings.TermsAndConditions}</Text>
+							<Text style={[fontStyles.mainTextStyleBlue, { flexWrap: 'wrap' }]}>
+								{strings.TermsAndConditions}
+							</Text>
 						</TouchableOpacity>
 					</View>
 					<View style={{ height: Dimensions.get('window').height * 0.03 }}></View>
