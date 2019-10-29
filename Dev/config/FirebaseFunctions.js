@@ -309,13 +309,39 @@ export default class FirebaseFunctions {
 		this.analytics.logEvent('upload_image');
 
 		return 0;
+    }
+    
+    static async uploadRequesterImage(reference, response) {
+		//Fetches the absolute path of the image (depending on android or ios)
+		let absolutePath = '';
+		if (Platform.OS === 'android') {
+			absolutePath = 'file://' + response.path;
+		} else {
+			absolutePath = response.uri;
+		}
+
+		//Creates the reference & uploads the image (async)
+		await this.storage.ref('profilePictures/' + reference).putFile(absolutePath);
+
+		//Logs the event in firebase analytics
+		this.analytics.logEvent('upload_image');
+
+		return 0;
 	}
 
 	//This method will take in a reference to a picture (the same as the product ID it is fetching)
 	//and return the download URL for the image which is used as an image source
-	static async getProdudctImageByID(ID) {
+	static async getproductImageByID(ID) {
 		//Creates the reference
 		const uri = await this.storage.ref('products/' + ID).getDownloadURL();
+		return { uri };
+    }
+    
+    //This method will take in a reference to a picture (the same as the product ID it is fetching)
+	//and return the download URL for the image which is used as an image source
+	static async getRequesterImageByID(ID) {
+		//Creates the reference
+		const uri = await this.storage.ref('profilePictures/' + ID).getDownloadURL();
 		return { uri };
 	}
 

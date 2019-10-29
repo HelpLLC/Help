@@ -37,7 +37,7 @@ class ServiceCardList extends Component {
 						price={this.props.dateCompleted ? services[i].dateRequested : services[i].pricing}
 						imageFunction={async () => {
 							//Passes in the function to retrieve the image of this product
-							return await FirebaseFunctions.getProdudctImageByID(services[i].serviceID);
+							return await FirebaseFunctions.getproductImageByID(services[i].serviceID);
 						}}
 						numCurrentRequests={services[i].requests.currentRequests.length}
 						onPress={() => {

@@ -133,7 +133,7 @@ class serviceScreen extends Component {
 									height={Dimensions.get('window').width * 0.25}
 									imageFunction={async () => {
 										//Passes in the function to retrieve the image of this product
-										return await FirebaseFunctions.getProdudctImageByID(product.serviceID);
+										return await FirebaseFunctions.getproductImageByID(product.serviceID);
 									}}
 								/>
 							</View>

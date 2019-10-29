@@ -26,7 +26,7 @@ class createProductScreen extends Component {
 		isScreenLoading: true
 	};
 
-	//This componentWillMount method will decide, based on the params that are passed in, whether
+	//This componentWil lMount method will decide, based on the params that are passed in, whether
 	//this screen is going to edit a product or create a new one.
 	async componentDidMount() {
 		if (this.props.navigation.state.params && this.props.navigation.state.params.product) {
@@ -294,7 +294,7 @@ class createProductScreen extends Component {
 											height={Dimensions.get('window').width * 0.25}
 											imageFunction={async () => {
 												//Passes in the function to retrieve the image of this product
-												return await FirebaseFunctions.getProdudctImageByID(this.state.serviceID);
+												return await FirebaseFunctions.getproductImageByID(this.state.serviceID);
 											}}
 										/>
 									) : (
