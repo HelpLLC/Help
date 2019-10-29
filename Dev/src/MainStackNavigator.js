@@ -24,6 +24,7 @@ import termsAndConditionsScreen from './firstScreens/termsAndConditionsScreen';
 import creditsScreen from './settingsScreens/creditsScreen';
 import RequesterCategoriesScreen from './requesterScreens/categoriesScreen';
 import categoryScreen from './requesterScreens/categoryScreen';
+import createRequesterProfileScreen from './firstScreens/createRequesterProfileScreen';
 
 //The route config for all of the screens
 const routeConfig = {
@@ -156,6 +157,22 @@ const routeConfig = {
 		screen: RequesterOrderHistoryScreen,
 		navigationOptions: ({ navigation }) => ({
 			header: null
+		})
+	},
+	CreateRequesterProfileScreen: {
+		screen: createRequesterProfileScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<TopBanner
+					title={strings.MyProfile}
+					leftIconName='angle-left'
+					leftOnPress={() => {
+						//Method will go back to the splash screen
+						navigation.goBack();
+					}}
+				/>
+			),
+			gesturesEnabled: false
 		})
 	},
 

@@ -69,6 +69,7 @@ export default {
 	Name: 'Name',
 	EnterCityDotDotDot: 'Enter city...',
 	PleaseEnterName: 'Please enter your name...',
+	MyProfile: 'My Profile',
 
 	//------------------- Settings Screen -------------------
 	History: 'History',

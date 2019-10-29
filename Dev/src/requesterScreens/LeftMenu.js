@@ -32,6 +32,19 @@ class LeftMenu extends Component {
 						renderBorder={true}
 					/>
 					<LeftMenuCard
+						text={strings.MyProfile}
+						textColor={colors.lightBlue}
+						onPress={() => {
+							//Home leads to featured screen
+							FirebaseFunctions.analytics.logEvent('home_card_clicked');
+							this.props.navigation.push('CreateRequesterProfileScreen', {
+								requester: this.props.requester,
+								allProducts: this.props.allProducts
+							});
+						}}
+						renderBorder={true}
+					/>
+					<LeftMenuCard
 						text={strings.Categories}
 						textColor={colors.lightBlue}
 						onPress={() => {
