@@ -17,11 +17,32 @@ import ErrorAlert from '../components/ErrorAlert';
 
 //The class that will create the look of this screen
 class createProviderProfileScreen extends Component {
+	//Method will detect if this screen is in editing mode, and will display the business's previous information if so
 	componentDidMount() {
 		FirebaseFunctions.setCurrentScreen(
 			'CreateProviderProfileScreen',
 			'createProviderProfileScreen'
 		);
+
+		const { editing } = this.props.navigation.state.params;
+		if (editing === true) {
+			const { provider, providerID } = this.props.navigation.state.params;
+			this.setState({
+				businessInfo: provider.companyDescription,
+				businessName: provider.companyName,
+				providerID,
+				provider,
+				isLoadingScreen: false,
+				editing
+			});
+		} else {
+			this.setState({
+				businessInfo: '',
+				businessName: '',
+				isLoadingScreen: false,
+				editing
+			});
+		}
 	}
 
 	//The state containing what the user has typed into each input and whether the screen is loading
@@ -33,6 +54,7 @@ class createProviderProfileScreen extends Component {
 		nameError: false,
 		descriptionError: false,
 		isLoading: false,
+		isLoadingScreen: true,
 		isErrorVisible: false
 	};
 
@@ -67,25 +89,48 @@ class createProviderProfileScreen extends Component {
 		} else {
 			this.setState({ isLoading: true });
 
-			const { email, password } = this.props.navigation.state.params;
-			const { businessName, businessInfo } = this.state;
-			const isCompanyNameTaken = await this.isCompanyNameTaken(businessName);
-			this.setState({ isLoading: false });
-			if (isCompanyNameTaken === true) {
-				this.setState({ companyNameTakenError: true });
-			} else {
+			//Tests if this is an editing screen or not to go to the correct screen & pass the correct params
+			const { businessName, businessInfo, providerID, provider } = this.state;
+			if (this.state.editing === true) {
 				//navigates to the next screen
+				this.setState({ isLoading: false });
 				this.props.navigation.push('ProviderAdditionalInformationScreen', {
-					email,
-					password,
 					businessInfo,
-					businessName
+					businessName,
+					providerID,
+					provider,
+					editing: true
 				});
+			} else {
+				const { email, password } = this.props.navigation.state.params;
+				const isCompanyNameTaken = await this.isCompanyNameTaken(businessName);
+				this.setState({ isLoading: false });
+				if (isCompanyNameTaken === true) {
+					this.setState({ companyNameTakenError: true });
+				} else {
+					//navigates to the next screen
+					this.props.navigation.push('ProviderAdditionalInformationScreen', {
+						email,
+						password,
+						businessInfo,
+						businessName,
+						editing: false
+					});
+				}
 			}
 		}
 	}
 
 	render() {
+		if (this.state.isLoadingScreen === true) {
+			return (
+				<HelpView style={screenStyle.container}>
+					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+						<LoadingSpinner isVisible={true} />
+					</View>
+				</HelpView>
+			);
+		}
 		return (
 			<HelpView style={screenStyle.container}>
 				<View

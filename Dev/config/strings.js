@@ -116,6 +116,8 @@ export default {
 	PlusSign: '+',
 	CreateYourFirstProductNowExclamation: 'Create your first product now!',
 	Create: 'Create',
+	FinishCreatingYourProfile: 'Finish Creating Your Profile',
+	FinishCreatingYourProfileMessage: 'Your business doesn\'t have all the info customers need! Go complete your profile.',
 
 	//------------------- Create Product Screen -------------------
 	CreateService: 'Create Service',

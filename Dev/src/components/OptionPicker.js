@@ -18,7 +18,7 @@ class OptionPicker extends Component {
 						show={isVisible}
 						title={title}
 						message={message}
-						closeOnTouchOutside={true}
+						closeOnTouchOutside={this.props.clickOutside ? clickOutside : true}
 						showCancelButton={oneOption === true ? false : true}
 						showConfirmButton={true}
 						confirmButtonColor={colors.lightBlue}

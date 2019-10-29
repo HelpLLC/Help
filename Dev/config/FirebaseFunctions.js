@@ -3,6 +3,7 @@
 //will connect with the firebase firestore in order to retrieve the necessary data.
 import firebase from 'react-native-firebase';
 import strings from 'config/strings';
+import haversine from 'haversine';
 import { Platform } from 'react-native';
 
 //All methods should be labeled static. There will also be static variable that reference the collections
@@ -64,6 +65,33 @@ export default class FirebaseFunctions {
 		const filteredProducts = allProducts.filter((element) => {
 			return element.category === categoryName;
 		});
+
+		return filteredProducts;
+	}
+
+	//This method will take in a requester object and an array of products. It will return an array containing only the products
+	//that are being offered by businesses that are within 50 miles of customer. In the future, this number of miles will be set
+	//by the business, as some businesses are willing to travel further than others
+	static async filterProductsByRequesterLocation(requester, products) {
+		const requesterCoordinates = {
+			latitude: requester.coordinates.lat,
+			longitude: requester.coordinates.long
+		};
+		const filteredProducts = [];
+		for (const product of products) {
+			if (product.coordinates) {
+				const productLocation = {
+					latitude: product.coordinates.lat,
+					longitude: product.coordinates.long
+				};
+				//Formula to calculate distance between two coordinates using Haversine Formula
+				const distance = haversine(requesterCoordinates, productLocation, { unit: 'mile' });
+
+				if (distance <= 50) {
+					filteredProducts.push(product);
+				}
+			}
+		}
 
 		return filteredProducts;
 	}
@@ -245,7 +273,6 @@ export default class FirebaseFunctions {
 		const uid = account.user.uid;
 		const ref = this.providers.doc(uid);
 
-
 		batch.set(ref, newProvider);
 		await batch.commit();
 
@@ -301,7 +328,9 @@ export default class FirebaseFunctions {
 		price,
 		response,
 		providerID,
-		companyName
+		companyName,
+		coordinates,
+		location
 	) {
 		//Creates the product object & the pricing text to be displayed to users
 		let pricing =
@@ -318,6 +347,8 @@ export default class FirebaseFunctions {
 			price,
 			pricing,
 			offeredByID: providerID,
+			coordinates,
+			location,
 			offeredByName: companyName,
 			category: 'Cleaning'
 		};
@@ -439,23 +470,22 @@ export default class FirebaseFunctions {
 		return allUserConversations;
 	}
 
-	//This method will update the information for a provider by taking in the new company name
-	//and new company info and updating those fields in the firestore
-	static async updateProviderInfo(providerID, newBusinessName, newBusinessInfo) {
-		await this.updateProviderByID(providerID, {
-			companyName: newBusinessName,
-			companyDescription: newBusinessInfo
-		});
+	//This method will update the information for a provider by taking in the new provider object and overwriting it in firebase
+	static async updateProviderInfo(providerID, newProviderInfo) {
+		const ref = this.providers.doc(providerID);
+		await ref.set(newProviderInfo);
 
 		//Goes through and edits all of the products that belong to this business & updated the
 		//field that connects them to the correct provider to the new businessName
 		const query = this.products.where('offeredByID', '==', providerID);
 		const result = await query.get();
-		result.docs.forEach(async (doc) => {
+		for (const doc of result.docs) {
 			await this.updateServiceByID(doc.id, {
-				offeredByName: newBusinessName
+				offeredByName: newProviderInfo.companyName,
+				coordinates: newProviderInfo.coordinates,
+				location: newProviderInfo.location
 			});
-		});
+		}
 
 		//Logs the event in firebase analytics
 		this.analytics.logEvent('update_company_profile');
@@ -464,7 +494,15 @@ export default class FirebaseFunctions {
 
 	//This method will update the information for a specific product by taking in all of the new
 	//product information and updating those fields in firestore
-	static async updateServiceInfo(productID, serviceTitle, serviceDescription, price, response) {
+	static async updateServiceInfo(
+		productID,
+		serviceTitle,
+		serviceDescription,
+		price,
+		response,
+		coordinates,
+		location
+	) {
 		//Creates the product object & the pricing text to be displayed to users
 		let pricing =
 			price.priceType === 'per'
@@ -474,7 +512,9 @@ export default class FirebaseFunctions {
 			serviceTitle,
 			serviceDescription,
 			price,
-			pricing
+			pricing,
+			coordinates,
+			location
 		});
 
 		//Removes the old image and then uploads the new one if the image has been changed

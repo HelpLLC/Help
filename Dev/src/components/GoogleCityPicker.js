@@ -7,12 +7,23 @@ import googleCityPickerStyle from 'config/styles/componentStyles/googleCityPicke
 import PropTypes from 'prop-types';
 
 class GoogleCityPicker extends Component {
+
+	//If there is a prop passed in as initial text to display in the text input, this function will do that
+	componentDidMount() {
+		if (this.props.initialText) {
+			this.locationRef.setAddressText(this.props.initialText);
+		}
+	}
+
 	render() {
 		//This component will only take one prop. The onPress method determining what will happen with  the received data
 		const { onPress } = this.props;
 
 		return (
 			<GooglePlacesAutocomplete
+				ref={(instance) => {
+					this.locationRef = instance;
+				}}
 				minLength={2}
 				placeholder={this.props.placeholder ? this.props.placeholder : strings.EnterCityDotDotDot}
 				autoFocus={false}

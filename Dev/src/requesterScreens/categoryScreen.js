@@ -28,6 +28,10 @@ class categoryScreen extends Component {
 		products = products.filter((product) => {
 			return !requester.blockedUsers.includes(product.offeredByID);
 		});
+
+		//Filters the product so that only ones that nearby are shown (50)
+		products = await FirebaseFunctions.filterProductsByRequesterLocation(requester, products);
+
 		//sets the state
 		this.setState({
 			products,
