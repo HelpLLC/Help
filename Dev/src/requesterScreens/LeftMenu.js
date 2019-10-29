@@ -39,7 +39,8 @@ class LeftMenu extends Component {
 							FirebaseFunctions.analytics.logEvent('home_card_clicked');
 							this.props.navigation.push('CreateRequesterProfileScreen', {
 								requester: this.props.requester,
-								allProducts: this.props.allProducts
+								allProducts: this.props.allProducts,
+								isEditing: true
 							});
 						}}
 						renderBorder={true}

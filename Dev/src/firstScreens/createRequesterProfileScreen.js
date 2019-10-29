@@ -29,7 +29,8 @@ class createRequesterProfileScreen extends Component {
 		isLoading: false,
 		invalidPhoneNumberError: false,
 		fieldsError: false,
-		locationInfoVisible: false
+		locationInfoVisible: false,
+		requester: null
 	};
 
 	componentDidMount() {
@@ -37,46 +38,89 @@ class createRequesterProfileScreen extends Component {
 			'CreateRequesterProfileScreen',
 			'createRequesterProfileScreen'
 		);
+
+
+		if (this.props.navigation.state.params && this.props.navigation.state.params.requester) {
+
+			const { requester } = this.props.navigation.state.params;
+
+			this.setState({
+				name: requester.username,
+				city: requester.city,
+				coordinates: requester.coordinates,
+				phoneNumber: requester.phoneNumber,
+				requester: requester
+			})
+		}
 	}
 
 	async signUp() {
 		Keyboard.dismiss();
-		//fetches the entered email and password
-		const { email, password } = this.props.navigation.state.params;
-		const { phoneNumber, name, city, coordinates } = this.state;
-		//Tests for empty fields
-		if (phoneNumber === '' || name === '' || city === '' || coordinates === '') {
-			//Displays empty field error
-			this.setState({ fieldsError: true });
-		} else if (phoneNumber.trim().length != 10) {
-			this.setState({ invalidPhoneNumberError: true });
-		} else {
-			this.setState({ isLoading: true });
-			//If the accout already exists, then an error will appear
-			//If the account is new, then it will go through the normal process to create
-			//the account
-			try {
-				//If this is a customer, then the account will be created here and
-				//along with the new requester being added to the database then
-				//the screen will shift to the new account's screen
-				const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
-				const requester = await FirebaseFunctions.addRequesterToDatabase(
-					account,
-					phoneNumber,
-					coordinates,
-					city,
-					name
-				);
-				await FirebaseFunctions.logIn(email, password);
-				const allProducts = await FirebaseFunctions.getAllProducts();
-				this.setState({ isLoading: false });
-				this.props.navigation.push('FeaturedScreen', {
-					requester,
-					allProducts
-				});
-			} catch (error) {
-				this.setState({ isLoading: false, isErrorVisible: true });
-				FirebaseFunctions.logIssue(error, 'SignUpScreen');
+		if (this.state.requester) {
+			const { phoneNumber, name, city, coordinates } = this.state;
+			if (phoneNumber === '' || name === '' || city === '' || coordinates === '') {
+				//Displays empty field error
+				this.setState({ fieldsError: true });
+			} else if (phoneNumber.trim().length != 10) {
+				this.setState({ invalidPhoneNumberError: true });
+			} else {
+				this.setState({isLoading: true})
+				try{
+					await FirebaseFunctions.updateRequesterByID(requester.requesterID, {
+						username: name,
+						phoneNumber: phoneNumber,
+						city: city,
+						coordinates: coordinates
+					})
+					const allProducts = this.props.navigation.state.params.allProducts;
+					this.props.navigation.push('FeaturedScreen', {
+						requester,
+						allProducts
+					})
+				}catch (error) {
+					this.setState({ isLoading: false, isErrorVisible: true });
+					FirebaseFunctions.logIssue(error, 'SignUpScreen');
+				}
+			}
+		}
+		else {
+			//f{etches the entered email and password
+			const { email, password } = this.props.navigation.state.params;
+			const { phoneNumber, name, city, coordinates } = this.state;
+			//Tests for empty fields
+			if (phoneNumber === '' || name === '' || city === '' || coordinates === '') {
+				//Displays empty field error
+				this.setState({ fieldsError: true });
+			} else if (phoneNumber.trim().length != 10) {
+				this.setState({ invalidPhoneNumberError: true });
+			} else {
+				this.setState({ isLoading: true });
+				//If the accout already exists, then an error will appear
+				//If the account is new, then it will go through the normal process to create
+				//the account
+				try {
+					//If this is a customer, then the account will be created here and
+					//along with the new requester being added to the database then
+					//the screen will shift to the new account's screen
+					const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
+					const requester = await FirebaseFunctions.addRequesterToDatabase(
+						account,
+						phoneNumber,
+						coordinates,
+						city,
+						name
+					);
+					await FirebaseFunctions.logIn(email, password);
+					const allProducts = await FirebaseFunctions.getAllProducts();
+					this.setState({ isLoading: false });
+					this.props.navigation.push('FeaturedScreen', {
+						requester,
+						allProducts
+					});
+				} catch (error) {
+					this.setState({ isLoading: false, isErrorVisible: true });
+					FirebaseFunctions.logIssue(error, 'SignUpScreen');
+				}
 			}
 		}
 	}
@@ -155,7 +199,7 @@ class createRequesterProfileScreen extends Component {
 						alignSelf: 'center'
 					}}>
 					<RoundBlueButton
-						title={strings.SignUp}
+						title={this.state.requester ? strings.Done : strings.SignUp}
 						style={roundBlueButtonStyle.MediumSizeButton}
 						textStyle={fontStyles.bigTextStyleWhite}
 						onPress={() => {
