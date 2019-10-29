@@ -244,6 +244,7 @@ class businessScreen extends Component {
 							isVisible={this.state.incompleteProfile}
 							title={strings.FinishCreatingYourProfile}
 							oneOption={true}
+							clickOutside={false}
 							message={strings.FinishCreatingYourProfileMessage}
 							confirmText={strings.Ok}
 							confirmOnPress={() => {
