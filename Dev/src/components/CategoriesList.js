@@ -102,7 +102,14 @@ class CategoriesList extends Component {
 		}
 
 		return (
-			<ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+			<ScrollView
+				contentContainerStyle={{
+					justifyContent: 'center',
+					alignItems: 'center',
+					flexDirection: 'column'
+				}}
+				showsHorizontalScrollIndicator={false}
+				showsVerticalScrollIndicator={false}>
 				{rowsOfServices}
 			</ScrollView>
 		);

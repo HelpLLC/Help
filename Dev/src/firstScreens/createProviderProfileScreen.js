@@ -293,7 +293,6 @@ class createProviderProfileScreen extends Component {
                 maxWidth: 180
             },
             (response) => {
-                console.log(response);
                 const source = { uri: 'data:image/jpeg;base64,' + response.data };
                 if (!(source.uri === 'data:image/jpeg;base64,undefined')) {
                     //Sets the source of the image if one has been selected

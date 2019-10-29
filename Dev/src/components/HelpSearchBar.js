@@ -9,7 +9,7 @@ import helpSearchBarStyle from 'config/styles/componentStyles/helpSearchBarStyle
 
 class HelpSearchBar extends Component {
 	render() {
-		const { onChangeText, value, placeholderText } = this.props;
+		const { onChangeText, value, placeholderText, onSubmitEditing } = this.props;
 		return (
 			<View
 				style={{
@@ -23,6 +23,10 @@ class HelpSearchBar extends Component {
 					onChangeText={(value) => {
 						onChangeText(value);
 					}}
+					onSubmitEditing={() => {
+						onSubmitEditing()
+					}}
+					returnKeyType={'search'}
 					value={value}
 					inputStyle={{
 						color: colors.black

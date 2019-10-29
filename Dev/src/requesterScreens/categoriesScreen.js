@@ -28,7 +28,7 @@ export default class categoriesScreen extends Component {
 
 	async componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('CategoriesScreen', 'categoriesScreen');
-		const categories = await FirebaseFunctions.getCategoryObjects();
+		let categories = await FirebaseFunctions.getCategoryObjects();
 		this.setState({
 			categories,
 			allCategories: categories,
@@ -37,18 +37,18 @@ export default class categoriesScreen extends Component {
 	}
 
 	//Function searches through the array of categories and displays the results by changing the state
-	renderSearch(text) {
+	renderSearch() {
+		this.setState({ isLoading: true });
 		//If there is only one character typed into the search, it will simply display the results
 		//that start with that character. Otherwise, it will search for anything that includes that
 		//character
+		let text = this.state.search;
 		text = text.trim().toLowerCase();
 		const { categories } = this.state;
 		const newCategories = [];
 		for (const category of categories) {
 			const categoryName = category.categoryName.trim().toLowerCase();
-			if (text.length === 1 && categoryName.charAt(0) === text) {
-				newCategories.push(category);
-			} else if (categoryName.includes(text)) {
+			if (categoryName.includes(text)) {
 				newCategories.push(category);
 			}
 		}
@@ -62,6 +62,11 @@ export default class categoriesScreen extends Component {
 		} else {
 			this.setState({ categories: newCategories });
 		}
+		//This timeout is necessary so that images time to be "undownloaded" --> They only need a timeout
+		//of 1, but to make it look good, 500 is ideal
+		this.timeoutHandle = setTimeout(() => {
+			this.setState({ isLoading: false });
+		}, 500);
 	}
 
 	render() {
@@ -100,7 +105,9 @@ export default class categoriesScreen extends Component {
 							onChangeText={(text) => {
 								//Logic for searching
 								this.setState({ search: text });
-								this.renderSearch(text);
+							}}
+							onSubmitEditing={() => {
+								this.renderSearch();
 							}}
 						/>
 						<View

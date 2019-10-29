@@ -312,7 +312,6 @@ export default class FirebaseFunctions {
         } else {
             absolutePath = (response.uri);
         }
-        console.log(response);
 
         //Creates the reference & uploads the image (async)
         await this.storage.ref('profilePictures/' + reference).putFile(absolutePath);
