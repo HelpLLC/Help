@@ -22,7 +22,8 @@ export default class categoriesScreen extends Component {
 		categories: null,
 		requester: this.props.navigation.state.params.requester,
 		isOpen: false,
-		search: ''
+		search: '',
+		allCategories: null
 	};
 
 	async componentDidMount() {
@@ -30,8 +31,37 @@ export default class categoriesScreen extends Component {
 		const categories = await FirebaseFunctions.getCategoryObjects();
 		this.setState({
 			categories,
+			allCategories: categories,
 			isLoading: false
 		});
+	}
+
+	//Function searches through the array of categories and displays the results by changing the state
+	renderSearch(text) {
+		//If there is only one character typed into the search, it will simply display the results
+		//that start with that character. Otherwise, it will search for anything that includes that
+		//character
+		text = text.trim().toLowerCase();
+		const { categories } = this.state;
+		const newCategories = [];
+		for (const category of categories) {
+			const categoryName = category.categoryName.trim().toLowerCase();
+			if (text.length === 1 && categoryName.charAt(0) === text) {
+				newCategories.push(category);
+			} else if (categoryName.includes(text)) {
+				newCategories.push(category);
+			}
+		}
+
+		//If new categories is empty or the search is empty, all the categories will be displayed.
+		//Otherwise, the results will be displayed
+		if (newCategories.length === 0 || text.length === 0) {
+			this.setState({
+				categories: this.state.allCategories
+			});
+		} else {
+			this.setState({ categories: newCategories });
+		}
 	}
 
 	render() {
@@ -45,7 +75,15 @@ export default class categoriesScreen extends Component {
 			const { search } = this.state;
 
 			return (
-				<SideMenu isOpen={this.state.isOpen} menu={<LeftMenu navigation={this.props.navigation} allProducts={this.props.navigation.state.params.allProducts} requester={this.state.requester} />}>
+				<SideMenu
+					isOpen={this.state.isOpen}
+					menu={
+						<LeftMenu
+							navigation={this.props.navigation}
+							allProducts={this.props.navigation.state.params.allProducts}
+							requester={this.state.requester}
+						/>
+					}>
 					<HelpView style={screenStyle.container}>
 						<TopBanner
 							leftIconName='navicon'
@@ -62,6 +100,7 @@ export default class categoriesScreen extends Component {
 							onChangeText={(text) => {
 								//Logic for searching
 								this.setState({ search: text });
+								this.renderSearch(text);
 							}}
 						/>
 						<View
@@ -73,7 +112,12 @@ export default class categoriesScreen extends Component {
 							}}>
 							<Text style={fontStyles.bigTextStyleBlue}>{strings.FeaturedCategories}</Text>
 						</View>
-						<CategoriesList categories={this.state.categories} requester={this.state.requester} allProducts={this.props.navigation.state.params.allProducts} navigation={this.props.navigation} />
+						<CategoriesList
+							categories={this.state.categories}
+							requester={this.state.requester}
+							allProducts={this.props.navigation.state.params.allProducts}
+							navigation={this.props.navigation}
+						/>
 					</HelpView>
 				</SideMenu>
 			);
