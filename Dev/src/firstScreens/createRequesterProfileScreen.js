@@ -19,6 +19,9 @@ import { Icon } from 'react-native-elements';
 import OptionPicker from '../components/OptionPicker';
 import { BoxShadow } from 'react-native-shadow';
 import ImagePicker from 'react-native-image-picker';
+import TopBanner from '../components/TopBanner';
+import LeftMenu from '../requesterScreens/LeftMenu';
+import SideMenu from 'react-native-side-menu';
 
 class createRequesterProfileScreen extends Component {
 	//If this screen is editing (editing an existing user), then it will fetch the user's profile picture and allow them to upload
@@ -71,7 +74,8 @@ class createRequesterProfileScreen extends Component {
 		fieldsError: false,
 		locationInfoVisible: false,
 		isEditing: null,
-		requester: null
+		requester: null,
+		isOpen: false
 	};
 
 	//This method will edit requester information in Firebase depending on whether this requester
@@ -173,169 +177,202 @@ class createRequesterProfileScreen extends Component {
 			);
 		}
 		return (
-			<HelpView style={screenStyle.container}>
-				<View
-					style={{
-						width: Dimensions.get('window').width - 40,
-						marginTop: Dimensions.get('window').height * 0.01
-					}}>
+			<SideMenu
+				isOpen={this.state.isOpen}
+				menu={
+					<LeftMenu
+						navigation={this.props.navigation}
+						allProducts={this.props.navigation.state.params.allProducts}
+						requester={this.props.navigation.state.params.requester}
+					/>
+				}>
+				<HelpView style={screenStyle.container}>
 					{this.state.isEditing === true ? (
-						<View style={{ flexDirection: 'column', alignItems: 'center' }}>
-							<TouchableOpacity
-								onPress={() => {
-									Keyboard.dismiss();
-									this.chooseImage();
+						<TopBanner
+							leftIconName='navicon'
+							leftOnPress={() => {
+								FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_home');
+								this.setState({ isOpen: true });
+							}}
+							size={30}
+							title={strings.Featured}
+						/>
+					) : (
+							<TopBanner
+								title={strings.MyProfile}
+								leftIconName='angle-left'
+								leftOnPress={() => {
+									//Method will go back to the splash screen
+									navigation.goBack();
 								}}
-								style={{ justifyContent: 'center', alignItems: 'center' }}>
-								<View
-									style={{
-										marginBottom: Dimensions.get('window').height * 0.02,
-										justifyContent: 'flex-start'
-									}}>
-									<BoxShadow
-										setting={{
-											width: Dimensions.get('window').width * 0.25,
-											height: Dimensions.get('window').width * 0.25,
-											color: colors.gray,
-											border: 10,
-											radius: (Dimensions.get('window').width * 0.25) / 2,
-											opacity: 0.2,
-											x: 0,
-											y: 5
+							/>
+
+						)}
+
+					<View
+						style={{
+							width: Dimensions.get('window').width - 40,
+							marginTop: Dimensions.get('window').height * 0.01
+						}}>
+						{this.state.isEditing === true ? (
+							<View style={{ flexDirection: 'column', alignItems: 'center' }}>
+								<TouchableOpacity
+									onPress={() => {
+										Keyboard.dismiss();
+										this.chooseImage();
+									}}
+									style={{ justifyContent: 'center', alignItems: 'center' }}>
+									<View
+										style={{
+											marginBottom: Dimensions.get('window').height * 0.02,
+											justifyContent: 'flex-start'
 										}}>
-										<Image
-											source={this.state.imageSource}
-											style={{
+										<BoxShadow
+											setting={{
 												width: Dimensions.get('window').width * 0.25,
 												height: Dimensions.get('window').width * 0.25,
-												borderColor: colors.lightBlue,
-												borderWidth: (Dimensions.get('window').width * 0.25) / 17,
-												borderRadius: (Dimensions.get('window').width * 0.25) / 2
-											}}
-										/>
-									</BoxShadow>
-								</View>
-								<View style={{ justifyContent: 'flex-end' }}>
-									<Text style={fontStyles.mainTextStyleBlue}>{strings.EditImage}</Text>
-								</View>
-							</TouchableOpacity>
-						</View>
-					) : (
-						<View></View>
-					)}
-				</View>
-				<View
-					style={{
-						alignSelf: 'flex-start',
-						justifyContent: 'flex-end',
-						marginVertical: Dimensions.get('window').height * 0.02
-					}}>
-					<Text style={fontStyles.bigTextStyleBlack}>{strings.Name}</Text>
-				</View>
+												color: colors.gray,
+												border: 10,
+												radius: (Dimensions.get('window').width * 0.25) / 2,
+												opacity: 0.2,
+												x: 0,
+												y: 5
+											}}>
+											<Image
+												source={this.state.imageSource}
+												style={{
+													width: Dimensions.get('window').width * 0.25,
+													height: Dimensions.get('window').width * 0.25,
+													borderColor: colors.lightBlue,
+													borderWidth: (Dimensions.get('window').width * 0.25) / 17,
+													borderRadius: (Dimensions.get('window').width * 0.25) / 2
+												}}
+											/>
+										</BoxShadow>
+									</View>
+									<View style={{ justifyContent: 'flex-end' }}>
+										<Text style={fontStyles.mainTextStyleBlue}>{strings.EditImage}</Text>
+									</View>
+								</TouchableOpacity>
+							</View>
+						) : (
+								<View></View>
+							)}
+					</View>
+					<View
+						style={{
+							alignSelf: 'flex-start',
+							justifyContent: 'flex-end',
+							marginVertical: Dimensions.get('window').height * 0.02
+						}}>
+						<Text style={fontStyles.bigTextStyleBlack}>{strings.Name}</Text>
+					</View>
 
-				<View style={{ justifyContent: 'center' }}>
-					<OneLineRoundedBoxInput
-						placeholder={strings.PleaseEnterName}
-						onChangeText={(input) => this.setState({ name: input })}
-						value={this.state.name}
-						password={false}
-						maxLength={20}
-					/>
-				</View>
-				<View
-					style={{
-						alignSelf: 'flex-start',
-						justifyContent: 'flex-end',
-						marginVertical: Dimensions.get('window').height * 0.02
-					}}>
-					<Text style={fontStyles.bigTextStyleBlack}>{strings.PhoneNumber}</Text>
-				</View>
+					<View style={{ justifyContent: 'center' }}>
+						<OneLineRoundedBoxInput
+							placeholder={strings.PleaseEnterName}
+							onChangeText={(input) => this.setState({ name: input })}
+							value={this.state.name}
+							password={false}
+							maxLength={20}
+						/>
+					</View>
+					<View
+						style={{
+							alignSelf: 'flex-start',
+							justifyContent: 'flex-end',
+							marginVertical: Dimensions.get('window').height * 0.02
+						}}>
+						<Text style={fontStyles.bigTextStyleBlack}>{strings.PhoneNumber}</Text>
+					</View>
 
-				<View style={{ justifyContent: 'center' }}>
-					<OneLineRoundedBoxInput
-						placeholder={strings.EnterPhoneNumber}
-						onChangeText={(input) => this.setState({ phoneNumber: input.replace(/[^0-9]/g, '') })}
-						value={this.state.phoneNumber}
-						password={false}
-						keyboardType='numeric'
-						autoCompleteType={'tel'}
-						maxLength={10}
-					/>
-				</View>
-				<View
-					style={{
-						justifyContent: 'flex-end',
-						alignSelf: 'flex-start',
-						marginVertical: Dimensions.get('window').height * 0.02
-					}}>
-					<TouchableOpacity
+					<View style={{ justifyContent: 'center' }}>
+						<OneLineRoundedBoxInput
+							placeholder={strings.EnterPhoneNumber}
+							onChangeText={(input) => this.setState({ phoneNumber: input.replace(/[^0-9]/g, '') })}
+							value={this.state.phoneNumber}
+							password={false}
+							keyboardType='numeric'
+							autoCompleteType={'tel'}
+							maxLength={10}
+						/>
+					</View>
+					<View
+						style={{
+							justifyContent: 'flex-end',
+							alignSelf: 'flex-start',
+							marginVertical: Dimensions.get('window').height * 0.02
+						}}>
+						<TouchableOpacity
+							onPress={() => {
+								this.setState({ locationInfoVisible: true });
+							}}
+							style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<Text style={fontStyles.bigTextStyleBlack}>{strings.City}</Text>
+							<View style={{ width: Dimensions.get('window').width * 0.01 }}></View>
+							<Icon name={'info-circle'} type='font-awesome' size={25} color={colors.lightBlue} />
+						</TouchableOpacity>
+					</View>
+					<View style={{ height: Dimensions.get('window').height * 0.35 }}>
+						<GoogleCityPicker
+							initialText={this.state.city}
+							onPress={(locationName, long, lat) => {
+								this.setState({
+									city: locationName,
+									coordinates: { long, lat }
+								});
+							}}
+						/>
+					</View>
+					<View
+						style={{
+							height: Dimensions.get('window').height * 0.001,
+							justifyContent: 'flex-end',
+							alignSelf: 'center',
+							marginBottom: Dimensions.get('window').height * 1
+						}}>
+						<RoundBlueButton
+							title={this.state.requester ? strings.Done : strings.SignUp}
+							style={roundBlueButtonStyle.MediumSizeButton}
+							textStyle={fontStyles.bigTextStyleWhite}
+							onPress={() => {
+								this.addRequesterInfo();
+							}}
+							disabled={this.state.isLoading}
+						/>
+					</View>
+					<View style={{ height: Dimensions.get('window').height * 0.04, alignItems: 'center' }}>
+						<LoadingSpinner isVisible={this.state.isLoading} />
+					</View>
+
+					<ErrorAlert
+						isVisible={this.state.fieldsError}
 						onPress={() => {
-							this.setState({ locationInfoVisible: true });
+							this.setState({ fieldsError: false });
 						}}
-						style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Text style={fontStyles.bigTextStyleBlack}>{strings.City}</Text>
-						<View style={{ width: Dimensions.get('window').width * 0.01 }}></View>
-						<Icon name={'info-circle'} type='font-awesome' size={25} color={colors.lightBlue} />
-					</TouchableOpacity>
-				</View>
-				<View style={{ height: Dimensions.get('window').height * 0.35 }}>
-					<GoogleCityPicker
-						initialText={this.state.city}
-						onPress={(locationName, long, lat) => {
-							this.setState({
-								city: locationName,
-								coordinates: { long, lat }
-							});
-						}}
+						title={strings.Whoops}
+						message={strings.PleaseFillOutAllFields}
 					/>
-				</View>
-				<View
-					style={{
-						height: Dimensions.get('window').height * 0.001,
-						justifyContent: 'flex-end',
-						alignSelf: 'center',
-						marginBottom: Dimensions.get('window').height * 1
-					}}>
-					<RoundBlueButton
-						title={this.state.requester ? strings.Done : strings.SignUp}
-						style={roundBlueButtonStyle.MediumSizeButton}
-						textStyle={fontStyles.bigTextStyleWhite}
+					<ErrorAlert
+						isVisible={this.state.invalidPhoneNumberError}
 						onPress={() => {
-							this.addRequesterInfo();
+							this.setState({ invalidPhoneNumberError: false });
 						}}
-						disabled={this.state.isLoading}
+						title={strings.Whoops}
+						message={strings.InvalidPhoneNumberError}
 					/>
-				</View>
-				<View style={{ height: Dimensions.get('window').height * 0.04, alignItems: 'center' }}>
-					<LoadingSpinner isVisible={this.state.isLoading} />
-				</View>
-				<ErrorAlert
-					isVisible={this.state.fieldsError}
-					onPress={() => {
-						this.setState({ fieldsError: false });
-					}}
-					title={strings.Whoops}
-					message={strings.PleaseFillOutAllFields}
-				/>
-				<ErrorAlert
-					isVisible={this.state.invalidPhoneNumberError}
-					onPress={() => {
-						this.setState({ invalidPhoneNumberError: false });
-					}}
-					title={strings.Whoops}
-					message={strings.InvalidPhoneNumberError}
-				/>
-				<OptionPicker
-					isVisible={this.state.locationInfoVisible}
-					title={strings.Location}
-					oneOption={true}
-					message={strings.WhyWeUseLocation}
-					confirmText={strings.Ok}
-					confirmOnPress={() => {
-						this.setState({ locationInfoVisible: false });
-					}}
-				/>
-			</HelpView>
+					<OptionPicker
+						isVisible={this.state.locationInfoVisible}
+						title={strings.Location}
+						oneOption={true}
+						message={strings.WhyWeUseLocation}
+						confirmText={strings.Ok}
+						confirmOnPress={() => {
+							this.setState({ locationInfoVisible: false });
+						}}
+					/>
+				</HelpView>
+			</SideMenu>
 		);
 	}
 }

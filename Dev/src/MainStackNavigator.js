@@ -217,16 +217,7 @@ const routeConfig = {
 	EditRequesterProfileScreen: {
 		screen: createRequesterProfileScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: (
-				<TopBanner
-					title={strings.MyProfile}
-					leftIconName='angle-left'
-					leftOnPress={() => {
-						//Method will go back to the splash screen
-						navigation.goBack();
-					}}
-				/>
-			),
+			header: null,
 			gesturesEnabled: false
 		})
 	},
