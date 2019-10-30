@@ -17,7 +17,6 @@ import HelpSearchBar from '../components/HelpSearchBar';
 class featuredScreen extends Component {
 	state = {
 		isLoading: true,
-		products: null,
 		isOpen: false,
 		search: '',
 		allProducts: '',
@@ -49,12 +48,13 @@ class featuredScreen extends Component {
 		//character
 		let text = this.state.search;
 		text = text.trim().toLowerCase();
-		const { products } = this.state;
+		const { allProducts } = this.state;
 		const newProducts = [];
-		for (const product of products) {
-			const productName = product.serviceName.trim().toLowerCase();
+		for (const product of allProducts) {
+			const productName = product.serviceTitle.trim().toLowerCase();
 			const business = product.offeredByName.trim().toLowerCase();
-			if (productName.includes(text) || business.includes(text)) {
+			const category = product.category.trim().toLowerCase();
+			if (productName.includes(text) || business.includes(text) || category.includes(text)) {
 				newProducts.push(product);
 			}
 		}

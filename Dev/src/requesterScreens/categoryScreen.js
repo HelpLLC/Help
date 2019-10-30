@@ -54,7 +54,7 @@ class categoryScreen extends Component {
 		const { products } = this.state;
 		const newProducts = [];
 		for (const product of products) {
-			const productName = product.serviceName.trim().toLowerCase();
+			const productName = product.serviceTitle.trim().toLowerCase();
 			const business = product.offeredByName.trim().toLowerCase();
 			if (productName.includes(text) || business.includes(text)) {
 				newProducts.push(product);
