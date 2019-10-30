@@ -13,7 +13,7 @@ import strings from 'config/strings';
 import LeftMenu from './LeftMenu';
 import fontStyles from 'config/styles/fontStyles';
 import HelpSearchBar from '../components/HelpSearchBar';
-import colors from 'config/colors';
+import OptionPicker from '../components/OptionPicker';
 
 export default class categoriesScreen extends Component {
 	//The state controlling the Loading of this screen
@@ -22,7 +22,8 @@ export default class categoriesScreen extends Component {
 		categories: null,
 		requester: this.props.navigation.state.params.requester,
 		isOpen: false,
-		search: ''
+		search: '',
+		incompleteProfile: false
 	};
 
 	async componentDidMount() {
@@ -32,6 +33,12 @@ export default class categoriesScreen extends Component {
 			categories,
 			isLoading: false
 		});
+		//Tests to see if the requester's account has been fully completed (used for pre-2.0 users)
+		if (!FirebaseFunctions.isRequesterUpToDate(this.state.requester)) {
+			this.setState({
+				incompleteProfile: true
+			});
+		}
 	}
 
 	render() {
@@ -45,7 +52,15 @@ export default class categoriesScreen extends Component {
 			const { search } = this.state;
 
 			return (
-				<SideMenu isOpen={this.state.isOpen} menu={<LeftMenu navigation={this.props.navigation} allProducts={this.props.navigation.state.params.allProducts} requester={this.state.requester} />}>
+				<SideMenu
+					isOpen={this.state.isOpen}
+					menu={
+						<LeftMenu
+							navigation={this.props.navigation}
+							allProducts={this.props.navigation.state.params.allProducts}
+							requester={this.state.requester}
+						/>
+					}>
 					<HelpView style={screenStyle.container}>
 						<TopBanner
 							leftIconName='navicon'
@@ -73,7 +88,28 @@ export default class categoriesScreen extends Component {
 							}}>
 							<Text style={fontStyles.bigTextStyleBlue}>{strings.FeaturedCategories}</Text>
 						</View>
-						<CategoriesList categories={this.state.categories} requester={this.state.requester} allProducts={this.props.navigation.state.params.allProducts} navigation={this.props.navigation} />
+						<CategoriesList
+							categories={this.state.categories}
+							requester={this.state.requester}
+							allProducts={this.props.navigation.state.params.allProducts}
+							navigation={this.props.navigation}
+						/>
+						<OptionPicker
+							isVisible={this.state.incompleteProfile}
+							title={strings.FinishCreatingYourProfile}
+							oneOption={true}
+							clickOutside={false}
+							message={strings.FinishCreatingYourProfileMessage}
+							confirmText={strings.Ok}
+							confirmOnPress={() => {
+								this.setState({ incompleteProfile: false });
+								this.props.navigation.push('EditRequesterProfileScreen', {
+									requester: this.state.requester,
+									allProducts: this.props.navigation.state.params.allProducts,
+									isEditing: true
+								});
+							}}
+						/>
 					</HelpView>
 				</SideMenu>
 			);

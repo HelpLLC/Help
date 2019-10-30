@@ -214,6 +214,7 @@ class companyProfileScreen extends Component {
 						message={strings.AreYouSureYouWantToBlock + ' ' + provider.companyName + '?'}
 						confirmText={strings.Yes}
 						cancelText={strings.Cancel}
+						clickOutside={true}
 						confirmOnPress={() => {
 							this.blockCompany();
 						}}

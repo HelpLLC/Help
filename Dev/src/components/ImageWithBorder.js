@@ -6,12 +6,13 @@ import { Image, View } from 'react-native';
 import colors from 'config/colors';
 import PropTypes from 'prop-types';
 import LoadingSpinner from './LoadingSpinner';
+import images from 'config/images/images';
 
 class ImageWithBorder extends Component {
 	//Starts out the loading state as true until the image is downloaded from the database
 	state = {
 		isImageLoading: true,
-		image: ''
+		image: { uri: images.blankWhite }
 	};
 
 	//Loads the image (async)

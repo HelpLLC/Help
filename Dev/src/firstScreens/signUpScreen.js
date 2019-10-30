@@ -81,7 +81,8 @@ class signUpScreen extends Component {
 						this.setState({ isLoading: false });
 						this.props.navigation.push('CreateRequesterProfileScreen', {
 							email,
-							password
+							password,
+							isEditing: false
 						});
 					} else {
 						//If this is a business account, then it will navigate to the create provider

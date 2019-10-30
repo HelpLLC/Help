@@ -133,7 +133,7 @@ class serviceScreen extends Component {
 									height={Dimensions.get('window').width * 0.25}
 									imageFunction={async () => {
 										//Passes in the function to retrieve the image of this product
-										return await FirebaseFunctions.getProdudctImageByID(product.serviceID);
+										return await FirebaseFunctions.getProductImageByID(product.serviceID);
 									}}
 								/>
 							</View>
@@ -192,6 +192,7 @@ class serviceScreen extends Component {
 						message={strings.AreYouSureRequestService}
 						confirmText={strings.Request}
 						cancelText={strings.Cancel}
+						clickOutside={true}
 						confirmOnPress={async () => {
 							this.setState({ isRequestServiceVisible: false, isLoading: true });
 							//This method will request this service from the company providing it by pushing the request to the
@@ -223,6 +224,7 @@ class serviceScreen extends Component {
 						message={strings.AreYouSureCancelRequest}
 						confirmText={strings.Yes}
 						cancelText={strings.Cancel}
+						clickOutside={true}
 						confirmOnPress={async () => {
 							this.setState({ isCancelRequestVisible: false, isLoading: true });
 							//This method will cancel the request by making sure the user wants to cancel it

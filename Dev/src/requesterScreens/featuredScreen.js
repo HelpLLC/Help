@@ -13,13 +13,15 @@ import LeftMenu from './LeftMenu';
 import SideMenu from 'react-native-side-menu';
 import TopBanner from '../components/TopBanner';
 import HelpSearchBar from '../components/HelpSearchBar';
+import OptionPicker from '../components/OptionPicker';
 
 class featuredScreen extends Component {
 	state = {
 		isLoading: true,
 		isOpen: false,
 		search: '',
-		allProducts: ''
+		allProducts: '',
+		incompleteProfile: false
 	};
 
 	//Filters the products by ones that the user has blocked, and also returns only the products that are being offered within 50 miles
@@ -28,14 +30,23 @@ class featuredScreen extends Component {
 
 		//Filters the products and removes any that are posted by blocked users
 		let { allProducts, requester } = this.props.navigation.state.params;
-		allProducts = allProducts.filter((product) => {
-			return !requester.blockedUsers.includes(product.offeredByID);
-		});
-		allProducts = await FirebaseFunctions.filterProductsByRequesterLocation(requester, allProducts);
-		this.setState({
-			allProducts,
-			isLoading: false
-		});
+		//Tests to see if the requester's account has been fully completed (used for pre-2.0 users)
+		if (!FirebaseFunctions.isRequesterUpToDate(requester)) {
+			this.setState({
+				incompleteProfile: true,
+				isLoading: false,
+				allProducts
+			});
+		} else {
+			allProducts = allProducts.filter((product) => {
+				return !requester.blockedUsers.includes(product.offeredByID);
+			});
+			allProducts = await FirebaseFunctions.filterProductsByRequesterLocation(requester, allProducts);
+			this.setState({
+				allProducts,
+				isLoading: false
+			});
+		}
 	}
 
 	render() {
@@ -94,6 +105,22 @@ class featuredScreen extends Component {
 						requester={requester}
 						navigation={this.props.navigation}
 						services={allProducts}
+					/>
+					<OptionPicker
+						isVisible={this.state.incompleteProfile}
+						title={strings.FinishCreatingYourProfile}
+						oneOption={true}
+						clickOutside={false}
+						message={strings.FinishCreatingYourProfileMessage}
+						confirmText={strings.Ok}
+						confirmOnPress={() => {
+							this.setState({ incompleteProfile: false });
+							this.props.navigation.push('EditRequesterProfileScreen', {
+								requester: requester,
+								allProducts: allProducts,
+								isEditing: true
+							});
+						}}
 					/>
 				</HelpView>
 			</SideMenu>
