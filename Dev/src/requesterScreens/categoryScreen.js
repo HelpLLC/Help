@@ -36,6 +36,7 @@ class categoryScreen extends Component {
 		//sets the state
 		this.setState({
 			products,
+			displayedProducts: products,
 			isLoading: false
 		});
 
@@ -50,9 +51,9 @@ class categoryScreen extends Component {
 		//character
 		let text = this.state.search;
 		text = text.trim().toLowerCase();
-		const { searchedProducts } = this.state;
+		const { products } = this.state;
 		const newProducts = [];
-		for (const product of searchedProducts) {
+		for (const product of products) {
 			const productName = product.serviceName.trim().toLowerCase();
 			const business = product.offeredByName.trim().toLowerCase();
 			if (productName.includes(text) || business.includes(text)) {
@@ -64,10 +65,10 @@ class categoryScreen extends Component {
 		//Otherwise, the results will be displayed
 		if (newProducts.length === 0 || text.length === 0) {
 			this.setState({
-				searchedProducts: this.state.products
+				displayedProducts: this.state.products
 			});
 		} else {
-			this.setState({ searchedProducts: newProducts });
+			this.setState({ displayedProducts: newProducts });
 		}
 		//This timeout is necessary so that images time to be "undownloaded" --> They only need a timeout
 		//of 1, but to make it look good, 500 is ideal
@@ -79,7 +80,7 @@ class categoryScreen extends Component {
 	render() {
 		//Fetches the correct params
 		const { requester, categoryName } = this.props.navigation.state.params;
-		const { products, search } = this.state;
+		const { displayedProducts, search } = this.state;
 		//If loading it shows loading spinner
 		if (this.state.isLoading === true) {
 			return (
@@ -104,8 +105,8 @@ class categoryScreen extends Component {
 						this.renderSearch();
 					}}
 				/>
-				{/* Shows all Products */}
-				<NarrowServiceCardList requester={requester} navigation={this.props.navigation} services={products} />
+				{/* Shows all Products in the category (or search results) */}
+				<NarrowServiceCardList requester={requester} navigation={this.props.navigation} services={displayedProducts} />
 			</HelpView>
 		);
 	}

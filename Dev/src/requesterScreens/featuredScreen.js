@@ -20,7 +20,8 @@ class featuredScreen extends Component {
 		products: null,
 		isOpen: false,
 		search: '',
-		allProducts: ''
+		allProducts: '',
+		displayedProducts: ''
 	};
 
 	//Filters the products by ones that the user has blocked, and also returns only the products that are being offered within 50 miles
@@ -35,6 +36,7 @@ class featuredScreen extends Component {
 		allProducts = await FirebaseFunctions.filterProductsByRequesterLocation(requester, allProducts);
 		this.setState({
 			allProducts,
+			displayedProducts: allProducts,
 			isLoading: false
 		});
 	}
@@ -61,10 +63,10 @@ class featuredScreen extends Component {
 		//Otherwise, the results will be displayed
 		if (newProducts.length === 0 || text.length === 0) {
 			this.setState({
-				products: this.state.allProducts
+				displayedProducts: this.state.allProducts
 			});
 		} else {
-			this.setState({ products: newProducts });
+			this.setState({ displayedProducts: newProducts });
 		}
 		//This timeout is necessary so that images time to be "undownloaded" --> They only need a timeout
 		//of 1, but to make it look good, 500 is ideal
@@ -76,7 +78,7 @@ class featuredScreen extends Component {
 	render() {
 		//Filters the products and removes any that are posted by blocked users
 		let { requester } = this.props.navigation.state.params;
-		let { allProducts } = this.state;
+		let { displayedProducts, allProducts } = this.state;
 
 		if (this.state.isLoading === true) {
 			return (
@@ -131,7 +133,7 @@ class featuredScreen extends Component {
 					<NarrowServiceCardList
 						requester={requester}
 						navigation={this.props.navigation}
-						services={allProducts}
+						services={displayedProducts}
 					/>
 				</HelpView>
 			</SideMenu>
