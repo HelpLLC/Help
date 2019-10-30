@@ -22,6 +22,18 @@ export default class FirebaseFunctions {
 	static issues = this.database.collection('issues');
 	static helpDev = this.database.collection('helpDev');
 
+	//This method is going to test whether a provider object has all the fields required as of the 2.0 update
+	//It will return a boolean true or false based on that
+	static isProviderUpToDate(providerObject) {
+		return providerObject.phoneNumber && providerObject.location && providerObject.coordinates;
+	}
+
+	//This method is going to test whether a requester object has all the fields required as of the 2.0 update
+	//It will return a boolen true or false based on that
+	static isRequesterUpToDate(requesterObject) {
+		return requesterObject.city && requesterObject.coordinates && requesterObject.phoneNumber;
+	}
+
 	//This method will return an array containing an all products currently in the market
 	static async getAllProducts() {
 		const snapshot = await this.products.get();
@@ -311,12 +323,46 @@ export default class FirebaseFunctions {
 		return 0;
 	}
 
+	static async uploadRequesterImage(reference, response) {
+		//Fetches the absolute path of the image (depending on android or ios)
+		let absolutePath = '';
+		if (Platform.OS === 'android') {
+			absolutePath = 'file://' + response.path;
+		} else {
+			absolutePath = response.uri;
+		}
+
+		//Creates the reference & uploads the image (async)
+		await this.storage.ref('profilePictures/' + reference).putFile(absolutePath);
+
+		//Logs the event in firebase analytics
+		this.analytics.logEvent('upload_profile_image');
+
+		return 0;
+	}
+
 	//This method will take in a reference to a picture (the same as the product ID it is fetching)
 	//and return the download URL for the image which is used as an image source
-	static async getProdudctImageByID(ID) {
+	static async getProductImageByID(ID) {
 		//Creates the reference
 		const uri = await this.storage.ref('products/' + ID).getDownloadURL();
 		return { uri };
+	}
+
+	//This method will take in a reference to a picture (the same as the profile ID it is fetching)
+	//and return the download URL for the image which is used as an image source
+	static async getProfilePictureByID(ID) {
+		//Creates the reference
+		const uri = this.storage.ref('profilePictures/' + ID);
+		try {
+			const downloadURL = await uri.getDownloadURL();
+			return { uri: downloadURL };
+		} catch (error) {
+			const downloadURL = await this.storage
+				.ref('profilePictures/defaultProfilePic.png')
+				.getDownloadURL();
+			return { uri: downloadURL };
+		}
 	}
 
 	//This method will take information about a new product and add it to the firestore database. It will

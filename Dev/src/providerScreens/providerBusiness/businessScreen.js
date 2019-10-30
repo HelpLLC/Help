@@ -82,7 +82,7 @@ class businessScreen extends Component {
 			//Tests if the profile is complete or not. If it is not, a popup will appear in order to direct the user to go complete
 			//their business profile.
 			const { provider } = this.state;
-			if (!provider.phoneNumber || !provider.location || !provider.coordinates) {
+			if (!FirebaseFunctions.isProviderUpToDate(provider)) {
 				this.setState({ incompleteProfile: true });
 			}
 		});

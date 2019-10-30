@@ -13,7 +13,7 @@ import strings from 'config/strings';
 import LeftMenu from './LeftMenu';
 import fontStyles from 'config/styles/fontStyles';
 import HelpSearchBar from '../components/HelpSearchBar';
-import colors from 'config/colors';
+import OptionPicker from '../components/OptionPicker';
 
 export default class categoriesScreen extends Component {
 	//The state controlling the Loading of this screen
@@ -23,7 +23,7 @@ export default class categoriesScreen extends Component {
 		requester: this.props.navigation.state.params.requester,
 		isOpen: false,
 		search: '',
-		allCategories: null
+		incompleteProfile: false
 	};
 
 	async componentDidMount() {
@@ -34,6 +34,12 @@ export default class categoriesScreen extends Component {
 			allCategories: categories,
 			isLoading: false
 		});
+		//Tests to see if the requester's account has been fully completed (used for pre-2.0 users)
+		if (!FirebaseFunctions.isRequesterUpToDate(this.state.requester)) {
+			this.setState({
+				incompleteProfile: true
+			});
+		}
 	}
 
 	//Function searches through the array of categories and displays the results by changing the state
@@ -124,6 +130,22 @@ export default class categoriesScreen extends Component {
 							requester={this.state.requester}
 							allProducts={this.props.navigation.state.params.allProducts}
 							navigation={this.props.navigation}
+						/>
+						<OptionPicker
+							isVisible={this.state.incompleteProfile}
+							title={strings.FinishCreatingYourProfile}
+							oneOption={true}
+							clickOutside={false}
+							message={strings.FinishCreatingYourProfileMessage}
+							confirmText={strings.Ok}
+							confirmOnPress={() => {
+								this.setState({ incompleteProfile: false });
+								this.props.navigation.push('EditRequesterProfileScreen', {
+									requester: this.state.requester,
+									allProducts: this.props.navigation.state.params.allProducts,
+									isEditing: true
+								});
+							}}
 						/>
 					</HelpView>
 				</SideMenu>
