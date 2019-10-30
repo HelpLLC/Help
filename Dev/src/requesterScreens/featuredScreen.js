@@ -17,6 +17,7 @@ import HelpSearchBar from '../components/HelpSearchBar';
 class featuredScreen extends Component {
 	state = {
 		isLoading: true,
+		products: null,
 		isOpen: false,
 		search: '',
 		allProducts: ''
@@ -36,6 +37,39 @@ class featuredScreen extends Component {
 			allProducts,
 			isLoading: false
 		});
+	}
+	
+	//Function searches through the array of products and displays the results by changing the state
+	renderSearch() {
+		this.setState({ isLoading: true });
+		//If there is only one character typed into the search, it will simply display the results
+		//that start with that character. Otherwise, it will search for anything that includes that
+		//character
+		let text = this.state.search;
+		text = text.trim().toLowerCase();
+		const { products } = this.state;
+		const newProducts = [];
+		for (const product of products) {
+			const productName = product.productName.trim().toLowerCase();
+			if (productName.includes(text)) {
+				newProducts.push(product);
+			}
+		}
+
+		//If new products is empty or the search is empty, all the categories will be displayed.
+		//Otherwise, the results will be displayed
+		if (newProducts.length === 0 || text.length === 0) {
+			this.setState({
+				products: this.state.allProducts
+			});
+		} else {
+			this.setState({ products: newProducts });
+		}
+		//This timeout is necessary so that images time to be "undownloaded" --> They only need a timeout
+		//of 1, but to make it look good, 500 is ideal
+		this.timeoutHandle = setTimeout(() => {
+			this.setState({ isLoading: false });
+		}, 500);
 	}
 
 	render() {
@@ -79,6 +113,9 @@ class featuredScreen extends Component {
 						onChangeText={(text) => {
 							//Logic for searching
 							this.setState({ search: text });
+						}}
+						onSubmitEditing={() => {
+							this.renderSearch();
 						}}
 					/>
 					<View
