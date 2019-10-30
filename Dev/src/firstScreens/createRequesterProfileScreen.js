@@ -102,7 +102,10 @@ class createRequesterProfileScreen extends Component {
 					});
 					//If the image has been updated, then it will update it in firebase
 					if (this.state.response) {
-						await FirebaseFunctions.uploadRequesterImage(requester.requesterID, this.state.response);
+						await FirebaseFunctions.uploadRequesterImage(
+							requester.requesterID,
+							this.state.response
+						);
 					}
 					const allProducts = this.props.navigation.state.params.allProducts;
 					const updatedRequeter = await FirebaseFunctions.getRequesterByID(requester.requesterID);
@@ -195,92 +198,110 @@ class createRequesterProfileScreen extends Component {
 								this.setState({ isOpen: true });
 							}}
 							size={30}
-							title={strings.Featured}
+							title={strings.MyProfile}
 						/>
 					) : (
-							<TopBanner
-								title={strings.MyProfile}
-								leftIconName='angle-left'
-								leftOnPress={() => {
-									//Method will go back to the splash screen
-									navigation.goBack();
+						<View></View>
+					)}
+					{this.state.isEditing === true ? (
+						<View
+							style={{
+								width: Dimensions.get('window').width,
+								marginTop: Dimensions.get('window').height * 0.02,
+								flexDirection: 'row',
+								alignItems: 'center',
+								justifyContent: 'space-evenly'
+							}}>
+
+							<TouchableOpacity
+								onPress={() => {
+									Keyboard.dismiss();
+									this.chooseImage();
 								}}
-							/>
-
-						)}
-
-					<View
-						style={{
-							width: Dimensions.get('window').width - 40,
-							marginTop: Dimensions.get('window').height * 0.01
-						}}>
-						{this.state.isEditing === true ? (
-							<View style={{ flexDirection: 'column', alignItems: 'center' }}>
-								<TouchableOpacity
-									onPress={() => {
-										Keyboard.dismiss();
-										this.chooseImage();
-									}}
-									style={{ justifyContent: 'center', alignItems: 'center' }}>
-									<View
-										style={{
-											marginBottom: Dimensions.get('window').height * 0.02,
-											justifyContent: 'flex-start'
+								style={{ justifyContent: 'center', alignItems: 'center' }}>
+								<View
+									style={{
+										marginBottom: Dimensions.get('window').height * 0.02,
+										justifyContent: 'flex-start'
+									}}>
+									<BoxShadow
+										setting={{
+											width: Dimensions.get('window').width * 0.25,
+											height: Dimensions.get('window').width * 0.25,
+											color: colors.gray,
+											border: 10,
+											radius: (Dimensions.get('window').width * 0.25) / 2,
+											opacity: 0.2,
+											x: 0,
+											y: 5
 										}}>
-										<BoxShadow
-											setting={{
+										<Image
+											source={this.state.imageSource}
+											style={{
 												width: Dimensions.get('window').width * 0.25,
 												height: Dimensions.get('window').width * 0.25,
-												color: colors.gray,
-												border: 10,
-												radius: (Dimensions.get('window').width * 0.25) / 2,
-												opacity: 0.2,
-												x: 0,
-												y: 5
-											}}>
-											<Image
-												source={this.state.imageSource}
-												style={{
-													width: Dimensions.get('window').width * 0.25,
-													height: Dimensions.get('window').width * 0.25,
-													borderColor: colors.lightBlue,
-													borderWidth: (Dimensions.get('window').width * 0.25) / 17,
-													borderRadius: (Dimensions.get('window').width * 0.25) / 2
-												}}
-											/>
-										</BoxShadow>
-									</View>
-									<View style={{ justifyContent: 'flex-end' }}>
-										<Text style={fontStyles.mainTextStyleBlue}>{strings.EditImage}</Text>
-									</View>
-								</TouchableOpacity>
-							</View>
-						) : (
-								<View></View>
-							)}
-					</View>
-					<View
-						style={{
-							alignSelf: 'flex-start',
-							justifyContent: 'flex-end',
-							marginVertical: Dimensions.get('window').height * 0.02
-						}}>
-						<Text style={fontStyles.bigTextStyleBlack}>{strings.Name}</Text>
-					</View>
+												borderColor: colors.lightBlue,
+												borderWidth: (Dimensions.get('window').width * 0.25) / 17,
+												borderRadius: (Dimensions.get('window').width * 0.25) / 2
+											}}
+										/>
+									</BoxShadow>
+								</View>
+								<View style={{ justifyContent: 'flex-end' }}>
+									<Text style={fontStyles.mainTextStyleBlue}>{strings.EditImage}</Text>
+								</View>
+							</TouchableOpacity>
+							<View style={{ width: Dimensions.get('window').width * 0.1 }}></View>
+							<View>
+								<View
+									style={{
+										alignSelf: 'flex-start',
+										justifyContent: 'flex-end',
+										marginVertical: Dimensions.get('window').height * 0.02
+									}}>
+									<Text style={fontStyles.bigTextStyleBlack}>{strings.Name}</Text>
+								</View>
 
-					<View style={{ justifyContent: 'center' }}>
-						<OneLineRoundedBoxInput
-							placeholder={strings.PleaseEnterName}
-							onChangeText={(input) => this.setState({ name: input })}
-							value={this.state.name}
-							password={false}
-							maxLength={20}
-						/>
-					</View>
+								<View style={{ justifyContent: 'center' }}>
+									<OneLineRoundedBoxInput
+										placeholder={strings.PleaseEnterName}
+										onChangeText={(input) => this.setState({ name: input })}
+										value={this.state.name}
+										password={false}
+										width={Dimensions.get('window').height * 0.2}
+										maxLength={20}
+									/>
+								</View>
+							</View>
+						</View>
+					) : (
+						<View>
+							<View
+								style={{
+									alignSelf: 'flex-start',
+									justifyContent: 'flex-end',
+									marginVertical: Dimensions.get('window').height * 0.02
+								}}>
+								<Text style={fontStyles.bigTextStyleBlack}>{strings.Name}</Text>
+							</View>
+
+							<View style={{ justifyContent: 'center' }}>
+								<OneLineRoundedBoxInput
+									placeholder={strings.PleaseEnterName}
+									onChangeText={(input) => this.setState({ name: input })}
+									value={this.state.name}
+									password={false}
+									maxLength={20}
+								/>
+							</View>
+						</View>
+					)}
 					<View
 						style={{
-							alignSelf: 'flex-start',
 							justifyContent: 'flex-end',
+							alignItems: 'flex-start',
+							width: Dimensions.get('window').width * 0.6,
+							alignSelf: 'center',
 							marginVertical: Dimensions.get('window').height * 0.02
 						}}>
 						<Text style={fontStyles.bigTextStyleBlack}>{strings.PhoneNumber}</Text>
@@ -300,7 +321,9 @@ class createRequesterProfileScreen extends Component {
 					<View
 						style={{
 							justifyContent: 'flex-end',
-							alignSelf: 'flex-start',
+							alignItems: 'flex-start',
+							width: Dimensions.get('window').width * 0.6,
+							alignSelf: 'center',
 							marginVertical: Dimensions.get('window').height * 0.02
 						}}>
 						<TouchableOpacity
@@ -326,10 +349,9 @@ class createRequesterProfileScreen extends Component {
 					</View>
 					<View
 						style={{
-							height: Dimensions.get('window').height * 0.001,
+							height: Dimensions.get('window').height * 0.1,
 							justifyContent: 'flex-end',
-							alignSelf: 'center',
-							marginBottom: Dimensions.get('window').height * 1
+							alignSelf: 'center'
 						}}>
 						<RoundBlueButton
 							title={this.state.requester ? strings.Done : strings.SignUp}
