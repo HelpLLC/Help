@@ -36,7 +36,7 @@ class LeftMenu extends Component {
 						textColor={colors.lightBlue}
 						onPress={() => {
 							//Home leads to featured screen
-							FirebaseFunctions.analytics.logEvent('home_card_clicked');
+							FirebaseFunctions.analytics.logEvent('my_profile_card_clicked');
 							this.props.navigation.push('EditRequesterProfileScreen', {
 								requester: this.props.requester,
 								allProducts: this.props.allProducts,

@@ -387,6 +387,7 @@ class createRequesterProfileScreen extends Component {
 						isVisible={this.state.locationInfoVisible}
 						title={strings.Location}
 						oneOption={true}
+						clickOutside={true}
 						message={strings.WhyWeUseLocation}
 						confirmText={strings.Ok}
 						confirmOnPress={() => {

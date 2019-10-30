@@ -274,6 +274,7 @@ class productScreen extends Component {
 						message={strings.AreYouSureCompleteRequest}
 						confirmText={strings.Complete}
 						cancelText={strings.Cancel}
+						clickOutside={true}
 						confirmOnPress={async () => {
 							this.setState({ isCompleteRequestVisible: false });
 							//This method will complete a specific request based on the passed in requester ID
@@ -300,6 +301,7 @@ class productScreen extends Component {
 						isVisible={isDeleteRequestVisible}
 						title={strings.DeleteRequest}
 						message={strings.AreYouSureDeleteRequest}
+						clickOutside={true}
 						confirmText={strings.Delete}
 						cancelText={strings.Cancel}
 						confirmOnPress={async () => {

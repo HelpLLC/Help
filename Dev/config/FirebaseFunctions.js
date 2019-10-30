@@ -22,6 +22,18 @@ export default class FirebaseFunctions {
 	static issues = this.database.collection('issues');
 	static helpDev = this.database.collection('helpDev');
 
+	//This method is going to test whether a provider object has all the fields required as of the 2.0 update
+	//It will return a boolean true or false based on that
+	static isProviderUpToDate(providerObject) {
+		return providerObject.phoneNumber && providerObject.location && providerObject.coordinates;
+	}
+
+	//This method is going to test whether a requester object has all the fields required as of the 2.0 update
+	//It will return a boolen true or false based on that
+	static isRequesterUpToDate(requesterObject) {
+		return requesterObject.city && requesterObject.coordinates && requesterObject.phoneNumber;
+	}
+
 	//This method will return an array containing an all products currently in the market
 	static async getAllProducts() {
 		const snapshot = await this.products.get();

@@ -10,7 +10,7 @@ import colors from 'config/colors';
 //The class that will render the alert
 class OptionPicker extends Component {
 	render() {
-		const { isVisible, confirmText, cancelText, confirmOnPress, cancelOnPress, title, message, oneOption } = this.props;
+		const { isVisible, confirmText, cancelText, confirmOnPress, cancelOnPress, title, message, oneOption, clickOutside } = this.props;
 		return (
 			<View>
 				<Modal visible={isVisible} transparent={true}>
@@ -18,7 +18,7 @@ class OptionPicker extends Component {
 						show={isVisible}
 						title={title}
 						message={message}
-						closeOnTouchOutside={this.props.clickOutside ? clickOutside : true}
+						closeOnTouchOutside={clickOutside}
 						showCancelButton={oneOption === true ? false : true}
 						showConfirmButton={true}
 						confirmButtonColor={colors.lightBlue}
