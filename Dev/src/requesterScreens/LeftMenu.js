@@ -5,12 +5,14 @@ import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
+import ImageWithBorder from '../components/ImageWithBorder';
 import LeftMenuCard from '../components/LeftMenuCard';
 import colors from 'config/colors';
 
 //This screen is the side menu where you can navigate to all the screens for the customer
 class LeftMenu extends Component {
 	render() {
+		const { requester } = this.props;
 		return (
 			<HelpView style={screenStyle.container}>
 				<View style={{ height: Dimensions.get('window').height * 0.05 }}></View>
@@ -18,6 +20,51 @@ class LeftMenu extends Component {
 					style={{
 						height: Dimensions.get('window').height * 0.65
 					}}>
+					<TouchableOpacity
+						style={{
+							flexDirection: 'row',
+							height: Dimensions.get('window').height * 0.075,
+							marginBottom: Dimensions.get('window').height * 0.01,
+							justifyContent: 'space-evenly',
+							alignItems: 'center'
+						}}
+						onPress={() => {
+							//Home leads to featured screen
+							FirebaseFunctions.analytics.logEvent('my_profile__clicked');
+							this.props.navigation.push('EditRequesterProfileScreen', {
+								requester: this.props.requester,
+								allProducts: this.props.allProducts,
+								isEditing: true
+							});
+						}}>
+						<ImageWithBorder
+							width={Dimensions.get('window').height * 0.075}
+							height={Dimensions.get('window').height * 0.075}
+							imageFunction={async () => {
+								//Passes in the function to retrieve the image of this product
+								return await FirebaseFunctions.getProfilePictureByID(
+									this.props.requester.requesterID
+								);
+							}}
+						/>
+						<View
+							style={{
+								flexDirection: 'column',
+								justifyContent: 'space-evenly'
+							}}>
+							<Text style={fontStyles.bigTextStyleBlack}>
+								{//Creates a first name effect
+								requester.username.substring(0, requester.username.trim().indexOf(' '))}
+							</Text>
+							<View style={{ height: Dimensions.get('window').height * 0.01 }}></View>
+							<Text style={fontStyles.subTextStyleBlack}>
+								{//Method shows only one comma in location: "Redmond, WA" not Redmond, WA, USA
+								requester.city.substring(requester.city.indexOf(',') + 1).includes(',')
+									? requester.city.substring(0, requester.city.lastIndexOf(','))
+									: requester.city}
+							</Text>
+						</View>
+					</TouchableOpacity>
 					<LeftMenuCard
 						text={strings.Home}
 						textColor={colors.lightBlue}
@@ -27,20 +74,6 @@ class LeftMenu extends Component {
 							this.props.navigation.push('FeaturedScreen', {
 								requester: this.props.requester,
 								allProducts: this.props.allProducts
-							});
-						}}
-						renderBorder={true}
-					/>
-					<LeftMenuCard
-						text={strings.MyProfile}
-						textColor={colors.lightBlue}
-						onPress={() => {
-							//Home leads to featured screen
-							FirebaseFunctions.analytics.logEvent('my_profile_card_clicked');
-							this.props.navigation.push('EditRequesterProfileScreen', {
-								requester: this.props.requester,
-								allProducts: this.props.allProducts,
-								isEditing: true
 							});
 						}}
 						renderBorder={true}
@@ -85,6 +118,20 @@ class LeftMenu extends Component {
 						renderBorder={true}
 					/>
 					<LeftMenuCard
+						text={strings.MyProfile}
+						textColor={colors.lightBlue}
+						onPress={() => {
+							//Home leads to featured screen
+							FirebaseFunctions.analytics.logEvent('my_profile_card_clicked');
+							this.props.navigation.push('EditRequesterProfileScreen', {
+								requester: this.props.requester,
+								allProducts: this.props.allProducts,
+								isEditing: true
+							});
+						}}
+						renderBorder={true}
+					/>
+					<LeftMenuCard
 						text={strings.Settings}
 						textColor={colors.lightBlue}
 						onPress={() => {
@@ -98,7 +145,8 @@ class LeftMenu extends Component {
 						renderBorder={false}
 					/>
 				</View>
-				<View style={{ height: Dimensions.get('window').height * 0.25, justifyContent: 'flex-end' }}>
+				<View
+					style={{ height: Dimensions.get('window').height * 0.25, justifyContent: 'flex-end' }}>
 					<LeftMenuCard
 						text={strings.LogOut}
 						textColor={colors.red}
