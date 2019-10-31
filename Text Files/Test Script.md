@@ -17,22 +17,22 @@ The Help application must always be able to do the following:
 15. User is able to search through a list of products from a specific category
 16. User to able to view specific products from a customer account
 17. User is able to request a product from a customer account
-18. User is able to view their in progress product in the OrderHistoryScreen from the customer account
-19. User is able to stay logged in as a customer account
-20. User is able to log out of a customer account
-21. User is able to log into a business account
-22. User is able to view a product's current requests from a business account
-23. User is able to mark a request as completed/delete a request from a business account
-24. User is able to view a specific product's history from a business account
-25. User is able to report an issue from a business account
-26. User is able to view credits from a businss account
-27. User is able to log into a customer account
-28. User is able to view their completed request in the OrderHistoryScreen
-29. User is able to view a specific company profile from a customer account
-30. User is able to initiate a conversation with a company from a customer account
-31. User is able to respond to messages from customers from a business account
-32. User is able to respond to messages from businesses from a customer account
-33. User is able to delete an existing request from a customer account
+18. User is able to delete an existing request from a customer account
+19. User is able to view their in progress product in the OrderHistoryScreen from the customer account
+20. User is able to stay logged in as a customer account
+21. User is able to log out of a customer account
+22. User is able to log into a business account
+23. User is able to view a product's current requests from a business account
+24. User is able to mark a request as completed/delete a request from a business account
+25. User is able to view a specific product's history from a business account
+26. User is able to report an issue from a business account
+27. User is able to view credits from a businss account
+28. User is able to log into a customer account
+29. User is able to view their completed request in the OrderHistoryScreen
+30. User is able to view a specific company profile from a customer account
+31. User is able to initiate a conversation with a company from a customer account
+32. User is able to respond to messages from customers from a business account
+33. User is able to respond to messages from businesses from a customer account
 34. User is able to report an issue from a customer account
 35. User is able to report a company from a customer account
 36. User is able to view credits from a customer account
