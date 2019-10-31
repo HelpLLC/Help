@@ -173,7 +173,7 @@ class chatsScreen extends Component {
 			);
 		} else {
 			return (
-				<View>
+				<View style={{ flex: 1 }}>
 					{isRequester ? (
 						<SideMenu
 							isOpen={this.state.isOpen}
@@ -187,7 +187,7 @@ class chatsScreen extends Component {
 							{mainUI}
 						</SideMenu>
 					) : (
-						<View style={{ flex: 1 }}>{mainUI}</View>
+						mainUI
 					)}
 				</View>
 			);

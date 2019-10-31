@@ -143,7 +143,7 @@ class settingsScreen extends Component {
 		);
 
 		return (
-			<View>
+			<View style={{ flex: 1 }}>
 				{isRequester === true ? (
 					<SideMenu
 						isOpen={this.state.isOpen}
@@ -157,7 +157,7 @@ class settingsScreen extends Component {
 						{mainUI}
 					</SideMenu>
 				) : (
-					<View style={{ flex: 1 }}>{mainUI}</View>
+					mainUI
 				)}
 			</View>
 		);
