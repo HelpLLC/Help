@@ -21,6 +21,7 @@ class CategoryCard extends Component {
 	//Loads the image (async)
 	async componentDidMount() {
 		const { imageFunction } = this.props;
+		
 		const url = await imageFunction();
 
 		this.setState({

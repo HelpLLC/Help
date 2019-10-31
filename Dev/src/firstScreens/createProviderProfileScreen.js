@@ -2,7 +2,9 @@
 //description etc. It'll be part one of the business creation process. Once they are done and click "Next", they'll be forwarded
 //to another screen where they add some more information
 import React, { Component } from 'react';
-import { View, Text, Keyboard, Dimensions } from 'react-native';
+import { View, Text, Keyboard, Dimensions, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { BoxShadow } from 'react-native-shadow';
+import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
@@ -58,20 +60,20 @@ class createProviderProfileScreen extends Component {
 		isErrorVisible: false
 	};
 
-	//This method will return whether the company name is taken or not (boolean)
-	//Checks if the company name is taken by another user or not
-	async isCompanyNameTaken(businessName) {
-		//Queries the providers to see if a provider exists
-		const ref = FirebaseFunctions.providers.where('companyName', '==', businessName);
-		const snapshot = await ref.get();
+    //This method will return whether the company name is taken or not (boolean)
+    //Checks if the company name is taken by another user or not
+    async isCompanyNameTaken(businessName) {
+        //Queries the providers to see if a provider exists
+        const ref = FirebaseFunctions.providers.where('companyName', '==', businessName);
+        const snapshot = await ref.get();
 
-		//If the array contains anything, then the name is taken and true will be returned
-		if (snapshot.docs.length === 0) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+        //If the array contains anything, then the name is taken and true will be returned
+        if (snapshot.docs.length === 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 	//Double checks that all of the information has been fully filled out and then passes it onto the next screen which collects
 	//additional info then signs them up. It first checks if this company name is already taken

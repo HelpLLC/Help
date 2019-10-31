@@ -101,6 +101,7 @@ export default {
 	TellYourCustomersAboutYourselfDotDotDot: 'Tell your customers about yourself...',
 	PleaseEnterACompanyName: 'Please enter a company name',
 	PleaseEnterADescriptionWithAtLeast150Characters: 'Please enter a description with at least 150 characters',
+	PleaseChooseAValidImage: 'Please choose a valid image',
 	CompanyNameTakenPleaseChooseAnotherName: 'This company name is taken, please choose another one',
 
 	//------------------- Additional Provider Info Screen -------------------

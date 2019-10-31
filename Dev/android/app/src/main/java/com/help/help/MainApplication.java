@@ -47,7 +47,6 @@ public class MainApplication extends Application implements ReactApplication {
       // Packages that cannot be autolinked yet can be added manually here, for example:
       // packages.add(new MyReactNativePackage());
       packages.add(new RNFirebaseAuthPackage());
-      packages.add(new CodePush("h9miQSmfA2m3-jkTgSwBK1rfNfkkFlyJfs6s0", MainApplication.this, BuildConfig.DEBUG));
       packages.add(new RNFirebaseFirestorePackage());
       packages.add(new RNFirebaseStoragePackage());
       packages.add(new RNFirebaseMessagingPackage());

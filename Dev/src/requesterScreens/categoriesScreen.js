@@ -28,9 +28,10 @@ export default class categoriesScreen extends Component {
 
 	async componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('CategoriesScreen', 'categoriesScreen');
-		const categories = await FirebaseFunctions.getCategoryObjects();
+		let categories = await FirebaseFunctions.getCategoryObjects();
 		this.setState({
 			categories,
+			allCategories: categories,
 			isLoading: false
 		});
 		//Tests to see if the requester's account has been fully completed (used for pre-2.0 users)
@@ -39,6 +40,39 @@ export default class categoriesScreen extends Component {
 				incompleteProfile: true
 			});
 		}
+	}
+
+	//Function searches through the array of categories and displays the results by changing the state
+	renderSearch() {
+		this.setState({ isLoading: true });
+		//If there is only one character typed into the search, it will simply display the results
+		//that start with that character. Otherwise, it will search for anything that includes that
+		//character
+		let text = this.state.search;
+		text = text.trim().toLowerCase();
+		const { categories } = this.state;
+		const newCategories = [];
+		for (const category of categories) {
+			const categoryName = category.categoryName.trim().toLowerCase();
+			if (categoryName.includes(text)) {
+				newCategories.push(category);
+			}
+		}
+
+		//If new categories is empty or the search is empty, all the categories will be displayed.
+		//Otherwise, the results will be displayed
+		if (newCategories.length === 0 || text.length === 0) {
+			this.setState({
+				categories: this.state.allCategories
+			});
+		} else {
+			this.setState({ categories: newCategories });
+		}
+		//This timeout is necessary so that images time to be "undownloaded" --> They only need a timeout
+		//of 1, but to make it look good, 500 is ideal
+		this.timeoutHandle = setTimeout(() => {
+			this.setState({ isLoading: false });
+		}, 500);
 	}
 
 	render() {
@@ -77,6 +111,9 @@ export default class categoriesScreen extends Component {
 							onChangeText={(text) => {
 								//Logic for searching
 								this.setState({ search: text });
+							}}
+							onSubmitEditing={() => {
+								this.renderSearch();
 							}}
 						/>
 						<View

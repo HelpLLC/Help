@@ -14,6 +14,7 @@ class categoryScreen extends Component {
 	state = {
 		isOpen: false,
 		isLoading: true,
+		searchedProducts: null,
 		products: '',
 		search: ''
 	};
@@ -35,16 +36,51 @@ class categoryScreen extends Component {
 		//sets the state
 		this.setState({
 			products,
+			displayedProducts: products,
 			isLoading: false
 		});
 
 		return 0;
 	}
+	
+	//Function searches through the array of products and displays the results by changing the state
+	renderSearch() {
+		this.setState({ isLoading: true });
+		//If there is only one character typed into the search, it will simply display the results
+		//that start with that character. Otherwise, it will search for anything that includes that
+		//character
+		let text = this.state.search;
+		text = text.trim().toLowerCase();
+		const { products } = this.state;
+		const newProducts = [];
+		for (const product of products) {
+			const productName = product.serviceTitle.trim().toLowerCase();
+			const business = product.offeredByName.trim().toLowerCase();
+			if (productName.includes(text) || business.includes(text)) {
+				newProducts.push(product);
+			}
+		}
+
+		//If new products is empty or the search is empty, all the categories will be displayed.
+		//Otherwise, the results will be displayed
+		if (newProducts.length === 0 || text.length === 0) {
+			this.setState({
+				displayedProducts: this.state.products
+			});
+		} else {
+			this.setState({ displayedProducts: newProducts });
+		}
+		//This timeout is necessary so that images time to be "undownloaded" --> They only need a timeout
+		//of 1, but to make it look good, 500 is ideal
+		this.timeoutHandle = setTimeout(() => {
+			this.setState({ isLoading: false });
+		}, 500);
+	}
 
 	render() {
 		//Fetches the correct params
 		const { requester, categoryName } = this.props.navigation.state.params;
-		const { products, search } = this.state;
+		const { displayedProducts, search } = this.state;
 		//If loading it shows loading spinner
 		if (this.state.isLoading === true) {
 			return (
@@ -65,9 +101,12 @@ class categoryScreen extends Component {
 						//Logic for searching
 						this.setState({ search: text });
 					}}
+					onSubmitEditing={() => {
+						this.renderSearch();
+					}}
 				/>
-				{/* Shows all Products */}
-				<NarrowServiceCardList requester={requester} navigation={this.props.navigation} services={products} />
+				{/* Shows all Products in the category (or search results) */}
+				<NarrowServiceCardList requester={requester} navigation={this.props.navigation} services={displayedProducts} />
 			</HelpView>
 		);
 	}
