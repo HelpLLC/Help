@@ -79,6 +79,7 @@ export default class providerAdditionalInformationScreen extends Component {
 					companyName: businessName,
 					companyDescription: businessInfo,
 					isVerified: false,
+					serviceIDs: [],
 					phoneNumber,
 					website,
 					location,
