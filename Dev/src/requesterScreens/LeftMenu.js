@@ -26,7 +26,8 @@ class LeftMenu extends Component {
 							height: Dimensions.get('window').height * 0.075,
 							marginBottom: Dimensions.get('window').height * 0.01,
 							justifyContent: 'space-evenly',
-							alignItems: 'center'
+							alignItems: 'center',
+							marginRight: Dimensions.get('window').width * .1
 						}}
 						onPress={() => {
 							//Home leads to featured screen
@@ -54,99 +55,101 @@ class LeftMenu extends Component {
 							}}>
 							<Text style={fontStyles.bigTextStyleBlack}>
 								{//Creates a first name effect
-								requester.username.substring(0, requester.username.trim().indexOf(' '))}
+									requester.username.substring(0, requester.username.trim().indexOf(' '))}
 							</Text>
 							<View style={{ height: Dimensions.get('window').height * 0.01 }}></View>
 							<Text style={fontStyles.subTextStyleBlack}>
 								{//Method shows only one comma in location: "Redmond, WA" not Redmond, WA, USA
-								requester.city.substring(requester.city.indexOf(',') + 1).includes(',')
-									? requester.city.substring(0, requester.city.lastIndexOf(','))
-									: requester.city}
+									requester.city.substring(requester.city.indexOf(',') + 1).includes(',')
+										? requester.city.substring(0, requester.city.lastIndexOf(','))
+										: requester.city}
 							</Text>
 						</View>
 					</TouchableOpacity>
-					<LeftMenuCard
-						text={strings.Home}
-						textColor={colors.lightBlue}
-						onPress={() => {
-							//Home leads to featured screen
-							FirebaseFunctions.analytics.logEvent('home_card_clicked');
-							this.props.navigation.push('FeaturedScreen', {
-								requester: this.props.requester,
-								allProducts: this.props.allProducts
-							});
-						}}
-						renderBorder={true}
-					/>
-					<LeftMenuCard
-						text={strings.Categories}
-						textColor={colors.lightBlue}
-						onPress={() => {
-							//Categories leads to the categories screen
-							FirebaseFunctions.analytics.logEvent('category_card_clicked');
-							this.props.navigation.push('RequesterCategoriesScreen', {
-								requester: this.props.requester,
-								allProducts: this.props.allProducts
-							});
-						}}
-						renderBorder={true}
-					/>
-					<LeftMenuCard
-						text={strings.OrderHistory}
-						textColor={colors.lightBlue}
-						onPress={() => {
-							//Order History leads to order history screen
-							FirebaseFunctions.analytics.logEvent('order_history_card_clicked');
-							this.props.navigation.push('RequesterOrderHistoryScreen', {
-								requester: this.props.requester,
-								allProducts: this.props.allProducts
-							});
-						}}
-						renderBorder={true}
-					/>
-					<LeftMenuCard
-						text={strings.Chats}
-						textColor={colors.lightBlue}
-						onPress={() => {
-							//Chats leads to the chats screen
-							FirebaseFunctions.analytics.logEvent('chat_card_clicked');
-							this.props.navigation.push('ChatsScreen', {
-								requester: this.props.requester,
-								allProducts: this.props.allProducts
-							});
-						}}
-						renderBorder={true}
-					/>
-					<LeftMenuCard
-						text={strings.MyProfile}
-						textColor={colors.lightBlue}
-						onPress={() => {
-							//Home leads to featured screen
-							FirebaseFunctions.analytics.logEvent('my_profile_card_clicked');
-							this.props.navigation.push('EditRequesterProfileScreen', {
-								requester: this.props.requester,
-								allProducts: this.props.allProducts,
-								isEditing: true
-							});
-						}}
-						renderBorder={true}
-					/>
-					<LeftMenuCard
-						text={strings.Settings}
-						textColor={colors.lightBlue}
-						onPress={() => {
-							//Settings leads to the settings screen
-							FirebaseFunctions.analytics.logEvent('settings_card_clicked');
-							this.props.navigation.push('SettingsScreen', {
-								requester: this.props.requester,
-								allProducts: this.props.allProducts
-							});
-						}}
-						renderBorder={false}
-					/>
+					<View style={{ marginLeft: Dimensions.get('window').width * .05}}>
+						<LeftMenuCard
+							text={strings.Home}
+							textColor={colors.lightBlue}
+							onPress={() => {
+								//Home leads to featured screen
+								FirebaseFunctions.analytics.logEvent('home_card_clicked');
+								this.props.navigation.push('FeaturedScreen', {
+									requester: this.props.requester,
+									allProducts: this.props.allProducts
+								});
+							}}
+							renderBorder={true}
+						/>
+						<LeftMenuCard
+							text={strings.Categories}
+							textColor={colors.lightBlue}
+							onPress={() => {
+								//Categories leads to the categories screen
+								FirebaseFunctions.analytics.logEvent('category_card_clicked');
+								this.props.navigation.push('RequesterCategoriesScreen', {
+									requester: this.props.requester,
+									allProducts: this.props.allProducts
+								});
+							}}
+							renderBorder={true}
+						/>
+						<LeftMenuCard
+							text={strings.OrderHistory}
+							textColor={colors.lightBlue}
+							onPress={() => {
+								//Order History leads to order history screen
+								FirebaseFunctions.analytics.logEvent('order_history_card_clicked');
+								this.props.navigation.push('RequesterOrderHistoryScreen', {
+									requester: this.props.requester,
+									allProducts: this.props.allProducts
+								});
+							}}
+							renderBorder={true}
+						/>
+						<LeftMenuCard
+							text={strings.Chats}
+							textColor={colors.lightBlue}
+							onPress={() => {
+								//Chats leads to the chats screen
+								FirebaseFunctions.analytics.logEvent('chat_card_clicked');
+								this.props.navigation.push('ChatsScreen', {
+									requester: this.props.requester,
+									allProducts: this.props.allProducts
+								});
+							}}
+							renderBorder={true}
+						/>
+						<LeftMenuCard
+							text={strings.MyProfile}
+							textColor={colors.lightBlue}
+							onPress={() => {
+								//Home leads to featured screen
+								FirebaseFunctions.analytics.logEvent('my_profile_card_clicked');
+								this.props.navigation.push('EditRequesterProfileScreen', {
+									requester: this.props.requester,
+									allProducts: this.props.allProducts,
+									isEditing: true
+								});
+							}}
+							renderBorder={true}
+						/>
+						<LeftMenuCard
+							text={strings.Settings}
+							textColor={colors.lightBlue}
+							onPress={() => {
+								//Settings leads to the settings screen
+								FirebaseFunctions.analytics.logEvent('settings_card_clicked');
+								this.props.navigation.push('SettingsScreen', {
+									requester: this.props.requester,
+									allProducts: this.props.allProducts
+								});
+							}}
+							renderBorder={false}
+						/>
+					</View>
 				</View>
 				<View
-					style={{ height: Dimensions.get('window').height * 0.25, justifyContent: 'flex-end' }}>
+					style={{ height: Dimensions.get('window').height * 0.25, justifyContent: 'flex-end', marginLeft: Dimensions.get('window').width * .05 }}>
 					<LeftMenuCard
 						text={strings.LogOut}
 						textColor={colors.red}
