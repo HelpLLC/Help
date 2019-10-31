@@ -262,7 +262,10 @@ export default class FirebaseFunctions {
 			phoneNumber,
 			coordinates,
 			city,
-			orderHistory: [],
+			orderHistory: {
+				inProgress: [],
+				completed: []
+			},
 			blockedUsers: ['Example Business', 'MRWYHdcULQggTQlxyXwGbykY5r02']
 		};
 
@@ -758,6 +761,13 @@ export default class FirebaseFunctions {
 		//that list
 		await this.updateRequesterByID(requester.requesterID, {
 			blockedUsers: firebase.firestore.FieldValue.arrayUnion(provider.providerID)
+		});
+
+		//Also sends us a report to make sure the company is appropriate
+		FirebaseFunctions.reportIssue(requester, {
+			report: 'Report against a company',
+			companyID: provider.providerID,
+			companyName: provider.companyName
 		});
 
 		//Logs the event in firebase analytics
