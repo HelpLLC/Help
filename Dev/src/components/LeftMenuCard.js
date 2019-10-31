@@ -15,7 +15,7 @@ class LeftMenuCard extends Component {
 				onPress={() => {
 					onPress();
 				}}>
-				<Text style={[fontStyles.mainTextStyleBlue, { color: textColor }]}>{text}</Text>
+				<Text style={[fontStyles.bigTextStyleBlue, { color: textColor }]}>{text}</Text>
 			</TouchableOpacity>
 		);
 	}
