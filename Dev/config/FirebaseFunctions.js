@@ -263,7 +263,7 @@ export default class FirebaseFunctions {
 			coordinates,
 			city,
 			orderHistory: [],
-			blockedUsers: ['Example Business']
+			blockedUsers: ['Example Business', 'MRWYHdcULQggTQlxyXwGbykY5r02']
 		};
 
 		batch.set(ref, newRequester);
