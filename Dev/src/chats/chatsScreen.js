@@ -187,7 +187,7 @@ class chatsScreen extends Component {
 							{mainUI}
 						</SideMenu>
 					) : (
-						<View>{mainUI}</View>
+						<View style={{ flex: 1 }}>{mainUI}</View>
 					)}
 				</View>
 			);
