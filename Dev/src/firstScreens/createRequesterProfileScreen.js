@@ -390,24 +390,26 @@ class createRequesterProfileScreen extends Component {
       );
     }
     return (
-		<View style={{ flex: 1 }}>
-			{
-				this.state.isEditing === true ? (
-					<SideMenu
-					isOpen={this.state.isOpen}
-					menu={
-					  <LeftMenu
-						navigation={this.props.navigation}
-						allProducts={this.props.navigation.state.params.allProducts}
-						requester={this.props.navigation.state.params.requester}
-					  />
-					}>{mainUI}</SideMenu>
-				) : (
-					mainUI
-				)
-			}
-		</View>
-    
+      <View style={{ flex: 1 }}>
+        {this.state.isEditing === true ? (
+          <SideMenu
+            onChange={(isOpen) => {
+              this.setState({ isOpen });
+            }}
+            isOpen={this.state.isOpen}
+            menu={
+              <LeftMenu
+                navigation={this.props.navigation}
+                allProducts={this.props.navigation.state.params.allProducts}
+                requester={this.props.navigation.state.params.requester}
+              />
+            }>
+            {mainUI}
+          </SideMenu>
+        ) : (
+          mainUI
+        )}
+      </View>
     );
   }
 }
