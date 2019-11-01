@@ -55,7 +55,12 @@ class LeftMenu extends Component {
 							}}>
 							<Text style={fontStyles.bigTextStyleBlack}>
 								{//Creates a first name effect
-									requester.username.substring(0, requester.username.trim().indexOf(' '))}
+								requester.username.includes(' ')
+								? 
+									requester.username.substring(0, requester.username.trim().indexOf(' '))
+								: 
+									requester.username
+								}
 							</Text>
 							<View style={{ height: Dimensions.get('window').height * 0.01 }}></View>
 							<Text style={fontStyles.subTextStyleBlack}>
@@ -66,7 +71,7 @@ class LeftMenu extends Component {
 							</Text>
 						</View>
 					</TouchableOpacity>
-					<View style={{ marginLeft: Dimensions.get('window').width * .05}}>
+					<View style={{ marginLeft: Dimensions.get('window').width * .05 }}>
 						<LeftMenuCard
 							text={strings.Home}
 							textColor={colors.lightBlue}
