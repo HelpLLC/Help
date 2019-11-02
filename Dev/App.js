@@ -91,6 +91,7 @@ class App extends Component {
   async componentDidMount() {
     await this.checkPermission();
     await this.createNotificationListeners();
+    codePush.notifyAppReady();
     this.setState({ isLoading: false });
   }
 
