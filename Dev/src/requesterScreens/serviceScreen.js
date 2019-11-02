@@ -146,7 +146,7 @@ class serviceScreen extends Component {
 								width: Dimensions.get('window').width - 40,
 								flex: 1.33
 							}}>
-							<View style={{ flex: 1, justifyContent: 'center', marginTop: Dimensions.get('window').width * 0.1 }}>
+							<View style={{ flex: 1, justifyContent: 'center', marginTop: Dimensions.get('window').height * 0.01 }}>
 								<Text style={fontStyles.subTextStyleBlack}>{product.serviceDescription}</Text>
 							</View>
 
