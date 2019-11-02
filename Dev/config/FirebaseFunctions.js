@@ -31,6 +31,7 @@ export default class FirebaseFunctions {
 	//This method is going to test whether a requester object has all the fields required as of the 2.0 update
 	//It will return a boolen true or false based on that
 	static isRequesterUpToDate(requesterObject) {
+		console.log(requesterObject.city && requesterObject.coordinates && requesterObject.phoneNumber)
 		return requesterObject.city && requesterObject.coordinates && requesterObject.phoneNumber;
 	}
 

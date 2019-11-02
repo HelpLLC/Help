@@ -34,7 +34,6 @@ class featuredScreen extends Component {
     allProducts = allProducts.filter((product) => {
       return !requester.blockedUsers.includes(product.offeredByID);
     });
-    allProducts = await FirebaseFunctions.filterProductsByRequesterLocation(requester, allProducts);
     //Tests to see if the requester's account has been fully completed (used for pre-2.0 users)
     if (!FirebaseFunctions.isRequesterUpToDate(requester)) {
       this.setState({
