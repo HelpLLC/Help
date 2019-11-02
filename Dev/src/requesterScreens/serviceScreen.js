@@ -144,7 +144,7 @@ class serviceScreen extends Component {
 								borderBottomColor: colors.black,
 								borderWidth: 0.5,
 								width: Dimensions.get('window').width - 40,
-								flex: 1
+								flex: 1.33
 							}}>
 							<View style={{ flex: 1, justifyContent: 'center' }}>
 								<Text style={fontStyles.subTextStyleBlack}>{product.serviceDescription}</Text>
@@ -156,27 +156,27 @@ class serviceScreen extends Component {
 						</View>
 
 						{//Tests if this service has already been requested by the current user
-						this.state.isRequested === false ? (
-							<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-								<RoundBlueButton
-									title={strings.Request}
-									style={roundBlueButtonStyle.MediumSizeButton}
-									textStyle={fontStyles.bigTextStyleWhite}
-									onPress={() => {
-										this.setState({ isRequestServiceVisible: true });
-									}}
-								/>
-							</View>
-						) : (
-							<View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
+							this.state.isRequested === false ? (
 								<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-									<Text style={fontStyles.bigTextStyleBlue}>{strings.ServiceRequested}</Text>
+									<RoundBlueButton
+										title={strings.Request}
+										style={roundBlueButtonStyle.MediumSizeButton}
+										textStyle={fontStyles.bigTextStyleWhite}
+										onPress={() => {
+											this.setState({ isRequestServiceVisible: true });
+										}}
+									/>
 								</View>
-								<TouchableOpacity onPress={() => this.setState({ isCancelRequestVisible: true })} style={{ flex: 1 }}>
-									<Text style={fontStyles.mainTextStyleRed}>{strings.CancelRequest}</Text>
-								</TouchableOpacity>
-							</View>
-						)}
+							) : (
+									<View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
+										<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+											<Text style={fontStyles.bigTextStyleBlue}>{strings.ServiceRequested}</Text>
+										</View>
+										<TouchableOpacity onPress={() => this.setState({ isCancelRequestVisible: true })} style={{ flex: 1 }}>
+											<Text style={fontStyles.mainTextStyleRed}>{strings.CancelRequest}</Text>
+										</TouchableOpacity>
+									</View>
+								)}
 					</View>
 					<ErrorAlert
 						isVisible={this.state.isErrorVisible}
