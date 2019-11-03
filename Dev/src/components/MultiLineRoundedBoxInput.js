@@ -33,6 +33,7 @@ class MultiLineRoundedBoxInput extends Component {
 						color: colors.black
 					}}
 					multiline={true}
+					keyboardType={'default'}
 					textAlignVertical='top'
 					placeholder={placeholder}
 					placeholderTextColor={colors.gray}
