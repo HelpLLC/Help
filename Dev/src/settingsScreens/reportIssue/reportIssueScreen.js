@@ -54,11 +54,14 @@ class reportIssueScreen extends Component {
 			//View that dismisses the keyboard when clicked anywhere else
 			<HelpView style={screenStyle.container}>
 				<View>
+					<View style={{ flex: 0.3 }}></View>
 					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-						<Text style={fontStyles.bigTextStyleBlack}>{strings.WhatSeemsToBeTheProblemQuestion}</Text>
+						<Text style={fontStyles.bigTextStyleBlack}>
+							{strings.WhatSeemsToBeTheProblemQuestion}
+						</Text>
 					</View>
 					<View style={{ flex: 0.5 }}></View>
-					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+					<View style={{ justifyContent: 'center', alignItems: 'center' }}>
 						<MultiLineRoundedBoxInput
 							width={Dimensions.get('window').width * 0.66909}
 							height={Dimensions.get('window').height * 0.29282577}
