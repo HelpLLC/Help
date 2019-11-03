@@ -31,6 +31,7 @@ export default class FirebaseFunctions {
 	//This method is going to test whether a requester object has all the fields required as of the 2.0 update
 	//It will return a boolen true or false based on that
 	static isRequesterUpToDate(requesterObject) {
+		console.log(requesterObject.city && requesterObject.coordinates && requesterObject.phoneNumber)
 		return requesterObject.city && requesterObject.coordinates && requesterObject.phoneNumber;
 	}
 
@@ -262,8 +263,11 @@ export default class FirebaseFunctions {
 			phoneNumber,
 			coordinates,
 			city,
-			orderHistory: [],
-			blockedUsers: ['Example Business']
+			orderHistory: {
+				inProgress: [],
+				completed: []
+			},
+			blockedUsers: ['Example Business', 'MRWYHdcULQggTQlxyXwGbykY5r02']
 		};
 
 		batch.set(ref, newRequester);
@@ -758,6 +762,13 @@ export default class FirebaseFunctions {
 		//that list
 		await this.updateRequesterByID(requester.requesterID, {
 			blockedUsers: firebase.firestore.FieldValue.arrayUnion(provider.providerID)
+		});
+
+		//Also sends us a report to make sure the company is appropriate
+		FirebaseFunctions.reportIssue(requester, {
+			report: 'Report against a company',
+			companyID: provider.providerID,
+			companyName: provider.companyName
 		});
 
 		//Logs the event in firebase analytics
