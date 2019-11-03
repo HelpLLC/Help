@@ -19,6 +19,8 @@ import featuredScreen from './requesterScreens/featuredScreen';
 import RequesterOrderHistoryScreen from './requesterScreens/orderHistoryScreen';
 import TopBanner from './components/TopBanner';
 import React from 'react';
+import FirebaseFunctions from 'config/FirebaseFunctions';
+import { View } from 'react-native';
 import strings from 'config/strings';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import termsAndConditionsScreen from './firstScreens/termsAndConditionsScreen';
@@ -33,8 +35,8 @@ const routeConfig = {
 	FirstScreens: {
 		screen: FirstScreensNavigator,
 		navigationOptions: ({ navigation }) => ({
-			header: null,
-			gesturesEnabled: false
+			header: <View></View>,
+			gesturesEnabled: false,
 		})
 	},
 
@@ -42,8 +44,8 @@ const routeConfig = {
 	ProviderScreens: {
 		screen: providerScreensNavigator,
 		navigationOptions: ({ navigation }) => ({
-			header: null,
-			gesturesEnabled: false
+			header: (<View/>),
+			gesturesEnabled: false,
 		})
 	},
 
@@ -58,7 +60,6 @@ const routeConfig = {
 					leftOnPress={() => navigation.goBack()}
 				/>
 			),
-			gesturesEnabled: false
 		})
 	},
 
@@ -73,7 +74,6 @@ const routeConfig = {
 					leftOnPress={() => navigation.goBack()}
 				/>
 			),
-			gesturesEnabled: false
 		})
 	},
 
@@ -110,7 +110,6 @@ const routeConfig = {
 					}
 				/>
 			),
-			gesturesEnabled: false
 		})
 	},
 
@@ -124,9 +123,8 @@ const routeConfig = {
 					leftIconName='angle-left'
 					leftOnPress={() => navigation.goBack()}
 				/>
-			)
-		}),
-		gesturesEnabled: false
+			),
+		})
 	},
 
 	//The route going to the requester service screen
@@ -140,20 +138,19 @@ const routeConfig = {
 					leftOnPress={() => navigation.goBack()}
 				/>
 			)
-		}),
-		gesturesEnabled: false
+		})
 	},
 
 	RequesterCategoriesScreen: {
 		screen: RequesterCategoriesScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: null
+			header: (<View/>),
 		})
 	},
 	CategoryScreen: {
 		screen: categoryScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: null
+			header: (<View/>)
 		})
 	},
 
@@ -167,9 +164,8 @@ const routeConfig = {
 					leftIconName='angle-left'
 					leftOnPress={() => navigation.goBack()}
 				/>
-			)
-		}),
-		gesturesEnabled: false
+			),
+		})
 	},
 
 	//The route going the screen where users can chat
@@ -182,9 +178,8 @@ const routeConfig = {
 					leftIconName='angle-left'
 					leftOnPress={() => navigation.goBack()}
 				/>
-			)
-		}),
-		gesturesEnabled: false
+			),
+		})
 	},
 
 	//Route connecting to the chats screen
@@ -193,7 +188,8 @@ const routeConfig = {
 		screen: chatsScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
-			header: null
+			header: (<View/>),
+			gesturesEnabled: false,
 		})
 	},
 
@@ -202,7 +198,18 @@ const routeConfig = {
 		//connects the object with the help screen component
 		screen: featuredScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: null
+			header: (
+				<TopBanner
+					leftIconName='navicon'
+					leftOnPress={() => {
+						FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_home');
+						this.setState({ isOpen: true });
+					}}
+					size={30}
+					title={strings.Featured}
+				/>
+			),
+			gesturesEnabled: false
 		})
 	},
 
@@ -211,13 +218,14 @@ const routeConfig = {
 		//connects the object with the help screen component
 		screen: RequesterOrderHistoryScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: null
+			header: (<View/>),
+			gesturesEnabled: false,
 		})
 	},
 	EditRequesterProfileScreen: {
 		screen: createRequesterProfileScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: null,
+			header: (<View/>),
 			gesturesEnabled: false
 		})
 	},
@@ -227,7 +235,8 @@ const routeConfig = {
 		//connects the object with the settings screen component
 		screen: settingsScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: null
+			header: (<View/>),
+			gesturesEnabled: false
 		})
 	},
 
@@ -241,9 +250,8 @@ const routeConfig = {
 					leftIconName='angle-left'
 					leftOnPress={() => navigation.goBack()}
 				/>
-			)
-		}),
-		gesturesEnabled: false
+			),
+		})
 	},
 
 	//Takes you to the report an issue screen
@@ -262,7 +270,6 @@ const routeConfig = {
 					}}
 				/>
 			),
-			gesturesEnabled: false
 		})
 	},
 
@@ -277,7 +284,6 @@ const routeConfig = {
 					leftOnPress={() => navigation.goBack()}
 				/>
 			),
-			gesturesEnabled: false
 		})
 	},
 
@@ -292,7 +298,6 @@ const routeConfig = {
 					leftOnPress={() => navigation.goBack()}
 				/>
 			),
-			gesturesEnabled: false
 		})
 	},
 
@@ -306,14 +311,14 @@ const routeConfig = {
 					leftOnPress={() => navigation.goBack()}
 				/>
 			),
-			gesturesEnabled: false
 		})
 	}
 };
 
 //The navigation config containing the initial route name
 const navigatorConfig = {
-	initialRouteName: 'FirstScreens'
+	initialRouteName: 'FirstScreens',
+	headerMode: 'float'
 };
 
 //Creates & exports the stack navigator
