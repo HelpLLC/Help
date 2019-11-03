@@ -5,6 +5,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import strings from 'config/strings';
 import googleCityPickerStyle from 'config/styles/componentStyles/googleCityPickerStyle';
 import PropTypes from 'prop-types';
+import colors from 'config/colors';
 
 class GoogleCityPicker extends Component {
 
@@ -48,6 +49,7 @@ class GoogleCityPicker extends Component {
 					textInputContainer: googleCityPickerStyle.textInputContainer,
 					listView: googleCityPickerStyle.listView,
 					row: googleCityPickerStyle.row,
+					textInput: {color: colors.black},
 					powered: googleCityPickerStyle.powered
 				}}
 				filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities

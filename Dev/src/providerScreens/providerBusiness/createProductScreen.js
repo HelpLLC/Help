@@ -329,22 +329,22 @@ class createProductScreen extends Component {
 							</TouchableOpacity>
 						</View>
 					</View>
-					<View style={{ flex: 1 }}>
-						<View style={{ flex: 1, justifyContent: 'center' }}>
+					<View style={{ marginTop: Dimensions.get('window').height * 0.05 }}>
+						<View
+							style={{
+								marginVertical: Dimensions.get('window').height * 0.01
+							}}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.ServiceDescription}</Text>
 						</View>
-						<View style={{ flex: 1, justifyContent: 'flex-start' }}>
-							<MultiLineRoundedBoxInput
-								width={Dimensions.get('window').width - 40}
-								height={Dimensions.get('window').height * 0.14641}
-								placeholder={strings.EnterDescriptionForCustomersDotDotDot}
-								onChangeText={(input) => this.setState({ serviceDescription: input })}
-								value={this.state.serviceDescription}
-								maxLength={240}
-							/>
-						</View>
+						<MultiLineRoundedBoxInput
+							width={Dimensions.get('window').width - 40}
+							height={Dimensions.get('window').height * 0.14641}
+							placeholder={strings.EnterDescriptionForCustomersDotDotDot}
+							onChangeText={(input) => this.setState({ serviceDescription: input })}
+							value={this.state.serviceDescription}
+							maxLength={240}
+						/>
 					</View>
-					<View style={{ flex: 0.5 }}></View>
 					<View style={{ flex: 1, justifyContent: 'flex-end' }}>
 						<View style={{ flex: 1, justifyContent: 'flex-end' }}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.Pricing}</Text>
