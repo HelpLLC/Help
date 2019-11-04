@@ -198,16 +198,7 @@ const routeConfig = {
 		//connects the object with the help screen component
 		screen: featuredScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: (
-				<TopBanner
-					leftIconName='navicon'
-					leftOnPress={() => {
-						FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_home');
-						this.setState({ isOpen: true });
-					}}
-					size={30}
-					title={strings.Featured}
-				/>
+			header: (<View></View>
 			),
 			gesturesEnabled: false
 		})
