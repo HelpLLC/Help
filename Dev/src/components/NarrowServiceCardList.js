@@ -95,7 +95,9 @@ class NarrowServiceCardList extends Component {
 						<View style={{ width: Dimensions.get('window').width * 0.03 }}></View>
 						<NarrowServiceCard
 							serviceTitle={services[i + 1].serviceTitle}
-							price={this.props.dateRequested ? services[i + 1].dateRequested : services[i + 1].pricing}
+							price={
+								this.props.dateRequested ? services[i + 1].dateRequested : services[i + 1].pricing
+							}
 							imageFunction={async () => {
 								//Passes in the function to retrieve the image of this product
 								return await FirebaseFunctions.getProductImageByID(services[i + 1].serviceID);
@@ -113,7 +115,7 @@ class NarrowServiceCardList extends Component {
 		}
 
 		return (
-			<ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }} showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+			<View>
 				{rowsOfServices}
 				<ErrorAlert
 					isVisible={this.state.isErrorVisible}
@@ -123,7 +125,7 @@ class NarrowServiceCardList extends Component {
 					title={strings.Whoops}
 					message={strings.SomethingWentWrong}
 				/>
-			</ScrollView>
+			</View>
 		);
 	}
 }

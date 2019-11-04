@@ -1,7 +1,7 @@
 //This screen represents the main screen that is launched once the requester logs in. Here will be displayed the featured products
 //where customers will be able to click on them to request them. The side menu  will also be accessible from this screen
 import React, { Component } from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions, ScrollView } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
@@ -108,68 +108,86 @@ class featuredScreen extends Component {
 
     const { search } = this.state;
 
-    return (
-      <SideMenu
-        onChange={(isOpen) => {
-          this.setState({ isOpen });
-        }}
-        isOpen={this.state.isOpen}
-        onChange={(isOpen) => {
-          this.setState({ isOpen });
-        }}
-        menu={
-          <LeftMenu
-            navigation={this.props.navigation}
-            allProducts={allProducts}
-            requester={requester}
-          />
-        }>
-        <HelpView style={screenStyle.container}>
-          <HelpSearchBar
-            placeholderText={strings.WhatAreYouLookingForQuestion}
-            value={search}
-            onChangeText={(text) => {
-              //Logic for searching
-              this.setState({ search: text });
-            }}
-            onSubmitEditing={() => {
-              this.renderSearch();
-            }}
-          />
-          <View
-            style={{
-              height: Dimensions.get('window').height * 0.05,
-              width: Dimensions.get('window').width * 0.93,
-              justifyContent: 'flex-end',
-              alignItems: 'flex-start'
-            }}>
-            <Text style={fontStyles.bigTextStyleBlue}>{strings.FeaturedServices}</Text>
-          </View>
-          <NarrowServiceCardList
-            requester={requester}
-            navigation={this.props.navigation}
-            services={displayedProducts}
-          />
-          <OptionPicker
-            isVisible={this.state.incompleteProfile}
-            title={strings.FinishCreatingYourProfile}
-            oneOption={true}
-            clickOutside={false}
-            message={strings.FinishCreatingYourProfileMessage}
-            confirmText={strings.Ok}
-            confirmOnPress={() => {
-              this.setState({ incompleteProfile: false });
-              this.props.navigation.push('EditRequesterProfileScreen', {
-                requester: requester,
-                allProducts: allProducts,
-                isEditing: true
-              });
-            }}
-          />
-        </HelpView>
-      </SideMenu>
-    );
-  }
+		return (
+			<SideMenu
+				onChange={(isOpen) => {
+					this.setState({ isOpen });
+				}}
+				isOpen={this.state.isOpen}
+				onChange={(isOpen) => {
+					this.setState({ isOpen });
+				}}
+				menu={
+					<LeftMenu
+						navigation={this.props.navigation}
+						allProducts={allProducts}
+						requester={requester}
+					/>
+				}>
+				<HelpView style={screenStyle.container}>
+					<TopBanner
+						leftIconName='navicon'
+						leftOnPress={() => {
+							FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_home');
+							this.setState({ isOpen: true });
+						}}
+						size={30}
+						title={strings.Featured}
+					/>
+					<HelpSearchBar
+						placeholderText={strings.WhatAreYouLookingForQuestion}
+						value={search}
+						onChangeText={(text) => {
+							//Logic for searching
+							this.setState({ search: text });
+						}}
+						onSubmitEditing={() => {
+							this.renderSearch();
+						}}
+					/>
+					<ScrollView
+						contentContainerStyle={{
+							justifyContent: 'center',
+							alignItems: 'center',
+							flexDirection: 'column'
+						}}
+						showsHorizontalScrollIndicator={false}
+						showsVerticalScrollIndicator={false}>
+						<View
+							style={{
+								height: Dimensions.get('window').height * 0.05,
+								width: Dimensions.get('window').width * 0.93,
+								justifyContent: 'flex-end',
+								alignItems: 'flex-start'
+							}}>
+							<Text style={fontStyles.bigTextStyleBlue}>{strings.FeaturedServices}</Text>
+						</View>
+						<NarrowServiceCardList
+							requester={requester}
+							navigation={this.props.navigation}
+							services={displayedProducts}
+						/>
+					</ScrollView>
+					<OptionPicker
+						isVisible={this.state.incompleteProfile}
+						title={strings.FinishCreatingYourProfile}
+						oneOption={true}
+						clickOutside={false}
+						message={strings.FinishCreatingYourProfileMessage}
+						confirmText={strings.Ok}
+						confirmOnPress={() => {
+							this.setState({ incompleteProfile: false });
+							this.props.navigation.push('EditRequesterProfileScreen', {
+								requester: requester,
+								allProducts: allProducts,
+								isEditing: true
+							});
+						}}
+					/>
+				</HelpView>
+			</SideMenu>
+		);
+	}
 }
 
 //Exports the screen
