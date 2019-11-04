@@ -55,7 +55,7 @@ class LeftMenu extends Component {
 							}}>
 							<Text style={fontStyles.bigTextStyleBlack}>
 								{//Creates a first name effect
-								requester.username.includes(' ')
+								requester.username.trim().includes(' ')
 								? 
 									requester.username.substring(0, requester.username.trim().indexOf(' '))
 								: 
