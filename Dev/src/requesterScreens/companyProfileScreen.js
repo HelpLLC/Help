@@ -140,8 +140,14 @@ class companyProfileScreen extends Component {
 			const { provider, requester } = this.props.navigation.state.params;
 			return (
 				<HelpView style={screenStyle.container}>
-					<View>
-						<View style={{ flex: 0.025 }}></View>
+					<ScrollView
+						contentContainerStyle={{
+							justifyContent: 'center',
+							alignItems: 'center',
+							flexDirection: 'column'
+						}}
+						showsHorizontalScrollIndicator={false}
+						showsVerticalScrollIndicator={false}>
 						<View
 							style={{
 								flexDirection: 'row',
@@ -150,19 +156,25 @@ class companyProfileScreen extends Component {
 								borderBottomColor: colors.black,
 								borderWidth: 0.5,
 								alignSelf: 'center',
-								flex: 0.8
+								height: Dimensions.get('window').height * 0.35
 							}}>
 							<View style={{ flexDirection: 'column', flex: 2, justifyContent: 'space-around' }}>
-								<View style={{}}>
-									<Text style={fontStyles.bigTextStyleBlack}>{provider.companyName}</Text>
+								<View>
+									<Text style={fontStyles.bigTextStyleBlue}>{provider.companyName}</Text>
 								</View>
 
-								<View style={{}}>
+								<View>
 									<Text style={fontStyles.subTextStyleBlack}>{provider.companyDescription}</Text>
 								</View>
 							</View>
 							<View style={{ flex: 0.1 }}></View>
-							<View style={{ flex: 1, alignItems: 'center', flexDirection: 'row', justifyContent: 'flex-end' }}>
+							<View
+								style={{
+									flex: 1,
+									alignItems: 'center',
+									flexDirection: 'row',
+									justifyContent: 'flex-end'
+								}}>
 								<TouchableOpacity style={{ flex: 1 }} onPress={() => this.messageProvider()}>
 									<Icon name='comment' type='font-awesome' size={40} color={colors.lightBlue} />
 								</TouchableOpacity>
@@ -172,9 +184,13 @@ class companyProfileScreen extends Component {
 								</TouchableOpacity>
 							</View>
 						</View>
-						<View style={{ flex: 0.025 }}></View>
-						<NarrowServiceCardList navigation={this.props.navigation} services={providerProducts} requester={requester} />
-					</View>
+						<NarrowServiceCardList
+							navigation={this.props.navigation}
+							services={providerProducts}
+							requester={requester}
+						/>
+					</ScrollView>
+
 					<ErrorAlert
 						isVisible={this.state.isErrorVisible}
 						onPress={() => {

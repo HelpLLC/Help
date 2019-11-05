@@ -2,11 +2,12 @@
 //specific product. It will also have a small shadow to give it a floating effect
 import React, { Component } from 'react';
 import { BoxShadow } from 'react-native-shadow';
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 import colors from 'config/colors';
 import PropTypes from 'prop-types';
 import LoadingSpinner from './LoadingSpinner';
 import images from 'config/images/images';
+import { CachedImage } from "react-native-img-cache";
 
 class ImageWithBorder extends Component {
 	//Starts out the loading state as true until the image is downloaded from the database
@@ -49,7 +50,7 @@ class ImageWithBorder extends Component {
 						<LoadingSpinner isVisible={true} />
 					</View>
 				) : (
-					<Image
+					<CachedImage
 						source={image}
 						style={{
 							width: width,

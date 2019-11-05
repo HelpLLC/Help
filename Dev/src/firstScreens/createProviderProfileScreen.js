@@ -2,9 +2,7 @@
 //description etc. It'll be part one of the business creation process. Once they are done and click "Next", they'll be forwarded
 //to another screen where they add some more information
 import React, { Component } from 'react';
-import { View, Text, Keyboard, Dimensions, ScrollView, TouchableOpacity, Image } from 'react-native';
-import { BoxShadow } from 'react-native-shadow';
-import colors from 'config/colors';
+import { View, Text, Keyboard, Dimensions } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';

@@ -4,7 +4,7 @@
 //see other kinds of information. From the requester, clicking on the service would allow them to view
 //the service and request it if they need it.
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import serviceCardStyle from 'config/styles/componentStyles/serviceCardStyle';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
@@ -13,6 +13,7 @@ import { Badge } from 'react-native-elements';
 import LoadingSpinner from './LoadingSpinner';
 import { BoxShadow } from 'react-native-shadow';
 import strings from 'config/strings';
+import { CachedImage } from "react-native-img-cache";
 
 //The component class
 class ServiceCard extends Component {
@@ -71,7 +72,7 @@ class ServiceCard extends Component {
 										<LoadingSpinner isVisible={true} />
 									</View>
 								) : (
-									<Image
+									<CachedImage
 										source={image}
 										style={{
 											width: (Dimensions.get('window').width - 40) * 0.45,

@@ -1,6 +1,6 @@
 //This screen represents the screen that will show a specfic category
 import React, { Component } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import screenStyle from 'config/styles/screenStyle';
@@ -42,7 +42,7 @@ class categoryScreen extends Component {
 
 		return 0;
 	}
-	
+
 	//Function searches through the array of products and displays the results by changing the state
 	renderSearch() {
 		this.setState({ isLoading: true });
@@ -93,7 +93,11 @@ class categoryScreen extends Component {
 		return (
 			<HelpView style={screenStyle.container}>
 				{/* Header */}
-				<TopBanner title={categoryName} leftIconName='angle-left' leftOnPress={() => this.props.navigation.goBack()} />
+				<TopBanner
+					title={categoryName}
+					leftIconName='angle-left'
+					leftOnPress={() => this.props.navigation.goBack()}
+				/>
 				<HelpSearchBar
 					placeholderText={strings.SearchIn + ' ' + categoryName.toLowerCase() + '...'}
 					value={search}
@@ -106,7 +110,20 @@ class categoryScreen extends Component {
 					}}
 				/>
 				{/* Shows all Products in the category (or search results) */}
-				<NarrowServiceCardList requester={requester} navigation={this.props.navigation} services={displayedProducts} />
+				<ScrollView
+					contentContainerStyle={{
+						justifyContent: 'center',
+						alignItems: 'center',
+						flexDirection: 'column'
+					}}
+					showsHorizontalScrollIndicator={false}
+					showsVerticalScrollIndicator={false}>
+					<NarrowServiceCardList
+						requester={requester}
+						navigation={this.props.navigation}
+						services={displayedProducts}
+					/>
+				</ScrollView>
 			</HelpView>
 		);
 	}
