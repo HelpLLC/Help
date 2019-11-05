@@ -1,10 +1,11 @@
 //This screen is the screen after you fill out basic info and choose customer and it creates the requester and signs you in
 
 import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, Keyboard, Image } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, Keyboard } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import { CachedImage } from "react-native-img-cache";
 import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -218,7 +219,7 @@ class createRequesterProfileScreen extends Component {
                     x: 0,
                     y: 5
                   }}>
-                  <Image
+                  <CachedImage
                     source={this.state.imageSource}
                     style={{
                       width: Dimensions.get('window').width * 0.25,

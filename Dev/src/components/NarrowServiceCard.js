@@ -2,8 +2,9 @@
 //The card will only be accessible from requester side. Cicking on the service would allow them to view
 //the service and request it if they need it.
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import narrowServiceCardStyle from 'config/styles/componentStyles/narrowServiceCardStyle';
+import { CachedImage } from "react-native-img-cache";
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import PropTypes from 'prop-types';
@@ -66,7 +67,7 @@ class NarrowServiceCard extends Component {
 										<LoadingSpinner isVisible={true} />
 									</View>
 								) : (
-									<Image
+									<CachedImage
 										source={image}
 										style={{
 											width: Dimensions.get('window').width * 0.45 - 12,

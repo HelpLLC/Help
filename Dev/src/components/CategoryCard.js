@@ -2,13 +2,14 @@
 //The card will only be accessible from requester side. Cicking on the category would allow them to view
 //the category and view services that are part of this category.
 import React, { Component } from 'react';
-import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import categoryCardStyle from 'config/styles/componentStyles/categoryCardStyle';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import PropTypes from 'prop-types';
 import LoadingSpinner from './LoadingSpinner';
 import { BoxShadow } from 'react-native-shadow';
+import { CachedImage } from "react-native-img-cache";
 
 //The component class
 class CategoryCard extends Component {
@@ -67,7 +68,7 @@ class CategoryCard extends Component {
 										<LoadingSpinner isVisible={true} />
 									</View>
 								) : (
-									<Image
+									<CachedImage
 										source={image}
 										style={{
 											width: Dimensions.get('window').width * 0.25,

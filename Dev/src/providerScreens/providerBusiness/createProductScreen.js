@@ -1,7 +1,7 @@
 //This screen will be the product editing screen where the business will either create a new product
 //or edit an old one, depending on where the screen will be accessed from
 import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, Keyboard, Image } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, Keyboard } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import RNPickerSelect from 'react-native-picker-select';
@@ -19,6 +19,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
 import ImageWithBorder from '../../components/ImageWithBorder';
 import { Icon } from 'react-native-elements';
+import { CachedImage } from "react-native-img-cache";
 import colors from 'config/colors';
 
 class createProductScreen extends Component {
@@ -309,7 +310,7 @@ class createProductScreen extends Component {
 												x: 0,
 												y: 5
 											}}>
-											<Image
+											<CachedImage
 												source={this.state.imageSource}
 												style={{
 													width: Dimensions.get('window').width * 0.25,
