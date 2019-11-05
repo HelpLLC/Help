@@ -224,7 +224,7 @@ class createProductScreen extends Component {
 						price,
 						response,
 						provider.coordinates,
-						provide.location
+						provider.location
 					);
 				}
 
