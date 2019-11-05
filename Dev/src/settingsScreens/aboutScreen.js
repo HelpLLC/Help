@@ -10,6 +10,7 @@ import whiteCardStyle from '../../config/styles/componentStyles/whiteCardStyle';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
+import TopBanner from '../components/TopBanner';
 
 class aboutScreen extends Component {
 	componentDidMount() {
@@ -19,6 +20,11 @@ class aboutScreen extends Component {
 	render() {
 		return (
 			<HelpView style={screenStyle.container}>
+				<TopBanner
+					title={strings.About}
+					leftIconName='angle-left'
+					leftOnPress={() => this.props.navigation.goBack()}
+				/>
 				<View>
 					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 						<Text style={fontStyles.bigTitleStyleBlue}>{strings.HelpExclamation}</Text>

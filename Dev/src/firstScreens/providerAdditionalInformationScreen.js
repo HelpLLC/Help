@@ -17,6 +17,7 @@ import GoogleCityPicker from '../components/GoogleCityPicker';
 import ErrorAlert from '../components/ErrorAlert';
 import { Icon } from 'react-native-elements';
 import colors from 'config/colors';
+import TopBanner from '../components/TopBanner';
 import OptionPicker from '../components/OptionPicker';
 
 export default class providerAdditionalInformationScreen extends Component {
@@ -129,6 +130,14 @@ export default class providerAdditionalInformationScreen extends Component {
 		}
 		return (
 			<HelpView style={screenStyle.container}>
+				<TopBanner
+					title={strings.EditCompany}
+					leftIconName='angle-left'
+					leftOnPress={() => {
+						//Method will go back to the splash screen
+						this.props.navigation.goBack();
+					}}
+				/>
 				<View
 					style={{
 						alignSelf: 'flex-start',
