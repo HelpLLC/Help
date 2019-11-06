@@ -15,6 +15,8 @@ import ErrorAlert from '../components/ErrorAlert';
 import OptionPicker from '../components/OptionPicker';
 import screenStyle from 'config/styles/screenStyle';
 import ImageWithBorder from '../components/ImageWithBorder';
+import images from '../../config/images/images';
+import { CachedImage } from "react-native-img-cache";
 
 class serviceScreen extends Component {
 	//This constructor and componentDidMount will wait until all the products loaded if there are any
@@ -26,7 +28,8 @@ class serviceScreen extends Component {
 			isRequested: '',
 			isErrorVisible: false,
 			isRequestServiceVisible: false,
-			isCancelRequestVisible: false
+			isCancelRequestVisible: false,
+			image: images.BlankWhite
 		};
 	}
 
@@ -35,6 +38,7 @@ class serviceScreen extends Component {
 		try {
 			const { productID, requester } = this.props.navigation.state.params;
 			const product = await FirebaseFunctions.getServiceByID(productID);
+			const url = await FirebaseFunctions.getProductImageByID(product.serviceID);
 			const isRequested = product.requests.currentRequests.findIndex((request) => {
 				return request.requesterID === requester.requesterID;
 			});
@@ -43,13 +47,15 @@ class serviceScreen extends Component {
 				this.setState({
 					isLoading: false,
 					isRequested: false,
-					product
+					product,
+					image: url
 				});
 			} else {
 				this.setState({
 					isLoading: false,
 					isRequested: true,
-					product
+					product,
+					image: url
 				});
 			}
 		} catch (error) {
@@ -74,12 +80,15 @@ class serviceScreen extends Component {
 			await this.fetchDatabaseData();
 			this.setState({ isLoading: false });
 		});
+
 	}
 
 	//Removes the listener when the screen is switched away from
 	componentWillUnmount() {
 		this.willFocusListener.remove();
 	}
+
+
 
 	//Renders the UI
 	render() {
@@ -98,11 +107,11 @@ class serviceScreen extends Component {
 				<HelpView style={screenStyle.container}>
 					<View style={{ flex: 0.01 }}></View>
 					<View>
-						<View style={{ flexDirection: 'column', flex: 1 }}>
-							<View style={{ flex: .3, justifyContent: 'center' }}>
+						<View style={{ flexDirection: 'column', flex: .8 }}>
+							<View style={{ flex: .3, justifyContent: 'center', marginLeft: Dimensions.get('window').width * .05 }}>
 								<Text style={fontStyles.bigTextStyleBlack}>{product.serviceTitle}</Text>
 							</View>
-							<View style={{ flex: .2, justifyContent: 'flex-start' }}>
+							<View style={{ flex: .2, justifyContent: 'flex-start', marginLeft: Dimensions.get('window').width * .05 }}>
 								<View>
 									<Text style={fontStyles.subTextStyleGray}>{strings.OfferedBy}</Text>
 								</View>
@@ -117,21 +126,33 @@ class serviceScreen extends Component {
 								</TouchableOpacity>
 							</View>
 						</View>
+						<View style={{
+							borderBottomColor: colors.lightBlue,
+							borderTopColor: colors.lightBlue,
+							borderBottomWidth: 4,
+							borderTopWidth: 4,
+							flex: 1.47,
+							width: Dimensions.get('window').width,
+							height: 255,
+							marginTop: Dimensions.get('window').height * - .05
+						}}>
+							<CachedImage style={{
+								width: Dimensions.get('window').width,
+								height: 256
 
-						<View>
-							<Image source ={async () => {
-										//Passes in the function to retrieve the image of this product
-										return await FirebaseFunctions.getProductImageByID(product.serviceID);
-									}}/>
+							}}
+								source={this.state.image}
+							/>
 						</View>
 
 						<View
 							style={{
 								borderColor: colors.lightGray,
 								borderBottomColor: colors.black,
-								borderWidth: 0.5,
+								borderBottomWidth: 0.5,
 								width: Dimensions.get('window').width - 40,
-								flex: 1
+								flex: 1,
+								marginLeft: Dimensions.get('window').width * .05
 							}}>
 							<View style={{ flex: 1, justifyContent: 'center', marginTop: Dimensions.get('window').height * 0.01 }}>
 								<Text style={fontStyles.subTextStyleBlack}>{product.serviceDescription}</Text>
