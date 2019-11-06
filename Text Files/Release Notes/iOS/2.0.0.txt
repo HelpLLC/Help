@@ -1,0 +1,10 @@
+The Help 2.0 update is here! With new features for customers, we can't wait to see
+what you think! Here's what's new:
+- Redesigned the customer side by adding a side menu for navigation
+- Added the ability to track order history, both in progress, and completed
+- Added a search feature, allowing you to surf through all sorts of products
+- Allowed customers to browse by categories
+- Added location filtering
+- Added a My Profile section, allowing to enter a profile picture and other information
+- Collected more information from businesses
+- Tons of bug fixes and improvements

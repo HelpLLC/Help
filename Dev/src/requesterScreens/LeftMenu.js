@@ -55,7 +55,7 @@ class LeftMenu extends Component {
 							}}>
 							<Text style={fontStyles.bigTextStyleBlack}>
 								{//Creates a first name effect
-								requester.username.includes(' ')
+								requester.username.trim().includes(' ')
 								? 
 									requester.username.substring(0, requester.username.trim().indexOf(' '))
 								: 
@@ -64,10 +64,12 @@ class LeftMenu extends Component {
 							</Text>
 							<View style={{ height: Dimensions.get('window').height * 0.01 }}></View>
 							<Text style={fontStyles.subTextStyleBlack}>
-								{//Method shows only one comma in location: "Redmond, WA" not Redmond, WA, USA
+								{requester.city ? 
+									//Method shows only one comma in location: "Redmond, WA" not Redmond, WA, USA
 									requester.city.substring(requester.city.indexOf(',') + 1).includes(',')
 										? requester.city.substring(0, requester.city.lastIndexOf(','))
-										: requester.city}
+										: requester.city : ("")
+									}
 							</Text>
 						</View>
 					</TouchableOpacity>

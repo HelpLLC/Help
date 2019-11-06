@@ -42,7 +42,7 @@ class businessScreen extends Component {
 			this.setState({ provider });
 			if (provider.serviceIDs.length === 0) {
 				this.setState({ isLoading: false });
-			} else {
+			} else if (provider.serviceIDs.length !== this.state.providerProducts.length){
 				const serviceIDs = provider.serviceIDs;
 				for (const ID of serviceIDs) {
 					const service = await FirebaseFunctions.getServiceByID(ID);

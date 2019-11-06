@@ -7,6 +7,7 @@ import fontStyles from 'config/styles/fontStyles';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import HelpView from '../components/HelpView';
 import strings from 'config/strings';
+import TopBanner from '../components/TopBanner';
 
 //The screen crediting all of our usage
 export default class creditsScreen extends Component {
@@ -18,6 +19,11 @@ export default class creditsScreen extends Component {
 	render() {
 		return (
 			<HelpView>
+				<TopBanner
+					title={strings.Credits}
+					leftIconName='angle-left'
+					leftOnPress={() => this.props.navigation.goBack()}
+				/>
 				<ScrollView style={{ flex: 1, backgroundColor: colors.lightGray }}>
 					<Text style={fontStyles.mainTextStyleBlack}>{strings.IconMadeBySmashIconsFromFlaticon}</Text>
 					<Text style={fontStyles.mainTextStyleBlack}>Icons made by "https://www.flaticon.com/authors/kiranshastry"</Text>

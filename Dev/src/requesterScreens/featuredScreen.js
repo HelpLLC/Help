@@ -1,7 +1,7 @@
 //This screen represents the main screen that is launched once the requester logs in. Here will be displayed the featured products
 //where customers will be able to click on them to request them. The side menu  will also be accessible from this screen
 import React, { Component } from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions, ScrollView } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
@@ -36,7 +36,6 @@ class featuredScreen extends Component {
     allProducts = allProducts.filter((product) => {
       return !requester.blockedUsers.includes(product.offeredByID);
     });
-    allProducts = await FirebaseFunctions.filterProductsByRequesterLocation(requester, allProducts);
     //Tests to see if the requester's account has been fully completed (used for pre-2.0 users)
     if (!FirebaseFunctions.isRequesterUpToDate(requester)) {
       this.setState({
@@ -152,20 +151,29 @@ class featuredScreen extends Component {
               this.renderSearch();
             }}
           />
-          <View
-            style={{
-              height: Dimensions.get('window').height * 0.05,
-              width: Dimensions.get('window').width * 0.93,
-              justifyContent: 'flex-end',
-              alignItems: 'flex-start'
-            }}>
-            <Text style={fontStyles.bigTextStyleBlue}>{strings.FeaturedServices}</Text>
-          </View>
-          <NarrowServiceCardList
-            requester={requester}
-            navigation={this.props.navigation}
-            services={displayedProducts}
-          />
+          <ScrollView
+            contentContainerStyle={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'column'
+            }}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}>
+            <View
+              style={{
+                height: Dimensions.get('window').height * 0.05,
+                width: Dimensions.get('window').width * 0.93,
+                justifyContent: 'flex-end',
+                alignItems: 'flex-start'
+              }}>
+              <Text style={fontStyles.bigTextStyleBlue}>{strings.FeaturedServices}</Text>
+            </View>
+            <NarrowServiceCardList
+              requester={requester}
+              navigation={this.props.navigation}
+              services={displayedProducts}
+            />
+          </ScrollView>
           <OptionPicker
             isVisible={this.state.incompleteProfile}
             title={strings.FinishCreatingYourProfile}
@@ -182,7 +190,7 @@ class featuredScreen extends Component {
               });
             }}
           />
-
+          
           <OptionPicker
             isVisible={true}
             title={strings.LeaveAReview}
@@ -224,6 +232,7 @@ class featuredScreen extends Component {
             }}
 
           />
+
         </HelpView>
       </SideMenu>
     );

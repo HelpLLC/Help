@@ -39,7 +39,7 @@ exports.businessGoodToGo = functions.firestore.document('providers/{providerID}'
 		const topic = 'p-' + change.after.data().providerID;
 		await admin.messaging().sendToTopic(topic, {
 			notification: {
-				title: "You're good to go",
+				title: "Your good to go",
 				body: "You're account has been verified and accepted. Create your first product now!"
 			}
 		});

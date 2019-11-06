@@ -30,6 +30,7 @@
     "react-native-gifted-chat": "^0.9.11",
     "react-native-google-places-autocomplete": "^1.3.9",
     "react-native-image-picker": "^1.0.1",
+    "react-native-img-cache": "^1.6.0",
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
     "react-native-loading-spinner-overlay": "^1.0.1",
     "react-native-permissions": "^2.0.2",
@@ -43,7 +44,8 @@
     "react-native-svg": "^9.5.1",
     "react-native-tab-view": "^2.7.3",
     "react-native-vector-icons": "^6.6.0",
-    "react-navigation": "^3.11.0"
+    "react-navigation": "^3.11.0",
+    "rn-fetch-blob": "^0.11.2"
   },
   "devDependencies": {
     "@babel/core": "7.5.4",

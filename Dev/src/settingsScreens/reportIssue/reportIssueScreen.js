@@ -10,6 +10,7 @@ import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
+import TopBanner from '../../components/TopBanner';
 import HelpView from '../../components/HelpView';
 
 class reportIssueScreen extends Component {
@@ -53,12 +54,25 @@ class reportIssueScreen extends Component {
 		return (
 			//View that dismisses the keyboard when clicked anywhere else
 			<HelpView style={screenStyle.container}>
+				<TopBanner
+					title={strings.ReportAnIssue}
+					leftIconName='angle-left'
+					leftOnPress={() => {
+						//Method will dismiss the current stack and then go back to
+						//make sure the animation is to the left
+						this.props.navigation.dismiss();
+						this.props.navigation.goBack();
+					}}
+				/>
 				<View>
+					<View style={{ flex: 0.3 }}></View>
 					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-						<Text style={fontStyles.bigTextStyleBlack}>{strings.WhatSeemsToBeTheProblemQuestion}</Text>
+						<Text style={fontStyles.bigTextStyleBlack}>
+							{strings.WhatSeemsToBeTheProblemQuestion}
+						</Text>
 					</View>
 					<View style={{ flex: 0.5 }}></View>
-					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+					<View style={{ justifyContent: 'center', alignItems: 'center' }}>
 						<MultiLineRoundedBoxInput
 							width={Dimensions.get('window').width * 0.66909}
 							height={Dimensions.get('window').height * 0.29282577}
