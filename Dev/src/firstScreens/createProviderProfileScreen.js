@@ -135,7 +135,7 @@ class createProviderProfileScreen extends Component {
     return (
       <HelpView style={screenStyle.container}>
         <TopBanner
-          title={strings.EditCompany}
+          title={this.state.editing === true ? strings.EditCompany : strings.CreateProfile}
           leftIconName='angle-left'
           leftOnPress={() => this.props.navigation.goBack()}
         />
