@@ -179,6 +179,10 @@ export default {
 	NoCurrentServices: 'There are no current services available to request. Check back soon!',
 	Featured: 'Featured',
 	FeaturedServices: 'Featured Services',
+	LeaveAReview: 'Leave A Review',
+	BusinessName: 'Business Name',
+	Submit: 'Submit',
+	Skip: 'Skip',
 
 	//------------------- Categories Screen -------------------
 	FeaturedCategories: 'Featured Categories',
