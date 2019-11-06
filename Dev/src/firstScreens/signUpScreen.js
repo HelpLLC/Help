@@ -14,6 +14,7 @@ import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import firebase from 'react-native-firebase';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
+import TopBanner from '../components/TopBanner';
 import ErrorAlert from '../components/ErrorAlert';
 
 //The class that will create the look of this screen
@@ -106,6 +107,14 @@ class signUpScreen extends Component {
 		return (
 			//View that dismisses the keyboard when clicked anywhere else
 			<HelpView style={screenStyle.container}>
+				<TopBanner
+					title={strings.SignUp}
+					leftIconName='angle-left'
+					leftOnPress={() => {
+						//Method will go back to the splash screen
+						this.props.navigation.goBack();
+					}}
+				/>
 				<ScrollView>
 					<View style={{ height: Dimensions.get('window').height * 0.03 }}></View>
 					<View

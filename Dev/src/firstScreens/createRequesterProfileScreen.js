@@ -5,7 +5,7 @@ import { View, Text, Dimensions, TouchableOpacity, Keyboard } from 'react-native
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import { CachedImage } from "react-native-img-cache";
+import { CachedImage } from 'react-native-img-cache';
 import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -186,7 +186,14 @@ class createRequesterProfileScreen extends Component {
             title={strings.MyProfile}
           />
         ) : (
-          <View></View>
+          <TopBanner
+            title={strings.CreateProfile}
+            leftIconName='angle-left'
+            leftOnPress={() => {
+              //Method will go back to the splash screen
+              this.props.navigation.goBack();
+            }}
+          />
         )}
         {this.state.isEditing === true ? (
           <View

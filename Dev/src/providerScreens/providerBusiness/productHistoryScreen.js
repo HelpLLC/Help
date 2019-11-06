@@ -12,6 +12,7 @@ import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import ImageWithBorder from '../../components/ImageWithBorder';
+import TopBanner from '../../components/TopBanner';
 
 //The class for this screen
 class productHistoryScreen extends Component {
@@ -26,6 +27,11 @@ class productHistoryScreen extends Component {
 
 		return (
 			<HelpView style={screenStyle.container}>
+				<TopBanner
+					title={strings.ServiceHistory}
+					leftIconName='angle-left'
+					leftOnPress={() => this.props.navigation.goBack()}
+				/>
 				<View>
 					<View
 						style={{

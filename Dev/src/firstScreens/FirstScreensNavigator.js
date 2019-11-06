@@ -22,7 +22,6 @@ const routeConfig = {
 	SplashScreen: {
 		screen: splashScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: null,
 			gesturesEnabled: false
 		})
 	},
@@ -30,7 +29,6 @@ const routeConfig = {
 	ProviderScreens: {
 		screen: providerScreensNavigator,
 		navigationOptions: ({ navigation }) => ({
-			header: null,
 			gesturesEnabled: false
 		})
 	},
@@ -38,7 +36,6 @@ const routeConfig = {
 	RequesterScreens: {
 		screen: featuredScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: null,
 			gesturesEnabled: false
 		})
 	},
@@ -46,16 +43,6 @@ const routeConfig = {
 	LogInScreen: {
 		screen: logInScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: (
-				<TopBanner
-					title={strings.LogIn}
-					leftIconName='angle-left'
-					leftOnPress={() => {
-						//Method will go back to the splash screen
-						navigation.goBack();
-					}}
-				/>
-			),
 			gesturesEnabled: false
 		})
 	},
@@ -63,32 +50,12 @@ const routeConfig = {
 	SignUpScreen: {
 		screen: signUpScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: (
-				<TopBanner
-					title={strings.SignUp}
-					leftIconName='angle-left'
-					leftOnPress={() => {
-						//Method will go back to the splash screen
-						navigation.goBack();
-					}}
-				/>
-			),
 			gesturesEnabled: false
 		})
 	},
 	CreateRequesterProfileScreen: {
 		screen: createRequesterProfileScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: (
-				<TopBanner
-					title={strings.CreateProfile}
-					leftIconName='angle-left'
-					leftOnPress={() => {
-						//Method will go back to the splash screen
-						navigation.goBack();
-					}}
-				/>
-			),
 			gesturesEnabled: false
 		})
 	},
@@ -96,16 +63,6 @@ const routeConfig = {
 	ForgotPasswordScreen: {
 		screen: forgotPasswordScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: (
-				<TopBanner
-					title={strings.ForgotPasswordNoQuestionMark}
-					leftIconName='angle-left'
-					leftOnPress={() => {
-						//Method will go back to the splash screen
-						navigation.goBack();
-					}}
-				/>
-			),
 			gesturesEnabled: false
 		})
 	},
@@ -113,16 +70,6 @@ const routeConfig = {
 	CreateProviderProfileScreen: {
 		screen: createProviderProfileScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: (
-				<TopBanner
-					title={strings.CreateProfile}
-					leftIconName='angle-left'
-					leftOnPress={() => {
-						//Method will go back to the splash screen
-						navigation.goBack();
-					}}
-				/>
-			),
 			gesturesEnabled: false
 		})
 	},
@@ -130,16 +77,6 @@ const routeConfig = {
 	ProviderAdditionalInformationScreen: {
 		screen: providerAdditionalInformationScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: (
-				<TopBanner
-					title={strings.CreateProfile}
-					leftIconName='angle-left'
-					leftOnPress={() => {
-						//Method will go back to the splash screen
-						navigation.goBack();
-					}}
-				/>
-			),
 			gesturesEnabled: false
 		})
 	},
@@ -147,17 +84,6 @@ const routeConfig = {
 	AccountNotVerifiedScreen: {
 		screen: accountNotVerifiedScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: (
-				<TopBanner
-					title={strings.Verification}
-					leftIconName='angle-left'
-					leftOnPress={async () => {
-						//Method will go back to the splash screen and log out
-						await FirebaseFunctions.logOut();
-						navigation.push('SplashScreen');
-					}}
-				/>
-			),
 			gesturesEnabled: false
 		})
 	}
@@ -165,6 +91,7 @@ const routeConfig = {
 
 //Makes it so there is no header in all the navigator's screens
 const navigatorConfig = {
+	headerMode: 'none',
 	initialRouteName: 'SplashScreen'
 };
 
