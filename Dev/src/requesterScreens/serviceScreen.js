@@ -2,7 +2,7 @@
 //of the company providing it, etc. There will be a button at the bottom of the screen allowing the
 //requester to request the service.
 import React, { Component } from 'react';
-import { View, Dimensions, TouchableOpacity, Text } from 'react-native';
+import { View, Dimensions, TouchableOpacity, Text, Image } from 'react-native';
 import HelpView from '../components/HelpView';
 import strings from 'config/strings';
 import colors from 'config/colors';
@@ -96,55 +96,42 @@ class serviceScreen extends Component {
 		} else {
 			return (
 				<HelpView style={screenStyle.container}>
+					<View style={{ flex: 0.01 }}></View>
 					<View>
-						<View style={{ flex: 0.01 }}></View>
-						<View
-							style={{
-								flexDirection: 'row',
-								width: Dimensions.get('window').width - 40,
-								borderColor: colors.lightGray,
-								borderBottomColor: colors.black,
-								borderWidth: 0.5,
-								flex: 0.75
-							}}>
-							<View style={{ flexDirection: 'column', flex: 1 }}>
-								<View style={{ flex: 1, justifyContent: 'center' }}>
-									<Text style={fontStyles.bigTextStyleBlack}>{product.serviceTitle}</Text>
-								</View>
-								<View style={{ flex: 1, justifyContent: 'flex-start' }}>
-									<View>
-										<Text style={fontStyles.subTextStyleGray}>{strings.OfferedBy}</Text>
-									</View>
-									<TouchableOpacity
-										onPress={() => {
-											this.props.navigation.push('RequesterCompanyProfileScreen', {
-												provider,
-												requester
-											});
-										}}>
-										<Text style={fontStyles.bigTextStyleBlue}>{provider.companyName}</Text>
-									</TouchableOpacity>
-								</View>
+						<View style={{ flexDirection: 'column', flex: 1 }}>
+							<View style={{ flex: .3, justifyContent: 'center' }}>
+								<Text style={fontStyles.bigTextStyleBlack}>{product.serviceTitle}</Text>
 							</View>
-
-							<View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}>
-								<ImageWithBorder
-									width={Dimensions.get('window').width * 0.25}
-									height={Dimensions.get('window').width * 0.25}
-									imageFunction={async () => {
-										//Passes in the function to retrieve the image of this product
-										return await FirebaseFunctions.getProductImageByID(product.serviceID);
-									}}
-								/>
+							<View style={{ flex: .2, justifyContent: 'flex-start' }}>
+								<View>
+									<Text style={fontStyles.subTextStyleGray}>{strings.OfferedBy}</Text>
+								</View>
+								<TouchableOpacity
+									onPress={() => {
+										this.props.navigation.push('RequesterCompanyProfileScreen', {
+											provider,
+											requester
+										});
+									}}>
+									<Text style={fontStyles.bigTextStyleBlue}>{provider.companyName}</Text>
+								</TouchableOpacity>
 							</View>
 						</View>
+
+						<View>
+							<Image source ={async () => {
+										//Passes in the function to retrieve the image of this product
+										return await FirebaseFunctions.getProductImageByID(product.serviceID);
+									}}/>
+						</View>
+
 						<View
 							style={{
 								borderColor: colors.lightGray,
 								borderBottomColor: colors.black,
 								borderWidth: 0.5,
 								width: Dimensions.get('window').width - 40,
-								flex: 1.33
+								flex: 1
 							}}>
 							<View style={{ flex: 1, justifyContent: 'center', marginTop: Dimensions.get('window').height * 0.01 }}>
 								<Text style={fontStyles.subTextStyleBlack}>{product.serviceDescription}</Text>
