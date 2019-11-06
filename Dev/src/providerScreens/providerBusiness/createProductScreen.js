@@ -16,9 +16,10 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import TopBanner from '../../components/TopBanner';
 import ErrorAlert from '../../components/ErrorAlert';
 import { Icon } from 'react-native-elements';
-import { CachedImage } from "react-native-img-cache";
+import { CachedImage } from 'react-native-img-cache';
 import colors from 'config/colors';
 
 class createProductScreen extends Component {
@@ -254,6 +255,11 @@ class createProductScreen extends Component {
 
     return (
       <HelpView style={screenStyle.container}>
+        <TopBanner
+          title={strings.Service}
+          leftIconName='angle-left'
+          leftOnPress={() => this.props.navigation.goBack()}
+        />
         <View>
           <View style={{ flex: 0.25 }}></View>
           <View

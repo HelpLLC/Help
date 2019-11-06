@@ -67,26 +67,25 @@ class serviceScreen extends Component {
 			});
 		}
 
-		return 0;
-	}
+    return 0;
+  }
 
-	//This will fetch the data about this provider and his products from firestore
-	async componentDidMount() {
-		FirebaseFunctions.setCurrentScreen('requesterServiceScreen', 'serviceScreen');
+  //This will fetch the data about this provider and his products from firestore
+  async componentDidMount() {
+    FirebaseFunctions.setCurrentScreen('requesterServiceScreen', 'serviceScreen');
 
-		this.setState({ isLoading: true });
-		//Adds the listener to add the listener to refetch the data once this component is returned to
-		this.willFocusListener = this.props.navigation.addListener('willFocus', async () => {
-			await this.fetchDatabaseData();
-			this.setState({ isLoading: false });
-		});
+    this.setState({ isLoading: true });
+    //Adds the listener to add the listener to refetch the data once this component is returned to
+    this.willFocusListener = this.props.navigation.addListener('willFocus', async () => {
+      await this.fetchDatabaseData();
+      this.setState({ isLoading: false });
+    });
+  }
 
-	}
-
-	//Removes the listener when the screen is switched away from
-	componentWillUnmount() {
-		this.willFocusListener.remove();
-	}
+  //Removes the listener when the screen is switched away from
+  componentWillUnmount() {
+    this.willFocusListener.remove();
+  }
 
 
 
@@ -158,106 +157,108 @@ class serviceScreen extends Component {
 								<Text style={fontStyles.subTextStyleBlack}>{product.serviceDescription}</Text>
 							</View>
 
-							<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-								<Text style={fontStyles.bigTextStyleBlack}>{product.pricing}</Text>
-							</View>
-						</View>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={fontStyles.bigTextStyleBlack}>{product.pricing}</Text>
+              </View>
+            </View>
 
-						{//Tests if this service has already been requested by the current user
-							this.state.isRequested === false ? (
-								<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-									<RoundBlueButton
-										title={strings.Request}
-										style={roundBlueButtonStyle.MediumSizeButton}
-										textStyle={fontStyles.bigTextStyleWhite}
-										onPress={() => {
-											this.setState({ isRequestServiceVisible: true });
-										}}
-									/>
-								</View>
-							) : (
-									<View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
-										<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-											<Text style={fontStyles.bigTextStyleBlue}>{strings.ServiceRequested}</Text>
-										</View>
-										<TouchableOpacity onPress={() => this.setState({ isCancelRequestVisible: true })} style={{ flex: 1 }}>
-											<Text style={fontStyles.mainTextStyleRed}>{strings.CancelRequest}</Text>
-										</TouchableOpacity>
-									</View>
-								)}
-					</View>
-					<ErrorAlert
-						isVisible={this.state.isErrorVisible}
-						onPress={() => {
-							this.setState({ isErrorVisible: false });
-						}}
-						title={strings.Whoops}
-						message={strings.SomethingWentWrong}
-					/>
-					<OptionPicker
-						isVisible={isRequestServiceVisible}
-						title={strings.RequestService}
-						message={strings.AreYouSureRequestService}
-						confirmText={strings.Request}
-						cancelText={strings.Cancel}
-						clickOutside={true}
-						confirmOnPress={async () => {
-							this.setState({ isRequestServiceVisible: false, isLoading: true });
-							//This method will request this service from the company providing it by pushing the request to the
-							//provider.
-							//After confirming to the requester that the request has been processed, the program will
-							//automatically send a message to the provider with a default message saying that this requester wants
-							//to buy this service. Then will push the requester to the chats screen.
-							const { product } = this.state;
-							const { requester } = this.props.navigation.state.params;
-							try {
-								await FirebaseFunctions.requestService(product.serviceID, requester.requesterID);
-								this.setState({ isRequested: true, isLoading: false });
-							} catch (error) {
-								this.setState({ isLoading: false, isErrorVisible: true });
-								FirebaseFunctions.logIssue(error, {
-									screen: 'RequesterServiceScreen',
-									userID: 'r-' + requester.requesterID,
-									productID: product.productID
-								});
-							}
-						}}
-						cancelOnPress={() => {
-							this.setState({ isRequestServiceVisible: false });
-						}}
-					/>
-					<OptionPicker
-						isVisible={isCancelRequestVisible}
-						title={strings.CancelRequest}
-						message={strings.AreYouSureCancelRequest}
-						confirmText={strings.Yes}
-						cancelText={strings.Cancel}
-						clickOutside={true}
-						confirmOnPress={async () => {
-							this.setState({ isCancelRequestVisible: false, isLoading: true });
-							//This method will cancel the request by making sure the user wants to cancel it
-							const { product } = this.state;
-							const { requester } = this.props.navigation.state.params;
-							try {
-								await FirebaseFunctions.deleteRequest(product.serviceID, requester.requesterID);
-								this.setState({ isRequested: false, isLoading: false });
-							} catch (error) {
-								this.setState({ isLoading: false, isErrorVisible: true });
-								FirebaseFunctions.logIssue(error, {
-									screen: 'RequesterServiceScreen',
-									userID: 'r-' + requester.requesterID,
-									productID: product.productID
-								});
-							}
-						}}
-						cancelOnPress={() => {
-							this.setState({ isCancelRequestVisible: false });
-						}}
-					/>
-				</HelpView>
-			);
-		}
-	}
+            {//Tests if this service has already been requested by the current user
+            this.state.isRequested === false ? (
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <RoundBlueButton
+                  title={strings.Request}
+                  style={roundBlueButtonStyle.MediumSizeButton}
+                  textStyle={fontStyles.bigTextStyleWhite}
+                  onPress={() => {
+                    this.setState({ isRequestServiceVisible: true });
+                  }}
+                />
+              </View>
+            ) : (
+              <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                  <Text style={fontStyles.bigTextStyleBlue}>{strings.ServiceRequested}</Text>
+                </View>
+                <TouchableOpacity
+                  onPress={() => this.setState({ isCancelRequestVisible: true })}
+                  style={{ flex: 1 }}>
+                  <Text style={fontStyles.mainTextStyleRed}>{strings.CancelRequest}</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
+          <ErrorAlert
+            isVisible={this.state.isErrorVisible}
+            onPress={() => {
+              this.setState({ isErrorVisible: false });
+            }}
+            title={strings.Whoops}
+            message={strings.SomethingWentWrong}
+          />
+          <OptionPicker
+            isVisible={isRequestServiceVisible}
+            title={strings.RequestService}
+            message={strings.AreYouSureRequestService}
+            confirmText={strings.Request}
+            cancelText={strings.Cancel}
+            clickOutside={true}
+            confirmOnPress={async () => {
+              this.setState({ isRequestServiceVisible: false, isLoading: true });
+              //This method will request this service from the company providing it by pushing the request to the
+              //provider.
+              //After confirming to the requester that the request has been processed, the program will
+              //automatically send a message to the provider with a default message saying that this requester wants
+              //to buy this service. Then will push the requester to the chats screen.
+              const { product } = this.state;
+              const { requester } = this.props.navigation.state.params;
+              try {
+                await FirebaseFunctions.requestService(product.serviceID, requester.requesterID);
+                this.setState({ isRequested: true, isLoading: false });
+              } catch (error) {
+                this.setState({ isLoading: false, isErrorVisible: true });
+                FirebaseFunctions.logIssue(error, {
+                  screen: 'RequesterServiceScreen',
+                  userID: 'r-' + requester.requesterID,
+                  productID: product.productID
+                });
+              }
+            }}
+            cancelOnPress={() => {
+              this.setState({ isRequestServiceVisible: false });
+            }}
+          />
+          <OptionPicker
+            isVisible={isCancelRequestVisible}
+            title={strings.CancelRequest}
+            message={strings.AreYouSureCancelRequest}
+            confirmText={strings.Yes}
+            cancelText={strings.Cancel}
+            clickOutside={true}
+            confirmOnPress={async () => {
+              this.setState({ isCancelRequestVisible: false, isLoading: true });
+              //This method will cancel the request by making sure the user wants to cancel it
+              const { product } = this.state;
+              const { requester } = this.props.navigation.state.params;
+              try {
+                await FirebaseFunctions.deleteRequest(product.serviceID, requester.requesterID);
+                this.setState({ isRequested: false, isLoading: false });
+              } catch (error) {
+                this.setState({ isLoading: false, isErrorVisible: true });
+                FirebaseFunctions.logIssue(error, {
+                  screen: 'RequesterServiceScreen',
+                  userID: 'r-' + requester.requesterID,
+                  productID: product.productID
+                });
+              }
+            }}
+            cancelOnPress={() => {
+              this.setState({ isCancelRequestVisible: false });
+            }}
+          />
+        </HelpView>
+      );
+    }
+  }
 }
 
 //Exports the screen

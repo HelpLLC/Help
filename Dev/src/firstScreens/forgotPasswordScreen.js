@@ -10,7 +10,7 @@ import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
-import firebase from 'react-native-firebase';
+import TopBanner from '../components/TopBanner';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import ErrorAlert from '../components/ErrorAlert';
 
@@ -37,6 +37,14 @@ class forgotPasswordScreen extends Component {
 		return (
 			//View that dismisses the keyboard when clicked anywhere else
 			<HelpView style={screenStyle.container}>
+				<TopBanner
+					title={strings.ForgotPasswordNoQuestionMark}
+					leftIconName='angle-left'
+					leftOnPress={() => {
+						//Method will go back to the splash screen
+						this.props.navigation.goBack();
+					}}
+				/>
 				<View style={{ flex: 0.25 }}></View>
 				<View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
 					<View style={{ flex: 1, justifyContent: 'flex-end' }}>
