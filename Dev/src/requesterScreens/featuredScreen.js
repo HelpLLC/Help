@@ -24,6 +24,7 @@ class featuredScreen extends Component {
 		isLoading: true,
 		isOpen: false,
 		isReviewDue: true,
+		rating: 0,
 		search: '',
 		allProducts: '',
 		displayedProducts: '',
@@ -98,20 +99,6 @@ class featuredScreen extends Component {
 			this.setState({ isLoading: false });
 		}, 500);
 	}
-
-	ratingCompleted(rating) {
-		console.log('Rating is: ' + rating);
-	}
-	renderCustomAlertView = () => (
-		<View
-			style={{
-				height: 50,
-				alignItems: 'center',
-				justifyContent: 'center'
-			}}>
-			<Text style={fontStyles.bigTextStyleBlue}>{strings.FeaturedServices}</Text>
-		</View>
-	);
 
 	render() {
 		//Filters the products and removes any that are posted by blocked users
@@ -207,13 +194,14 @@ class featuredScreen extends Component {
 
 					<ReviewPopup
 						isVisible={this.state.isReviewDue}
+						onFinishRating={this.rating}
 						title={strings.LeaveAReview}
 						message={strings.BusinessName}
 						confirmText={strings.Submit}
 						cancelText={strings.Skip}
 						clickOutside={true}
-            value={this.state.reviewComment}
-            placeholder={strings.AnyCommentsQuestion}
+						value={this.state.reviewComment}
+						placeholder={strings.AnyCommentsQuestion}
 						onChangeText={(input) => this.setState({ reviewComment: input })}
 						confirmOnPress={async () => {}}
 						cancelOnPress={() => {

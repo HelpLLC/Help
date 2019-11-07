@@ -24,8 +24,8 @@ class ReviewPopup extends Component {
 			message,
 			oneOption,
 			clickOutside,
-         value,
-         placeholder
+			value,
+			placeholder
 		} = this.props;
 		return (
 			<View>
@@ -45,11 +45,11 @@ class ReviewPopup extends Component {
 									style={{
 										justifyContent: 'center',
 										alignItems: 'center',
-                              paddingVertical: 20
+										paddingVertical: Dimensions.get('window').height * 0.025
 									}}>
 									<ImageWithBorder
 										style={{
-											flex: 1,
+											flex: 1
 										}}
 										width={Dimensions.get('window').height * 0.075}
 										height={Dimensions.get('window').height * 0.075}
@@ -61,13 +61,7 @@ class ReviewPopup extends Component {
 										}}
 									/>
 								</View>
-								<AirbnbRating
-									stle={{ flex: 2 }}
-									count={5}
-									reviews={['Terrible', 'Below Average', 'Average', 'Above Average', 'Excellent']}
-									defaultRating={4}
-									size={40}
-								/>
+								<Rating />
 								<MultiLineRoundedBoxInput
 									stle={{ flex: 3 }}
 									width={Dimensions.get('window').width * 0.6}
