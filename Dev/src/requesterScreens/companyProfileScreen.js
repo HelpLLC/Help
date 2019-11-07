@@ -142,7 +142,7 @@ class companyProfileScreen extends Component {
       return (
         <HelpView style={screenStyle.container}>
           <TopBanner
-            title={strings.CompanyProfile}
+            title={strings.CompanyServices}
             leftIconName='angle-left'
             leftOnPress={() => this.props.navigation.goBack()}
           />
@@ -154,42 +154,6 @@ class companyProfileScreen extends Component {
             }}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}>
-            <View
-              style={{
-                flexDirection: 'row',
-                width: Dimensions.get('window').width - 40,
-                borderColor: colors.lightGray,
-                borderBottomColor: colors.black,
-                borderWidth: 0.5,
-                alignSelf: 'center',
-                height: Dimensions.get('window').height * 0.35
-              }}>
-              <View style={{ flexDirection: 'column', flex: 2, justifyContent: 'space-around' }}>
-                <View>
-                  <Text style={fontStyles.bigTextStyleBlue}>{provider.companyName}</Text>
-                </View>
-
-                <View>
-                  <Text style={fontStyles.subTextStyleBlack}>{provider.companyDescription}</Text>
-                </View>
-              </View>
-              <View style={{ flex: 0.1 }}></View>
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                  justifyContent: 'flex-end'
-                }}>
-                <TouchableOpacity style={{ flex: 1 }} onPress={() => this.messageProvider()}>
-                  <Icon name='comment' type='font-awesome' size={40} color={colors.lightBlue} />
-                </TouchableOpacity>
-                <View style={{ flex: 0.5 }}></View>
-                <TouchableOpacity style={{ flex: 1 }} onPress={() => this.ActionSheet.show()}>
-                  <Icon name='ellipsis-h' type='font-awesome' size={40} color={colors.lightBlue} />
-                </TouchableOpacity>
-              </View>
-            </View>
             <NarrowServiceCardList
               navigation={this.props.navigation}
               services={providerProducts}

@@ -190,6 +190,7 @@ export default {
 	AreYouSureRequestService: 'Are you sure you want to request this service?',
 	AreYouSureCancelRequest: 'Are you sure you want to cancel your request for this service?',
 	Yes: 'Yes',
+	CompanyServices: 'Company Services',
 
 	//------------------- Requester Order History Screen -------------------
 	OrderHistory: 'Order History',
