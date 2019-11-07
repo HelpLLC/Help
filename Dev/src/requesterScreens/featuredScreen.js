@@ -23,7 +23,7 @@ class featuredScreen extends Component {
 	state = {
 		isLoading: true,
 		isOpen: false,
-		isReviewDue: true,
+		isReviewDue: false,
 		rating: 0,
 		search: '',
 		allProducts: '',
