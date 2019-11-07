@@ -413,6 +413,16 @@ class serviceScreen extends Component {
 									</View>
 								</View>
 							</View>
+							<View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: Dimensions.get('window').height * .02}}>
+								<TouchableOpacity onPress={() => {
+									this.props.navigation.push('RequesterCompanyProfileScreen', {
+										provider,
+										requester
+									});
+								}}>
+									<Text style={fontStyles.mainTextStyleBlue}>{strings.MoreByThisBusiness}</Text>
+								</TouchableOpacity>
+							</View>
 
 
 							<View style={{ height: Dimensions.get('window').height * .1 }}></View>
