@@ -14,14 +14,21 @@ import SideMenu from 'react-native-side-menu';
 import TopBanner from '../components/TopBanner';
 import HelpSearchBar from '../components/HelpSearchBar';
 import OptionPicker from '../components/OptionPicker';
+import ReviewPopup from '../components/ReviewPopup';
+import { Rating, AirbnbRating } from 'react-native-ratings';
+import ImageWithBorder from '../components/ImageWithBorder';
+import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
 
 class featuredScreen extends Component {
 	state = {
 		isLoading: true,
 		isOpen: false,
+		isReviewDue: true,
+		rating: 0,
 		search: '',
 		allProducts: '',
 		displayedProducts: '',
+		reviewComment: '',
 		incompleteProfile: false
 	};
 
@@ -182,6 +189,23 @@ class featuredScreen extends Component {
 								allProducts: allProducts,
 								isEditing: true
 							});
+						}}
+					/>
+
+					<ReviewPopup
+						isVisible={this.state.isReviewDue}
+						onFinishRating={this.rating}
+						title={strings.LeaveAReview}
+						message={strings.BusinessName}
+						confirmText={strings.Submit}
+						cancelText={strings.Skip}
+						clickOutside={true}
+						value={this.state.reviewComment}
+						placeholder={strings.AnyCommentsQuestion}
+						onChangeText={(input) => this.setState({ reviewComment: input })}
+						confirmOnPress={async () => {}}
+						cancelOnPress={() => {
+							this.setState({ isReviewDue: false });
 						}}
 					/>
 				</HelpView>
