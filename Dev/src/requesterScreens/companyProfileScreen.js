@@ -142,7 +142,7 @@ class companyProfileScreen extends Component {
       return (
         <HelpView style={screenStyle.container}>
           <TopBanner
-            title={strings.CompanyServices}
+            title={provider.companyName}
             leftIconName='angle-left'
             leftOnPress={() => this.props.navigation.goBack()}
           />
