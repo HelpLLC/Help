@@ -603,7 +603,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Help/Pods-Help-resources.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Help/Pods-Help-resources.sh",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -644,7 +644,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Help/Pods-Help-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Help/Pods-Help-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9729527E7BFF9D142B8014D3 /* [CP] Check Pods Manifest.lock */ = {
@@ -819,7 +819,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 88A23E7FD13263CE390B6BEC /* Pods-HelpTests.debug.xcconfig */;
+			baseConfigurationReference = CAF28544BC517593CFD3FEBB /* Pods-HelpTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -844,7 +844,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DB6A980A5E0B76209376B896 /* Pods-HelpTests.release.xcconfig */;
+			baseConfigurationReference = 0350EE214EEF0244B92D3BA0 /* Pods-HelpTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -866,7 +866,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9E358330832225763A76A987 /* Pods-Help.debug.xcconfig */;
+			baseConfigurationReference = F4794E3353B2C66A0DF4ABCD /* Pods-Help.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -874,11 +874,7 @@
 				CURRENT_PROJECT_VERSION = 28;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 3JN2Y9YRF9;
-				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
-					"$(inherited)",
-					"\"${PODS_ROOT}/FirebaseAnalytics/Frameworks\"",
-					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"",
-				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "$(inherited) \"${PODS_ROOT}/FirebaseAnalytics/Frameworks\" \"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/BoringSSL-GRPC/openssl_grpc.framework/Headers\"",
@@ -992,18 +988,14 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0A50D1B8C94C465F5731B347 /* Pods-Help.release.xcconfig */;
+			baseConfigurationReference = 4EE6C0263BDBCA099DE0B7DD /* Pods-Help.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Help/Help.entitlements;
 				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = 3JN2Y9YRF9;
-				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
-					"\"${PODS_ROOT}/FirebaseAnalytics/Frameworks\"",
-					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"",
-					"$(inherited)",
-				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "\"${PODS_ROOT}/FirebaseAnalytics/Frameworks\" \"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\" $(inherited)";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/BoringSSL-GRPC/openssl_grpc.framework/Headers\"",
@@ -1116,7 +1108,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2E4F50B45EAA482C078D1881 /* Pods-Help-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 7D1D52590BFA29C942794C15 /* Pods-Help-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1144,7 +1136,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5638AADD3C87127E6B92B1D6 /* Pods-Help-tvOS.release.xcconfig */;
+			baseConfigurationReference = EC3657747E5F68691EFFB352 /* Pods-Help-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1172,7 +1164,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8C904B303A143BDAFEF525A1 /* Pods-Help-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = 289D7460AD5942A7D2973563 /* Pods-Help-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1199,7 +1191,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9D438E24472605E5AECD963F /* Pods-Help-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = CBF30320C2F97DD7124DD0B6 /* Pods-Help-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;

@@ -183,6 +183,7 @@ export default {
 	BusinessName: 'Business Name',
 	Submit: 'Submit',
 	Skip: 'Skip',
+	AnyCommentsQuestion: 'Any Questions?',
 
 	//------------------- Categories Screen -------------------
 	FeaturedCategories: 'Featured Categories',
