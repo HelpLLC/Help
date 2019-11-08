@@ -14,7 +14,7 @@ export default {
 	GetStarted: 'Get Started',
 	HaveAnAccountQuestion: 'Have an account?',
 	LogIn: 'Log In',
-	HelpExclamation: 'Help',
+	Help: 'Help',
 
 	//------------------- Log In Screen -------------------
 	EnterYourEmail: 'Enter your email...',

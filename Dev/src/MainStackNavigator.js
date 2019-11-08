@@ -17,9 +17,7 @@ import settingsScreen from './settingsScreens/settingsScreen';
 import providerScreensNavigator from './providerScreens/providerScreensNavigator';
 import featuredScreen from './requesterScreens/featuredScreen';
 import RequesterOrderHistoryScreen from './requesterScreens/orderHistoryScreen';
-import React from 'react';
-import { View } from 'react-native';
-import strings from 'config/strings';
+import { fadeIn } from 'react-navigation-transitions';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import termsAndConditionsScreen from './firstScreens/termsAndConditionsScreen';
 import creditsScreen from './settingsScreens/creditsScreen';
@@ -33,7 +31,7 @@ const routeConfig = {
 	FirstScreens: {
 		screen: FirstScreensNavigator,
 		navigationOptions: ({ navigation }) => ({
-			gesturesEnabled: false,
+			gesturesEnabled: false
 		})
 	},
 
@@ -41,18 +39,18 @@ const routeConfig = {
 	ProviderScreens: {
 		screen: providerScreensNavigator,
 		navigationOptions: ({ navigation }) => ({
-			gesturesEnabled: false,
+			gesturesEnabled: false
 		})
 	},
 
 	//The route going to the create product screen
 	ProviderCreateProductScreen: {
-		screen: ProviderCreateProductScreen,
+		screen: ProviderCreateProductScreen
 	},
 
 	//The route going to the edit company profile screen
 	ProviderEditCompanyProfileScreen: {
-		screen: ProviderEditCompanyProfileScreen,
+		screen: ProviderEditCompanyProfileScreen
 	},
 
 	//Takes you to the screen which will allow providers to add more information about themselves
@@ -65,34 +63,34 @@ const routeConfig = {
 
 	//The route going to the product screen
 	ProviderProductScreen: {
-		screen: ProviderProductScreen,
+		screen: ProviderProductScreen
 	},
 
 	//The route going to the product history screen
 	ProviderProductHistoryScreen: {
-		screen: ProviderProductHistoryScreen,
+		screen: ProviderProductHistoryScreen
 	},
 
 	//The route going to the requester service screen
 	RequesterServiceScreen: {
-		screen: RequesterServiceScreen,
+		screen: RequesterServiceScreen
 	},
 
 	RequesterCategoriesScreen: {
-		screen: RequesterCategoriesScreen,
+		screen: RequesterCategoriesScreen
 	},
 	CategoryScreen: {
-		screen: categoryScreen,
+		screen: categoryScreen
 	},
 
 	//The route going to the requester company profile screen
 	RequesterCompanyProfileScreen: {
-		screen: RequesterCompanyProfileScreen,
+		screen: RequesterCompanyProfileScreen
 	},
 
 	//The route going the screen where users can chat
 	MessagingScreen: {
-		screen: MessagingScreen,
+		screen: MessagingScreen
 	},
 
 	//Route connecting to the chats screen
@@ -101,7 +99,7 @@ const routeConfig = {
 		screen: chatsScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
-			gesturesEnabled: false,
+			gesturesEnabled: false
 		})
 	},
 
@@ -119,7 +117,7 @@ const routeConfig = {
 		//connects the object with the help screen component
 		screen: RequesterOrderHistoryScreen,
 		navigationOptions: ({ navigation }) => ({
-			gesturesEnabled: false,
+			gesturesEnabled: false
 		})
 	},
 	EditRequesterProfileScreen: {
@@ -140,33 +138,48 @@ const routeConfig = {
 
 	//Takes you to the about screen
 	AboutScreen: {
-		screen: aboutScreen,
+		screen: aboutScreen
 	},
 
 	//Takes you to the report an issue screen
 	ReportIssueScreen: {
-		screen: reportIssueScreensNavigator,
+		screen: reportIssueScreensNavigator
 	},
 
 	//Takes you to the screen containing the privacy policy
 	PrivacyScreen: {
-		screen: privacyScreen,
+		screen: privacyScreen
 	},
 
 	//Takes you to the terms and conditions screen
 	TermsAndConditionsScreen: {
-		screen: termsAndConditionsScreen,
+		screen: termsAndConditionsScreen
 	},
 
 	CreditsScreen: {
-		screen: creditsScreen,
+		screen: creditsScreen
+	}
+};
+
+//Makes the zoom in transition for the initial LaunchScreen that opens
+const handleCustomTransition = ({ scenes }) => {
+	const prevScene = scenes[scenes.length - 2];
+
+	if (
+		prevScene &&
+		prevScene.route.routeName === 'FirstScreens' &&
+		prevScene.route.routes &&
+		prevScene.route.routes[0].routeName === "LaunchScreen"
+	) {
+		return fadeIn(700);
 	}
 };
 
 //The navigation config containing the initial route name
 const navigatorConfig = {
 	initialRouteName: 'FirstScreens',
-	headerMode: 'none'
+	headerMode: 'none',
+	transitionConfig: (nav) => handleCustomTransition(nav)
 };
 
 //Creates & exports the stack navigator

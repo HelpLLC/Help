@@ -27,7 +27,7 @@ class aboutScreen extends Component {
 				/>
 				<View>
 					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-						<Text style={fontStyles.bigTitleStyleBlue}>{strings.HelpExclamation}</Text>
+						<Text style={fontStyles.bigTitleStyleBlue}>{strings.Help}</Text>
 					</View>
 					<View style={{ flex: 0.75, justifyContent: 'center', flexDirection: 'row', alignItems: 'center' }}>
 						<View style={{ flex: 2 }}></View>

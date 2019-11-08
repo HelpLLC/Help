@@ -130,4 +130,11 @@ export default StyleSheet.create({
         color: colors.lightBlue
     },
 
+    //The style for all big white title texts
+    bigTitleStyleWhite: {
+        fontFamily: font,
+        fontSize: bigTitleFontSize,
+        color: colors.white
+    },
+
 });
