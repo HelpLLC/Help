@@ -164,7 +164,7 @@ class LeftMenu extends Component {
 							//Logs the current user out and goes to first screens
 							FirebaseFunctions.analytics.logEvent('logged_out_from_sideMenu');
 							await FirebaseFunctions.logOut(true, this.props.requester.requesterID);
-							this.props.navigation.push('FirstScreens');
+							this.props.navigation.push('SplashScreen');
 						}}
 						renderBorder={false}
 					/>

@@ -129,7 +129,7 @@ class settingsScreen extends Component {
                   //To-Do: Needs to call a logout function
                   onPress={async () => {
                     await FirebaseFunctions.logOut(isRequester, uid);
-                    this.props.navigation.push('FirstScreens');
+                    this.props.navigation.push('SplashScreen');
                   }}
                 />
               </View>

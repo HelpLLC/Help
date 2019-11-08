@@ -1,6 +1,5 @@
 //This class creates the navigation for the first run screens, which will all be stack navigators
 //Stack navigator means the screens push left when you go to next screen
-import React from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import splashScreen from './splashScreen';
 import providerScreensNavigator from '../providerScreens/providerScreensNavigator';
@@ -10,14 +9,22 @@ import logInScreen from './logInScreen';
 import forgotPasswordScreen from './forgotPasswordScreen';
 import createProviderProfileScreen from './createProviderProfileScreen';
 import signUpScreen from './signUpScreen';
-import TopBanner from '../components/TopBanner';
-import strings from 'config/strings';
-import FirebaseFunctions from '../../config/FirebaseFunctions';
 import createRequesterProfileScreen from './createRequesterProfileScreen';
 import providerAdditionalInformationScreen from './providerAdditionalInformationScreen';
+import launchScreen from './launchScreen';
+import { fadeIn } from 'react-navigation-transitions';
 
 //Route config that leads to all the different possible screens
 const routeConfig = {
+
+	//Takes you to the launch screen which is the blue logo
+	LaunchScreen: {
+		screen: launchScreen,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false
+		})
+	},
+
 	//Takes you to the splash screen of the app
 	SplashScreen: {
 		screen: splashScreen,
@@ -89,10 +96,23 @@ const routeConfig = {
 	}
 };
 
+//Makes the zoom in transition for the initial LaunchScreen that opens
+const handleCustomTransition = ({ scenes }) => {
+	const prevScene = scenes[scenes.length - 2];
+
+	if (
+		prevScene &&
+		prevScene.route.routeName === 'LaunchScreen'
+	) {
+		return fadeIn(1000);
+	}
+};
+
 //Makes it so there is no header in all the navigator's screens
 const navigatorConfig = {
 	headerMode: 'none',
-	initialRouteName: 'SplashScreen'
+	initialRouteName: 'LaunchScreen',
+	transitionConfig: (nav) => handleCustomTransition(nav)
 };
 
 //Creates & exports the stack navigator
