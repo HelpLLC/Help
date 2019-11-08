@@ -19,6 +19,7 @@ import OptionPicker from '../components/OptionPicker';
 import ErrorAlert from '../components/ErrorAlert';
 import strings from 'config/strings';
 import TopBanner from '../components/TopBanner';
+import HelpSearchBar from '../components/HelpSearchBar';
 
 class companyProfileScreen extends Component {
   //This constructor and componentDidMount will wait until all the products loaded if there are any
@@ -30,7 +31,9 @@ class companyProfileScreen extends Component {
       providerProducts: [],
       isErrorVisible: false,
       isCompanyReportedVisible: false,
-      isBlockCompanyVisible: false
+      isBlockCompanyVisible: false,
+      search: '',
+      displayedProducts: ''
     };
   }
 
@@ -48,7 +51,8 @@ class companyProfileScreen extends Component {
           const newArrayOfProducts = this.state.providerProducts;
           newArrayOfProducts.push(service);
           this.setState({
-            providerProducts: newArrayOfProducts
+            providerProducts: newArrayOfProducts,
+            displayedProducts: newArrayOfProducts
           });
         }
         this.setState({
@@ -127,6 +131,41 @@ class companyProfileScreen extends Component {
     this.setState({ isCompanyReportedVisible: true });
   }
 
+  renderSearch() {
+    this.setState({ isLoading: true });
+    //If there is only one character typed into the search, it will simply display the results
+    //that start with that character. Otherwise, it will search for anything that includes that
+    //character
+    let text = this.state.search;
+    text = text.trim().toLowerCase();
+    const { providerProducts } = this.state;
+    const newProducts = [];
+    for (const product of providerProducts) {
+      const productName = product.serviceTitle.trim().toLowerCase();
+      const business = product.offeredByName.trim().toLowerCase();
+      const category = product.category.trim().toLowerCase();
+      if (productName.includes(text) || business.includes(text) || category.includes(text)) {
+        newProducts.push(product);
+      }
+    }
+
+    //If new products is empty or the search is empty, all the categories will be displayed.
+    //Otherwise, the results will be displayed
+    if (newProducts.length === 0 || text.length === 0) {
+      this.setState({
+        displayedProducts: this.state.providerProducts
+      });
+    } else {
+      this.setState({ displayedProducts: newProducts });
+    }
+    //This timeout is necessary so that images time to be "undownloaded" --> They only need a timeout
+    //of 1, but to make it look good, 500 is ideal
+    this.timeoutHandle = setTimeout(() => {
+      this.setState({ isLoading: false });
+    }, 500);
+  }
+
+
   render() {
     const { isLoading, providerProducts, serviceIDsLength } = this.state;
     if (isLoading === true || (providerProducts.length == 0 && serviceIDsLength > 0)) {
@@ -139,12 +178,24 @@ class companyProfileScreen extends Component {
       );
     } else {
       const { provider, requester } = this.props.navigation.state.params;
+      const { search, displayedProducts } = this.state;
       return (
         <HelpView style={screenStyle.container}>
           <TopBanner
             title={provider.companyName}
             leftIconName='angle-left'
             leftOnPress={() => this.props.navigation.goBack()}
+          />
+          <HelpSearchBar
+            placeholderText={strings.WhatAreYouLookingForQuestion}
+            value={search}
+            onChangeText={(text) => {
+              //Logic for searching
+              this.setState({ search: text });
+            }}
+            onSubmitEditing={() => {
+              this.renderSearch();
+            }}
           />
           <ScrollView
             contentContainerStyle={{
@@ -156,7 +207,7 @@ class companyProfileScreen extends Component {
             showsVerticalScrollIndicator={false}>
             <NarrowServiceCardList
               navigation={this.props.navigation}
-              services={providerProducts}
+              services={displayedProducts}
               requester={requester}
             />
           </ScrollView>
