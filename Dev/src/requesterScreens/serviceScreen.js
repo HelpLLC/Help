@@ -15,11 +15,11 @@ import ErrorAlert from '../components/ErrorAlert';
 import OptionPicker from '../components/OptionPicker';
 import screenStyle from 'config/styles/screenStyle';
 import images from '../../config/images/images';
-import { CachedImage } from "react-native-img-cache";
-import TopBanner from '../components/TopBanner'
+import { CachedImage } from 'react-native-img-cache';
+import TopBanner from '../components/TopBanner';
 import ViewMoreText from 'react-native-view-more-text';
 import call from 'react-native-phone-call';
-import email from 'react-native-email'
+import email from 'react-native-email';
 import { Icon } from 'react-native-elements';
 import ActionSheet from 'react-native-actionsheet';
 
@@ -96,37 +96,38 @@ class serviceScreen extends Component {
 
 	renderViewMore(onPress) {
 		return (
-			<TouchableOpacity onPress={onPress} style={{
-				width: Dimensions.get('window').width * .3,
-				height: Dimensions.get('window').height * .1
-			}}>
+			<TouchableOpacity
+				onPress={onPress}
+				style={{
+					width: Dimensions.get('window').width * 0.3,
+					height: Dimensions.get('window').height * 0.1
+				}}>
 				<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadMore}</Text>
 			</TouchableOpacity>
-
-		)
+		);
 	}
 	renderViewLess(onPress) {
 		return (
-			<TouchableOpacity onPress={onPress}
+			<TouchableOpacity
+				onPress={onPress}
 				style={{
-					width: Dimensions.get('window').width * .3,
-					height: Dimensions.get('window').height * .1
-				}} >
-				<Text style={fontStyles.mainTextStyleBlue} >{strings.ReadLess}</Text>
+					width: Dimensions.get('window').width * 0.3,
+					height: Dimensions.get('window').height * 0.1
+				}}>
+				<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadLess}</Text>
 			</TouchableOpacity>
-		)
+		);
 	}
 
 	callNumber(phoneNumber) {
 		const args = {
 			number: phoneNumber, // String value with the number to call
-			prompt: true // Optional boolean property. Determines if the user should be prompt prior to the call 
-		}
+			prompt: true // Optional boolean property. Determines if the user should be prompt prior to the call
+		};
 
 		try {
-			call(args)
-		}
-		catch (error) {
+			call(args);
+		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
 			FirebaseFunctions.logIssue(error, {
 				screen: 'RequesterServiceScreen',
@@ -134,18 +135,16 @@ class serviceScreen extends Component {
 				productID: product.productID
 			});
 		}
-
 	}
 
 	handleEmail(emailAddress) {
-		const to = [emailAddress] // string or array of email addresses
+		const to = [emailAddress]; // string or array of email addresses
 		try {
 			email(to, {
 				// Optional additional arguments
 				subject: 'Your Service ' + this.state.product.serviceTitle
-			})
-		}
-		catch (error) {
+			});
+		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
 			FirebaseFunctions.logIssue(error, {
 				screen: 'RequesterServiceScreen',
@@ -195,11 +194,15 @@ class serviceScreen extends Component {
 		this.setState({ isCompanyReportedVisible: true });
 	}
 
-
-
 	//Renders the UI
 	render() {
-		const { product, isLoading, isRequested, isCancelRequestVisible, isRequestServiceVisible } = this.state;
+		const {
+			product,
+			isLoading,
+			isRequested,
+			isCancelRequestVisible,
+			isRequestServiceVisible
+		} = this.state;
 		const { requester, provider } = this.props.navigation.state.params;
 		if (isLoading === true || isRequested === '') {
 			return (
@@ -219,18 +222,42 @@ class serviceScreen extends Component {
 					/>
 					<ScrollView>
 						<View>
-							<View style={{ flexDirection: 'column', marginTop: Dimensions.get('window').height * .02, width: Dimensions.get('window').width }}>
-								<View style={{ flexDirection: 'row', justifyContent: 'space-between', width: Dimensions.get('window').width }}>
-									<View style={{ justifyContent: 'flex-start', marginLeft: Dimensions.get('window').width * .05, flexDirection: 'column' }}>
+							<View
+								style={{
+									flexDirection: 'column',
+									marginTop: Dimensions.get('window').height * 0.02,
+									width: Dimensions.get('window').width
+								}}>
+								<View
+									style={{
+										flexDirection: 'row',
+										justifyContent: 'space-between',
+										width: Dimensions.get('window').width
+									}}>
+									<View
+										style={{
+											justifyContent: 'flex-start',
+											marginLeft: Dimensions.get('window').width * 0.05,
+											flexDirection: 'column'
+										}}>
 										<Text style={fontStyles.bigTextStyleBlack}>{product.serviceTitle}</Text>
 									</View>
-									<View style={{ marginRight: Dimensions.get('window').width * .05 }}>
+									<View style={{ marginRight: Dimensions.get('window').width * 0.05 }}>
 										<TouchableOpacity onPress={() => this.ActionSheet.show()}>
-											<Icon name='ellipsis-h' type='font-awesome' size={40} color={colors.lightBlue} />
+											<Icon
+												name='ellipsis-h'
+												type='font-awesome'
+												size={40}
+												color={colors.lightBlue}
+											/>
 										</TouchableOpacity>
 									</View>
 								</View>
-								<View style={{ justifyContent: 'flex-start', marginLeft: Dimensions.get('window').width * .05 }}>
+								<View
+									style={{
+										justifyContent: 'flex-start',
+										marginLeft: Dimensions.get('window').width * 0.05
+									}}>
 									<View>
 										<Text style={fontStyles.subTextStyleGray}>{strings.OfferedBy}</Text>
 									</View>
@@ -245,20 +272,21 @@ class serviceScreen extends Component {
 									</TouchableOpacity>
 								</View>
 							</View>
-							<View style={{
-								borderBottomColor: colors.lightBlue,
-								borderTopColor: colors.lightBlue,
-								borderBottomWidth: 4,
-								borderTopWidth: 4,
-								width: Dimensions.get('window').width,
-								height: 258,
-								marginTop: Dimensions.get('window').height * .02
-							}}>
-								<CachedImage style={{
+							<View
+								style={{
+									borderBottomColor: colors.lightBlue,
+									borderTopColor: colors.lightBlue,
+									borderBottomWidth: 4,
+									borderTopWidth: 4,
 									width: Dimensions.get('window').width,
-									height: 250
-
-								}}
+									height: 258,
+									marginTop: Dimensions.get('window').height * 0.02
+								}}>
+								<CachedImage
+									style={{
+										width: Dimensions.get('window').width,
+										height: 250
+									}}
 									source={this.state.image}
 								/>
 							</View>
@@ -269,79 +297,100 @@ class serviceScreen extends Component {
 									flex: 1,
 									justifyContent: 'center'
 								}}>
-								<View style={{ flex: 1, justifyContent: 'center', marginTop: Dimensions.get('window').height * 0.01, width: Dimensions.get('window').width * .92, marginLeft: Dimensions.get('window').width * .04 }}>
+								<View
+									style={{
+										flex: 1,
+										justifyContent: 'center',
+										marginTop: Dimensions.get('window').height * 0.01,
+										width: Dimensions.get('window').width * 0.92,
+										marginLeft: Dimensions.get('window').width * 0.04
+									}}>
 									<ViewMoreText
 										numberOfLines={3}
 										renderViewMore={this.renderViewMore}
 										renderViewLess={this.renderViewLess}
-										textStyle={{ textAlign: 'left' }}
-									>
+										textStyle={{ textAlign: 'left' }}>
 										<Text style={fontStyles.subTextStyleBlack}>{product.serviceDescription}</Text>
 									</ViewMoreText>
 								</View>
 
-								<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: Dimensions.get('window').height * .04 }}>
+								<View
+									style={{
+										flex: 1,
+										justifyContent: 'center',
+										alignItems: 'center',
+										marginTop: Dimensions.get('window').height * 0.04
+									}}>
 									<Text style={fontStyles.bigTextStyleBlack}>{product.pricing}</Text>
 								</View>
 							</View>
 
 							{//Tests if this service has already been requested by the current user
-								this.state.isRequested === false ? (
-									<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: Dimensions.get('window').height * .05 }}>
-										<RoundBlueButton
-											title={strings.Request}
-											style={roundBlueButtonStyle.MediumSizeButton}
-											textStyle={fontStyles.bigTextStyleWhite}
-											onPress={() => {
-												this.setState({ isRequestServiceVisible: true });
-											}}
-										/>
+							this.state.isRequested === false ? (
+								<View
+									style={{
+										flex: 1,
+										justifyContent: 'center',
+										alignItems: 'center',
+										marginTop: Dimensions.get('window').height * 0.05
+									}}>
+									<RoundBlueButton
+										title={strings.Request}
+										style={roundBlueButtonStyle.MediumSizeButton}
+										textStyle={fontStyles.bigTextStyleWhite}
+										onPress={() => {
+											this.setState({ isRequestServiceVisible: true });
+										}}
+									/>
+								</View>
+							) : (
+								<View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
+									<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+										<Text style={fontStyles.bigTextStyleBlue}>{strings.ServiceRequested}</Text>
 									</View>
-								) : (
-										<View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
-											<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-												<Text style={fontStyles.bigTextStyleBlue}>{strings.ServiceRequested}</Text>
-											</View>
-											<TouchableOpacity
-												onPress={() => this.setState({ isCancelRequestVisible: true })}
-												style={{ flex: 1 }}>
-												<Text style={fontStyles.mainTextStyleRed}>{strings.CancelRequest}</Text>
-											</TouchableOpacity>
-										</View>
-									)}
+									<TouchableOpacity
+										onPress={() => this.setState({ isCancelRequestVisible: true })}
+										style={{ flex: 1 }}>
+										<Text style={fontStyles.mainTextStyleRed}>{strings.CancelRequest}</Text>
+									</TouchableOpacity>
+								</View>
+							)}
 
-							<View style={{
-								marginTop: Dimensions.get('window').height * .05,
-								justifyContent: "center",
-								flexDirection: 'column',
-								alignSelf: 'center',
-								borderBottomWidth: .5,
-								borderBottomColor: colors.gray,
-								width: Dimensions.get('window').width * .9
-							}}>
-								<View style={{
-									flexDirection: 'row',
-									width: Dimensions.get('window').width * .9,
-									justifyContent: 'space-between',
+							<View
+								style={{
+									marginTop: Dimensions.get('window').height * 0.05,
+									justifyContent: 'center',
+									flexDirection: 'column',
 									alignSelf: 'center',
-									borderTopWidth: .5,
-									borderTopColor: colors.gray
+									borderBottomWidth: 0.5,
+									borderBottomColor: colors.gray,
+									width: Dimensions.get('window').width * 0.9
 								}}>
+								<View
+									style={{
+										flexDirection: 'row',
+										width: Dimensions.get('window').width * 0.9,
+										justifyContent: 'space-between',
+										alignSelf: 'center',
+										borderTopWidth: 0.5,
+										borderTopColor: colors.gray
+									}}>
 									<View
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-start',
-											marginTop: Dimensions.get('window').height * .01,
-											marginBottom: Dimensions.get('window').height * .01
+											marginTop: Dimensions.get('window').height * 0.01,
+											marginBottom: Dimensions.get('window').height * 0.01
 										}}>
 										<Text style={fontStyles.subTextStyleBlack}>{strings.BusinessName}</Text>
 									</View>
-									<View style={{
-										flexDirection: 'column',
-										justifyContent: 'flex-end',
-										marginBottom: Dimensions.get('window').height * .01,
-										alignItems: 'flex-end'
-									}}>
+									<View
+										style={{
+											flexDirection: 'column',
+											justifyContent: 'flex-end',
+											marginBottom: Dimensions.get('window').height * 0.01,
+											alignItems: 'flex-end'
+										}}>
 										<TouchableOpacity
 											onPress={() => {
 												this.props.navigation.push('RequesterCompanyProfileScreen', {
@@ -353,60 +402,64 @@ class serviceScreen extends Component {
 										</TouchableOpacity>
 									</View>
 								</View>
-								<View style={{
-									flexDirection: 'row',
-									width: Dimensions.get('window').width * .9,
-									justifyContent: 'space-between',
-									alignSelf: 'center',
-									borderTopWidth: .5,
-									borderTopColor: colors.gray
-								}}>
+								<View
+									style={{
+										flexDirection: 'row',
+										width: Dimensions.get('window').width * 0.9,
+										justifyContent: 'space-between',
+										alignSelf: 'center',
+										borderTopWidth: 0.5,
+										borderTopColor: colors.gray
+									}}>
 									<View
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-start',
-											marginTop: Dimensions.get('window').height * .01,
-											marginBottom: Dimensions.get('window').height * .01
+											marginTop: Dimensions.get('window').height * 0.01,
+											marginBottom: Dimensions.get('window').height * 0.01
 										}}>
 										<Text style={fontStyles.subTextStyleBlack}>{strings.PhoneNumber}</Text>
 									</View>
-									<View style={{
-										flexDirection: 'column',
-										justifyContent: 'flex-end',
-										marginBottom: Dimensions.get('window').height * .01,
-										alignItems: 'flex-end'
-									}}>
+									<View
+										style={{
+											flexDirection: 'column',
+											justifyContent: 'flex-end',
+											marginBottom: Dimensions.get('window').height * 0.01,
+											alignItems: 'flex-end'
+										}}>
 										<TouchableOpacity
 											onPress={() => {
-												this.callNumber(provider.phoneNumber)
+												this.callNumber(provider.phoneNumber);
 											}}>
 											<Text style={fontStyles.subTextStyleBlue}>{provider.phoneNumber}</Text>
 										</TouchableOpacity>
 									</View>
 								</View>
-								<View style={{
-									flexDirection: 'row',
-									width: Dimensions.get('window').width * .9,
-									justifyContent: 'space-between',
-									alignSelf: 'center',
-									borderTopWidth: .5,
-									borderTopColor: colors.gray
-								}}>
+								<View
+									style={{
+										flexDirection: 'row',
+										width: Dimensions.get('window').width * 0.9,
+										justifyContent: 'space-between',
+										alignSelf: 'center',
+										borderTopWidth: 0.5,
+										borderTopColor: colors.gray
+									}}>
 									<View
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-start',
-											marginTop: Dimensions.get('window').height * .01,
-											marginBottom: Dimensions.get('window').height * .01
+											marginTop: Dimensions.get('window').height * 0.01,
+											marginBottom: Dimensions.get('window').height * 0.01
 										}}>
 										<Text style={fontStyles.subTextStyleBlack}>{strings.Email}</Text>
 									</View>
-									<View style={{
-										flexDirection: 'column',
-										justifyContent: 'flex-end',
-										marginBottom: Dimensions.get('window').height * .01,
-										alignItems: 'flex-end'
-									}}>
+									<View
+										style={{
+											flexDirection: 'column',
+											justifyContent: 'flex-end',
+											marginBottom: Dimensions.get('window').height * 0.01,
+											alignItems: 'flex-end'
+										}}>
 										<TouchableOpacity
 											onPress={() => {
 												this.handleEmail(provider.email);
@@ -415,215 +468,215 @@ class serviceScreen extends Component {
 										</TouchableOpacity>
 									</View>
 								</View>
-								<View style={{
-									flexDirection: 'row',
-									width: Dimensions.get('window').width * .9,
-									justifyContent: 'space-between',
-									alignSelf: 'center',
-									borderTopWidth: .5,
-									borderTopColor: colors.gray
-								}}>
+								<View
+									style={{
+										flexDirection: 'row',
+										width: Dimensions.get('window').width * 0.9,
+										justifyContent: 'space-between',
+										alignSelf: 'center',
+										borderTopWidth: 0.5,
+										borderTopColor: colors.gray
+									}}>
 									<View
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-start',
-											marginTop: Dimensions.get('window').height * .01,
-											marginBottom: Dimensions.get('window').height * .01
+											marginTop: Dimensions.get('window').height * 0.01,
+											marginBottom: Dimensions.get('window').height * 0.01
 										}}>
 										<Text style={fontStyles.subTextStyleBlack}>{strings.City}</Text>
 									</View>
-									<View style={{
-										flexDirection: 'column',
-										justifyContent: 'flex-end',
-										marginBottom: Dimensions.get('window').height * .01
-									}}>
-										<Text style={fontStyles.subTextStyleBlack}>{provider.location}</Text>
-									</View>
-								</View>
-								{provider.website && provider.website.length > 0 ? (<View style={{
-									flexDirection: 'row',
-									width: Dimensions.get('window').width * .9,
-									justifyContent: 'space-between',
-									alignSelf: 'center',
-									borderTopWidth: .5,
-									borderTopColor: colors.gray
-								}}>
 									<View
 										style={{
 											flexDirection: 'column',
-											justifyContent: 'flex-start',
-											marginTop: Dimensions.get('window').height * .01,
-											marginBottom: Dimensions.get('window').height * .01
+											justifyContent: 'flex-end',
+											marginBottom: Dimensions.get('window').height * 0.01
 										}}>
-										<Text style={fontStyles.subTextStyleBlack}>{strings.Website}</Text>
-									</View>
-									<View style={{
-										flexDirection: 'column',
-										justifyContent: 'flex-end',
-										marginBottom: Dimensions.get('window').height * .01,
-										alignItems: 'flex-end'
-									}}>
-										<TouchableOpacity
-											onPress={() => {
-												try {
-													Linking.openURL('https://' + provider.website)
-												} catch (error) {
-													this.setState({ isLoading: false, isErrorVisible: true });
-													FirebaseFunctions.logIssue(error, {
-														screen: 'RequesterServiceScreen',
-														userID: 'r-' + requester.requesterID,
-														productID: product.productID
-													});
-												}
-
-											}}>
-											<Text style={fontStyles.subTextStyleBlue}>{provider.website}</Text>
-										</TouchableOpacity>
+										<Text style={fontStyles.subTextStyleBlack}>{provider.location}</Text>
 									</View>
 								</View>
-								) : (
-										<View></View>
-									)
-								}
-							</View>
-										<View style={{
-											flexDirection: 'column',
-											justifyContent: 'center',
-											alignItems: 'center',
-											marginTop: Dimensions.get('window').height * .02
+								{provider.website && provider.website.length > 0 ? (
+									<View
+										style={{
+											flexDirection: 'row',
+											width: Dimensions.get('window').width * 0.9,
+											justifyContent: 'space-between',
+											alignSelf: 'center',
+											borderTopWidth: 0.5,
+											borderTopColor: colors.gray
 										}}>
-											<TouchableOpacity onPress={() => {
-												this.props.navigation.push('RequesterCompanyProfileScreen', {
-													provider,
-													requester
-												});
+										<View
+											style={{
+												flexDirection: 'column',
+												justifyContent: 'flex-start',
+												marginTop: Dimensions.get('window').height * 0.01,
+												marginBottom: Dimensions.get('window').height * 0.01
 											}}>
-												<Text style={fontStyles.mainTextStyleBlue}>{strings.MoreByThisBusiness}</Text>
+											<Text style={fontStyles.subTextStyleBlack}>{strings.Website}</Text>
+										</View>
+										<View
+											style={{
+												flexDirection: 'column',
+												justifyContent: 'flex-end',
+												marginBottom: Dimensions.get('window').height * 0.01,
+												alignItems: 'flex-end'
+											}}>
+											<TouchableOpacity
+												onPress={() => {
+													try {
+														Linking.openURL('https://' + provider.website);
+													} catch (error) {
+														this.setState({ isLoading: false, isErrorVisible: true });
+														FirebaseFunctions.logIssue(error, {
+															screen: 'RequesterServiceScreen',
+															userID: 'r-' + requester.requesterID,
+															productID: product.productID
+														});
+													}
+												}}>
+												<Text style={fontStyles.subTextStyleBlue}>{provider.website}</Text>
 											</TouchableOpacity>
 										</View>
+									</View>
+								) : (
+									<View></View>
+								)}
+							</View>
+							<View
+								style={{
+									flexDirection: 'column',
+									justifyContent: 'center',
+									alignItems: 'center',
+									marginTop: Dimensions.get('window').height * 0.02
+								}}>
+								<TouchableOpacity
+									onPress={() => {
+										this.props.navigation.push('RequesterCompanyProfileScreen', {
+											provider,
+											requester
+										});
+									}}>
+									<Text style={fontStyles.mainTextStyleBlue}>{strings.MoreByThisBusiness}</Text>
+								</TouchableOpacity>
+							</View>
 
-
-
-										<View style={{ height: Dimensions.get('window').height * .1 }}></View>
-
-
-
+							<View style={{ height: Dimensions.get('window').height * 0.1 }}></View>
 						</View>
 					</ScrollView>
-						<ErrorAlert
-							isVisible={this.state.isErrorVisible}
-							onPress={() => {
-								this.setState({ isErrorVisible: false });
-							}}
-							title={strings.Whoops}
-							message={strings.SomethingWentWrong}
-						/>
-						<ErrorAlert
-							isVisible={this.state.isCompanyReportedVisible}
-							onPress={() => {
-								this.setState({ isCompanyReportedVisible: false });
-							}}
-							title={strings.CompanyReported}
-							message={strings.CompanyHasBeenReported}
-						/>
-						<ActionSheet
-							ref={(o) => (this.ActionSheet = o)}
-							title={provider.companyName}
-							options={[strings.Message, strings.Report, strings.Block, strings.Cancel]}
-							cancelButtonIndex={3}
-							styles={{
-								titleText: fontStyles.subTextStyleBlue
-							}}
-							destructiveButtonIndex={3}
-							onPress={(index) => {
-								if (index === 1) {
-									this.reportCompany();
-								} else if (index === 2) {
-									this.setState({ isBlockCompanyVisible: true });
-								} else if (index === 0) {
-									this.messageProvider();
-								}
-							}}
-						/>
-						<OptionPicker
-							isVisible={isRequestServiceVisible}
-							title={strings.RequestService}
-							message={strings.AreYouSureRequestService}
-							confirmText={strings.Request}
-							cancelText={strings.Cancel}
-							clickOutside={true}
-							confirmOnPress={async () => {
-								this.setState({ isRequestServiceVisible: false, isLoading: true });
-								//This method will request this service from the company providing it by pushing the request to the
-								//provider.
-								//After confirming to the requester that the request has been processed, the program will
-								//automatically send a message to the provider with a default message saying that this requester wants
-								//to buy this service. Then will push the requester to the chats screen.
-								const { product } = this.state;
-								const { requester } = this.props.navigation.state.params;
-								try {
-									await FirebaseFunctions.requestService(product.serviceID, requester.requesterID);
-									this.setState({ isRequested: true, isLoading: false });
-								} catch (error) {
-									this.setState({ isLoading: false, isErrorVisible: true });
-									FirebaseFunctions.logIssue(error, {
-										screen: 'RequesterServiceScreen',
-										userID: 'r-' + requester.requesterID,
-										productID: product.productID
-									});
-								}
-							}}
-							cancelOnPress={() => {
-								this.setState({ isRequestServiceVisible: false });
-							}}
-						/>
-						<OptionPicker
-							isVisible={isCancelRequestVisible}
-							title={strings.CancelRequest}
-							message={strings.AreYouSureCancelRequest}
-							confirmText={strings.Yes}
-							cancelText={strings.Cancel}
-							clickOutside={true}
-							confirmOnPress={async () => {
-								this.setState({ isCancelRequestVisible: false, isLoading: true });
-								//This method will cancel the request by making sure the user wants to cancel it
-								const { product } = this.state;
-								const { requester } = this.props.navigation.state.params;
-								try {
-									await FirebaseFunctions.deleteRequest(product.serviceID, requester.requesterID);
-									this.setState({ isRequested: false, isLoading: false });
-								} catch (error) {
-									this.setState({ isLoading: false, isErrorVisible: true });
-									FirebaseFunctions.logIssue(error, {
-										screen: 'RequesterServiceScreen',
-										userID: 'r-' + requester.requesterID,
-										productID: product.productID
-									});
-								}
-							}}
-							cancelOnPress={() => {
-								this.setState({ isCancelRequestVisible: false });
-							}}
-						/>
-						<OptionPicker
-							isVisible={this.state.isBlockCompanyVisible}
-							title={strings.Block}
-							message={strings.AreYouSureYouWantToBlock + ' ' + provider.companyName + '?'}
-							confirmText={strings.Yes}
-							cancelText={strings.Cancel}
-							clickOutside={true}
-							confirmOnPress={() => {
-								this.blockCompany();
-							}}
-							cancelOnPress={() => {
-								this.setState({ isBlockCompanyVisible: false });
-							}}
-						/>
+					<ErrorAlert
+						isVisible={this.state.isErrorVisible}
+						onPress={() => {
+							this.setState({ isErrorVisible: false });
+						}}
+						title={strings.Whoops}
+						message={strings.SomethingWentWrong}
+					/>
+					<ErrorAlert
+						isVisible={this.state.isCompanyReportedVisible}
+						onPress={() => {
+							this.setState({ isCompanyReportedVisible: false });
+						}}
+						title={strings.CompanyReported}
+						message={strings.CompanyHasBeenReported}
+					/>
+					<ActionSheet
+						ref={(o) => (this.ActionSheet = o)}
+						title={provider.companyName}
+						options={[strings.Message, strings.Report, strings.Block, strings.Cancel]}
+						cancelButtonIndex={3}
+						styles={{
+							titleText: fontStyles.subTextStyleBlue
+						}}
+						destructiveButtonIndex={3}
+						onPress={(index) => {
+							if (index === 1) {
+								this.reportCompany();
+							} else if (index === 2) {
+								this.setState({ isBlockCompanyVisible: true });
+							} else if (index === 0) {
+								this.messageProvider();
+							}
+						}}
+					/>
+					<OptionPicker
+						isVisible={isRequestServiceVisible}
+						title={strings.RequestService}
+						message={strings.AreYouSureRequestService}
+						confirmText={strings.Request}
+						cancelText={strings.Cancel}
+						clickOutside={true}
+						confirmOnPress={async () => {
+							this.setState({ isRequestServiceVisible: false, isLoading: true });
+							//This method will request this service from the company providing it by pushing the request to the
+							//provider.
+							//After confirming to the requester that the request has been processed, the program will
+							//automatically send a message to the provider with a default message saying that this requester wants
+							//to buy this service. Then will push the requester to the chats screen.
+							const { product } = this.state;
+							const { requester } = this.props.navigation.state.params;
+							try {
+								await FirebaseFunctions.requestService(product.serviceID, requester.requesterID);
+								this.setState({ isRequested: true, isLoading: false });
+							} catch (error) {
+								this.setState({ isLoading: false, isErrorVisible: true });
+								FirebaseFunctions.logIssue(error, {
+									screen: 'RequesterServiceScreen',
+									userID: 'r-' + requester.requesterID,
+									productID: product.productID
+								});
+							}
+						}}
+						cancelOnPress={() => {
+							this.setState({ isRequestServiceVisible: false });
+						}}
+					/>
+					<OptionPicker
+						isVisible={isCancelRequestVisible}
+						title={strings.CancelRequest}
+						message={strings.AreYouSureCancelRequest}
+						confirmText={strings.Yes}
+						cancelText={strings.Cancel}
+						clickOutside={true}
+						confirmOnPress={async () => {
+							this.setState({ isCancelRequestVisible: false, isLoading: true });
+							//This method will cancel the request by making sure the user wants to cancel it
+							const { product } = this.state;
+							const { requester } = this.props.navigation.state.params;
+							try {
+								await FirebaseFunctions.deleteRequest(product.serviceID, requester.requesterID);
+								this.setState({ isRequested: false, isLoading: false });
+							} catch (error) {
+								this.setState({ isLoading: false, isErrorVisible: true });
+								FirebaseFunctions.logIssue(error, {
+									screen: 'RequesterServiceScreen',
+									userID: 'r-' + requester.requesterID,
+									productID: product.productID
+								});
+							}
+						}}
+						cancelOnPress={() => {
+							this.setState({ isCancelRequestVisible: false });
+						}}
+					/>
+					<OptionPicker
+						isVisible={this.state.isBlockCompanyVisible}
+						title={strings.Block}
+						message={strings.AreYouSureYouWantToBlock + ' ' + provider.companyName + '?'}
+						confirmText={strings.Yes}
+						cancelText={strings.Cancel}
+						clickOutside={true}
+						confirmOnPress={() => {
+							this.blockCompany();
+						}}
+						cancelOnPress={() => {
+							this.setState({ isBlockCompanyVisible: false });
+						}}
+					/>
 				</HelpView>
-					);
-				}
-			}
+			);
 		}
-		
-		//Exports the screen
-		export default serviceScreen;
+	}
+}
+
+//Exports the screen
+export default serviceScreen;
