@@ -24,6 +24,7 @@
     "react-native-check-box": "^2.1.7",
     "react-native-code-push": "^5.7.0",
     "react-native-elements": "^1.2.6",
+    "react-native-email": "^1.0.2",
     "react-native-firebase": "^5.5.5",
     "react-native-geolocation-service": "^3.1.0",
     "react-native-gesture-handler": "^1.3.0",
@@ -34,6 +35,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
     "react-native-loading-spinner-overlay": "^1.0.1",
     "react-native-permissions": "^2.0.2",
+    "react-native-phone-call": "^1.0.9",
     "react-native-phone-input": "^0.2.4",
     "react-native-picker-select": "^6.3.2",
     "react-native-ratings": "^6.5.0",
@@ -44,6 +46,7 @@
     "react-native-svg": "^9.5.1",
     "react-native-tab-view": "^2.7.3",
     "react-native-vector-icons": "^6.6.0",
+    "react-native-view-more-text": "^2.1.0",
     "react-navigation": "^3.11.0",
     "rn-fetch-blob": "^0.11.2"
   },

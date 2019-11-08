@@ -73,7 +73,7 @@ export default class providerAdditionalInformationScreen extends Component {
     } else {
       this.setState({ isLoading: true });
       try {
-        const { businessName, businessInfo } = this.props.navigation.state.params;
+        const { businessName, businessInfo, email } = this.props.navigation.state.params;
         const { phoneNumber, website, location, coordinates } = this.state;
         //Creates the base provider object
         const provider = {
@@ -84,13 +84,14 @@ export default class providerAdditionalInformationScreen extends Component {
           phoneNumber,
           website,
           location,
-          coordinates
+          coordinates,
+          email
         };
 
         //If this is a new profile, then it will add them to Firebase Authentication in addition to adding them to the database
         if (this.state.editing === false) {
           firebase.auth().signInAnonymously();
-          const { email, password } = this.props.navigation.state.params;
+          const { password } = this.props.navigation.state.params;
           const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
           const newProvider = { ...provider, providerID: account.user.uid };
           await FirebaseFunctions.addProviderToDatabase(account, newProvider);
