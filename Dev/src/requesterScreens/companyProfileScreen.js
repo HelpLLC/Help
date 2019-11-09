@@ -220,45 +220,6 @@ class companyProfileScreen extends Component {
             title={strings.Whoops}
             message={strings.SomethingWentWrong}
           />
-          <ErrorAlert
-            isVisible={this.state.isCompanyReportedVisible}
-            onPress={() => {
-              this.setState({ isCompanyReportedVisible: false });
-            }}
-            title={strings.CompanyReported}
-            message={strings.CompanyHasBeenReported}
-          />
-          <ActionSheet
-            ref={(o) => (this.ActionSheet = o)}
-            title={provider.companyName}
-            options={[strings.Report, strings.Block, strings.Cancel]}
-            cancelButtonIndex={2}
-            styles={{
-              titleText: fontStyles.subTextStyleBlue
-            }}
-            destructiveButtonIndex={2}
-            onPress={(index) => {
-              if (index === 0) {
-                this.reportCompany();
-              } else if (index === 1) {
-                this.setState({ isBlockCompanyVisible: true });
-              }
-            }}
-          />
-          <OptionPicker
-            isVisible={this.state.isBlockCompanyVisible}
-            title={strings.Block}
-            message={strings.AreYouSureYouWantToBlock + ' ' + provider.companyName + '?'}
-            confirmText={strings.Yes}
-            cancelText={strings.Cancel}
-            clickOutside={true}
-            confirmOnPress={() => {
-              this.blockCompany();
-            }}
-            cancelOnPress={() => {
-              this.setState({ isBlockCompanyVisible: false });
-            }}
-          />
         </HelpView>
       );
     }

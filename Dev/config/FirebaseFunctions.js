@@ -328,6 +328,7 @@ export default class FirebaseFunctions {
 	}
 
 	static async uploadRequesterImage(reference, response) {
+		console.log(response);
 		//Fetches the absolute path of the image (depending on android or ios)
 		let absolutePath = '';
 		if (Platform.OS === 'android') {
