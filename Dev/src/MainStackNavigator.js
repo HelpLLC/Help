@@ -17,7 +17,7 @@ import settingsScreen from './settingsScreens/settingsScreen';
 import providerScreensNavigator from './providerScreens/providerScreensNavigator';
 import featuredScreen from './requesterScreens/featuredScreen';
 import RequesterOrderHistoryScreen from './requesterScreens/orderHistoryScreen';
-import { fadeIn } from 'react-navigation-transitions';
+import { fadeIn, fromRight } from 'react-navigation-transitions';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import termsAndConditionsScreen from './firstScreens/termsAndConditionsScreen';
 import creditsScreen from './settingsScreens/creditsScreen';
@@ -169,12 +169,13 @@ const handleCustomTransition = ({ scenes }) => {
 		prevScene &&
 		prevScene.route.routeName === 'FirstScreens' &&
 		prevScene.route.routes &&
-		prevScene.route.routes[0].routeName === "LaunchScreen"
+		prevScene.route.routes[0].routeName === 'LaunchScreen'
 	) {
 		return fadeIn(700);
+	} else {
+		return fromRight();
 	}
 };
-
 //The navigation config containing the initial route name
 const navigatorConfig = {
 	initialRouteName: 'FirstScreens',

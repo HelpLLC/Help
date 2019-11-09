@@ -101,20 +101,20 @@ class createRequesterProfileScreen extends Component {
 						phoneNumber: phoneNumber,
 						city: city,
 						coordinates: coordinates
-					});
+          });
 					//If the image has been updated, then it will update it in firebase
 					if (this.state.response) {
 						await FirebaseFunctions.uploadRequesterImage(
 							requester.requesterID,
 							this.state.response
 						);
-					}
+          }
 					const allProducts = this.props.navigation.state.params.allProducts;
-					const updatedRequeter = await FirebaseFunctions.getRequesterByID(requester.requesterID);
+          const updatedRequeter = await FirebaseFunctions.getRequesterByID(requester.requesterID);
 					this.props.navigation.push('FeaturedScreen', {
 						requester: updatedRequeter,
 						allProducts
-					});
+          });
 				} catch (error) {
 					this.setState({ isLoading: false, isErrorVisible: true });
 					FirebaseFunctions.logIssue(error, 'CreateRequesterProfileScreen');
@@ -288,7 +288,6 @@ class createRequesterProfileScreen extends Component {
 					<OneLineRoundedBoxInput
 						placeholder={strings.EnterPhoneNumber}
 						onChangeText={(input) => {
-              console.log(input);
 							this.setState({ phoneNumber: input.replace(/[^0-9]/g, '') });
 						}}
 						value={this.state.phoneNumber}
@@ -375,8 +374,8 @@ class createRequesterProfileScreen extends Component {
 					}}
 				/>
 				<ImagePicker
-					imageHeight={500}
-					imageWidth={500}
+					imageHeight={256}
+					imageWidth={256}
 					onImageSelected={(response) => {
 						this.setState({ isShowing: false });
 						const source = { uri: 'data:image/jpeg;base64,' + response.data };

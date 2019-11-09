@@ -12,7 +12,7 @@ import signUpScreen from './signUpScreen';
 import createRequesterProfileScreen from './createRequesterProfileScreen';
 import providerAdditionalInformationScreen from './providerAdditionalInformationScreen';
 import launchScreen from './launchScreen';
-import { fadeIn } from 'react-navigation-transitions';
+import { fadeIn, fromRight } from 'react-navigation-transitions';
 
 //Route config that leads to all the different possible screens
 const routeConfig = {
@@ -105,6 +105,8 @@ const handleCustomTransition = ({ scenes }) => {
 		prevScene.route.routeName === 'LaunchScreen'
 	) {
 		return fadeIn(1000);
+	} else {
+		return fromRight()
 	}
 };
 

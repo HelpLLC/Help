@@ -21,7 +21,6 @@ import ErrorAlert from '../../components/ErrorAlert';
 import { Icon } from 'react-native-elements';
 import { CachedImage } from 'react-native-img-cache';
 import colors from 'config/colors';
-import ImagePicker from '../../components/ImagePicker';
 
 class createProductScreen extends Component {
 	state = {
@@ -96,7 +95,6 @@ class createProductScreen extends Component {
 	//Chooses the image from camera roll or picture and sets it to the image source
 	chooseImage() {
 		Keyboard.dismiss();
-		
 		this.setState({ isShowing: true });
 	}
 
@@ -512,8 +510,8 @@ class createProductScreen extends Component {
 					message={strings.PleaseAddAnImage}
 				/>
 				<ImagePicker
-					imageHeight={500}
-					imageWidth={500}
+          imageHeight={250}
+          imageWidth={Dimensions.get('window').width}
 					onImageSelected={(response) => {
 						this.setState({ isShowing: false });
 						const source = { uri: 'data:image/jpeg;base64,' + response.data };

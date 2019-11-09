@@ -31,7 +31,6 @@ export default class FirebaseFunctions {
 	//This method is going to test whether a requester object has all the fields required as of the 2.0 update
 	//It will return a boolen true or false based on that
 	static isRequesterUpToDate(requesterObject) {
-		console.log(requesterObject.city && requesterObject.coordinates && requesterObject.phoneNumber)
 		return requesterObject.city && requesterObject.coordinates && requesterObject.phoneNumber;
 	}
 
@@ -315,7 +314,7 @@ export default class FirebaseFunctions {
 		if (Platform.OS === 'android') {
 			absolutePath = 'file://' + response.path;
 		} else {
-			absolutePath = response.uri;
+			absolutePath = response.path;
 		}
 
 		//Creates the reference & uploads the image (async)
@@ -328,18 +327,15 @@ export default class FirebaseFunctions {
 	}
 
 	static async uploadRequesterImage(reference, response) {
-		console.log(response);
 		//Fetches the absolute path of the image (depending on android or ios)
 		let absolutePath = '';
 		if (Platform.OS === 'android') {
 			absolutePath = 'file://' + response.path;
 		} else {
-			absolutePath = response.uri;
+			absolutePath = response.path;
 		}
-
 		//Creates the reference & uploads the image (async)
 		await this.storage.ref('profilePictures/' + reference).putFile(absolutePath);
-
 		//Logs the event in firebase analytics
 		this.analytics.logEvent('upload_profile_image');
 
