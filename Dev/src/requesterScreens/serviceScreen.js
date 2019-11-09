@@ -319,7 +319,7 @@ class serviceScreen extends Component {
 										flex: 1,
 										justifyContent: 'center',
 										alignItems: 'center',
-										marginTop: Dimensions.get('window').height * 0.04
+										marginTop: Dimensions.get('window').height * - 0.04
 									}}>
 									<Text style={fontStyles.bigTextStyleBlack}>{product.pricing}</Text>
 								</View>
