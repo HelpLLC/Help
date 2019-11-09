@@ -15,16 +15,15 @@ import TopBanner from '../components/TopBanner';
 import HelpSearchBar from '../components/HelpSearchBar';
 import OptionPicker from '../components/OptionPicker';
 import ReviewPopup from '../components/ReviewPopup';
-import { Rating, AirbnbRating } from 'react-native-ratings';
-import ImageWithBorder from '../components/ImageWithBorder';
-import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
 
 class featuredScreen extends Component {
+	productForReview = 0;
+
 	state = {
 		isLoading: true,
 		isOpen: false,
 		isReviewDue: false,
-		rating: 0,
+		rating = {stars: null, comment: null},
 		search: '',
 		allProducts: '',
 		displayedProducts: '',
@@ -62,12 +61,13 @@ class featuredScreen extends Component {
 				displayedProducts: allProducts,
 				isLoading: false
 			});
-			requester.orderHistory.completed.forEach((completedRequest) => {
-				if (completedRequest.review === null) {
+			for (i = 0; i < requester.orderHistory.completed.length; i++) {
+				if (requester.orderHistory.completed[i].review.stars === null) {
+					productForReview = i;
 					this.setState({ isReviewDue: true });
 					break;
 				}
-			});
+			}
 		}
 	}
 
@@ -200,7 +200,7 @@ class featuredScreen extends Component {
 
 					<ReviewPopup
 						isVisible={this.state.isReviewDue}
-						onFinishRating={this.rating}
+						onFinishRating={this.state.rating}
 						title={strings.LeaveAReview}
 						message={strings.BusinessName}
 						confirmText={strings.Submit}
@@ -209,9 +209,15 @@ class featuredScreen extends Component {
 						value={this.state.reviewComment}
 						placeholder={strings.AnyCommentsQuestion}
 						onChangeText={(input) => this.setState({ reviewComment: input })}
-						confirmOnPress={async () => {}}
+						confirmOnPress={async () => {
+							requester.orderHistory.completed[this.productForReview].review.stars = this.state.rating;
+							requester.orderHistory.completed[this.productForReview].review.comment = this.state.reviewComment;
+
+							product.reviews.push(requester.orderHistory.completed[this.productForReview].review);
+						}}
 						cancelOnPress={() => {
 							this.setState({ isReviewDue: false });
+							requester.orderHistory.completed[this.productForReview].review = 'None';
 						}}
 					/>
 				</HelpView>
