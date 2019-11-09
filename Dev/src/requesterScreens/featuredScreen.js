@@ -63,6 +63,9 @@ class featuredScreen extends Component {
 				isLoading: false
 			});
 		}
+		if (requester.orderHistory.completed.review == null) {
+			this.setState({ isReviewDue: true });
+		}
 	}
 
 	//Function searches through the array of products and displays the results by changing the state
