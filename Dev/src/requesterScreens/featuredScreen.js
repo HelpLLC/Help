@@ -62,9 +62,12 @@ class featuredScreen extends Component {
 				displayedProducts: allProducts,
 				isLoading: false
 			});
-			if (requester.orderHistory.completed.review === null) {
-				this.setState({ isReviewDue: true });
-			}
+			requester.orderHistory.completed.forEach((completedRequest) => {
+				if (completedRequest.review === null) {
+					this.setState({ isReviewDue: true });
+					break;
+				}
+			});
 		}
 	}
 
