@@ -565,8 +565,7 @@ export default class FirebaseFunctions {
 			price,
 			pricing,
 			coordinates,
-			location,
-			reviews: []
+			location
 		});
 
 		//Removes the old image and then uploads the new one if the image has been changed
