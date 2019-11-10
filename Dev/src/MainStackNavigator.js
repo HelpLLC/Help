@@ -249,6 +249,7 @@ const handleCustomTransition = ({ scenes }) => {
 		return fromRight();
 	}
 };
+
 //The navigation config containing the initial route name
 const navigatorConfig = {
 	initialRouteName: 'LaunchScreen',
