@@ -17,13 +17,14 @@ import OptionPicker from '../components/OptionPicker';
 import ReviewPopup from '../components/ReviewPopup';
 
 class featuredScreen extends Component {
-	productForReview = 0;
+	productId = 0;
 
 	state = {
 		isLoading: true,
 		isOpen: false,
 		isReviewDue: false,
-		rating = {stars: null, comment: null},
+		stars: null,
+		comment: null,
 		search: '',
 		allProducts: '',
 		displayedProducts: '',
@@ -63,7 +64,7 @@ class featuredScreen extends Component {
 			});
 			for (i = 0; i < requester.orderHistory.completed.length; i++) {
 				if (requester.orderHistory.completed[i].review.stars === null) {
-					productForReview = i;
+					productId = requester.orderHistory.completed[i].serviceId;
 					this.setState({ isReviewDue: true });
 					break;
 				}
@@ -200,7 +201,7 @@ class featuredScreen extends Component {
 
 					<ReviewPopup
 						isVisible={this.state.isReviewDue}
-						onFinishRating={this.state.rating}
+						onFinishRating={(rating) => this.props.onFinishRating(rating)}
 						title={strings.LeaveAReview}
 						message={strings.BusinessName}
 						confirmText={strings.Submit}
@@ -210,10 +211,7 @@ class featuredScreen extends Component {
 						placeholder={strings.AnyCommentsQuestion}
 						onChangeText={(input) => this.setState({ reviewComment: input })}
 						confirmOnPress={async () => {
-							requester.orderHistory.completed[this.productForReview].review.stars = this.state.rating;
-							requester.orderHistory.completed[this.productForReview].review.comment = this.state.reviewComment;
-
-							product.reviews.push(requester.orderHistory.completed[this.productForReview].review);
+							FirebaseFunctions.submitReview(this.productId, this.state.rating, hisstate.reviewComment);
 						}}
 						cancelOnPress={() => {
 							this.setState({ isReviewDue: false });

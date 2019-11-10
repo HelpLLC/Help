@@ -73,6 +73,8 @@ class ReviewPopup extends Component {
 								/>
 							</View>
 						}
+						onFinishRating={(rating) => this.props.onFinishRating(rating)}
+						count={this.props.stars}
 						showCancelButton={oneOption === true ? false : true}
 						showConfirmButton={true}
 						confirmButtonColor={colors.lightBlue}
