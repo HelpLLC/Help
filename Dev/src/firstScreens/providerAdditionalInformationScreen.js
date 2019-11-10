@@ -143,7 +143,8 @@ export default class providerAdditionalInformationScreen extends Component {
           style={{
             alignSelf: 'flex-start',
             justifyContent: 'flex-end',
-            marginVertical: Dimensions.get('window').height * 0.02
+            marginVertical: Dimensions.get('window').height * 0.02,
+            marginLeft: Dimensions.get('window').width * 0.2
           }}>
           <Text style={fontStyles.bigTextStyleBlack}>{strings.Website}</Text>
         </View>
@@ -161,7 +162,8 @@ export default class providerAdditionalInformationScreen extends Component {
           style={{
             alignSelf: 'flex-start',
             justifyContent: 'flex-end',
-            marginVertical: Dimensions.get('window').height * 0.02
+            marginVertical: Dimensions.get('window').height * 0.02,
+            marginLeft: Dimensions.get('window').width * 0.2
           }}>
           <Text style={fontStyles.bigTextStyleBlack}>{strings.PhoneNumber}</Text>
         </View>
@@ -181,7 +183,8 @@ export default class providerAdditionalInformationScreen extends Component {
           style={{
             justifyContent: 'flex-end',
             alignSelf: 'flex-start',
-            marginVertical: Dimensions.get('window').height * 0.02
+            marginVertical: Dimensions.get('window').height * 0.02,
+            marginLeft: Dimensions.get('window').width * 0.2
           }}>
           <TouchableOpacity
             onPress={() => {

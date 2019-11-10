@@ -43,8 +43,6 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Help would like to use your camera to change product picture</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Help would like to access your location</string>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
 	<key>NSMainNibFile~ipad</key>
