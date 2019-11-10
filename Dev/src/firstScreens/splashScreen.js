@@ -39,7 +39,7 @@ class splashScreen extends Component {
 							style={roundBlueButtonStyle.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={() => {
-								this.props.navigation.navigate('LogInScreen');
+								this.props.navigation.push('LogInScreen');
 							}}
 						/>
 					</View>

@@ -33,7 +33,6 @@ import createRequesterProfileScreen from './firstScreens/createRequesterProfileS
 
 //The route config for all of the screens
 const routeConfig = {
-	
 	//--------------------------- First Screens ---------------------------
 
 	//Takes you to the launch screen which is the blue logo
@@ -108,7 +107,6 @@ const routeConfig = {
 		})
 	},
 
-
 	//--------------------------- Business Screens ---------------------------
 
 	//The route going to the create product screen
@@ -161,7 +159,6 @@ const routeConfig = {
 		screen: RequesterCompanyProfileScreen
 	},
 
-	
 	//Route connecting to the featured screen
 	FeaturedScreen: {
 		//connects the object with the help screen component
@@ -204,7 +201,6 @@ const routeConfig = {
 			gesturesEnabled: false
 		})
 	},
-
 
 	//--------------------------- Settings Screen ---------------------------
 
