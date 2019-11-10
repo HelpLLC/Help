@@ -85,8 +85,8 @@ class createProductScreen extends Component {
 				priceType: 'per',
 				pricePerNumber: '',
 				pricePerText: '',
-        priceMin: '',
-        isShowing: false,
+				priceMin: '',
+				isShowing: false,
 				priceMax: ''
 			});
 		}
@@ -510,8 +510,8 @@ class createProductScreen extends Component {
 					message={strings.PleaseAddAnImage}
 				/>
 				<ImagePicker
-          imageHeight={250}
-          imageWidth={Dimensions.get('window').width}
+					imageHeight={250}
+					imageWidth={Dimensions.get('window').width}
 					onImageSelected={(response) => {
 						this.setState({ isShowing: false });
 						const source = { uri: 'data:image/jpeg;base64,' + response.data };

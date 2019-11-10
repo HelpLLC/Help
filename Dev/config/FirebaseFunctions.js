@@ -397,7 +397,8 @@ export default class FirebaseFunctions {
 			coordinates,
 			location,
 			offeredByName: companyName,
-			category: 'Cleaning'
+			category: 'Cleaning',
+			reviews: []
 		};
 
 		//Adds the product to the database of products
@@ -661,7 +662,8 @@ export default class FirebaseFunctions {
 				year: 'numeric',
 				month: '2-digit',
 				day: '2-digit'
-			})
+			}),
+			review: null
 		});
 
 		await this.updateRequesterByID(requesterID, {
