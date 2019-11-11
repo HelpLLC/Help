@@ -15,21 +15,20 @@ import TopBanner from '../components/TopBanner';
 import HelpSearchBar from '../components/HelpSearchBar';
 import OptionPicker from '../components/OptionPicker';
 import ReviewPopup from '../components/ReviewPopup';
-import { Rating, AirbnbRating } from 'react-native-ratings';
-import ImageWithBorder from '../components/ImageWithBorder';
-import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
 
 class featuredScreen extends Component {
 	state = {
 		isLoading: true,
 		isOpen: false,
 		isReviewDue: false,
-		rating: 0,
+		stars: 0,
+		comment: '',
 		search: '',
 		allProducts: '',
 		displayedProducts: '',
-		reviewComment: '',
-		incompleteProfile: false
+		incompleteProfile: false,
+		isReviewDueName: '',
+		isReviewDueID: ''
 	};
 
 	//Filters the products by ones that the user has blocked, and also returns only the products that are being offered within 50 miles
@@ -62,12 +61,19 @@ class featuredScreen extends Component {
 				displayedProducts: allProducts,
 				isLoading: false
 			});
-			//requester.orderHistory.completed.forEach((completedRequest) => {
-			//	if (completedRequest.review === null) {
-			//		this.setState({ isReviewDue: true });
-			//		break;
-			//	}
-			//});
+			for (i = 0; i < requester.orderHistory.completed.length; i++) {
+				if (requester.orderHistory.completed[i].review === null) {
+					const service = await FirebaseFunctions.getServiceByID(
+						requester.orderHistory.completed[i].serviceID
+					);
+					this.setState({
+						isReviewDue: true,
+						isReviewDueID: service.serviceID,
+						isReviewDueName: service.serviceTitle
+					});
+					break;
+				}
+			}
 		}
 	}
 
@@ -197,21 +203,48 @@ class featuredScreen extends Component {
 							});
 						}}
 					/>
-
 					<ReviewPopup
 						isVisible={this.state.isReviewDue}
-						onFinishRating={this.rating}
+						onFinishRating={(stars) => this.setState({ stars })}
 						title={strings.LeaveAReview}
-						message={strings.BusinessName}
+						message={this.state.isReviewDueName}
 						confirmText={strings.Submit}
 						cancelText={strings.Skip}
+						imageFunction={async () => {
+							return await FirebaseFunctions.getProductImageByID(this.state.isReviewDueID);
+						}}
 						clickOutside={true}
-						value={this.state.reviewComment}
+						value={this.state.comment}
 						placeholder={strings.AnyCommentsQuestion}
-						onChangeText={(input) => this.setState({ reviewComment: input })}
-						confirmOnPress={async () => {}}
+						onChangeText={(input) => this.setState({ comment: input })}
+						confirmOnPress={async () => {
+							try {
+								FirebaseFunctions.submitReview(
+									this.state.isReviewDueID,
+									requester.requesterID,
+									this.state.stars,
+									this.state.comment
+								);
+								FirebaseFunctions.analytics.logEvent('submit_review');
+							} catch (error) {
+								FirebaseFunctions.logIssue(error, {
+									screen: 'Featured Screen',
+									userID: 'r-' + requester.requesterID
+								});
+							}
+							this.setState({ isReviewDue: false });
+						}}
 						cancelOnPress={() => {
 							this.setState({ isReviewDue: false });
+							try {
+								FirebaseFunctions.skipReview(this.state.isReviewDueID, requester.requesterID);
+								FirebaseFunctions.analytics.logEvent('skip_review');
+							} catch (error) {
+								FirebaseFunctions.logIssue(error, {
+									screen: 'Featured Screen',
+									userID: 'r-' + requester.requesterID
+								});
+							}
 						}}
 					/>
 				</HelpView>
