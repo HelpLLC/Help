@@ -12,7 +12,6 @@ import codePush from 'react-native-code-push';
 
 //Launches the app with the persisted store
 class App extends Component {
-		//Ignores a specific warning
   state = {
     isLoading: true
   };
