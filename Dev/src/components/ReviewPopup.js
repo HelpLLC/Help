@@ -9,7 +9,6 @@ import colors from 'config/colors';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import ImageWithBorder from '../components/ImageWithBorder';
 import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
-import strings from 'config/strings';
 
 //The class that will render the alert
 class ReviewPopup extends Component {
@@ -20,12 +19,12 @@ class ReviewPopup extends Component {
 			cancelText,
 			confirmOnPress,
 			cancelOnPress,
+			onChangeText,
 			title,
 			message,
-			oneOption,
-			clickOutside,
 			value,
-			placeholder
+			placeholder,
+			imageFunction
 		} = this.props;
 		return (
 			<View>
@@ -34,7 +33,7 @@ class ReviewPopup extends Component {
 						show={isVisible}
 						title={title}
 						message={message}
-						closeOnTouchOutside={clickOutside}
+						closeOnTouchOutside={false}
 						customView={
 							<View
 								style={
@@ -55,15 +54,19 @@ class ReviewPopup extends Component {
 										height={Dimensions.get('window').height * 0.075}
 										imageFunction={async () => {
 											//Passes in the function to retrieve the image of this product
-											return await FirebaseFunctions.getProfilePictureByID(
-												this.props.requester.providerId
-											);
+											return await imageFunction();
 										}}
 									/>
 								</View>
-								<Rating />
+								<AirbnbRating
+									onFinishRating={(rating) => this.props.onFinishRating(rating)}
+									count={this.props.stars}
+									size={30}
+									showRating={false}
+									defaultRating={0}
+								/>
+								<View style={{ paddingBottom: Dimensions.get('window').height * 0.025 }}></View>
 								<MultiLineRoundedBoxInput
-									stle={{ flex: 3 }}
 									width={Dimensions.get('window').width * 0.6}
 									height={Dimensions.get('window').height * 0.14641}
 									placeholder={placeholder}
@@ -73,7 +76,7 @@ class ReviewPopup extends Component {
 								/>
 							</View>
 						}
-						showCancelButton={oneOption === true ? false : true}
+						showCancelButton={true}
 						showConfirmButton={true}
 						confirmButtonColor={colors.lightBlue}
 						cancelButtonColor={colors.gray}
@@ -95,20 +98,19 @@ class ReviewPopup extends Component {
 	}
 }
 
-//Defines the types of props that this component should take. For this, it should only take the state
-//to determine whether it shows or not, as well as the onPress method for the confirm message.
-//It will take an optional prop to only take in one button making it just an alert
+//Defines the types of props that this component should take.
 ReviewPopup.propTypes = {
 	isVisible: PropTypes.bool.isRequired,
 	confirmText: PropTypes.string.isRequired,
-	cancelText: PropTypes.string,
+	cancelText: PropTypes.string.isRequired,
 	confirmOnPress: PropTypes.func.isRequired,
-	cancelOnPress: PropTypes.func,
+	cancelOnPress: PropTypes.func.isRequired,
+	onChangeText: PropTypes.func.isRequired,
 	title: PropTypes.string.isRequired,
 	message: PropTypes.string.isRequired,
-	onChangeText: PropTypes.func.isRequired,
-	value: PropTypes.string,
-	placeholder: PropTypes.string
+	value: PropTypes.string.isRequired,
+	placeholder: PropTypes.string.isRequired,
+	imageFunction: PropTypes.func.isRequired
 };
 
 //Exports the module
