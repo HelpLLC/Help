@@ -1,4 +1,5 @@
 - Redesigned the product screen for customers to display more company information
 - Added the ability for customers to call & email the businesses they are interested information
 - Added the ability to review services
+- Updated app logo
 - Bug fixes and improvements
