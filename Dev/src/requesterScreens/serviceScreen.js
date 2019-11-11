@@ -280,7 +280,7 @@ class serviceScreen extends Component {
 									borderTopWidth: 4,
 									width: Dimensions.get('window').width,
 									height: 258,
-									marginTop: Dimensions.get('window').height * 0.02
+									marginVertical: Dimensions.get('window').height * 0.02
 								}}>
 								<CachedImage
 									style={{
@@ -290,41 +290,29 @@ class serviceScreen extends Component {
 									source={this.state.image}
 								/>
 							</View>
+							<View
+								style={{
+									justifyContent: 'center',
+									width: Dimensions.get('window').width * 0.92,
+									marginLeft: Dimensions.get('window').width * 0.04
+								}}>
+								<ViewMoreText
+									numberOfLines={3}
+									renderViewMore={(onPress) => this.renderViewMore(onPress)}
+									renderViewLess={(onPress) => this.renderViewLess(onPress)}
+									textStyle={{ textAlign: 'left' }}>
+									<Text style={fontStyles.subTextStyleBlack}>{product.serviceDescription}</Text>
+								</ViewMoreText>
+							</View>
 
 							<View
 								style={{
-									width: Dimensions.get('window').width,
-									flex: 1,
-									justifyContent: 'center'
+									justifyContent: 'center',
+									alignItems: 'center',
+									marginBottom: Dimensions.get('window').height * 0.04
 								}}>
-								<View
-									style={{
-										flex: 1,
-										justifyContent: 'center',
-										marginTop: Dimensions.get('window').height * 0.01,
-										width: Dimensions.get('window').width * 0.92,
-										marginLeft: Dimensions.get('window').width * 0.04
-									}}>
-									<ViewMoreText
-										numberOfLines={3}
-										renderViewMore={this.renderViewMore}
-										renderViewLess={this.renderViewLess}
-										textStyle={{ textAlign: 'left' }}>
-										<Text style={fontStyles.subTextStyleBlack}>{product.serviceDescription}</Text>
-									</ViewMoreText>
-								</View>
-
-								<View
-									style={{
-										flex: 1,
-										justifyContent: 'center',
-										alignItems: 'center',
-										marginTop: Dimensions.get('window').height * - 0.04
-									}}>
-									<Text style={fontStyles.bigTextStyleBlack}>{product.pricing}</Text>
-								</View>
+								<Text style={fontStyles.bigTextStyleBlack}>{product.pricing}</Text>
 							</View>
-
 							{//Tests if this service has already been requested by the current user
 							this.state.isRequested === false ? (
 								<View
@@ -344,13 +332,15 @@ class serviceScreen extends Component {
 									/>
 								</View>
 							) : (
-								<View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
-									<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+								<View
+									style={{
+										justifyContent: 'space-evenly',
+										alignItems: 'center'
+									}}>
+									<View style={{ marginBottom: Dimensions.get('window').height * 0.04 }}>
 										<Text style={fontStyles.bigTextStyleBlue}>{strings.ServiceRequested}</Text>
 									</View>
-									<TouchableOpacity
-										onPress={() => this.setState({ isCancelRequestVisible: true })}
-										style={{ flex: 1 }}>
+									<TouchableOpacity onPress={() => this.setState({ isCancelRequestVisible: true })}>
 										<Text style={fontStyles.mainTextStyleRed}>{strings.CancelRequest}</Text>
 									</TouchableOpacity>
 								</View>
