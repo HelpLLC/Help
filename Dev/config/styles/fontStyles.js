@@ -4,7 +4,7 @@ import colors from '../colors';
 import { StyleSheet, Platform, PixelRatio } from 'react-native';
 
 //Gets the correct font based on either iOS or Android
-const font = (Platform.OS === 'ios' ? 'Arial Rounded MT Bold' : 'sans-serif-medium');
+const font = 'Arial Rounded MT Bold';
 
 //Sets the font size
 let baseFontSize = (Platform.OS === 'android' ? 20 : 18);

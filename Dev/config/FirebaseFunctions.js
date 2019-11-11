@@ -31,7 +31,6 @@ export default class FirebaseFunctions {
   //This method is going to test whether a requester object has all the fields required as of the 2.0 update
   //It will return a boolen true or false based on that
   static isRequesterUpToDate(requesterObject) {
-    console.log(requesterObject.city && requesterObject.coordinates && requesterObject.phoneNumber);
     return requesterObject.city && requesterObject.coordinates && requesterObject.phoneNumber;
   }
 
@@ -315,7 +314,7 @@ export default class FirebaseFunctions {
     if (Platform.OS === 'android') {
       absolutePath = 'file://' + response.path;
     } else {
-      absolutePath = response.uri;
+      absolutePath = response.path;
     }
 
     //Creates the reference & uploads the image (async)
@@ -333,12 +332,10 @@ export default class FirebaseFunctions {
     if (Platform.OS === 'android') {
       absolutePath = 'file://' + response.path;
     } else {
-      absolutePath = response.uri;
+      absolutePath = response.path;
     }
-
     //Creates the reference & uploads the image (async)
     await this.storage.ref('profilePictures/' + reference).putFile(absolutePath);
-
     //Logs the event in firebase analytics
     this.analytics.logEvent('upload_profile_image');
 
@@ -499,6 +496,49 @@ export default class FirebaseFunctions {
 
     //Logs the event in firebase analytics
     this.analytics.logEvent('send_message');
+    return 0;
+  }
+
+  //This method is going to add a review to the array of reviews for a specified service. It will also
+  //update the status of the review inside the requester's array of orderHistory.
+  static async submitReview(serviceID, requesterID, stars, comment) {
+    review = {
+      stars,
+      requesterID,
+      comment
+    };
+
+    await this.updateServiceByID(serviceID, {
+      reviews: firebase.firestore.FieldValue.arrayUnion(review)
+    });
+
+    //Updates the requester object's completed array with the new review specific to this object
+    const requester = await this.getRequesterByID(requesterID);
+    let { orderHistory } = requester;
+    const indexOfCompletedRequest = orderHistory.completed.findIndex((eachCompleted) => {
+      return eachCompleted.serviceID === serviceID;
+    });
+    orderHistory.completed[indexOfCompletedRequest].review = review;
+    await this.updateRequesterByID(requesterID, {
+      orderHistory
+    });
+
+    return 0;
+  }
+
+  //This method is going to update the review status of a specific product inside a requester object
+  //to indicate that they have opted out of reviewing this product
+  static async skipReview(serviceID, requesterID) {
+    const requester = await this.getRequesterByID(requesterID);
+    let { orderHistory } = requester;
+    const indexOfCompletedRequest = orderHistory.completed.findIndex((eachCompleted) => {
+      return eachCompleted.serviceID === serviceID;
+    });
+    orderHistory.completed[indexOfCompletedRequest].review = 'None';
+    await this.updateRequesterByID(requesterID, {
+      orderHistory
+    });
+
     return 0;
   }
 
@@ -803,49 +843,6 @@ export default class FirebaseFunctions {
       await this.fcm.subscribeToTopic(topicName);
       return topicName;
     }
-  }
-
-  //This method is going to add a review to the array of reviews for a specified service. It will also
-  //update the status of the review inside the requester's array of orderHistory.
-  static async submitReview(serviceID, requesterID, stars, comment) {
-    review = {
-      stars,
-      requesterID,
-      comment
-    };
-
-    await this.updateServiceByID(serviceID, {
-      reviews: firebase.firestore.FieldValue.arrayUnion(review)
-    });
-
-    //Updates the requester object's completed array with the new review specific to this object
-    const requester = await this.getRequesterByID(requesterID);
-    let { orderHistory } = requester;
-    const indexOfCompletedRequest = orderHistory.completed.findIndex((eachCompleted) => {
-      return eachCompleted.serviceID === serviceID;
-    });
-    orderHistory.completed[indexOfCompletedRequest].review = review;
-    await this.updateRequesterByID(requesterID, {
-      orderHistory
-    });
-
-    return 0;
-  }
-
-  //This method is going to update the review status of a specific product inside a requester object
-  //to indicate that they have opted out of reviewing this product
-  static async skipReview(serviceID, requesterID) {
-    const requester = await this.getRequesterByID(requesterID);
-    let { orderHistory } = requester;
-    const indexOfCompletedRequest = orderHistory.completed.findIndex((eachCompleted) => {
-      return eachCompleted.serviceID === serviceID;
-    });
-    orderHistory.completed[indexOfCompletedRequest].review = 'None';
-    await this.updateRequesterByID(requesterID, {
-      orderHistory
-    });
-
-    return 0;
   }
 
   //This method will log out the current user of the app & unsubscribed to the notification channel associated with
