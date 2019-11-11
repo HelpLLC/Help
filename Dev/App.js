@@ -1,12 +1,12 @@
 //This is the "main method" for the Help! applications. This component is launched and with it,
 //the FirstScreenNavigator which connects to the rest of the screens.
 import React, { Component } from 'react';
-import MainStackNavigator from './src/MainStackNavigator';
-import { YellowBox, View } from 'react-native';
+import strings from 'config/strings';
+import { YellowBox, View, Linking, Platform } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import LoadingSpinner from './src/components/LoadingSpinner';
 import screenStyle from 'config/styles/screenStyle';
 import HelpView from './src/components/HelpView';
+import ErrorAlert from './src/components/ErrorAlert';
 import firebase from 'react-native-firebase';
 import codePush from 'react-native-code-push';
 
@@ -89,9 +89,6 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    await this.checkPermission();
-    await this.createNotificationListeners();
-    codePush.notifyAppReady();
     this.setState({ isLoading: false });
   }
 
@@ -102,16 +99,24 @@ class App extends Component {
       'componentWillMount',
       'componentWillReceiveProps'
     ]);
-    if (this.state.isLoading === true) {
-      return (
-        <HelpView style={screenStyle.container}>
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <LoadingSpinner isVisible={this.state.isLoading} />
-          </View>
-        </HelpView>
-      );
-    }
-    return <MainStackNavigator />;
+    return (
+      <HelpView style={screenStyle.container}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ErrorAlert
+					isVisible={true}
+					onPress={() => {
+						if (Platform.OS === 'ios') {
+              Linking.openURL('itms-apps://itunes.apple.com/app/apple-store/id1468626210?mt=8');
+            } else if (Platform.OS === 'android') {
+              Linking.openURL('market://details?id=com.Help.Help');
+            }
+					}}
+					title={strings.UpdateAvailable}
+					message={strings.UpdateAvailableMessage}
+				/>
+        </View>
+      </HelpView>
+    );
   }
 }
 
