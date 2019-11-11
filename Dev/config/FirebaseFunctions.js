@@ -516,7 +516,7 @@ export default class FirebaseFunctions {
     const requester = await this.getRequesterByID(requesterID);
     let { orderHistory } = requester;
     const indexOfCompletedRequest = orderHistory.completed.findIndex((eachCompleted) => {
-      return eachCompleted.serviceID === serviceID;
+      return eachCompleted.serviceID === serviceID && eachCompleted.review === null;
     });
     orderHistory.completed[indexOfCompletedRequest].review = review;
     await this.updateRequesterByID(requesterID, {
@@ -532,7 +532,7 @@ export default class FirebaseFunctions {
     const requester = await this.getRequesterByID(requesterID);
     let { orderHistory } = requester;
     const indexOfCompletedRequest = orderHistory.completed.findIndex((eachCompleted) => {
-      return eachCompleted.serviceID === serviceID;
+      return eachCompleted.serviceID === serviceID && eachCompleted.review === null;
     });
     orderHistory.completed[indexOfCompletedRequest].review = 'None';
     await this.updateRequesterByID(requesterID, {
