@@ -11,7 +11,7 @@ import { BoxShadow } from 'react-native-shadow';
 import HelpView from '../../components/HelpView';
 import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
 import images from 'config/images/images';
-import ImagePicker from 'react-native-image-picker';
+import ImagePicker from '../../components/ImagePicker';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
@@ -86,6 +86,7 @@ class createProductScreen extends Component {
 				pricePerNumber: '',
 				pricePerText: '',
 				priceMin: '',
+				isShowing: false,
 				priceMax: ''
 			});
 		}
@@ -94,23 +95,7 @@ class createProductScreen extends Component {
 	//Chooses the image from camera roll or picture and sets it to the image source
 	chooseImage() {
 		Keyboard.dismiss();
-		//Shows the image picker with the default options
-		ImagePicker.showImagePicker(
-			{
-				maxHeight: 200,
-				maxWidth: 180
-			},
-			(response) => {
-				const source = { uri: 'data:image/jpeg;base64,' + response.data };
-				if (!(source.uri === 'data:image/jpeg;base64,undefined')) {
-					//Sets the source of the image if one has been selected
-					this.setState({
-						imageSource: source,
-						response
-					});
-				}
-			}
-		);
+		this.setState({ isShowing: true });
 	}
 
 	//Creates the product with the entered information to "this" provider
@@ -523,6 +508,23 @@ class createProductScreen extends Component {
 					}}
 					title={strings.Whoops}
 					message={strings.PleaseAddAnImage}
+				/>
+				<ImagePicker
+					imageHeight={250}
+					imageWidth={Dimensions.get('window').width}
+					onImageSelected={(response) => {
+						this.setState({ isShowing: false });
+						const source = { uri: 'data:image/jpeg;base64,' + response.data };
+						if (!(source.uri === 'data:image/jpeg;base64,undefined')) {
+							//Sets the source of the image if one has been selected
+							this.setState({
+								imageSource: source,
+								response
+							});
+						}
+						this.setState({ isShowing: false });
+					}}
+					isShowing={this.state.isShowing}
 				/>
 			</HelpView>
 		);

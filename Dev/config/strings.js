@@ -272,6 +272,11 @@ export default {
 	SearchIn: 'Search in',
 	SearchCategoriesDotDotDot: 'Search categories...',
 
+	//------------------- Image Picker -------------------
+	SelectPhoto: 'Select a Photo',
+	TakePhotoDotDotDot: 'Take Photo...',
+	ChooseFromLibraryDotDotDot: 'Choose from Library...',
+
 	//------------------- Miscellaneous -----------------
 	Whoops: 'Whoops',
 	Success: 'Success',
