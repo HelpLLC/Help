@@ -281,5 +281,7 @@ export default {
 	Whoops: 'Whoops',
 	Success: 'Success',
 	Ok: 'Ok',
-	NoConnection: 'Something went wrong. Check your internet connection & try again'
+	NoConnection: 'Something went wrong. Check your internet connection & try again',
+	UpdateAvailable: 'Update Available',
+	UpdateAvailableMessage: 'There is a new update available for Help! Go download it now!'
 };

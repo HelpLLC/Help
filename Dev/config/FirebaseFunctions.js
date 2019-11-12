@@ -502,7 +502,9 @@ export default class FirebaseFunctions {
   //This method is going to add a review to the array of reviews for a specified service. It will also
   //update the status of the review inside the requester's array of orderHistory.
   static async submitReview(serviceID, requesterID, stars, comment) {
+    const requester = await this.getRequesterByID(requesterID);
     review = {
+      requesterName: requester.username,
       stars,
       requesterID,
       comment
@@ -513,7 +515,6 @@ export default class FirebaseFunctions {
     });
 
     //Updates the requester object's completed array with the new review specific to this object
-    const requester = await this.getRequesterByID(requesterID);
     let { orderHistory } = requester;
     const indexOfCompletedRequest = orderHistory.completed.findIndex((eachCompleted) => {
       return eachCompleted.serviceID === serviceID && eachCompleted.review === null;
