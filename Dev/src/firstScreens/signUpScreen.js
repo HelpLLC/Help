@@ -9,7 +9,6 @@ import colors from 'config/colors';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
-import LoadingSpinner from '../components/LoadingSpinner';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import firebase from 'react-native-firebase';
