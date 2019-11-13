@@ -4,22 +4,20 @@
 //This screen will be the one where the user will be able to view a service's details, price, name
 //of the company providing it, etc. There will be a button at the bottom of the screen allowing the
 //requester to request the service.
-import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, ScrollView, FlatList } from 'react-native';
-import NarrowServiceCardList from '../components/NarrowServiceCardList';
-import colors from 'config/colors';
-import HelpView from '../components/HelpView';
-import FirebaseFunctions from 'config/FirebaseFunctions';
-import screenStyle from 'config/styles/screenStyle';
-import fontStyles from 'config/styles/fontStyles';
-import { Icon } from 'react-native-elements';
-import ActionSheet from 'react-native-actionsheet';
-import LoadingSpinner from '../components/LoadingSpinner';
-import OptionPicker from '../components/OptionPicker';
-import ErrorAlert from '../components/ErrorAlert';
-import strings from 'config/strings';
-import TopBanner from '../components/TopBanner';
-import HelpSearchBar from '../components/HelpSearchBar';
+import React, { Component } from "react";
+import { View } from "react-native";
+import NarrowServiceCardList from "../components/NarrowServiceCardList";
+import colors from "config/colors";
+import HelpView from "../components/HelpView";
+import FirebaseFunctions from "config/FirebaseFunctions";
+import screenStyle from "config/styles/screenStyle";
+import fontStyles from "config/styles/fontStyles";
+import LoadingSpinner from "../components/LoadingSpinner";
+import OptionPicker from "../components/OptionPicker";
+import ErrorAlert from "../components/ErrorAlert";
+import strings from "config/strings";
+import TopBanner from "../components/TopBanner";
+import HelpSearchBar from "../components/HelpSearchBar";
 
 class companyProfileScreen extends Component {
   //This constructor and componentDidMount will wait until all the products loaded if there are any
@@ -32,8 +30,8 @@ class companyProfileScreen extends Component {
       isErrorVisible: false,
       isCompanyReportedVisible: false,
       isBlockCompanyVisible: false,
-      search: '',
-      displayedProducts: ''
+      search: "",
+      displayedProducts: ""
     };
   }
 
@@ -62,8 +60,8 @@ class companyProfileScreen extends Component {
       } catch (error) {
         this.setState({ isLoading: false, isErrorVisible: true });
         FirebaseFunctions.logIssue(error, {
-          screen: 'CompanyProfileScreen',
-          userID: 'r-' + this.props.navigation.state.params.requesterID,
+          screen: "CompanyProfileScreen",
+          userID: "r-" + this.props.navigation.state.params.requesterID,
           companyID: provider.providerID
         });
       }
@@ -73,13 +71,19 @@ class companyProfileScreen extends Component {
 
   //This will fetch the data about this provider and his products from firestore
   async componentDidMount() {
-    FirebaseFunctions.setCurrentScreen('RequesterCompanyProfileScreen', 'companyProfileScreen');
+    FirebaseFunctions.setCurrentScreen(
+      "RequesterCompanyProfileScreen",
+      "companyProfileScreen"
+    );
 
     this.setState({ isLoading: true });
     //Adds the listener to add the listener to refetch the data once this component is returned to
-    this.willFocusListener = this.props.navigation.addListener('willFocus', async () => {
-      await this.fetchDatabaseData();
-    });
+    this.willFocusListener = this.props.navigation.addListener(
+      "willFocus",
+      async () => {
+        await this.fetchDatabaseData();
+      }
+    );
   }
 
   //Removes the listener when the screen is switched away from
@@ -90,7 +94,7 @@ class companyProfileScreen extends Component {
   //This method will open a chat with the provider and go to that chat
   messageProvider() {
     const { provider, requester } = this.props.navigation.state.params;
-    this.props.navigation.push('MessagingScreen', {
+    this.props.navigation.push("MessagingScreen", {
       title: provider.companyName,
       providerID: provider.providerID,
       requesterID: requester.requesterID,
@@ -108,9 +112,11 @@ class companyProfileScreen extends Component {
 
     //Navigates back to the request screen
     try {
-      const newRequesterObject = await FirebaseFunctions.getRequesterByID(requester.requesterID);
+      const newRequesterObject = await FirebaseFunctions.getRequesterByID(
+        requester.requesterID
+      );
       const allProducts = await FirebaseFunctions.getAllProducts();
-      this.props.navigation.push('FeaturedScreen', {
+      this.props.navigation.push("FeaturedScreen", {
         requester: newRequesterObject,
         allProducts
       });
@@ -124,7 +130,7 @@ class companyProfileScreen extends Component {
   reportCompany() {
     const { provider, requester } = this.props.navigation.state.params;
     FirebaseFunctions.reportIssue(requester, {
-      report: 'Report against a company',
+      report: "Report against a company",
       companyID: provider.providerID,
       companyName: provider.companyName
     });
@@ -144,7 +150,11 @@ class companyProfileScreen extends Component {
       const productName = product.serviceTitle.trim().toLowerCase();
       const business = product.offeredByName.trim().toLowerCase();
       const category = product.category.trim().toLowerCase();
-      if (productName.includes(text) || business.includes(text) || category.includes(text)) {
+      if (
+        productName.includes(text) ||
+        business.includes(text) ||
+        category.includes(text)
+      ) {
         newProducts.push(product);
       }
     }
@@ -165,13 +175,17 @@ class companyProfileScreen extends Component {
     }, 500);
   }
 
-
   render() {
     const { isLoading, providerProducts, serviceIDsLength } = this.state;
-    if (isLoading === true || (providerProducts.length == 0 && serviceIDsLength > 0)) {
+    if (
+      isLoading === true ||
+      (providerProducts.length == 0 && serviceIDsLength > 0)
+    ) {
       return (
         <HelpView style={screenStyle.container}>
-          <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+          <View
+            style={{ alignItems: "center", justifyContent: "center", flex: 1 }}
+          >
             <LoadingSpinner isVisible={isLoading} />
           </View>
         </HelpView>
@@ -183,13 +197,13 @@ class companyProfileScreen extends Component {
         <HelpView style={screenStyle.container}>
           <TopBanner
             title={provider.companyName}
-            leftIconName='angle-left'
+            leftIconName="angle-left"
             leftOnPress={() => this.props.navigation.goBack()}
           />
           <HelpSearchBar
             placeholderText={strings.WhatAreYouLookingForQuestion}
             value={search}
-            onChangeText={(text) => {
+            onChangeText={text => {
               //Logic for searching
               this.setState({ search: text });
             }}
@@ -197,20 +211,11 @@ class companyProfileScreen extends Component {
               this.renderSearch();
             }}
           />
-          <ScrollView
-            contentContainerStyle={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'column'
-            }}
-            showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}>
-            <NarrowServiceCardList
-              navigation={this.props.navigation}
-              services={displayedProducts}
-              requester={requester}
-            />
-          </ScrollView>
+          <NarrowServiceCardList
+            navigation={this.props.navigation}
+            services={displayedProducts}
+            requester={requester}
+          />
 
           <ErrorAlert
             isVisible={this.state.isErrorVisible}

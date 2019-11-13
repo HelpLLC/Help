@@ -86,10 +86,7 @@ class CategoryCard extends Component {
 								}}>
 								<Text
 									style={[
-										fontStyles.mainTextStyleBlack,
-										{
-											paddingLeft: Dimensions.get('window').width * 0.025
-										}
+										fontStyles.mainTextStyleBlack
 									]}>
 									{categoryTitle}
 								</Text>
