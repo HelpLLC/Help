@@ -7,13 +7,10 @@
 import React, { Component } from "react";
 import { View } from "react-native";
 import NarrowServiceCardList from "../components/NarrowServiceCardList";
-import colors from "config/colors";
 import HelpView from "../components/HelpView";
 import FirebaseFunctions from "config/FirebaseFunctions";
 import screenStyle from "config/styles/screenStyle";
-import fontStyles from "config/styles/fontStyles";
 import LoadingSpinner from "../components/LoadingSpinner";
-import OptionPicker from "../components/OptionPicker";
 import ErrorAlert from "../components/ErrorAlert";
 import strings from "config/strings";
 import TopBanner from "../components/TopBanner";

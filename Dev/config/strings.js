@@ -140,7 +140,9 @@ export default {
 	Min: 'Min',
 	Max: 'Max',
 	to: 'to',
-	PleaseEnterADescriptionWithAtLeast50Characters: 'Please enter a description with at least 150 characters',
+	PleaseEnterADescriptionWithAtLeast50Characters: 'Please enter a description with at least 150 characters.',
+	DeleteService: 'Delete Service',
+	AreYouSureDeleteService: 'Are you sure you want to delete this service? This action cannot be undone.',
 
 	//------------------- Edit Company Profile Screen -------------------
 	EditCompany: 'Edit Company',
