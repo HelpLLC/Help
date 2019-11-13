@@ -43,7 +43,8 @@ class serviceScreen extends Component {
   //Fetches the data associated with this screen
   async fetchDatabaseData() {
     try {
-      const { productID, requester } = this.props.navigation.state.params;
+      const { productID, requester, providerID } = this.props.navigation.state.params;
+      const provider = await FirebaseFunctions.getProviderByID(providerID);
       const product = await FirebaseFunctions.getServiceByID(productID);
       const url = await FirebaseFunctions.getProductImageByID(product.serviceID);
       const isRequested = product.requests.currentRequests.findIndex((request) => {
@@ -53,6 +54,7 @@ class serviceScreen extends Component {
       if (isRequested === -1) {
         this.setState({
           isLoading: false,
+          provider,
           isRequested: false,
           product,
           image: url
@@ -60,6 +62,7 @@ class serviceScreen extends Component {
       } else {
         this.setState({
           isLoading: false,
+          provider,
           isRequested: true,
           product,
           image: url
@@ -155,7 +158,8 @@ class serviceScreen extends Component {
   }
 
   messageProvider() {
-    const { provider, requester } = this.props.navigation.state.params;
+    const { requester } = this.props.navigation.state.params;
+    const { provider } = this.state;
     this.props.navigation.push('MessagingScreen', {
       title: provider.companyName,
       providerID: provider.providerID,
@@ -165,7 +169,8 @@ class serviceScreen extends Component {
   }
 
   async blockCompany() {
-    const { provider, requester } = this.props.navigation.state.params;
+    const { requester } = this.props.navigation.state.params;
+    const { provider } = this.state;
 
     //First blocks the user
     this.setState({ isLoading: true });
@@ -185,7 +190,8 @@ class serviceScreen extends Component {
   }
 
   reportCompany() {
-    const { provider, requester } = this.props.navigation.state.params;
+    const { requester } = this.props.navigation.state.params;
+    const { provider } = this.state;
     FirebaseFunctions.reportIssue(requester, {
       report: 'Report against a company',
       companyID: provider.providerID,
@@ -203,7 +209,8 @@ class serviceScreen extends Component {
       isCancelRequestVisible,
       isRequestServiceVisible
     } = this.state;
-    const { requester, provider } = this.props.navigation.state.params;
+    const { requester } = this.props.navigation.state.params;
+    const { provider } = this.state;
     if (isLoading === true || isRequested === '') {
       return (
         <HelpView style={screenStyle.container}>
