@@ -11,7 +11,6 @@ class ServiceCardList extends Component {
     //Fetches the array of services from the props
     const { services } = this.props;
 
-							return await FirebaseFunctions.getProductImageByID(services[i].serviceID);
     return (
       <FlatList
         contentContainerStyle={{
