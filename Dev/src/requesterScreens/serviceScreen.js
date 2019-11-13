@@ -474,7 +474,7 @@ class serviceScreen extends Component {
                       marginBottom: Dimensions.get("window").height * 0.01
                     }}
                   >
-                    <Text style={fontStyles.subTextStyleBlack}>
+                    <Text style={fontStyles.mainTextStyleBlack}>
                       {strings.BusinessName}
                     </Text>
                   </View>
@@ -497,7 +497,7 @@ class serviceScreen extends Component {
                         );
                       }}
                     >
-                      <Text style={fontStyles.subTextStyleBlue}>
+                      <Text style={fontStyles.mainTextStyleBlue}>
                         {provider.companyName}
                       </Text>
                     </TouchableOpacity>
@@ -521,7 +521,7 @@ class serviceScreen extends Component {
                       marginBottom: Dimensions.get("window").height * 0.01
                     }}
                   >
-                    <Text style={fontStyles.subTextStyleBlack}>
+                    <Text style={fontStyles.mainTextStyleBlack}>
                       {strings.PhoneNumber}
                     </Text>
                   </View>
@@ -538,7 +538,7 @@ class serviceScreen extends Component {
                         this.callNumber(provider.phoneNumber);
                       }}
                     >
-                      <Text style={fontStyles.subTextStyleBlue}>
+                      <Text style={fontStyles.mainTextStyleBlue}>
                         {provider.phoneNumber}
                       </Text>
                     </TouchableOpacity>
@@ -562,7 +562,7 @@ class serviceScreen extends Component {
                       marginBottom: Dimensions.get("window").height * 0.01
                     }}
                   >
-                    <Text style={fontStyles.subTextStyleBlack}>
+                    <Text style={fontStyles.mainTextStyleBlack}>
                       {strings.Email}
                     </Text>
                   </View>
@@ -579,7 +579,7 @@ class serviceScreen extends Component {
                         this.handleEmail(provider.email);
                       }}
                     >
-                      <Text style={fontStyles.subTextStyleBlue}>
+                      <Text style={fontStyles.mainTextStyleBlue}>
                         {provider.email}
                       </Text>
                     </TouchableOpacity>
@@ -603,7 +603,7 @@ class serviceScreen extends Component {
                       marginBottom: Dimensions.get("window").height * 0.01
                     }}
                   >
-                    <Text style={fontStyles.subTextStyleBlack}>
+                    <Text style={fontStyles.mainTextStyleBlack}>
                       {strings.City}
                     </Text>
                   </View>
@@ -614,7 +614,7 @@ class serviceScreen extends Component {
                       marginBottom: Dimensions.get("window").height * 0.01
                     }}
                   >
-                    <Text style={fontStyles.subTextStyleBlack}>
+                    <Text style={fontStyles.mainTextStyleBlack}>
                       {provider.location}
                     </Text>
                   </View>
@@ -638,7 +638,7 @@ class serviceScreen extends Component {
                         marginBottom: Dimensions.get("window").height * 0.01
                       }}
                     >
-                      <Text style={fontStyles.subTextStyleBlack}>
+                      <Text style={fontStyles.mainTextStyleBlack}>
                         {strings.Website}
                       </Text>
                     </View>
@@ -667,7 +667,7 @@ class serviceScreen extends Component {
                           }
                         }}
                       >
-                        <Text style={fontStyles.subTextStyleBlue}>
+                        <Text style={fontStyles.mainTextStyleBlue}>
                           {provider.website}
                         </Text>
                       </TouchableOpacity>
