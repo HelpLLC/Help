@@ -259,6 +259,7 @@ class signUpScreen extends Component {
 						}}>
 						<RoundBlueButton
 							title={strings.Next}
+							isLoading={this.state.isLoading}
 							style={roundBlueButtonStyle.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={() => {
@@ -268,14 +269,6 @@ class signUpScreen extends Component {
 						/>
 					</View>
 					<View style={{ height: Dimensions.get('window').height * 0.03 }}></View>
-					<View
-						style={{
-							height: Dimensions.get('window').height * 0.05,
-							alignItems: 'center',
-							justifyContent: 'flex-end'
-						}}>
-						<LoadingSpinner isVisible={this.state.isLoading} />
-					</View>
 				</ScrollView>
 				<ErrorAlert
 					isVisible={this.state.isErrorVisible}

@@ -24,7 +24,8 @@ import colors from 'config/colors';
 
 class createProductScreen extends Component {
 	state = {
-		isScreenLoading: true
+		isScreenLoading: true,
+		isLoading: false
 	};
 
 	//This componentWil lMount method will decide, based on the params that are passed in, whether
@@ -459,6 +460,7 @@ class createProductScreen extends Component {
 									title={this.state.serviceID ? strings.Done : strings.Create}
 									style={roundBlueButtonStyle.MediumSizeButton}
 									textStyle={fontStyles.bigTextStyleWhite}
+									isLoading={this.state.isLoading}
 									onPress={async () => {
 										if (this.state.serviceID) {
 											await this.saveProduct();
@@ -470,9 +472,6 @@ class createProductScreen extends Component {
 								/>
 							</View>
 							<View style={{ flex: 0.5 }}></View>
-							<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-								<LoadingSpinner isVisible={this.state.isLoading} />
-							</View>
 						</View>
 					</View>
 					<View style={{ flex: 0.5 }}></View>
