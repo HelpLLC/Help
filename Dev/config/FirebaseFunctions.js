@@ -41,9 +41,9 @@ export default class FirebaseFunctions {
     //Returns the array which contains all the docs
     const array = snapshot.docs.map((doc) => doc.data());
 
-    //Removes the example from product from the array
+    //Removes the example from product from the array along with products that have been deleted
     const newArray = array.filter((element) => {
-      return element.serviceTitle !== 'Example Service';
+      return (element.serviceTitle !== 'Example Service') && !(element.isDeleted && element.isDeleted === true);
     });
 
     //Returns the correct array
@@ -419,6 +419,29 @@ export default class FirebaseFunctions {
     this.analytics.logEvent('create_service');
 
     return 0;
+  }
+
+  //This function is going to remove a business's reference to a service as well as give this service
+  //a "isDeleted" field of true to make sure it does not appear for customers. It will still remain in the database
+  //so it can be referenced to in a customer's order history and/or reviews
+  static async deleteService(serviceID, providerID) {
+
+    await this.updateServiceByID(serviceID, {
+      isDeleted: true
+    });
+
+    const provider = await this.getProviderByID(providerID);
+    let { serviceIDs } = provider;
+    let indexOfService = serviceIDs.findIndex((productID) => {
+      return productID === serviceID;
+    });
+    serviceIDs.splice(indexOfService, 1);
+    await this.updateProviderByID(providerID, {
+      serviceIDs
+    });
+
+    return 0;
+
   }
 
   //Sends a message by adding that conversation to the database. If the conversation is a new one,

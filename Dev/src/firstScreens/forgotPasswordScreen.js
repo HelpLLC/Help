@@ -68,6 +68,7 @@ class forgotPasswordScreen extends Component {
 						title={strings.EmailMe}
 						style={roundBlueButtonStyle.MediumSizeButton}
 						textStyle={fontStyles.bigTextStyleWhite}
+						isLoading={this.state.isLoading}
 						onPress={async () => {
 							if (this.state.email.trim().length === 0) {
 								this.setState({ emailedLink: false, accountDNE: true });
@@ -81,9 +82,6 @@ class forgotPasswordScreen extends Component {
 					/>
 				</View>
 				<View style={{ flex: 0.25 }}></View>
-				<View style={{ flex: 0.25, alignItems: 'center', justifyContent: 'flex-end' }}>
-					<LoadingSpinner isVisible={this.state.isLoading} />
-				</View>
 				<View style={{ flex: 0.5 }}></View>
 				<ErrorAlert
 					isVisible={this.state.isErrorVisible}

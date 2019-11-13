@@ -26,7 +26,7 @@ class App extends Component {
 //resume from backgroud
 let codePushOptions = {
 	checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
-	installMode: codePush.InstallMode.ON_NEXT_RESTART
+	installMode: codePush.InstallMode.IMMEDIATE
 };
 App = codePush(codePushOptions)(App);
 

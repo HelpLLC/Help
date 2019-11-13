@@ -152,6 +152,7 @@ class logInScreen extends Component {
                 title={strings.LogIn}
                 style={roundBlueButtonStyle.MediumSizeButton}
                 textStyle={fontStyles.bigTextStyleWhite}
+                isLoading={this.state.isLoading}
                 //Method logs the person in based on what is entered into the text
                 //input
                 onPress={() => {
