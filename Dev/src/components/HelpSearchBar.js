@@ -26,11 +26,6 @@ class HelpSearchBar extends Component {
 					onSubmitEditing={() => {
 						onSubmitEditing()
 					}}
-					onClear={() => {
-						//Searches for empty string on clear so all products are redisplayed
-						onChangeText("");
-						onSubmitEditing();
-					}}
 					returnKeyType={'search'}
 					value={value}
 					inputStyle={{
