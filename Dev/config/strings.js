@@ -186,6 +186,7 @@ export default {
 	Submit: 'Submit',
 	Skip: 'Skip',
 	AnyCommentsQuestion: 'Any Comments?',
+	PleaseGiveAStarRatingAlongWithReview: 'Please give a star rating along with your review',
 
 	//------------------- Categories Screen -------------------
 	FeaturedCategories: 'Featured Categories',
