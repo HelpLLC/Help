@@ -682,6 +682,19 @@ class serviceScreen extends Component {
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
+                  marginTop: Dimensions.get("window").height * 0.02,
+                  marginHorizontal: Dimensions.get('window').width * 0.05
+                }}
+              >
+                <Text style={fontStyles.subTextStyleBlack}>
+                  {provider.companyDescription}
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
                   marginTop: Dimensions.get("window").height * 0.02
                 }}
               >
