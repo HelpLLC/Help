@@ -27,7 +27,6 @@ class ReviewPopup extends Component {
 			imageFunction
 		} = this.props;
 		return (
-									/>
 			<AwesomeAlert
 				show={isVisible}
 				title={title}
