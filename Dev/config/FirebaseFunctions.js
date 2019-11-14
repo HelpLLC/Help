@@ -533,8 +533,21 @@ export default class FirebaseFunctions {
       comment
     };
 
+    const service = await this.getServiceByID(serviceID);
+
+    //Calculates the new average rating for the service
+    const a = service.averageRating * service.totalReviews;
+    const b = a + stars;
+    const c = service.totalReviews + 1;
+    console.log(a);
+    console.log(b);
+    console.log(c);
+    const newRating = b / c;
+
     await this.updateServiceByID(serviceID, {
-      reviews: firebase.firestore.FieldValue.arrayUnion(review)
+      reviews: firebase.firestore.FieldValue.arrayUnion(review),
+      averageRating: newRating,
+      totalReviews: service.totalReviews + 1
     });
 
     //Updates the requester object's completed array with the new review specific to this object

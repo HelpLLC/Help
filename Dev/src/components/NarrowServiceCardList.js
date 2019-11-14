@@ -49,6 +49,8 @@ class NarrowServiceCardList extends Component {
                   item.serviceID
                 );
               }}
+              totalReviews={item.totalReviews}
+              averageRating={item.averageRating}
               numCurrentRequests={0}
               //Passes all of the necessary props to the actual screen that contains
               //more information about the service
