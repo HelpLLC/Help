@@ -72,9 +72,9 @@ class NarrowServiceCard extends Component {
 									<CachedImage
 										source={image}
 										style={{
-											width: Dimensions.get('window').width * 0.45 - 12,
+											width: Dimensions.get('window').width * 0.45 - 7,
 											height: Dimensions.get('window').height * 0.13,
-											borderRadius: Dimensions.get('window').height * 0.03440703
+											borderRadius: Dimensions.get('window').height * 0.0439238653 - 3.5
 										}}
 									/>
 								)}

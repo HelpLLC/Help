@@ -7,9 +7,6 @@ import codePush from 'react-native-code-push';
 
 //Launches the app with the persisted store
 class App extends Component {
-	async componentDidMount() {
-		codePush.notifyAppReady();
-	}
 
 	render() {
 		//Ignores a specific warning
@@ -22,12 +19,6 @@ class App extends Component {
 	}
 }
 
-//Configures the app to connect with the code push server in order to check for updates on app
-//resume from backgroud
-let codePushOptions = {
-	checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
-	installMode: codePush.InstallMode.IMMEDIATE
-};
-App = codePush(codePushOptions)(App);
+App = codePush(App);
 
 export default App;

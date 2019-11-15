@@ -10,10 +10,11 @@ import FirebaseFunctions from "config/FirebaseFunctions";
 import firebase from "react-native-firebase";
 import AsyncStorage from "@react-native-community/async-storage";
 import ErrorAlert from "../components/ErrorAlert";
+import CodePush from 'react-native-code-push';
 
 //Exports the class
 export default class launchScreen extends Component {
-  //Tests the user's internet connection
+  //Tests the user's internet connection & then installs the most recent update from code push if there is one
   async componentDidMount() {
     FirebaseFunctions.setCurrentScreen("LaunchScreen", "launchScreen");
     await this.checkPermission();
@@ -22,6 +23,12 @@ export default class launchScreen extends Component {
       isConnected.isConnected !== false &&
       isConnected.isInternetReachable !== false
     ) {
+      //Checks for codePush update
+      const update = await CodePush.checkForUpdate();
+      console.log(update);
+      if (update) {
+        await update.download();
+      }
       await this.isUserLoggedIn();
     } else {
       this.setState({ internetConnection: false });
@@ -32,7 +39,7 @@ export default class launchScreen extends Component {
   state = {
     isErrorVisible: false,
     isUserLoggedIn: "",
-    internetConnection: true
+    internetConnection: true,
   };
 
   /*
@@ -106,7 +113,7 @@ export default class launchScreen extends Component {
                 //to install update if necessary
                 this.timeoutHandle = setTimeout(() => {
                   this.props.navigation.push("AccountNotVerifiedScreen");
-                }, 500);
+                }, 250);
               }
             } else {
               const allProducts = await FirebaseFunctions.getAllProducts();
@@ -117,7 +124,7 @@ export default class launchScreen extends Component {
                   requester: requester,
                   allProducts
                 });
-              }, 500);
+              }, 250);
             }
           } else {
             //Delays this for a third of a second so it doesn't seem instant and unnatural. Also
@@ -126,7 +133,7 @@ export default class launchScreen extends Component {
               this.setState({ isUserLoggedIn: false });
               //Navigates to the splash screen
               this.props.navigation.push("SplashScreen");
-            }, 500);
+            }, 250);
           }
         }
       });
