@@ -10,7 +10,7 @@ export default {
         flexDirection: 'column',
         backgroundColor: colors.white,
         borderColor: colors.lightBlue,
-        borderWidth: 6,
+        borderWidth: 3.5,
         borderRadius: (Dimensions.get('window').height * 0.0439238653)
     }
 }

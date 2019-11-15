@@ -140,7 +140,9 @@ export default {
 	Min: 'Min',
 	Max: 'Max',
 	to: 'to',
-	PleaseEnterADescriptionWithAtLeast50Characters: 'Please enter a description with at least 150 characters',
+	PleaseEnterADescriptionWithAtLeast50Characters: 'Please enter a description with at least 150 characters.',
+	DeleteService: 'Delete Service',
+	AreYouSureDeleteService: 'Are you sure you want to delete this service? This action cannot be undone.',
 
 	//------------------- Edit Company Profile Screen -------------------
 	EditCompany: 'Edit Company',
@@ -183,7 +185,8 @@ export default {
 	BusinessName: 'Business Name',
 	Submit: 'Submit',
 	Skip: 'Skip',
-	AnyCommentsQuestion: 'Any Comments?',
+	LeaveAReviewDotDotDot: 'Leave a review...',
+	PleaseGiveAStarRatingAlongWithReview: 'Please give a star rating along with your review.',
 
 	//------------------- Categories Screen -------------------
 	FeaturedCategories: 'Featured Categories',

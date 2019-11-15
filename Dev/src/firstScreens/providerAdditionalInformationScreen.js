@@ -218,14 +218,12 @@ export default class providerAdditionalInformationScreen extends Component {
             title={this.state.editing === true ? strings.Done : strings.SignUp}
             style={roundBlueButtonStyle.MediumSizeButton}
             textStyle={fontStyles.bigTextStyleWhite}
+            isLoading={this.state.isLoading}
             onPress={() => {
               this.addProviderInfo();
             }}
             disabled={this.state.isLoading}
           />
-        </View>
-        <View style={{ height: Dimensions.get('window').height * 0.04, alignItems: 'center' }}>
-          <LoadingSpinner isVisible={this.state.isLoading} />
         </View>
         <ErrorAlert
           isVisible={this.state.fieldsError}

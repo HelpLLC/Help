@@ -1,13 +1,12 @@
 //This is the screen that will pop up when users first come to sign up for the app, it will
 //ask for an email and a password, and what type of account they want to create
 import React, { Component } from 'react';
-import { View, Text, Dimensions, Keyboard, TouchableOpacity } from 'react-native';
+import { View, Text } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
-import LoadingSpinner from '../components/LoadingSpinner';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../components/TopBanner';
@@ -68,6 +67,7 @@ class forgotPasswordScreen extends Component {
 						title={strings.EmailMe}
 						style={roundBlueButtonStyle.MediumSizeButton}
 						textStyle={fontStyles.bigTextStyleWhite}
+						isLoading={this.state.isLoading}
 						onPress={async () => {
 							if (this.state.email.trim().length === 0) {
 								this.setState({ emailedLink: false, accountDNE: true });
@@ -81,9 +81,6 @@ class forgotPasswordScreen extends Component {
 					/>
 				</View>
 				<View style={{ flex: 0.25 }}></View>
-				<View style={{ flex: 0.25, alignItems: 'center', justifyContent: 'flex-end' }}>
-					<LoadingSpinner isVisible={this.state.isLoading} />
-				</View>
 				<View style={{ flex: 0.5 }}></View>
 				<ErrorAlert
 					isVisible={this.state.isErrorVisible}
