@@ -185,7 +185,8 @@ export default {
 	BusinessName: 'Business Name',
 	Submit: 'Submit',
 	Skip: 'Skip',
-	AnyCommentsQuestion: 'Any Comments?',
+	LeaveAReviewDotDotDot: 'Leave a review...',
+	PleaseGiveAStarRatingAlongWithReview: 'Please give a star rating along with your review.',
 
 	//------------------- Categories Screen -------------------
 	FeaturedCategories: 'Featured Categories',
