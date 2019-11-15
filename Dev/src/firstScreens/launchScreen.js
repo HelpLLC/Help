@@ -25,7 +25,6 @@ export default class launchScreen extends Component {
     ) {
       //Checks for codePush update
       const update = await CodePush.checkForUpdate();
-      console.log(update);
       if (update) {
         await update.download();
       }

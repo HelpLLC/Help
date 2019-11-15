@@ -398,6 +398,8 @@ export default class FirebaseFunctions {
       location,
       offeredByName: companyName,
       category: 'Cleaning',
+      averageRating: 0,
+      totalReviews: 0,
       reviews: []
     };
 
@@ -539,9 +541,6 @@ export default class FirebaseFunctions {
     const a = service.averageRating * service.totalReviews;
     const b = a + stars;
     const c = service.totalReviews + 1;
-    console.log(a);
-    console.log(b);
-    console.log(c);
     const newRating = b / c;
 
     await this.updateServiceByID(serviceID, {
