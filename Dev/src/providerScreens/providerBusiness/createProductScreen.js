@@ -145,7 +145,14 @@ class createProductScreen extends Component {
 				);
 				this.setState({ isLoading: false });
 				this.props.navigation.push('ProviderScreens', {
-					providerID: provider.providerID
+					providerID: provider.providerID,
+					serviceTitle: serviceTitle,
+					serviceDescription: serviceDescription,
+					price: price,
+					response: response,
+					companyName: provider.companyName,
+					coordinates: provider.coordinates,
+					location: provider.location
 				});
 			} catch (error) {
 				this.setState({ isLoading: false, isErrorVisible: true });
@@ -215,8 +222,15 @@ class createProductScreen extends Component {
 				}
 
 				this.setState({ isLoading: false });
-				this.props.navigation.push('ProviderScreens', {
-					providerID
+				this.props.navigation.push('ProviderQuestionsScreen', {
+					providerID,
+					productID,
+					serviceTitle,
+					serviceDescription,
+					price,
+					response,
+					coordinates: provider.coordinates,
+					location: provider.location
 				});
 			} catch (error) {
 				this.setState({ isLoading: false, isErrorVisible: true });
@@ -413,42 +427,42 @@ class createProductScreen extends Component {
 									</View>
 								</View>
 							) : (
-								<View style={{ flex: 1, flexDirection: 'row' }}>
-									<View
-										style={{
-											flex: 1.4,
-											flexDirection: 'row',
-											justifyContent: 'flex-start',
-											alignItems: 'center'
-										}}>
-										<Text style={fontStyles.mainTextStyleBlack}>{strings.DollarSign}</Text>
-										<Text> </Text>
-										<OneLineRoundedBoxInput
-											placeholder={strings.Min}
-											onChangeText={(input) => this.setState({ priceMin: input })}
-											value={this.state.priceMin}
-											password={false}
-											keyboardType={'numeric'}
-											width={Dimensions.get('window').width * 0.2}
-										/>
+									<View style={{ flex: 1, flexDirection: 'row' }}>
+										<View
+											style={{
+												flex: 1.4,
+												flexDirection: 'row',
+												justifyContent: 'flex-start',
+												alignItems: 'center'
+											}}>
+											<Text style={fontStyles.mainTextStyleBlack}>{strings.DollarSign}</Text>
+											<Text> </Text>
+											<OneLineRoundedBoxInput
+												placeholder={strings.Min}
+												onChangeText={(input) => this.setState({ priceMin: input })}
+												value={this.state.priceMin}
+												password={false}
+												keyboardType={'numeric'}
+												width={Dimensions.get('window').width * 0.2}
+											/>
+										</View>
+										<View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
+											<Text style={fontStyles.mainTextStyleBlack}>{strings.to}</Text>
+										</View>
+										<View style={{ flex: 1.4, flexDirection: 'row', alignItems: 'center' }}>
+											<Text style={fontStyles.mainTextStyleBlack}>{strings.DollarSign}</Text>
+											<Text> </Text>
+											<OneLineRoundedBoxInput
+												placeholder={strings.Max}
+												onChangeText={(input) => this.setState({ priceMax: input })}
+												value={this.state.priceMax}
+												password={false}
+												keyboardType={'numeric'}
+												width={Dimensions.get('window').width * 0.2}
+											/>
+										</View>
 									</View>
-									<View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
-										<Text style={fontStyles.mainTextStyleBlack}>{strings.to}</Text>
-									</View>
-									<View style={{ flex: 1.4, flexDirection: 'row', alignItems: 'center' }}>
-										<Text style={fontStyles.mainTextStyleBlack}>{strings.DollarSign}</Text>
-										<Text> </Text>
-										<OneLineRoundedBoxInput
-											placeholder={strings.Max}
-											onChangeText={(input) => this.setState({ priceMax: input })}
-											value={this.state.priceMax}
-											password={false}
-											keyboardType={'numeric'}
-											width={Dimensions.get('window').width * 0.2}
-										/>
-									</View>
-								</View>
-							)}
+								)}
 						</View>
 					</View>
 					<View style={{ flex: 0.25 }}></View>
@@ -456,7 +470,7 @@ class createProductScreen extends Component {
 						<View style={{ flex: 1 }}>
 							<View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
 								<RoundBlueButton
-									title={this.state.serviceID ? strings.Done : strings.Create}
+									title={strings.Next}
 									style={roundBlueButtonStyle.MediumSizeButton}
 									textStyle={fontStyles.bigTextStyleWhite}
 									onPress={async () => {

@@ -30,6 +30,7 @@ import creditsScreen from './settingsScreens/creditsScreen';
 import RequesterCategoriesScreen from './requesterScreens/categoriesScreen';
 import categoryScreen from './requesterScreens/categoryScreen';
 import createRequesterProfileScreen from './firstScreens/createRequesterProfileScreen';
+import QuestionsScreen from './providerScreens/providerBusiness/questionsScreen'
 
 //The route config for all of the screens
 const routeConfig = {
@@ -117,6 +118,10 @@ const routeConfig = {
 	//The route going to the edit company profile screen
 	ProviderEditCompanyProfileScreen: {
 		screen: ProviderEditCompanyProfileScreen
+	},
+
+	ProviderQuestionsScreen: {
+		screen: QuestionsScreen
 	},
 
 	//Takes you to the provider screen navigator's default route
