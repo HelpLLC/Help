@@ -136,6 +136,7 @@ export default {
 	Range: 'Range',
 	DollarSign: '$',
 	per: 'per',
+	Fixed: 'Fixed',
 	Hour: 'e.g. Hr',
 	Min: 'Min',
 	Max: 'Max',
