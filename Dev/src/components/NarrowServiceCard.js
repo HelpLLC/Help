@@ -4,9 +4,10 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import narrowServiceCardStyle from 'config/styles/componentStyles/narrowServiceCardStyle';
-import { CachedImage } from "react-native-img-cache";
+import { CachedImage } from 'react-native-img-cache';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
+import { Rating, AirbnbRating } from 'react-native-ratings';
 import PropTypes from 'prop-types';
 import LoadingSpinner from './LoadingSpinner';
 import { BoxShadow } from 'react-native-shadow';
@@ -31,10 +32,11 @@ class NarrowServiceCard extends Component {
 
 	//Renders the component
 	render() {
-		//The props for the NarrowServiceCard. It will take in a service title, a description, a price, and an
+		//The props for the NarrowServiceCard. It will take in a service title, a price, and a
 		//image to display, along with an onPress method. An additional prop is also how many current
 		//requests this product currently has. This prop should only be used by the provider screens
-		const { serviceTitle, price, onPress } = this.props;
+		//It can also take the average reviews
+		const { serviceTitle, price, onPress, ratingArray, averageRating, totalReviews } = this.props;
 
 		//Fetches the image and the isImageLoading from the state
 		const { isImageLoading, image } = this.state;
@@ -70,9 +72,9 @@ class NarrowServiceCard extends Component {
 									<CachedImage
 										source={image}
 										style={{
-											width: Dimensions.get('window').width * 0.45 - 12,
+											width: Dimensions.get('window').width * 0.45 - 7,
 											height: Dimensions.get('window').height * 0.13,
-											borderRadius: Dimensions.get('window').height * 0.03440703
+											borderRadius: Dimensions.get('window').height * 0.0439238653 - 3.5
 										}}
 									/>
 								)}
@@ -94,6 +96,24 @@ class NarrowServiceCard extends Component {
 									]}>
 									{serviceTitle}
 								</Text>
+								{totalReviews > 0 ? (
+									<View
+										style={{
+											flexDirection: 'row',
+											paddingLeft: Dimensions.get('window').width * 0.025
+										}}>
+										<AirbnbRating
+											count={5}
+											size={15}
+											isDisabled={true}
+											defaultRating={averageRating}
+											showRating={false}
+										/>
+										<Text style={fontStyles.subTextStyleBlack}> ({totalReviews})</Text>
+									</View>
+								) : (
+									<View></View>
+								)}
 								<Text
 									style={[
 										fontStyles.mainTextStyleBlack,

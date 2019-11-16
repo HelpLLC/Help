@@ -13,6 +13,16 @@ export default {
         borderRadius: (Dimensions.get('window').height * 0.0512)
     },
 
+    //Default button size to use but the red version
+    MediumSizeButtonRed: {
+        backgroundColor: colors.red,
+        width: (Dimensions.get('window').width * 0.39),
+        height: (Dimensions.get('window').height * 0.0878),
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: (Dimensions.get('window').height * 0.0512)
+    },
+
     //These are two buttons that will determine the type of account the user wants
     AccountTypeButton: {
         backgroundColor: colors.white,
