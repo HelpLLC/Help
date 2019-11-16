@@ -100,7 +100,8 @@ class NarrowServiceCard extends Component {
 									<View
 										style={{
 											flexDirection: 'row',
-											paddingLeft: Dimensions.get('window').width * 0.025
+											paddingLeft: Dimensions.get('window').width * 0.025,
+											alignItems: 'center'
 										}}>
 										<AirbnbRating
 											count={5}

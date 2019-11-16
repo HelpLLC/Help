@@ -202,6 +202,7 @@ export default {
 	MoreByThisBusiness: 'More by this business',
 	ReadMore: 'Read More',
 	ReadLess: 'Read Less',
+	CustomerReviews: 'Customer Reviews',
 
 	//------------------- Requester Order History Screen -------------------
 	OrderHistory: 'Order History',
