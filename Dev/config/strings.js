@@ -145,6 +145,18 @@ export default {
 	DeleteService: 'Delete Service',
 	AreYouSureDeleteService: 'Are you sure you want to delete this service? This action cannot be undone.',
 
+	//------------------- Create Schedule Screen -------------------
+	CreateSchedule: 'Create Schedule',
+	AvailableTimesToCompleteService: 'Available Times to Complete Service',
+	SpecificDays: 'Specific Days',
+	SpecificDaysAndTimes: 'Specific Days & Times',
+	SpecificTimes: 'Specific Times',
+	Anytime: 'Anytime',
+	PickATime: 'Pick a time',
+	PleaseSelectATime: 'Please select the times when you are available to complete this service.',
+	PleaseSelectDay: 'Please select the days that you are available to complete this service.',
+	FromTimeIsMoreThanToTime: 'Please select a \'From\' time that is less than a \'To\' time.',
+
 	//------------------- Edit Company Profile Screen -------------------
 	EditCompany: 'Edit Company',
 	EditName: 'Edit Name',

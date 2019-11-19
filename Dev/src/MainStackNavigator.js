@@ -30,6 +30,7 @@ import creditsScreen from './settingsScreens/creditsScreen';
 import RequesterCategoriesScreen from './requesterScreens/categoriesScreen';
 import categoryScreen from './requesterScreens/categoryScreen';
 import createRequesterProfileScreen from './firstScreens/createRequesterProfileScreen';
+import createScheduleScreen from './providerScreens/providerBusiness/createScheduleScreen';
 
 //The route config for all of the screens
 const routeConfig = {
@@ -135,6 +136,10 @@ const routeConfig = {
 	//The route going to the product history screen
 	ProviderProductHistoryScreen: {
 		screen: ProviderProductHistoryScreen
+	},
+
+	ProviderCreateScheduleScreen: {
+		screen: createScheduleScreen
 	},
 
 	//--------------------------- Requester Screens ---------------------------
