@@ -4,11 +4,9 @@ import React, { Component } from 'react';
 import MainStackNavigator from './src/MainStackNavigator';
 import { YellowBox } from 'react-native';
 import codePush from 'react-native-code-push';
-import CreateScheduleScreen from './src/providerScreens/providerBusiness/createScheduleScreen';
 
 //Launches the app with the persisted store
 class App extends Component {
-
 	render() {
 		//Ignores a specific warning
 		YellowBox.ignoreWarnings([
@@ -16,7 +14,7 @@ class App extends Component {
 			'componentWillMount',
 			'componentWillReceiveProps'
 		]);
-		return <CreateScheduleScreen />;
+		return <MainStackNavigator />;
 	}
 }
 
