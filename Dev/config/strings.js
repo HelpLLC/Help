@@ -171,6 +171,12 @@ export default {
 	EditDescription: 'Edit Description',
 	EditPrice: 'Edit Price',
 
+	//------------------- Add Questions Screen--------------------
+
+	CustomerInfo: 'Customer Info',
+	Questions: 'Question ',
+	
+
 	//------------------- Product History Screen -------------------
 	ServiceHistory: 'Service History',
 	Date: 'Date',

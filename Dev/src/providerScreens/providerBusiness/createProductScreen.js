@@ -117,60 +117,60 @@ class createProductScreen extends Component {
 		const { serviceTitle, serviceDescription, imageSource, response, priceType } = this.state;
 		const { provider } = this.props.navigation.state.params;
 
-		//If any of the fields are empty, a warning message will display
-		if (
-			serviceTitle.trim() === '' ||
-			serviceDescription.trim() === '' ||
-			(priceType === 'per' &&
-				(this.state.pricePerNumber === '' || this.state.pricePerText.trim() === '')) ||
-			(priceType === 'range' && (this.state.priceMax === '' || this.state.priceMin === ''))
-		) {
-			this.setState({ fieldsError: true });
-		} else if (serviceDescription.trim().length < 150) {
-			this.setState({ serviceDescriptionError: true });
-		} else if (imageSource === images.BlankWhite) {
-			this.setState({ imageError: true });
-		} else {
-			try {
-				this.setState({ isLoading: true });
-				//Creates the price object
-				const price = {
-					priceType
-				};
-				if (priceType === 'per') {
-					price.price = parseFloat(this.state.pricePerNumber);
-					price.per = this.state.pricePerText;
-				} else if (priceType === 'range') {
-					price.min = parseFloat(this.state.priceMin);
-					price.max = parseFloat(this.state.priceMax);
-				} else {
-					price.priceFixed = parseFloat(this.state.priceFixed);
-				}
-				const { providerID } = this.props.navigation.state.params;
-				await FirebaseFunctions.addProductToDatabase(
-					serviceTitle,
-					serviceDescription,
-					price,
-					response,
-					providerID,
-					provider.companyName,
-					provider.coordinates,
-					provider.location
-				);
-				this.setState({ isLoading: false });
-				this.props.navigation.push('ProviderScreens', {
-					providerID: provider.providerID
-				});
-			} catch (error) {
-				this.setState({ isLoading: false, isErrorVisible: true });
-				FirebaseFunctions.logIssue(error, {
-					screen: 'CreateProductScreen',
-					userID: 'p-' + provider.providerID
-				});
-			}
-			return 0;
-		}
-	}
+    //If any of the fields are empty, a warning message will display
+    if (
+      serviceTitle.trim() === "" ||
+      serviceDescription.trim() === "" ||
+      (priceType === "per" &&
+        (this.state.pricePerNumber === "" ||
+          this.state.pricePerText.trim() === "")) ||
+      (priceType === "range" &&
+        (this.state.priceMax === "" || this.state.priceMin === ""))
+    ) {
+      this.setState({ fieldsError: true });
+    } else if (serviceDescription.trim().length < 150) {
+      this.setState({ serviceDescriptionError: true });
+    } else if (imageSource === images.BlankWhite) {
+      this.setState({ imageError: true });
+    } else {
+      try {
+        this.setState({ isLoading: true });
+        //Creates the price object
+        const price = {
+          priceType
+        };
+        if (priceType === "per") {
+          price.price = parseFloat(this.state.pricePerNumber);
+          price.per = this.state.pricePerText;
+        } else {
+          price.min = parseFloat(this.state.priceMin);
+          price.max = parseFloat(this.state.priceMax);
+        }
+        const { providerID } = this.props.navigation.state.params;
+        await FirebaseFunctions.addProductToDatabase(
+          serviceTitle,
+          serviceDescription,
+          price,
+          response,
+          providerID,
+          provider.companyName,
+          provider.coordinates,
+          provider.location
+        );
+        this.setState({ isLoading: false });
+        this.props.navigation.push("ProviderQuestionsScreen", {
+          providerID: provider.providerID
+        });
+      } catch (error) {
+        this.setState({ isLoading: false, isErrorVisible: true });
+        FirebaseFunctions.logIssue(error, {
+          screen: "CreateProductScreen",
+          userID: "p-" + provider.providerID
+        });
+      }
+      return 0;
+    }
+  }
 
 	//Saves the product if any fields have been changed
 	async saveProduct() {
@@ -231,20 +231,21 @@ class createProductScreen extends Component {
 					);
 				}
 
-				this.setState({ isLoading: false });
-				this.props.navigation.push('ProviderScreens', {
-					providerID
-				});
-			} catch (error) {
-				this.setState({ isLoading: false, isErrorVisible: true });
-				FirebaseFunctions.logIssue(error, {
-					screen: 'EditProductScreen',
-					userID: 'p-' + providerID,
-					productID: productID
-				});
-			}
-		}
-	}
+        this.setState({ isLoading: false });
+        this.props.navigation.push("ProviderQuestionsScreen", {
+          providerID,
+          productID
+        });
+      } catch (error) {
+        this.setState({ isLoading: false, isErrorVisible: true });
+        FirebaseFunctions.logIssue(error, {
+          screen: "EditProductScreen",
+          userID: "p-" + providerID,
+          productID: productID
+        });
+      }
+    }
+  }
 
 	render() {
 		if (this.state.isScreenLoading === true) {
@@ -536,122 +537,125 @@ class createProductScreen extends Component {
 									disabled={this.state.isLoading}
 								/>
 
-								<RoundBlueButton
-									title={this.state.serviceID ? strings.Done : strings.Create}
-									style={roundBlueButtonStyle.MediumSizeButton}
-									textStyle={fontStyles.bigTextStyleWhite}
-									onPress={async () => {
-										if (this.state.serviceID) {
-											await this.saveProduct();
-										} else {
-											await this.createProduct();
-										}
-									}}
-									disabled={this.state.isLoading}
-								/>
-							</View>
-						) : (
-							<View style={{ alignItems: 'center', justifyContent: 'center' }}>
-								<RoundBlueButton
-									title={this.state.serviceID ? strings.Done : strings.Create}
-									style={roundBlueButtonStyle.MediumSizeButton}
-									textStyle={fontStyles.bigTextStyleWhite}
-									onPress={async () => {
-										if (this.state.serviceID) {
-											await this.saveProduct();
-										} else {
-											await this.createProduct();
-										}
-									}}
-									disabled={this.state.isLoading}
-								/>
-							</View>
-						)}
-					</View>
-					<View style={{ flex: 0.5 }}></View>
-					<View style={{ flex: 1 }}></View>
-				</View>
-				<ErrorAlert
-					isVisible={this.state.isErrorVisible}
-					onPress={() => {
-						this.setState({ isErrorVisible: false });
-					}}
-					title={strings.Whoops}
-					message={strings.SomethingWentWrong}
-				/>
-				<ErrorAlert
-					isVisible={this.state.fieldsError}
-					onPress={() => {
-						this.setState({ fieldsError: false });
-					}}
-					title={strings.Whoops}
-					message={strings.PleaseCompleteAllTheFields}
-				/>
-				<ErrorAlert
-					isVisible={this.state.serviceDescriptionError}
-					onPress={() => {
-						this.setState({ serviceDescriptionError: false });
-					}}
-					title={strings.Whoops}
-					message={strings.PleaseEnterADescriptionWithAtLeast50Characters}
-				/>
-				<ErrorAlert
-					isVisible={this.state.imageError}
-					onPress={() => {
-						this.setState({ imageError: false });
-					}}
-					title={strings.Whoops}
-					message={strings.PleaseAddAnImage}
-				/>
-				<OptionPicker
-					isVisible={this.state.isDeleteProductVisible}
-					title={strings.DeleteService}
-					message={strings.AreYouSureDeleteService}
-					confirmText={strings.Yes}
-					cancelText={strings.Cancel}
-					clickOutside={true}
-					confirmOnPress={async () => {
-						const { productID, providerID } = this.props.navigation.state.params;
-						this.setState({ isLoading: true, isDeleteProductVisible: false });
-						try {
-							await FirebaseFunctions.deleteService(productID, providerID);
-							this.setState({ isLoading: false });
-							this.props.navigation.push('ProviderScreens', {
-								providerID
-							});
-						} catch (error) {
-							this.setState({ isLoading: false, isErrorVisible: true });
-							FirebaseFunctions.logIssue(error, {
-								screen: 'EditProductScreen',
-								userID: 'p-' + providerID,
-								productID
-							});
-						}
-					}}
-					cancelOnPress={() => {
-						this.setState({ isDeleteProductVisible: false });
-					}}
-				/>
-				<ImagePicker
-					imageHeight={250}
-					imageWidth={Dimensions.get('window').width}
-					onImageSelected={(response) => {
-						this.setState({ isShowing: false });
-						const source = { uri: 'data:image/jpeg;base64,' + response.data };
-						if (!(source.uri === 'data:image/jpeg;base64,undefined')) {
-							//Sets the source of the image if one has been selected
-							this.setState({
-								imageSource: source,
-								response
-							});
-						}
-						this.setState({ isShowing: false });
-					}}
-					isShowing={this.state.isShowing}
-				/>
-			</HelpView>
-		);
-	}
+                <RoundBlueButton
+                  title={strings.Next}
+                  style={roundBlueButtonStyle.MediumSizeButton}
+                  textStyle={fontStyles.bigTextStyleWhite}
+                  onPress={async () => {
+                    if (this.state.serviceID) {
+                      await this.saveProduct();
+                    } else {
+                      await this.createProduct();
+                    }
+                  }}
+                  disabled={this.state.isLoading}
+                />
+              </View>
+            ) : (
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <RoundBlueButton
+                  title={strings.Next}
+                  style={roundBlueButtonStyle.MediumSizeButton}
+                  textStyle={fontStyles.bigTextStyleWhite}
+                  onPress={async () => {
+                    if (this.state.serviceID) {
+                      await this.saveProduct();
+                    } else {
+                      await this.createProduct();
+                    }
+                  }}
+                  disabled={this.state.isLoading}
+                />
+              </View>
+            )}
+          </View>
+          <View style={{ flex: 0.5 }}></View>
+          <View style={{ flex: 1 }}></View>
+        </View>
+        <ErrorAlert
+          isVisible={this.state.isErrorVisible}
+          onPress={() => {
+            this.setState({ isErrorVisible: false });
+          }}
+          title={strings.Whoops}
+          message={strings.SomethingWentWrong}
+        />
+        <ErrorAlert
+          isVisible={this.state.fieldsError}
+          onPress={() => {
+            this.setState({ fieldsError: false });
+          }}
+          title={strings.Whoops}
+          message={strings.PleaseCompleteAllTheFields}
+        />
+        <ErrorAlert
+          isVisible={this.state.serviceDescriptionError}
+          onPress={() => {
+            this.setState({ serviceDescriptionError: false });
+          }}
+          title={strings.Whoops}
+          message={strings.PleaseEnterADescriptionWithAtLeast50Characters}
+        />
+        <ErrorAlert
+          isVisible={this.state.imageError}
+          onPress={() => {
+            this.setState({ imageError: false });
+          }}
+          title={strings.Whoops}
+          message={strings.PleaseAddAnImage}
+        />
+        <OptionPicker
+          isVisible={this.state.isDeleteProductVisible}
+          title={strings.DeleteService}
+          message={strings.AreYouSureDeleteService}
+          confirmText={strings.Yes}
+          cancelText={strings.Cancel}
+          clickOutside={true}
+          confirmOnPress={async () => {
+            const {
+              productID,
+              providerID
+            } = this.props.navigation.state.params;
+            this.setState({ isLoading: true, isDeleteProductVisible: false });
+            try {
+              await FirebaseFunctions.deleteService(productID, providerID);
+              this.setState({ isLoading: false });
+              this.props.navigation.push("ProviderScreens", {
+                providerID
+              });
+            } catch (error) {
+              this.setState({ isLoading: false, isErrorVisible: true });
+              FirebaseFunctions.logIssue(error, {
+                screen: "EditProductScreen",
+                userID: "p-" + providerID,
+                productID
+              });
+            }
+          }}
+          cancelOnPress={() => {
+            this.setState({ isDeleteProductVisible: false });
+          }}
+        />
+        <ImagePicker
+          imageHeight={250}
+          imageWidth={Dimensions.get("window").width}
+          onImageSelected={response => {
+            this.setState({ isShowing: false });
+            const source = { uri: "data:image/jpeg;base64," + response.data };
+            if (!(source.uri === "data:image/jpeg;base64,undefined")) {
+              //Sets the source of the image if one has been selected
+              this.setState({
+                imageSource: source,
+                response
+              });
+            }
+            this.setState({ isShowing: false });
+          }}
+          isShowing={this.state.isShowing}
+        />
+      </HelpView>
+    );
+  }
 }
 
 //Exports the class
