@@ -13,7 +13,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 
 class createQuestionsScreen extends Component {
 	state = {
-		isScreenLoading: true,
+		isScreenLoading: true
 	};
 	componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('CreateQuestionsScreen', 'createQuestionsScreen');
@@ -60,7 +60,7 @@ class createQuestionsScreen extends Component {
 			isEmailSelected: this.state.isEmailSelected,
 			isPhoneNumberSelected: this.state.isPhoneNumberSelected,
 			isAddressSelected: this.state.isAddressSelected
-		}
+		};
 
 		//Passes the correct parameters to the next screen depending on whether the product is being edited, or being
 		//created
@@ -241,30 +241,24 @@ class createQuestionsScreen extends Component {
 										}}
 									/>
 								</View>
-								<View
+								<TouchableOpacity
+									onPress={() => {
+										questions.push('');
+										this.setState({
+											questions
+										});
+									}}
+									disabled={this.state.isLoading}
 									style={{
 										marginTop: Dimensions.get('window').height * 0.02,
 										justifyContent: 'center',
-										alignItems: 'center'
+										alignItems: 'center',
+										alignSelf: 'center',
+										width: Dimensions.get('window').width * 0.39,
+										height: Dimensions.get('window').height * 0.0878
 									}}>
-									<RoundBlueButton
-										title={strings.AddQuestion}
-										style={[
-											roundBlueButtonStyle.MediumSizeButton,
-											{
-												height: Dimensions.get('window').height * 0.05
-											}
-										]}
-										textStyle={fontStyles.bigTextStyleWhite}
-										onPress={() => {
-											questions.push('');
-											this.setState({
-												questions
-											});
-										}}
-										disabled={this.state.isLoading}
-									/>
-								</View>
+									<Text style={fontStyles.bigTextStyleBlue}>{strings.AddQuestion}</Text>
+								</TouchableOpacity>
 							</ScrollView>
 						</View>
 					</View>
