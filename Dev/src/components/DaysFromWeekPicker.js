@@ -2,7 +2,6 @@
 //It'll be used in the create schedule screen from the business side primarily
 import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
-import strings from 'config/strings';
 import colors from 'config/colors';
 import PropTypes from 'prop-types';
 import fontStyles from 'config/styles/fontStyles';
@@ -15,7 +14,6 @@ class DaysFromWeekPicker extends Component {
 		//with the day in the array. Also fetches the day selected from the props
 		const { daysSelected, onDaySelected, onDayUnselected } = this.props;
 		const arrayOfDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        console.log(daysSelected);
 		const arrayOfTouchableOpacities = [];
 
 		for (const day of arrayOfDays) {

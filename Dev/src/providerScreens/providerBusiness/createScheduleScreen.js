@@ -16,43 +16,55 @@ import { Icon } from 'react-native-elements';
 import ErrorAlert from '../../components/ErrorAlert';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import FirebaseFunctions from '../../../config/FirebaseFunctions';
 
 //exports and creates the class
 export default class createScheduleScreen extends Component {
 	//if this screen is to edit existing service, it will fetch the correct fields
 	async componentDidMount() {
-        //If a product has been passed in, then the correct fields will be set, other wise, the normal screen will 
-        //be set for user to create product
-		if (this.props.navigation.state.params && this.props.navigation.state.params.serviceID) {
-			const service = await FirebaseFunctions.getServiceByID(
-				this.props.navigation.state.params.serviceID
-			);
-			if (service.scheduleType === 'Anytime') {
+		//If a product has been passed in, then the correct fields will be set, other wise, the normal screen will
+		//be set for user to create product
+		if (this.props.navigation.state.params && this.props.navigation.state.params.product) {
+			const { product } = this.props.navigation.state.params;
+			const { schedule } = product;
+			if (schedule.scheduleType === 'Anytime') {
 				this.setState({
-					scheduleType: service.scheduleType
+					scheduleType: schedule.scheduleType
 				});
-			} else if (service.scheduleType === 'SpecificDaysAndTimes') {
+			} else if (schedule.scheduleType === 'SpecificDaysAndTimes') {
 				this.setState({
-					scheduleType: service.scheduleType,
-					daysSelected: service.daysSelected,
-					fromTime: service.fromTime,
-					toTime: service.day
+					scheduleType: schedule.scheduleType,
+					daysSelected: schedule.daysSelected,
+					fromTime: schedule.fromTime,
+					toTime: schedule.toTime
 				});
-			} else if (service.scheduleType === 'SpecificDays') {
+			} else if (schedule.scheduleType === 'SpecificDays') {
 				this.setState({
-					scheduleType: service.scheduleType,
-					daysSelected: service.daysSelected
+					scheduleType: schedule.scheduleType,
+					daysSelected: schedule.daysSelected
 				});
 			} else {
 				this.setState({
-					scheduleType: service.scheduleType,
-					fromTime: service.fromTime,
-					toTime: service.day
+					scheduleType: schedule.scheduleType,
+					fromTime: schedule.fromTime,
+					toTime: schedule.toTime
 				});
 			}
-			this.setState({ isScreenLoading: false });
+			const { productID, providerID, newProductObject } = this.props.navigation.state.params;
+			this.setState({
+				productID,
+				providerID,
+				product,
+				newProductObject,
+				isScreenLoading: false
+			});
 		} else {
-			this.setState({ isScreenLoading: false });
+			const { providerID, newProductObject } = this.props.navigation.state.params;
+			this.setState({
+				providerID,
+				newProductObject,
+				isScreenLoading: false
+			});
 		}
 	}
 	//Controls the state of the screen (what type of schedule the business wants to use)
@@ -92,7 +104,7 @@ export default class createScheduleScreen extends Component {
 
 	//Fetches all the information from the previous screens and actually creates the product and adds it to the
 	//database
-	createProduct() {
+	async createProduct() {
 		this.setState({ isLoading: true });
 		const {
 			scheduleType,
@@ -104,25 +116,65 @@ export default class createScheduleScreen extends Component {
 		} = this.state;
 		//Checks if the user has filled out all of the required information only if the user has NOT selected anytime
 		//as their type of schedule.
-		if (scheduleType !== 'Anytime') {
-			//If the time fields are empty, it checks if the schedule type selected needs it
-			if (
-				(fromTime === '' || toTime === '') &&
-				(scheduleType === 'SpecificDaysAndTimes' || scheduleType === 'SpecificTimes')
-			) {
-				this.setState({ isTimesErrorVisible: true, isLoading: false });
-			} else if (
-				!this.containsAtLeastOneTrue(daysSelected) &&
-				(scheduleType === 'SpecificDaysAndTimes' || scheduleType === 'SpecificDays')
-			) {
-				this.setState({ isDaysErrorVisible: true, isLoading: false });
-			}
+		//If the time fields are empty, it checks if the schedule type selected needs it
+		if (
+			(fromTime === '' || toTime === '') &&
+			(scheduleType === 'SpecificDaysAndTimes' || scheduleType === 'SpecificTimes')
+		) {
+			this.setState({ isTimesErrorVisible: true, isLoading: false });
+		} else if (
+			!this.containsAtLeastOneTrue(daysSelected) &&
+			(scheduleType === 'SpecificDaysAndTimes' || scheduleType === 'SpecificDays')
+		) {
+			this.setState({ isDaysErrorVisible: true, isLoading: false });
+		} else if (
 			//If times are selected, makes sure the from time occurs before the to time
-			if (fromTimeObject !== '' && toTimeObject !== '') {
-				if (fromTimeObject.getTime() > toTimeObject.getTime()) {
-					this.setState({ isFromTimeGreaterErrorVisible: true, isLoading: false });
-				}
+			fromTimeObject !== '' &&
+			toTimeObject !== '' &&
+			fromTimeObject.getTime() > toTimeObject.getTime()
+		) {
+			this.setState({ isFromTimeGreaterErrorVisible: true, isLoading: false });
+		} else {
+			//Creates the schedule object
+			let schedule = {};
+			if (scheduleType === 'Anytime') {
+				schedule.scheduleType = 'Anytime';
+			} else if (scheduleType === 'SpecificDaysAndTimes') {
+				schedule.scheduleType = 'SpecificDaysAndTimes';
+				schedule.fromTime = fromTime;
+				schedule.toTime = toTime;
+				schedule.daysSelected = daysSelected;
+			} else if (scheduleType === 'SpecificDays') {
+				schedule.scheduleType = 'SpecificDays';
+				schedule.daysSelected = daysSelected;
+			} else {
+				schedule.scheduleType = 'SpecificTimes';
+				schedule.fromTime = fromTime;
+				schedule.toTime = toTime;
 			}
+
+			//Checks if this product is being edited or not. If it is, then it will overwrite the existing product
+			//with the new one. If is not, this product will be added to the database
+			if (this.state.product) {
+				let { productID, newProductObject } = this.state;
+				//Finishes adding the remaining fields to the product object
+				newProductObject = {
+					...newProductObject,
+					schedule
+				};
+				await FirebaseFunctions.updateServiceInfo(productID, newProductObject);
+			} else {
+				let { providerID, newProductObject } = this.state;
+				//Finishes adding the remaining fields to the product object
+				newProductObject = {
+					...newProductObject,
+					schedule
+				};
+				await FirebaseFunctions.addProductToDatabase(providerID, newProductObject);
+			}
+			this.props.navigation.push('ProviderScreens', {
+				providerID: this.state.providerID
+			});
 		}
 	}
 
@@ -359,9 +411,9 @@ export default class createScheduleScreen extends Component {
 							isLoading={this.state.isLoading}
 							style={roundBlueButtonStyle.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
-							onPress={() => {
+							onPress={async () => {
 								//Creates the product
-								this.createProduct();
+								await this.createProduct();
 							}}
 							disabled={this.state.isLoading}
 						/>
