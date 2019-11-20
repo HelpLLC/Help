@@ -42,7 +42,7 @@ class LeftMenu extends Component {
 							width={Dimensions.get('window').height * 0.075}
 							height={Dimensions.get('window').height * 0.075}
 							imageFunction={async () => {
-								//Passes in the function to retrieve the image of this product
+								//Passes in the function to retrieve the image of this requester
 								return await FirebaseFunctions.getProfilePictureByID(
 									this.props.requester.requesterID
 								);
