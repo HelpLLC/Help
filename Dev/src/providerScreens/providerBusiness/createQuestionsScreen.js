@@ -13,7 +13,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 
 class createQuestionsScreen extends Component {
 	state = {
-		isScreenLoading: true
+		isScreenLoading: true,
 	};
 	componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('CreateQuestionsScreen', 'createQuestionsScreen');
@@ -28,9 +28,12 @@ class createQuestionsScreen extends Component {
 			} = this.props.navigation.state.params;
 			this.setState({
 				questions: product.questions,
+				isAddressSelected: product.defaultQuestions.isAddressSelected,
+				isEmailSelected: product.defaultQuestions.isEmailSelected,
+				isPhoneNumberSelected: product.defaultQuestions.isPhoneNumberSelected,
 				productID,
-                providerID,
-                product,
+				providerID,
+				product,
 				isScreenLoading: false,
 				newProductObject
 			});
@@ -39,6 +42,9 @@ class createQuestionsScreen extends Component {
 			this.setState({
 				questions: [''],
 				providerID: providerID,
+				isAddressSelected: false,
+				isEmailSelected: false,
+				isPhoneNumberSelected: false,
 				newProductObject,
 				isScreenLoading: false
 			});
@@ -46,12 +52,23 @@ class createQuestionsScreen extends Component {
 	}
 
 	async goToScheduleScreen() {
+		//Based on which buttons were clicked from the suggested question types, it adds them to the array
+		//of questions. This is going to be a seperate field in the business because if it is not, then it
+		//would be displayed in the list of questions, which we don't want to happen. And we can easily extend
+		//this in the future when we have more default questions
+		let defaultQuestions = {
+			isEmailSelected: this.state.isEmailSelected,
+			isPhoneNumberSelected: this.state.isPhoneNumberSelected,
+			isAddressSelected: this.state.isAddressSelected
+		}
+
 		//Passes the correct parameters to the next screen depending on whether the product is being edited, or being
 		//created
 		if (this.state.product) {
 			let { productID, providerID, product, newProductObject, questions } = this.state;
 			newProductObject = {
 				...newProductObject,
+				defaultQuestions,
 				questions: questions
 			};
 			this.props.navigation.push('ProviderCreateScheduleScreen', {
@@ -64,6 +81,7 @@ class createQuestionsScreen extends Component {
 			let { providerID, newProductObject, questions } = this.state;
 			newProductObject = {
 				...newProductObject,
+				defaultQuestions,
 				questions
 			};
 			this.props.navigation.push('ProviderCreateScheduleScreen', {
@@ -100,10 +118,11 @@ class createQuestionsScreen extends Component {
 					<View
 						style={{
 							justifyContent: 'flex-start',
-							marginLeft: Dimensions.get('window').width * 0.01,
-							marginTop: Dimensions.get('window').height * 0.02
+							alignItems: 'center',
+							marginHorizontal: Dimensions.get('window').width * 0.025,
+							marginVertical: Dimensions.get('window').height * 0.025
 						}}>
-						<Text style={fontStyles.subTextStyleBlack}>{strings.InfoFromCustomersQuestion}</Text>
+						<Text style={fontStyles.mainTextStyleBlack}>{strings.InfoFromCustomersQuestion}</Text>
 					</View>
 					<View style={{ marginTop: Dimensions.get('window').height * 0.01 }}>
 						<ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
@@ -111,7 +130,7 @@ class createQuestionsScreen extends Component {
 								style={{
 									flex: 1,
 									alignItems: 'center',
-									marginLeft: Dimensions.get('window').width * 0.01
+									marginLeft: Dimensions.get('window').width * 0.025
 								}}>
 								<RoundBlueButton
 									title={strings.Address}
@@ -127,7 +146,11 @@ class createQuestionsScreen extends Component {
 									textStyle={fontStyles.mainTextStyleBlue}
 									//Method selects the business button and deselects the other
 									onPress={() => {
-										this.setState({ isAddressSelected: true });
+										if (this.state.isAddressSelected === true) {
+											this.setState({ isAddressSelected: false });
+										} else {
+											this.setState({ isAddressSelected: true });
+										}
 									}}
 									disabled={this.state.isLoading}
 								/>
@@ -136,7 +159,7 @@ class createQuestionsScreen extends Component {
 								style={{
 									flex: 1,
 									alignItems: 'center',
-									marginLeft: Dimensions.get('window').width * 0.01
+									marginLeft: Dimensions.get('window').width * 0.025
 								}}>
 								<RoundBlueButton
 									title={strings.PhoneNumber}
@@ -146,7 +169,9 @@ class createQuestionsScreen extends Component {
 										roundBlueButtonStyle.AccountTypeButton,
 										{
 											borderColor:
-												this.state.isPhoneNumberSelected === true ? colors.lightBlue : colors.white
+												this.state.isPhoneNumberSelected === true ? colors.lightBlue : colors.white,
+											//Width increased for longer text
+											width: Dimensions.get('window').width * 0.37
 										}
 									]}
 									textStyle={fontStyles.mainTextStyleBlue}
@@ -164,8 +189,8 @@ class createQuestionsScreen extends Component {
 								style={{
 									flex: 1,
 									alignItems: 'center',
-									marginLeft: Dimensions.get('window').width * 0.01,
-									marginRight: Dimensions.get('window').width * 0.01
+									marginLeft: Dimensions.get('window').width * 0.025,
+									marginRight: Dimensions.get('window').width * 0.025
 								}}>
 								<RoundBlueButton
 									title={strings.Email}
@@ -194,15 +219,16 @@ class createQuestionsScreen extends Component {
 						<View
 							style={{
 								marginTop: Dimensions.get('window').height * 0.02,
-								borderTopColor: colors.mainTextSyleBlack,
-								borderTopWidth: 2
+								borderTopColor: colors.lightBlue,
+								width: Dimensions.get('window').width * 0.95,
+								alignSelf: 'center',
+								borderTopWidth: 1
 							}}>
 							<View
 								style={{
-									marginTop: Dimensions.get('window').height * 0.01,
-									marginLeft: Dimensions.get('window').height * 0.01
+									marginTop: Dimensions.get('window').height * 0.025
 								}}>
-								<Text style={fontStyles.subTextStyleBlack}>{strings.CustomQuestions}</Text>
+								<Text style={fontStyles.bigTextStyleBlack}>{strings.CustomQuestions}</Text>
 							</View>
 							<ScrollView style={{ height: Dimensions.get('window').height * 0.5 }}>
 								<View>
@@ -219,18 +245,25 @@ class createQuestionsScreen extends Component {
 									style={{
 										marginTop: Dimensions.get('window').height * 0.02,
 										justifyContent: 'center',
-										alignItems: 'center',
-										marginLeft: Dimensions.get('window').width * 0.3
+										alignItems: 'center'
 									}}>
-									<TouchableOpacity
+									<RoundBlueButton
+										title={strings.AddQuestion}
+										style={[
+											roundBlueButtonStyle.MediumSizeButton,
+											{
+												height: Dimensions.get('window').height * 0.05
+											}
+										]}
+										textStyle={fontStyles.bigTextStyleWhite}
 										onPress={() => {
 											questions.push('');
 											this.setState({
 												questions
 											});
-										}}>
-										<Text style={fontStyles.mainTextStyleBlue}>{strings.AddQuestion}</Text>
-									</TouchableOpacity>
+										}}
+										disabled={this.state.isLoading}
+									/>
 								</View>
 							</ScrollView>
 						</View>
@@ -242,7 +275,7 @@ class createQuestionsScreen extends Component {
 							marginTop: Dimensions.get('window').height * 0.03
 						}}>
 						<RoundBlueButton
-							title={strings.Done}
+							title={strings.Next}
 							style={roundBlueButtonStyle.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={async () => {

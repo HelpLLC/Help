@@ -407,7 +407,7 @@ export default class createScheduleScreen extends Component {
 							alignItems: 'flex-end'
 						}}>
 						<RoundBlueButton
-							title={strings.Create}
+							title={strings.Done}
 							isLoading={this.state.isLoading}
 							style={roundBlueButtonStyle.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}

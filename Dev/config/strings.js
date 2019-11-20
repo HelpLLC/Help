@@ -166,9 +166,14 @@ export default {
 	FromTimeIsMoreThanToTime: "Please select a 'From' time that is less than a 'To' time.",
 
 	//------------------- Create Questions Screen -------------------
-	InfoFromCustomersQuestion: 'What info do you need from the customer?',
+	InfoFromCustomersQuestion: 'What information do you need from customers to complete this services?',
 	CustomQuestions: 'Custom Questions',
 	AddQuestion: 'Add Question',
+	Question: 'Question',
+	AskQuestionsForCustomers: 'Ask questions customers would need to answer when they request your product...',
+	WhatIsYourEmailAddressQuestion: 'What is your email address?',
+	WhatIsYourAddressQuestion: 'What is your address?',
+	WhatIsYourPhoneNumberQuestion: 'What is your phone number?',
 
 	//------------------- Edit Company Profile Screen -------------------
 	EditCompany: 'Edit Company',
