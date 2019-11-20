@@ -100,7 +100,7 @@ export default class FirebaseFunctions {
         const distance = haversine(requesterCoordinates, productLocation, { unit: 'mile' });
 
         if (distance <= 50) {
-          filteredProducts(product);
+          filteredProducts.push(product);
         }
       }
     }
