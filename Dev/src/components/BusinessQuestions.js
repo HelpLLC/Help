@@ -45,7 +45,7 @@ class BusinessQuestions extends Component {
 								height: Dimensions.get('window').width * 0.1,
 								borderRadius: Dimensions.get('window').width * 0.5,
 								marginLeft: Dimensions.get('window').width * 0.02,
-								backgroundColor: colors.lightBlue,
+								backgroundColor: colors.red,
 								justifyContent: 'center',
 								alignItems: 'center',
 								alignSelf: 'center'
