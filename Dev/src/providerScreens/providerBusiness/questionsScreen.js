@@ -7,59 +7,57 @@ import fontStyles from '../../../config/styles/fontStyles';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import colors from '../../../config/colors';
 import roundBlueButtonStyle from '../../../config/styles/componentStyles/roundBlueButtonStyle';
+import BussinessQuestions from '../../components/BusinessQuestions';
+import FirebaseFunctions from '../../../config/FirebaseFunctions'
 
 class QuestionsScreen extends Component {
 
     state = {
-        isScreenLoading: true
+        isScreenLoading: true,
+        questions: []
     }
 
     async componentDidMount() {
-        if (this.props.navigation.state.params.productID) {
-            FirebaseFunctions.setCurrentScreen('EditProductScreen', 'editProductScreen');
-            const { productID,
-                serviceTitle,
-                serviceDescription,
-                price,
-                response,
-                coordinates,
-                location } = this.props.navigation.state.params;
-            this.setState({
-                productID,
-                serviceTitle,
-                serviceDescription,
-                price,
-                response,
-                coordinates,
-                location
-            })
-            const product = FirebaseFunctions.getServiceByID(productID);
-            if(product.questions === null){
-                
-            }
 
+        FirebaseFunctions.setCurrentScreen('ProviderQuestionsScreen', 'ProviderQuestionsScreen');
+        const { productID, providerID } = this.props.navigation.state.params;
+        this.setState({
+            productID, providerID
+        })
+        const product = await FirebaseFunctions.getServiceByID(productID);
 
-        } else {
-            FirebaseFunctions.setCurrentScreen('CreateProductScreen', 'CreateProductScreen');
-            const { providerID, serviceTitle, serviceDescription, price, response,
-                companyName, coordinates, location } = this.props.navigation.state.params;
-            const questions = [];
-            this.setState({
-                providerID,
-                serviceTitle,
-                serviceDescription,
-                price,
-                response,
-                companyName,
-                coordinates,
-                location,
-                questions
-            })
+        let questions = product.questions;
+        if (product.questions === undefined) {
+            questions = [];
         }
+
+        this.setState({
+            questions,
+            productID,
+            product,
+            providerID
+        })
+
+    }
+
+    async saveQuestions() {
+
+        const { questions, productID, providerID } = this.state;
+
+        FirebaseFunctions.updateServiceByID(productID, {
+            questions: questions
+        })
+
+        this.props.navigation.push('ProviderScreens', {
+            providerID
+          });
+
     }
 
 
+
     render() {
+        const { questions } = this.state;
         return (
             <HelpView>
                 <TopBanner
@@ -106,7 +104,6 @@ class QuestionsScreen extends Component {
                                         }
                                     ]}
                                     textStyle={fontStyles.mainTextStyleBlue}
-                                    //Method selects the business button and deselects the other
                                     onPress={() => {
                                         if (this.state.isPhoneNumberSelected === true) {
                                             this.setState({ isPhoneNumberSelected: false })
@@ -146,15 +143,40 @@ class QuestionsScreen extends Component {
                             <View style={{ marginTop: Dimensions.get('window').height * .01, marginLeft: Dimensions.get('window').height * .01 }}>
                                 <Text style={fontStyles.subTextStyleBlack}>Add custom questions for the customer.</Text>
                             </View>
-                            <View style={{ marginTop: Dimensions.get('window').height * .02, justifyContent: 'center', alignItems: 'center' }}>
-                                <TouchableOpacity onPress={() => {
-                                    console.log();
-                                }}>
-                                    <Text style={fontStyles.mainTextStyleBlue}>Add Question</Text>
-                                </TouchableOpacity>
-                            </View>
+                            <ScrollView style={{height :Dimensions.get('window').height * .5}}>
+                                <View>
+                                    <BussinessQuestions questions={this.state.questions}
+                                        onChangeQuestions={(questions) => {
+                                            this.setState({
+                                                questions: questions
+                                            })
+                                        }} />
+                                </View>
+                                <View style={{ marginTop: Dimensions.get('window').height * .02, justifyContent: 'center', alignItems: 'center', marginLeft: Dimensions.get('window').width * .3 }}>
+                                    <TouchableOpacity onPress={() => {
+                                        questions.push('');
+                                        this.setState({
+                                            questions
+                                        })
+                                    }}>
+                                        <Text style={fontStyles.mainTextStyleBlue}>Add Question</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </ScrollView>
                         </View>
                     </View>
+                    <View style={{ justifyContent: 'flex-end', alignContent: 'flex-end', marginTop: Dimensions.get('window').height * .03 }}>
+                        <RoundBlueButton
+                            title={strings.Done}
+                            style={roundBlueButtonStyle.MediumSizeButton}
+                            textStyle={fontStyles.bigTextStyleWhite}
+                            onPress={async () => {
+                                await this.saveQuestions();
+                            }}
+                            disabled={this.state.isLoading}
+                        />
+                    </View>
+
                 </View>
 
             </HelpView>
