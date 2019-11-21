@@ -30,7 +30,8 @@ import creditsScreen from './settingsScreens/creditsScreen';
 import RequesterCategoriesScreen from './requesterScreens/categoriesScreen';
 import categoryScreen from './requesterScreens/categoryScreen';
 import createRequesterProfileScreen from './firstScreens/createRequesterProfileScreen';
-import QuestionsScreen from './providerScreens/providerBusiness/questionsScreen'
+import createScheduleScreen from './providerScreens/providerBusiness/createScheduleScreen';
+import createQuestionsScreen from './providerScreens/providerBusiness/createQuestionsScreen'
 
 //The route config for all of the screens
 const routeConfig = {
@@ -120,8 +121,8 @@ const routeConfig = {
 		screen: ProviderEditCompanyProfileScreen
 	},
 
-	ProviderQuestionsScreen: {
-		screen: QuestionsScreen
+	ProviderCreateQuestionsScreen: {
+		screen: createQuestionsScreen
 	},
 
 	//Takes you to the provider screen navigator's default route
@@ -140,6 +141,10 @@ const routeConfig = {
 	//The route going to the product history screen
 	ProviderProductHistoryScreen: {
 		screen: ProviderProductHistoryScreen
+	},
+
+	ProviderCreateScheduleScreen: {
+		screen: createScheduleScreen
 	},
 
 	//--------------------------- Requester Screens ---------------------------

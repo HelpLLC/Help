@@ -7,7 +7,6 @@ import codePush from 'react-native-code-push';
 
 //Launches the app with the persisted store
 class App extends Component {
-
 	render() {
 		//Ignores a specific warning
 		YellowBox.ignoreWarnings([
