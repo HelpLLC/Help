@@ -320,6 +320,7 @@ export default {
 
 	//------------------- Miscellaneous -----------------
 	Whoops: 'Whoops',
+	DotDotDot: '...',
 	Success: 'Success',
 	Ok: 'Ok',
 	NoConnection: 'Something went wrong. Check your internet connection & try again',

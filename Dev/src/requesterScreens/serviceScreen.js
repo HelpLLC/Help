@@ -518,7 +518,11 @@ class serviceScreen extends Component {
 											onPress={() => {
 												this.handleEmail(provider.email);
 											}}>
-											<Text style={fontStyles.mainTextStyleBlue}>{provider.email}</Text>
+											<Text style={fontStyles.mainTextStyleBlue}>
+												{provider.email.length > 14
+													? provider.email.substring(0, 13) + strings.DotDotDot
+													: provider.email}
+											</Text>
 										</TouchableOpacity>
 									</View>
 								</View>
