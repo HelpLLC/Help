@@ -8,17 +8,25 @@ import PropTypes from 'prop-types';
 //The class that will render the spinner
 class LoadingSpinner extends Component {
 	render() {
+		const { isVisible, color } = this.props;
 		return (
 			<View>
-				<Spinner isVisible={this.props.isVisible} size={60} type={'ThreeBounce'} color={colors.lightBlue} />
+				<Spinner
+					isVisible={isVisible}
+					size={60}
+					type={'ThreeBounce'}
+					color={color ? color : colors.lightBlue}
+				/>
 			</View>
 		);
 	}
 }
 
 //Making sure that the correct prop type (boolean) is passed in
+//An optional colors prop will also be passed in
 LoadingSpinner.propTypes = {
-	isVisible: PropTypes.bool.isRequired
+	isVisible: PropTypes.bool.isRequired,
+	color: PropTypes.string
 };
 
 export default LoadingSpinner;
