@@ -75,6 +75,7 @@ export default {
 	History: 'History',
 	Privacy: 'Privacy',
 	ReportAnIssue: 'Report an Issue',
+	Notifications: 'Notifications',
 	About: 'About',
 	Credits: 'Credits',
 	LogOut: 'Log Out',
