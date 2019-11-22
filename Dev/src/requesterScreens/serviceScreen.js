@@ -155,7 +155,7 @@ class serviceScreen extends Component {
 		try {
 			email(to, {
 				// Optional additional arguments
-				subject: 'Your Service on Help ' + this.state.product.serviceTitle
+				subject: 'Your Service ' + this.state.product.serviceTitle
 			});
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
@@ -723,10 +723,7 @@ class serviceScreen extends Component {
 							//to buy this service. Then will push the requester to the chats screen.
 							const { product } = this.state;
 							const { requester } = this.props.navigation.state.params;
-							this.props.navigation.push('CustomerQuestionsScreen', {
-								product, requester
-							})
-							/*try {
+							try {
 								await FirebaseFunctions.requestService(product.serviceID, requester.requesterID);
 								this.setState({ isRequested: true, isLoading: false });
 							} catch (error) {
@@ -736,7 +733,7 @@ class serviceScreen extends Component {
 									userID: 'r-' + requester.requesterID,
 									productID: product.productID
 								});
-							}*/
+							}
 						}}
 						cancelOnPress={() => {
 							this.setState({ isRequestServiceVisible: false });

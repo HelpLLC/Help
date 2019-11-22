@@ -31,8 +31,7 @@ import RequesterCategoriesScreen from './requesterScreens/categoriesScreen';
 import categoryScreen from './requesterScreens/categoryScreen';
 import createRequesterProfileScreen from './firstScreens/createRequesterProfileScreen';
 import createScheduleScreen from './providerScreens/providerBusiness/createScheduleScreen';
-import createQuestionsScreen from './providerScreens/providerBusiness/createQuestionsScreen';
-import CustomerQuestionsScreen from './requesterScreens/customerQuestionsScreen';
+import createQuestionsScreen from './providerScreens/providerBusiness/createQuestionsScreen'
 
 //The route config for all of the screens
 const routeConfig = {
@@ -124,10 +123,6 @@ const routeConfig = {
 
 	ProviderCreateQuestionsScreen: {
 		screen: createQuestionsScreen
-	},
-
-	CustomerQuestionsScreen: {
-		screen: CustomerQuestionsScreen
 	},
 
 	//Takes you to the provider screen navigator's default route
