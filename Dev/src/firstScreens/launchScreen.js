@@ -164,6 +164,14 @@ export default class launchScreen extends Component {
 							alignItems: 'center',
 							marginTop: Dimensions.get('window').height * 0.2
 						}}>
+						<View
+							style={{
+								justifyContent: 'center',
+								alignItems: 'center',
+								marginBottom: Dimensions.get('window').height * 0.05
+							}}>
+							<Text style={fontStyles.bigTextStyleWhite}>{strings.UpdatingAppDotDotDot}</Text>
+						</View>
 						<LoadingSpinner isVisible={true} color={colors.white} />
 					</View>
 				) : (

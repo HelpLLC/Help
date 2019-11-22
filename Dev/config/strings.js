@@ -325,5 +325,6 @@ export default {
 	Ok: 'Ok',
 	NoConnection: 'Something went wrong. Check your internet connection & try again',
 	UpdateAvailable: 'Update Available',
+	UpdatingAppDotDotDot: 'Updating Help...',
 	UpdateAvailableMessage: 'There is a new update available for Help! Go download it now!'
 };
