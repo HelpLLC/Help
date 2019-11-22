@@ -266,6 +266,7 @@ export default {
 
 	//------------------- Chats Screen -------------------
 	NoMessagesYet: 'No messages yet',
+	Today: 'Today',
 
 	//------------------- Notifications -------------------
 	NewRequest: 'New Request',
