@@ -387,7 +387,12 @@ class serviceScreen extends Component {
 											style={roundBlueButtonStyle.MediumSizeButton}
 											textStyle={fontStyles.bigTextStyleWhite}
 											onPress={() => {
-												this.setState({ isRequestServiceVisible: true });
+												const { product } = this.state;
+												const { requester } = this.props.navigation.state.params;
+												this.props.navigation.push('RequesterQuestionsScreen', {
+													product,
+													requester
+												});
 											}}
 										/>
 									</View>
@@ -702,44 +707,6 @@ class serviceScreen extends Component {
 							} else if (index === 0) {
 								this.messageProvider();
 							}
-						}}
-					/>
-					<OptionPicker
-						isVisible={isRequestServiceVisible}
-						title={strings.RequestService}
-						message={strings.AreYouSureRequestService}
-						confirmText={strings.Request}
-						cancelText={strings.Cancel}
-						clickOutside={true}
-						confirmOnPress={async () => {
-							this.setState({
-								isRequestServiceVisible: false,
-								isLoading: true
-							});
-							//This method will request this service from the company providing it by pushing the request to the
-							//provider.
-							//After confirming to the requester that the request has been processed, the program will
-							//automatically send a message to the provider with a default message saying that this requester wants
-							//to buy this service. Then will push the requester to the chats screen.
-							const { product } = this.state;
-							const { requester } = this.props.navigation.state.params;
-							this.props.navigation.push('CustomerQuestionsScreen', {
-								product, requester
-							})
-							/*try {
-								await FirebaseFunctions.requestService(product.serviceID, requester.requesterID);
-								this.setState({ isRequested: true, isLoading: false });
-							} catch (error) {
-								this.setState({ isLoading: false, isErrorVisible: true });
-								FirebaseFunctions.logIssue(error, {
-									screen: 'RequesterServiceScreen',
-									userID: 'r-' + requester.requesterID,
-									productID: product.productID
-								});
-							}*/
-						}}
-						cancelOnPress={() => {
-							this.setState({ isRequestServiceVisible: false });
 						}}
 					/>
 					<OptionPicker
