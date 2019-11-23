@@ -154,6 +154,13 @@ export default {
 	AreYouSureDeleteService:
 		'Are you sure you want to delete this service? This action cannot be undone.',
 
+	//------------------- Requester Schedule Screen -------------------
+	Schedule: 'Schedule',
+	PickADate: 'Pick a Date',
+	PickATime:  'Pick a Time',
+	FinishRequesting: 'Finish Request',
+	AreYouSureYouWantToRequest: 'Are you sure you want to request ',
+
 	//------------------- Create Schedule Screen -------------------
 	CreateSchedule: 'Create Schedule',
 	AvailableTimesToCompleteService: 'Available Times to Complete Service',
@@ -167,11 +174,13 @@ export default {
 	FromTimeIsMoreThanToTime: "Please select a 'From' time that is less than a 'To' time.",
 
 	//------------------- Create Questions Screen -------------------
-	InfoFromCustomersQuestion: 'What information do you need from customers to complete this services?',
+	InfoFromCustomersQuestion:
+		'What information do you need from customers to complete this services?',
 	CustomQuestions: 'Custom Questions',
 	AddQuestion: 'Add Question',
 	Question: 'Question',
-	AskQuestionsForCustomers: 'Ask questions customers would need to answer when they request your product...',
+	AskQuestionsForCustomers:
+		'Ask questions customers would need to answer when they request your product...',
 	WhatIsYourEmailAddressQuestion: 'What is your email address?',
 	WhatIsYourAddressQuestion: 'What is your address?',
 	WhatIsYourPhoneNumberQuestion: 'What is your phone number?',

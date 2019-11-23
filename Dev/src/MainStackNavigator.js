@@ -31,7 +31,8 @@ import RequesterCategoriesScreen from './requesterScreens/categoriesScreen';
 import categoryScreen from './requesterScreens/categoryScreen';
 import createRequesterProfileScreen from './firstScreens/createRequesterProfileScreen';
 import createScheduleScreen from './providerScreens/providerBusiness/createScheduleScreen';
-import createQuestionsScreen from './providerScreens/providerBusiness/createQuestionsScreen'
+import createQuestionsScreen from './providerScreens/providerBusiness/createQuestionsScreen';
+import requesterScheduleScreen from './requesterScreens/requestScheduleScreen';
 
 //The route config for all of the screens
 const routeConfig = {
@@ -152,6 +153,11 @@ const routeConfig = {
 	//The route going to the requester service screen
 	RequesterServiceScreen: {
 		screen: RequesterServiceScreen
+	},
+
+	//The route going to the requester scheduling screen
+	RequesterServiceScreen: {
+		screen: requesterScheduleScreen
 	},
 
 	//Route to screen with list of all categories
