@@ -9,23 +9,40 @@ class OneLineRoundedBoxInput extends Component {
 	render() {
 		//The one prop this will take is a placeholder text which will disappear when the user
 		//starts typing as well as onChangeText function and a value
-		const { placeholder, onChangeText, value, maxLength, width, password, autoCompleteType, keyboardType, autoCapitalize } = this.props;
+		const {
+			placeholder,
+			onChangeText,
+			value,
+			maxLength,
+			width,
+			password,
+			autoCompleteType,
+			keyboardType,
+			autoCapitalize,
+			additionalIcon
+		} = this.props;
 
 		return (
-			<View>
+			<View
+				style={{
+					borderWidth: 3,
+					borderColor: colors.lightBlue,
+					width: width ? width : Dimensions.get('window').width * 0.6,
+					height: Dimensions.get('window').height * 0.06,
+					borderRadius: 20,
+					paddingLeft: 10,
+					backgroundColor: colors.white,
+					alignItems: 'center',
+					flexDirection: 'row'
+				}}>
 				<TextInput
 					placeholder={placeholder}
 					placeholderTextColor={colors.gray}
 					onChangeText={(input) => onChangeText(input)}
 					style={{
-						borderWidth: 3,
-						borderColor: colors.lightBlue,
-						width: width ? width : Dimensions.get('window').width * 0.6,
-						height: Dimensions.get('window').height * 0.06,
-						borderRadius: 20,
-						paddingLeft: 10,
-						backgroundColor: colors.white,
-						color: colors.black
+						color: colors.black,
+						width: width ? width * 0.8 : Dimensions.get('window').width * 0.48,
+						height: Dimensions.get('window').height * 0.06
 					}}
 					secureTextEntry={password}
 					keyboardType={keyboardType ? keyboardType : 'default'}
@@ -33,9 +50,16 @@ class OneLineRoundedBoxInput extends Component {
 					returnKeyType={'done'}
 					value={value}
 					autoCompleteType={autoCompleteType ? autoCompleteType : 'off'}
-					autoCapitalize={autoCompleteType === 'email' || autoCompleteType === 'password' || autoCapitalize === 'none' ? 'none' : 'sentences'}
+					autoCapitalize={
+						autoCompleteType === 'email' ||
+						autoCompleteType === 'password' ||
+						autoCapitalize === 'none'
+							? 'none'
+							: 'sentences'
+					}
 					maxLength={maxLength}
 				/>
+				{additionalIcon ? additionalIcon : <View></View>}
 			</View>
 		);
 	}
@@ -50,7 +74,11 @@ OneLineRoundedBoxInput.propTypes = {
 	onChangeText: PropTypes.func,
 	value: PropTypes.string,
 	maxLength: PropTypes.number,
-	width: PropTypes.number
+	width: PropTypes.number,
+	password: PropTypes.bool,
+	autoCompleteType: PropTypes.string,
+	keyboardType: PropTypes.string,
+	autoCapitalize: PropTypes.string
 };
 
 //exports the module

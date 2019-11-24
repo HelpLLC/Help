@@ -10,6 +10,7 @@ import logInScreen from './firstScreens/logInScreen';
 import signUpScreen from './firstScreens/signUpScreen';
 import createProviderProfileScreen from './firstScreens/createProviderProfileScreen';
 import accountNotVerifiedScreen from './firstScreens/accountNotVerifiedScreen';
+import customerRequestScreen from './providerScreens/providerBusiness/customerRequestScreen';
 import ProviderProductHistoryScreen from './providerScreens/providerBusiness/productHistoryScreen';
 import RequesterServiceScreen from './requesterScreens/serviceScreen';
 import RequesterCompanyProfileScreen from './requesterScreens/companyProfileScreen';
@@ -32,6 +33,7 @@ import categoryScreen from './requesterScreens/categoryScreen';
 import createRequesterProfileScreen from './firstScreens/createRequesterProfileScreen';
 import createScheduleScreen from './providerScreens/providerBusiness/createScheduleScreen';
 import createQuestionsScreen from './providerScreens/providerBusiness/createQuestionsScreen';
+import requesterScheduleScreen from './requesterScreens/requestScheduleScreen';
 import requesterQuestionsScreen from './requesterScreens/requesterQuestionsScreen';
 
 //The route config for all of the screens
@@ -135,6 +137,11 @@ const routeConfig = {
 		})
 	},
 
+	//The route going to the screen for a specific request
+	CustomerRequestScreen: {
+		screen: customerRequestScreen
+	},
+
 	//The route going to the product screen
 	ProviderProductScreen: {
 		screen: ProviderProductScreen
@@ -155,6 +162,11 @@ const routeConfig = {
 	//The route going to the requester service screen
 	RequesterServiceScreen: {
 		screen: RequesterServiceScreen
+	},
+
+	//The route going to the requester scheduling screen
+	RequesterScheduleScreen: {
+		screen: requesterScheduleScreen
 	},
 
 	//Route to screen with list of all categories

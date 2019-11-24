@@ -2,7 +2,7 @@
 //created. Since there will be no payments or anything secure in the mvp, then users will only
 //log in with their phone numbers. And that will be what is linked with their accoun
 import React, { Component } from 'react';
-import { View, Text, Keyboard, TouchableOpacity } from 'react-native';
+import { View, Text, Keyboard, TouchableOpacity, Dimensions } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
@@ -13,6 +13,8 @@ import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../components/TopBanner';
 import ErrorAlert from '../components/ErrorAlert';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
+import { Icon } from 'react-native-elements';
+import colors from 'config/colors';
 
 //The class that will create the look of this screen
 class logInScreen extends Component {
@@ -33,7 +35,8 @@ class logInScreen extends Component {
 
 		//This will determine whether the loading widget appears or not. Initially false
 		isLoading: false,
-		isErrorVisible: false
+		isErrorVisible: false,
+		isPasswordVisible: false
 	};
 
 	//This function will login based on the entered phone number... if the number is non existent,
@@ -138,7 +141,26 @@ class logInScreen extends Component {
 							placeholder={strings.EnterYourPassword}
 							onChangeText={(input) => this.setState({ password: input })}
 							value={this.state.password}
-							password={true}
+							additionalIcon={
+								<TouchableOpacity
+									onPress={() => {
+										const { isPasswordVisible } = this.state;
+										this.setState({
+											isPasswordVisible: !isPasswordVisible
+										});
+									}}
+									style={{
+										justifyContent: 'center',
+										height: Dimensions.get('window').height * 0.06
+									}}>
+									<Icon
+										name={this.state.isPasswordVisible === true ? 'eye' : 'eye-slash'}
+										type='font-awesome'
+										color={this.state.isPasswordVisible === true ? colors.lightBlue : colors.gray}
+									/>
+								</TouchableOpacity>
+							}
+							password={!this.state.isPasswordVisible}
 							autoCompleteType={'password'}
 						/>
 					</View>

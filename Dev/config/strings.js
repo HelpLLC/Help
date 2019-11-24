@@ -75,6 +75,7 @@ export default {
 	History: 'History',
 	Privacy: 'Privacy',
 	ReportAnIssue: 'Report an Issue',
+	Notifications: 'Notifications',
 	About: 'About',
 	Credits: 'Credits',
 	LogOut: 'Log Out',
@@ -153,6 +154,19 @@ export default {
 	AreYouSureDeleteService:
 		'Are you sure you want to delete this service? This action cannot be undone.',
 
+	//------------------- Requester Schedule Screen -------------------
+	Schedule: 'Schedule',
+	PickADate: 'Pick a Date',
+	PickATime: 'Pick a Time',
+	FinishRequesting: 'Finish Request',
+	AreYouSureYouWantToRequest: 'Are you sure you want to request ',
+	isAvailableBetween: 'is available between',
+	and: 'and',
+	PleaseSelectATimeInWhichTheBusinessIsAvailable:
+		'Please select a time in which the business is available.',
+	PleaseSelectATimeForYourService: 'Please select a time for your service.',
+	PleaseSelectADayForYourService: 'Please select a day for your service.',
+
 	//------------------- Create Schedule Screen -------------------
 	CreateSchedule: 'Create Schedule',
 	AvailableTimesToCompleteService: 'Available Times to Complete Service',
@@ -160,17 +174,18 @@ export default {
 	SpecificDaysAndTimes: 'Specific Days & Times',
 	SpecificTimes: 'Specific Times',
 	Anytime: 'Anytime',
-	PickATime: 'Pick a time',
 	PleaseSelectATime: 'Please select the times when you are available to complete this service.',
 	PleaseSelectDay: 'Please select the days that you are available to complete this service.',
 	FromTimeIsMoreThanToTime: "Please select a 'From' time that is less than a 'To' time.",
 
 	//------------------- Create Questions Screen -------------------
-	InfoFromCustomersQuestion: 'What information do you need from customers to complete this services?',
+	InfoFromCustomersQuestion:
+		'What information do you need from customers to complete this services?',
 	CustomQuestions: 'Custom Questions',
 	AddQuestion: 'Add Question',
 	Question: 'Question',
-	AskQuestionsForCustomers: 'Ask questions customers would need to answer when they request your product...',
+	AskQuestionsForCustomers:
+		'Ask questions customers would need to answer when they request your product...',
 	WhatIsYourEmailAddressQuestion: 'What is your email address?',
 	WhatIsYourAddressQuestion: 'What is your address?',
 	WhatIsYourPhoneNumberQuestion: 'What is your phone number?',
@@ -185,16 +200,9 @@ export default {
 	Service: 'Service',
 	EditService: 'Edit Service',
 	NoCurrentRequests: 'No Current Requests',
-	Message: 'Message',
-	Delete: 'Delete',
-	MarkAsComplete: 'Mark as complete',
-	CompleteRequest: 'Complete Request',
-	AreYouSureCompleteRequest: 'Are you sure you want to complete this request?',
-	Complete: 'Complete',
 	Cancel: 'Cancel',
-	DeleteRequest: 'Delete Request',
-	AreYouSureDeleteRequest: 'Are you sure you want to delete this request?',
-	Delete: 'Delete',
+	RequestedOn: 'Requested On',
+	CurrentRequests: 'Current Requests',
 
 	//------------------- Edit Product Screen -------------------
 	EditTitle: 'Edit Title',
@@ -211,6 +219,24 @@ export default {
 	Date: 'Date',
 	Customer: 'Customer',
 	NoHistoryForThisProductYet: 'No history for this product yet',
+
+	//------------------- Business Side Customer Request Screen -------------------
+	CustomerRequest: 'Customer Request',
+	Delete: 'Delete',
+	Message: 'Message',
+	Complete: 'Complete',
+	CustomerAnswers: 'Customer Answers',
+	ScheduledOn: 'Scheduled on',
+	ScheduledAt: 'Scheduled at',
+	at: 'at',
+	AreYouSureDeleteRequest: 'Are you sure you want to delete this request?',
+	DeleteRequest: 'Delete Request',
+	RequestDeleted: 'Request Deleted',
+	RequestHasBeenDeleted: 'The request has been deleted',
+	RequestCompleted: 'Request Completed',
+	RequestHasBeenCompleted: 'The request has been completed.',
+	CompleteRequest: 'Complete Request',
+	AreYouSureCompleteRequest: 'Are you sure you want to complete this request?',
 
 	//------------------- Featured Screen -------------------
 	OfferedBy: 'Offered by',
@@ -242,6 +268,8 @@ export default {
 
 	//------------------- Requester Answer Questions Screen -------------------
 	AnswerHereDotDotDot: 'Answer here...',
+	PleaseFillOutAllQuestions: 'Please fill out all of the questions.',
+	TheServiceHasBeenRequested: 'The service has been requested',
 
 	//------------------- Requester Order History Screen -------------------
 	OrderHistory: 'Order History',
@@ -268,6 +296,7 @@ export default {
 
 	//------------------- Chats Screen -------------------
 	NoMessagesYet: 'No messages yet',
+	Today: 'Today',
 
 	//------------------- Notifications -------------------
 	NewRequest: 'New Request',

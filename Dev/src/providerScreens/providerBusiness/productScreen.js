@@ -12,360 +12,275 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
 import HelpView from '../../components/HelpView';
 import OptionPicker from '../../components/OptionPicker';
+import { CachedImage } from 'react-native-img-cache';
+import ServiceCard from '../../components/ServiceCard';
 import TopBanner from '../../components/TopBanner';
-import ImageWithBorder from '../../components/ImageWithBorder';
+
+import ViewMoreText from 'react-native-view-more-text';
 
 //The class representing the screen
 class productScreen extends Component {
-  //Initializes the loading state
-  constructor() {
-    super();
-    this.state = {
-      isLoading: true,
-      currentRequests: [],
-      product: '',
-      isErrorVisible: false,
-      isCompleteRequestVisible: false,
-      currentRequestID: '',
-      isDeleteRequestVisible: false
-    };
-  }
+	//Initializes the loading state
+	constructor() {
+		super();
+		this.state = {
+			isLoading: true,
+			currentRequests: [],
+			product: '',
+			isErrorVisible: false,
+			isCompleteRequestVisible: false,
+			currentRequestID: '',
+			isDeleteRequestVisible: false
+		};
+	}
 
-  //Fetches the data associated with this screen
-  async fetchDatabaseData() {
-    try {
-      const { productID } = this.props.navigation.state.params;
-      const service = await FirebaseFunctions.getServiceByID(productID);
-      this.setState({
-        isLoading: false,
-        currentRequests: service.requests.currentRequests,
-        product: service
-      });
-    } catch (error) {
-      this.setState({ isLoading: false, isErrorVisible: true });
-      FirebaseFunctions.logIssue(error, {
-        screen: 'ProviderProductScreen',
-        userID: 'p-' + this.props.navigation.state.params.providerID,
-        productID: this.props.navigation.state.params.productID
-      });
-    }
+	//Fetches the data associated with this screen
+	async fetchDatabaseData() {
+		try {
+			const { productID } = this.props.navigation.state.params;
+			const service = await FirebaseFunctions.getServiceByID(productID);
+			const image = await FirebaseFunctions.getProductImageByID(productID);
+			this.setState({
+				isLoading: false,
+				currentRequests: service.requests.currentRequests,
+				product: service,
+				image
+			});
+		} catch (error) {
+			this.setState({ isLoading: false, isErrorVisible: true });
+			FirebaseFunctions.logIssue(error, {
+				screen: 'ProviderProductScreen',
+				userID: 'p-' + this.props.navigation.state.params.providerID,
+				productID: this.props.navigation.state.params.productID
+			});
+		}
 
-    return 0;
-  }
+		return 0;
+	}
 
-  //This will fetch the data about this product from the database
-  async componentDidMount() {
-    FirebaseFunctions.setCurrentScreen('ProviderProductScreen', 'productScreen');
+	//This will fetch the data about this product from the database
+	async componentDidMount() {
+		FirebaseFunctions.setCurrentScreen('ProviderProductScreen', 'productScreen');
 
-    this.setState({ isLoading: true });
-    //Adds the listener to add the listener to refetch the data once this component is returned to
-    this.willFocusListener = this.props.navigation.addListener('willFocus', async () => {
-      await this.fetchDatabaseData();
-      this.setState({ isLoading: false });
-    });
-  }
+		this.setState({ isLoading: true });
+		//Adds the listener to add the listener to refetch the data once this component is returned to
+		this.willFocusListener = this.props.navigation.addListener('willFocus', async () => {
+			await this.fetchDatabaseData();
+			this.setState({ isLoading: false });
+		});
+	}
 
-  //Removes the listener when the screen is switched away from
-  componentWillUnmount() {
-    this.willFocusListener.remove();
-  }
+	//Removes the listener when the screen is switched away from
+	componentWillUnmount() {
+		this.willFocusListener.remove();
+	}
 
-  //This method will take in an ID of a requester and go to the chat screen associated with them
-  messageRequester(providerID, requesterID, requesterName) {
-    this.props.navigation.push('MessagingScreen', {
-      title: requesterName,
-      providerID: providerID,
-      requesterID: requesterID,
-      userID: providerID
-    });
-  }
+	//renders the UI
+	render() {
+		//fetches the params passed in (the product, productID)
+		const { productID, providerID } = this.props.navigation.state.params;
+		const {
+			isLoading,
+			product,
+			currentRequests,
+			isCompleteRequestVisible,
+			isErrorVisible,
+			isDeleteRequestVisible
+		} = this.state;
 
-  //renders the UI
-  render() {
-    //fetches the params passed in (the product, productID)
-    const { productID, providerID } = this.props.navigation.state.params;
-    const {
-      isLoading,
-      product,
-      currentRequests,
-      isCompleteRequestVisible,
-      isErrorVisible,
-      isDeleteRequestVisible
-    } = this.state;
+		//If the state is still loading, the spinner will appear
+		if (isLoading === true) {
+			return (
+				<HelpView style={screenStyle.container}>
+					<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+						<LoadingSpinner isVisible={isLoading} />
+					</View>
+					<ErrorAlert
+						isVisible={this.state.isErrorVisible}
+						onPress={() => {
+							this.setState({ isErrorVisible: false });
+						}}
+						title={strings.Whoops}
+						message={strings.SomethingWentWrong}
+					/>
+				</HelpView>
+			);
+		} else {
+			return (
+				<HelpView style={screenStyle.container}>
+					<TopBanner
+						title={strings.Service}
+						leftIconName='angle-left'
+						leftOnPress={() =>
+							this.props.navigation.push('ProviderScreens', {
+								providerID: this.props.navigation.state.params.providerID
+							})
+						}
+					/>
+					<ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+						<View
+							style={{
+								flexDirection: 'row',
+								width: Dimensions.get('window').width - 40,
+								alignItems: 'center',
+								alignSelf: 'center',
+								justifyContent: 'space-between'
+							}}>
+							<View style={{ flexDirection: 'column', justifyContent: 'center' }}>
+								<View
+									style={{
+										justifyContent: 'flex-end',
+										marginVertical: Dimensions.get('window').height * 0.03
+									}}>
+									<Text style={fontStyles.bigTextStyleBlack}>{product.serviceTitle}</Text>
+								</View>
 
-    //If the state is still loading, the spinner will appear
-    if (isLoading === true) {
-      return (
-        <HelpView style={screenStyle.container}>
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <LoadingSpinner isVisible={isLoading} />
-          </View>
-          <ErrorAlert
-            isVisible={this.state.isErrorVisible}
-            onPress={() => {
-              this.setState({ isErrorVisible: false });
-            }}
-            title={strings.Whoops}
-            message={strings.SomethingWentWrong}
-          />
-        </HelpView>
-      );
-    } else {
-      return (
-        <HelpView style={screenStyle.container}>
-          <TopBanner
-            title={strings.Service}
-            leftIconName='angle-left'
-            leftOnPress={() =>
-              this.props.navigation.push('ProviderScreens', {
-                providerID: this.props.navigation.state.params.providerID
-              })
-            }
-          />
-          <View>
-            <View
-              style={{
-                flexDirection: 'row',
-                width: Dimensions.get('window').width - 40,
-                borderColor: colors.lightGray,
-                borderBottomColor: colors.black,
-                borderWidth: 0.5,
-                alignItems: 'center',
-                alignSelf: 'center',
-                justifyContent: 'space-between',
-                flex: 0.75
-              }}>
-              <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
-                <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                  <Text style={fontStyles.bigTextStyleBlack}>{product.serviceTitle}</Text>
-                </View>
+								<TouchableOpacity
+									onPress={() => {
+										this.props.navigation.push('ProviderCreateProductScreen', {
+											product,
+											productID,
+											providerID
+										});
+									}}
+									style={{ justifyContent: 'flex-end' }}>
+									<Text style={fontStyles.bigTextStyleBlue}>{strings.EditService}</Text>
+								</TouchableOpacity>
 
-                <TouchableOpacity
-                  onPress={() => {
-                    this.props.navigation.push('ProviderCreateProductScreen', {
-                      product,
-                      productID,
-                      providerID
-                    });
-                  }}
-                  style={{ flex: 0.5, justifyContent: 'flex-end' }}>
-                  <Text style={fontStyles.mainTextStyleBlue}>{strings.EditService}</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  onPress={() => {
-                    this.props.navigation.push('ProviderProductHistoryScreen', {
-                      product
-                    });
-                  }}
-                  style={{ flex: 0.5, justifyContent: 'center' }}>
-                  <Text style={fontStyles.mainTextStyleBlue}>{strings.History}</Text>
-                </TouchableOpacity>
-              </View>
-              <ImageWithBorder
-                width={Dimensions.get('window').width * 0.25}
-                height={Dimensions.get('window').width * 0.25}
-                imageFunction={async () => {
-                  //Passes in the function to retrieve the image of this product
-                  return await FirebaseFunctions.getProductImageByID(productID);
-                }}
-              />
-            </View>
-            <View style={{ flex: 0.025 }}></View>
-            <View
-              style={{
-                borderColor: colors.lightGray,
-                borderBottomColor: colors.black,
-                borderWidth: 0.5,
-                width: Dimensions.get('window').width - 40,
-                alignSelf: 'center',
-                flex: 1
-              }}>
-              <View style={{ flex: 1, justifyContent: 'flex-start' }}>
-                <Text style={fontStyles.subTextStyleBlack}>{product.serviceDescription}</Text>
-              </View>
-
-              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={fontStyles.bigTextStyleBlack}>{product.pricing}</Text>
-              </View>
-            </View>
-            <View style={{ flex: 0.025 }}></View>
-
-            {//Checks if the current product has any current requests and displays them if
-            //it does
-            currentRequests.length > 0 ? (
-              <View style={{ flex: 1 }}>
-                <ScrollView
-                  showsVerticalScrollIndicator={false}
-                  contentContainerStyle={{
-                    alignSelf: 'center',
-                    alignItems: 'center'
-                  }}>
-                  <View>
-                    <View style={{ flex: 0 }}>
-                      <Text style={fontStyles.mainTextStyleBlack}>
-                        {currentRequests.length}
-                        {currentRequests.length > 1 ? ' Requests' : ' Request'}
-                      </Text>
-                    </View>
-                    <View style={{ flex: 0.03 }}></View>
-                  </View>
-                  <FlatList
-                    data={currentRequests}
-                    keyExtractor={(item, index) => index + ''}
-                    renderItem={({ item, index }) => (
-                      <View>
-                        <View style={{ alignItems: 'center' }}>
-                          <View
-                            style={{
-                              flexDirection: 'column',
-                              justifyContent: 'center',
-                              width: Dimensions.get('window').width,
-                              height: Dimensions.get('window').height * 0.073,
-                              alignItems: 'center',
-                              backgroundColor: colors.white
-                            }}>
-                            <View style={{ flexDirection: 'row', flex: 1, alignItems: 'flex-end' }}>
-                              <View style={{ flex: 0.1 }}></View>
-                              <View style={{ flex: 1 }}>
-                                <Text style={fontStyles.mainTextStyleBlack}>
-                                  {item.requesterName}
-                                </Text>
-                              </View>
-                            </View>
-                          </View>
-                          <View
-                            style={{
-                              flexDirection: 'row',
-                              justifyContent: 'space-evenly',
-                              alignItems: 'center',
-                              width: Dimensions.get('window').width,
-                              height: Dimensions.get('window').height * 0.1024,
-                              backgroundColor: colors.white,
-                              borderBottomStartRadius: 35,
-                              borderBottomEndRadius: 35,
-                              flex: 1
-                            }}>
-                            <TouchableOpacity
-                              onPress={() =>
-                                this.messageRequester(
-                                  providerID,
-                                  item.requesterID,
-                                  item.requesterName
-                                )
-                              }>
-                              <Text style={fontStyles.subTextStyleBlue}>{strings.Message}</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                              style={{
-                                height: Dimensions.get('window').height * 0.1024,
-                                justifyContent: 'center'
-                              }}
-                              onPress={() => {
-                                this.setState({
-                                  currentRequestID: item.requesterID,
-                                  isCompleteRequestVisible: true
-                                });
-                              }}>
-                              <Text style={fontStyles.subTextStyleBlue}>
-                                {strings.MarkAsComplete}
-                              </Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                              onPress={() => {
-                                this.setState({
-                                  currentRequestID: item.requesterID,
-                                  isDeleteRequestVisible: true
-                                });
-                              }}>
-                              <Text style={fontStyles.subTextStyleRed}>{strings.Delete}</Text>
-                            </TouchableOpacity>
-                          </View>
-                        </View>
-                        <View style={{ height: Dimensions.get('window').height * 0.02928 }}></View>
-                      </View>
-                    )}
-                  />
-                </ScrollView>
-              </View>
-            ) : (
-              <View style={{ flex: 1, alignSelf: 'center', justifyContent: 'center' }}>
-                <Text style={fontStyles.bigTextStyleBlack}>{strings.NoCurrentRequests}</Text>
-              </View>
-            )}
-          </View>
-          <OptionPicker
-            isVisible={isCompleteRequestVisible}
-            title={strings.CompleteRequest}
-            message={strings.AreYouSureCompleteRequest}
-            confirmText={strings.Complete}
-            cancelText={strings.Cancel}
-            clickOutside={true}
-            confirmOnPress={async () => {
-              this.setState({ isCompleteRequestVisible: false });
-              //This method will complete a specific request based on the passed in requester ID
-              try {
-                this.setState({ isLoading: true });
-                await FirebaseFunctions.completeRequest(productID, this.state.currentRequestID);
-                //Updates the state of the screen to remove the request from
-                //the screen & add it to the history
-                this.fetchDatabaseData();
-              } catch (error) {
-                this.setState({ isLoading: false, isErrorVisible: true });
-                FirebaseFunctions.logIssue(error, {
-                  screen: 'ProviderProductScreen',
-                  userID: 'p-' + providerID,
-                  productID: productID
-                });
-              }
-            }}
-            cancelOnPress={() => {
-              this.setState({ isCompleteRequestVisible: false });
-            }}
-          />
-          <OptionPicker
-            isVisible={isDeleteRequestVisible}
-            title={strings.DeleteRequest}
-            message={strings.AreYouSureDeleteRequest}
-            clickOutside={true}
-            confirmText={strings.Delete}
-            cancelText={strings.Cancel}
-            confirmOnPress={async () => {
-              this.setState({ isDeleteRequestVisible: false });
-              //This method will delete a specific request based on the passed in requester ID
-              try {
-                this.setState({ isLoading: true });
-                await FirebaseFunctions.deleteRequest(productID, this.state.currentRequestID);
-                //Updates the state of the screen to remove the request from
-                //the screen
-                this.fetchDatabaseData();
-              } catch (error) {
-                this.setState({ isLoading: false, isErrorVisible: true });
-                FirebaseFunctions.logIssue(error, {
-                  screen: 'ProviderProductScreen',
-                  userID: 'p-' + providerID,
-                  productID: productID
-                });
-              }
-            }}
-            cancelOnPress={() => {
-              this.setState({ isDeleteRequestVisible: false });
-            }}
-          />
-          <ErrorAlert
-            isVisible={isErrorVisible}
-            onPress={() => {
-              this.setState({ isErrorVisible: false });
-            }}
-            title={strings.Whoops}
-            message={strings.SomethingWentWrong}
-          />
-        </HelpView>
-      );
-    }
-  }
+								<TouchableOpacity
+									onPress={() => {
+										this.props.navigation.push('ProviderProductHistoryScreen', {
+											product
+										});
+									}}
+									style={{
+										justifyContent: 'flex-end',
+										marginTop: Dimensions.get('window').height * 0.02
+									}}>
+									<Text style={fontStyles.bigTextStyleBlue}>{strings.History}</Text>
+								</TouchableOpacity>
+							</View>
+						</View>
+						<View
+							style={{
+								borderBottomColor: colors.lightBlue,
+								borderTopColor: colors.lightBlue,
+								borderBottomWidth: 4,
+								borderTopWidth: 4,
+								width: Dimensions.get('window').width,
+								height: 258,
+								marginVertical: Dimensions.get('window').height * 0.02
+							}}>
+							<CachedImage
+								style={{
+									width: Dimensions.get('window').width,
+									height: 250
+								}}
+								source={this.state.image}
+							/>
+						</View>
+						<View
+							style={{
+								marginVertical: Dimensions.get('window').height * 0.03
+							}}>
+							<View
+								style={{
+									justifyContent: 'center',
+									width: Dimensions.get('window').width * 0.92,
+									marginLeft: Dimensions.get('window').width * 0.04
+								}}>
+								<ViewMoreText
+									numberOfLines={3}
+									renderViewMore={(onPress) => {
+										return (
+											<TouchableOpacity
+												onPress={onPress}
+												style={{
+													width: Dimensions.get('window').width * 0.3,
+													height: Dimensions.get('window').height * 0.1
+												}}>
+												<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadMore}</Text>
+											</TouchableOpacity>
+										);
+									}}
+									renderViewLess={(onPress) => {
+										return (
+											<TouchableOpacity
+												onPress={onPress}
+												style={{
+													width: Dimensions.get('window').width * 0.3,
+													height: Dimensions.get('window').height * 0.1
+												}}>
+												<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadLess}</Text>
+											</TouchableOpacity>
+										);
+									}}
+									textStyle={{ textAlign: 'left' }}>
+									<Text style={fontStyles.subTextStyleBlack}>{product.serviceDescription}</Text>
+								</ViewMoreText>
+							</View>
+							<View
+								style={{
+									justifyContent: 'center',
+									alignItems: 'center'
+								}}>
+								<Text style={fontStyles.bigTextStyleBlack}>{product.pricing}</Text>
+							</View>
+						</View>
+						{//Checks if the current product has any current requests and displays them if
+						//it does
+						currentRequests.length > 0 ? (
+							<View>
+								<View
+									style={{
+										width: Dimensions.get('window').width * 0.9,
+										alignSelf: 'center',
+										justifyContent: 'center',
+										borderBottomColor: colors.lightBlue,
+										borderWidth: 0.5,
+										height: Dimensions.get('window').height * 0.05,
+										borderColor: colors.lightGray
+									}}>
+									<Text style={fontStyles.bigTextStyleBlack}>{strings.CurrentRequests}</Text>
+								</View>
+								<FlatList
+									data={currentRequests}
+									keyExtractor={(item, index) => {
+										return item.requesterID;
+									}}
+									renderItem={({ item, index }) => (
+										<View style={{ marginBottom: Dimensions.get('window').height * 0.025 }}>
+											<ServiceCard
+												serviceTitle={item.requesterName}
+												serviceDescription={' '}
+												price={strings.RequestedOn + ' ' + item.dateRequested}
+												imageFunction={async () => {
+													//Passes the function to get the profile picture of the user
+													//Passes in the function to retrieve the image of this requester
+													return await FirebaseFunctions.getProfilePictureByID(item.requesterID);
+												}}
+												onPress={() => {
+													//Goes to the screen for the specific request
+													this.props.navigation.push('CustomerRequestScreen', {
+														product: this.state.product,
+														request: item
+													});
+												}}
+											/>
+										</View>
+									)}
+								/>
+							</View>
+						) : (
+							<View style={{ alignSelf: 'center', justifyContent: 'center' }}>
+								<Text style={fontStyles.bigTextStyleBlack}>{strings.NoCurrentRequests}</Text>
+							</View>
+						)}
+					</ScrollView>
+				</HelpView>
+			);
+		}
+	}
 }
 
 //Exports the screen
