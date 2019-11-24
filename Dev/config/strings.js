@@ -240,6 +240,9 @@ export default {
 	ReadLess: 'Read Less',
 	CustomerReviews: 'Customer Reviews',
 
+	//------------------- Requester Answer Questions Screen -------------------
+	AnswerHereDotDotDot: 'Answer here...',
+
 	//------------------- Requester Order History Screen -------------------
 	OrderHistory: 'Order History',
 	InProgress: 'In Progress',
