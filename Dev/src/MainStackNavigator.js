@@ -31,7 +31,8 @@ import RequesterCategoriesScreen from './requesterScreens/categoriesScreen';
 import categoryScreen from './requesterScreens/categoryScreen';
 import createRequesterProfileScreen from './firstScreens/createRequesterProfileScreen';
 import createScheduleScreen from './providerScreens/providerBusiness/createScheduleScreen';
-import createQuestionsScreen from './providerScreens/providerBusiness/createQuestionsScreen'
+import createQuestionsScreen from './providerScreens/providerBusiness/createQuestionsScreen';
+import requesterQuestionsScreen from './requesterScreens/requesterQuestionsScreen';
 
 //The route config for all of the screens
 const routeConfig = {
@@ -121,6 +122,7 @@ const routeConfig = {
 		screen: ProviderEditCompanyProfileScreen
 	},
 
+	//Route leading to where businesses create their questions
 	ProviderCreateQuestionsScreen: {
 		screen: createQuestionsScreen
 	},
@@ -143,6 +145,7 @@ const routeConfig = {
 		screen: ProviderProductHistoryScreen
 	},
 
+	//route leading to where businesses create their schedules
 	ProviderCreateScheduleScreen: {
 		screen: createScheduleScreen
 	},
@@ -159,6 +162,10 @@ const routeConfig = {
 		screen: RequesterCategoriesScreen
 	},
 
+	//Route leading to where the customer answers questions for the product
+	RequesterQuestionsScreen: {
+		screen: requesterQuestionsScreen
+	},
 	//Route leading to the screen that displays a specific category
 	CategoryScreen: {
 		screen: categoryScreen
