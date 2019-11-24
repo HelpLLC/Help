@@ -323,54 +323,36 @@ class serviceScreen extends Component {
 										width: Dimensions.get('window').width * 0.92,
 										marginLeft: Dimensions.get('window').width * 0.04
 									}}>
-									{product.serviceDescription.length > 149 ? (
-										<ViewMoreText
-											numberOfLines={3}
-											renderViewMore={(onPress) => {
-												return (
-													<TouchableOpacity
-														onPress={onPress}
-														style={{
-															width: Dimensions.get('window').width * 0.3,
-															height: Dimensions.get('window').height * 0.1
-														}}>
-														<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadMore}</Text>
-													</TouchableOpacity>
-												);
-											}}
-											renderViewLess={(onPress) => {
-												return (
-													<TouchableOpacity
-														onPress={onPress}
-														style={{
-															width: Dimensions.get('window').width * 0.3,
-															height: Dimensions.get('window').height * 0.1
-														}}>
-														<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadLess}</Text>
-													</TouchableOpacity>
-												);
-											}}
-											textStyle={{ textAlign: 'left' }}>
-											<Text style={fontStyles.subTextStyleBlack}>{product.serviceDescription}</Text>
-										</ViewMoreText>
-									) : (
-										<View
-											style={{
-												marginBottom: Dimensions.get('window').height * 0.05
-											}}>
-											<Text
-												style={[
-													fontStyles.subTextStyleBlack,
-													{
-														textAlign: 'left'
-													}
-												]}>
-												{product.serviceDescription}
-											</Text>
-										</View>
-									)}
+									<ViewMoreText
+										numberOfLines={3}
+										renderViewMore={(onPress) => {
+											return (
+												<TouchableOpacity
+													onPress={onPress}
+													style={{
+														width: Dimensions.get('window').width * 0.3,
+														height: Dimensions.get('window').height * 0.1
+													}}>
+													<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadMore}</Text>
+												</TouchableOpacity>
+											);
+										}}
+										renderViewLess={(onPress) => {
+											return (
+												<TouchableOpacity
+													onPress={onPress}
+													style={{
+														width: Dimensions.get('window').width * 0.3,
+														height: Dimensions.get('window').height * 0.1
+													}}>
+													<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadLess}</Text>
+												</TouchableOpacity>
+											);
+										}}
+										textStyle={{ textAlign: 'left' }}>
+										<Text style={fontStyles.subTextStyleBlack}>{product.serviceDescription}</Text>
+									</ViewMoreText>
 								</View>
-
 								<View
 									style={{
 										justifyContent: 'center',
@@ -741,7 +723,7 @@ class serviceScreen extends Component {
 									}),
 									requesterID: requester.requesterID,
 									serviceID: product.serviceID,
-									requesterName: requester.username,
+									requesterName: requester.username
 								});
 								this.setState({ isRequested: true, isLoading: false });
 							} catch (error) {

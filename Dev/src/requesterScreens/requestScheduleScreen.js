@@ -280,7 +280,7 @@ export default class requesterScheduleScreen extends Component {
 					isVisible={this.state.isRequestVisible}
 					title={strings.FinishRequesting}
 					clickOutside={false}
-					message={strings.AreYouSureYouWantToRequest + '?'}
+					message={strings.AreYouSureRequestService}
 					confirmText={strings.Yes}
 					confirmOnPress={() => {
 						//Requests the product

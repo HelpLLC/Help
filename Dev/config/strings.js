@@ -200,16 +200,9 @@ export default {
 	Service: 'Service',
 	EditService: 'Edit Service',
 	NoCurrentRequests: 'No Current Requests',
-	Message: 'Message',
-	Delete: 'Delete',
-	MarkAsComplete: 'Mark as complete',
-	CompleteRequest: 'Complete Request',
-	AreYouSureCompleteRequest: 'Are you sure you want to complete this request?',
-	Complete: 'Complete',
 	Cancel: 'Cancel',
-	DeleteRequest: 'Delete Request',
-	AreYouSureDeleteRequest: 'Are you sure you want to delete this request?',
-	Delete: 'Delete',
+	RequestedOn: 'Requested On',
+	CurrentRequests: 'Current Requests',
 
 	//------------------- Edit Product Screen -------------------
 	EditTitle: 'Edit Title',
@@ -226,6 +219,24 @@ export default {
 	Date: 'Date',
 	Customer: 'Customer',
 	NoHistoryForThisProductYet: 'No history for this product yet',
+
+	//------------------- Business Side Customer Request Screen -------------------
+	CustomerRequest: 'Customer Request',
+	Delete: 'Delete',
+	Message: 'Message',
+	Complete: 'Complete',
+	CustomerAnswers: 'Customer Answers',
+	ScheduledOn: 'Scheduled on',
+	ScheduledAt: 'Scheduled at',
+	at: 'at',
+	AreYouSureDeleteRequest: 'Are you sure you want to delete this request?',
+	DeleteRequest: 'Delete Request',
+	RequestDeleted: 'Request Deleted',
+	RequestHasBeenDeleted: 'The request has been deleted',
+	RequestCompleted: 'Request Completed',
+	RequestHasBeenCompleted: 'The request has been completed.',
+	CompleteRequest: 'Complete Request',
+	AreYouSureCompleteRequest: 'Are you sure you want to complete this request?',
 
 	//------------------- Featured Screen -------------------
 	OfferedBy: 'Offered by',

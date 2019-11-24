@@ -10,6 +10,7 @@ import logInScreen from './firstScreens/logInScreen';
 import signUpScreen from './firstScreens/signUpScreen';
 import createProviderProfileScreen from './firstScreens/createProviderProfileScreen';
 import accountNotVerifiedScreen from './firstScreens/accountNotVerifiedScreen';
+import customerRequestScreen from './providerScreens/providerBusiness/customerRequestScreen';
 import ProviderProductHistoryScreen from './providerScreens/providerBusiness/productHistoryScreen';
 import RequesterServiceScreen from './requesterScreens/serviceScreen';
 import RequesterCompanyProfileScreen from './requesterScreens/companyProfileScreen';
@@ -134,6 +135,11 @@ const routeConfig = {
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
+	},
+
+	//The route going to the screen for a specific request
+	CustomerRequestScreen: {
+		screen: customerRequestScreen
 	},
 
 	//The route going to the product screen
