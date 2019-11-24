@@ -1,0 +1,6 @@
+- Added a scheduling feature. Businesses can now choose when they are 
+available to complete the job & customers can schedule them!
+- Added the ability for businesses to request custom informations from customers when they
+select their products
+- Redesigned the Service Screen for businesses
+- Tons of bug fixes and improvements
