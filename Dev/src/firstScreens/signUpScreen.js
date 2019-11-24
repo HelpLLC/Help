@@ -14,6 +14,7 @@ import screenStyle from 'config/styles/screenStyle';
 import firebase from 'react-native-firebase';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import TopBanner from '../components/TopBanner';
+import { Icon } from 'react-native-elements';
 import ErrorAlert from '../components/ErrorAlert';
 
 //The class that will create the look of this screen
@@ -40,6 +41,7 @@ class signUpScreen extends Component {
 		isErrorVisible: false,
 		isChecked: false,
 		termsAndConditionsError: false,
+		isPasswordVisible: false
 	};
 
 	//This method signs up the user & creates an account for them based on what they chose and their
@@ -157,7 +159,26 @@ class signUpScreen extends Component {
 								placeholder={strings.ChooseAPassword}
 								onChangeText={(input) => this.setState({ password: input })}
 								value={this.state.password}
-								password={true}
+								additionalIcon={
+									<TouchableOpacity
+										onPress={() => {
+											const { isPasswordVisible } = this.state;
+											this.setState({
+												isPasswordVisible: !isPasswordVisible
+											});
+										}}
+										style={{
+											justifyContent: 'center',
+											height: Dimensions.get('window').height * 0.06
+										}}>
+										<Icon
+											name={this.state.isPasswordVisible === true ? 'eye' : 'eye-slash'}
+											type='font-awesome'
+											color={this.state.isPasswordVisible === true ? colors.lightBlue : colors.gray}
+										/>
+									</TouchableOpacity>
+								}
+								password={!this.state.isPasswordVisible}
 								autoCompleteType={'password'}
 							/>
 						</View>

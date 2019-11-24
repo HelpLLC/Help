@@ -3,6 +3,7 @@
 //message. It will also have some compoenent on the right to indicate an onPress method
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Text, Dimensions } from 'react-native';
+import strings from 'config/strings';
 import chatCardStyle from 'config/styles/componentStyles/chatCardStyle';
 import PropTypes from 'prop-types';
 import fontStyles from 'config/styles/fontStyles';
@@ -11,11 +12,27 @@ import colors from '../../config/colors';
 //The component
 class ChatCard extends Component {
 	//Returns the string that represents when the message was sent. Needs to be changed to replicated
-	//imessage format (if same day.... else if this week.... else just return the date)
+	//If it was sent today, it shows the time. If it was sent within a week, it says the day. Otherwise,
+	//shows the date
 	getTimeTextString(timeText) {
-		dateSent = new Date(timeText);
-		var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-		return dateSent.toLocaleDateString('en-US', options);
+		let dateSent = new Date(timeText);
+		let today = new Date();
+		//If same day
+		if (
+			today.getFullYear() === dateSent.getFullYear() &&
+			today.getMonth() === dateSent.getMonth() &&
+			today.getDate() === dateSent.getDate()
+		) {
+			return strings.Today
+		}
+		//Less than 7 days ago
+		else if (today.getTime() - dateSent.getTime() < 345600000) {
+			return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][
+				dateSent.getDay()
+			];
+		} else {
+			return dateSent.getMonth() + '/' + dateSent.getDate();
+		}
 	}
 
 	//Renders the component
@@ -27,7 +44,12 @@ class ChatCard extends Component {
 		const timeTextToString = this.getTimeTextString(timeText);
 		return (
 			<TouchableOpacity onPress={onPress}>
-				<View style={{ width: Dimensions.get('window').width, backgroundColor: colors.white, alignItems: 'center' }}>
+				<View
+					style={{
+						width: Dimensions.get('window').width,
+						backgroundColor: colors.white,
+						alignItems: 'center'
+					}}>
 					<View style={chatCardStyle.style}>
 						<View
 							style={{
@@ -35,7 +57,9 @@ class ChatCard extends Component {
 								justifyContent: 'flex-start'
 							}}>
 							<Text style={fontStyles.mainTextStyleBlack}>{username}</Text>
-							<Text style={fontStyles.subTextStyleGray}>{previewText.length > 35 ? previewText.substring(0, 35) + '...' : previewText}</Text>
+							<Text style={fontStyles.subTextStyleGray}>
+								{previewText.length > 25 ? previewText.substring(0, 24).trim() + '...' : previewText}
+							</Text>
 						</View>
 						<View
 							style={{

@@ -13,6 +13,16 @@ export default {
         borderRadius: (Dimensions.get('window').height * 0.0512)
     },
 
+    //Smaller sized button
+    SmallSizeButton: {
+        backgroundColor: colors.lightBlue,
+        width: (Dimensions.get('window').width * 0.278),
+        height: (Dimensions.get('window').height * 0.05),
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: (Dimensions.get('window').height * 0.0512)
+    },
+
     //Default button size to use but the red version
     MediumSizeButtonRed: {
         backgroundColor: colors.red,

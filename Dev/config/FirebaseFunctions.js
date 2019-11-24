@@ -710,9 +710,7 @@ export default class FirebaseFunctions {
 				month: '2-digit',
 				day: '2-digit'
 			}),
-			dateRequested: requestToComplete.dateRequested,
-			requesterID,
-			requesterName: requestToComplete.requesterName
+			...requestToComplete
 		};
 
 		let arrayOfCompletedRequests = product.requests.completedRequests;
@@ -729,8 +727,7 @@ export default class FirebaseFunctions {
 		const { orderHistory } = requester;
 		let { completed } = orderHistory;
 		completed.push({
-			serviceID: productID,
-			dateRequested: requestToComplete.dateRequested,
+			...requestToComplete,
 			dateCompleted: new Date().toLocaleDateString('en-US', {
 				year: 'numeric',
 				month: '2-digit',
@@ -753,28 +750,17 @@ export default class FirebaseFunctions {
 		return 0;
 	}
 
-	//This method will take in a product ID and a requester ID and add the request to the array of current
-	//requests corresponding with the product. Also adds the product to the array of inProgress products in the requester's
-	//order history
-	static async requestService(serviceID, requesterID) {
-		const ref = this.products.doc(serviceID);
+	//This method will take in a request object, which may contain a schedule, answers to questions, or both.
+	//It will add this request object to the right locations
+	static async requestService(newRequest) {
+		const ref = this.products.doc(newRequest.serviceID);
 		const doc = await ref.get();
-		const requester = await this.getRequesterByID(requesterID);
-
-		const newRequest = {
-			dateRequested: new Date().toLocaleDateString('en-US', {
-				year: 'numeric',
-				month: '2-digit',
-				day: '2-digit'
-			}),
-			requesterID: requester.requesterID,
-			requesterName: requester.username
-		};
+		const requester = await this.getRequesterByID(newRequest.requesterID);
 
 		let arrayOfCurrentRequests = doc.data().requests.currentRequests;
 		arrayOfCurrentRequests.push(newRequest);
 
-		await this.updateServiceByID(serviceID, {
+		await this.updateServiceByID(newRequest.serviceID, {
 			requests: {
 				completedRequests: doc.data().requests.completedRequests,
 				currentRequests: arrayOfCurrentRequests
@@ -782,14 +768,7 @@ export default class FirebaseFunctions {
 		});
 
 		let { inProgress } = requester.orderHistory;
-		inProgress.push({
-			serviceID,
-			dateRequested: new Date().toLocaleDateString('en-US', {
-				year: 'numeric',
-				month: '2-digit',
-				day: '2-digit'
-			})
-		});
+		inProgress.push(newRequest);
 		await this.updateRequesterByID(requester.requesterID, {
 			orderHistory: {
 				inProgress,
