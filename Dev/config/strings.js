@@ -27,13 +27,15 @@ export default {
 	ChooseANewPassword: 'Choose a new password...',
 	ResetPassword: 'Reset Password',
 	EmailMe: 'Email Me!',
-	LinkHasBeenEmailed: "If a user with this email exists, a link to reset your password has been sent. Please check your spam/junk folders if you don't see the email.",
+	LinkHasBeenEmailed:
+		"If a user with this email exists, a link to reset your password has been sent. Please check your spam/junk folders if you don't see the email.",
 
 	//------------------- Create Profile Screen -------------------
 	CreateProfile: 'Create Profile',
 
 	//------------------- Account Not Verified Screen -------------------
-	AccountNotVerified: "Your business has been submitted to the Help staff! Give us up to 24 hours to review your information and then you'll be good to go!",
+	AccountNotVerified:
+		"Your business has been submitted to the Help staff! Give us up to 24 hours to review your information and then you'll be good to go!",
 	Verification: 'Verification',
 
 	//------------------- Sign Up Screen -------------------
@@ -78,7 +80,8 @@ export default {
 	LogOut: 'Log Out',
 
 	//------------------- About Screen -------------------
-	MarketingMessage: 'Empowering people with the right technology to become more efficient & effective in an fast paced world',
+	MarketingMessage:
+		'Empowering people with the right technology to become more efficient & effective in an fast paced world',
 	Version: 'Version',
 	//Make sure this number is always up to date
 	CurrentVersionNumber: '1.4',
@@ -95,12 +98,13 @@ export default {
 	WellFixItRightAway: "We'll fix it right away",
 
 	//------------------- Create Provider Profile Screen -------------------
-	BusinessName: "Business Name",
+	BusinessName: 'Business Name',
 	EnterCompanyNameDotDotDot: 'Enter a company name...',
 	BusinessDescription: 'Business Description',
 	TellYourCustomersAboutYourselfDotDotDot: 'Tell your customers about yourself...',
 	PleaseEnterACompanyName: 'Please enter a company name',
-	PleaseEnterADescriptionWithAtLeast150Characters: 'Please enter a description with at least 150 characters',
+	PleaseEnterADescriptionWithAtLeast150Characters:
+		'Please enter a description with at least 150 characters',
 	PleaseChooseAValidImage: 'Please choose a valid image',
 	CompanyNameTakenPleaseChooseAnotherName: 'This company name is taken, please choose another one',
 
@@ -111,7 +115,8 @@ export default {
 	EnterWebsiteLink: 'Enter a link to your site (Optional)...',
 	Ok: 'Ok',
 	Location: 'Location',
-	WhyWeUseLocation: 'We collect locations from users to show customers the business that are nearest to them. We never share customer locations without their consent. Our intent is to provide the best customer experience.',
+	WhyWeUseLocation:
+		'We collect locations from users to show customers the business that are nearest to them. We never share customer locations without their consent. Our intent is to provide the best customer experience.',
 
 	//------------------- Provider Business Screen -------------------
 	EditCompanyProfile: 'Edit Company Profile',
@@ -119,7 +124,8 @@ export default {
 	CreateYourFirstProductNowExclamation: 'Create your first product now!',
 	Create: 'Create',
 	FinishCreatingYourProfile: 'Finish Creating Your Profile',
-	FinishCreatingYourProfileMessage: 'Your business doesn\'t have all the info customers need! Go complete your profile.',
+	FinishCreatingYourProfileMessage:
+		"Your business doesn't have all the info customers need! Go complete your profile.",
 
 	//------------------- Create Product Screen -------------------
 	CreateService: 'Create Service',
@@ -141,9 +147,33 @@ export default {
 	Min: 'Min',
 	Max: 'Max',
 	to: 'to',
-	PleaseEnterADescriptionWithAtLeast50Characters: 'Please enter a description with at least 150 characters.',
+	PleaseEnterADescriptionWithAtLeast50Characters:
+		'Please enter a description with at least 150 characters.',
 	DeleteService: 'Delete Service',
-	AreYouSureDeleteService: 'Are you sure you want to delete this service? This action cannot be undone.',
+	AreYouSureDeleteService:
+		'Are you sure you want to delete this service? This action cannot be undone.',
+
+	//------------------- Create Schedule Screen -------------------
+	CreateSchedule: 'Create Schedule',
+	AvailableTimesToCompleteService: 'Available Times to Complete Service',
+	SpecificDays: 'Specific Days',
+	SpecificDaysAndTimes: 'Specific Days & Times',
+	SpecificTimes: 'Specific Times',
+	Anytime: 'Anytime',
+	PickATime: 'Pick a time',
+	PleaseSelectATime: 'Please select the times when you are available to complete this service.',
+	PleaseSelectDay: 'Please select the days that you are available to complete this service.',
+	FromTimeIsMoreThanToTime: "Please select a 'From' time that is less than a 'To' time.",
+
+	//------------------- Create Questions Screen -------------------
+	InfoFromCustomersQuestion: 'What information do you need from customers to complete this services?',
+	CustomQuestions: 'Custom Questions',
+	AddQuestion: 'Add Question',
+	Question: 'Question',
+	AskQuestionsForCustomers: 'Ask questions customers would need to answer when they request your product...',
+	WhatIsYourEmailAddressQuestion: 'What is your email address?',
+	WhatIsYourAddressQuestion: 'What is your address?',
+	WhatIsYourPhoneNumberQuestion: 'What is your phone number?',
 
 	//------------------- Edit Company Profile Screen -------------------
 	EditCompany: 'Edit Company',
@@ -170,6 +200,11 @@ export default {
 	EditTitle: 'Edit Title',
 	EditDescription: 'Edit Description',
 	EditPrice: 'Edit Price',
+
+	//------------------- Add Questions Screen--------------------
+
+	CustomerInfo: 'Customer Info',
+	Questions: 'Question ',
 
 	//------------------- Product History Screen -------------------
 	ServiceHistory: 'Service History',
@@ -205,6 +240,9 @@ export default {
 	ReadLess: 'Read Less',
 	CustomerReviews: 'Customer Reviews',
 
+	//------------------- Requester Answer Questions Screen -------------------
+	AnswerHereDotDotDot: 'Answer here...',
+
 	//------------------- Requester Order History Screen -------------------
 	OrderHistory: 'Order History',
 	InProgress: 'In Progress',
@@ -225,7 +263,8 @@ export default {
 	Block: 'Block',
 	CompanyReported: 'Company Reported',
 	AreYouSureYouWantToBlock: 'Are you sure your want to block',
-	CompanyHasBeenReported: 'This company has been reported. Help staff will take a look. Thank you for your patience.',
+	CompanyHasBeenReported:
+		'This company has been reported. Help staff will take a look. Thank you for your patience.',
 
 	//------------------- Chats Screen -------------------
 	NoMessagesYet: 'No messages yet',
@@ -284,9 +323,11 @@ export default {
 
 	//------------------- Miscellaneous -----------------
 	Whoops: 'Whoops',
+	DotDotDot: '...',
 	Success: 'Success',
 	Ok: 'Ok',
 	NoConnection: 'Something went wrong. Check your internet connection & try again',
 	UpdateAvailable: 'Update Available',
+	UpdatingAppDotDotDot: 'Updating Help...',
 	UpdateAvailableMessage: 'There is a new update available for Help! Go download it now!'
 };

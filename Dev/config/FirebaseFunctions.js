@@ -372,31 +372,25 @@ export default class FirebaseFunctions {
 	//This method will take information about a new product and add it to the firestore database. It will
 	//first add it to the firestore containing products, then it will add the service IDs to the provider
 	//products
-	static async addProductToDatabase(
-		serviceTitle,
-		serviceDescription,
-		price,
-		response,
-		providerID,
-		companyName,
-		coordinates,
-		location
-	) {
+	static async addProductToDatabase(providerID, newProductObject) {
 		//Creates the product object & the pricing text to be displayed to users
+		const { price, response } = newProductObject;
 		let pricing =
 			price.priceType === 'per'
 				? '$' + price.price + ' ' + strings.per + ' ' + price.per
 				: price.priceType === 'range'
 				? '$' + price.min + ' ' + strings.to + ' $' + price.max
 				: '$' + price.priceFixed;
+		//Fetches the provider by their ID so they can get some required information
+		const provider = await this.getProviderByID(providerID);
+		const { coordinates, location, companyName } = provider;
+		//Adds the remaining required fields to the object
 		let product = {
-			serviceTitle,
-			serviceDescription,
+			...newProductObject,
 			requests: {
 				currentRequests: [],
 				completedRequests: []
 			},
-			price,
 			pricing,
 			offeredByID: providerID,
 			coordinates,
@@ -407,6 +401,9 @@ export default class FirebaseFunctions {
 			totalReviews: 0,
 			reviews: []
 		};
+
+		//deletes the response field from the object going into firebase
+		delete product.response;
 
 		//Adds the product to the database of products
 		const newProduct = await this.products.add(product);
@@ -624,15 +621,8 @@ export default class FirebaseFunctions {
 
 	//This method will update the information for a specific product by taking in all of the new
 	//product information and updating those fields in firestore
-	static async updateServiceInfo(
-		productID,
-		serviceTitle,
-		serviceDescription,
-		price,
-		response,
-		coordinates,
-		location
-	) {
+	static async updateServiceInfo(productID, newProductObject) {
+		const { response, price } = newProductObject;
 		//Creates the product object & the pricing text to be displayed to users
 		let pricing =
 			price.priceType === 'per'
@@ -640,14 +630,13 @@ export default class FirebaseFunctions {
 				: price.priceType === 'range'
 				? '$' + price.min + ' ' + strings.to + ' $' + price.max
 				: '$' + price.priceFixed;
-		await this.updateServiceByID(productID, {
-			serviceTitle,
-			serviceDescription,
-			price,
-			pricing,
-			coordinates,
-			location
-		});
+		let updatedProductObjectWithPrice = {
+			...newProductObject,
+			pricing
+		};
+		//Deletes the response field from the product that is going into firebase
+		delete updatedProductObjectWithPrice.response;
+		await this.updateServiceByID(productID, updatedProductObjectWithPrice);
 
 		//Removes the old image and then uploads the new one if the image has been changed
 		if (response !== null) {
