@@ -100,6 +100,7 @@ export default class createScheduleScreen extends Component {
 				return true;
 			}
 		}
+		return false;
 	}
 
 	//Fetches all the information from the previous screens and actually creates the product and adds it to the
@@ -254,6 +255,7 @@ export default class createScheduleScreen extends Component {
 					<Text style={fontStyles.subTextStyleBlack}>{toTime}</Text>
 				</TouchableOpacity>
 				<DateTimePickerModal
+					is24Hour={false}
 					isVisible={isFromTimeShowing}
 					mode='time'
 					headerTextIOS={strings.PickATime}
@@ -274,6 +276,7 @@ export default class createScheduleScreen extends Component {
 					}}
 				/>
 				<DateTimePickerModal
+					is24Hour={false}
 					isVisible={isToTimeShowing}
 					mode='time'
 					onConfirm={(time) => {

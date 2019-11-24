@@ -159,7 +159,7 @@ const routeConfig = {
 	},
 
 	//The route going to the requester scheduling screen
-	RequesterServiceScreen: {
+	RequesterScheduleScreen: {
 		screen: requesterScheduleScreen
 	},
 

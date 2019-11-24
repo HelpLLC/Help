@@ -102,34 +102,19 @@ class serviceScreen extends Component {
 		});
 	}
 
+	//This method returns true if any of the fields in a default question object are true. Other wise returns false
+	isObjectTruthy(object) {
+		for (const field in object) {
+			if (object[field].isSelected === true) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	//Removes the listener when the screen is switched away from
 	componentWillUnmount() {
 		this.willFocusListener.remove();
-	}
-
-	renderViewMore(onPress) {
-		return (
-			<TouchableOpacity
-				onPress={onPress}
-				style={{
-					width: Dimensions.get('window').width * 0.3,
-					height: Dimensions.get('window').height * 0.1
-				}}>
-				<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadMore}</Text>
-			</TouchableOpacity>
-		);
-	}
-	renderViewLess(onPress) {
-		return (
-			<TouchableOpacity
-				onPress={onPress}
-				style={{
-					width: Dimensions.get('window').width * 0.3,
-					height: Dimensions.get('window').height * 0.1
-				}}>
-				<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadLess}</Text>
-			</TouchableOpacity>
-		);
 	}
 
 	callNumber(phoneNumber) {
@@ -341,8 +326,30 @@ class serviceScreen extends Component {
 									{product.serviceDescription.length > 149 ? (
 										<ViewMoreText
 											numberOfLines={3}
-											renderViewMore={(onPress) => this.renderViewMore(onPress)}
-											renderViewLess={(onPress) => this.renderViewLess(onPress)}
+											renderViewMore={(onPress) => {
+												return (
+													<TouchableOpacity
+														onPress={onPress}
+														style={{
+															width: Dimensions.get('window').width * 0.3,
+															height: Dimensions.get('window').height * 0.1
+														}}>
+														<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadMore}</Text>
+													</TouchableOpacity>
+												);
+											}}
+											renderViewLess={(onPress) => {
+												return (
+													<TouchableOpacity
+														onPress={onPress}
+														style={{
+															width: Dimensions.get('window').width * 0.3,
+															height: Dimensions.get('window').height * 0.1
+														}}>
+														<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadLess}</Text>
+													</TouchableOpacity>
+												);
+											}}
 											textStyle={{ textAlign: 'left' }}>
 											<Text style={fontStyles.subTextStyleBlack}>{product.serviceDescription}</Text>
 										</ViewMoreText>
@@ -388,11 +395,28 @@ class serviceScreen extends Component {
 											textStyle={fontStyles.bigTextStyleWhite}
 											onPress={() => {
 												const { product } = this.state;
-												const { requester } = this.props.navigation.state.params;
-												this.props.navigation.push('RequesterQuestionsScreen', {
-													product,
-													requester
-												});
+												//If the product has questions associated with it, then it will
+												//go to the questions screen. If it only has a schedule associated
+												//with it, it will go to the scheduling screen. Otherwise, it will
+												//display a pop up confirming the user wants to request the product
+												if (
+													product.questions.length > 0 ||
+													this.isObjectTruthy(product.defaultQuestions)
+												) {
+													const { requester } = this.props.navigation.state.params;
+													this.props.navigation.push('RequesterQuestionsScreen', {
+														product,
+														requester
+													});
+												} else if (product.schedule.scheduleType !== 'Anytime') {
+													//Navigates to the scheduling screen
+													this.props.navigation.push('RequesterScheduleScreen', {
+														product,
+														requester
+													});
+												} else {
+													this.setState({ isRequestServiceVisible: true });
+												}
 											}}
 										/>
 									</View>
@@ -689,6 +713,49 @@ class serviceScreen extends Component {
 						}}
 						title={strings.CompanyReported}
 						message={strings.CompanyHasBeenReported}
+					/>
+					<OptionPicker
+						isVisible={isRequestServiceVisible}
+						title={strings.RequestService}
+						message={strings.AreYouSureRequestService}
+						confirmText={strings.Request}
+						cancelText={strings.Cancel}
+						clickOutside={true}
+						confirmOnPress={async () => {
+							this.setState({
+								isRequestServiceVisible: false,
+								isLoading: true
+							});
+							//This method will request this service from the company providing it by pushing the request to the
+							//provider.
+							//After confirming to the requester that the request has been processed, the program will
+							//automatically send notification to the business
+							const { product } = this.state;
+							const { requester } = this.props.navigation.state.params;
+							try {
+								await FirebaseFunctions.requestService({
+									dateRequested: new Date().toLocaleDateString('en-US', {
+										year: 'numeric',
+										month: '2-digit',
+										day: '2-digit'
+									}),
+									requesterID: requester.requesterID,
+									serviceID: product.serviceID,
+									requesterName: requester.username,
+								});
+								this.setState({ isRequested: true, isLoading: false });
+							} catch (error) {
+								this.setState({ isLoading: false, isErrorVisible: true });
+								FirebaseFunctions.logIssue(error, {
+									screen: 'RequesterServiceScreen',
+									userID: 'r-' + requester.requesterID,
+									productID: product.productID
+								});
+							}
+						}}
+						cancelOnPress={() => {
+							this.setState({ isRequestServiceVisible: false });
+						}}
 					/>
 					<ActionSheet
 						ref={(o) => (this.ActionSheet = o)}

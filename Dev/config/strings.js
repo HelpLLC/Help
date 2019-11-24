@@ -157,9 +157,15 @@ export default {
 	//------------------- Requester Schedule Screen -------------------
 	Schedule: 'Schedule',
 	PickADate: 'Pick a Date',
-	PickATime:  'Pick a Time',
+	PickATime: 'Pick a Time',
 	FinishRequesting: 'Finish Request',
 	AreYouSureYouWantToRequest: 'Are you sure you want to request ',
+	isAvailableBetween: 'is available between',
+	and: 'and',
+	PleaseSelectATimeInWhichTheBusinessIsAvailable:
+		'Please select a time in which the business is available.',
+	PleaseSelectATimeForYourService: 'Please select a time for your service.',
+	PleaseSelectADayForYourService: 'Please select a day for your service.',
 
 	//------------------- Create Schedule Screen -------------------
 	CreateSchedule: 'Create Schedule',
@@ -168,7 +174,6 @@ export default {
 	SpecificDaysAndTimes: 'Specific Days & Times',
 	SpecificTimes: 'Specific Times',
 	Anytime: 'Anytime',
-	PickATime: 'Pick a time',
 	PleaseSelectATime: 'Please select the times when you are available to complete this service.',
 	PleaseSelectDay: 'Please select the days that you are available to complete this service.',
 	FromTimeIsMoreThanToTime: "Please select a 'From' time that is less than a 'To' time.",
@@ -252,6 +257,8 @@ export default {
 
 	//------------------- Requester Answer Questions Screen -------------------
 	AnswerHereDotDotDot: 'Answer here...',
+	PleaseFillOutAllQuestions: 'Please fill out all of the questions.',
+	TheServiceHasBeenRequested: 'The service has been requested',
 
 	//------------------- Requester Order History Screen -------------------
 	OrderHistory: 'Order History',
