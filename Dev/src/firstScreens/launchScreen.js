@@ -28,7 +28,9 @@ export default class launchScreen extends Component {
       if (update) {
         await update.download();
       }
-      await this.isUserLoggedIn();
+      this.setState({
+        isShowing: true
+      })
     } else {
       this.setState({ internetConnection: false });
     }
@@ -39,6 +41,7 @@ export default class launchScreen extends Component {
     isErrorVisible: false,
     isUserLoggedIn: "",
     internetConnection: true,
+    isShowing: false
   };
 
   /*
@@ -175,6 +178,18 @@ export default class launchScreen extends Component {
           title={strings.Whoops}
           message={strings.SomethingWentWrong}
         />
+        <ErrorAlert
+					isVisible={this.state.isShowing}
+					onPress={() => {
+						if (Platform.OS === 'ios') {
+							Linking.openURL('itms-apps://itunes.apple.com/app/apple-store/id1468626210?mt=8');
+						} else if (Platform.OS === 'android') {
+							Linking.openURL('market://details?id=com.Help.Help');
+						}
+					}}
+					title={strings.UpdateAvailable}
+					message={strings.UpdateAvailableMessage}
+				/>
       </View>
     );
   }
