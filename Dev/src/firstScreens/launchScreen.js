@@ -162,11 +162,16 @@ export default class launchScreen extends Component {
         <ErrorAlert
           isVisible={true}
           onPress={() => {
-            if (Platform.OS === 'ios') {
-              Linking.openURL('itms-apps://itunes.apple.com/app/apple-store/id1468626210?mt=8');
-            } else if (Platform.OS === 'android') {
-              Linking.openURL('market://details?id=com.Help.Help');
-            }
+			  try {
+				if (Platform.OS === 'ios') {
+					Linking.openURL('itms-apps://itunes.apple.com/app/apple-store/id1468626210?mt=8');
+				  } else if (Platform.OS === 'android') {
+					Linking.openURL('market://details?id=com.Help.Help');
+				  }
+			  } catch (error) {
+				FirebaseFunctions.logIssue(error, "App Error");
+			  }
+         
           }}
           title={strings.UpdateAvailable}
           message={strings.UpdateAvailableMessage}
