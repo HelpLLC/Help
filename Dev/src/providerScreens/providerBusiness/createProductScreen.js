@@ -20,14 +20,11 @@ import TopBanner from '../../components/TopBanner';
 import ErrorAlert from '../../components/ErrorAlert';
 import { Icon } from 'react-native-elements';
 import { CachedImage } from 'react-native-img-cache';
-import OptionPicker from '../../components/OptionPicker';
 import colors from 'config/colors';
 
 class createProductScreen extends Component {
 	state = {
-		isScreenLoading: true,
-		isLoading: false,
-		isDeleteProductVisible: false
+		isScreenLoading: true
 	};
 
 	//This componentWil lMount method will decide, based on the params that are passed in, whether
@@ -44,7 +41,6 @@ class createProductScreen extends Component {
 				serviceTitle: product.serviceTitle,
 				serviceID: productID,
 				serviceDescription: product.serviceDescription,
-				isEditing: true,
 				imageSource,
 				isLoading: false,
 				isScreenLoading: true,
@@ -56,8 +52,7 @@ class createProductScreen extends Component {
 				pricePerNumber: '',
 				pricePerText: '',
 				priceMin: '',
-				priceMax: '',
-				priceFixed: ''
+				priceMax: ''
 			});
 
 			//Sets the correct price type
@@ -67,15 +62,10 @@ class createProductScreen extends Component {
 					pricePerText: product.price.per,
 					isScreenLoading: false
 				});
-			} else if (product.price.priceType === 'range') {
+			} else {
 				this.setState({
 					priceMin: product.price.min + '',
 					priceMax: product.price.max + '',
-					isScreenLoading: false
-				});
-			} else {
-				this.setState({
-					priceFixed: product.price.priceFixed + '',
 					isScreenLoading: false
 				});
 			}
@@ -91,15 +81,13 @@ class createProductScreen extends Component {
 				isErrorVisible: false,
 				fieldsError: false,
 				serviceDescriptionError: false,
-				isEditing: false,
 				imageError: false,
-				priceType: 'fixed',
+				priceType: 'per',
 				pricePerNumber: '',
 				pricePerText: '',
 				priceMin: '',
 				isShowing: false,
-				priceMax: '',
-				priceFixed: ''
+				priceMax: ''
 			});
 		}
 	}
@@ -140,11 +128,9 @@ class createProductScreen extends Component {
 				if (priceType === 'per') {
 					price.price = parseFloat(this.state.pricePerNumber);
 					price.per = this.state.pricePerText;
-				} else if (priceType === 'range') {
+				} else {
 					price.min = parseFloat(this.state.priceMin);
 					price.max = parseFloat(this.state.priceMax);
-				} else {
-					price.priceFixed = parseFloat(this.state.priceFixed);
 				}
 				const { providerID } = this.props.navigation.state.params;
 				await FirebaseFunctions.addProductToDatabase(
@@ -176,7 +162,7 @@ class createProductScreen extends Component {
 	async saveProduct() {
 		Keyboard.dismiss();
 		//Retrieves the state of the input fields
-		const { serviceTitle, serviceDescription, priceType, response } = this.state;
+		const { serviceTitle, serviceDescription, priceType, imageSource, response } = this.state;
 		const { productID, providerID } = this.props.navigation.state.params;
 		const provider = await FirebaseFunctions.getProviderByID(providerID);
 		if (
@@ -184,8 +170,7 @@ class createProductScreen extends Component {
 			serviceDescription.trim() === '' ||
 			(priceType === 'per' &&
 				(this.state.pricePerNumber === '' || this.state.pricePerText.trim() === '')) ||
-			(priceType === 'range' && (this.state.priceMax === '' || this.state.priceMin === '')) ||
-			(priceType === 'fixed' && this.state.priceFixed === '')
+			(priceType === 'range' && (this.state.priceMax === '' || this.state.priceMin === ''))
 		) {
 			this.setState({ fieldsError: true });
 		} else if (serviceDescription.trim().length < 150) {
@@ -202,11 +187,9 @@ class createProductScreen extends Component {
 				if (priceType === 'per') {
 					price.price = parseFloat(this.state.pricePerNumber);
 					price.per = this.state.pricePerText;
-				} else if (priceType === 'range') {
+				} else {
 					price.min = parseFloat(this.state.priceMin);
 					price.max = parseFloat(this.state.priceMax);
-				} else {
-					price.priceFixed = parseFloat(this.state.priceFixed);
 				}
 
 				if (!this.state.response) {
@@ -358,7 +341,6 @@ class createProductScreen extends Component {
 								<RNPickerSelect
 									onValueChange={(value) => this.setState({ priceType: value })}
 									items={[
-										{ label: strings.Fixed, value: 'fixed' },
 										{ label: strings.Per, value: 'per' },
 										{ label: strings.Range, value: 'range' }
 									]}
@@ -417,46 +399,15 @@ class createProductScreen extends Component {
 											width={Dimensions.get('window').width * 0.2}
 										/>
 									</View>
-									<View
-										style={{
-											flex: 0.8,
-											justifyContent: 'center',
-											alignItems: 'center'
-										}}>
+									<View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
 										<Text style={fontStyles.mainTextStyleBlack}>{strings.per}</Text>
 									</View>
-									<View
-										style={{
-											flex: 1.4,
-											alignItems: 'flex-start',
-											justifyContent: 'center'
-										}}>
+									<View style={{ flex: 1.4, alignItems: 'flex-start', justifyContent: 'center' }}>
 										<OneLineRoundedBoxInput
 											placeholder={strings.Hour}
 											onChangeText={(input) => this.setState({ pricePerText: input })}
 											value={this.state.pricePerText}
 											password={false}
-											width={Dimensions.get('window').width * 0.2}
-										/>
-									</View>
-								</View>
-							) : this.state.priceType === 'fixed' ? (
-								<View style={{ flex: 1, flexDirection: 'row' }}>
-									<View
-										style={{
-											flex: 1.4,
-											flexDirection: 'row',
-											justifyContent: 'flex-start',
-											alignItems: 'center'
-										}}>
-										<Text style={fontStyles.mainTextStyleBlack}>{strings.DollarSign}</Text>
-										<Text> </Text>
-										<OneLineRoundedBoxInput
-											placeholder={''}
-											onChangeText={(input) => this.setState({ priceFixed: input })}
-											value={this.state.priceFixed}
-											password={false}
-											keyboardType={'numeric'}
 											width={Dimensions.get('window').width * 0.2}
 										/>
 									</View>
@@ -481,20 +432,10 @@ class createProductScreen extends Component {
 											width={Dimensions.get('window').width * 0.2}
 										/>
 									</View>
-									<View
-										style={{
-											flex: 0.8,
-											justifyContent: 'center',
-											alignItems: 'center'
-										}}>
+									<View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
 										<Text style={fontStyles.mainTextStyleBlack}>{strings.to}</Text>
 									</View>
-									<View
-										style={{
-											flex: 1.4,
-											flexDirection: 'row',
-											alignItems: 'center'
-										}}>
+									<View style={{ flex: 1.4, flexDirection: 'row', alignItems: 'center' }}>
 										<Text style={fontStyles.mainTextStyleBlack}>{strings.DollarSign}</Text>
 										<Text> </Text>
 										<OneLineRoundedBoxInput
@@ -511,31 +452,9 @@ class createProductScreen extends Component {
 						</View>
 					</View>
 					<View style={{ flex: 0.25 }}></View>
-					<View
-						style={{
-							flex: 1
-						}}>
-						{this.state.isLoading === true ? (
-							<View style={{ justifyContent: 'center', alignItems: 'center' }}>
-								<LoadingSpinner isVisible={true} />
-							</View>
-						) : this.state.isEditing === true ? (
-							<View
-								style={{
-									flexDirection: 'row',
-									justifyContent: 'space-evenly',
-									alignItems: 'center'
-								}}>
-								<RoundBlueButton
-									title={strings.Delete}
-									style={roundBlueButtonStyle.MediumSizeButtonRed}
-									textStyle={fontStyles.bigTextStyleWhite}
-									onPress={() => {
-										this.setState({ isDeleteProductVisible: true });
-									}}
-									disabled={this.state.isLoading}
-								/>
-
+					<View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
+						<View style={{ flex: 1 }}>
+							<View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
 								<RoundBlueButton
 									title={this.state.serviceID ? strings.Done : strings.Create}
 									style={roundBlueButtonStyle.MediumSizeButton}
@@ -550,26 +469,13 @@ class createProductScreen extends Component {
 									disabled={this.state.isLoading}
 								/>
 							</View>
-						) : (
-							<View style={{ alignItems: 'center', justifyContent: 'center' }}>
-								<RoundBlueButton
-									title={this.state.serviceID ? strings.Done : strings.Create}
-									style={roundBlueButtonStyle.MediumSizeButton}
-									textStyle={fontStyles.bigTextStyleWhite}
-									onPress={async () => {
-										if (this.state.serviceID) {
-											await this.saveProduct();
-										} else {
-											await this.createProduct();
-										}
-									}}
-									disabled={this.state.isLoading}
-								/>
+							<View style={{ flex: 0.5 }}></View>
+							<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+								<LoadingSpinner isVisible={this.state.isLoading} />
 							</View>
-						)}
+						</View>
 					</View>
 					<View style={{ flex: 0.5 }}></View>
-					<View style={{ flex: 1 }}></View>
 				</View>
 				<ErrorAlert
 					isVisible={this.state.isErrorVisible}
@@ -602,35 +508,6 @@ class createProductScreen extends Component {
 					}}
 					title={strings.Whoops}
 					message={strings.PleaseAddAnImage}
-				/>
-				<OptionPicker
-					isVisible={this.state.isDeleteProductVisible}
-					title={strings.DeleteService}
-					message={strings.AreYouSureDeleteService}
-					confirmText={strings.Yes}
-					cancelText={strings.Cancel}
-					clickOutside={true}
-					confirmOnPress={async () => {
-						const { productID, providerID } = this.props.navigation.state.params;
-						this.setState({ isLoading: true, isDeleteProductVisible: false });
-						try {
-							await FirebaseFunctions.deleteService(productID, providerID);
-							this.setState({ isLoading: false });
-							this.props.navigation.push('ProviderScreens', {
-								providerID
-							});
-						} catch (error) {
-							this.setState({ isLoading: false, isErrorVisible: true });
-							FirebaseFunctions.logIssue(error, {
-								screen: 'EditProductScreen',
-								userID: 'p-' + providerID,
-								productID
-							});
-						}
-					}}
-					cancelOnPress={() => {
-						this.setState({ isDeleteProductVisible: false });
-					}}
 				/>
 				<ImagePicker
 					imageHeight={250}

@@ -4,12 +4,13 @@ import React, { Component } from 'react';
 import MainStackNavigator from './src/MainStackNavigator';
 import { YellowBox } from 'react-native';
 import codePush from 'react-native-code-push';
-import { View, Linking, Platform } from 'react-native';
-import ErrorAlert from './src/components/ErrorAlert';
-import strings from 'config/strings'; 
 
 //Launches the app with the persisted store
 class App extends Component {
+	async componentDidMount() {
+		codePush.notifyAppReady();
+	}
+
 	render() {
 		//Ignores a specific warning
 		YellowBox.ignoreWarnings([
@@ -17,12 +18,16 @@ class App extends Component {
 			'componentWillMount',
 			'componentWillReceiveProps'
 		]);
-		return (
-			<MainStackNavigator />
-		);
+		return <MainStackNavigator />;
 	}
 }
 
-App = codePush(App);
+//Configures the app to connect with the code push server in order to check for updates on app
+//resume from backgroud
+let codePushOptions = {
+	checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+	installMode: codePush.InstallMode.ON_NEXT_RESTART
+};
+App = codePush(codePushOptions)(App);
 
 export default App;

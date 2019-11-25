@@ -244,7 +244,7 @@ const handleCustomTransition = ({ scenes }) => {
 	const prevScene = scenes[scenes.length - 2];
 
 	if (prevScene && prevScene.route.routeName === 'LaunchScreen') {
-		return fadeIn(750);
+		return fadeIn(700);
 	} else {
 		return fromRight();
 	}

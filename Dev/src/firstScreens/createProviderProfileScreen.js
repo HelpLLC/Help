@@ -187,7 +187,6 @@ class createProviderProfileScreen extends Component {
 					}}>
 					<RoundBlueButton
 						title={strings.Next}
-						isLoading={this.state.isLoading}
 						style={roundBlueButtonStyle.MediumSizeButton}
 						textStyle={fontStyles.bigTextStyleWhite}
 						onPress={() => {
@@ -195,6 +194,9 @@ class createProviderProfileScreen extends Component {
 						}}
 						disabled={this.state.isLoading}
 					/>
+				</View>
+				<View style={{ height: Dimensions.get('window').height * 0.04, alignItems: 'center' }}>
+					<LoadingSpinner isVisible={this.state.isLoading} />
 				</View>
 				<ErrorAlert
 					isVisible={this.state.isErrorVisible}

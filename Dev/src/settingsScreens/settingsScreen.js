@@ -1,20 +1,20 @@
 //This screen is the settings screen that will availalbe from both providers and requesters' home
 //screens. It will contain multiple options the user can choose from that will take them to seperate
 //screens using a StackNavigator
-import React, { Component } from "react";
-import { View } from "react-native";
-import TopBanner from "../components/TopBanner";
-import whiteCardStyle from "../../config/styles/componentStyles/whiteCardStyle";
-import fontStyles from "config/styles/fontStyles";
-import WhiteCard from "../components/WhiteCard";
-import { Icon } from "react-native-elements";
-import colors from "config/colors";
-import screenStyle from "config/styles/screenStyle";
-import HelpView from "../components/HelpView";
-import strings from "config/strings";
-import FirebaseFunctions from "config/FirebaseFunctions";
-import LeftMenu from "../requesterScreens/LeftMenu";
-import SideMenu from "react-native-side-menu";
+import React, { Component } from 'react';
+import { View } from 'react-native';
+import TopBanner from '../components/TopBanner';
+import whiteCardStyle from '../../config/styles/componentStyles/whiteCardStyle';
+import fontStyles from 'config/styles/fontStyles';
+import WhiteCard from '../components/WhiteCard';
+import { Icon } from 'react-native-elements';
+import colors from 'config/colors';
+import screenStyle from 'config/styles/screenStyle';
+import HelpView from '../components/HelpView';
+import strings from 'config/strings';
+import FirebaseFunctions from 'config/FirebaseFunctions';
+import LeftMenu from '../requesterScreens/LeftMenu';
+import SideMenu from 'react-native-side-menu';
 
 class settingsScreen extends Component {
   state = {
@@ -22,19 +22,19 @@ class settingsScreen extends Component {
   };
 
   componentDidMount() {
-    FirebaseFunctions.setCurrentScreen("SettingsScreen", "settingsScreen");
+    FirebaseFunctions.setCurrentScreen('SettingsScreen', 'settingsScreen');
   }
 
   render() {
     //This constant holds the value for the right angle icon which appears frequently
     //in this class
     const angleRightIcon = (
-      <Icon name={"angle-right"} type="font-awesome" color={colors.lightBlue} />
+      <Icon name={'angle-right'} type='font-awesome' color={colors.lightBlue} />
     );
     //Retrieves the current user from the params
-    let user = "";
-    let isRequester = "";
-    let uid = "";
+    let user = '';
+    let isRequester = '';
+    let uid = '';
     if (this.props.navigation.state.params.providerID) {
       user = this.props.navigation.state.params.providerID;
       isRequester = false;
@@ -53,11 +53,9 @@ class settingsScreen extends Component {
             <TopBanner title={strings.Settings} />
           ) : (
             <TopBanner
-              leftIconName="navicon"
+              leftIconName='navicon'
               leftOnPress={() => {
-                FirebaseFunctions.analytics.logEvent(
-                  "sidemenu_opened_from_settings"
-                );
+                FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_settings');
                 this.setState({ isOpen: true });
               }}
               size={30}
@@ -75,7 +73,7 @@ class settingsScreen extends Component {
                 comp={angleRightIcon}
                 //Pressing this leads to the report an issue screen
                 onPress={() =>
-                  this.props.navigation.push("ReportIssueScreen", {
+                  this.props.navigation.push('ReportIssueScreen', {
                     user
                   })
                 }
@@ -88,7 +86,7 @@ class settingsScreen extends Component {
                 mainTextStyle={fontStyles.mainTextStyleBlack}
                 comp={angleRightIcon}
                 //Pressing this leads to the about screen page
-                onPress={() => this.props.navigation.push("AboutScreen")}
+                onPress={() => this.props.navigation.push('AboutScreen')}
               />
             </View>
             <View style={{ flex: 1 }}>
@@ -98,7 +96,7 @@ class settingsScreen extends Component {
                 mainTextStyle={fontStyles.mainTextStyleBlack}
                 comp={angleRightIcon}
                 //Pressing this leads to the about screen page
-                onPress={() => this.props.navigation.push("PrivacyScreen")}
+                onPress={() => this.props.navigation.push('PrivacyScreen')}
               />
             </View>
             <View style={{ flex: 1 }}>
@@ -108,9 +106,7 @@ class settingsScreen extends Component {
                 mainTextStyle={fontStyles.mainTextStyleBlack}
                 comp={angleRightIcon}
                 //Pressing this leads to the about screen page
-                onPress={() =>
-                  this.props.navigation.push("TermsAndConditionsScreen")
-                }
+                onPress={() => this.props.navigation.push('TermsAndConditionsScreen')}
               />
             </View>
             <View style={{ flex: 1 }}>
@@ -120,7 +116,7 @@ class settingsScreen extends Component {
                 mainTextStyle={fontStyles.mainTextStyleBlack}
                 comp={angleRightIcon}
                 //Pressing this leads to the about screen page
-                onPress={() => this.props.navigation.push("CreditsScreen")}
+                onPress={() => this.props.navigation.push('CreditsScreen')}
               />
             </View>
             {this.props.navigation.state.params.providerID ? (
@@ -133,18 +129,14 @@ class settingsScreen extends Component {
                   //To-Do: Needs to call a logout function
                   onPress={async () => {
                     await FirebaseFunctions.logOut(isRequester, uid);
-                    this.props.navigation.push("SplashScreen");
+                    this.props.navigation.push('SplashScreen');
                   }}
                 />
               </View>
             ) : (
               <View></View>
             )}
-            <View
-              style={{
-                flex: this.props.navigation.state.params.providerID ? 1.5 : 3
-              }}
-            ></View>
+            <View style={{ flex: 3 }}></View>
           </View>
         </View>
       </HelpView>
@@ -154,7 +146,7 @@ class settingsScreen extends Component {
       <View style={{ flex: 1 }}>
         {isRequester === true ? (
           <SideMenu
-            onChange={isOpen => {
+            onChange={(isOpen) => {
               this.setState({ isOpen });
             }}
             isOpen={this.state.isOpen}
@@ -164,8 +156,7 @@ class settingsScreen extends Component {
                 allProducts={this.props.navigation.state.params.allProducts}
                 requester={this.props.navigation.state.params.requester}
               />
-            }
-          >
+            }>
             {mainUI}
           </SideMenu>
         ) : (

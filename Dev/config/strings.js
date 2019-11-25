@@ -136,14 +136,11 @@ export default {
 	Range: 'Range',
 	DollarSign: '$',
 	per: 'per',
-	Fixed: 'Fixed',
 	Hour: 'e.g. Hr',
 	Min: 'Min',
 	Max: 'Max',
 	to: 'to',
-	PleaseEnterADescriptionWithAtLeast50Characters: 'Please enter a description with at least 150 characters.',
-	DeleteService: 'Delete Service',
-	AreYouSureDeleteService: 'Are you sure you want to delete this service? This action cannot be undone.',
+	PleaseEnterADescriptionWithAtLeast50Characters: 'Please enter a description with at least 150 characters',
 
 	//------------------- Edit Company Profile Screen -------------------
 	EditCompany: 'Edit Company',
@@ -186,8 +183,7 @@ export default {
 	BusinessName: 'Business Name',
 	Submit: 'Submit',
 	Skip: 'Skip',
-	LeaveAReviewDotDotDot: 'Leave a review...',
-	PleaseGiveAStarRatingAlongWithReview: 'Please give a star rating along with your review.',
+	AnyCommentsQuestion: 'Any Comments?',
 
 	//------------------- Categories Screen -------------------
 	FeaturedCategories: 'Featured Categories',
@@ -203,7 +199,6 @@ export default {
 	MoreByThisBusiness: 'More by this business',
 	ReadMore: 'Read More',
 	ReadLess: 'Read Less',
-	CustomerReviews: 'Customer Reviews',
 
 	//------------------- Requester Order History Screen -------------------
 	OrderHistory: 'Order History',

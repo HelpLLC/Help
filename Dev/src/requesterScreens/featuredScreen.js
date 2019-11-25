@@ -1,19 +1,17 @@
 //This screen represents the main screen that is launched once the requester logs in. Here will be displayed the featured products
 //where customers will be able to click on them to request them. The side menu  will also be accessible from this screen
 import React, { Component } from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions, ScrollView } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import screenStyle from 'config/styles/screenStyle';
+import HelpView from '../components/HelpView';
 import NarrowServiceCardList from '../components/NarrowServiceCardList';
 import LeftMenu from './LeftMenu';
 import SideMenu from 'react-native-side-menu';
-import HelpView from '../components/HelpView';
 import TopBanner from '../components/TopBanner';
-import ErrorAlert from '../components/ErrorAlert';
-import colors from 'config/colors';
 import HelpSearchBar from '../components/HelpSearchBar';
 import OptionPicker from '../components/OptionPicker';
 import ReviewPopup from '../components/ReviewPopup';
@@ -29,7 +27,6 @@ class featuredScreen extends Component {
 		allProducts: '',
 		displayedProducts: '',
 		incompleteProfile: false,
-		reviewError: false,
 		isReviewDueName: '',
 		isReviewDueID: ''
 	};
@@ -146,35 +143,40 @@ class featuredScreen extends Component {
 						requester={requester}
 					/>
 				}>
-					<HelpView style={screenStyle.container}>
-						<TopBanner
-							leftIconName='navicon'
-							leftOnPress={() => {
-								FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_home');
-								this.setState({ isOpen: true });
-							}}
-							size={30}
-							title={strings.Featured}
-						/>
-						<HelpSearchBar
-							placeholderText={strings.WhatAreYouLookingForQuestion}
-							value={search}
-							onChangeText={(text) => {
-								//Logic for searching
-								this.setState({ search: text });
-							}}
-							onSubmitEditing={() => {
-								this.renderSearch();
-							}}
-						/>
+				<HelpView style={screenStyle.container}>
+					<TopBanner
+						leftIconName='navicon'
+						leftOnPress={() => {
+							FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_home');
+							this.setState({ isOpen: true });
+						}}
+						size={30}
+						title={strings.Featured}
+					/>
+					<HelpSearchBar
+						placeholderText={strings.WhatAreYouLookingForQuestion}
+						value={search}
+						onChangeText={(text) => {
+							//Logic for searching
+							this.setState({ search: text });
+						}}
+						onSubmitEditing={() => {
+							this.renderSearch();
+						}}
+					/>
+					<ScrollView
+						contentContainerStyle={{
+							justifyContent: 'center',
+							alignItems: 'center',
+							flexDirection: 'column'
+						}}
+						showsHorizontalScrollIndicator={false}
+						showsVerticalScrollIndicator={false}>
 						<View
 							style={{
 								height: Dimensions.get('window').height * 0.05,
-								width: Dimensions.get('window').width * 0.9,
-								borderColor: colors.lightGray,
-								borderBottomColor: colors.lightBlue,
-								borderWidth: 0.5,
-								justifyContent: 'center',
+								width: Dimensions.get('window').width * 0.93,
+								justifyContent: 'flex-end',
 								alignItems: 'flex-start'
 							}}>
 							<Text style={fontStyles.bigTextStyleBlue}>{strings.FeaturedServices}</Text>
@@ -184,81 +186,68 @@ class featuredScreen extends Component {
 							navigation={this.props.navigation}
 							services={displayedProducts}
 						/>
-						<OptionPicker
-							isVisible={this.state.incompleteProfile}
-							title={strings.FinishCreatingYourProfile}
-							oneOption={true}
-							clickOutside={false}
-							message={strings.FinishCreatingYourProfileMessage}
-							confirmText={strings.Ok}
-							confirmOnPress={() => {
-								this.setState({ incompleteProfile: false });
-								this.props.navigation.push('EditRequesterProfileScreen', {
-									requester: requester,
-									allProducts: allProducts,
-									isEditing: true
+					</ScrollView>
+					<OptionPicker
+						isVisible={this.state.incompleteProfile}
+						title={strings.FinishCreatingYourProfile}
+						oneOption={true}
+						clickOutside={false}
+						message={strings.FinishCreatingYourProfileMessage}
+						confirmText={strings.Ok}
+						confirmOnPress={() => {
+							this.setState({ incompleteProfile: false });
+							this.props.navigation.push('EditRequesterProfileScreen', {
+								requester: requester,
+								allProducts: allProducts,
+								isEditing: true
+							});
+						}}
+					/>
+					<ReviewPopup
+						isVisible={this.state.isReviewDue}
+						onFinishRating={(stars) => this.setState({ stars })}
+						title={strings.LeaveAReview}
+						message={this.state.isReviewDueName}
+						confirmText={strings.Submit}
+						cancelText={strings.Skip}
+						imageFunction={async () => {
+							return await FirebaseFunctions.getProductImageByID(this.state.isReviewDueID);
+						}}
+						clickOutside={true}
+						value={this.state.comment}
+						placeholder={strings.AnyCommentsQuestion}
+						onChangeText={(input) => this.setState({ comment: input })}
+						confirmOnPress={async () => {
+							try {
+								FirebaseFunctions.submitReview(
+									this.state.isReviewDueID,
+									requester.requesterID,
+									this.state.stars,
+									this.state.comment
+								);
+								FirebaseFunctions.analytics.logEvent('submit_review');
+							} catch (error) {
+								FirebaseFunctions.logIssue(error, {
+									screen: 'Featured Screen',
+									userID: 'r-' + requester.requesterID
 								});
-							}}
-						/>
-						<ReviewPopup
-							isVisible={this.state.isReviewDue}
-							onFinishRating={(stars) => this.setState({ stars })}
-							title={strings.LeaveAReview}
-							message={this.state.isReviewDueName}
-							confirmText={strings.Submit}
-							cancelText={strings.Skip}
-							imageFunction={async () => {
-								return await FirebaseFunctions.getProductImageByID(this.state.isReviewDueID);
-							}}
-							clickOutside={true}
-							value={this.state.comment}
-							placeholder={strings.LeaveAReviewDotDotDot}
-							onChangeText={(input) => this.setState({ comment: input })}
-							confirmOnPress={async () => {
-								//If a comment is inputted, then the user must also give a star rating. But users
-								//can give a star rating without a comment
-								if (this.state.comment.trim().length > 0 && this.state.stars === 0) {
-									this.setState({ reviewError: true, isReviewDue: false });
-								} else {
-									try {
-										FirebaseFunctions.submitReview(
-											this.state.isReviewDueID,
-											requester.requesterID,
-											this.state.stars,
-											this.state.comment
-										);
-										FirebaseFunctions.analytics.logEvent('submit_review');
-									} catch (error) {
-										FirebaseFunctions.logIssue(error, {
-											screen: 'Featured Screen',
-											userID: 'r-' + requester.requesterID
-										});
-									}
-									this.setState({ isReviewDue: false });
-								}
-							}}
-							cancelOnPress={() => {
-								this.setState({ isReviewDue: false });
-								try {
-									FirebaseFunctions.skipReview(this.state.isReviewDueID, requester.requesterID);
-									FirebaseFunctions.analytics.logEvent('skip_review');
-								} catch (error) {
-									FirebaseFunctions.logIssue(error, {
-										screen: 'Featured Screen',
-										userID: 'r-' + requester.requesterID
-									});
-								}
-							}}
-						/>
-						<ErrorAlert
-							isVisible={this.state.reviewError}
-							onPress={() => {
-								this.setState({ reviewError: false, isReviewDue: true });
-							}}
-							title={strings.Whoops}
-							message={strings.PleaseGiveAStarRatingAlongWithReview}
-						/>
-					</HelpView>
+							}
+							this.setState({ isReviewDue: false });
+						}}
+						cancelOnPress={() => {
+							this.setState({ isReviewDue: false });
+							try {
+								FirebaseFunctions.skipReview(this.state.isReviewDueID, requester.requesterID);
+								FirebaseFunctions.analytics.logEvent('skip_review');
+							} catch (error) {
+								FirebaseFunctions.logIssue(error, {
+									screen: 'Featured Screen',
+									userID: 'r-' + requester.requesterID
+								});
+							}
+						}}
+					/>
+				</HelpView>
 			</SideMenu>
 		);
 	}
