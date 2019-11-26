@@ -126,6 +126,7 @@ class createQuestionsScreen extends Component {
 	}
 
 	render() {
+		const { questions } = this.state;
 		if (this.state.isScreenLoading === true) {
 			return (
 				<HelpView>
@@ -140,7 +141,6 @@ class createQuestionsScreen extends Component {
 				</HelpView>
 			);
 		}
-		let { questions } = this.state;
 		return (
 			<HelpView>
 				<TopBanner
@@ -182,7 +182,7 @@ class createQuestionsScreen extends Component {
 											roundBlueButtonStyle.AccountTypeButton,
 											{
 												//Width increased for longer text
-												width: Dimensions.get('window').width * 0.37,
+												width: Dimensions.get('window').width * 0.39,
 												borderColor: item.isSelected === true ? colors.lightBlue : colors.white
 											}
 										]}
@@ -215,9 +215,13 @@ class createQuestionsScreen extends Component {
 								<Text style={fontStyles.bigTextStyleBlack}>{strings.CustomQuestions}</Text>
 							</View>
 							<FlatList
-								data={questions}
+								showsHorizontalScrollIndicator={false}
+								showsVerticalScrollIndicator={false}
+								data={questions.length === 0 ? [""] : questions}
+								numColumns={1}
+								keyExtractor={(item, index) => index + ""}
 								extraData={this.state}
-								keyExtractor={(item, index) => item}
+								showsVerticalScrollIndicator={false}
 								renderItem={({ item, index }) => (
 									<View style={{ marginLeft: Dimensions.get('window').width * 0.03 }}>
 										<View style={{ marginTop: Dimensions.get('window').height * 0.02 }}>
@@ -231,19 +235,19 @@ class createQuestionsScreen extends Component {
 												flexDirection: 'row',
 												justifyContent: 'space-evenly'
 											}}>
-												<MultiLineRoundedBoxInput
-													width={Dimensions.get('window').width * 0.8}
-													height={Dimensions.get('window').height * 0.075}
-													placeholder={strings.AskQuestionsForCustomers}
-													onChangeText={(input) => {
-														questions[index] = input;
-														this.setState({
-															questions
-														});
-													}}
-													value={questions[index]}
-													maxLength={300}
-												/>
+											<MultiLineRoundedBoxInput
+												width={Dimensions.get('window').width * 0.8}
+												height={Dimensions.get('window').height * 0.075}
+												placeholder={strings.AskQuestionsForCustomers}
+												onChangeText={(input) => {
+													questions[index] = input;
+													this.setState({
+														questions
+													});
+												}}
+												value={item}
+												maxLength={300}
+											/>
 											<TouchableOpacity
 												onPress={() => {
 													questions.splice(index, 1);

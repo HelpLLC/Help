@@ -217,7 +217,7 @@ export default class customerRequestScreen extends Component {
 							<RoundBlueButton
 								title={strings.Delete}
 								style={roundBlueButtonStyle.SmallSizeButton}
-								textStyle={fontStyles.bigTextStyleWhite}
+								textStyle={fontStyles.mainTextStyleWhite}
 								onPress={() => {
 									this.setState({
 										isDeleteRequestVisible: true
@@ -228,7 +228,7 @@ export default class customerRequestScreen extends Component {
 							<RoundBlueButton
 								title={strings.Message}
 								style={roundBlueButtonStyle.SmallSizeButton}
-								textStyle={fontStyles.bigTextStyleWhite}
+								textStyle={fontStyles.mainTextStyleWhite}
 								onPress={() => {
 									this.props.navigation.push('MessagingScreen', {
 										title: request.requesterName,
@@ -242,7 +242,7 @@ export default class customerRequestScreen extends Component {
 							<RoundBlueButton
 								title={strings.Complete}
 								style={roundBlueButtonStyle.SmallSizeButton}
-								textStyle={fontStyles.bigTextStyleWhite}
+								textStyle={fontStyles.mainTextStyleWhite}
 								onPress={() => {
 									this.setState({
 										isCompleteRequestVisible: true

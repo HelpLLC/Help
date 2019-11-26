@@ -41,7 +41,13 @@ class OneLineRoundedBoxInput extends Component {
 					onChangeText={(input) => onChangeText(input)}
 					style={{
 						color: colors.black,
-						width: width ? width * 0.8 : Dimensions.get('window').width * 0.48,
+						width: width
+							? additionalIcon
+								? width * 0.8
+								: width
+							: additionalIcon
+							? Dimensions.get('window').width * 0.48
+							: Dimensions.get('window').width * 0.55,
 						height: Dimensions.get('window').height * 0.06
 					}}
 					secureTextEntry={password}
