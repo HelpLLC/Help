@@ -214,7 +214,7 @@ class createRequesterProfileScreen extends Component {
 					<TopBanner
 						leftIconName='navicon'
 						leftOnPress={() => {
-							FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_home');
+							FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_create_requester_profile');
 							this.setState({ isOpen: true });
 						}}
 						size={30}

@@ -10,6 +10,7 @@ import FirebaseFunctions from "config/FirebaseFunctions";
 class CategoriesList extends Component {
   //This function goes to a screen of a specific category
   async goToCategoryScreen(categoryName) {
+    FirebaseFunctions.analytics.logEvent(categoryName + "_category_clicked");
     const { requester } = this.props;
     const { allProducts } = this.props;
     try {

@@ -20,13 +20,13 @@ import TopBanner from '../components/TopBanner';
 class createProviderProfileScreen extends Component {
 	//Method will detect if this screen is in editing mode, and will display the business's previous information if so
 	componentDidMount() {
-		FirebaseFunctions.setCurrentScreen(
-			'CreateProviderProfileScreen',
-			'createProviderProfileScreen'
-		);
 
 		const { editing } = this.props.navigation.state.params;
 		if (editing === true) {
+			FirebaseFunctions.setCurrentScreen(
+				'EditProviderProfileScreen',
+				'createProviderProfileScreen'
+			);
 			const { provider, providerID } = this.props.navigation.state.params;
 			this.setState({
 				businessInfo: provider.companyDescription,
@@ -37,6 +37,10 @@ class createProviderProfileScreen extends Component {
 				editing
 			});
 		} else {
+			FirebaseFunctions.setCurrentScreen(
+				'CreateProviderProfileScreen',
+				'createProviderProfileScreen'
+			);
 			this.setState({
 				businessInfo: '',
 				businessName: '',

@@ -324,7 +324,7 @@ export default class FirebaseFunctions {
 		await this.storage.ref('products/' + reference).putFile(absolutePath);
 
 		//Logs the event in firebase analytics
-		this.analytics.logEvent('upload_image');
+		this.analytics.logEvent('upload_product_image');
 
 		return 0;
 	}
@@ -340,7 +340,7 @@ export default class FirebaseFunctions {
 		//Creates the reference & uploads the image (async)
 		await this.storage.ref('profilePictures/' + reference).putFile(absolutePath);
 		//Logs the event in firebase analytics
-		this.analytics.logEvent('upload_profile_image');
+		this.analytics.logEvent('upload_requester_profile_image');
 
 		return 0;
 	}
@@ -443,6 +443,7 @@ export default class FirebaseFunctions {
 			serviceIDs
 		});
 
+		this.analytics.logEvent('delete_service');
 		return 0;
 	}
 
@@ -460,8 +461,8 @@ export default class FirebaseFunctions {
 			conversationMessages.push(messageWithCorrectDate);
 			//Retrieves the names of the requester and the provider so that can be added to the database
 			//as well
-			const provider = await FirebaseFunctions.getProviderByID(providerID);
-			const requester = await FirebaseFunctions.getRequesterByID(requesterID);
+			const provider = await this.getProviderByID(providerID);
+			const requester = await this.getRequesterByID(requesterID);
 			await this.messages.add({
 				conversationMessages,
 				providerID,
@@ -472,12 +473,14 @@ export default class FirebaseFunctions {
 			//Notifies the user who RECIEVED the message (the opposite of whoever message[0].user is)
 			//Notifies the provider whose service this belongs to
 			if (message[0].user._id === providerID) {
+				this.analytics.logEvent('new_conversation_started_from_provider');
 				this.functions.httpsCallable('sendNotification')({
 					topic: 'r-' + requesterID,
 					title: provider.companyName,
 					body: message[0].text
 				});
 			} else {
+				this.analytics.logEvent('new_conversation_started_from_requester');
 				this.functions.httpsCallable('sendNotification')({
 					topic: 'p-' + providerID,
 					title: requester.username,
@@ -485,8 +488,8 @@ export default class FirebaseFunctions {
 				});
 			}
 		} else {
-			const requester = await FirebaseFunctions.getRequesterByID(requesterID);
-			const provider = await FirebaseFunctions.getProviderByID(providerID);
+			const requester = await this.getRequesterByID(requesterID);
+			const provider = await this.getProviderByID(providerID);
 			const ref = this.messages
 				.where('providerID', '==', providerID)
 				.where('requesterID', '==', requesterID);
@@ -505,12 +508,14 @@ export default class FirebaseFunctions {
 			//Notifies the user who RECIEVED the message (the opposite of whoever message[0].user is)
 			//Notifies the provider whose service this belongs to
 			if (message[0].user._id === providerID) {
+				this.analytics.logEvent('existing_conversation_send_message_from_provider');
 				this.functions.httpsCallable('sendNotification')({
 					topic: 'r-' + requesterID,
 					title: provider.companyName,
 					body: message[0].text
 				});
 			} else {
+				this.analytics.logEvent('existing_conversation_send_message_from_requester');
 				this.functions.httpsCallable('sendNotification')({
 					topic: 'p-' + providerID,
 					title: requester.username,
@@ -518,9 +523,6 @@ export default class FirebaseFunctions {
 				});
 			}
 		}
-
-		//Logs the event in firebase analytics
-		this.analytics.logEvent('send_message');
 		return 0;
 	}
 
@@ -559,6 +561,8 @@ export default class FirebaseFunctions {
 			orderHistory
 		});
 
+		this.analytics.logEvent('submit_review');
+
 		return 0;
 	}
 
@@ -575,6 +579,7 @@ export default class FirebaseFunctions {
 			orderHistory
 		});
 
+		this.analytics.logEvent('skip_review');
 		return 0;
 	}
 
@@ -647,7 +652,7 @@ export default class FirebaseFunctions {
 		}
 
 		//Logs the event in firebase analytics
-		this.analytics.logEvent('update_product');
+		this.analytics.logEvent('update_product_info');
 		return 0;
 	}
 
@@ -743,7 +748,7 @@ export default class FirebaseFunctions {
 			}
 		});
 
-		await FirebaseFunctions.deleteRequest(productID, requesterID);
+		await this.deleteRequest(productID, requesterID);
 
 		//Logs the event in firebase analytics
 		this.analytics.logEvent('complete_request');
@@ -816,7 +821,7 @@ export default class FirebaseFunctions {
 		});
 
 		//Also sends us a report to make sure the company is appropriate
-		FirebaseFunctions.reportIssue(requester, {
+		this.reportIssue(requester, {
 			report: 'Report against a company',
 			companyID: provider.providerID,
 			companyName: provider.companyName
@@ -875,6 +880,7 @@ export default class FirebaseFunctions {
 	static async forgotPassword(email) {
 		await firebase.auth().sendPasswordResetEmail(email);
 
+		this.analytics.logEvent('forgot_password_email_sent');
 		return 0;
 	}
 

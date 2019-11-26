@@ -11,7 +11,7 @@ import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
 import ErrorAlert from '../components/ErrorAlert';
 import OptionPicker from '../components/OptionPicker';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import LoadingSpinner from  '../components/LoadingSpinner';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 class requesterQuestionsScreen extends Component {
 	state = {
@@ -29,6 +29,7 @@ class requesterQuestionsScreen extends Component {
 
 	//Sets the initial state with the questions and the array of empty answers
 	async componentDidMount() {
+		FirebaseFunctions.setCurrentScreen('RequesterQuestionsScreen', 'requesterQuestionsScreen');
 		const { product, requester } = this.props.navigation.state.params;
 		let { questions } = product;
 		//Adds the default questions to the array of qeustions if any are present

@@ -17,10 +17,10 @@ class createQuestionsScreen extends Component {
 		isScreenLoading: true
 	};
 	componentDidMount() {
-		FirebaseFunctions.setCurrentScreen('CreateQuestionsScreen', 'createQuestionsScreen');
 		//If this product is being edited, then it is going to display the previously entered questions
 		//Otherwise, an empty questions box will appear
 		if (this.props.navigation.state.params && this.props.navigation.state.params.product) {
+			FirebaseFunctions.setCurrentScreen('EditQuestionsScreen', 'createQuestionsScreen');
 			const {
 				productID,
 				providerID,
@@ -61,6 +61,7 @@ class createQuestionsScreen extends Component {
 				newProductObject
 			});
 		} else {
+			FirebaseFunctions.setCurrentScreen('CreateQuestionsScreen', 'createQuestionsScreen');
 			const { providerID, newProductObject } = this.props.navigation.state.params;
 			this.setState({
 				questions: [],
@@ -100,6 +101,8 @@ class createQuestionsScreen extends Component {
 		//created
 		if (this.state.product) {
 			let { productID, providerID, product, newProductObject, questions } = this.state;
+
+			FirebaseFunctions.analytics.logEvent('create_questions_of_length_' + questions.length);
 			newProductObject = {
 				...newProductObject,
 				defaultQuestions,
@@ -112,6 +115,7 @@ class createQuestionsScreen extends Component {
 				newProductObject
 			});
 		} else {
+			FirebaseFunctions.analytics.logEvent('create_questions_of_length_' + questions.length);
 			let { providerID, newProductObject, questions } = this.state;
 			newProductObject = {
 				...newProductObject,
@@ -126,6 +130,7 @@ class createQuestionsScreen extends Component {
 	}
 
 	render() {
+		const { questions } = this.state;
 		if (this.state.isScreenLoading === true) {
 			return (
 				<HelpView>
@@ -140,7 +145,6 @@ class createQuestionsScreen extends Component {
 				</HelpView>
 			);
 		}
-		let { questions } = this.state;
 		return (
 			<HelpView>
 				<TopBanner
@@ -182,7 +186,7 @@ class createQuestionsScreen extends Component {
 											roundBlueButtonStyle.AccountTypeButton,
 											{
 												//Width increased for longer text
-												width: Dimensions.get('window').width * 0.37,
+												width: Dimensions.get('window').width * 0.39,
 												borderColor: item.isSelected === true ? colors.lightBlue : colors.white
 											}
 										]}
@@ -191,6 +195,13 @@ class createQuestionsScreen extends Component {
 										onPress={() => {
 											let { defaultQuestions } = this.state;
 											defaultQuestions[index].isSelected = !defaultQuestions[index].isSelected;
+
+											FirebaseFunctions.analytics.logEvent(
+												'default_questions_' +
+													item.name +
+													'_turn_to_' +
+													defaultQuestions[index].isSelected
+											);
 											this.setState({
 												defaultQuestions
 											});
@@ -215,9 +226,13 @@ class createQuestionsScreen extends Component {
 								<Text style={fontStyles.bigTextStyleBlack}>{strings.CustomQuestions}</Text>
 							</View>
 							<FlatList
-								data={questions}
+								showsHorizontalScrollIndicator={false}
+								showsVerticalScrollIndicator={false}
+								data={questions.length === 0 ? [''] : questions}
+								numColumns={1}
+								keyExtractor={(item, index) => index + ''}
 								extraData={this.state}
-								keyExtractor={(item, index) => item}
+								showsVerticalScrollIndicator={false}
 								renderItem={({ item, index }) => (
 									<View style={{ marginLeft: Dimensions.get('window').width * 0.03 }}>
 										<View style={{ marginTop: Dimensions.get('window').height * 0.02 }}>
@@ -231,19 +246,19 @@ class createQuestionsScreen extends Component {
 												flexDirection: 'row',
 												justifyContent: 'space-evenly'
 											}}>
-												<MultiLineRoundedBoxInput
-													width={Dimensions.get('window').width * 0.8}
-													height={Dimensions.get('window').height * 0.075}
-													placeholder={strings.AskQuestionsForCustomers}
-													onChangeText={(input) => {
-														questions[index] = input;
-														this.setState({
-															questions
-														});
-													}}
-													value={questions[index]}
-													maxLength={300}
-												/>
+											<MultiLineRoundedBoxInput
+												width={Dimensions.get('window').width * 0.8}
+												height={Dimensions.get('window').height * 0.075}
+												placeholder={strings.AskQuestionsForCustomers}
+												onChangeText={(input) => {
+													questions[index] = input;
+													this.setState({
+														questions
+													});
+												}}
+												value={item}
+												maxLength={300}
+											/>
 											<TouchableOpacity
 												onPress={() => {
 													questions.splice(index, 1);

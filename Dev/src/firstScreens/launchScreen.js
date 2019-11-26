@@ -170,7 +170,7 @@ export default class launchScreen extends Component {
 								alignItems: 'center',
 								marginBottom: Dimensions.get('window').height * 0.05
 							}}>
-							<Text style={fontStyles.bigTextStyleWhite}>{strings.UpdatingAppDotDotDot}</Text>
+							<Text style={fontStyles.bigTextStyleWhite}>{strings.LoadingAppDotDotDot}</Text>
 						</View>
 						<LoadingSpinner isVisible={true} color={colors.white} />
 					</View>
