@@ -20,6 +20,7 @@ import ErrorAlert from '../../components/ErrorAlert';
 export default class customerRequestScreen extends Component {
 	//Fetches the image for this requester
 	async componentDidMount() {
+		FirebaseFunctions.setCurrentScreen('CustomerRequestScreen', 'customerRequestScreen');
 		const image = await FirebaseFunctions.getProfilePictureByID(this.state.request.requesterID);
 		this.setState({ isScreenLoading: false, image });
 	}
@@ -299,9 +300,9 @@ export default class customerRequestScreen extends Component {
 							//Updates the state of the screen to remove the request from
 							//the screen & add it to the history
 							this.setState({
-                                requestCompleted: true,
-                                isLoading: false
-                            })
+								requestCompleted: true,
+								isLoading: false
+							});
 						} catch (error) {
 							this.setState({ isLoading: false, isErrorVisible: true });
 							FirebaseFunctions.logIssue(error, {

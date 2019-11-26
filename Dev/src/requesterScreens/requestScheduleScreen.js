@@ -41,6 +41,7 @@ export default class requesterScheduleScreen extends Component {
 	//Detects what kind of schedule type the current product has, and displays the right UI based on that. Also
 	//adds the necessary fields to the state for later use
 	componentDidMount() {
+		FirebaseFunctions.setCurrentScreen('RequesterScheduleScreen', 'requesterScheduleScreen');
 		const { product, requester } = this.props.navigation.state.params;
 		this.setState({
 			product,

@@ -25,6 +25,7 @@ export default class createScheduleScreen extends Component {
 		//If a product has been passed in, then the correct fields will be set, other wise, the normal screen will
 		//be set for user to create product
 		if (this.props.navigation.state.params && this.props.navigation.state.params.product) {
+			FirebaseFunctions.setCurrentScreen('EditScheduleScreen', 'createScheduleScreen');
 			const { product } = this.props.navigation.state.params;
 			const { schedule } = product;
 			if (schedule.scheduleType === 'Anytime') {
@@ -59,6 +60,7 @@ export default class createScheduleScreen extends Component {
 				isScreenLoading: false
 			});
 		} else {
+			FirebaseFunctions.setCurrentScreen('CreateScheduleScreen', 'createScheduleScreen');
 			const { providerID, newProductObject } = this.props.navigation.state.params;
 			this.setState({
 				providerID,
@@ -139,16 +141,20 @@ export default class createScheduleScreen extends Component {
 			//Creates the schedule object
 			let schedule = {};
 			if (scheduleType === 'Anytime') {
+				FirebaseFunctions.analytics.logEvent('schedule_type_anytime');
 				schedule.scheduleType = 'Anytime';
 			} else if (scheduleType === 'SpecificDaysAndTimes') {
+				FirebaseFunctions.analytics.logEvent('specific_days_and_times');
 				schedule.scheduleType = 'SpecificDaysAndTimes';
 				schedule.fromTime = fromTime;
 				schedule.toTime = toTime;
 				schedule.daysSelected = daysSelected;
 			} else if (scheduleType === 'SpecificDays') {
+				FirebaseFunctions.analytics.logEvent('specific_days');
 				schedule.scheduleType = 'SpecificDays';
 				schedule.daysSelected = daysSelected;
 			} else {
+				FirebaseFunctions.analytics.logEvent('specific_times');
 				schedule.scheduleType = 'SpecificTimes';
 				schedule.fromTime = fromTime;
 				schedule.toTime = toTime;

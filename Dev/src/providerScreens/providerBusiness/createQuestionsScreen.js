@@ -17,10 +17,10 @@ class createQuestionsScreen extends Component {
 		isScreenLoading: true
 	};
 	componentDidMount() {
-		FirebaseFunctions.setCurrentScreen('CreateQuestionsScreen', 'createQuestionsScreen');
 		//If this product is being edited, then it is going to display the previously entered questions
 		//Otherwise, an empty questions box will appear
 		if (this.props.navigation.state.params && this.props.navigation.state.params.product) {
+			FirebaseFunctions.setCurrentScreen('EditQuestionsScreen', 'createQuestionsScreen');
 			const {
 				productID,
 				providerID,
@@ -61,6 +61,7 @@ class createQuestionsScreen extends Component {
 				newProductObject
 			});
 		} else {
+			FirebaseFunctions.setCurrentScreen('CreateQuestionsScreen', 'createQuestionsScreen');
 			const { providerID, newProductObject } = this.props.navigation.state.params;
 			this.setState({
 				questions: [],
@@ -100,6 +101,8 @@ class createQuestionsScreen extends Component {
 		//created
 		if (this.state.product) {
 			let { productID, providerID, product, newProductObject, questions } = this.state;
+
+			FirebaseFunctions.analytics.logEvent('create_questions_of_length_' + questions.length);
 			newProductObject = {
 				...newProductObject,
 				defaultQuestions,
@@ -112,6 +115,7 @@ class createQuestionsScreen extends Component {
 				newProductObject
 			});
 		} else {
+			FirebaseFunctions.analytics.logEvent('create_questions_of_length_' + questions.length);
 			let { providerID, newProductObject, questions } = this.state;
 			newProductObject = {
 				...newProductObject,
@@ -191,6 +195,13 @@ class createQuestionsScreen extends Component {
 										onPress={() => {
 											let { defaultQuestions } = this.state;
 											defaultQuestions[index].isSelected = !defaultQuestions[index].isSelected;
+
+											FirebaseFunctions.analytics.logEvent(
+												'default_questions_' +
+													item.name +
+													'_turn_to_' +
+													defaultQuestions[index].isSelected
+											);
 											this.setState({
 												defaultQuestions
 											});
@@ -217,9 +228,9 @@ class createQuestionsScreen extends Component {
 							<FlatList
 								showsHorizontalScrollIndicator={false}
 								showsVerticalScrollIndicator={false}
-								data={questions.length === 0 ? [""] : questions}
+								data={questions.length === 0 ? [''] : questions}
 								numColumns={1}
-								keyExtractor={(item, index) => index + ""}
+								keyExtractor={(item, index) => index + ''}
 								extraData={this.state}
 								showsVerticalScrollIndicator={false}
 								renderItem={({ item, index }) => (

@@ -21,6 +21,8 @@ class messagingScreen extends Component {
 	}
 
 	async componentDidMount() {
+
+		FirebaseFunctions.setCurrentScreen('MessagingScreen', 'messagingScreen');
 		const { providerID, requesterID } = this.props.navigation.state.params;
 
 		//Creates the onsnapshot method to listen for real updates in the database for this document
