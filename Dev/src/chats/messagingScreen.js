@@ -5,7 +5,7 @@ import { GiftedChat, Send } from 'react-native-gifted-chat';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import firebase from 'react-native-firebase';
-import { View, TouchableWithoutFeedback, Keyboard, Dimensions } from 'react-native';
+import { View, TouchableWithoutFeedback, Keyboard, Dimensions, TextInput } from 'react-native';
 import { Icon } from 'react-native-elements';
 import LoadingSpinner from '../components/LoadingSpinner';
 import TopBanner from '../components/TopBanner';
@@ -83,19 +83,21 @@ class messagingScreen extends Component {
 							<GiftedChat
 								{...props}
 								renderSend={(props) => {
+									//Gifted chat doesn't use dimensions based heights and widths, 
+									//which is the reason for using exact numeric margins, and sizes
 									return (
 										<Send {...props}>
 											<View
 												style={{
-													width: Dimensions.get('window').width * 0.1,
-													height: Dimensions.get('window').height * 0.07,
 													justifyContent: 'center',
-													alignItems: 'center'
+													alignItems: 'center',
+													marginRight: 5,
+													marginBottom: 3
 												}}>
 												<Icon
 													name={'arrow-circle-up'}
 													type='font-awesome'
-													size={35}
+													size={40}
 													color={colors.lightBlue}
 												/>
 											</View>
