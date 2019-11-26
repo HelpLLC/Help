@@ -6,16 +6,14 @@ import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
-import FirebaseFunctions from 'config/FirebaseFunctions';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
+import ErrorAlert from '../components/ErrorAlert';
 
 class splashScreen extends Component {
-	async componentDidMount() {
-		FirebaseFunctions.setCurrentScreen('SplashScreen', 'splashScreen');
-	}
-
+	
 	render() {
+		const { internetConnection, isErrorVisible } = this.state;
 		return (
 			<HelpView style={screenStyle.container}>
 				<View style={{ flex: 1, justifyContent: 'center' }}>
@@ -44,6 +42,26 @@ class splashScreen extends Component {
 						/>
 					</View>
 				</View>
+				<ErrorAlert
+					isVisible={!internetConnection}
+					onPress={() => {
+						this.setState({
+							isErrorVisible: false,
+							isUserLoggedIn: '',
+							internetConnection: true
+						});
+					}}
+					title={strings.Whoops}
+					message={strings.NoConnection}
+				/>
+				<ErrorAlert
+					isVisible={isErrorVisible}
+					onPress={() => {
+						this.setState({ isErrorVisible: false });
+					}}
+					title={strings.Whoops}
+					message={strings.SomethingWentWrong}
+				/>
 			</HelpView>
 		);
 	}

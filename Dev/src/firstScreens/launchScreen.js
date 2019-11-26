@@ -12,9 +12,13 @@ import AsyncStorage from '@react-native-community/async-storage';
 import ErrorAlert from '../components/ErrorAlert';
 import LoadingSpinner from '../components/LoadingSpinner';
 import CodePush from 'react-native-code-push';
+import SplashScreen from 'react-native-splash-screen';
 
 //Exports the class
 export default class launchScreen extends Component {
+	componentWillMount() {
+		SplashScreen.hide();
+	}
 	//Tests the user's internet connection & then installs the most recent update from code push if there is one
 	async componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('LaunchScreen', 'launchScreen');

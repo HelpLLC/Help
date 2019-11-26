@@ -8,10 +8,12 @@ import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import TopBanner from '../components/TopBanner';
+import SplashScreen from 'react-native-splash-screen';
 
 export default class accountNotVerified extends Component {
-	componentDidMount() {
+	componentWillMount() {
 		FirebaseFunctions.setCurrentScreen('AccountNotVerifiedScreen', 'accountNotVerifiedScreen');
+		SplashScreen.hide();
 	}
 
 	render() {
