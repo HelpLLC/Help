@@ -51,15 +51,19 @@ export default class requesterScheduleScreen extends Component {
 	}
 
 	//This function determines whether the time selected by the user is in the time  slot in which the business
-	//indicated they are available
+	//indicated they are available only if the business has specified there's only certain times that they can work.
 	isTimeValid() {
-		const moment = require('moment');
-		const { selectedTime, product } = this.state;
-		const { fromTime, toTime } = product.schedule;
-		let momentSelectedTime = moment(selectedTime, 'hh:mm a');
-		let momentFromTime = moment(fromTime, 'hh:mm a');
-		let momentToTime = moment(toTime, 'hh:mm a');
-		return momentSelectedTime.isBetween(momentFromTime, momentToTime);
+		if (scheduleType === 'SpecificDaysAndTimes' || scheduleType === 'SpecificTimes') {
+			const moment = require('moment');
+			const { selectedTime, product } = this.state;
+			const { fromTime, toTime } = product.schedule;
+			let momentSelectedTime = moment(selectedTime, 'hh:mm a');
+			let momentFromTime = moment(fromTime, 'hh:mm a');
+			let momentToTime = moment(toTime, 'hh:mm a');
+			return momentSelectedTime.isBetween(momentFromTime, momentToTime);
+		} else {
+			return true;
+		}
 	}
 
 	//Requests the product by checking if all fields have been filled out correctly
@@ -79,56 +83,26 @@ export default class requesterScheduleScreen extends Component {
 			requesterName: requester.username,
 			scheduleType
 		};
-		//Creates the request object depending on what type of product this is
-		if (scheduleType === 'SpecificDays') {
-			//Double checks that the field has been filled out
-			if (this.state.selectedDate === '') {
-				this.setState({ isSelectDayErrorVisible: true, isLoading: false });
-				return;
-			}
-			requestObject = {
-				...requestObject,
-				daySelected: this.state.selectedDate
-			};
-		} else if (scheduleType === 'SpecificTimes') {
-			//Double checks that the field has been filled out
-			if (this.state.selectedTime === '') {
-				this.setState({ isSelectTimeErrorVisible: true, isLoading: false });
-				return;
-			}
-			//Double checks that the time selected is in the business's availability
-			if (!this.isTimeValid()) {
-				this.setState({ timeSlotError: true, isLoading: false });
-				return;
-			}
-			requestObject = {
-				...requestObject,
-				selectedTime: this.state.selectedTime
-			};
+		//Double checks that the field has been filled out
+		if (this.state.selectedDate === '') {
+			this.setState({ isSelectDayErrorVisible: true, isLoading: false });
+			return;
 		}
-		//This means that both a time and date are required for this clause to be true
-		else {
-			//Double checks that the field has been filled out
-			if (this.state.selectedDate === '') {
-				this.setState({ isSelectDayErrorVisible: true, isLoading: false });
-				return;
-			}
-			//Double checks that the field has been filled out
-			if (this.state.selectedTime === '') {
-				this.setState({ isSelectTimeErrorVisible: true, isLoading: false });
-				return;
-			}
-			//Double checks that the time selected is in the business's availability
-			if (!this.isTimeValid()) {
-				this.setState({ timeSlotError: true, isLoading: false });
-				return;
-			}
-			requestObject = {
-				...requestObject,
-				selectedTime: this.state.selectedTime,
-				daySelected: this.state.selectedDate
-			};
+		//Double checks that the field has been filled out
+		if (this.state.selectedTime === '') {
+			this.setState({ isSelectTimeErrorVisible: true, isLoading: false });
+			return;
 		}
+		//Double checks that the time selected is in the business's availability
+		if (!this.isTimeValid()) {
+			this.setState({ timeSlotError: true, isLoading: false });
+			return;
+		}
+		requestObject = {
+			...requestObject,
+			selectedTime: this.state.selectedTime,
+			daySelected: this.state.selectedDate
+		};
 		//Adds the answers to the questions if this product has any questions
 		if (this.props.navigation.state.params.answers) {
 			requestObject = {
@@ -175,93 +149,95 @@ export default class requesterScheduleScreen extends Component {
 					leftIconName='angle-left'
 					leftOnPress={() => this.props.navigation.goBack()}
 				/>
-				{scheduleType === 'SpecificDaysAndTimes' || scheduleType === 'SpecificDays' ? (
-					<View>
-						<View
-							style={{
-								marginVertical: Dimensions.get('window').height * 0.025,
-								justifyContent: 'center',
-								alignItems: 'center'
-							}}>
-							<Text style={fontStyles.mainTextStyleBlack}>{strings.PickADate}</Text>
-						</View>
-						<View
-							style={{
-								width: Dimensions.get('window').width * 0.95,
-								height: Dimensions.get('window').height * 0.35,
-								borderRadius: 20,
-								borderColor: colors.lightBlue,
-								borderWidth: 3
-							}}>
-							<CalendarPicker
-								textStyle={fontStyles.subTextStyleBlack}
-								selectedDayTextColor={colors.white}
-								width={Dimensions.get('window').width * 0.95}
-								height={Dimensions.get('window').height * 0.4}
-								minDate={new Date()}
-								todayBackgroundColor={colors.lightGray}
-								todayTextStyle={fontStyles.subTextStyleBlack}
-								selectedDayColor={colors.lightBlue}
-								disabledDates={(date) => {
+				<View>
+					<View
+						style={{
+							marginVertical: Dimensions.get('window').height * 0.025,
+							justifyContent: 'center',
+							alignItems: 'center'
+						}}>
+						<Text style={fontStyles.mainTextStyleBlack}>{strings.PickADate}</Text>
+					</View>
+					<View
+						style={{
+							width: Dimensions.get('window').width * 0.95,
+							height: Dimensions.get('window').height * 0.35,
+							borderRadius: 20,
+							borderColor: colors.lightBlue,
+							borderWidth: 3
+						}}>
+						<CalendarPicker
+							textStyle={fontStyles.subTextStyleBlack}
+							selectedDayTextColor={colors.white}
+							width={Dimensions.get('window').width * 0.95}
+							height={Dimensions.get('window').height * 0.4}
+							minDate={new Date()}
+							todayBackgroundColor={colors.lightGray}
+							todayTextStyle={fontStyles.subTextStyleBlack}
+							selectedDayColor={colors.lightBlue}
+							disabledDates={(date) => {
+								//Only disabled certain dates for business who have specified they only work
+								//certain days
+								if (scheduleType === 'SpecificDaysAndTimes' || scheduleType === 'SpecificDays') {
 									const dayName = new Date(date).toString().split(' ')[0];
 									return !product.schedule.daysSelected[dayName];
-								}}
-								onDateChange={(newDate) => {
-									this.setState({
-										selectedDate: new Date(newDate).toLocaleString('en-US', {
-											year: 'numeric',
-											month: '2-digit',
-											day: '2-digit'
-										})
-									});
-								}}
-							/>
-						</View>
+								} else {
+									return false;
+								}
+							}}
+							onDateChange={(newDate) => {
+								this.setState({
+									selectedDate: new Date(newDate).toLocaleString('en-US', {
+										year: 'numeric',
+										month: '2-digit',
+										day: '2-digit'
+									})
+								});
+							}}
+						/>
 					</View>
-				) : (
-					<View></View>
-				)}
-				{scheduleType === 'SpecificDaysAndTimes' || scheduleType === 'SpecificTimes' ? (
-					<View>
-						<View
-							style={{
-								justifyContent: 'center',
-								alignItems: 'center',
-								marginVertical: Dimensions.get('window').height * 0.025,
-								width: Dimensions.get('window').width * 0.8
-							}}>
-							<Text style={fontStyles.mainTextStyleBlack}>{strings.PickATime}</Text>
-							<View style={{ height: Dimensions.get('window').height * 0.01 }} />
+				</View>
+				<View>
+					<View
+						style={{
+							justifyContent: 'center',
+							alignItems: 'center',
+							marginVertical: Dimensions.get('window').height * 0.025,
+							width: Dimensions.get('window').width * 0.8
+						}}>
+						<Text style={fontStyles.mainTextStyleBlack}>{strings.PickATime}</Text>
+						<View style={{ height: Dimensions.get('window').height * 0.01 }} />
+						{scheduleType === 'SpecificDaysAndTimes' || scheduleType === 'SpecificTimes' ? (
 							<Text style={fontStyles.subTextStyleBlack}>
 								{product.offeredByName} {strings.isAvailableBetween} {product.schedule.fromTime}{' '}
 								{strings.and} {product.schedule.toTime}
 							</Text>
-						</View>
-						<TouchableOpacity
-							onPress={() => {
-								//Makes the time picker appear
-								this.setState({
-									isTimePickerShowing: true
-								});
-							}}
-							style={{
-								borderWidth: 3,
-								borderColor: colors.lightBlue,
-								width: Dimensions.get('window').width * 0.5,
-								height: Dimensions.get('window').height * 0.085,
-								borderRadius: 20,
-								justifyContent: 'center',
-								alignItems: 'center',
-								alignSelf: 'center',
-								backgroundColor: colors.white,
-								color: colors.black
-							}}>
-							<Text style={fontStyles.mainTextStyleBlack}>{this.state.selectedTime}</Text>
-						</TouchableOpacity>
+						) : (
+							<View></View>
+						)}
 					</View>
-				) : (
-					<View></View>
-				)}
+					<TouchableOpacity
+						onPress={() => {
+							//Makes the time picker appear
+							this.setState({
+								isTimePickerShowing: true
+							});
+						}}
+						style={{
+							borderWidth: 3,
+							borderColor: colors.lightBlue,
+							width: Dimensions.get('window').width * 0.5,
+							height: Dimensions.get('window').height * 0.085,
+							borderRadius: 20,
+							justifyContent: 'center',
+							alignItems: 'center',
+							alignSelf: 'center',
+							backgroundColor: colors.white,
+							color: colors.black
+						}}>
+						<Text style={fontStyles.mainTextStyleBlack}>{this.state.selectedTime}</Text>
+					</TouchableOpacity>
+				</View>
 				<View
 					style={{
 						marginTop: Dimensions.get('window').height * 0.1
