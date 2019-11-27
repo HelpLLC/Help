@@ -62,7 +62,8 @@ export default class providerAdditionalInformationScreen extends Component {
 		isLoading: false,
 		isLoadingScreen: true,
 		fieldsError: false,
-		locationInfoVisible: false
+		locationInfoVisible: false,
+		accountSaved: false
 	};
 
 	//This function takes all of the information that has been collected for the business and registers them  into the database
@@ -111,9 +112,7 @@ export default class providerAdditionalInformationScreen extends Component {
 						isVerified: true
 					};
 					await FirebaseFunctions.updateProviderInfo(this.state.providerID, providerWithID);
-					this.props.navigation.push('ProviderScreens', {
-						providerID: this.state.providerID
-					});
+					this.setState({ isLoading: false, accountSaved: true });
 				}
 			} catch (error) {
 				this.setState({ isLoading: false, isErrorVisible: true });
@@ -236,6 +235,18 @@ export default class providerAdditionalInformationScreen extends Component {
 					}}
 					title={strings.Whoops}
 					message={strings.PleaseFillOutAllFields}
+				/>
+				<ErrorAlert
+					isVisible={this.state.accountSaved}
+					onPress={() => {
+						this.setState({ accountSaved: false });
+
+						this.props.navigation.push('ProviderScreens', {
+							providerID: this.state.providerID
+						});
+					}}
+					title={strings.Success}
+					message={strings.AccountSaved}
 				/>
 				<OptionPicker
 					isVisible={this.state.locationInfoVisible}

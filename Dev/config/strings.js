@@ -68,6 +68,7 @@ export default {
 	City: 'City',
 	Name: 'Name',
 	EnterCityDotDotDot: 'Enter city...',
+	AccountSaved: 'Your account has been saved.',
 	PleaseEnterName: 'Please enter your name...',
 	MyProfile: 'My Profile',
 
@@ -152,6 +153,7 @@ export default {
 	DollarSign: '$',
 	per: 'per',
 	Fixed: 'Fixed',
+	ProductDeleted: 'This service has been deleted',
 	Hour: 'e.g. Hr',
 	Min: 'Min',
 	Max: 'Max',
@@ -185,6 +187,8 @@ export default {
 	PleaseSelectATime: 'Please select the times when you are available to complete this service.',
 	PleaseSelectDay: 'Please select the days that you are available to complete this service.',
 	FromTimeIsMoreThanToTime: "Please select a 'From' time that is less than a 'To' time.",
+	ProductCreated: 'The service has been created.',
+	ProductUpdated: 'The service has been updated.',
 
 	//------------------- Create Questions Screen -------------------
 	InfoFromCustomersQuestion:

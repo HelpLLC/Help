@@ -88,6 +88,8 @@ export default class createScheduleScreen extends Component {
 		},
 		isScreenLoading: true,
 		isFromTimeGreaterErrorVisible: false,
+		productCreated: false,
+		productUpdated: false,
 		isFromTimeShowing: false,
 		isToTimeShowing: false,
 		isLoading: false,
@@ -170,6 +172,7 @@ export default class createScheduleScreen extends Component {
 					schedule
 				};
 				await FirebaseFunctions.updateServiceInfo(productID, newProductObject);
+				this.setState({ isLoading: false, productUpdated: true });
 			} else {
 				let { providerID, newProductObject } = this.state;
 				//Finishes adding the remaining fields to the product object
@@ -178,10 +181,8 @@ export default class createScheduleScreen extends Component {
 					schedule
 				};
 				await FirebaseFunctions.addProductToDatabase(providerID, newProductObject);
+				this.setState({ isLoading: false, productCreated: true });
 			}
-			this.props.navigation.push('ProviderScreens', {
-				providerID: this.state.providerID
-			});
 		}
 	}
 
@@ -443,6 +444,28 @@ export default class createScheduleScreen extends Component {
 					}}
 					title={strings.Whoops}
 					message={strings.PleaseSelectATime}
+				/>
+				<ErrorAlert
+					isVisible={this.state.productCreated}
+					onPress={() => {
+						this.setState({ productCreated: false });
+						this.props.navigation.push('ProviderScreens', {
+							providerID: this.state.providerID
+						});
+					}}
+					title={strings.Success}
+					message={strings.ProductCreated}
+				/>
+				<ErrorAlert
+					isVisible={this.state.productUpdated}
+					onPress={() => {
+						this.setState({ productUpdated: false });
+						this.props.navigation.push('ProviderScreens', {
+							providerID: this.state.providerID
+						});
+					}}
+					title={strings.Success}
+					message={strings.ProductUpdated}
 				/>
 				<ErrorAlert
 					isVisible={this.state.isFromTimeGreaterErrorVisible}
