@@ -832,6 +832,23 @@ export default class FirebaseFunctions {
 		return 0;
 	}
 
+	//This method is going to take in a requesterID and a providerID and will unblock that specific businesses from
+	//the requester's blocked businesses
+	static async unblockCompany(requesterID, providerID) {
+		const requester = await this.getRequesterByID(requesterID);
+		let blockedUsers = requester.blockedUsers;
+		const indexOfBlockedBusiness = blockedUsers.findIndex((element) => {
+			return element.providerID === providerID;
+		});
+		blockedUsers.splice(indexOfBlockedBusiness, 1);
+		await this.updateRequesterByID(requesterID, {
+			blockedUsers
+		});
+		//Logs the event in firebase analytics
+		this.analytics.logEvent('unblock_company');
+		return 0;
+	}
+
 	//Logs the user in and subscribes to the notification service associated with his/her account
 	//If the user is a requester, the topic will be named "r-accountUID", and if they are a provider, it will be
 	//"p-accountUID". The method will then return the topic name

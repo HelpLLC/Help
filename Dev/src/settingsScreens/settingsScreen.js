@@ -146,7 +146,21 @@ class settingsScreen extends Component {
 								/>
 							</View>
 						) : (
-							<View></View>
+							//if they are a requester, they can view businesses they've blocked
+							<View style={{ flex: 1 }}>
+								<WhiteCard
+									style={whiteCardStyle.whiteCardStyle}
+									text={strings.BlockedBusinesses}
+									mainTextStyle={fontStyles.mainTextStyleBlack}
+									comp={angleRightIcon}
+									//Pressing this leads to the blocked users screen
+									onPress={() =>
+										this.props.navigation.push('RequesterBlockedBusinessesScreen', {
+											requesterID: user.requesterID
+										})
+									}
+								/>
+							</View>
 						)}
 						<View
 							style={{

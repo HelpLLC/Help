@@ -35,6 +35,7 @@ import createScheduleScreen from './providerScreens/providerBusiness/createSched
 import createQuestionsScreen from './providerScreens/providerBusiness/createQuestionsScreen';
 import requesterScheduleScreen from './requesterScreens/requestScheduleScreen';
 import requesterQuestionsScreen from './requesterScreens/requesterQuestionsScreen';
+import blockedBusinessesScreen from './requesterScreens/blockedBusinessesScreen';
 
 //The route config for all of the screens
 const routeConfig = {
@@ -172,6 +173,11 @@ const routeConfig = {
 	//Route to screen with list of all categories
 	RequesterCategoriesScreen: {
 		screen: RequesterCategoriesScreen
+	},
+
+	//Route leading to the screen with the array of blocked businesses
+	RequesterBlockedBusinessesScreen: {
+		screen: blockedBusinessesScreen
 	},
 
 	//Route leading to where the customer answers questions for the product

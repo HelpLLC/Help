@@ -71,6 +71,13 @@ export default {
 	PleaseEnterName: 'Please enter your name...',
 	MyProfile: 'My Profile',
 
+	//------------------- Blocked Businesses Screen -------------------
+	Blocked: 'Blocked',
+	Unblock: 'Unblock',
+	UnblockCompany: 'Unblock Company',
+	AreYouSureYouWantToUnblock: 'Are you sure you want to unblock ',
+	HasBeenUnblocked: 'has been unblocked.',
+
 	//------------------- Settings Screen -------------------
 	History: 'History',
 	Privacy: 'Privacy',
@@ -78,6 +85,7 @@ export default {
 	Notifications: 'Notifications',
 	About: 'About',
 	Credits: 'Credits',
+	BlockedBusinesses: 'Blocked Businesses',
 	LogOut: 'Log Out',
 
 	//------------------- About Screen -------------------
