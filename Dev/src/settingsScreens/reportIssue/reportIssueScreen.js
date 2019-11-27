@@ -65,14 +65,23 @@ class reportIssueScreen extends Component {
 					}}
 				/>
 				<View>
-					<View style={{ flex: 0.3 }}></View>
-					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+					<View
+						style={{
+							justifyContent: 'center',
+							alignItems: 'center',
+							marginTop: Dimensions.get('window').height * 0.1,
+							marginBottom: Dimensions.get('window').height * 0.05
+						}}>
 						<Text style={fontStyles.bigTextStyleBlack}>
 							{strings.WhatSeemsToBeTheProblemQuestion}
 						</Text>
 					</View>
-					<View style={{ flex: 0.5 }}></View>
-					<View style={{ justifyContent: 'center', alignItems: 'center' }}>
+					<View
+						style={{
+							justifyContent: 'center',
+							alignItems: 'center',
+							marginBottom: Dimensions.get('window').height * 0.05
+						}}>
 						<MultiLineRoundedBoxInput
 							width={Dimensions.get('window').width * 0.66909}
 							height={Dimensions.get('window').height * 0.29282577}
@@ -81,8 +90,7 @@ class reportIssueScreen extends Component {
 							value={this.state.userInput}
 						/>
 					</View>
-					<View style={{ flex: 0.8 }}></View>
-					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+					<View style={{ justifyContent: 'center', alignItems: 'center' }}>
 						<View style={{ flex: 0.025 }}></View>
 						<View style={{ flex: 1 }}>
 							<RoundBlueButton
@@ -95,7 +103,6 @@ class reportIssueScreen extends Component {
 							/>
 						</View>
 					</View>
-					<View style={{ flex: 1 }}></View>
 				</View>
 				<ErrorAlert
 					isVisible={this.state.isErrorVisible}
