@@ -80,38 +80,40 @@ export default class providerAdditionalInformationScreen extends Component {
 			try {
 				const { businessName, businessInfo, email } = this.props.navigation.state.params;
 				const { phoneNumber, website, location, coordinates } = this.state;
-				//Creates the base provider object
-				const provider = {
-					companyName: businessName,
-					companyDescription: businessInfo,
-					isVerified: false,
-					serviceIDs: [],
-					phoneNumber,
-					website,
-					location,
-					coordinates,
-					email
-				};
 
 				//If this is a new profile, then it will add them to Firebase Authentication in addition to adding them to the database
 				if (this.state.editing === false) {
 					firebase.auth().signInAnonymously();
 					const { password } = this.props.navigation.state.params;
 					const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
-					const newProvider = { ...provider, providerID: account.user.uid };
-					await FirebaseFunctions.addProviderToDatabase(account, newProvider);
+					//Creates the base provider object
+					const provider = {
+						companyName: businessName,
+						companyDescription: businessInfo,
+						email,
+						isVerified: false,
+						serviceIDs: [],
+						phoneNumber,
+						website,
+						location,
+						coordinates,
+						providerID: account.user.uid
+					};
+					await FirebaseFunctions.addProviderToDatabase(account, provider);
 					await FirebaseFunctions.logIn(email, password);
 					//Navigates to the screen where it tells the business to wait until their account has been verified
 					this.props.navigation.push('AccountNotVerifiedScreen');
 				} else {
-					//If this is an existing provider, it will simply overwrite the old data with the new one
-					const providerWithID = {
-						...provider,
-						providerID: this.state.providerID,
-						serviceIDs: this.state.provider.serviceIDs,
-						isVerified: true
+					//Creates the base provider object
+					const provider = {
+						companyName: businessName,
+						companyDescription: businessInfo,
+						phoneNumber,
+						website,
+						location,
+						coordinates
 					};
-					await FirebaseFunctions.updateProviderInfo(this.state.providerID, providerWithID);
+					await FirebaseFunctions.updateProviderInfo(this.state.providerID, provider);
 					this.setState({ isLoading: false, accountSaved: true });
 				}
 			} catch (error) {

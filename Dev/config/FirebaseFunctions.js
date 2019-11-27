@@ -604,8 +604,7 @@ export default class FirebaseFunctions {
 
 	//This method will update the information for a provider by taking in the new provider object and overwriting it in firebase
 	static async updateProviderInfo(providerID, newProviderInfo) {
-		const ref = this.providers.doc(providerID);
-		await ref.set(newProviderInfo);
+		await this.updateProviderByID(providerID, newProviderInfo);
 
 		//Goes through and edits all of the products that belong to this business & updated the
 		//field that connects them to the correct provider to the new businessName

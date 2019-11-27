@@ -201,6 +201,7 @@ export default {
 	WhatIsYourEmailAddressQuestion: 'What is your email address?',
 	WhatIsYourAddressQuestion: 'What is your address?',
 	WhatIsYourPhoneNumberQuestion: 'What is your phone number?',
+	EmptyQuestion: 'Please fill out all empty questions before adding another one or clicking next',
 
 	//------------------- Edit Company Profile Screen -------------------
 	EditCompany: 'Edit Company',

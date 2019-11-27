@@ -11,10 +11,12 @@ import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { Icon } from 'react-native-elements';
+import ErrorAlert from '../../components/ErrorAlert';
 
 class createQuestionsScreen extends Component {
 	state = {
-		isScreenLoading: true
+		isScreenLoading: true,
+		emptyQuestionError: false
 	};
 	componentDidMount() {
 		//If this product is being edited, then it is going to display the previously entered questions
@@ -95,12 +97,19 @@ class createQuestionsScreen extends Component {
 		//would be displayed in the list of questions, which we don't want to happen. And we can easily extend
 		//this in the future when we have more default questions.
 		//The name field is so we know how to display these questions when businesses are creating the products
-		const { defaultQuestions } = this.state;
+		const { defaultQuestions, questions } = this.state;
 
+		//Checks if any questions are empty. If they are, pops up an alert
+		for (const question of questions) {
+			if (!question || question.trim() === '') {
+				this.setState({ emptyQuestionError: true });
+				return;
+			}
+		}
 		//Passes the correct parameters to the next screen depending on whether the product is being edited, or being
 		//created
 		if (this.state.product) {
-			let { productID, providerID, product, newProductObject, questions } = this.state;
+			let { productID, providerID, product, newProductObject } = this.state;
 
 			FirebaseFunctions.analytics.logEvent('create_questions_of_length_' + questions.length);
 			newProductObject = {
@@ -116,7 +125,7 @@ class createQuestionsScreen extends Component {
 			});
 		} else {
 			FirebaseFunctions.analytics.logEvent('create_questions_of_length_' + questions.length);
-			let { providerID, newProductObject, questions } = this.state;
+			let { providerID, newProductObject } = this.state;
 			newProductObject = {
 				...newProductObject,
 				defaultQuestions,
@@ -226,7 +235,7 @@ class createQuestionsScreen extends Component {
 							<FlatList
 								showsHorizontalScrollIndicator={false}
 								showsVerticalScrollIndicator={false}
-								data={questions.length === 0 ? [''] : questions}
+								data={questions}
 								numColumns={1}
 								keyExtractor={(item, index) => index + ''}
 								extraData={this.state}
@@ -323,6 +332,14 @@ class createQuestionsScreen extends Component {
 							disabled={this.state.isLoading}
 						/>
 					</View>
+					<ErrorAlert
+						isVisible={this.state.emptyQuestionError}
+						onPress={() => {
+							this.setState({ emptyQuestionError: false });
+						}}
+						title={strings.Whoops}
+						message={strings.EmptyQuestion}
+					/>
 				</ScrollView>
 			</HelpView>
 		);
