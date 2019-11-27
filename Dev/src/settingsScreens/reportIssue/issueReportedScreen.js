@@ -29,7 +29,7 @@ export default class issueReportedScreen extends Component {
 	render() {
 		return (
 			<HelpView style={screenStyle.container}>
-				<TopBanner title={strings.ReportAnIssue} leftIconName='angle-left' />
+				<TopBanner title={strings.ReportAnIssue} leftIconName='angle-left' leftOnPress={() => {}} />
 				<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 					<Text style={fontStyles.mainTextStyleBlack}>{strings.ThankYouForReporting}</Text>
 					<Text style={{}}></Text>

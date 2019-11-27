@@ -122,9 +122,12 @@ class featuredScreen extends Component {
 
 		if (this.state.isLoading === true) {
 			return (
-				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-					<LoadingSpinner isVisible={true} />
-				</View>
+				<HelpView style={screenStyle.container}>
+					<TopBanner title={strings.Featured} />
+					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+						<LoadingSpinner isVisible={true} />
+					</View>
+				</HelpView>
 			);
 		}
 

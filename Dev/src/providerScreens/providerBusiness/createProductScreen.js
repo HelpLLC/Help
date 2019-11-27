@@ -185,9 +185,16 @@ class createProductScreen extends Component {
 	render() {
 		if (this.state.isScreenLoading === true) {
 			return (
-				<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-					<LoadingSpinner isVisible={true} />
-				</View>
+				<HelpView style={screenStyle.container}>
+					<TopBanner
+						title={strings.Service}
+						leftIconName='angle-left'
+						leftOnPress={() => this.props.navigation.goBack()}
+					/>
+					<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+						<LoadingSpinner isVisible={true} />
+					</View>
+				</HelpView>
 			);
 		}
 

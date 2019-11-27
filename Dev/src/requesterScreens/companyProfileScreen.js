@@ -165,6 +165,11 @@ class companyProfileScreen extends Component {
 		if (isLoading === true || (providerProducts.length == 0 && serviceIDsLength > 0)) {
 			return (
 				<HelpView style={screenStyle.container}>
+					<TopBanner
+						title={" "}
+						leftIconName='angle-left'
+						leftOnPress={() => this.props.navigation.goBack()}
+					/>
 					<View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
 						<LoadingSpinner isVisible={isLoading} />
 					</View>

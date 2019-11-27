@@ -126,6 +126,18 @@ export default class providerAdditionalInformationScreen extends Component {
 		if (this.state.isLoadingScreen === true) {
 			return (
 				<HelpView style={screenStyle.container}>
+					<TopBanner
+						title={
+							this.props.navigation.state.params.editing === true
+								? strings.EditCompany
+								: strings.CreateProfile
+						}
+						leftIconName='angle-left'
+						leftOnPress={() => {
+							//Method will go back to the splash screen
+							this.props.navigation.goBack();
+						}}
+					/>
 					<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 						<LoadingSpinner isVisible={true} />
 					</View>

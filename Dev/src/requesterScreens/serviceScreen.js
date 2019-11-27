@@ -197,18 +197,17 @@ class serviceScreen extends Component {
 
 	//Renders the UI
 	render() {
-		const {
-			product,
-			isLoading,
-			isRequested,
-			isCancelRequestVisible,
-			isRequestServiceVisible
-		} = this.state;
+		const { product, isLoading, isRequested, isCancelRequestVisible } = this.state;
 		const { requester } = this.props.navigation.state.params;
 		const { provider } = this.state;
 		if (isLoading === true || isRequested === '') {
 			return (
 				<HelpView style={screenStyle.container}>
+					<TopBanner
+						title={strings.Service}
+						leftIconName='angle-left'
+						leftOnPress={() => this.props.navigation.goBack()}
+					/>
 					<View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
 						<LoadingSpinner isVisible={isLoading} />
 					</View>

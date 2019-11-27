@@ -455,6 +455,7 @@ class createRequesterProfileScreen extends Component {
 		if (this.state.isScreenLoading === true) {
 			return (
 				<HelpView style={screenStyle.container}>
+					<TopBanner title={strings.MyProfile} />
 					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 						<LoadingSpinner isVisible={true} />
 					</View>
