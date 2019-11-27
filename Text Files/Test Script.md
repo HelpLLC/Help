@@ -27,28 +27,29 @@ as well as the answers to the required questions
 23. User is able to mark a request as completed/delete a request from a business account
 24. User is able to view a specific product's history from a business account
 25. User is able to report an issue from a business account from the settings screen
-26. User is able to view Credits from a businss account
-26. User is able to view Terms & Conditions from a businss account
-26. User is able to view Privacy from a businss account
-26. User is able to view About from a businss account
-26. User is able to view Notification Settings from a businss account
-27. User is able to log into a customer account
-28. User is able to review a request from a customer account
-29. User is able to view the past reviews of a service from a customer account
-30. User is able to view their completed request in the OrderHistoryScreen
-31. User is able to view a specific company profile from a customer account
-32. User is able to initiate a conversation with a company from a customer account
-33. User is able to respond to messages from customers from a business account
-34. User is able to respond to messages from businesses from a customer account
-35. User is able to report an issue from a customer account
-36. User is able to report a company from a customer account
-26. User is able to view Credits from a customer account
-26. User is able to view Terms & Conditions from a customer account
-26. User is able to view Privacy from a customer account
-26. User is able to view About from a customer account
-26. User is able to view Notification Settings from a customer account
-38. User is able to block a company from a customer account
-39. User is able to unblock a company from a customer account
-40. User is able to reset their password
+26. User is able to view Credits from a business account
+27. User is able to view Terms & Conditions from a business account
+28. User is able to view Privacy from a business account
+29. User is able to view About from a business account
+30. User is able to view Notification Settings from a business account
+31. User is able to log into a customer account
+32. User is able to review a request from a customer account
+33. User is able to view the past reviews of a service from a customer account (must refresh app to see the review just written)
+34. User is able to view their completed request in the OrderHistoryScreen
+35. User is able to view a specific company profile from a customer account
+36. User is able to initiate a conversation with a company from a customer account
+37. User is able to respond to messages from customers from a business account
+38. User is able to respond to messages from businesses from a customer account
+39. User is able to report an issue from a customer account
+40. User is able to report a company from a customer account
+41. User is able to view Credits from a customer account
+42. User is able to view Terms & Conditions from a customer account
+43. User is able to view Privacy from a customer account
+44. User is able to view About from a customer account
+45. User is able to view Notification Settings from a customer account
+46. User is able to block a company from a customer account
+47. User is able to unblock a company from a customer account
+48. User is able to delete a service from a business account
+49. User is able to reset their password
 
 
