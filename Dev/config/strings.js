@@ -337,9 +337,6 @@ export default {
 		'- Credit & Contact Information' +
 		'This privacy policy was created at https://termsandconditionstemplate.com/privacy-policy-generator/. If you have any questions about this Privacy Policy, please contact us via or phone.',
 
-	//------------------- Settings Screen -------------------
-	IconMadeBySmashIconsFromFlaticon: 'Icon made by SmashIcons from www.flaticon.com',
-
 	//------------------- Search Bar -------------------
 	WhatAreYouLookingForQuestion: 'What are you looking for?',
 	SearchIn: 'Search in',
@@ -361,5 +358,5 @@ export default {
 	LoadingAppDotDotDot: 'Loading Help...',
 	UpdateAvailableMessage: 'There is a new update available for Help! Go download it now!',
 	Restart: 'Restart',
-	AppWillRestart: 'Help will now restart to install the update.',
+	AppWillRestart: 'Help will now restart to install the update.'
 };

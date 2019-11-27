@@ -36,6 +36,7 @@ export default class launchScreen extends Component {
           willRestart: true,
           status
         });
+        return;
       }
       await this.isUserLoggedIn();
     } else {
