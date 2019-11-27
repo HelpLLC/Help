@@ -435,6 +435,9 @@ class createRequesterProfileScreen extends Component {
 				<ImagePicker
 					imageHeight={256}
 					imageWidth={256}
+					onImageCanceled={() => {
+						this.setState({ isShowing: false });
+					}}
 					onImageSelected={(response) => {
 						this.setState({ isShowing: false });
 						const source = { uri: 'data:image/jpeg;base64,' + response.data };

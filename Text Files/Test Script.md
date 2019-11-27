@@ -8,7 +8,7 @@ scheduling types
 5. User is able to stay logged in as a business account after the app is closed and reopened
 6. User is able to log out from a business account
 7. User is able to create a customer account
-8. User is able to edit existing profile information from a customer account
+8. User is able to edit existing profile information from a customer account, including uploading a profile picture
 9. User is able to view featured products from a customer account
 10. User is able to search through featured products from a customer account
 11. User is able to view list of categories from a customer account

@@ -577,6 +577,9 @@ class createProductScreen extends Component {
 				/>
 				<ImagePicker
 					imageHeight={250}
+					onImageCanceled={() => {
+						this.setState({ isShowing: false });
+					}}
 					imageWidth={Dimensions.get('window').width}
 					onImageSelected={(response) => {
 						this.setState({ isShowing: false });
