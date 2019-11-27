@@ -357,6 +357,9 @@ export default {
 	Ok: 'Ok',
 	NoConnection: 'Something went wrong. Check your internet connection & try again',
 	UpdateAvailable: 'Update Available',
+	UpdatingAppDotDotDot: 'Updating Help...',
 	LoadingAppDotDotDot: 'Loading Help...',
-	UpdateAvailableMessage: 'There is a new update available for Help! Go download it now!'
+	UpdateAvailableMessage: 'There is a new update available for Help! Go download it now!',
+	Restart: 'Restart',
+	AppWillRestart: 'Help will now restart to install the update.',
 };
