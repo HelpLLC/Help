@@ -38,6 +38,7 @@ as well as the answers to the required questions
 34. User is able to report a company from a customer account
 35. User is able to view credits from a customer account
 36. User is able to block a company from a customer account
-37. User is able to reset their password
+37. User is able to unblock a company from a customer account
+38. User is able to reset their password
 
 

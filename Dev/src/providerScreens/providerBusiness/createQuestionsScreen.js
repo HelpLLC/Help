@@ -195,13 +195,11 @@ class createQuestionsScreen extends Component {
 										onPress={() => {
 											let { defaultQuestions } = this.state;
 											defaultQuestions[index].isSelected = !defaultQuestions[index].isSelected;
-
-											FirebaseFunctions.analytics.logEvent(
-												'default_questions_' +
-													item.name +
-													'_turn_to_' +
-													defaultQuestions[index].isSelected
-											);
+											if (defaultQuestions[index].isSelected === true) {
+												//Removes all spaces from the event
+												const event = ('default_questions_' + item.name).replace(' ', '');
+												FirebaseFunctions.analytics.logEvent(event);
+											}
 											this.setState({
 												defaultQuestions
 											});
