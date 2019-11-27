@@ -53,6 +53,7 @@ export default class requesterScheduleScreen extends Component {
 	//This function determines whether the time selected by the user is in the time  slot in which the business
 	//indicated they are available only if the business has specified there's only certain times that they can work.
 	isTimeValid() {
+		const { scheduleType } = this.state;
 		if (scheduleType === 'SpecificDaysAndTimes' || scheduleType === 'SpecificTimes') {
 			const moment = require('moment');
 			const { selectedTime, product } = this.state;

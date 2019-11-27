@@ -29,16 +29,18 @@ as well as the answers to the required questions
 25. User is able to report an issue from a business account from the settings screen
 26. User is able to view credits from a businss account
 27. User is able to log into a customer account
-28. User is able to view their completed request in the OrderHistoryScreen
-29. User is able to view a specific company profile from a customer account
-30. User is able to initiate a conversation with a company from a customer account
-31. User is able to respond to messages from customers from a business account
-32. User is able to respond to messages from businesses from a customer account
-33. User is able to report an issue from a customer account
-34. User is able to report a company from a customer account
-35. User is able to view credits from a customer account
-36. User is able to block a company from a customer account
-37. User is able to unblock a company from a customer account
-38. User is able to reset their password
+28. User is able to review a request from a customer account
+29. User is able to view the past reviews of a service from a customer account
+30. User is able to view their completed request in the OrderHistoryScreen
+31. User is able to view a specific company profile from a customer account
+32. User is able to initiate a conversation with a company from a customer account
+33. User is able to respond to messages from customers from a business account
+34. User is able to respond to messages from businesses from a customer account
+35. User is able to report an issue from a customer account
+36. User is able to report a company from a customer account
+37. User is able to view credits from a customer account
+38. User is able to block a company from a customer account
+39. User is able to unblock a company from a customer account
+40. User is able to reset their password
 
 
