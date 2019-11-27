@@ -27,7 +27,11 @@ as well as the answers to the required questions
 23. User is able to mark a request as completed/delete a request from a business account
 24. User is able to view a specific product's history from a business account
 25. User is able to report an issue from a business account from the settings screen
-26. User is able to view credits from a businss account
+26. User is able to view Credits from a businss account
+26. User is able to view Terms & Conditions from a businss account
+26. User is able to view Privacy from a businss account
+26. User is able to view About from a businss account
+26. User is able to view Notification Settings from a businss account
 27. User is able to log into a customer account
 28. User is able to review a request from a customer account
 29. User is able to view the past reviews of a service from a customer account
@@ -38,7 +42,11 @@ as well as the answers to the required questions
 34. User is able to respond to messages from businesses from a customer account
 35. User is able to report an issue from a customer account
 36. User is able to report a company from a customer account
-37. User is able to view credits from a customer account
+26. User is able to view Credits from a customer account
+26. User is able to view Terms & Conditions from a customer account
+26. User is able to view Privacy from a customer account
+26. User is able to view About from a customer account
+26. User is able to view Notification Settings from a customer account
 38. User is able to block a company from a customer account
 39. User is able to unblock a company from a customer account
 40. User is able to reset their password
