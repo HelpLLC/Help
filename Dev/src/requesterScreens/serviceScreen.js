@@ -778,6 +778,7 @@ class serviceScreen extends Component {
 						cancelText={strings.Cancel}
 						clickOutside={true}
 						confirmOnPress={() => {
+							this.setState({ isBlockCompanyVisible: false });
 							this.blockCompany();
 						}}
 						cancelOnPress={() => {

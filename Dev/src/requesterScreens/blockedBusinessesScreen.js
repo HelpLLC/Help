@@ -23,10 +23,12 @@ export default class blockedBusinessesScreen extends Component {
 		isLoading: false,
 		requesterID: '',
 		blockedBusinesses: '',
+		requester: '',
 		isUnblockCompanyVisible: false,
 		companyClicked: '',
 		isErrorVisible: false,
-		isCompanyHasBeenUnblockedVisible: false
+		isCompanyHasBeenUnblockedVisible: false,
+		allProducts: ''
 	};
 
 	//Fetches the correct variables based on the requester's array of blocked users
@@ -34,6 +36,7 @@ export default class blockedBusinessesScreen extends Component {
 		FirebaseFunctions.setCurrentScreen('BlockedBusinessesScreen', 'blockedbusinessesScreen');
 		const { requesterID } = this.props.navigation.state.params;
 		const requester = await FirebaseFunctions.getRequesterByID(requesterID);
+		const allProducts = await FirebaseFunctions.getAllProducts();
 		let { blockedUsers } = requester;
 		let newBlockedUsersList = [];
 		for (const providerID of blockedUsers) {
@@ -60,8 +63,10 @@ export default class blockedBusinessesScreen extends Component {
 			}
 		}
 		this.setState({
+			allProducts,
 			isScreenLoading: false,
 			requesterID,
+			requester,
 			blockedBusinesses: newBlockedUsersList
 		});
 	}
@@ -150,7 +155,9 @@ export default class blockedBusinessesScreen extends Component {
 							try {
 								this.setState({ isLoading: true, isUnblockCompanyVisible: false });
 								await FirebaseFunctions.unblockCompany(requesterID, companyClicked.providerID);
-								this.setState({ isCompanyHasBeenUnblockedVisible: true, isLoading: false });
+								//Gets the updated requester
+								const requester = await FirebaseFunctions.getRequesterByID(requesterID);
+								this.setState({ isCompanyHasBeenUnblockedVisible: true, isLoading: false, requester });
 							} catch (error) {
 								this.setState({ isLoading: false, isErrorVisible: true });
 								FirebaseFunctions.logIssue(error, {
@@ -183,15 +190,12 @@ export default class blockedBusinessesScreen extends Component {
 					<ErrorAlert
 						isVisible={isCompanyHasBeenUnblockedVisible}
 						onPress={() => {
-							let newBlockedUsers = blockedBusinesses;
-							const indexOfUnblocked = newBlockedUsers.findIndex((element) => {
-								return element.providerID === companyClicked.providerID;
-							});
-							newBlockedUsers.splice(indexOfUnblocked, 1);
-							console.log(newBlockedUsers);
 							this.setState({
-								isCompanyHasBeenUnblockedVisible: false,
-								blockedBusinesses: newBlockedUsers
+								isCompanyHasBeenUnblockedVisible: false
+							});
+							this.props.navigation.push('FeaturedScreen', {
+								requester: this.state.requester,
+								allProducts: this.state.allProducts
 							});
 						}}
 						title={strings.Success}

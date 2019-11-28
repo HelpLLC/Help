@@ -40,6 +40,7 @@ class featuredScreen extends Component {
 
 		//Filters the products and removes any that are posted by blocked users
 		let { allProducts, requester } = this.props.navigation.state.params;
+		console.log(requester);
 		allProducts = allProducts.filter((product) => {
 			return !requester.blockedUsers.includes(product.offeredByID);
 		});
