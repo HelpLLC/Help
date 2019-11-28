@@ -1,5 +1,4 @@
-//This component will be the one that appears when something goes wrong with the app. It will be most
-//commonly used when a firebase function doesn't resolve for some reason
+//This component will be the one that appears when an alert needs to be made for the user
 import React, { Component } from 'react';
 import { Modal, View } from 'react-native';
 import PropTypes from 'prop-types';
@@ -8,7 +7,7 @@ import strings from 'config/strings';
 import colors from 'config/colors';
 
 //The class that will render the alert
-class ErrorAlert extends Component {
+class HelpAlert extends Component {
   render() {
     const { isVisible, onPress, title, message } = this.props;
     return (
@@ -35,7 +34,7 @@ class ErrorAlert extends Component {
 
 //Defines the types of props that this component should take. For this, it should only take the state
 //to determine whether it shows or not, as well as the onPress method for the confirm message
-ErrorAlert.propTypes = {
+HelpAlert.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   onPress: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
@@ -43,4 +42,4 @@ ErrorAlert.propTypes = {
 };
 
 //exports the module
-export default ErrorAlert;
+export default HelpAlert;

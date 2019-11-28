@@ -11,7 +11,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import strings from '../../config/strings';
 import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import ErrorAlert from '../components/ErrorAlert';
+import HelpAlert from '../components/HelpAlert';
 import OptionPicker from '../components/OptionPicker';
 import colors from 'config/colors';
 
@@ -179,7 +179,7 @@ export default class blockedBusinessesScreen extends Component {
 						}}>
 						<LoadingSpinner isVisible={isLoading} />
 					</View>
-					<ErrorAlert
+					<HelpAlert
 						isVisible={isErrorVisible}
 						onPress={() => {
 							this.setState({ isErrorVisible: false });
@@ -187,7 +187,7 @@ export default class blockedBusinessesScreen extends Component {
 						title={strings.Whoops}
 						message={strings.SomethingWentWrong}
 					/>
-					<ErrorAlert
+					<HelpAlert
 						isVisible={isCompanyHasBeenUnblockedVisible}
 						onPress={() => {
 							this.setState({

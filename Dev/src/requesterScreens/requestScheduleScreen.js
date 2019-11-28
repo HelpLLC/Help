@@ -15,7 +15,7 @@ import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonS
 import OptionPicker from '../components/OptionPicker';
 import LoadingSpinner from '../components/LoadingSpinner';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import ErrorAlert from '../components/ErrorAlert';
+import HelpAlert from '../components/HelpAlert';
 
 //Renders the actual class
 export default class requesterScheduleScreen extends Component {
@@ -270,7 +270,7 @@ export default class requesterScheduleScreen extends Component {
 						this.setState({ isRequestVisible: false });
 					}}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.isErrorVisible}
 					onPress={() => {
 						this.setState({ isErrorVisible: false });
@@ -278,7 +278,7 @@ export default class requesterScheduleScreen extends Component {
 					title={strings.Whoops}
 					message={strings.SomethingWentWrong}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.isSelectDayErrorVisible}
 					onPress={() => {
 						this.setState({ isSelectDayErrorVisible: false });
@@ -286,7 +286,7 @@ export default class requesterScheduleScreen extends Component {
 					title={strings.Whoops}
 					message={strings.PleaseSelectADayForYourService}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.isSelectTimeErrorVisible}
 					onPress={() => {
 						this.setState({ isSelectTimeErrorVisible: false });
@@ -294,7 +294,7 @@ export default class requesterScheduleScreen extends Component {
 					title={strings.Whoops}
 					message={strings.PleaseSelectATimeForYourService}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.timeSlotError}
 					onPress={() => {
 						this.setState({ timeSlotError: false });
@@ -323,7 +323,7 @@ export default class requesterScheduleScreen extends Component {
 						this.setState({ isTimePickerShowing: false });
 					}}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.isRequestSucess}
 					onPress={() => {
 						this.setState({ isRequestSucess: false });

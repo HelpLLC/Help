@@ -12,8 +12,8 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 import strings from 'config/strings';
 import LeftMenu from './LeftMenu';
 import fontStyles from 'config/styles/fontStyles';
+import HelpAlert from '../components/HelpAlert';
 import HelpSearchBar from '../components/HelpSearchBar';
-import OptionPicker from '../components/OptionPicker';
 
 export default class categoriesScreen extends Component {
 	//The state controlling the Loading of this screen
@@ -137,14 +137,9 @@ export default class categoriesScreen extends Component {
 							allProducts={this.props.navigation.state.params.allProducts}
 							navigation={this.props.navigation}
 						/>
-						<OptionPicker
+						<HelpAlert
 							isVisible={this.state.incompleteProfile}
-							title={strings.FinishCreatingYourProfile}
-							oneOption={true}
-							clickOutside={false}
-							message={strings.FinishCreatingYourProfileMessage}
-							confirmText={strings.Ok}
-							confirmOnPress={() => {
+							onPress={() => {
 								this.setState({ incompleteProfile: false });
 								this.props.navigation.push('EditRequesterProfileScreen', {
 									requester: this.state.requester,
@@ -152,6 +147,9 @@ export default class categoriesScreen extends Component {
 									isEditing: true
 								});
 							}}
+							title={strings.FinishCreatingYourProfile}
+							closeOnTouchOutside={false}
+							message={strings.FinishCreatingYourProfileMessage}
 						/>
 					</HelpView>
 				</SideMenu>

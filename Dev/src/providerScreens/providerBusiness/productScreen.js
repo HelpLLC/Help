@@ -9,7 +9,7 @@ import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import colors from 'config/colors';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import ErrorAlert from '../../components/ErrorAlert';
+import HelpAlert from '../../components/HelpAlert';
 import HelpView from '../../components/HelpView';
 import OptionPicker from '../../components/OptionPicker';
 import { CachedImage } from 'react-native-img-cache';
@@ -97,7 +97,7 @@ class productScreen extends Component {
 					<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 						<LoadingSpinner isVisible={isLoading} />
 					</View>
-					<ErrorAlert
+					<HelpAlert
 						isVisible={this.state.isErrorVisible}
 						onPress={() => {
 							this.setState({ isErrorVisible: false });

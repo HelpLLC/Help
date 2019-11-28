@@ -17,7 +17,7 @@ import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import TopBanner from '../../components/TopBanner';
-import ErrorAlert from '../../components/ErrorAlert';
+import HelpAlert from '../../components/HelpAlert';
 import { Icon } from 'react-native-elements';
 import { CachedImage } from 'react-native-img-cache';
 import OptionPicker from '../../components/OptionPicker';
@@ -506,7 +506,7 @@ class createProductScreen extends Component {
 					<View style={{ flex: 0.5 }}></View>
 					<View style={{ flex: 1 }}></View>
 				</View>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.isErrorVisible}
 					onPress={() => {
 						this.setState({ isErrorVisible: false });
@@ -514,7 +514,7 @@ class createProductScreen extends Component {
 					title={strings.Whoops}
 					message={strings.SomethingWentWrong}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.productDeleted}
 					onPress={() => {
 						this.setState({ productDeleted: false });
@@ -525,7 +525,7 @@ class createProductScreen extends Component {
 					title={strings.Success}
 					message={strings.ProductDeleted}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.fieldsError}
 					onPress={() => {
 						this.setState({ fieldsError: false });
@@ -533,7 +533,7 @@ class createProductScreen extends Component {
 					title={strings.Whoops}
 					message={strings.PleaseCompleteAllTheFields}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.serviceDescriptionError}
 					onPress={() => {
 						this.setState({ serviceDescriptionError: false });
@@ -541,7 +541,7 @@ class createProductScreen extends Component {
 					title={strings.Whoops}
 					message={strings.PleaseEnterADescriptionWithAtLeast50Characters}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.imageError}
 					onPress={() => {
 						this.setState({ imageError: false });

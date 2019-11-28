@@ -11,7 +11,7 @@ import HelpView from '../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
 import LoadingSpinner from '../components/LoadingSpinner';
-import ErrorAlert from '../components/ErrorAlert';
+import HelpAlert from '../components/HelpAlert';
 import strings from 'config/strings';
 import TopBanner from '../components/TopBanner';
 import HelpSearchBar from '../components/HelpSearchBar';
@@ -158,7 +158,7 @@ class companyProfileScreen extends Component {
 						requester={requester}
 					/>
 
-					<ErrorAlert
+					<HelpAlert
 						isVisible={this.state.isErrorVisible}
 						onPress={() => {
 							this.setState({ isErrorVisible: false });

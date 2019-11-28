@@ -9,7 +9,7 @@ import NetInfo from '@react-native-community/netinfo';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import firebase from 'react-native-firebase';
 import AsyncStorage from '@react-native-community/async-storage';
-import ErrorAlert from '../components/ErrorAlert';
+import HelpAlert from '../components/HelpAlert';
 import LoadingSpinner from '../components/LoadingSpinner';
 import CodePush from 'react-native-code-push';
 import SplashScreen from 'react-native-splash-screen';
@@ -186,7 +186,7 @@ export default class launchScreen extends Component {
           </View>
           <LoadingSpinner isVisible={true} color={colors.white} />
         </View>
-        <ErrorAlert
+        <HelpAlert
           isVisible={!internetConnection}
           onPress={() => {
             this.setState({
@@ -198,7 +198,7 @@ export default class launchScreen extends Component {
           title={strings.Whoops}
           message={strings.NoConnection}
         />
-        <ErrorAlert
+        <HelpAlert
           isVisible={isErrorVisible}
           onPress={() => {
             this.setState({ isErrorVisible: false });
@@ -206,7 +206,7 @@ export default class launchScreen extends Component {
           title={strings.Whoops}
           message={strings.SomethingWentWrong}
         />
-        <ErrorAlert
+        <HelpAlert
           isVisible={this.state.willRestart}
           closeOnTouchOutside={false}
           onPress={async () => {
@@ -217,7 +217,7 @@ export default class launchScreen extends Component {
           title={strings.Restart}
           message={strings.AppWillRestart}
         />
-        <ErrorAlert
+        <HelpAlert
           isVisible={false}
           onPress={() => {
             if (Platform.OS === 'ios') {

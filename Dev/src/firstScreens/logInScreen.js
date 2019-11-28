@@ -11,7 +11,7 @@ import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../components/TopBanner';
-import ErrorAlert from '../components/ErrorAlert';
+import HelpAlert from '../components/HelpAlert';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import { Icon } from 'react-native-elements';
 import colors from 'config/colors';
@@ -190,7 +190,7 @@ class logInScreen extends Component {
 						disabled={this.state.isLoading}
 					/>
 				</View>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.isErrorVisible}
 					onPress={() => {
 						this.setState({ isErrorVisible: false });
@@ -198,7 +198,7 @@ class logInScreen extends Component {
 					title={strings.Whoops}
 					message={strings.SomethingWentWrong}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.fieldsError}
 					onPress={() => {
 						this.setState({ fieldsError: false });
@@ -206,7 +206,7 @@ class logInScreen extends Component {
 					title={strings.Whoops}
 					message={strings.PleaseFillOutAllFields}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.infoError}
 					onPress={() => {
 						this.setState({ infoError: false });

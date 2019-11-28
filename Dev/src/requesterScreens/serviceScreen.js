@@ -19,7 +19,7 @@ import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import LoadingSpinner from '../components/LoadingSpinner';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
-import ErrorAlert from '../components/ErrorAlert';
+import HelpAlert from '../components/HelpAlert';
 import OptionPicker from '../components/OptionPicker';
 import screenStyle from 'config/styles/screenStyle';
 import images from '../../config/images/images';
@@ -695,7 +695,7 @@ class serviceScreen extends Component {
 							<View style={{ height: Dimensions.get('window').height * 0.05 }}></View>
 						</View>
 					</ScrollView>
-					<ErrorAlert
+					<HelpAlert
 						isVisible={this.state.isErrorVisible}
 						onPress={() => {
 							this.setState({ isErrorVisible: false });
@@ -703,7 +703,7 @@ class serviceScreen extends Component {
 						title={strings.Whoops}
 						message={strings.SomethingWentWrong}
 					/>
-					<ErrorAlert
+					<HelpAlert
 						isVisible={this.state.isCompanyReportedVisible}
 						onPress={() => {
 							this.setState({ isCompanyReportedVisible: false });
@@ -711,7 +711,7 @@ class serviceScreen extends Component {
 						title={strings.CompanyReported}
 						message={strings.CompanyHasBeenReported}
 					/>
-					<ErrorAlert
+					<HelpAlert
 						isVisible={this.state.isCompanyBlockedVisible}
 						onPress={() => {
 							this.setState({ isCompanyBlockedVisible: false });

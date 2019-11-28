@@ -14,10 +14,9 @@ import firebase from 'react-native-firebase';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import screenStyle from '../../config/styles/screenStyle';
 import GoogleCityPicker from '../components/GoogleCityPicker';
-import ErrorAlert from '../components/ErrorAlert';
+import HelpAlert from '../components/HelpAlert';
 import colors from 'config/colors';
 import { Icon } from 'react-native-elements';
-import OptionPicker from '../components/OptionPicker';
 import { BoxShadow } from 'react-native-shadow';
 import ImagePicker from '../components/ImagePicker';
 import TopBanner from '../components/TopBanner';
@@ -393,7 +392,7 @@ class createRequesterProfileScreen extends Component {
 						disabled={this.state.isLoading}
 					/>
 				</View>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.fieldsError}
 					onPress={() => {
 						this.setState({ fieldsError: false });
@@ -401,7 +400,7 @@ class createRequesterProfileScreen extends Component {
 					title={strings.Whoops}
 					message={strings.PleaseFillOutAllFields}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.invalidPhoneNumberError}
 					onPress={() => {
 						this.setState({ invalidPhoneNumberError: false });
@@ -409,7 +408,7 @@ class createRequesterProfileScreen extends Component {
 					title={strings.Whoops}
 					message={strings.InvalidPhoneNumberError}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.accountSaved}
 					onPress={() => {
 						this.setState({ accountSaved: false });
@@ -421,16 +420,14 @@ class createRequesterProfileScreen extends Component {
 					title={strings.Success}
 					message={strings.AccountSaved}
 				/>
-				<OptionPicker
+				<HelpAlert
 					isVisible={this.state.locationInfoVisible}
-					title={strings.Location}
-					oneOption={true}
-					clickOutside={true}
-					message={strings.WhyWeUseLocation}
-					confirmText={strings.Ok}
-					confirmOnPress={() => {
+					closeOnTouchOutside={false}
+					onPress={() => {
 						this.setState({ locationInfoVisible: false });
 					}}
+					title={strings.Location}
+					message={strings.WhyWeUseLocation}
 				/>
 				<ImagePicker
 					imageHeight={256}

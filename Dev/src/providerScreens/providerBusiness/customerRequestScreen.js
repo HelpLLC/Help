@@ -14,7 +14,7 @@ import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import ErrorAlert from '../../components/ErrorAlert';
+import HelpAlert from '../../components/HelpAlert';
 
 //Creates the class and exports it
 export default class customerRequestScreen extends Component {
@@ -316,7 +316,7 @@ export default class customerRequestScreen extends Component {
 						this.setState({ isCompleteRequestVisible: false });
 					}}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={requestDeleted}
 					onPress={() => {
 						this.setState({ requestDeleted: false });
@@ -329,7 +329,7 @@ export default class customerRequestScreen extends Component {
 					title={strings.RequestDeleted}
 					message={strings.RequestHasBeenDeleted}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={requestCompleted}
 					onPress={() => {
 						this.setState({ requestCompleted: false });
@@ -342,7 +342,7 @@ export default class customerRequestScreen extends Component {
 					title={strings.RequestCompleted}
 					message={strings.RequestHasBeenCompleted}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={isErrorVisible}
 					onPress={() => {
 						this.setState({ isErrorVisible: false });

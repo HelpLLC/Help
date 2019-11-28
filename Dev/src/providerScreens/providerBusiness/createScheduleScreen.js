@@ -13,7 +13,7 @@ import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import DaysFromWeekPicker from '../../components/DaysFromWeekPicker';
 import { Icon } from 'react-native-elements';
-import ErrorAlert from '../../components/ErrorAlert';
+import HelpAlert from '../../components/HelpAlert';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
@@ -429,7 +429,7 @@ export default class createScheduleScreen extends Component {
 						/>
 					</View>
 				</View>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.isDaysErrorVisible}
 					onPress={() => {
 						this.setState({ isDaysErrorVisible: false });
@@ -437,7 +437,7 @@ export default class createScheduleScreen extends Component {
 					title={strings.Whoops}
 					message={strings.PleaseSelectDay}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.isTimesErrorVisible}
 					onPress={() => {
 						this.setState({ isTimesErrorVisible: false });
@@ -445,7 +445,7 @@ export default class createScheduleScreen extends Component {
 					title={strings.Whoops}
 					message={strings.PleaseSelectATime}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.productCreated}
 					onPress={() => {
 						this.setState({ productCreated: false });
@@ -456,7 +456,7 @@ export default class createScheduleScreen extends Component {
 					title={strings.Success}
 					message={strings.ProductCreated}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.productUpdated}
 					onPress={() => {
 						this.setState({ productUpdated: false });
@@ -467,7 +467,7 @@ export default class createScheduleScreen extends Component {
 					title={strings.Success}
 					message={strings.ProductUpdated}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.isFromTimeGreaterErrorVisible}
 					onPress={() => {
 						this.setState({ isFromTimeGreaterErrorVisible: false });

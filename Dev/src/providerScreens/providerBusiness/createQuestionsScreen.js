@@ -11,7 +11,7 @@ import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { Icon } from 'react-native-elements';
-import ErrorAlert from '../../components/ErrorAlert';
+import HelpAlert from '../../components/HelpAlert';
 
 class createQuestionsScreen extends Component {
 	state = {
@@ -332,7 +332,7 @@ class createQuestionsScreen extends Component {
 							disabled={this.state.isLoading}
 						/>
 					</View>
-					<ErrorAlert
+					<HelpAlert
 						isVisible={this.state.emptyQuestionError}
 						onPress={() => {
 							this.setState({ emptyQuestionError: false });

@@ -12,10 +12,9 @@ import LeftMenu from './LeftMenu';
 import SideMenu from 'react-native-side-menu';
 import HelpView from '../components/HelpView';
 import TopBanner from '../components/TopBanner';
-import ErrorAlert from '../components/ErrorAlert';
+import HelpAlert from '../components/HelpAlert';
 import colors from 'config/colors';
 import HelpSearchBar from '../components/HelpSearchBar';
-import OptionPicker from '../components/OptionPicker';
 import ReviewPopup from '../components/ReviewPopup';
 
 class featuredScreen extends Component {
@@ -188,14 +187,9 @@ class featuredScreen extends Component {
 						navigation={this.props.navigation}
 						services={displayedProducts}
 					/>
-					<OptionPicker
+					<HelpAlert
 						isVisible={this.state.incompleteProfile}
-						title={strings.FinishCreatingYourProfile}
-						oneOption={true}
-						clickOutside={false}
-						message={strings.FinishCreatingYourProfileMessage}
-						confirmText={strings.Ok}
-						confirmOnPress={() => {
+						onPress={() => {
 							this.setState({ incompleteProfile: false });
 							this.props.navigation.push('EditRequesterProfileScreen', {
 								requester: requester,
@@ -203,6 +197,9 @@ class featuredScreen extends Component {
 								isEditing: true
 							});
 						}}
+						closeOnTouchOutside={false}
+						title={strings.FinishCreatingYourProfile}
+						message={strings.FinishCreatingYourProfileMessage}
 					/>
 					<ReviewPopup
 						isVisible={this.state.isReviewDue}
@@ -252,7 +249,7 @@ class featuredScreen extends Component {
 							}
 						}}
 					/>
-					<ErrorAlert
+					<HelpAlert
 						isVisible={this.state.reviewError}
 						onPress={() => {
 							this.setState({ reviewError: false, isReviewDue: true });

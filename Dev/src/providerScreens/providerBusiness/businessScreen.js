@@ -14,10 +14,9 @@ import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonS
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import ErrorAlert from '../../components/ErrorAlert';
+import HelpAlert from '../../components/HelpAlert';
 import HelpView from '../../components/HelpView';
 import ServiceCardList from '../../components/ServiceCardList';
-import OptionPicker from '../../components/OptionPicker';
 
 class businessScreen extends Component {
 	//This constructor and componentDidMount will wait until all the products loaded if there are any
@@ -161,7 +160,7 @@ class businessScreen extends Component {
 					<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 						<LoadingSpinner isVisible={true} />
 					</View>
-					<ErrorAlert
+					<HelpAlert
 						isVisible={this.state.isErrorVisible}
 						onPress={() => {
 							this.setState({ isErrorVisible: false });
@@ -203,7 +202,7 @@ class businessScreen extends Component {
 							}}
 						/>
 					</View>
-					<ErrorAlert
+					<HelpAlert
 						isVisible={this.state.isErrorVisible}
 						onPress={() => {
 							this.setState({ isErrorVisible: false });
@@ -227,14 +226,9 @@ class businessScreen extends Component {
 						}}
 					/>
 					<View style={{ height: Dimensions.get('window').height * 0.025 }}></View>
-					<OptionPicker
+					<HelpAlert
 						isVisible={this.state.incompleteProfile}
-						title={strings.FinishCreatingYourProfile}
-						oneOption={true}
-						clickOutside={false}
-						message={strings.FinishCreatingYourProfileMessage}
-						confirmText={strings.Ok}
-						confirmOnPress={() => {
+						onPress={() => {
 							this.setState({ incompleteProfile: false });
 							this.props.navigation.push('ProviderEditCompanyProfileScreen', {
 								providerID: this.state.provider.providerID,
@@ -242,6 +236,9 @@ class businessScreen extends Component {
 								editing: true
 							});
 						}}
+						closeOnTouchOutside={false}
+						title={strings.FinishCreatingYourProfile}
+						message={strings.FinishCreatingYourProfileMessage}
 					/>
 				</HelpView>
 			);
