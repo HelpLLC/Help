@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../components/TopBanner';
-import { View, Dimensions, TouchableOpacity, Text } from 'react-native';
+import { View, Dimensions, TouchableOpacity, Text, Platform } from 'react-native';
 import strings from 'config/strings';
 import CalendarPicker from 'react-native-calendar-picker';
 import colors from 'config/colors';
@@ -65,6 +65,24 @@ export default class requesterScheduleScreen extends Component {
 		} else {
 			return true;
 		}
+	}
+
+	//Until android supports toTimeLocaleString(), this is our own method for formatting the time
+	getAndroidTime(time) {
+		let hour = time.getHours();
+		let minutes = time.getMinutes();
+		const ampm = hour > 11 ? "PM" : "AM";
+		if (hour === 0) {
+			hour = 12;
+		} else if (hour === 12) {
+			hour = 12;
+		} else {
+			hour = hour % 12
+		}
+		if (minutes < 10) {
+			minutes = "0" + minutes;
+		}
+		return hour + ":" + minutes + " " + ampm;
 	}
 
 	//Requests the product by checking if all fields have been filled out correctly
@@ -304,6 +322,7 @@ export default class requesterScheduleScreen extends Component {
 				/>
 				<DateTimePickerModal
 					is24Hour={false}
+					timePickerModeAndroid={'default'}
 					isVisible={this.state.isTimePickerShowing}
 					mode='time'
 					headerTextIOS={strings.PickATime}
@@ -311,10 +330,12 @@ export default class requesterScheduleScreen extends Component {
 						//Sets the selected time, and makes the picker go away
 						this.setState({
 							selectedTimeObject: time,
-							selectedTime: time.toLocaleTimeString('en', {
+							selectedTime: (Platform.OS === 'ios' ? 
+							time.toLocaleTimeString('en', {
 								hour: 'numeric',
-								minute: '2-digit'
-							}),
+								minute: '2-digit',
+								hour12: true
+							}) : this.getAndroidTime(time)),
 							isTimePickerShowing: false
 						});
 					}}
