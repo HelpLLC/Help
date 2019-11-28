@@ -1,7 +1,7 @@
 //This page will display the credits that cite all resources help uses
 //This will be navigated to from the settings screen.
 import React, { Component } from 'react';
-import { Text, ScrollView } from 'react-native';
+import { Text, ScrollView, Dimensions } from 'react-native';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -24,12 +24,22 @@ export default class creditsScreen extends Component {
 					leftIconName='angle-left'
 					leftOnPress={() => this.props.navigation.goBack()}
 				/>
-				<ScrollView style={{ flex: 1, backgroundColor: colors.lightGray }}>
-					<Text style={fontStyles.mainTextStyleBlack}>{strings.IconMadeBySmashIconsFromFlaticon}</Text>
-					<Text style={fontStyles.mainTextStyleBlack}>Icons made by "https://www.flaticon.com/authors/kiranshastry"</Text>
-					<Text style={fontStyles.mainTextStyleBlack}>Icons made by "https://www.flaticon.com/authors/smalllikeart"</Text>
-					<Text style={fontStyles.mainTextStyleBlack}>Icons made by "https://www.flaticon.com/authors/freepik"</Text>
-					<Text style={fontStyles.mainTextStyleBlack}>Icons made by "https://www.flaticon.com/authors/freepik"</Text>
+				<ScrollView
+					style={{
+						flex: 1,
+						backgroundColor: colors.lightGray
+					}}
+					contentContainerStyle={{
+						justifyContent: 'space-between',
+						alignItems: 'center',
+						paddingVertical: Dimensions.get('window').height * 0.02
+					}}>
+					<Text style={fontStyles.mainTextStyleBlack}>
+						1) Icons made by "https://www.flaticon.com/authors/smashicons"{'\n\n'}
+						2) Icons made by "https://www.flaticon.com/authors/kiranshastry"{'\n\n'}
+						3) Icons made by "https://www.flaticon.com/authors/smalllikeart"{'\n\n'}
+						4) Icons made by "https://www.flaticon.com/authors/freepik"{'\n\n'}
+					</Text>
 				</ScrollView>
 			</HelpView>
 		);

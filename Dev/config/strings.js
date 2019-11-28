@@ -68,8 +68,16 @@ export default {
 	City: 'City',
 	Name: 'Name',
 	EnterCityDotDotDot: 'Enter city...',
+	AccountSaved: 'Your account has been saved.',
 	PleaseEnterName: 'Please enter your name...',
 	MyProfile: 'My Profile',
+
+	//------------------- Blocked Businesses Screen -------------------
+	Blocked: 'Blocked',
+	Unblock: 'Unblock',
+	UnblockCompany: 'Unblock Company',
+	AreYouSureYouWantToUnblock: 'Are you sure you want to unblock ',
+	HasBeenUnblocked: 'has been unblocked.',
 
 	//------------------- Settings Screen -------------------
 	History: 'History',
@@ -78,14 +86,11 @@ export default {
 	Notifications: 'Notifications',
 	About: 'About',
 	Credits: 'Credits',
+	BlockedBusinesses: 'Blocked Businesses',
 	LogOut: 'Log Out',
 
 	//------------------- About Screen -------------------
-	MarketingMessage:
-		'Empowering people with the right technology to become more efficient & effective in an fast paced world',
-	Version: 'Version',
-	//Make sure this number is always up to date
-	CurrentVersionNumber: '1.4',
+	MarketingMessage: 'Connecting people with service producing businesses',
 	PublishedBy: 'Published By',
 	HelpLLC: 'Help LLC',
 	Contact: 'Contact',
@@ -144,6 +149,7 @@ export default {
 	DollarSign: '$',
 	per: 'per',
 	Fixed: 'Fixed',
+	ProductDeleted: 'This service has been deleted',
 	Hour: 'e.g. Hr',
 	Min: 'Min',
 	Max: 'Max',
@@ -177,6 +183,8 @@ export default {
 	PleaseSelectATime: 'Please select the times when you are available to complete this service.',
 	PleaseSelectDay: 'Please select the days that you are available to complete this service.',
 	FromTimeIsMoreThanToTime: "Please select a 'From' time that is less than a 'To' time.",
+	ProductCreated: 'The service has been created.',
+	ProductUpdated: 'The service has been updated.',
 
 	//------------------- Create Questions Screen -------------------
 	InfoFromCustomersQuestion:
@@ -189,6 +197,7 @@ export default {
 	WhatIsYourEmailAddressQuestion: 'What is your email address?',
 	WhatIsYourAddressQuestion: 'What is your address?',
 	WhatIsYourPhoneNumberQuestion: 'What is your phone number?',
+	EmptyQuestion: 'Please fill out all empty questions before adding another one or clicking next',
 
 	//------------------- Edit Company Profile Screen -------------------
 	EditCompany: 'Edit Company',
@@ -337,9 +346,6 @@ export default {
 		'- Credit & Contact Information' +
 		'This privacy policy was created at https://termsandconditionstemplate.com/privacy-policy-generator/. If you have any questions about this Privacy Policy, please contact us via or phone.',
 
-	//------------------- Settings Screen -------------------
-	IconMadeBySmashIconsFromFlaticon: 'Icon made by SmashIcons from www.flaticon.com',
-
 	//------------------- Search Bar -------------------
 	WhatAreYouLookingForQuestion: 'What are you looking for?',
 	SearchIn: 'Search in',
@@ -357,6 +363,9 @@ export default {
 	Ok: 'Ok',
 	NoConnection: 'Something went wrong. Check your internet connection & try again',
 	UpdateAvailable: 'Update Available',
+	UpdatingAppDotDotDot: 'Updating Help...',
 	LoadingAppDotDotDot: 'Loading Help...',
-	UpdateAvailableMessage: 'There is a new update available for Help! Go download it now!'
+	UpdateAvailableMessage: 'There is a new update available for Help! Go download it now!',
+	Restart: 'Restart',
+	AppWillRestart: 'Help will now restart to install the update.'
 };

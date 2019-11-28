@@ -7,7 +7,7 @@ import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import images from 'config/images/images';
+import { CachedImage } from 'react-native-img-cache';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import TopBanner from '../../components/TopBanner';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
@@ -16,7 +16,6 @@ import fontStyles from 'config/styles/fontStyles';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import ErrorAlert from '../../components/ErrorAlert';
 import HelpView from '../../components/HelpView';
-import ImageWithBorder from '../../components/ImageWithBorder';
 import ServiceCardList from '../../components/ServiceCardList';
 import OptionPicker from '../../components/OptionPicker';
 
@@ -41,7 +40,8 @@ class businessScreen extends Component {
 			const provider = await FirebaseFunctions.getProviderByID(providerID);
 			this.setState({ provider });
 			if (provider.serviceIDs.length === 0) {
-				this.setState({ isLoading: false });
+				const image = await FirebaseFunctions.getCategoryImageByID('lawn-mower.png');
+				this.setState({ isLoading: false, image });
 			} else if (provider.serviceIDs.length !== this.state.providerProducts.length) {
 				const serviceIDs = provider.serviceIDs;
 				for (const ID of serviceIDs) {
@@ -157,6 +157,7 @@ class businessScreen extends Component {
 		if (isLoading === true) {
 			return (
 				<HelpView style={screenStyle.container}>
+					<TopBanner title={strings.Business} />
 					<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 						<LoadingSpinner isVisible={true} />
 					</View>
@@ -181,12 +182,11 @@ class businessScreen extends Component {
 					</View>
 
 					<View style={{ flex: 1, justifyContent: 'center' }}>
-						<ImageWithBorder
-							width={Dimensions.get('window').width * 0.65}
-							height={Dimensions.get('window').height * 0.22}
-							imageFunction={async () => {
-								//Retrieves the lawn mowing picture
-								return await FirebaseFunctions.getCategoryImageByID('lawn-mower.png');
+						<CachedImage
+							source={this.state.image}
+							style={{
+								width: Dimensions.get('window').width * 0.5,
+								height: Dimensions.get('window').height * 0.2
 							}}
 						/>
 					</View>

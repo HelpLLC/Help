@@ -84,9 +84,16 @@ class categoryScreen extends Component {
 		//If loading it shows loading spinner
 		if (this.state.isLoading === true) {
 			return (
-				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-					<LoadingSpinner isVisible={true} />
-				</View>
+				<HelpView style={screenStyle.container}>
+					<TopBanner
+						title={categoryName}
+						leftIconName='angle-left'
+						leftOnPress={() => this.props.navigation.goBack()}
+					/>
+					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+						<LoadingSpinner isVisible={true} />
+					</View>
+				</HelpView>
 			);
 		}
 

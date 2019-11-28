@@ -51,6 +51,7 @@ class createProductScreen extends Component {
 				isErrorVisible: false,
 				fieldsError: false,
 				serviceDescriptionError: false,
+				productDeleted: false,
 				imageError: false,
 				priceType: product.price.priceType,
 				pricePerNumber: '',
@@ -92,6 +93,7 @@ class createProductScreen extends Component {
 				fieldsError: false,
 				serviceDescriptionError: false,
 				isEditing: false,
+				productDeleted: false,
 				imageError: false,
 				priceType: 'fixed',
 				pricePerNumber: '',
@@ -183,9 +185,16 @@ class createProductScreen extends Component {
 	render() {
 		if (this.state.isScreenLoading === true) {
 			return (
-				<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-					<LoadingSpinner isVisible={true} />
-				</View>
+				<HelpView style={screenStyle.container}>
+					<TopBanner
+						title={strings.Service}
+						leftIconName='angle-left'
+						leftOnPress={() => this.props.navigation.goBack()}
+					/>
+					<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+						<LoadingSpinner isVisible={true} />
+					</View>
+				</HelpView>
 			);
 		}
 
@@ -506,6 +515,17 @@ class createProductScreen extends Component {
 					message={strings.SomethingWentWrong}
 				/>
 				<ErrorAlert
+					isVisible={this.state.productDeleted}
+					onPress={() => {
+						this.setState({ productDeleted: false });
+						this.props.navigation.push('ProviderScreens', {
+							providerID: this.props.navigation.state.params.providerID
+						});
+					}}
+					title={strings.Success}
+					message={strings.ProductDeleted}
+				/>
+				<ErrorAlert
 					isVisible={this.state.fieldsError}
 					onPress={() => {
 						this.setState({ fieldsError: false });
@@ -541,10 +561,7 @@ class createProductScreen extends Component {
 						this.setState({ isLoading: true, isDeleteProductVisible: false });
 						try {
 							await FirebaseFunctions.deleteService(productID, providerID);
-							this.setState({ isLoading: false });
-							this.props.navigation.push('ProviderScreens', {
-								providerID
-							});
+							this.setState({ isLoading: false, productDeleted: true });
 						} catch (error) {
 							this.setState({ isLoading: false, isErrorVisible: true });
 							FirebaseFunctions.logIssue(error, {
@@ -560,6 +577,9 @@ class createProductScreen extends Component {
 				/>
 				<ImagePicker
 					imageHeight={250}
+					onImageCanceled={() => {
+						this.setState({ isShowing: false });
+					}}
 					imageWidth={Dimensions.get('window').width}
 					onImageSelected={(response) => {
 						this.setState({ isShowing: false });

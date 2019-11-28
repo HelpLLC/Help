@@ -79,19 +79,21 @@ class productScreen extends Component {
 	render() {
 		//fetches the params passed in (the product, productID)
 		const { productID, providerID } = this.props.navigation.state.params;
-		const {
-			isLoading,
-			product,
-			currentRequests,
-			isCompleteRequestVisible,
-			isErrorVisible,
-			isDeleteRequestVisible
-		} = this.state;
+		const { isLoading, product, currentRequests } = this.state;
 
 		//If the state is still loading, the spinner will appear
 		if (isLoading === true) {
 			return (
 				<HelpView style={screenStyle.container}>
+					<TopBanner
+						title={strings.Service}
+						leftIconName='angle-left'
+						leftOnPress={() =>
+							this.props.navigation.push('ProviderScreens', {
+								providerID: this.props.navigation.state.params.providerID
+							})
+						}
+					/>
 					<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 						<LoadingSpinner isVisible={isLoading} />
 					</View>

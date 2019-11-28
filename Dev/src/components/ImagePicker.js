@@ -8,16 +8,15 @@ import fontStyles from 'config/styles/fontStyles';
 import Picker from 'react-native-image-crop-picker';
 
 export default class ImagePicker extends Component {
-
 	//Renders the action sheet that will allow the user to either choose between choosing from camera roll or
 	//opening the camera
 	render() {
-        const { isShowing, onImageSelected, imageWidth, imageHeight } = this.props;
-        
-        //Displays the action sheet
-        if (isShowing === true) {
-            this.ActionSheet.show();
-        }
+		const { isShowing, onImageSelected, imageWidth, imageHeight, onImageCanceled } = this.props;
+
+		//Displays the action sheet
+		if (isShowing === true) {
+			this.ActionSheet.show();
+		}
 
 		return (
 			<ActionSheet
@@ -30,24 +29,34 @@ export default class ImagePicker extends Component {
 				}}
 				destructiveButtonIndex={2}
 				onPress={async (index) => {
-                    if (index === 0) {
-                        const image = await Picker.openCamera({
-                            width: imageWidth,
-                            height: imageHeight,
-                            cropping: imageHeight,
-                            includeBase64: true                              
-                        });
-                        await onImageSelected(image);
-                    } else if (index === 1) {
-                        const image = await Picker.openPicker({
-                            width: imageWidth,
-                            height: imageHeight,
-                            cropping: true,
-                            includeBase64: true   
-                        });
-                        await onImageSelected(image);
-                    }
-                }}
+					if (index === 0) {
+						try {
+							const image = await Picker.openCamera({
+								width: imageWidth,
+								height: imageHeight,
+								cropping: imageHeight,
+								includeBase64: true
+							});
+							await onImageSelected(image);
+						} catch (error) {
+							//This is the case that the user cancels image selection
+							onImageCanceled();
+						}
+					} else if (index === 1) {
+						try {
+							const image = await Picker.openPicker({
+								width: imageWidth,
+								height: imageHeight,
+								cropping: true,
+								includeBase64: true
+							});
+							await onImageSelected(image);
+						} catch (error) {
+							//This is the case that the user cancels image selection
+							onImageCanceled();
+						}
+					}
+				}}
 			/>
 		);
 	}

@@ -145,30 +145,26 @@ class chatsScreen extends Component {
 		if (this.state.isLoading === true) {
 			return (
 				<View style={screenStyle.container}>
-					<View style={{ flex: 1 }}>
-						{isRequester === true ? (
-							<TopBanner
-								leftIconName='navicon'
-								leftOnPress={() => {
-									FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_chats');
-									this.setState({ isOpen: true });
-								}}
-								size={30}
-								title={strings.Chats}
-							/>
-						) : (
-							<TopBanner title={strings.Chats} />
-						)}
-					</View>
-					<View>
-						<View
-							style={{
-								flex: 1,
-								alignItems: 'center',
-								justifyContent: 'center'
-							}}>
-							<LoadingSpinner isVisible={this.state.isLoading} />
-						</View>
+					{isRequester === true ? (
+						<TopBanner
+							leftIconName='navicon'
+							leftOnPress={() => {
+								FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_chats');
+								this.setState({ isOpen: true });
+							}}
+							size={30}
+							title={strings.Chats}
+						/>
+					) : (
+						<TopBanner title={strings.Chats} />
+					)}
+					<View
+						style={{
+							flex: 1,
+							alignItems: 'center',
+							justifyContent: 'center'
+						}}>
+						<LoadingSpinner isVisible={this.state.isLoading} />
 					</View>
 				</View>
 			);

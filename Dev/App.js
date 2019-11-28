@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import MainStackNavigator from './src/MainStackNavigator';
 import { YellowBox } from 'react-native';
 import codePush from 'react-native-code-push';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 
 //Launches the app with the persisted store
 class App extends Component {
@@ -18,6 +19,7 @@ class App extends Component {
 	}
 }
 
-App = codePush(App);
+let codePushOptions = { checkFrequency: codePush.CheckFrequency.MANUAL };
+App = codePush(codePushOptions)(App);
 
 export default App;

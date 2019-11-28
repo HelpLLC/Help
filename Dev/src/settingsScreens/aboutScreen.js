@@ -2,7 +2,7 @@
 //app from both provider and requester screens. It will have information such as the version
 //number, user info, and general app info
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Dimensions } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import WhiteCard from '../components/WhiteCard';
 import strings from 'config/strings';
@@ -29,12 +29,15 @@ class aboutScreen extends Component {
 					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 						<Text style={fontStyles.bigTitleStyleBlue}>{strings.Help}</Text>
 					</View>
-					<View style={{ flex: 0.75, justifyContent: 'center', flexDirection: 'row', alignItems: 'center' }}>
-						<View style={{ flex: 2 }}></View>
-						<View style={{ flex: 50 }}>
-							<Text style={fontStyles.subTextStyleBlack}>{strings.MarketingMessage}</Text>
-						</View>
-						<View style={{ flex: 2 }}></View>
+					<View
+						style={{
+							flex: 0.75,
+							justifyContent: 'center',
+							width: Dimensions.get('window').width * 0.9,
+							flexDirection: 'row',
+							alignItems: 'center'
+						}}>
+						<Text style={fontStyles.subTextStyleBlack}>{strings.MarketingMessage}</Text>
 					</View>
 					<View style={{ flexDirection: 'column', flex: 3 }}>
 						<WhiteCard

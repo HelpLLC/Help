@@ -7,7 +7,7 @@ import colors from 'config/colors';
 import PropTypes from 'prop-types';
 import LoadingSpinner from './LoadingSpinner';
 import images from 'config/images/images';
-import { CachedImage } from "react-native-img-cache";
+import { CachedImage } from 'react-native-img-cache';
 
 class ImageWithBorder extends Component {
 	//Starts out the loading state as true until the image is downloaded from the database
@@ -40,7 +40,7 @@ class ImageWithBorder extends Component {
 					height: height,
 					color: colors.gray,
 					border: 10,
-					radius: height / 2,
+					radius: this.props.radius ? this.props.radius : height / 2,
 					opacity: 0.2,
 					x: 0,
 					y: 5
@@ -50,16 +50,16 @@ class ImageWithBorder extends Component {
 						<LoadingSpinner isVisible={true} />
 					</View>
 				) : (
-					<CachedImage
-						source={image}
-						style={{
-							width: width,
-							height: height,
-							borderColor: colors.lightBlue,
-							borderWidth: height / 17,
-							borderRadius: height / 2
-						}}
-					/>
+						<CachedImage
+							source={image}
+							style={{
+								width: width,
+								height: height,
+								borderColor: colors.lightBlue,
+								borderWidth: this.props.borderWidth ? this.props.borderWidth : height / 17,
+								borderRadius: this.props.radius ? this.props.radius : height / 2
+							}}
+						/>
 				)}
 			</BoxShadow>
 		);

@@ -67,18 +67,12 @@ class requesterQuestionsScreen extends Component {
 			}
 		}
 		//If the program has reached this stage of the clause, that means the request is good to go
-		//If scheduling isn't necessary for this product, then the product will be requested
-		if (product.schedule.scheduleType === 'Anytime') {
-			this.setState({ isRequestVisible: true });
-		}
-		//If the product requires scheduling, then it navigates to the scheduling screen
-		else {
-			this.props.navigation.push('RequesterScheduleScreen', {
-				answers,
-				product,
-				requester
-			});
-		}
+		//Goes to the next step of the process which is scheduling
+		this.props.navigation.push('RequesterScheduleScreen', {
+			answers,
+			product,
+			requester
+		});
 	}
 
 	//Renders the UI

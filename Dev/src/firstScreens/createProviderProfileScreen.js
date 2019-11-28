@@ -20,7 +20,6 @@ import TopBanner from '../components/TopBanner';
 class createProviderProfileScreen extends Component {
 	//Method will detect if this screen is in editing mode, and will display the business's previous information if so
 	componentDidMount() {
-
 		const { editing } = this.props.navigation.state.params;
 		if (editing === true) {
 			FirebaseFunctions.setCurrentScreen(
@@ -130,6 +129,15 @@ class createProviderProfileScreen extends Component {
 		if (this.state.isLoadingScreen === true) {
 			return (
 				<HelpView style={screenStyle.container}>
+					<TopBanner
+						title={
+							this.props.navigation.state.params.editing === true
+								? strings.EditCompany
+								: strings.CreateProfile
+						}
+						leftIconName='angle-left'
+						leftOnPress={() => this.props.navigation.goBack()}
+					/>
 					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 						<LoadingSpinner isVisible={true} />
 					</View>
@@ -147,8 +155,8 @@ class createProviderProfileScreen extends Component {
 					style={{
 						alignSelf: 'flex-start',
 						justifyContent: 'flex-end',
-            marginVertical: Dimensions.get('window').height * 0.04,
-            marginLeft: Dimensions.get('window').width * 0.2
+						marginVertical: Dimensions.get('window').height * 0.04,
+						marginLeft: Dimensions.get('window').width * 0.2
 					}}>
 					<Text style={fontStyles.bigTextStyleBlack}>{strings.BusinessName}</Text>
 				</View>
@@ -167,8 +175,8 @@ class createProviderProfileScreen extends Component {
 					style={{
 						alignSelf: 'flex-start',
 						justifyContent: 'flex-end',
-            marginVertical: Dimensions.get('window').height * 0.04,
-            marginLeft: Dimensions.get('window').width * 0.2
+						marginVertical: Dimensions.get('window').height * 0.04,
+						marginLeft: Dimensions.get('window').width * 0.2
 					}}>
 					<Text style={fontStyles.bigTextStyleBlack}>{strings.BusinessDescription}</Text>
 				</View>

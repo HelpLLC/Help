@@ -77,7 +77,10 @@ class createRequesterProfileScreen extends Component {
 		isEditing: null,
 		requester: null,
 		isOpen: false,
-		isShowing: false
+		isShowing: false,
+		accountSaved: false,
+		allProducts: '',
+		updatedRequeter: ''
 	};
 
 	//This method will edit requester information in Firebase depending on whether this requester
@@ -110,34 +113,34 @@ class createRequesterProfileScreen extends Component {
 							//Updates the actual service itself with the new name of the user in the order history.
 							//Not calling await on purpose at the end because the user doesn't need to wait until this action is done
 							const service = await FirebaseFunctions.getServiceByID(completed.serviceID);
-              let completedRequests = service.requests.completedRequests;
-              let currentRequests = service.requests.currentRequests;
-              //Adjusts the name in the array of completed requests
+							let completedRequests = service.requests.completedRequests;
+							let currentRequests = service.requests.currentRequests;
+							//Adjusts the name in the array of completed requests
 							for (let i = 0; i < completedRequests.length; i++) {
 								if (completedRequests[i].requesterID === requester.requesterID) {
 									completedRequests[i].requesterName = name;
 								}
-              }
-              //Adjusts the name in the array of current requests
+							}
+							//Adjusts the name in the array of current requests
 							for (let i = 0; i < currentRequests.length; i++) {
 								if (currentRequests[i].requesterID === requester.requesterID) {
 									currentRequests[i].requesterName = name;
 								}
-              }
-              //Adjusts the name in the array of past reviews
+							}
+							//Adjusts the name in the array of past reviews
 							let reviews = service.reviews;
 							for (let i = 0; i < reviews.length; i++) {
-                if (reviews[i].requesterID === requester.requesterID) {
-                  reviews[i].requesterName = name;
-                }
-              }
-              FirebaseFunctions.updateServiceByID(service.serviceID, {
-                reviews: reviews,
-                requests: {
-                  currentRequests: currentRequests,
-                  completedRequests: completedRequests
-                }
-              })
+								if (reviews[i].requesterID === requester.requesterID) {
+									reviews[i].requesterName = name;
+								}
+							}
+							FirebaseFunctions.updateServiceByID(service.serviceID, {
+								reviews: reviews,
+								requests: {
+									currentRequests: currentRequests,
+									completedRequests: completedRequests
+								}
+							});
 						}
 					}
 					await FirebaseFunctions.updateRequesterByID(requester.requesterID, {
@@ -160,10 +163,8 @@ class createRequesterProfileScreen extends Component {
 					}
 					const allProducts = this.props.navigation.state.params.allProducts;
 					const updatedRequeter = await FirebaseFunctions.getRequesterByID(requester.requesterID);
-					this.props.navigation.push('FeaturedScreen', {
-						requester: updatedRequeter,
-						allProducts
-					});
+
+					this.setState({ accountSaved: true, updatedRequeter, allProducts, isLoading: false });
 				} catch (error) {
 					this.setState({ isLoading: false, isErrorVisible: true });
 					FirebaseFunctions.logIssue(error, 'CreateRequesterProfileScreen');
@@ -408,6 +409,18 @@ class createRequesterProfileScreen extends Component {
 					title={strings.Whoops}
 					message={strings.InvalidPhoneNumberError}
 				/>
+				<ErrorAlert
+					isVisible={this.state.accountSaved}
+					onPress={() => {
+						this.setState({ accountSaved: false });
+						this.props.navigation.push('FeaturedScreen', {
+							requester: this.state.updatedRequeter,
+							allProducts: this.state.allProducts
+						});
+					}}
+					title={strings.Success}
+					message={strings.AccountSaved}
+				/>
 				<OptionPicker
 					isVisible={this.state.locationInfoVisible}
 					title={strings.Location}
@@ -422,6 +435,9 @@ class createRequesterProfileScreen extends Component {
 				<ImagePicker
 					imageHeight={256}
 					imageWidth={256}
+					onImageCanceled={() => {
+						this.setState({ isShowing: false });
+					}}
 					onImageSelected={(response) => {
 						this.setState({ isShowing: false });
 						const source = { uri: 'data:image/jpeg;base64,' + response.data };
@@ -442,6 +458,7 @@ class createRequesterProfileScreen extends Component {
 		if (this.state.isScreenLoading === true) {
 			return (
 				<HelpView style={screenStyle.container}>
+					<TopBanner title={strings.MyProfile} />
 					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 						<LoadingSpinner isVisible={true} />
 					</View>

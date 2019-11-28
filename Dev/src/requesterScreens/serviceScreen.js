@@ -197,18 +197,17 @@ class serviceScreen extends Component {
 
 	//Renders the UI
 	render() {
-		const {
-			product,
-			isLoading,
-			isRequested,
-			isCancelRequestVisible,
-			isRequestServiceVisible
-		} = this.state;
+		const { product, isLoading, isRequested, isCancelRequestVisible } = this.state;
 		const { requester } = this.props.navigation.state.params;
 		const { provider } = this.state;
 		if (isLoading === true || isRequested === '') {
 			return (
 				<HelpView style={screenStyle.container}>
+					<TopBanner
+						title={strings.Service}
+						leftIconName='angle-left'
+						leftOnPress={() => this.props.navigation.goBack()}
+					/>
 					<View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
 						<LoadingSpinner isVisible={isLoading} />
 					</View>
@@ -390,14 +389,15 @@ class serviceScreen extends Component {
 														product,
 														requester
 													});
-												} else if (product.schedule.scheduleType !== 'Anytime') {
+												}
+												//All products would require scheduling, so it goes to the
+												//scheduling screen no matter what
+												else {
 													//Navigates to the scheduling screen
 													this.props.navigation.push('RequesterScheduleScreen', {
 														product,
 														requester
 													});
-												} else {
-													this.setState({ isRequestServiceVisible: true });
 												}
 											}}
 										/>
@@ -695,49 +695,6 @@ class serviceScreen extends Component {
 						}}
 						title={strings.CompanyReported}
 						message={strings.CompanyHasBeenReported}
-					/>
-					<OptionPicker
-						isVisible={isRequestServiceVisible}
-						title={strings.RequestService}
-						message={strings.AreYouSureRequestService}
-						confirmText={strings.Request}
-						cancelText={strings.Cancel}
-						clickOutside={true}
-						confirmOnPress={async () => {
-							this.setState({
-								isRequestServiceVisible: false,
-								isLoading: true
-							});
-							//This method will request this service from the company providing it by pushing the request to the
-							//provider.
-							//After confirming to the requester that the request has been processed, the program will
-							//automatically send notification to the business
-							const { product } = this.state;
-							const { requester } = this.props.navigation.state.params;
-							try {
-								await FirebaseFunctions.requestService({
-									dateRequested: new Date().toLocaleDateString('en-US', {
-										year: 'numeric',
-										month: '2-digit',
-										day: '2-digit'
-									}),
-									requesterID: requester.requesterID,
-									serviceID: product.serviceID,
-									requesterName: requester.username
-								});
-								this.setState({ isRequested: true, isLoading: false });
-							} catch (error) {
-								this.setState({ isLoading: false, isErrorVisible: true });
-								FirebaseFunctions.logIssue(error, {
-									screen: 'RequesterServiceScreen',
-									userID: 'r-' + requester.requesterID,
-									productID: product.productID
-								});
-							}
-						}}
-						cancelOnPress={() => {
-							this.setState({ isRequestServiceVisible: false });
-						}}
 					/>
 					<ActionSheet
 						ref={(o) => (this.ActionSheet = o)}

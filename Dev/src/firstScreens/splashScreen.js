@@ -6,15 +6,11 @@ import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
-import FirebaseFunctions from 'config/FirebaseFunctions';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 
 class splashScreen extends Component {
-	async componentDidMount() {
-		FirebaseFunctions.setCurrentScreen('SplashScreen', 'splashScreen');
-	}
-
+	
 	render() {
 		return (
 			<HelpView style={screenStyle.container}>
