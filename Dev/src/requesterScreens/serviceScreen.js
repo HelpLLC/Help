@@ -46,7 +46,8 @@ class serviceScreen extends Component {
 			isCancelRequestVisible: false,
 			image: images.BlankWhite,
 			isCompanyReportedVisible: false,
-			isBlockCompanyVisible: false
+			isBlockCompanyVisible: false,
+			isCompanyBlockedVisible: false
 		};
 	}
 
@@ -175,9 +176,11 @@ class serviceScreen extends Component {
 		try {
 			const newRequesterObject = await FirebaseFunctions.getRequesterByID(requester.requesterID);
 			const allProducts = await FirebaseFunctions.getAllProducts();
-			this.props.navigation.push('FeaturedScreen', {
-				requester: newRequesterObject,
-				allProducts
+			this.setState({
+				isLoading: false,
+				isCompanyBlockedVisible: true,
+				allProducts,
+				newRequesterObject
 			});
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
@@ -707,6 +710,18 @@ class serviceScreen extends Component {
 						}}
 						title={strings.CompanyReported}
 						message={strings.CompanyHasBeenReported}
+					/>
+					<ErrorAlert
+						isVisible={this.state.isCompanyBlockedVisible}
+						onPress={() => {
+							this.setState({ isCompanyBlockedVisible: false });
+							this.props.navigation.push('FeaturedScreen', {
+								requester: this.state.newRequesterObject,
+								allProducts: this.state.allProducts
+							});
+						}}
+						title={strings.CompanyBlocked}
+						message={strings.CompanyHasBeenBlocked}
 					/>
 					<ActionSheet
 						ref={(o) => (this.ActionSheet = o)}

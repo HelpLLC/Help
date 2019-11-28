@@ -275,6 +275,8 @@ export default {
 	ReadLess: 'Read Less',
 	CustomerReviews: 'Customer Reviews',
 	ServiceDeleted: 'The business no longer sells this service',
+	CompanyBlocked: 'Company Blocked',
+	CompanyHasBeenBlocked: 'The company has been blocked',
 
 	//------------------- Requester Answer Questions Screen -------------------
 	AnswerHereDotDotDot: 'Answer here...',

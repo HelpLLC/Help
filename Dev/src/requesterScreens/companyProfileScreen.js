@@ -82,50 +82,6 @@ class companyProfileScreen extends Component {
 		this.willFocusListener.remove();
 	}
 
-	//This method will open a chat with the provider and go to that chat
-	messageProvider() {
-		const { provider, requester } = this.props.navigation.state.params;
-		this.props.navigation.push('MessagingScreen', {
-			title: provider.companyName,
-			providerID: provider.providerID,
-			requesterID: requester.requesterID,
-			userID: requester.requesterID
-		});
-	}
-
-	//This method will make sure that the company is blocked from this requester's perspective
-	async blockCompany() {
-		const { provider, requester } = this.props.navigation.state.params;
-
-		//First blocks the user
-		this.setState({ isLoading: true });
-		await FirebaseFunctions.blockCompany(requester, provider);
-
-		//Navigates back to the request screen
-		try {
-			const newRequesterObject = await FirebaseFunctions.getRequesterByID(requester.requesterID);
-			const allProducts = await FirebaseFunctions.getAllProducts();
-			this.props.navigation.push('FeaturedScreen', {
-				requester: newRequesterObject,
-				allProducts
-			});
-		} catch (error) {
-			this.setState({ isLoading: false, isErrorVisible: true });
-		}
-	}
-
-	//This method will allow the requester to report the company which will then be reviewed by
-	//the developers
-	reportCompany() {
-		const { provider, requester } = this.props.navigation.state.params;
-		FirebaseFunctions.reportIssue(requester, {
-			report: 'Report against a company',
-			companyID: provider.providerID,
-			companyName: provider.companyName
-		});
-		this.setState({ isCompanyReportedVisible: true });
-	}
-
 	renderSearch() {
 		this.setState({ isLoading: true });
 		//If there is only one character typed into the search, it will simply display the results
