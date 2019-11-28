@@ -11,6 +11,7 @@ import { Rating, AirbnbRating } from 'react-native-ratings';
 import PropTypes from 'prop-types';
 import LoadingSpinner from './LoadingSpinner';
 import { BoxShadow } from 'react-native-shadow';
+import FastImage from 'react-native-fast-image';
 
 //The component class
 class NarrowServiceCard extends Component {
@@ -30,13 +31,23 @@ class NarrowServiceCard extends Component {
 		});
 	}
 
+	//Only updates the component if it is switching from loading the image to not loading the image any
+	//more
+	shouldComponentUpdate(nextProps, nextState) {
+		if (this.state.isImageLoading === true && nextState.isImageLoading === false) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	//Renders the component
 	render() {
 		//The props for the NarrowServiceCard. It will take in a service title, a price, and a
 		//image to display, along with an onPress method. An additional prop is also how many current
 		//requests this product currently has. This prop should only be used by the provider screens
 		//It can also take the average reviews
-		const { serviceTitle, price, onPress, ratingArray, averageRating, totalReviews } = this.props;
+		const { serviceTitle, price, onPress, averageRating, totalReviews } = this.props;
 
 		//Fetches the image and the isImageLoading from the state
 		const { isImageLoading, image } = this.state;
@@ -69,13 +80,13 @@ class NarrowServiceCard extends Component {
 										<LoadingSpinner isVisible={true} />
 									</View>
 								) : (
-									<CachedImage
-										source={image}
+									<FastImage
 										style={{
 											width: Dimensions.get('window').width * 0.45 - 7,
 											height: Dimensions.get('window').height * 0.13,
 											borderRadius: Dimensions.get('window').height * 0.0439238653 - 3.5
 										}}
+										source={image}
 									/>
 								)}
 							</View>

@@ -49,6 +49,11 @@ export default class FirebaseFunctions {
 			);
 		});
 
+		//Sorts the array by highest average rating
+		newArray.sort((a, b) => {
+			return b.averageRating - a.averageRating;
+		});
+
 		//Returns the correct array
 		return newArray;
 	}

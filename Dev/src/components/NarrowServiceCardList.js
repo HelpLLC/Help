@@ -27,6 +27,9 @@ class NarrowServiceCardList extends Component {
         showsVerticalScrollIndicator={false}
         data={services}
         numColumns={2}
+        maxToRenderPerBatch={2}
+        initialNumToRender={2}
+        windowSize={3}
         keyExtractor={item => item.serviceID}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (

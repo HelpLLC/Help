@@ -39,6 +39,9 @@ class CategoriesList extends Component {
         data={categories}
         numColumns={2}
         keyExtractor={item => item.categoryName}
+        maxToRenderPerBatch={2}
+        initialNumToRender={2}
+        windowSize={3}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (
           <View
