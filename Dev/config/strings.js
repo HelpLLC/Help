@@ -274,6 +274,7 @@ export default {
 	ReadMore: 'Read More',
 	ReadLess: 'Read Less',
 	CustomerReviews: 'Customer Reviews',
+	ServiceDeleted: 'The business no longer sells this service',
 
 	//------------------- Requester Answer Questions Screen -------------------
 	AnswerHereDotDotDot: 'Answer here...',
@@ -310,6 +311,10 @@ export default {
 	//------------------- Notifications -------------------
 	NewRequest: 'New Request',
 	YouHaveNewRequestFor: 'You have a new request for ',
+	YourRequestFor: 'Your request for',
+	HasBeenRemovedBecause: 'has been removed because',
+	RequestRemoved: 'Request Removed',
+	NoLongerSellsThisService: 'no longer sells this service.',
 
 	//------------------- Documents -----------------
 	PrivacyPolicy:

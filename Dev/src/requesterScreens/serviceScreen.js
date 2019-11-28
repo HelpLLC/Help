@@ -361,8 +361,20 @@ class serviceScreen extends Component {
 									<Text style={fontStyles.bigTextStyleBlack}>{product.pricing}</Text>
 								</View>
 
-								{//Tests if this service has already been requested by the current user
-								this.state.isRequested === false ? (
+								{//First tests if the product has been removed by the business (in this case, the product
+								//is probably being accessed from order history). If the product still exists, it will test
+								//if the product has been requested or not
+								this.state.product.isDeleted && this.state.product.isDeleted === true ? (
+									<View
+										style={{
+											justifyContent: 'center',
+											alignItems: 'center',
+											marginTop: Dimensions.get('window').height * 0.05,
+											width: Dimensions.get('window').width * 0.95
+										}}>
+										<Text style={fontStyles.bigTextStyleBlack}>{strings.ServiceDeleted}</Text>
+									</View>
+								) : this.state.isRequested === false ? (
 									<View
 										style={{
 											flex: 1,
