@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions, Platform, Linking } from 'react-native';
 import strings from 'config/strings';
 import NetInfo from '@react-native-community/netinfo';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -16,9 +16,9 @@ import SplashScreen from 'react-native-splash-screen';
 
 //Exports the class
 export default class launchScreen extends Component {
-	componentWillMount() {
-		SplashScreen.hide();
-	}
+  componentWillMount() {
+    SplashScreen.hide();
+  }
   //Tests the user's internet connection & then installs the most recent update from code push if there is one
   async componentDidMount() {
     FirebaseFunctions.setCurrentScreen('LaunchScreen', 'launchScreen');
@@ -216,6 +216,18 @@ export default class launchScreen extends Component {
           }}
           title={strings.Restart}
           message={strings.AppWillRestart}
+        />
+        <ErrorAlert
+          isVisible={false}
+          onPress={() => {
+            if (Platform.OS === 'ios') {
+              Linking.openURL('itms-apps://itunes.apple.com/app/apple-store/id1468626210?mt=8');
+            } else if (Platform.OS === 'android') {
+              Linking.openURL('market://details?id=com.Help.Help');
+            }
+          }}
+          title={strings.UpdateAvailable}
+          message={strings.UpdateAvailableMessage}
         />
       </View>
     );
