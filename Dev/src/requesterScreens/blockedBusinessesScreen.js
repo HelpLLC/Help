@@ -37,11 +37,27 @@ export default class blockedBusinessesScreen extends Component {
 		let { blockedUsers } = requester;
 		let newBlockedUsersList = [];
 		for (const providerID of blockedUsers) {
-			const provider = await FirebaseFunctions.getProviderByID(providerID);
-			newBlockedUsersList.push({
-				providerID,
-				companyName: provider.companyName
-			});
+			//Removes the default businesses from the list of blocked users (unless it is our test account)
+			//No matter what, don't add the Example Provider Document
+			if (providerID !== 'Example Provider') {
+				//If it is the test business account, only add it if it is on the requester test account
+				if (providerID === 'MRWYHdcULQggTQlxyXwGbykY5r02') {
+					if (requesterID === 'IaRNsJxXE4O6gdBqbBv24bo39g33') {
+						const provider = await FirebaseFunctions.getProviderByID(providerID);
+						newBlockedUsersList.push({
+							providerID,
+							companyName: provider.companyName
+						});
+					}
+					//If it is just normal blocked user, add them to array
+				} else {
+					const provider = await FirebaseFunctions.getProviderByID(providerID);
+					newBlockedUsersList.push({
+						providerID,
+						companyName: provider.companyName
+					});
+				}
+			}
 		}
 		this.setState({
 			isScreenLoading: false,
@@ -87,10 +103,10 @@ export default class blockedBusinessesScreen extends Component {
 					leftIconName='angle-left'
 					leftOnPress={() => this.props.navigation.goBack()}
 				/>
-
 				<ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
 					<FlatList
 						data={blockedBusinesses}
+						extraData={this.state}
 						keyExtractor={(item, index) => {
 							return item.providerID;
 						}}
@@ -151,8 +167,8 @@ export default class blockedBusinessesScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-                            marginTop: Dimensions.get('window').height * 0.05,
-                            width: Dimensions.get('window').width
+							marginTop: Dimensions.get('window').height * 0.05,
+							width: Dimensions.get('window').width
 						}}>
 						<LoadingSpinner isVisible={isLoading} />
 					</View>
@@ -172,7 +188,7 @@ export default class blockedBusinessesScreen extends Component {
 								return element.providerID === companyClicked.providerID;
 							});
 							newBlockedUsers.splice(indexOfUnblocked, 1);
-
+							console.log(newBlockedUsers);
 							this.setState({
 								isCompanyHasBeenUnblockedVisible: false,
 								blockedBusinesses: newBlockedUsers
