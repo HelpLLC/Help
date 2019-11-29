@@ -22,7 +22,7 @@ import reportIssueScreensNavigator from './settingsScreens/reportIssue/reportScr
 import chatsScreen from './chats/chatsScreen';
 import settingsScreen from './settingsScreens/settingsScreen';
 import providerScreensNavigator from './providerScreens/providerScreensNavigator';
-import featuredScreen from './requesterScreens/featuredScreen';
+import FeaturedScreen from './requesterScreens/featuredScreen';
 import RequesterOrderHistoryScreen from './requesterScreens/orderHistoryScreen';
 import { fadeIn, fromRight } from 'react-navigation-transitions';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
@@ -197,7 +197,7 @@ const routeConfig = {
 	//Route connecting to the featured screen
 	FeaturedScreen: {
 		//connects the object with the help screen component
-		screen: featuredScreen,
+		screen: FeaturedScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})

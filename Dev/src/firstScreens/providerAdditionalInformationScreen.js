@@ -14,11 +14,10 @@ import fontStyles from 'config/styles/fontStyles';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../components/RoundBlueButton';
 import GoogleCityPicker from '../components/GoogleCityPicker';
-import ErrorAlert from '../components/ErrorAlert';
+import HelpAlert from '../components/HelpAlert';
 import { Icon } from 'react-native-elements';
 import colors from 'config/colors';
 import TopBanner from '../components/TopBanner';
-import OptionPicker from '../components/OptionPicker';
 
 export default class providerAdditionalInformationScreen extends Component {
 	//Function sets the name of the current screen & sets the correct state based on whether this is a screen to create a new provider
@@ -242,7 +241,7 @@ export default class providerAdditionalInformationScreen extends Component {
 						disabled={this.state.isLoading}
 					/>
 				</View>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.fieldsError}
 					onPress={() => {
 						this.setState({ fieldsError: false });
@@ -250,7 +249,7 @@ export default class providerAdditionalInformationScreen extends Component {
 					title={strings.Whoops}
 					message={strings.PleaseFillOutAllFields}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.accountSaved}
 					onPress={() => {
 						this.setState({ accountSaved: false });
@@ -262,16 +261,13 @@ export default class providerAdditionalInformationScreen extends Component {
 					title={strings.Success}
 					message={strings.AccountSaved}
 				/>
-				<OptionPicker
+				<HelpAlert
 					isVisible={this.state.locationInfoVisible}
-					title={strings.Location}
-					oneOption={true}
-					clickOutside={true}
-					message={strings.WhyWeUseLocation}
-					confirmText={strings.Ok}
-					confirmOnPress={() => {
+					onPress={() => {
 						this.setState({ locationInfoVisible: false });
 					}}
+					title={strings.Location}
+					message={string.WhyWeUseLocation}
 				/>
 			</HelpView>
 		);

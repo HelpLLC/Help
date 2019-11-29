@@ -15,9 +15,8 @@ import TopBanner from '../components/TopBanner';
 import NarrowServiceCardList from '../components/NarrowServiceCardList';
 import { ScrollView } from 'react-native-gesture-handler';
 import ServiceCardList from '../components/ServiceCardList';
-import ErrorAlert from '../components/ErrorAlert';
+import HelpAlert from '../components/HelpAlert';
 import colors from 'config/colors';
-import OptionPicker from '../components/OptionPicker';
 
 export default class orderHistoryScreen extends Component {
 	//The initial state controlling the loading spinner along with the side menu and all the other data that will be used in this screen
@@ -185,7 +184,7 @@ export default class orderHistoryScreen extends Component {
 								) : (
 									<View></View>
 								)}
-								<ErrorAlert
+								<HelpAlert
 									isVisible={this.state.isErrorVisible}
 									onPress={() => {
 										this.setState({ isErrorVisible: false });
@@ -195,14 +194,9 @@ export default class orderHistoryScreen extends Component {
 								/>
 							</ScrollView>
 						)}
-						<OptionPicker
+						<HelpAlert
 							isVisible={this.state.incompleteProfile}
-							title={strings.FinishCreatingYourProfile}
-							oneOption={true}
-							clickOutside={false}
-							message={strings.FinishCreatingYourProfileMessage}
-							confirmText={strings.Ok}
-							confirmOnPress={() => {
+							onPress={() => {
 								this.setState({ incompleteProfile: false });
 								this.props.navigation.push('EditRequesterProfileScreen', {
 									requester: requester,
@@ -210,6 +204,9 @@ export default class orderHistoryScreen extends Component {
 									isEditing: true
 								});
 							}}
+							title={strings.FinishCreatingYourProfile}
+							message={strings.FinishCreatingYourProfileMessage}
+							closeOnTouchOutside={false}
 						/>
 					</HelpView>
 				</SideMenu>

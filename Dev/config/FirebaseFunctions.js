@@ -49,6 +49,11 @@ export default class FirebaseFunctions {
 			);
 		});
 
+		//Sorts the array by highest average rating
+		newArray.sort((a, b) => {
+			return b.averageRating - a.averageRating;
+		});
+
 		//Returns the correct array
 		return newArray;
 	}
@@ -427,7 +432,9 @@ export default class FirebaseFunctions {
 
 	//This function is going to remove a business's reference to a service as well as give this service
 	//a "isDeleted" field of true to make sure it does not appear for customers. It will still remain in the database
-	//so it can be referenced to in a customer's order history and/or reviews
+	//so it can be referenced to in a customer's order history and/or reviews. Additionally, it is going to remove
+	//all exisitng requests that are in this service & send customers notifications saying the service has been
+	//deleted
 	static async deleteService(serviceID, providerID) {
 		await this.updateServiceByID(serviceID, {
 			isDeleted: true
@@ -442,6 +449,27 @@ export default class FirebaseFunctions {
 		await this.updateProviderByID(providerID, {
 			serviceIDs
 		});
+
+		//Deletes all current requests for the service & notifies the customers
+		const service = await this.getServiceByID(serviceID);
+		const currentRequests = service.requests.currentRequests;
+		for (const request of currentRequests) {
+			await this.deleteRequest(serviceID, request.requesterID);
+			this.functions.httpsCallable('sendNotification')({
+				topic: 'r-' + request.requesterID,
+				title: strings.RequestRemoved,
+				body:
+					strings.YourRequestFor +
+					' ' +
+					service.serviceTitle +
+					' ' +
+					strings.HasBeenRemovedBecause +
+					' ' +
+					service.offeredByName +
+					' ' +
+					strings.NoLongerSellsThisService
+			});
+		}
 
 		this.analytics.logEvent('delete_service');
 		return 0;

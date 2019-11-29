@@ -5,7 +5,7 @@ import { View, Text, Keyboard, Dimensions } from 'react-native';
 import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../../components/RoundBlueButton';
-import ErrorAlert from '../../components/ErrorAlert';
+import HelpAlert from '../../components/HelpAlert';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
@@ -104,7 +104,7 @@ class reportIssueScreen extends Component {
 						</View>
 					</View>
 				</View>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.isErrorVisible}
 					onPress={() => {
 						this.setState({ isErrorVisible: false });
@@ -112,7 +112,7 @@ class reportIssueScreen extends Component {
 					title={strings.Whoops}
 					message={strings.SomethingWentWrong}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.fieldsError}
 					onPress={() => {
 						this.setState({ fieldsError: false });

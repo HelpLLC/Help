@@ -11,7 +11,7 @@ import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../components/TopBanner';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
-import ErrorAlert from '../components/ErrorAlert';
+import HelpAlert from '../components/HelpAlert';
 
 //The class that will create the look of this screen
 class forgotPasswordScreen extends Component {
@@ -82,7 +82,7 @@ class forgotPasswordScreen extends Component {
 				</View>
 				<View style={{ flex: 0.25 }}></View>
 				<View style={{ flex: 0.5 }}></View>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.isErrorVisible}
 					onPress={() => {
 						this.setState({ isErrorVisible: false });
@@ -91,7 +91,7 @@ class forgotPasswordScreen extends Component {
 					message={strings.SomethingWentWrong}
 				/>
 
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.fieldsError}
 					onPress={() => {
 						this.setState({ fieldsError: false });
@@ -99,7 +99,7 @@ class forgotPasswordScreen extends Component {
 					title={strings.Whoops}
 					message={strings.PleaseFillOutAllFields}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.emailedLink}
 					onPress={() => {
 						this.setState({ emailedLink: false }), this.props.navigation.pop();

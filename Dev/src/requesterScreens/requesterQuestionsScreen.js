@@ -8,7 +8,7 @@ import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from '../../config/styles/componentStyles/roundBlueButtonStyle';
 import fontStyles from '../../config/styles/fontStyles';
 import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
-import ErrorAlert from '../components/ErrorAlert';
+import HelpAlert from '../components/HelpAlert';
 import OptionPicker from '../components/OptionPicker';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -156,7 +156,7 @@ class requesterQuestionsScreen extends Component {
 						/>
 					</View>
 				</ScrollView>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.isFillOutAllFieldsVisible}
 					onPress={() => {
 						this.setState({ isFillOutAllFieldsVisible: false });
@@ -164,7 +164,7 @@ class requesterQuestionsScreen extends Component {
 					title={strings.Whoops}
 					message={strings.PleaseFillOutAllQuestions}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.isErrorVisible}
 					onPress={() => {
 						this.setState({ isErrorVisible: false });
@@ -172,7 +172,7 @@ class requesterQuestionsScreen extends Component {
 					title={strings.Whoops}
 					message={strings.SomethingWentWrong}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.isRequestSucess}
 					onPress={() => {
 						this.setState({ isRequestSucess: false });

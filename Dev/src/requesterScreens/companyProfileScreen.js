@@ -11,7 +11,7 @@ import HelpView from '../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
 import LoadingSpinner from '../components/LoadingSpinner';
-import ErrorAlert from '../components/ErrorAlert';
+import HelpAlert from '../components/HelpAlert';
 import strings from 'config/strings';
 import TopBanner from '../components/TopBanner';
 import HelpSearchBar from '../components/HelpSearchBar';
@@ -80,50 +80,6 @@ class companyProfileScreen extends Component {
 	//Removes the listener when the screen is switched away from
 	componentWillUnmount() {
 		this.willFocusListener.remove();
-	}
-
-	//This method will open a chat with the provider and go to that chat
-	messageProvider() {
-		const { provider, requester } = this.props.navigation.state.params;
-		this.props.navigation.push('MessagingScreen', {
-			title: provider.companyName,
-			providerID: provider.providerID,
-			requesterID: requester.requesterID,
-			userID: requester.requesterID
-		});
-	}
-
-	//This method will make sure that the company is blocked from this requester's perspective
-	async blockCompany() {
-		const { provider, requester } = this.props.navigation.state.params;
-
-		//First blocks the user
-		this.setState({ isLoading: true });
-		await FirebaseFunctions.blockCompany(requester, provider);
-
-		//Navigates back to the request screen
-		try {
-			const newRequesterObject = await FirebaseFunctions.getRequesterByID(requester.requesterID);
-			const allProducts = await FirebaseFunctions.getAllProducts();
-			this.props.navigation.push('FeaturedScreen', {
-				requester: newRequesterObject,
-				allProducts
-			});
-		} catch (error) {
-			this.setState({ isLoading: false, isErrorVisible: true });
-		}
-	}
-
-	//This method will allow the requester to report the company which will then be reviewed by
-	//the developers
-	reportCompany() {
-		const { provider, requester } = this.props.navigation.state.params;
-		FirebaseFunctions.reportIssue(requester, {
-			report: 'Report against a company',
-			companyID: provider.providerID,
-			companyName: provider.companyName
-		});
-		this.setState({ isCompanyReportedVisible: true });
 	}
 
 	renderSearch() {
@@ -202,7 +158,7 @@ class companyProfileScreen extends Component {
 						requester={requester}
 					/>
 
-					<ErrorAlert
+					<HelpAlert
 						isVisible={this.state.isErrorVisible}
 						onPress={() => {
 							this.setState({ isErrorVisible: false });

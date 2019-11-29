@@ -19,7 +19,7 @@ import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import LoadingSpinner from '../components/LoadingSpinner';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
-import ErrorAlert from '../components/ErrorAlert';
+import HelpAlert from '../components/HelpAlert';
 import OptionPicker from '../components/OptionPicker';
 import screenStyle from 'config/styles/screenStyle';
 import images from '../../config/images/images';
@@ -46,7 +46,8 @@ class serviceScreen extends Component {
 			isCancelRequestVisible: false,
 			image: images.BlankWhite,
 			isCompanyReportedVisible: false,
-			isBlockCompanyVisible: false
+			isBlockCompanyVisible: false,
+			isCompanyBlockedVisible: false
 		};
 	}
 
@@ -175,9 +176,11 @@ class serviceScreen extends Component {
 		try {
 			const newRequesterObject = await FirebaseFunctions.getRequesterByID(requester.requesterID);
 			const allProducts = await FirebaseFunctions.getAllProducts();
-			this.props.navigation.push('FeaturedScreen', {
-				requester: newRequesterObject,
-				allProducts
+			this.setState({
+				isLoading: false,
+				isCompanyBlockedVisible: true,
+				allProducts,
+				newRequesterObject
 			});
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
@@ -361,8 +364,20 @@ class serviceScreen extends Component {
 									<Text style={fontStyles.bigTextStyleBlack}>{product.pricing}</Text>
 								</View>
 
-								{//Tests if this service has already been requested by the current user
-								this.state.isRequested === false ? (
+								{//First tests if the product has been removed by the business (in this case, the product
+								//is probably being accessed from order history). If the product still exists, it will test
+								//if the product has been requested or not
+								this.state.product.isDeleted && this.state.product.isDeleted === true ? (
+									<View
+										style={{
+											justifyContent: 'center',
+											alignItems: 'center',
+											marginTop: Dimensions.get('window').height * 0.05,
+											width: Dimensions.get('window').width * 0.95
+										}}>
+										<Text style={fontStyles.bigTextStyleBlack}>{strings.ServiceDeleted}</Text>
+									</View>
+								) : this.state.isRequested === false ? (
 									<View
 										style={{
 											flex: 1,
@@ -680,7 +695,7 @@ class serviceScreen extends Component {
 							<View style={{ height: Dimensions.get('window').height * 0.05 }}></View>
 						</View>
 					</ScrollView>
-					<ErrorAlert
+					<HelpAlert
 						isVisible={this.state.isErrorVisible}
 						onPress={() => {
 							this.setState({ isErrorVisible: false });
@@ -688,13 +703,25 @@ class serviceScreen extends Component {
 						title={strings.Whoops}
 						message={strings.SomethingWentWrong}
 					/>
-					<ErrorAlert
+					<HelpAlert
 						isVisible={this.state.isCompanyReportedVisible}
 						onPress={() => {
 							this.setState({ isCompanyReportedVisible: false });
 						}}
 						title={strings.CompanyReported}
 						message={strings.CompanyHasBeenReported}
+					/>
+					<HelpAlert
+						isVisible={this.state.isCompanyBlockedVisible}
+						onPress={() => {
+							this.setState({ isCompanyBlockedVisible: false });
+							this.props.navigation.push('FeaturedScreen', {
+								requester: this.state.newRequesterObject,
+								allProducts: this.state.allProducts
+							});
+						}}
+						title={strings.CompanyBlocked}
+						message={strings.CompanyHasBeenBlocked}
 					/>
 					<ActionSheet
 						ref={(o) => (this.ActionSheet = o)}
@@ -751,6 +778,7 @@ class serviceScreen extends Component {
 						cancelText={strings.Cancel}
 						clickOutside={true}
 						confirmOnPress={() => {
+							this.setState({ isBlockCompanyVisible: false });
 							this.blockCompany();
 						}}
 						cancelOnPress={() => {

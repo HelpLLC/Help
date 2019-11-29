@@ -11,7 +11,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import strings from '../../config/strings';
 import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import ErrorAlert from '../components/ErrorAlert';
+import HelpAlert from '../components/HelpAlert';
 import OptionPicker from '../components/OptionPicker';
 import colors from 'config/colors';
 
@@ -23,10 +23,12 @@ export default class blockedBusinessesScreen extends Component {
 		isLoading: false,
 		requesterID: '',
 		blockedBusinesses: '',
+		requester: '',
 		isUnblockCompanyVisible: false,
 		companyClicked: '',
 		isErrorVisible: false,
-		isCompanyHasBeenUnblockedVisible: false
+		isCompanyHasBeenUnblockedVisible: false,
+		allProducts: ''
 	};
 
 	//Fetches the correct variables based on the requester's array of blocked users
@@ -34,18 +36,37 @@ export default class blockedBusinessesScreen extends Component {
 		FirebaseFunctions.setCurrentScreen('BlockedBusinessesScreen', 'blockedbusinessesScreen');
 		const { requesterID } = this.props.navigation.state.params;
 		const requester = await FirebaseFunctions.getRequesterByID(requesterID);
+		const allProducts = await FirebaseFunctions.getAllProducts();
 		let { blockedUsers } = requester;
 		let newBlockedUsersList = [];
 		for (const providerID of blockedUsers) {
-			const provider = await FirebaseFunctions.getProviderByID(providerID);
-			newBlockedUsersList.push({
-				providerID,
-				companyName: provider.companyName
-			});
+			//Removes the default businesses from the list of blocked users (unless it is our test account)
+			//No matter what, don't add the Example Provider Document
+			if (providerID !== 'Example Provider') {
+				//If it is the test business account, only add it if it is on the requester test account
+				if (providerID === 'MRWYHdcULQggTQlxyXwGbykY5r02') {
+					if (requesterID === 'IaRNsJxXE4O6gdBqbBv24bo39g33') {
+						const provider = await FirebaseFunctions.getProviderByID(providerID);
+						newBlockedUsersList.push({
+							providerID,
+							companyName: provider.companyName
+						});
+					}
+					//If it is just normal blocked user, add them to array
+				} else {
+					const provider = await FirebaseFunctions.getProviderByID(providerID);
+					newBlockedUsersList.push({
+						providerID,
+						companyName: provider.companyName
+					});
+				}
+			}
 		}
 		this.setState({
+			allProducts,
 			isScreenLoading: false,
 			requesterID,
+			requester,
 			blockedBusinesses: newBlockedUsersList
 		});
 	}
@@ -87,10 +108,10 @@ export default class blockedBusinessesScreen extends Component {
 					leftIconName='angle-left'
 					leftOnPress={() => this.props.navigation.goBack()}
 				/>
-
 				<ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
 					<FlatList
 						data={blockedBusinesses}
+						extraData={this.state}
 						keyExtractor={(item, index) => {
 							return item.providerID;
 						}}
@@ -134,7 +155,9 @@ export default class blockedBusinessesScreen extends Component {
 							try {
 								this.setState({ isLoading: true, isUnblockCompanyVisible: false });
 								await FirebaseFunctions.unblockCompany(requesterID, companyClicked.providerID);
-								this.setState({ isCompanyHasBeenUnblockedVisible: true, isLoading: false });
+								//Gets the updated requester
+								const requester = await FirebaseFunctions.getRequesterByID(requesterID);
+								this.setState({ isCompanyHasBeenUnblockedVisible: true, isLoading: false, requester });
 							} catch (error) {
 								this.setState({ isLoading: false, isErrorVisible: true });
 								FirebaseFunctions.logIssue(error, {
@@ -151,12 +174,12 @@ export default class blockedBusinessesScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-                            marginTop: Dimensions.get('window').height * 0.05,
-                            width: Dimensions.get('window').width
+							marginTop: Dimensions.get('window').height * 0.05,
+							width: Dimensions.get('window').width
 						}}>
 						<LoadingSpinner isVisible={isLoading} />
 					</View>
-					<ErrorAlert
+					<HelpAlert
 						isVisible={isErrorVisible}
 						onPress={() => {
 							this.setState({ isErrorVisible: false });
@@ -164,18 +187,15 @@ export default class blockedBusinessesScreen extends Component {
 						title={strings.Whoops}
 						message={strings.SomethingWentWrong}
 					/>
-					<ErrorAlert
+					<HelpAlert
 						isVisible={isCompanyHasBeenUnblockedVisible}
 						onPress={() => {
-							let newBlockedUsers = blockedBusinesses;
-							const indexOfUnblocked = newBlockedUsers.findIndex((element) => {
-								return element.providerID === companyClicked.providerID;
-							});
-							newBlockedUsers.splice(indexOfUnblocked, 1);
-
 							this.setState({
-								isCompanyHasBeenUnblockedVisible: false,
-								blockedBusinesses: newBlockedUsers
+								isCompanyHasBeenUnblockedVisible: false
+							});
+							this.props.navigation.push('FeaturedScreen', {
+								requester: this.state.requester,
+								allProducts: this.state.allProducts
 							});
 						}}
 						title={strings.Success}

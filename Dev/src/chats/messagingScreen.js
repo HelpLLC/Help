@@ -69,7 +69,7 @@ class messagingScreen extends Component {
 	render(props) {
 		const { userID } = this.props.navigation.state.params;
 		return (
-			<TouchableWithoutFeedback accessible={false} onPress={Keyboard.dismiss()}>
+			<TouchableWithoutFeedback accessible={false}>
 				<View style={{ flex: 1 }}>
 					<TopBanner
 						title={this.props.navigation.state.params.title}
@@ -83,6 +83,7 @@ class messagingScreen extends Component {
 							</View>
 						) : (
 							<GiftedChat
+								keyboardShouldPersistTaps={'handled'}
 								{...props}
 								renderSend={(props) => {
 									//Gifted chat doesn't use dimensions based heights and widths, 

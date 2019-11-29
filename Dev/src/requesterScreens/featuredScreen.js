@@ -12,13 +12,12 @@ import LeftMenu from './LeftMenu';
 import SideMenu from 'react-native-side-menu';
 import HelpView from '../components/HelpView';
 import TopBanner from '../components/TopBanner';
-import ErrorAlert from '../components/ErrorAlert';
+import HelpAlert from '../components/HelpAlert';
 import colors from 'config/colors';
 import HelpSearchBar from '../components/HelpSearchBar';
-import OptionPicker from '../components/OptionPicker';
 import ReviewPopup from '../components/ReviewPopup';
 
-class featuredScreen extends Component {
+export default class featuredScreen extends Component {
 	state = {
 		isLoading: true,
 		isOpen: false,
@@ -36,6 +35,7 @@ class featuredScreen extends Component {
 
 	//Filters the products by ones that the user has blocked, and also returns only the products that are being offered within 50 miles
 	async componentDidMount() {
+		this.setState({ isLoading: true });
 		FirebaseFunctions.setCurrentScreen('FeaturedScreen', 'featuredScreen');
 
 		//Filters the products and removes any that are posted by blocked users
@@ -43,6 +43,7 @@ class featuredScreen extends Component {
 		allProducts = allProducts.filter((product) => {
 			return !requester.blockedUsers.includes(product.offeredByID);
 		});
+
 		//Tests to see if the requester's account has been fully completed (used for pre-2.0 users)
 		if (!FirebaseFunctions.isRequesterUpToDate(requester)) {
 			this.setState({
@@ -59,11 +60,6 @@ class featuredScreen extends Component {
 				requester,
 				allProducts
 			);
-			this.setState({
-				allProducts,
-				displayedProducts: allProducts,
-				isLoading: false
-			});
 			for (i = 0; i < requester.orderHistory.completed.length; i++) {
 				if (requester.orderHistory.completed[i].review === null) {
 					const service = await FirebaseFunctions.getServiceByID(
@@ -77,6 +73,11 @@ class featuredScreen extends Component {
 					break;
 				}
 			}
+			this.setState({
+				allProducts,
+				displayedProducts: allProducts,
+				isLoading: false
+			});
 		}
 	}
 
@@ -139,9 +140,6 @@ class featuredScreen extends Component {
 					this.setState({ isOpen });
 				}}
 				isOpen={this.state.isOpen}
-				onChange={(isOpen) => {
-					this.setState({ isOpen });
-				}}
 				menu={
 					<LeftMenu
 						navigation={this.props.navigation}
@@ -187,14 +185,9 @@ class featuredScreen extends Component {
 						navigation={this.props.navigation}
 						services={displayedProducts}
 					/>
-					<OptionPicker
+					<HelpAlert
 						isVisible={this.state.incompleteProfile}
-						title={strings.FinishCreatingYourProfile}
-						oneOption={true}
-						clickOutside={false}
-						message={strings.FinishCreatingYourProfileMessage}
-						confirmText={strings.Ok}
-						confirmOnPress={() => {
+						onPress={() => {
 							this.setState({ incompleteProfile: false });
 							this.props.navigation.push('EditRequesterProfileScreen', {
 								requester: requester,
@@ -202,6 +195,9 @@ class featuredScreen extends Component {
 								isEditing: true
 							});
 						}}
+						closeOnTouchOutside={false}
+						title={strings.FinishCreatingYourProfile}
+						message={strings.FinishCreatingYourProfileMessage}
 					/>
 					<ReviewPopup
 						isVisible={this.state.isReviewDue}
@@ -251,7 +247,7 @@ class featuredScreen extends Component {
 							}
 						}}
 					/>
-					<ErrorAlert
+					<HelpAlert
 						isVisible={this.state.reviewError}
 						onPress={() => {
 							this.setState({ reviewError: false, isReviewDue: true });
@@ -264,6 +260,3 @@ class featuredScreen extends Component {
 		);
 	}
 }
-
-//Exports the screen
-export default featuredScreen;

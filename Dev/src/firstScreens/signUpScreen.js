@@ -15,7 +15,7 @@ import firebase from 'react-native-firebase';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import TopBanner from '../components/TopBanner';
 import { Icon } from 'react-native-elements';
-import ErrorAlert from '../components/ErrorAlert';
+import HelpAlert from '../components/HelpAlert';
 
 //The class that will create the look of this screen
 class signUpScreen extends Component {
@@ -290,7 +290,7 @@ class signUpScreen extends Component {
 					</View>
 					<View style={{ height: Dimensions.get('window').height * 0.03 }}></View>
 				</ScrollView>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.isErrorVisible}
 					onPress={() => {
 						this.setState({ isErrorVisible: false });
@@ -298,7 +298,7 @@ class signUpScreen extends Component {
 					title={strings.Whoops}
 					message={strings.SomethingWentWrong}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.fieldsError}
 					onPress={() => {
 						this.setState({ fieldsError: false });
@@ -306,7 +306,7 @@ class signUpScreen extends Component {
 					title={strings.Whoops}
 					message={strings.PleaseFillOutAllFields}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.buttonError}
 					onPress={() => {
 						this.setState({ buttonError: false });
@@ -314,7 +314,7 @@ class signUpScreen extends Component {
 					title={strings.Whoops}
 					message={strings.NoButtonSelected}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.emailError}
 					onPress={() => {
 						this.setState({ emailError: false });
@@ -322,7 +322,7 @@ class signUpScreen extends Component {
 					title={strings.Whoops}
 					message={strings.PleaseEnterAValidEmail}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.passwordError}
 					onPress={() => {
 						this.setState({ passwordError: false });
@@ -330,7 +330,7 @@ class signUpScreen extends Component {
 					title={strings.Whoops}
 					message={strings.ShortPassword}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.emailExistsError}
 					onPress={() => {
 						this.setState({ emailExistsError: false });
@@ -338,7 +338,7 @@ class signUpScreen extends Component {
 					title={strings.Whoops}
 					message={strings.EmailExists}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.termsAndConditionsError}
 					onPress={() => {
 						this.setState({ termsAndConditionsError: false });

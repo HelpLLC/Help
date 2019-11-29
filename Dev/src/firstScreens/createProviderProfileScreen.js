@@ -13,7 +13,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import HelpView from '../components/HelpView';
 import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import ErrorAlert from '../components/ErrorAlert';
+import HelpAlert from '../components/HelpAlert';
 import TopBanner from '../components/TopBanner';
 
 //The class that will create the look of this screen
@@ -208,7 +208,7 @@ class createProviderProfileScreen extends Component {
 						disabled={this.state.isLoading}
 					/>
 				</View>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.isErrorVisible}
 					onPress={() => {
 						this.setState({ isErrorVisible: false });
@@ -216,7 +216,7 @@ class createProviderProfileScreen extends Component {
 					title={strings.Whoops}
 					message={strings.SomethingWentWrong}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.nameError}
 					onPress={() => {
 						this.setState({ nameError: false });
@@ -224,7 +224,7 @@ class createProviderProfileScreen extends Component {
 					title={strings.Whoops}
 					message={strings.PleaseEnterACompanyName}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.descriptionError}
 					onPress={() => {
 						this.setState({ descriptionError: false });
@@ -232,7 +232,7 @@ class createProviderProfileScreen extends Component {
 					title={strings.Whoops}
 					message={strings.PleaseEnterADescriptionWithAtLeast150Characters}
 				/>
-				<ErrorAlert
+				<HelpAlert
 					isVisible={this.state.companyNameTakenError}
 					onPress={() => {
 						this.setState({ companyNameTakenError: false });
