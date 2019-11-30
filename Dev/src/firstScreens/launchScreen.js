@@ -218,7 +218,7 @@ export default class launchScreen extends Component {
           message={strings.AppWillRestart}
         />
         <ErrorAlert
-          isVisible={false}
+          isVisible={true}
           onPress={() => {
             if (Platform.OS === 'ios') {
               Linking.openURL('itms-apps://itunes.apple.com/app/apple-store/id1468626210?mt=8');
