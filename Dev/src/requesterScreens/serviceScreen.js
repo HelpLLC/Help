@@ -393,8 +393,7 @@ class serviceScreen extends Component {
 												const { product } = this.state;
 												//If the product has questions associated with it, then it will
 												//go to the questions screen. If it only has a schedule associated
-												//with it, it will go to the scheduling screen. Otherwise, it will
-												//display a pop up confirming the user wants to request the product
+												//with it, it will go to the scheduling screen.
 												if (
 													product.questions.length > 0 ||
 													this.isObjectTruthy(product.defaultQuestions)
@@ -402,7 +401,8 @@ class serviceScreen extends Component {
 													const { requester } = this.props.navigation.state.params;
 													this.props.navigation.push('RequesterQuestionsScreen', {
 														product,
-														requester
+														requester,
+														isEditing: false
 													});
 												}
 												//All products would require scheduling, so it goes to the
@@ -411,7 +411,8 @@ class serviceScreen extends Component {
 													//Navigates to the scheduling screen
 													this.props.navigation.push('RequesterScheduleScreen', {
 														product,
-														requester
+														requester,
+														isEditing: false
 													});
 												}
 											}}
@@ -420,19 +421,23 @@ class serviceScreen extends Component {
 								) : (
 									<View
 										style={{
-											justifyContent: 'space-evenly',
-											alignItems: 'center'
+											flex: 1,
+											justifyContent: 'center',
+											alignItems: 'center',
+											marginTop: Dimensions.get('window').height * 0.05
 										}}>
-										<View
-											style={{
-												marginBottom: Dimensions.get('window').height * 0.04
-											}}>
-											<Text style={fontStyles.bigTextStyleBlue}>{strings.ServiceRequested}</Text>
-										</View>
-										<TouchableOpacity
-											onPress={() => this.setState({ isCancelRequestVisible: true })}>
-											<Text style={fontStyles.mainTextStyleRed}>{strings.CancelRequest}</Text>
-										</TouchableOpacity>
+										<RoundBlueButton
+											title={strings.ViewRequest}
+											style={roundBlueButtonStyle.MediumSizeButton}
+											textStyle={fontStyles.bigTextStyleWhite}
+											onPress={() => {
+												//This take the user to the screen to view their request for this service
+												this.props.navigation.push('RequesterServiceRequestedScreen', {
+													product,
+													requester
+												});
+											}}
+										/>
 									</View>
 								)}
 							</View>
@@ -740,34 +745,6 @@ class serviceScreen extends Component {
 							} else if (index === 0) {
 								this.messageProvider();
 							}
-						}}
-					/>
-					<OptionPicker
-						isVisible={isCancelRequestVisible}
-						title={strings.CancelRequest}
-						message={strings.AreYouSureCancelRequest}
-						confirmText={strings.Yes}
-						cancelText={strings.Cancel}
-						clickOutside={true}
-						confirmOnPress={async () => {
-							this.setState({ isCancelRequestVisible: false, isLoading: true });
-							//This method will cancel the request by making sure the user wants to cancel it
-							const { product } = this.state;
-							const { requester } = this.props.navigation.state.params;
-							try {
-								await FirebaseFunctions.deleteRequest(product.serviceID, requester.requesterID);
-								this.setState({ isRequested: false, isLoading: false });
-							} catch (error) {
-								this.setState({ isLoading: false, isErrorVisible: true });
-								FirebaseFunctions.logIssue(error, {
-									screen: 'RequesterServiceScreen',
-									userID: 'r-' + requester.requesterID,
-									productID: product.productID
-								});
-							}
-						}}
-						cancelOnPress={() => {
-							this.setState({ isCancelRequestVisible: false });
 						}}
 					/>
 					<OptionPicker

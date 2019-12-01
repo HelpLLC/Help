@@ -171,6 +171,10 @@ export default {
 	PleaseSelectATimeInWhichTheBusinessIsAvailable:
 		'Please select a time in which the business is available.',
 	PleaseSelectATimeForYourService: 'Please select a time for your service.',
+	AreYouSureYouWantToOverwriteOldRequest: 'Are you sure you want to overwrite your request for this service?',
+	SaveRequest: 'Save Request',
+	Save: 'Save',
+	TheServiceRequestHasBeenSaved: 'Your request has been saved',
 	PleaseSelectADayForYourService: 'Please select a day for your service.',
 
 	//------------------- Create Schedule Screen -------------------
@@ -221,7 +225,8 @@ export default {
 	//------------------- Add Questions Screen--------------------
 
 	CustomerInfo: 'Customer Info',
-	Questions: 'Question ',
+	Questions: 'Questions',
+	Edit: 'Edit',
 
 	//------------------- Product History Screen -------------------
 	ServiceHistory: 'Service History',
@@ -267,7 +272,6 @@ export default {
 	CancelRequest: 'Cancel Request',
 	RequestService: 'Request Service',
 	AreYouSureRequestService: 'Are you sure you want to request this service?',
-	AreYouSureCancelRequest: 'Are you sure you want to cancel your request for this service?',
 	Yes: 'Yes',
 	CompanyServices: 'Company Services',
 	MoreByThisBusiness: 'More by this business',
@@ -277,6 +281,7 @@ export default {
 	ServiceDeleted: 'The business no longer sells this service',
 	CompanyBlocked: 'Company Blocked',
 	CompanyHasBeenBlocked: 'The company has been blocked',
+	ViewRequest: 'View Request',
 
 	//------------------- Requester Answer Questions Screen -------------------
 	AnswerHereDotDotDot: 'Answer here...',
@@ -288,6 +293,10 @@ export default {
 	InProgress: 'In Progress',
 	Completed: 'Completed',
 	NoRequestsYet: "You haven't requested anything yet! Go check out our services by going to Home",
+
+	//------------------- Requester Requested Service Screen -------------------
+	RequestHasBeenCancelled: 'Your request has been cancelled',
+	AreYouSureCancelRequest: 'Are you sure you want to cancel your request for this service?',
 
 	//----------------------- Requester Side Menu -----------------------------------
 
@@ -317,6 +326,10 @@ export default {
 	HasBeenRemovedBecause: 'has been removed because',
 	RequestRemoved: 'Request Removed',
 	NoLongerSellsThisService: 'no longer sells this service.',
+	RequestCancelled: 'Request Cancelled',
+	HasCancelledTheirRequestFor: 'has cancelled their request for',
+	HasUpdatedTheirRequestFor: 'has updated their request for',
+	RequestUpdated: 'Request Updated',
 
 	//------------------- Documents -----------------
 	PrivacyPolicy:

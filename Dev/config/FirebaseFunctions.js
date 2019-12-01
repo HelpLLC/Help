@@ -717,6 +717,18 @@ export default class FirebaseFunctions {
 			}
 		});
 
+		//Notifies the business that the request has been deleted.
+		this.functions.httpsCallable('sendNotification')({
+			topic: 'p-' + doc.data().offeredByID,
+			title: strings.RequestCancelled,
+			body:
+				requester.username +
+				' ' +
+				strings.HasCancelledTheirRequestFor +
+				' ' +
+				doc.data().serviceTitle
+		});
+
 		//Logs the event in firebase analytics
 		this.analytics.logEvent('delete_request');
 		return 0;
@@ -783,13 +795,23 @@ export default class FirebaseFunctions {
 	}
 
 	//This method will take in a request object, which may contain a schedule, answers to questions, or both.
-	//It will add this request object to the right locations
-	static async requestService(newRequest) {
+	//It will add this request object to the right locations. It will also take in an "isEditing" parameter
+	//that will overwrite an old request for this product with the new request
+	static async requestService(newRequest, isEditing) {
 		const ref = this.products.doc(newRequest.serviceID);
 		const doc = await ref.get();
 		const requester = await this.getRequesterByID(newRequest.requesterID);
 
 		let arrayOfCurrentRequests = doc.data().requests.currentRequests;
+
+		//Will remove the old request first before adding the new one
+		if (isEditing === true) {
+			const indexOfRequest = arrayOfCurrentRequests.findIndex((element) => {
+				return element.requesterID === requester.requesterID;
+			});
+			arrayOfCurrentRequests.splice(indexOfRequest, 1);
+		}
+
 		arrayOfCurrentRequests.push(newRequest);
 
 		await this.updateServiceByID(newRequest.serviceID, {
@@ -800,6 +822,14 @@ export default class FirebaseFunctions {
 		});
 
 		let { inProgress } = requester.orderHistory;
+
+		//Will remove the old request before adding the new one
+		if (isEditing === true) {
+			const indexOfRequest = inProgress.findIndex((element) => {
+				return element.serviceID === newRequest.serviceID;
+			});
+			inProgress.splice(indexOfRequest, 1);
+		}
 		inProgress.push(newRequest);
 		await this.updateRequesterByID(requester.requesterID, {
 			orderHistory: {
@@ -808,14 +838,27 @@ export default class FirebaseFunctions {
 			}
 		});
 
-		//Notifies the provider whose service this belongs to
-		this.functions.httpsCallable('sendNotification')({
-			topic: 'p-' + doc.data().offeredByID,
-			title: strings.NewRequest,
-			body: strings.YouHaveNewRequestFor + doc.data().serviceTitle
-		});
-		//Logs the event in firebase analytics
-		this.analytics.logEvent('request_service');
+		//If the request is a new one, then business will be notified. If it is an old one being edited, the business
+		//will be notified of that as well
+		if (isEditing === true) {
+			this.functions.httpsCallable('sendNotification')({
+				topic: 'p-' + doc.data().offeredByID,
+				title: strings.RequestUpdated,
+				body: requester.username + " " + strings.HasUpdatedTheirRequestFor + " " + doc.data().serviceTitle
+			});
+
+			//Logs the event in firebase analytics
+			this.analytics.logEvent('overwrite_request');
+		} else {
+			this.functions.httpsCallable('sendNotification')({
+				topic: 'p-' + doc.data().offeredByID,
+				title: strings.NewRequest,
+				body: strings.YouHaveNewRequestFor + doc.data().serviceTitle
+			});
+
+			//Logs the event in firebase analytics
+			this.analytics.logEvent('request_service');
+		}
 		return 0;
 	}
 

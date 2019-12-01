@@ -22,7 +22,6 @@ class requesterQuestionsScreen extends Component {
 		isScreenLoading: true,
 		questions: [],
 		isFillOutAllFieldsVisible: false,
-		isRequestVisible: false,
 		isErrorVisible: false,
 		isRequestSucess: false
 	};
@@ -39,12 +38,19 @@ class requesterQuestionsScreen extends Component {
 				questions.push(defaultQuestion.question);
 			}
 		}
-		const answers = questions.map((element) => {
-			return {
-				question: element,
-				answer: ''
-			};
-		});
+		let answers = [];
+		//If this screen is to edit a previous request, then the answer that was previously put down will be set
+		const { request, isEditing } = this.props.navigation.state.params;
+		if (isEditing === true) {
+			answers = request.answers;
+		} else {
+			answers = questions.map((element) => {
+				return {
+					question: element,
+					answer: ''
+				};
+			});
+		}
 		this.setState({
 			isScreenLoading: false,
 			questions,
@@ -71,7 +77,9 @@ class requesterQuestionsScreen extends Component {
 		this.props.navigation.push('RequesterScheduleScreen', {
 			answers,
 			product,
-			requester
+			requester,
+			isEditing: this.props.navigation.state.params.isEditing,
+			request: this.props.navigation.state.params.request
 		});
 	}
 
@@ -97,7 +105,9 @@ class requesterQuestionsScreen extends Component {
 				<TopBanner
 					title={strings.Request}
 					leftIconName='angle-left'
-					leftOnPress={() => this.props.navigation.goBack()}
+					leftOnPress={() => {
+						this.props.navigation.goBack();
+					}}
 				/>
 				<ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
 					<FlatList
@@ -183,56 +193,6 @@ class requesterQuestionsScreen extends Component {
 					}}
 					title={strings.Success}
 					message={strings.TheServiceHasBeenRequested}
-				/>
-				<OptionPicker
-					isVisible={this.state.isRequestVisible}
-					title={strings.RequestService}
-					message={strings.AreYouSureRequestService}
-					confirmText={strings.Request}
-					cancelText={strings.Cancel}
-					clickOutside={true}
-					confirmOnPress={async () => {
-						this.setState({
-							isRequestVisible: false,
-							isLoading: true
-						});
-						//This method will request this service from the company providing it by pushing the request to the
-						//provider.
-						//After confirming to the requester that the request has been processed, the program will
-						//automatically send notification to the business
-						const { product, requester } = this.state;
-						try {
-							await FirebaseFunctions.requestService({
-								dateRequested: new Date().toLocaleDateString('en-US', {
-									year: 'numeric',
-									month: '2-digit',
-									day: '2-digit'
-								}),
-								requesterID: requester.requesterID,
-								serviceID: product.serviceID,
-								requesterName: requester.username,
-								answers: this.state.answers
-							});
-							//fetches all the products in preparation to go back to the featured screen
-							const allProducts = await FirebaseFunctions.getAllProducts();
-							this.setState({
-								allProducts,
-								isRequestVisible: false,
-								isRequestSucess: true,
-								isLoading: false
-							});
-						} catch (error) {
-							this.setState({ isLoading: false, isRequestVisible: false, isErrorVisible: true });
-							FirebaseFunctions.logIssue(error, {
-								screen: 'RequesterQeustionsScreen',
-								userID: 'r-' + requester.requesterID,
-								productID: product.productID
-							});
-						}
-					}}
-					cancelOnPress={() => {
-						this.setState({ isRequestVisible: false });
-					}}
 				/>
 			</HelpView>
 		);
