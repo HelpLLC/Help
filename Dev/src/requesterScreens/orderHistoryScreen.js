@@ -8,12 +8,11 @@ import LeftMenu from './LeftMenu';
 import SideMenu from 'react-native-side-menu';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import strings from 'config/strings';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, Dimensions, ScrollView, FlatList } from 'react-native';
 import LoadingSpinner from '../components/LoadingSpinner';
 import fontStyles from 'config/styles/fontStyles';
 import TopBanner from '../components/TopBanner';
 import NarrowServiceCardList from '../components/NarrowServiceCardList';
-import { ScrollView } from 'react-native-gesture-handler';
 import ServiceCardList from '../components/ServiceCardList';
 import HelpAlert from '../components/HelpAlert';
 import colors from 'config/colors';
@@ -56,15 +55,14 @@ export default class orderHistoryScreen extends Component {
 				const service = await FirebaseFunctions.getServiceByID(requestInProgess.serviceID);
 				serviceObjectsInProgress.push({
 					...service,
-					dateRequested: requestInProgess.dateRequested
+					...requestInProgess
 				});
 			}
 			for (const requestCompleted of completed) {
 				const service = await FirebaseFunctions.getServiceByID(requestCompleted.serviceID);
 				serviceObjectsCompleted.push({
 					...service,
-					dateRequested: requestCompleted.dateRequested,
-					dateCompleted: requestCompleted.dateCompleted
+					...requestCompleted
 				});
 			}
 			this.setState({
@@ -79,7 +77,6 @@ export default class orderHistoryScreen extends Component {
 	//Renders the screen based on the isLoading part of the state
 	render() {
 		const { isLoading, requester, serviceObjectsCompleted, serviceObjectsInProgress } = this.state;
-
 		if (isLoading === true) {
 			return (
 				<HelpView style={screenStyle.container}>
@@ -149,6 +146,13 @@ export default class orderHistoryScreen extends Component {
 											navigation={this.props.navigation}
 											services={serviceObjectsInProgress}
 											dateRequested={true}
+											onPress={(service) => {
+												this.props.navigation.push('RequesterServiceRequestedScreen', {
+													product: service,
+													requesterID: requester.requesterID,
+													completed: false
+												});
+											}}
 										/>
 									</View>
 								) : (
@@ -170,16 +174,16 @@ export default class orderHistoryScreen extends Component {
 										</View>
 										<ServiceCardList
 											services={serviceObjectsCompleted}
-											noCurrentRequests={true}
-											dateCompleted={true}
 											onPress={(service) => {
-												//Navigates to the ServiceScreen
-												this.props.navigation.push('RequesterServiceScreen', {
-													productID: service.serviceID,
+												//This take the user to the screen to view their request for this service
+												this.props.navigation.push('RequesterServiceRequestedScreen', {
+													product: service,
 													requesterID: requester.requesterID,
-													providerID: service.offeredByID
+													completed: true,
+													request: service
 												});
 											}}
+											currentRequests={false}
 										/>
 									</View>
 								) : (

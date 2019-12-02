@@ -171,7 +171,8 @@ export default {
 	PleaseSelectATimeInWhichTheBusinessIsAvailable:
 		'Please select a time in which the business is available.',
 	PleaseSelectATimeForYourService: 'Please select a time for your service.',
-	AreYouSureYouWantToOverwriteOldRequest: 'Are you sure you want to overwrite your request for this service?',
+	AreYouSureYouWantToOverwriteOldRequest:
+		'Are you sure you want to overwrite your request for this service?',
 	SaveRequest: 'Save Request',
 	Save: 'Save',
 	TheServiceRequestHasBeenSaved: 'Your request has been saved',
@@ -296,6 +297,7 @@ export default {
 	//------------------- Requester Requested Service Screen -------------------
 	RequestHasBeenCancelled: 'Your request has been cancelled',
 	AreYouSureCancelRequest: 'Are you sure you want to cancel your request for this service?',
+	OrderAgain: 'Order Again',
 
 	//----------------------- Requester Side Menu -----------------------------------
 

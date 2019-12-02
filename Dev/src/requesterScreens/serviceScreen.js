@@ -433,7 +433,8 @@ class serviceScreen extends Component {
 												//This take the user to the screen to view their request for this service
 												this.props.navigation.push('RequesterServiceRequestedScreen', {
 													product,
-													requester
+													requesterID: requester.requesterID,
+													completed: false
 												});
 											}}
 										/>

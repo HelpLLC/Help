@@ -24,7 +24,8 @@ export default class serviceRequestedScreen extends Component {
 		isLoading: false,
 		isScreenLoading: true,
 		product: this.props.navigation.state.params.product,
-		requester: this.props.navigation.state.params.requester,
+		completed: this.props.navigation.state.params.completed,
+		requester: '',
 		request: '',
 		isErrorVisible: false,
 		isCancelRequestVisible: false,
@@ -35,10 +36,20 @@ export default class serviceRequestedScreen extends Component {
 	async componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('ServiceRequestedScreen', 'serviceRequestedScreen');
 		const image = await FirebaseFunctions.getProductImageByID(this.state.product.serviceID);
-		const request = this.state.product.requests.currentRequests.find((element) => {
-			return element.requesterID === this.state.requester.requesterID;
-		});
-		this.setState({ isScreenLoading: false, image, request });
+
+		const requester = await FirebaseFunctions.getRequesterByID(
+			this.props.navigation.state.params.requesterID
+		);
+		//Fetches the request based on if this is completed or not
+		let request = '';
+		if (this.state.completed === true) {
+			request = this.props.navigation.state.params.request;
+		} else {
+			request = this.state.product.requests.currentRequests.find((element) => {
+				return element.requesterID === requester.requesterID;
+			});
+		}
+		this.setState({ isScreenLoading: false, image, request, requester });
 	}
 
 	//This method returns true if any of the fields in a default question object are true. Other wise returns false
@@ -62,8 +73,10 @@ export default class serviceRequestedScreen extends Component {
 			isCancelRequestVisible,
 			isErrorVisible,
 			requester,
-			requestCancelled
+			requestCancelled,
+			completed
 		} = this.state;
+
 		if (isScreenLoading === true) {
 			return (
 				<HelpView style={screenStyle.container}>
@@ -164,6 +177,22 @@ export default class serviceRequestedScreen extends Component {
 					) : (
 						<View></View>
 					)}
+					{this.props.navigation.state.params.completed === true ? (
+						<View
+							style={{
+								width: Dimensions.get('window').width * 0.9,
+								marginTop: Dimensions.get('window').height * 0.02,
+								alignSelf: 'center',
+								justifyContent: 'center',
+								alignItems: 'center'
+							}}>
+							<Text style={fontStyles.mainTextStyleBlack}>
+								{strings.CompletedOn} {request.dateCompleted}
+							</Text>
+						</View>
+					) : (
+						<View></View>
+					)}
 					{request.answers ? (
 						<View
 							style={{
@@ -219,6 +248,27 @@ export default class serviceRequestedScreen extends Component {
 								alignItems: 'center'
 							}}>
 							<LoadingSpinner isVisible={true} />
+						</View>
+					) : completed === true ? (
+						<View
+							style={{
+								marginTop: Dimensions.get('window').height * 0.025,
+								flexDirection: 'row',
+								justifyContent: 'space-evenly'
+							}}>
+							<RoundBlueButton
+								title={strings.OrderAgain}
+								style={roundBlueButtonStyle.MediumSizeButton}
+								textStyle={fontStyles.bigTextStyleWhite}
+								onPress={() => {
+									this.props.navigation.push('RequesterServiceScreen', {
+										productID: product.serviceID,
+										requesterID: requester.requesterID,
+										providerID: product.offeredByID
+									});
+								}}
+								disabled={this.state.isLoading}
+							/>
 						</View>
 					) : (
 						<View
