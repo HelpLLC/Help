@@ -24,7 +24,6 @@ export default class requesterScheduleScreen extends Component {
 		selectedDate: '',
 		selectedTime: '',
 		isTimePickerShowing: false,
-		selectedTimeObject: '',
 		isScreenLoading: false,
 		scheduleType: '',
 		product: '',
@@ -34,7 +33,9 @@ export default class requesterScheduleScreen extends Component {
 		isErrorVisible: false,
 		isSelectDayErrorVisible: false,
 		isSelectTimeErrorVisible: false,
+		isSaveRequestVisible: false,
 		timeSlotError: false,
+		isRequestSavedSucess: false,
 		isRequestSucess: false
 	};
 
@@ -42,12 +43,22 @@ export default class requesterScheduleScreen extends Component {
 	//adds the necessary fields to the state for later use
 	componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('RequesterScheduleScreen', 'requesterScheduleScreen');
-		const { product, requester } = this.props.navigation.state.params;
-		this.setState({
-			product,
-			requester,
-			scheduleType: product.schedule.scheduleType
-		});
+		const { product, requester, isEditing, request } = this.props.navigation.state.params;
+		if (isEditing === true) {
+			this.setState({
+				product,
+				requester,
+				selectedDate: request.daySelected,
+				selectedTime: request.selectedTime,
+				scheduleType: product.schedule.scheduleType
+			});
+		} else {
+			this.setState({
+				product,
+				requester,
+				scheduleType: product.schedule.scheduleType
+			});
+		}
 	}
 
 	//This function determines whether the time selected by the user is in the time  slot in which the business
@@ -71,18 +82,18 @@ export default class requesterScheduleScreen extends Component {
 	getAndroidTime(time) {
 		let hour = time.getHours();
 		let minutes = time.getMinutes();
-		const ampm = hour > 11 ? "PM" : "AM";
+		const ampm = hour > 11 ? 'PM' : 'AM';
 		if (hour === 0) {
 			hour = 12;
 		} else if (hour === 12) {
 			hour = 12;
 		} else {
-			hour = hour % 12
+			hour = hour % 12;
 		}
 		if (minutes < 10) {
-			minutes = "0" + minutes;
+			minutes = '0' + minutes;
 		}
-		return hour + ":" + minutes + " " + ampm;
+		return hour + ':' + minutes + ' ' + ampm;
 	}
 
 	//Requests the product by checking if all fields have been filled out correctly
@@ -92,11 +103,13 @@ export default class requesterScheduleScreen extends Component {
 		});
 		const { product, requester, scheduleType } = this.state;
 		let requestObject = {
-			dateRequested: new Date().toLocaleDateString('en-US', {
-				year: 'numeric',
-				month: '2-digit',
-				day: '2-digit'
-			}),
+			dateRequested: this.props.navigation.state.params.isEditing
+				? this.props.navigation.state.params.request.dateRequested
+				: new Date().toLocaleDateString('en-US', {
+						year: 'numeric',
+						month: '2-digit',
+						day: '2-digit'
+				  }),
 			requesterID: requester.requesterID,
 			serviceID: product.serviceID,
 			requesterName: requester.username,
@@ -131,10 +144,20 @@ export default class requesterScheduleScreen extends Component {
 		}
 		//Sends the request up to Firebase
 		try {
-			await FirebaseFunctions.requestService(requestObject);
+			//If the request is being edited, this will overwrite the request, then navigate to the featured
+			//screen.
+			await FirebaseFunctions.requestService(
+				requestObject,
+				this.props.navigation.state.params.isEditing
+			);
 			//Fetches all products so that it is ready to navigate to the featuredScreen
 			const allProducts = await FirebaseFunctions.getAllProducts();
-			this.setState({ isRequestSucess: true, isLoading: false, allProducts });
+			this.setState({ isLoading: false, allProducts });
+			if (this.props.navigation.state.params.isEditing === true) {
+				this.setState({ isRequestSavedSucess: true });
+			} else {
+				this.setState({ isRequestSucess: true });
+			}
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
 			FirebaseFunctions.logIssue(error, {
@@ -190,6 +213,13 @@ export default class requesterScheduleScreen extends Component {
 							selectedDayTextColor={colors.white}
 							width={Dimensions.get('window').width * 0.95}
 							height={Dimensions.get('window').height * 0.4}
+							initialDate={
+								//if this is a request that is being edited, then it defaults to the previously selected
+								//date
+								this.props.navigation.state.params.isEditing === true
+									? new Date(this.state.selectedDate)
+									: new Date()
+							}
 							minDate={new Date()}
 							todayBackgroundColor={colors.lightGray}
 							todayTextStyle={fontStyles.subTextStyleBlack}
@@ -257,21 +287,39 @@ export default class requesterScheduleScreen extends Component {
 						<Text style={fontStyles.mainTextStyleBlack}>{this.state.selectedTime}</Text>
 					</TouchableOpacity>
 				</View>
-				<View
-					style={{
-						marginTop: Dimensions.get('window').height * 0.1
-					}}>
-					<RoundBlueButton
-						title={strings.Request}
-						isLoading={this.state.isLoading}
-						style={roundBlueButtonStyle.MediumSizeButton}
-						textStyle={fontStyles.bigTextStyleWhite}
-						onPress={() => {
-							this.setState({ isRequestVisible: true });
-						}}
-						disabled={this.state.isLoading}
-					/>
-				</View>
+				{this.props.navigation.state.params.isEditing === true ? (
+					<View
+						style={{
+							marginTop: Dimensions.get('window').height * 0.1
+						}}>
+						<RoundBlueButton
+							title={strings.Save}
+							isLoading={this.state.isLoading}
+							style={roundBlueButtonStyle.MediumSizeButton}
+							textStyle={fontStyles.bigTextStyleWhite}
+							onPress={() => {
+								this.setState({ isSaveRequestVisible: true });
+							}}
+							disabled={this.state.isLoading}
+						/>
+					</View>
+				) : (
+					<View
+						style={{
+							marginTop: Dimensions.get('window').height * 0.1
+						}}>
+						<RoundBlueButton
+							title={strings.Request}
+							isLoading={this.state.isLoading}
+							style={roundBlueButtonStyle.MediumSizeButton}
+							textStyle={fontStyles.bigTextStyleWhite}
+							onPress={() => {
+								this.setState({ isRequestVisible: true });
+							}}
+							disabled={this.state.isLoading}
+						/>
+					</View>
+				)}
 				<OptionPicker
 					isVisible={this.state.isRequestVisible}
 					title={strings.FinishRequesting}
@@ -286,6 +334,22 @@ export default class requesterScheduleScreen extends Component {
 					cancelText={strings.Cancel}
 					cancelOnPress={() => {
 						this.setState({ isRequestVisible: false });
+					}}
+				/>
+				<OptionPicker
+					isVisible={this.state.isSaveRequestVisible}
+					title={strings.SaveRequest}
+					clickOutside={false}
+					message={strings.AreYouSureYouWantToOverwriteOldRequest}
+					confirmText={strings.Yes}
+					confirmOnPress={() => {
+						//Requests the product
+						this.requestProduct();
+						this.setState({ isSaveRequestVisible: false });
+					}}
+					cancelText={strings.Cancel}
+					cancelOnPress={() => {
+						this.setState({ isSaveRequestVisible: false });
 					}}
 				/>
 				<HelpAlert
@@ -329,13 +393,14 @@ export default class requesterScheduleScreen extends Component {
 					onConfirm={(time) => {
 						//Sets the selected time, and makes the picker go away
 						this.setState({
-							selectedTimeObject: time,
-							selectedTime: (Platform.OS === 'ios' ? 
-							time.toLocaleTimeString('en', {
-								hour: 'numeric',
-								minute: '2-digit',
-								hour12: true
-							}) : this.getAndroidTime(time)),
+							selectedTime:
+								Platform.OS === 'ios'
+									? time.toLocaleTimeString('en', {
+											hour: 'numeric',
+											minute: '2-digit',
+											hour12: true
+									  })
+									: this.getAndroidTime(time),
 							isTimePickerShowing: false
 						});
 					}}
@@ -355,6 +420,18 @@ export default class requesterScheduleScreen extends Component {
 					}}
 					title={strings.Success}
 					message={strings.TheServiceHasBeenRequested}
+				/>
+				<HelpAlert
+					isVisible={this.state.isRequestSavedSucess}
+					onPress={() => {
+						this.setState({ isRequestSavedSucess: false });
+						this.props.navigation.push('FeaturedScreen', {
+							requester: requester,
+							allProducts: this.state.allProducts
+						});
+					}}
+					title={strings.Success}
+					message={strings.TheServiceRequestHasBeenSaved}
 				/>
 			</HelpView>
 		);
