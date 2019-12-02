@@ -145,7 +145,7 @@ export default class orderHistoryScreen extends Component {
 											</Text>
 										</View>
 										<NarrowServiceCardList
-											requester={requester}
+											requesterID={requester.requesterID}
 											navigation={this.props.navigation}
 											services={serviceObjectsInProgress}
 											dateRequested={true}
@@ -170,12 +170,13 @@ export default class orderHistoryScreen extends Component {
 										</View>
 										<ServiceCardList
 											services={serviceObjectsCompleted}
+											noCurrentRequests={true}
 											dateCompleted={true}
 											onPress={(service) => {
 												//Navigates to the ServiceScreen
 												this.props.navigation.push('RequesterServiceScreen', {
 													productID: service.serviceID,
-													requester,
+													requesterID: requester.requesterID,
 													providerID: service.offeredByID
 												});
 											}}

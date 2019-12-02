@@ -155,7 +155,7 @@ class companyProfileScreen extends Component {
 					<NarrowServiceCardList
 						navigation={this.props.navigation}
 						services={displayedProducts}
-						requester={requester}
+						requesterID={requester.requesterID}
 					/>
 
 					<HelpAlert

@@ -133,7 +133,7 @@ export default class categoriesScreen extends Component {
 						</View>
 						<CategoriesList
 							categories={this.state.categories}
-							requester={this.state.requester}
+							requesterID={this.state.requester.requesterID}
 							allProducts={this.props.navigation.state.params.allProducts}
 							navigation={this.props.navigation}
 						/>

@@ -20,7 +20,7 @@ class ServiceCardList extends Component {
         }}
         showsHorizontalScrollIndicator={false}
         data={services}
-        keyExtractor={item => item.serviceID}
+        keyExtractor={(item, index) => item.serviceID + index.toString()}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (
           <View
@@ -31,7 +31,6 @@ class ServiceCardList extends Component {
             }}
           >
             <ServiceCard
-              key={index}
               serviceTitle={item.serviceTitle}
               serviceDescription={item.serviceDescription}
               price={
@@ -43,7 +42,7 @@ class ServiceCardList extends Component {
                   item.serviceID
                 );
               }}
-              numCurrentRequests={item.requests.currentRequests.length}
+              numCurrentRequests={this.props.noCurrentRequests ? 0 : item.requests.currentRequests.length}
               onPress={() => {
                 this.props.onPress(item);
               }}

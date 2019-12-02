@@ -23,7 +23,8 @@ class categoryScreen extends Component {
 	async componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('CategoryScreen', 'categoryScreen');
 		//Gets products from parameters
-		const { allProducts, categoryName, requester } = this.props.navigation.state.params;
+		const { allProducts, categoryName, requesterID } = this.props.navigation.state.params;
+		const requester = await FirebaseFunctions.getRequesterByID(requesterID);
 		//Gets products from categories
 		let products = await FirebaseFunctions.getProductsByCategory(allProducts, categoryName);
 		products = products.filter((product) => {
@@ -36,6 +37,7 @@ class categoryScreen extends Component {
 		//sets the state
 		this.setState({
 			products,
+			requester,
 			displayedProducts: products,
 			isLoading: false
 		});
@@ -79,8 +81,8 @@ class categoryScreen extends Component {
 
 	render() {
 		//Fetches the correct params
-		const { requester, categoryName } = this.props.navigation.state.params;
-		const { displayedProducts, search } = this.state;
+		const { categoryName } = this.props.navigation.state.params;
+		const { displayedProducts, search, requester } = this.state;
 		//If loading it shows loading spinner
 		if (this.state.isLoading === true) {
 			return (
@@ -118,7 +120,7 @@ class categoryScreen extends Component {
 				/>
 				{/* Shows all Products in the category (or search results) */}
 				<NarrowServiceCardList
-					requester={requester}
+					requesterID={requester.requesterID}
 					navigation={this.props.navigation}
 					services={displayedProducts}
 				/>

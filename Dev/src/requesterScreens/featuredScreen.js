@@ -181,7 +181,7 @@ export default class featuredScreen extends Component {
 						<Text style={fontStyles.bigTextStyleBlue}>{strings.FeaturedServices}</Text>
 					</View>
 					<NarrowServiceCardList
-						requester={requester}
+						requesterID={requester.requesterID}
 						navigation={this.props.navigation}
 						services={displayedProducts}
 					/>

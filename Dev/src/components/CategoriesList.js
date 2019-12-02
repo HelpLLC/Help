@@ -11,19 +11,18 @@ class CategoriesList extends Component {
   //This function goes to a screen of a specific category
   async goToCategoryScreen(categoryName) {
     FirebaseFunctions.analytics.logEvent(categoryName + "_category_clicked");
-    const { requester } = this.props;
-    const { allProducts } = this.props;
+    const { allProducts, requesterID } = this.props;
     try {
       this.props.navigation.push("CategoryScreen", {
         categoryName: categoryName,
-        requester: requester,
+        requesterID: requesterID,
         allProducts: allProducts
       });
     } catch (error) {
       this.setState({ isLoading: false, isErrorVisible: true });
       FirebaseFunctions.logIssue(error, {
         screen: "Categories Screen",
-        userID: "r-" + requester.requesterID
+        userID: "r-" + requesterID
       });
     }
   }
@@ -89,7 +88,7 @@ class CategoriesList extends Component {
 //who will be the one requesting the categories
 CategoriesList.propTypes = {
   categories: PropTypes.array.isRequired,
-  requester: PropTypes.object.isRequired
+  requesterID: PropTypes.string.isRequired
 };
 
 //Exports the module

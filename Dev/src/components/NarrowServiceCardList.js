@@ -10,10 +10,10 @@ import FirebaseFunctions from "config/FirebaseFunctions";
 class NarrowServiceCardList extends Component {
   //This function goes to a screen of a specific service based on its index within the services array
   goToServiceScreen(index) {
-    const { services, requester } = this.props;
+    const { services, requesterID } = this.props;
     this.props.navigation.push("RequesterServiceScreen", {
       productID: services[index].serviceID,
-      requester,
+      requesterID,
       providerID: services[index].offeredByID
     });
   }
@@ -30,7 +30,7 @@ class NarrowServiceCardList extends Component {
         maxToRenderPerBatch={2}
         initialNumToRender={2}
         windowSize={3}
-        keyExtractor={item => item.serviceID}
+        keyExtractor={(item, index) => item.serviceID + index.toString()}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (
           <View style={{ flexDirection: 'row' }}>
@@ -79,7 +79,7 @@ class NarrowServiceCardList extends Component {
 //instead of a price (used in RequesterOrderHistoryScreen)
 NarrowServiceCardList.propTypes = {
   services: PropTypes.array.isRequired,
-  requester: PropTypes.object.isRequired,
+  requesterID: PropTypes.string.isRequired,
   dateRequested: PropTypes.bool
 };
 
