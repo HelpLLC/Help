@@ -152,6 +152,22 @@ export default class customerRequestScreen extends Component {
 					) : (
 						<View></View>
 					)}
+					{this.props.navigation.state.params.completed === true ? (
+						<View
+							style={{
+								width: Dimensions.get('window').width * 0.9,
+								marginTop: Dimensions.get('window').height * 0.02,
+								alignSelf: 'center',
+								justifyContent: 'center',
+								alignItems: 'center'
+							}}>
+							<Text style={fontStyles.mainTextStyleBlack}>
+								{strings.CompletedOn} {request.dateCompleted}
+							</Text>
+						</View>
+					) : (
+						<View></View>
+					)}
 					{request.answers ? (
 						<View
 							style={{

@@ -230,9 +230,8 @@ export default {
 
 	//------------------- Product History Screen -------------------
 	ServiceHistory: 'Service History',
-	Date: 'Date',
-	Customer: 'Customer',
 	NoHistoryForThisProductYet: 'No history for this product yet',
+	CompletedOn: 'Completed On',
 
 	//------------------- Business Side Customer Request Screen -------------------
 	CustomerRequest: 'Customer Request',
