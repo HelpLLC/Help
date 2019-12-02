@@ -267,7 +267,7 @@ export default class providerAdditionalInformationScreen extends Component {
 						this.setState({ locationInfoVisible: false });
 					}}
 					title={strings.Location}
-					message={string.WhyWeUseLocation}
+					message={strings.WhyWeUseLocation}
 				/>
 			</HelpView>
 		);
