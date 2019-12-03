@@ -3,8 +3,7 @@
 //factors.
 import React, { Component } from 'react';
 import { View, Text, Dimensions, FlatList, ScrollView } from 'react-native';
-import WhiteCard from '../../components/WhiteCard';
-import whiteCardStyle from 'config/styles/componentStyles/whiteCardStyle';
+import ServiceCard from '../../components/ServiceCard';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
@@ -32,7 +31,7 @@ class productHistoryScreen extends Component {
 					leftIconName='angle-left'
 					leftOnPress={() => this.props.navigation.goBack()}
 				/>
-				<View>
+				<ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
 					<View
 						style={{
 							flexDirection: 'row',
@@ -59,38 +58,40 @@ class productHistoryScreen extends Component {
 					<View style={{ height: Dimensions.get('window').height * 0.05 }}></View>
 					{//Tests if the current product has had any requests yet
 					product.requests.completedRequests.length > 0 ? (
-						<ScrollView showsVerticalScrollIndicator={false}>
-							<WhiteCard
-								style={whiteCardStyle.whiteCardStyle}
-								text={strings.Date}
-								mainTextStyle={fontStyles.bigTextStyleBlack}
-								comp={<Text style={fontStyles.bigTextStyleBlack}>{strings.Customer}</Text>}
-								onPress={() => {}}
-							/>
-
-							<FlatList
-								data={product.requests.completedRequests}
-								keyExtractor={(item, index) => {
-									return product.serviceTitle + ' Request #' + index;
-								}}
-								renderItem={({ item, index }) => (
-									<WhiteCard
-										key={index}
-										style={whiteCardStyle.whiteCardStyle}
-										text={item.dateCompleted}
-										mainTextStyle={fontStyles.subTextStyleBlack}
-										comp={<Text style={fontStyles.subTextStyleBlack}>{item.requesterName}</Text>}
-										onPress={() => {}}
+						<FlatList
+							data={product.requests.completedRequests}
+							keyExtractor={(item, index) => {
+								return item.requesterID + index.toString();
+							}}
+							renderItem={({ item, index }) => (
+								<View style={{ marginBottom: Dimensions.get('window').height * 0.025 }}>
+									<ServiceCard
+										serviceTitle={item.requesterName}
+										serviceDescription={' '}
+										price={strings.CompletedOn + ' ' + item.dateCompleted}
+										imageFunction={async () => {
+											//Passes the function to get the profile picture of the user
+											//Passes in the function to retrieve the image of this requester
+											return await FirebaseFunctions.getProfilePictureByID(item.requesterID);
+										}}
+										onPress={() => {
+											//Goes to the screen for the specific request
+											this.props.navigation.push('CustomerRequestScreen', {
+												product: product,
+												request: item,
+												completed: true
+											});
+										}}
 									/>
-								)}
-							/>
-						</ScrollView>
+								</View>
+							)}
+						/>
 					) : (
 						<View style={{ flex: 0.35, justifyContent: 'center', alignItems: 'center' }}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.NoHistoryForThisProductYet}</Text>
 						</View>
 					)}
-				</View>
+				</ScrollView>
 			</HelpView>
 		);
 	}

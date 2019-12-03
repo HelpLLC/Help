@@ -54,7 +54,8 @@ class serviceScreen extends Component {
 	//Fetches the data associated with this screen
 	async fetchDatabaseData() {
 		try {
-			const { productID, requester, providerID } = this.props.navigation.state.params;
+			const { productID, requesterID, providerID } = this.props.navigation.state.params;
+			const requester = await FirebaseFunctions.getRequesterByID(requesterID);
 			const provider = await FirebaseFunctions.getProviderByID(providerID);
 			const product = await FirebaseFunctions.getServiceByID(productID);
 			const url = await FirebaseFunctions.getProductImageByID(product.serviceID);
@@ -66,6 +67,7 @@ class serviceScreen extends Component {
 				this.setState({
 					isLoading: false,
 					provider,
+					requester,
 					isRequested: false,
 					product,
 					image: url
@@ -74,6 +76,7 @@ class serviceScreen extends Component {
 				this.setState({
 					isLoading: false,
 					provider,
+					requester,
 					isRequested: true,
 					product,
 					image: url
@@ -83,7 +86,7 @@ class serviceScreen extends Component {
 			this.setState({ isLoading: false, isErrorVisible: true });
 			FirebaseFunctions.logIssue(error, {
 				screen: 'RequesterServiceScreen',
-				userID: 'r-' + requesterID,
+				userID: 'r-' + requester.requesterID,
 				productID
 			});
 		}
@@ -123,7 +126,7 @@ class serviceScreen extends Component {
 			number: phoneNumber, // String value with the number to call
 			prompt: true // Optional boolean property. Determines if the user should be prompt prior to the call
 		};
-
+		const { requester } = this.state;
 		try {
 			call(args);
 		} catch (error) {
@@ -137,6 +140,7 @@ class serviceScreen extends Component {
 	}
 
 	handleEmail(emailAddress) {
+		const { requester } = this.state;
 		const to = [emailAddress]; // string or array of email addresses
 		try {
 			email(to, {
@@ -154,8 +158,7 @@ class serviceScreen extends Component {
 	}
 
 	messageProvider() {
-		const { requester } = this.props.navigation.state.params;
-		const { provider } = this.state;
+		const { provider, requester } = this.state;
 		this.props.navigation.push('MessagingScreen', {
 			title: provider.companyName,
 			providerID: provider.providerID,
@@ -165,8 +168,7 @@ class serviceScreen extends Component {
 	}
 
 	async blockCompany() {
-		const { requester } = this.props.navigation.state.params;
-		const { provider } = this.state;
+		const { provider, requester } = this.state;
 
 		//First blocks the user
 		this.setState({ isLoading: true });
@@ -188,8 +190,7 @@ class serviceScreen extends Component {
 	}
 
 	reportCompany() {
-		const { requester } = this.props.navigation.state.params;
-		const { provider } = this.state;
+		const { provider, requester } = this.state;
 		FirebaseFunctions.reportIssue(requester, {
 			report: 'Report against a company',
 			companyID: provider.providerID,
@@ -200,8 +201,7 @@ class serviceScreen extends Component {
 
 	//Renders the UI
 	render() {
-		const { product, isLoading, isRequested, isCancelRequestVisible } = this.state;
-		const { requester } = this.props.navigation.state.params;
+		const { product, isLoading, isRequested, requester } = this.state;
 		const { provider } = this.state;
 		if (isLoading === true || isRequested === '') {
 			return (
@@ -390,7 +390,7 @@ class serviceScreen extends Component {
 											style={roundBlueButtonStyle.MediumSizeButton}
 											textStyle={fontStyles.bigTextStyleWhite}
 											onPress={() => {
-												const { product } = this.state;
+												const { product, requester } = this.state;
 												//If the product has questions associated with it, then it will
 												//go to the questions screen. If it only has a schedule associated
 												//with it, it will go to the scheduling screen.
@@ -398,7 +398,6 @@ class serviceScreen extends Component {
 													product.questions.length > 0 ||
 													this.isObjectTruthy(product.defaultQuestions)
 												) {
-													const { requester } = this.props.navigation.state.params;
 													this.props.navigation.push('RequesterQuestionsScreen', {
 														product,
 														requester,
@@ -434,7 +433,8 @@ class serviceScreen extends Component {
 												//This take the user to the screen to view their request for this service
 												this.props.navigation.push('RequesterServiceRequestedScreen', {
 													product,
-													requester
+													requesterID: requester.requesterID,
+													completed: false
 												});
 											}}
 										/>

@@ -265,7 +265,8 @@ class productScreen extends Component {
 													//Goes to the screen for the specific request
 													this.props.navigation.push('CustomerRequestScreen', {
 														product: this.state.product,
-														request: item
+														request: item,
+														completed: false
 													});
 												}}
 											/>
