@@ -224,7 +224,7 @@ export default class customerRequestScreen extends Component {
 							}}>
 							<LoadingSpinner isVisible={true} />
 						</View>
-					) : (
+					) : this.props.navigation.state.params.completed === false ? (
 						<View
 							style={{
 								marginTop: Dimensions.get('window').height * 0.025,
@@ -268,6 +268,8 @@ export default class customerRequestScreen extends Component {
 								disabled={this.state.isLoading}
 							/>
 						</View>
+					) : (
+						<View></View>
 					)}
 				</ScrollView>
 				<OptionPicker
