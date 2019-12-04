@@ -9,7 +9,6 @@ import roundBlueButtonStyle from '../../config/styles/componentStyles/roundBlueB
 import fontStyles from '../../config/styles/fontStyles';
 import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
 import HelpAlert from '../components/HelpAlert';
-import OptionPicker from '../components/OptionPicker';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
 
