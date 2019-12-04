@@ -234,14 +234,6 @@ class signUpScreen extends Component {
 					message={strings.PleaseFillOutAllFields}
 				/>
 				<HelpAlert
-					isVisible={this.state.buttonError}
-					onPress={() => {
-						this.setState({ buttonError: false });
-					}}
-					title={strings.Whoops}
-					message={strings.NoButtonSelected}
-				/>
-				<HelpAlert
 					isVisible={this.state.emailError}
 					onPress={() => {
 						this.setState({ emailError: false });
