@@ -22,40 +22,10 @@ export default class FirebaseFunctions {
 	static issues = this.database.collection('issues');
 	static helpDev = this.database.collection('helpDev');
 
-	//This method is going to test whether a provider object has all the fields required as of the 2.0 update
-	//It will return a boolean true or false based on that
-	static isProviderUpToDate(providerObject) {
-		return providerObject.phoneNumber && providerObject.location && providerObject.coordinates;
-	}
-
 	//This method is going to test whether a requester object has all the fields required as of the 2.0 update
 	//It will return a boolen true or false based on that
 	static isRequesterUpToDate(requesterObject) {
 		return requesterObject.city && requesterObject.coordinates && requesterObject.phoneNumber;
-	}
-
-	//This method will return an array containing an all products currently in the market
-	static async getAllProducts() {
-		const snapshot = await this.products.get();
-
-		//Returns the array which contains all the docs
-		const array = snapshot.docs.map((doc) => doc.data());
-
-		//Removes the example from product from the array along with products that have been deleted
-		const newArray = array.filter((element) => {
-			return (
-				element.serviceTitle !== 'Example Service' &&
-				!(element.isDeleted && element.isDeleted === true)
-			);
-		});
-
-		//Sorts the array by highest average rating
-		newArray.sort((a, b) => {
-			return b.averageRating - a.averageRating;
-		});
-
-		//Returns the correct array
-		return newArray;
 	}
 
 	//This method will return an array of category objects. Each object will contain two fields. The first field will be the name
@@ -138,6 +108,30 @@ export default class FirebaseFunctions {
 
 		//Returns the array which contains all of the docs
 		return snapshot.docs.map((doc) => doc.data());
+	}
+
+	//This method will return an array containing an all products currently in the market (excluding the deleted ones)
+	static async getAllProducts() {
+		const snapshot = await this.products.get();
+
+		//Returns the array which contains all the docs
+		const array = snapshot.docs.map((doc) => doc.data());
+
+		//Removes the example from product from the array along with products that have been deleted
+		const newArray = array.filter((element) => {
+			return (
+				element.serviceTitle !== 'Example Service' &&
+				!(element.isDeleted && element.isDeleted === true)
+			);
+		});
+
+		//Sorts the array by highest average rating
+		newArray.sort((a, b) => {
+			return b.averageRating - a.averageRating;
+		});
+
+		//Returns the correct array
+		return newArray;
 	}
 
 	//This method will take in an ID of a requester and then retrieve the requester from the firestore
@@ -286,37 +280,10 @@ export default class FirebaseFunctions {
 		return newRequester;
 	}
 
-	//This function will take in a new provider ID and then will add that new provider to the firestore
-	//as a new provider with a unique provider ID and a username which will just be their email without
-	//the "@". It will also have the companyName and the companyDescription that is passed along with a phone
-	//number. Must wait for verfication by developers (default value for "isVerified" is false), when switched to true,
-	//user can log in
-	static async addProviderToDatabase(account, newProvider) {
-		const batch = this.database.batch();
-		const uid = account.user.uid;
-		const ref = this.providers.doc(uid);
-
-		batch.set(ref, newProvider);
-		await batch.commit();
-
-		this.functions.httpsCallable('sendNewBusinessEmail')({
-			businessName: newProvider.companyName,
-			businessInfo: newProvider.companyDescription,
-			providerID: account.user.uid,
-			businessEmail: account.user.email,
-			businessPhoneNumber: newProvider.phoneNumber,
-			businessLocation: newProvider.location,
-			businessWebsite: newProvider.website
-		});
-		//Logs the event in firebase analytics
-		this.analytics.logEvent('provider_sign_up');
-		return newProvider;
-	}
-
 	//This method will take in an image respose & the desired reference in which to call the image and upload it
 	//to the firebase storage. This async function will take some time since image are 5-10 MB. Will be
 	//used to upload product images
-	static async uploadImage(reference, response) {
+	static async uploadProductImage(reference, response) {
 		//Fetches the absolute path of the image (depending on android or ios)
 		let absolutePath = '';
 		if (Platform.OS === 'android') {
@@ -372,107 +339,6 @@ export default class FirebaseFunctions {
 				.getDownloadURL();
 			return { uri: downloadURL };
 		}
-	}
-
-	//This method will take information about a new product and add it to the firestore database. It will
-	//first add it to the firestore containing products, then it will add the service IDs to the provider
-	//products
-	static async addProductToDatabase(providerID, newProductObject) {
-		//Creates the product object & the pricing text to be displayed to users
-		const { price, response } = newProductObject;
-		let pricing =
-			price.priceType === 'per'
-				? '$' + price.price + ' ' + strings.per + ' ' + price.per
-				: price.priceType === 'range'
-				? '$' + price.min + ' ' + strings.to + ' $' + price.max
-				: '$' + price.priceFixed;
-		//Fetches the provider by their ID so they can get some required information
-		const provider = await this.getProviderByID(providerID);
-		const { coordinates, location, companyName } = provider;
-		//Adds the remaining required fields to the object
-		let product = {
-			...newProductObject,
-			requests: {
-				currentRequests: [],
-				completedRequests: []
-			},
-			pricing,
-			offeredByID: providerID,
-			coordinates,
-			location,
-			offeredByName: companyName,
-			category: 'Cleaning',
-			averageRating: 0,
-			totalReviews: 0,
-			reviews: []
-		};
-
-		//deletes the response field from the object going into firebase
-		delete product.response;
-
-		//Adds the product to the database of products
-		const newProduct = await this.products.add(product);
-
-		//Uploads the image to the database (longest process)
-		await this.uploadImage(newProduct.id, response);
-
-		//Will deal with the ID of the product by adding it as a field and pushing to the
-		//provider's field
-		await this.updateServiceByID(newProduct.id, {
-			serviceID: newProduct.id
-		});
-		await this.updateProviderByID(providerID, {
-			serviceIDs: firebase.firestore.FieldValue.arrayUnion(newProduct.id)
-		});
-		//Logs the event in firebase analytics
-		this.analytics.logEvent('create_service');
-
-		return 0;
-	}
-
-	//This function is going to remove a business's reference to a service as well as give this service
-	//a "isDeleted" field of true to make sure it does not appear for customers. It will still remain in the database
-	//so it can be referenced to in a customer's order history and/or reviews. Additionally, it is going to remove
-	//all exisitng requests that are in this service & send customers notifications saying the service has been
-	//deleted
-	static async deleteService(serviceID, providerID) {
-		await this.updateServiceByID(serviceID, {
-			isDeleted: true
-		});
-
-		const provider = await this.getProviderByID(providerID);
-		let { serviceIDs } = provider;
-		let indexOfService = serviceIDs.findIndex((productID) => {
-			return productID === serviceID;
-		});
-		serviceIDs.splice(indexOfService, 1);
-		await this.updateProviderByID(providerID, {
-			serviceIDs
-		});
-
-		//Deletes all current requests for the service & notifies the customers
-		const service = await this.getServiceByID(serviceID);
-		const currentRequests = service.requests.currentRequests;
-		for (const request of currentRequests) {
-			await this.deleteRequest(serviceID, request.requesterID);
-			this.functions.httpsCallable('sendNotification')({
-				topic: 'r-' + request.requesterID,
-				title: strings.RequestRemoved,
-				body:
-					strings.YourRequestFor +
-					' ' +
-					service.serviceTitle +
-					' ' +
-					strings.HasBeenRemovedBecause +
-					' ' +
-					service.offeredByName +
-					' ' +
-					strings.NoLongerSellsThisService
-			});
-		}
-
-		this.analytics.logEvent('delete_service');
-		return 0;
 	}
 
 	//Sends a message by adding that conversation to the database. If the conversation is a new one,
@@ -623,59 +489,6 @@ export default class FirebaseFunctions {
 		return allUserConversations;
 	}
 
-	//This method will update the information for a provider by taking in the new provider object and overwriting it in firebase
-	static async updateProviderInfo(providerID, newProviderInfo) {
-		await this.updateProviderByID(providerID, newProviderInfo);
-
-		//Goes through and edits all of the products that belong to this business & updated the
-		//field that connects them to the correct provider to the new businessName
-		const query = this.products.where('offeredByID', '==', providerID);
-		const result = await query.get();
-		for (const doc of result.docs) {
-			await this.updateServiceByID(doc.id, {
-				offeredByName: newProviderInfo.companyName,
-				coordinates: newProviderInfo.coordinates,
-				location: newProviderInfo.location
-			});
-		}
-
-		//Logs the event in firebase analytics
-		this.analytics.logEvent('update_company_profile');
-		return 0;
-	}
-
-	//This method will update the information for a specific product by taking in all of the new
-	//product information and updating those fields in firestore
-	static async updateServiceInfo(productID, newProductObject) {
-		const { response, price } = newProductObject;
-		//Creates the product object & the pricing text to be displayed to users
-		let pricing =
-			price.priceType === 'per'
-				? '$' + price.price + ' ' + strings.per + ' ' + price.per
-				: price.priceType === 'range'
-				? '$' + price.min + ' ' + strings.to + ' $' + price.max
-				: '$' + price.priceFixed;
-		let updatedProductObjectWithPrice = {
-			...newProductObject,
-			pricing
-		};
-		//Deletes the response field from the product that is going into firebase
-		delete updatedProductObjectWithPrice.response;
-		await this.updateServiceByID(productID, updatedProductObjectWithPrice);
-
-		//Removes the old image and then uploads the new one if the image has been changed
-		if (response !== null) {
-			const imageRef = this.storage.ref('products/' + productID);
-
-			await imageRef.delete();
-			await this.uploadImage(productID, response);
-		}
-
-		//Logs the event in firebase analytics
-		this.analytics.logEvent('update_product_info');
-		return 0;
-	}
-
 	//This method will take in a product ID and a requester ID and then delete that requester's request
 	//from the array of the product's current requests. It will also remove the request from the inProgress section of
 	//the requester's orders array
@@ -724,66 +537,6 @@ export default class FirebaseFunctions {
 
 		//Logs the event in firebase analytics
 		this.analytics.logEvent('delete_request');
-		return 0;
-	}
-
-	//This method will take in a product ID and a requester ID and then complete the request by removing
-	//it from the array of current requests and adding it to the array of completed requests. It also removes
-	//the service from the "inProgress" section of the orderHistory to the "completed section"
-	static async completeRequest(productID, requesterID) {
-		const ref = this.products.doc(productID);
-		const doc = await ref.get();
-		const product = doc.data();
-
-		const requestToComplete = product.requests.currentRequests.find((eachRequest) => {
-			return eachRequest.requesterID === requesterID;
-		});
-
-		//Gets the old array of completed requests and adds the new completed request to that array,
-		//then sets that new array to it
-		const newCompletedRequest = {
-			dateCompleted: new Date().toLocaleDateString('en-US', {
-				year: 'numeric',
-				month: '2-digit',
-				day: '2-digit'
-			}),
-			...requestToComplete
-		};
-
-		let arrayOfCompletedRequests = product.requests.completedRequests;
-		arrayOfCompletedRequests.push(newCompletedRequest);
-
-		await this.updateServiceByID(productID, {
-			requests: {
-				completedRequests: arrayOfCompletedRequests,
-				currentRequests: product.requests.currentRequests
-			}
-		});
-
-		const requester = await this.getRequesterByID(requesterID);
-		const { orderHistory } = requester;
-		let { completed } = orderHistory;
-		completed.push({
-			...requestToComplete,
-			dateCompleted: new Date().toLocaleDateString('en-US', {
-				year: 'numeric',
-				month: '2-digit',
-				day: '2-digit'
-			}),
-			review: null
-		});
-
-		await this.updateRequesterByID(requesterID, {
-			orderHistory: {
-				inProgress: orderHistory.inProgress,
-				completed
-			}
-		});
-
-		await this.deleteRequest(productID, requesterID);
-
-		//Logs the event in firebase analytics
-		this.analytics.logEvent('complete_request');
 		return 0;
 	}
 
