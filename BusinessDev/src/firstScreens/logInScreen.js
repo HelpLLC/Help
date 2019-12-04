@@ -56,15 +56,33 @@ class logInScreen extends Component {
 				//Uses the firebase functions method to log in, and based on the return, it determines if the
 				//account belongs to a requester or not, and navigates to the correct screen
 				const account = await FirebaseFunctions.logIn(email, password);
-				const allProducts = await FirebaseFunctions.getAllProducts();
-				const requester = await FirebaseFunctions.getRequesterByID(account.substring(2));
-				//If this is a requester, then it will navigate to the screens & pass in the
-				//correct params
-				this.setState({ isLoading: false });
-				this.props.navigation.push('FeaturedScreen', {
-					requester: requester,
-					allProducts
-				});
+				//Tests whether this is a provider or a requester & based on that, navigates to the
+				//correct screen
+				if (account.charAt(0) === 'p') {
+					//Will first test if the business has been verified. If it has not, then it will go to the screen
+					//which says your account has not yet been approved
+					const id = account.substring(2);
+					const provider = await FirebaseFunctions.getProviderByID(id);
+					if (provider.isVerified === true) {
+						//This means this account is a provider since a requester with this ID was not found
+						this.props.navigation.push('ProviderScreens', {
+							providerID: account.substring(2)
+						});
+					} else {
+						//Navigates to the account not verified screen
+						this.props.navigation.push('AccountNotVerifiedScreen');
+					}
+				} else {
+					const allProducts = await FirebaseFunctions.getAllProducts();
+					const requester = await FirebaseFunctions.getRequesterByID(account.substring(2));
+					//If this is a requester, then it will navigate to the screens & pass in the
+					//correct params
+					this.setState({ isLoading: false });
+					this.props.navigation.push('FeaturedScreen', {
+						requester: requester,
+						allProducts
+					});
+				}
 			} catch (error) {
 				if (
 					error.message === 'The password is invalid or the user does not have a password.' ||

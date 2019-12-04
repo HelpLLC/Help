@@ -32,21 +32,37 @@ class settingsScreen extends Component {
 			<Icon name={'angle-right'} type='font-awesome' color={colors.lightBlue} />
 		);
 		//Retrieves the current user from the params
-		let user = this.props.navigation.state.params.requester;
+		let user = '';
+		let isRequester = '';
+		let uid = '';
+		if (this.props.navigation.state.params.providerID) {
+			user = this.props.navigation.state.params.providerID;
+			isRequester = false;
+			uid = this.props.navigation.state.params.providerID;
+		} else {
+			user = this.props.navigation.state.params.requester;
+			isRequester = true;
+			uid = this.props.navigation.state.params.requester.requesterID;
+		}
 
 		//This is going to contain the main UI because we only display the left menu if it is a requester
 		const mainUI = (
 			<HelpView style={screenStyle.container}>
 				<View>
-					<TopBanner
-						leftIconName='navicon'
-						leftOnPress={() => {
-							FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_settings');
-							this.setState({ isOpen: true });
-						}}
-						size={30}
-						title={strings.Settings}
-					/>
+					{this.props.navigation.state.params.providerID ? (
+						<TopBanner title={strings.Settings} />
+					) : (
+						<TopBanner
+							leftIconName='navicon'
+							leftOnPress={() => {
+								FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_settings');
+								this.setState({ isOpen: true });
+							}}
+							size={30}
+							title={strings.Settings}
+						/>
+					)}
+
 					<View style={{ flex: 0.1 }}></View>
 					<View style={{ flex: 2 }}>
 						<View style={{ flex: 1 }}>
@@ -115,21 +131,41 @@ class settingsScreen extends Component {
 								onPress={() => this.props.navigation.push('CreditsScreen')}
 							/>
 						</View>
-						<View style={{ flex: 1 }}>
-							<WhiteCard
-								style={whiteCardStyle.whiteCardStyle}
-								text={strings.BlockedBusinesses}
-								mainTextStyle={fontStyles.mainTextStyleBlack}
-								comp={angleRightIcon}
-								//Pressing this leads to the blocked users screen
-								onPress={() =>
-									this.props.navigation.push('RequesterBlockedBusinessesScreen', {
-										requesterID: user.requesterID
-									})
-								}
-							/>
-						</View>
-						<View style={{ flex: 3 }}></View>
+						{this.props.navigation.state.params.providerID ? (
+							//Makes it if they are a provider they can see the log out in settings
+							<View style={{ flex: 1 }}>
+								<WhiteCard
+									style={whiteCardStyle.whiteCardStyle}
+									text={strings.LogOut}
+									mainTextStyle={fontStyles.mainTextStyleRed}
+									//To-Do: Needs to call a logout function
+									onPress={async () => {
+										await FirebaseFunctions.logOut(isRequester, uid);
+										this.props.navigation.push('SplashScreen');
+									}}
+								/>
+							</View>
+						) : (
+							//if they are a requester, they can view businesses they've blocked
+							<View style={{ flex: 1 }}>
+								<WhiteCard
+									style={whiteCardStyle.whiteCardStyle}
+									text={strings.BlockedBusinesses}
+									mainTextStyle={fontStyles.mainTextStyleBlack}
+									comp={angleRightIcon}
+									//Pressing this leads to the blocked users screen
+									onPress={() =>
+										this.props.navigation.push('RequesterBlockedBusinessesScreen', {
+											requesterID: user.requesterID
+										})
+									}
+								/>
+							</View>
+						)}
+						<View
+							style={{
+								flex: this.props.navigation.state.params.providerID ? 1.5 : 3
+							}}></View>
 					</View>
 				</View>
 			</HelpView>
@@ -137,20 +173,24 @@ class settingsScreen extends Component {
 
 		return (
 			<View style={{ flex: 1 }}>
-				<SideMenu
-					onChange={(isOpen) => {
-						this.setState({ isOpen });
-					}}
-					isOpen={this.state.isOpen}
-					menu={
-						<LeftMenu
-							navigation={this.props.navigation}
-							allProducts={this.props.navigation.state.params.allProducts}
-							requester={this.props.navigation.state.params.requester}
-						/>
-					}>
-					{mainUI}
-				</SideMenu>
+				{isRequester === true ? (
+					<SideMenu
+						onChange={(isOpen) => {
+							this.setState({ isOpen });
+						}}
+						isOpen={this.state.isOpen}
+						menu={
+							<LeftMenu
+								navigation={this.props.navigation}
+								allProducts={this.props.navigation.state.params.allProducts}
+								requester={this.props.navigation.state.params.requester}
+							/>
+						}>
+						{mainUI}
+					</SideMenu>
+				) : (
+					mainUI
+				)}
 			</View>
 		);
 	}

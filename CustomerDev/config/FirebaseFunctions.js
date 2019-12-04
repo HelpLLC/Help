@@ -613,19 +613,12 @@ export default class FirebaseFunctions {
 
 	//Returns an array of all the conversation that this user has had, depending on if they are a
 	//requseter or a provider
-	static async getAllUserConversations(userID, isRequester) {
+	static async getAllUserConversations(userID) {
 		let allUserConversations = [];
-		if (isRequester === true) {
-			const ref = this.messages.where('requesterID', '==', userID);
-			const query = await ref.get();
-			const docs = query.docs;
-			allUserConversations = docs.map((doc) => doc.data());
-		} else {
-			const ref = this.messages.where('providerID', '==', userID);
-			const query = await ref.get();
-			const docs = query.docs;
-			allUserConversations = docs.map((doc) => doc.data());
-		}
+		const ref = this.messages.where('requesterID', '==', userID);
+		const query = await ref.get();
+		const docs = query.docs;
+		allUserConversations = docs.map((doc) => doc.data());
 
 		return allUserConversations;
 	}
@@ -844,7 +837,12 @@ export default class FirebaseFunctions {
 			this.functions.httpsCallable('sendNotification')({
 				topic: 'p-' + doc.data().offeredByID,
 				title: strings.RequestUpdated,
-				body: requester.username + " " + strings.HasUpdatedTheirRequestFor + " " + doc.data().serviceTitle
+				body:
+					requester.username +
+					' ' +
+					strings.HasUpdatedTheirRequestFor +
+					' ' +
+					doc.data().serviceTitle
 			});
 
 			//Logs the event in firebase analytics
@@ -930,12 +928,9 @@ export default class FirebaseFunctions {
 		const requester = await this.getRequesterByID(uid);
 
 		if (requester === -1) {
-			//Logs the event in firebase analytics
-			this.analytics.logEvent('provider_log_in');
-			//Subscribes to the provider channel
-			const topicName = 'p-' + uid;
-			await this.fcm.subscribeToTopic(topicName);
-			return topicName;
+			throw new Error(
+				'There is no user record corresponding to this identifier. The user may have been deleted.'
+			);
 		} else {
 			//Logs the event in firebase analytics
 			this.analytics.logEvent('customer_log_in');
@@ -948,16 +943,11 @@ export default class FirebaseFunctions {
 
 	//This method will log out the current user of the app & unsubscribed to the notification channel associated with
 	//this user
-	static async logOut(isRequester, uid) {
+	static async logOut(uid) {
 		//Logs the event in firebase analytics & unsubcribes from the notification service
 		await firebase.auth().signOut();
-		if (isRequester === true) {
-			this.analytics.logEvent('customer_log_out');
-			this.fcm.unsubscribeFromTopic('r-' + uid);
-		} else {
-			this.analytics.logEvent('provider_log_out');
-			this.fcm.unsubscribeFromTopic('p-' + uid);
-		}
+		this.analytics.logEvent('customer_log_out');
+		this.fcm.unsubscribeFromTopic('r-' + uid);
 		return 0;
 	}
 

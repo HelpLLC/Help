@@ -20,22 +20,41 @@ class chatsScreen extends Component {
 			isLoading: true,
 			userID: '',
 			userConversations: '',
+			isRequester: '',
 			isOpen: false
 		};
 	}
 
 	//The method that is called to load all of the data
 	async fetchDatabaseData() {
-		//Fetches all the conversations that this user has done and stores them in an array
-		const convos = await FirebaseFunctions.getAllUserConversations(
-			this.props.navigation.state.params.requester.requesterID
-		);
-		this.setState({
-			userID: this.props.navigation.state.params.requester.requesterID,
-			userConversations: convos,
-			isLoading: false,
-			isOpen: false
-		});
+		//First determines whether this is a requester or a provider and then sets the userID
+		if (this.props.navigation.state.params.providerID) {
+			//Fetches all the conversations that this user has done and stores them in an array
+			const convos = await FirebaseFunctions.getAllUserConversations(
+				this.props.navigation.state.params.providerID,
+				false
+			);
+			this.setState({
+				userID: this.props.navigation.state.params.providerID,
+				isRequester: false,
+				userConversations: convos,
+				isLoading: false,
+				isOpen: false
+			});
+		} else {
+			//Fetches all the conversations that this user has done and stores them in an array
+			const convos = await FirebaseFunctions.getAllUserConversations(
+				this.props.navigation.state.params.requester.requesterID,
+				true
+			);
+			this.setState({
+				userID: this.props.navigation.state.params.requester.requesterID,
+				isRequester: true,
+				userConversations: convos,
+				isLoading: false,
+				isOpen: false
+			});
+		}
 	}
 
 	//The method that is called to load all of the data
@@ -53,18 +72,24 @@ class chatsScreen extends Component {
 	}
 
 	render() {
+		const { isRequester } = this.state;
+
 		//This is going to contain the main UI because we only display the left menu if it is a requester
 		const mainUI = (
 			<HelpView style={screenStyle.container}>
 				<View>
-					<TopBanner
-						leftIconName='navicon'
-						leftOnPress={() => {
-							this.setState({ isOpen: true });
-						}}
-						size={30}
-						title={strings.Chats}
-					/>
+					{isRequester === true ? (
+						<TopBanner
+							leftIconName='navicon'
+							leftOnPress={() => {
+								this.setState({ isOpen: true });
+							}}
+							size={30}
+							title={strings.Chats}
+						/>
+					) : (
+						<TopBanner title={strings.Chats} />
+					)}
 					{//Tests whether or not the provider has any conversations
 					this.state.userConversations.length === 0 ? (
 						<View
@@ -88,7 +113,11 @@ class chatsScreen extends Component {
 									}}
 									renderItem={({ item, index }) => (
 										<ChatCard
-											username={item.providerName}
+											username={
+												//Will test if this is the provider or the requester in
+												//order to know which username to display
+												this.state.isRequester ? item.providerName : item.requesterName
+											}
 											previewText={
 												item.conversationMessages[item.conversationMessages.length - 1].text
 											}
@@ -97,10 +126,10 @@ class chatsScreen extends Component {
 											}
 											onPress={() => {
 												this.props.navigation.push('MessagingScreen', {
-													title: item.providerName,
+													title: this.state.isRequester ? item.providerName : item.requesterName,
 													providerID: item.providerID,
 													requesterID: item.requesterID,
-													userID: item.requesterID
+													userID: this.state.isRequester ? item.requesterID : item.providerID
 												});
 											}}
 										/>
@@ -116,15 +145,19 @@ class chatsScreen extends Component {
 		if (this.state.isLoading === true) {
 			return (
 				<View style={screenStyle.container}>
-					<TopBanner
-						leftIconName='navicon'
-						leftOnPress={() => {
-							FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_chats');
-							this.setState({ isOpen: true });
-						}}
-						size={30}
-						title={strings.Chats}
-					/>
+					{isRequester === true ? (
+						<TopBanner
+							leftIconName='navicon'
+							leftOnPress={() => {
+								FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_chats');
+								this.setState({ isOpen: true });
+							}}
+							size={30}
+							title={strings.Chats}
+						/>
+					) : (
+						<TopBanner title={strings.Chats} />
+					)}
 					<View
 						style={{
 							flex: 1,
@@ -138,20 +171,24 @@ class chatsScreen extends Component {
 		} else {
 			return (
 				<View style={{ flex: 1 }}>
-					<SideMenu
-						isOpen={this.state.isOpen}
-						onChange={(isOpen) => {
-							this.setState({ isOpen });
-						}}
-						menu={
-							<LeftMenu
-								navigation={this.props.navigation}
-								allProducts={this.props.navigation.state.params.allProducts}
-								requester={this.props.navigation.state.params.requester}
-							/>
-						}>
-						{mainUI}
-					</SideMenu>
+					{isRequester ? (
+						<SideMenu
+							isOpen={this.state.isOpen}
+							onChange={(isOpen) => {
+								this.setState({ isOpen });
+							}}
+							menu={
+								<LeftMenu
+									navigation={this.props.navigation}
+									allProducts={this.props.navigation.state.params.allProducts}
+									requester={this.props.navigation.state.params.requester}
+								/>
+							}>
+							{mainUI}
+						</SideMenu>
+					) : (
+						mainUI
+					)}
 				</View>
 			);
 		}

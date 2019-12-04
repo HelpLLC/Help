@@ -51,8 +51,7 @@ export default class launchScreen extends Component {
 		internetConnection: true,
 		isLoading: false,
 		willRestart: false,
-		status: '',
-		businessVersionMessageVisible: false
+		status: ''
 	};
 
 	/*
@@ -109,14 +108,19 @@ export default class launchScreen extends Component {
 						//Starts with searching if this is a requester since that is more common
 						const requester = await FirebaseFunctions.getRequesterByID(uid);
 						if (requester === -1) {
+							//Tests if this account is verified or not. If the account is not verified, then it will
+							//go to a screen displaying a message saying wait for verification. If they are, it will
+							//navigate to the normal screens
 							const provider = await FirebaseFunctions.getProviderByID(uid);
-							if (provider === -1) {
-								this.setState({ isErrorVisible: true });
+							if (provider.isVerified === true) {
+								//This means this account is a provider since a requester with this ID was not found.
+								this.props.navigation.push('ProviderScreens', {
+									providerID: uid
+								});
 							} else {
-								this.setState({ businessVersionMessageVisible: true });
+								//Navigates to the account not verified screen.
+								this.props.navigation.push('AccountNotVerifiedScreen');
 							}
-							//This means that the logged in user is a provider from earlier versions, so a message
-							//will display if they are a provider
 						} else {
 							const allProducts = await FirebaseFunctions.getAllProducts();
 							//If this is a requester, then it will navigate to the screens & pass in the
@@ -213,20 +217,6 @@ export default class launchScreen extends Component {
 					}}
 					title={strings.UpdateAvailable}
 					message={strings.UpdateAvailableMessage}
-				/>
-				<HelpAlert
-					isVisible={this.state.businessVersionMessageVisible}
-					onPress={() => {
-						if (Platform.OS === 'ios') {
-							//Links to the new business app for ios
-							
-						} else if (Platform.OS === 'android') {
-							//Links to the new business app for android
-
-						}
-					}}
-					title={strings.NewBusinessApp}
-					message={strings.NewBusinessAppMessage}
 				/>
 			</View>
 		);

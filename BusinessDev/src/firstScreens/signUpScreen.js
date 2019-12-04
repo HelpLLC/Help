@@ -31,6 +31,7 @@ class signUpScreen extends Component {
 	state = {
 		email: '',
 		password: '',
+		buttonSelected: '',
 		fieldsError: false,
 		emailError: false,
 		buttonError: false,
@@ -77,13 +78,24 @@ class signUpScreen extends Component {
 					this.setState({ emailExistsError: true });
 					this.setState({ isLoading: false });
 				} else {
-					//If this is a customer, it will push to the createrequester screen and create profile there
-					this.setState({ isLoading: false });
-					this.props.navigation.push('CreateRequesterProfileScreen', {
-						email,
-						password,
-						isEditing: false
-					});
+					if (buttonSelected === 'Customer') {
+						//If this is a customer, it will push to the createrequester screen and create profile there
+						this.setState({ isLoading: false });
+						this.props.navigation.push('CreateRequesterProfileScreen', {
+							email,
+							password,
+							isEditing: false
+						});
+					} else {
+						//If this is a business account, then it will navigate to the create provider
+						//profile screen to finish creating the account there
+						this.setState({ isLoading: false });
+						this.props.navigation.push('CreateProviderProfileScreen', {
+							email,
+							password,
+							editing: false
+						});
+					}
 				}
 			} catch (error) {
 				this.setState({ isLoading: false, isErrorVisible: true });
@@ -168,6 +180,67 @@ class signUpScreen extends Component {
 								}
 								password={!this.state.isPasswordVisible}
 								autoCompleteType={'password'}
+							/>
+						</View>
+					</View>
+					<View
+						style={{
+							marginTop: Dimensions.get('window').height * 0.06,
+							height: Dimensions.get('window').height * 0.08,
+							justifyContent: 'center',
+							alignSelf: 'center'
+						}}>
+						<Text style={fontStyles.mainTextStyleBlack}>{strings.AccountType}</Text>
+					</View>
+					<View
+						style={{
+							flexDirection: 'row',
+							width: Dimensions.get('window').width,
+							justifyContent: 'space-evenly',
+							height: Dimensions.get('window').height * 0.08,
+							justifyContent: 'center',
+							alignSelf: 'center'
+						}}>
+						<View style={{ flex: 1, alignItems: 'center' }}>
+							<RoundBlueButton
+								title={strings.Business}
+								//Tests if this button is selected, if it is, then the border color will
+								//be blue
+								style={[
+									roundBlueButtonStyle.AccountTypeButton,
+									{
+										borderColor:
+											this.state.buttonSelected === 'Business' ? colors.lightBlue : colors.white
+									}
+								]}
+								textStyle={fontStyles.mainTextStyleBlue}
+								//Method selects the business button and deselects the other
+								onPress={() => {
+									this.setState({ buttonSelected: 'Business' });
+									Keyboard.dismiss();
+								}}
+								disabled={this.state.isLoading}
+							/>
+						</View>
+						<View style={{ flex: 1, alignItems: 'center' }}>
+							<RoundBlueButton
+								title={strings.Customer}
+								//Tests if this button is selected, if it is, then the border color will
+								//be blue
+								style={[
+									roundBlueButtonStyle.AccountTypeButton,
+									{
+										borderColor:
+											this.state.buttonSelected === 'Customer' ? colors.lightBlue : colors.white
+									}
+								]}
+								textStyle={fontStyles.mainTextStyleBlue}
+								//Method selects the customer button and deselects the other
+								onPress={() => {
+									this.setState({ buttonSelected: 'Customer' });
+									Keyboard.dismiss();
+								}}
+								disabled={this.state.isLoading}
 							/>
 						</View>
 					</View>

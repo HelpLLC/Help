@@ -40,7 +40,7 @@ class reportIssueScreen extends Component {
 				this.setState({ isLoading: false, isErrorVisible: true });
 				FirebaseFunctions.logIssue(error, {
 					screen: 'ReportIssueScreen',
-					userID: 'r-' + user.requesterID
+					userID: user.requesterID ? 'r-' + user.requesterID : 'p-' + user.providerID
 				});
 			}
 		}

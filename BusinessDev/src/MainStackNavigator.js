@@ -1,9 +1,17 @@
 //This stack navigator will contain all of the screens & navigators that will be accessed with the
 //default slide right transition
+import ProviderCreateProductScreen from './providerScreens/providerBusiness/createProductScreen';
+import ProviderEditCompanyProfileScreen from './firstScreens/createProviderProfileScreen';
+import providerAdditionalInformationScreen from './firstScreens/providerAdditionalInformationScreen';
+import ProviderProductScreen from './providerScreens/providerBusiness/productScreen';
 import launchScreen from './firstScreens/launchScreen';
 import splashScreen from './firstScreens/splashScreen';
 import logInScreen from './firstScreens/logInScreen';
 import signUpScreen from './firstScreens/signUpScreen';
+import createProviderProfileScreen from './firstScreens/createProviderProfileScreen';
+import accountNotVerifiedScreen from './firstScreens/accountNotVerifiedScreen';
+import customerRequestScreen from './providerScreens/providerBusiness/customerRequestScreen';
+import ProviderProductHistoryScreen from './providerScreens/providerBusiness/productHistoryScreen';
 import RequesterServiceScreen from './requesterScreens/serviceScreen';
 import RequesterCompanyProfileScreen from './requesterScreens/companyProfileScreen';
 import MessagingScreen from './chats/messagingScreen';
@@ -13,6 +21,7 @@ import privacyScreen from './settingsScreens/privacyScreen';
 import reportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';
 import chatsScreen from './chats/chatsScreen';
 import settingsScreen from './settingsScreens/settingsScreen';
+import providerScreensNavigator from './providerScreens/providerScreensNavigator';
 import FeaturedScreen from './requesterScreens/featuredScreen';
 import RequesterOrderHistoryScreen from './requesterScreens/orderHistoryScreen';
 import { fadeIn, fromRight } from 'react-navigation-transitions';
@@ -22,6 +31,8 @@ import creditsScreen from './settingsScreens/creditsScreen';
 import RequesterCategoriesScreen from './requesterScreens/categoriesScreen';
 import categoryScreen from './requesterScreens/categoryScreen';
 import createRequesterProfileScreen from './firstScreens/createRequesterProfileScreen';
+import createScheduleScreen from './providerScreens/providerBusiness/createScheduleScreen';
+import createQuestionsScreen from './providerScreens/providerBusiness/createQuestionsScreen';
 import requesterScheduleScreen from './requesterScreens/requestScheduleScreen';
 import requesterQuestionsScreen from './requesterScreens/requesterQuestionsScreen';
 import blockedBusinessesScreen from './requesterScreens/blockedBusinessesScreen';
@@ -77,6 +88,75 @@ const routeConfig = {
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
+	},
+
+	//Takes you to the screen where businesses will create their initial profile
+	CreateProviderProfileScreen: {
+		screen: createProviderProfileScreen,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false
+		})
+	},
+
+	//Takes you to the screen which will allow providers to add more information about themselves
+	ProviderAdditionalInformationScreen: {
+		screen: providerAdditionalInformationScreen,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false
+		})
+	},
+
+	//Takes you to the screen which will display if a business account has not yet been approved
+	AccountNotVerifiedScreen: {
+		screen: accountNotVerifiedScreen,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false
+		})
+	},
+
+	//--------------------------- Business Screens ---------------------------
+
+	//The route going to the create product screen
+	ProviderCreateProductScreen: {
+		screen: ProviderCreateProductScreen
+	},
+
+	//The route going to the edit company profile screen
+	ProviderEditCompanyProfileScreen: {
+		screen: ProviderEditCompanyProfileScreen
+	},
+
+	//Route leading to where businesses create their questions
+	ProviderCreateQuestionsScreen: {
+		screen: createQuestionsScreen
+	},
+
+	//Takes you to the provider screen navigator's default route
+	ProviderScreens: {
+		screen: providerScreensNavigator,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false
+		})
+	},
+
+	//The route going to the screen for a specific request
+	CustomerRequestScreen: {
+		screen: customerRequestScreen
+	},
+
+	//The route going to the product screen
+	ProviderProductScreen: {
+		screen: ProviderProductScreen
+	},
+
+	//The route going to the product history screen
+	ProviderProductHistoryScreen: {
+		screen: ProviderProductHistoryScreen
+	},
+
+	//route leading to where businesses create their schedules
+	ProviderCreateScheduleScreen: {
+		screen: createScheduleScreen
 	},
 
 	//--------------------------- Requester Screens ---------------------------
