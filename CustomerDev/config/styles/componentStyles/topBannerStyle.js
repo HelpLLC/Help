@@ -11,9 +11,4 @@ export default {
 		alignItems: 'center',
 		backgroundColor: colors.white
 	},
-	styleWithoutAlign: {
-		height: Dimensions.get('window').height * 0.12,
-		width: Dimensions.get('window').width,
-		backgroundColor: colors.white
-	}
 };
