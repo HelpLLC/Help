@@ -1,9 +1,9 @@
 //This stack navigator will contain all of the screens & navigators that will be accessed with the
 //default slide right transition
-import ProviderCreateProductScreen from './providerScreens/providerBusiness/createProductScreen';
+import ProviderCreateProductScreen from './providerScreens/createProductScreen';
 import ProviderEditCompanyProfileScreen from './firstScreens/createProviderProfileScreen';
 import providerAdditionalInformationScreen from './firstScreens/providerAdditionalInformationScreen';
-import ProviderProductScreen from './providerScreens/providerBusiness/productScreen';
+import ProviderProductScreen from './providerScreens/productScreen';
 import launchScreen from './firstScreens/launchScreen';
 import splashScreen from './firstScreens/splashScreen';
 import logInScreen from './firstScreens/logInScreen';
@@ -11,9 +11,7 @@ import signUpScreen from './firstScreens/signUpScreen';
 import createProviderProfileScreen from './firstScreens/createProviderProfileScreen';
 import accountNotVerifiedScreen from './firstScreens/accountNotVerifiedScreen';
 import customerRequestScreen from './providerScreens/providerBusiness/customerRequestScreen';
-import ProviderProductHistoryScreen from './providerScreens/providerBusiness/productHistoryScreen';
-import RequesterServiceScreen from './requesterScreens/serviceScreen';
-import RequesterCompanyProfileScreen from './requesterScreens/companyProfileScreen';
+import ProviderProductHistoryScreen from './providerScreens/productHistoryScreen';
 import MessagingScreen from './chats/messagingScreen';
 import forgotPasswordScreen from './firstScreens/forgotPasswordScreen';
 import aboutScreen from './settingsScreens/aboutScreen';
@@ -22,21 +20,13 @@ import reportIssueScreensNavigator from './settingsScreens/reportIssue/reportScr
 import chatsScreen from './chats/chatsScreen';
 import settingsScreen from './settingsScreens/settingsScreen';
 import providerScreensNavigator from './providerScreens/providerScreensNavigator';
-import FeaturedScreen from './requesterScreens/featuredScreen';
-import RequesterOrderHistoryScreen from './requesterScreens/orderHistoryScreen';
 import { fadeIn, fromRight } from 'react-navigation-transitions';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import termsAndConditionsScreen from './firstScreens/termsAndConditionsScreen';
 import creditsScreen from './settingsScreens/creditsScreen';
-import RequesterCategoriesScreen from './requesterScreens/categoriesScreen';
-import categoryScreen from './requesterScreens/categoryScreen';
 import createRequesterProfileScreen from './firstScreens/createRequesterProfileScreen';
-import createScheduleScreen from './providerScreens/providerBusiness/createScheduleScreen';
-import createQuestionsScreen from './providerScreens/providerBusiness/createQuestionsScreen';
-import requesterScheduleScreen from './requesterScreens/requestScheduleScreen';
-import requesterQuestionsScreen from './requesterScreens/requesterQuestionsScreen';
-import blockedBusinessesScreen from './requesterScreens/blockedBusinessesScreen';
-import RequesterServiceRequestedScreen from './requesterScreens/serviceRequestedScreen';
+import createScheduleScreen from './providerScreens/createScheduleScreen';
+import createQuestionsScreen from './providerScreens/createQuestionsScreen';
 
 //The route config for all of the screens
 const routeConfig = {
@@ -157,72 +147,6 @@ const routeConfig = {
 	//route leading to where businesses create their schedules
 	ProviderCreateScheduleScreen: {
 		screen: createScheduleScreen
-	},
-
-	//--------------------------- Requester Screens ---------------------------
-
-	//The route going to the requester service screen
-	RequesterServiceScreen: {
-		screen: RequesterServiceScreen
-	},
-
-	//The route going to the requester scheduling screen
-	RequesterScheduleScreen: {
-		screen: requesterScheduleScreen
-	},
-
-	//Route to screen with list of all categories
-	RequesterCategoriesScreen: {
-		screen: RequesterCategoriesScreen
-	},
-
-	//Route leading to the screen with the array of blocked businesses
-	RequesterBlockedBusinessesScreen: {
-		screen: blockedBusinessesScreen
-	},
-
-	RequesterServiceRequestedScreen: {
-		screen: RequesterServiceRequestedScreen
-	},
-
-	//Route leading to where the customer answers questions for the product
-	RequesterQuestionsScreen: {
-		screen: requesterQuestionsScreen
-	},
-	//Route leading to the screen that displays a specific category
-	CategoryScreen: {
-		screen: categoryScreen
-	},
-
-	//The route going to the requester company profile screen
-	RequesterCompanyProfileScreen: {
-		screen: RequesterCompanyProfileScreen
-	},
-
-	//Route connecting to the featured screen
-	FeaturedScreen: {
-		//connects the object with the help screen component
-		screen: FeaturedScreen,
-		navigationOptions: ({ navigation }) => ({
-			gesturesEnabled: false
-		})
-	},
-
-	//Route connecting to the order history screen
-	RequesterOrderHistoryScreen: {
-		//connects the object with the help screen component
-		screen: RequesterOrderHistoryScreen,
-		navigationOptions: ({ navigation }) => ({
-			gesturesEnabled: false
-		})
-	},
-
-	//Route to edit a requester's profile
-	EditRequesterProfileScreen: {
-		screen: createRequesterProfileScreen,
-		navigationOptions: ({ navigation }) => ({
-			gesturesEnabled: false
-		})
 	},
 
 	//--------------------------- Messaging Screens ---------------------------

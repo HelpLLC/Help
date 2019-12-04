@@ -105,30 +105,18 @@ export default class launchScreen extends Component {
 					alreadyCalled = true;
 					if (user) {
 						const { uid } = user;
-						//Starts with searching if this is a requester since that is more common
-						const requester = await FirebaseFunctions.getRequesterByID(uid);
-						if (requester === -1) {
-							//Tests if this account is verified or not. If the account is not verified, then it will
-							//go to a screen displaying a message saying wait for verification. If they are, it will
-							//navigate to the normal screens
-							const provider = await FirebaseFunctions.getProviderByID(uid);
-							if (provider.isVerified === true) {
-								//This means this account is a provider since a requester with this ID was not found.
-								this.props.navigation.push('ProviderScreens', {
-									providerID: uid
-								});
-							} else {
-								//Navigates to the account not verified screen.
-								this.props.navigation.push('AccountNotVerifiedScreen');
-							}
-						} else {
-							const allProducts = await FirebaseFunctions.getAllProducts();
-							//If this is a requester, then it will navigate to the screens & pass in the
-							//correct params.
-							this.props.navigation.push('FeaturedScreen', {
-								requester: requester,
-								allProducts
+						//Tests if this account is verified or not. If the account is not verified, then it will
+						//go to a screen displaying a message saying wait for verification. If they are, it will
+						//navigate to the normal screens
+						const provider = await FirebaseFunctions.getProviderByID(uid);
+						if (provider.isVerified === true) {
+							//This means this account is a provider since a requester with this ID was not found.
+							this.props.navigation.push('ProviderScreens', {
+								providerID: uid
 							});
+						} else {
+							//Navigates to the account not verified screen.
+							this.props.navigation.push('AccountNotVerifiedScreen');
 						}
 					} else {
 						//Delays this for a third of a second so it doesn't seem instant and unnatural.
