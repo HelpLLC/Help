@@ -3,15 +3,15 @@
 //factors.
 import React, { Component } from 'react';
 import { View, Text, Dimensions, FlatList, ScrollView } from 'react-native';
-import ServiceCard from '../../components/ServiceCard';
+import ServiceCard from '../components/ServiceCard';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
-import HelpView from '../../components/HelpView';
+import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import ImageWithBorder from '../../components/ImageWithBorder';
-import TopBanner from '../../components/TopBanner';
+import ImageWithBorder from '../components/ImageWithBorder';
+import TopBanner from '../components/TopBanner';
 
 //The class for this screen
 class productHistoryScreen extends Component {

@@ -1,22 +1,22 @@
 //This screen is going to be navigated from the questions screen & will be in the create product flow from the
 //business side. It allows businesses to specify when they can complete a specific job.
 import React, { Component } from 'react';
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../components/TopBanner';
 import strings from 'config/strings';
-import RoundBlueButton from '../../components/RoundBlueButton';
+import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import HelpView from '../../components/HelpView';
+import HelpView from '../components/HelpView';
 import RNPickerSelect from 'react-native-picker-select';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import screenStyle from 'config/styles/screenStyle';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
-import DaysFromWeekPicker from '../../components/DaysFromWeekPicker';
+import DaysFromWeekPicker from '../components/DaysFromWeekPicker';
 import { Icon } from 'react-native-elements';
-import HelpAlert from '../../components/HelpAlert';
+import HelpAlert from '../components/HelpAlert';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
-import LoadingSpinner from '../../components/LoadingSpinner';
-import FirebaseFunctions from '../../../config/FirebaseFunctions';
+import LoadingSpinner from '../components/LoadingSpinner';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 
 //exports and creates the class
 export default class createScheduleScreen extends Component {

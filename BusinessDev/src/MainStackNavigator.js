@@ -10,7 +10,7 @@ import logInScreen from './firstScreens/logInScreen';
 import signUpScreen from './firstScreens/signUpScreen';
 import createProviderProfileScreen from './firstScreens/createProviderProfileScreen';
 import accountNotVerifiedScreen from './firstScreens/accountNotVerifiedScreen';
-import customerRequestScreen from './providerScreens/providerBusiness/customerRequestScreen';
+import customerRequestScreen from './providerScreens/customerRequestScreen';
 import ProviderProductHistoryScreen from './providerScreens/productHistoryScreen';
 import MessagingScreen from './chats/messagingScreen';
 import forgotPasswordScreen from './firstScreens/forgotPasswordScreen';
@@ -24,7 +24,6 @@ import { fadeIn, fromRight } from 'react-navigation-transitions';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import termsAndConditionsScreen from './firstScreens/termsAndConditionsScreen';
 import creditsScreen from './settingsScreens/creditsScreen';
-import createRequesterProfileScreen from './firstScreens/createRequesterProfileScreen';
 import createScheduleScreen from './providerScreens/createScheduleScreen';
 import createQuestionsScreen from './providerScreens/createQuestionsScreen';
 
@@ -59,14 +58,6 @@ const routeConfig = {
 	//Takes you to the sign up screen of the app
 	SignUpScreen: {
 		screen: signUpScreen,
-		navigationOptions: ({ navigation }) => ({
-			gesturesEnabled: false
-		})
-	},
-
-	//Route to screen where you create an initial requester
-	CreateRequesterProfileScreen: {
-		screen: createRequesterProfileScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})

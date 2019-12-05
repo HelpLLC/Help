@@ -3,24 +3,24 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity, Keyboard } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
-import RoundBlueButton from '../../components/RoundBlueButton';
+import RoundBlueButton from '../components/RoundBlueButton';
 import RNPickerSelect from 'react-native-picker-select';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
+import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import { BoxShadow } from 'react-native-shadow';
-import HelpView from '../../components/HelpView';
-import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
+import HelpView from '../components/HelpView';
+import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
 import images from 'config/images/images';
-import ImagePicker from '../../components/ImagePicker';
+import ImagePicker from '../components/ImagePicker';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
-import LoadingSpinner from '../../components/LoadingSpinner';
-import TopBanner from '../../components/TopBanner';
-import HelpAlert from '../../components/HelpAlert';
+import LoadingSpinner from '../components/LoadingSpinner';
+import TopBanner from '../components/TopBanner';
+import HelpAlert from '../components/HelpAlert';
 import { Icon } from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
-import OptionPicker from '../../components/OptionPicker';
+import OptionPicker from '../components/OptionPicker';
 import colors from 'config/colors';
 
 class createProductScreen extends Component {

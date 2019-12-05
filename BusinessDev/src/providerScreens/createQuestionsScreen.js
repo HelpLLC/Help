@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions, ScrollView, TouchableOpacity, FlatList } from 'react-native';
-import HelpView from '../../components/HelpView';
-import TopBanner from '../../components/TopBanner';
-import strings from '../../../config/strings';
-import fontStyles from '../../../config/styles/fontStyles';
+import HelpView from '../components/HelpView';
+import TopBanner from '../components/TopBanner';
+import strings from 'config/strings';
+import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../../components/RoundBlueButton';
-import colors from '../../../config/colors';
-import roundBlueButtonStyle from '../../../config/styles/componentStyles/roundBlueButtonStyle';
-import FirebaseFunctions from '../../../config/FirebaseFunctions';
-import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
-import LoadingSpinner from '../../components/LoadingSpinner';
+import colors from 'config/colors';
+import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import FirebaseFunctions from 'config/FirebaseFunctions';
+import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
+import LoadingSpinner from '../components/LoadingSpinner';
 import { Icon } from 'react-native-elements';
-import HelpAlert from '../../components/HelpAlert';
+import HelpAlert from '../components/HelpAlert';
 
 class createQuestionsScreen extends Component {
 	state = {

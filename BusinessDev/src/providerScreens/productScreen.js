@@ -8,12 +8,12 @@ import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import colors from 'config/colors';
-import LoadingSpinner from '../../components/LoadingSpinner';
-import HelpAlert from '../../components/HelpAlert';
-import HelpView from '../../components/HelpView';
+import LoadingSpinner from '../components/LoadingSpinner';
+import HelpAlert from '../components/HelpAlert';
+import HelpView from '../components/HelpView';
 import FastImage from 'react-native-fast-image';
-import ServiceCard from '../../components/ServiceCard';
-import TopBanner from '../../components/TopBanner';
+import ServiceCard from '../components/ServiceCard';
+import TopBanner from '../components/TopBanner';
 
 import ViewMoreText from 'react-native-view-more-text';
 

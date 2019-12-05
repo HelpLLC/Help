@@ -8,15 +8,15 @@ import strings from 'config/strings';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import FastImage from 'react-native-fast-image';
-import RoundBlueButton from '../../components/RoundBlueButton';
-import TopBanner from '../../components/TopBanner';
+import RoundBlueButton from '../components/RoundBlueButton';
+import TopBanner from '../components/TopBanner';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
-import LoadingSpinner from '../../components/LoadingSpinner';
-import HelpAlert from '../../components/HelpAlert';
-import HelpView from '../../components/HelpView';
-import ServiceCardList from '../../components/ServiceCardList';
+import LoadingSpinner from '../components/LoadingSpinner';
+import HelpAlert from '../components/HelpAlert';
+import HelpView from '../components/HelpView';
+import ServiceCardList from '../components/ServiceCardList';
 
 class businessScreen extends Component {
 	//This constructor and componentDidMount will wait until all the products loaded if there are any

@@ -1,20 +1,20 @@
 //This screen is going to represent a specific request for bsinesses for a specific product. It will
 //show the scheduled date, if applicable, along with answers to the qestions, if applicable
 import React, { Component } from 'react';
-import HelpView from '../../components/HelpView';
+import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import { View, Text, ScrollView, Dimensions, FlatList } from 'react-native';
-import OptionPicker from '../../components/OptionPicker';
+import OptionPicker from '../components/OptionPicker';
 import strings from 'config/strings';
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../components/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import FastImage from 'react-native-fast-image';
-import LoadingSpinner from '../../components/LoadingSpinner';
+import LoadingSpinner from '../components/LoadingSpinner';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import RoundBlueButton from '../../components/RoundBlueButton';
+import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import HelpAlert from '../../components/HelpAlert';
+import HelpAlert from '../components/HelpAlert';
 
 //Creates the class and exports it
 export default class customerRequestScreen extends Component {
