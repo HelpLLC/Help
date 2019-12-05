@@ -28,12 +28,6 @@ export default class FirebaseFunctions {
 		return providerObject.phoneNumber && providerObject.location && providerObject.coordinates;
 	}
 
-	//This method is going to test whether a requester object has all the fields required as of the 2.0 update
-	//It will return a boolen true or false based on that
-	static isRequesterUpToDate(requesterObject) {
-		return requesterObject.city && requesterObject.coordinates && requesterObject.phoneNumber;
-	}
-
 	//This method will return an array containing an all products currently in the market
 	static async getAllProducts() {
 		const snapshot = await this.products.get();
@@ -85,33 +79,6 @@ export default class FirebaseFunctions {
 		const filteredProducts = allProducts.filter((element) => {
 			return element.category === categoryName;
 		});
-
-		return filteredProducts;
-	}
-
-	//This method will take in a requester object and an array of products. It will return an array containing only the products
-	//that are being offered by businesses that are within 50 miles of customer. In the future, this number of miles will be set
-	//by the business, as some businesses are willing to travel further than others
-	static async filterProductsByRequesterLocation(requester, products) {
-		const requesterCoordinates = {
-			latitude: requester.coordinates.lat,
-			longitude: requester.coordinates.long
-		};
-		const filteredProducts = [];
-		for (const product of products) {
-			if (product.coordinates) {
-				const productLocation = {
-					latitude: product.coordinates.lat,
-					longitude: product.coordinates.long
-				};
-				//Formula to calculate distance between two coordinates using Haversine Formula
-				const distance = haversine(requesterCoordinates, productLocation, { unit: 'mile' });
-
-				if (distance <= 50) {
-					filteredProducts.push(product);
-				}
-			}
-		}
 
 		return filteredProducts;
 	}
@@ -256,35 +223,6 @@ export default class FirebaseFunctions {
 		return 0;
 	}
 
-	//This functions will take in a new requester ID and then will add that requester to the firestore
-	//as a new requester with a unique requester ID and a username which will just be their email
-	//without the "@". It will also accept a phone number and an address which are optional for requesters
-	static async addRequesterToDatabase(account, phoneNumber, coordinates, city, name) {
-		const batch = this.database.batch();
-		const uid = account.user.uid;
-		const ref = this.requesters.doc(uid);
-
-		const newRequester = {
-			requesterID: uid,
-			username: name,
-			phoneNumber,
-			coordinates,
-			city,
-			orderHistory: {
-				inProgress: [],
-				completed: []
-			},
-			blockedUsers: ['Example Business', 'MRWYHdcULQggTQlxyXwGbykY5r02']
-		};
-
-		batch.set(ref, newRequester);
-		await batch.commit();
-
-		//Logs the event in firebase analytics
-		this.analytics.logEvent('requester_sign_up');
-		//This is a promise that won't be resolved while offline
-		return newRequester;
-	}
 
 	//This function will take in a new provider ID and then will add that new provider to the firestore
 	//as a new provider with a unique provider ID and a username which will just be their email without
@@ -330,22 +268,6 @@ export default class FirebaseFunctions {
 
 		//Logs the event in firebase analytics
 		this.analytics.logEvent('upload_product_image');
-
-		return 0;
-	}
-
-	static async uploadRequesterImage(reference, response) {
-		//Fetches the absolute path of the image (depending on android or ios)
-		let absolutePath = '';
-		if (Platform.OS === 'android') {
-			absolutePath = 'file://' + response.path;
-		} else {
-			absolutePath = response.path;
-		}
-		//Creates the reference & uploads the image (async)
-		await this.storage.ref('profilePictures/' + reference).putFile(absolutePath);
-		//Logs the event in firebase analytics
-		this.analytics.logEvent('upload_requester_profile_image');
 
 		return 0;
 	}
@@ -554,63 +476,6 @@ export default class FirebaseFunctions {
 		return 0;
 	}
 
-	//This method is going to add a review to the array of reviews for a specified service. It will also
-	//update the status of the review inside the requester's array of orderHistory.
-	static async submitReview(serviceID, requesterID, stars, comment) {
-		const requester = await this.getRequesterByID(requesterID);
-		review = {
-			requesterName: requester.username,
-			stars,
-			requesterID,
-			comment
-		};
-
-		const service = await this.getServiceByID(serviceID);
-
-		//Calculates the new average rating for the service
-		const a = service.averageRating * service.totalReviews;
-		const b = a + stars;
-		const c = service.totalReviews + 1;
-		const newRating = b / c;
-
-		await this.updateServiceByID(serviceID, {
-			reviews: firebase.firestore.FieldValue.arrayUnion(review),
-			averageRating: newRating,
-			totalReviews: service.totalReviews + 1
-		});
-
-		//Updates the requester object's completed array with the new review specific to this object
-		let { orderHistory } = requester;
-		const indexOfCompletedRequest = orderHistory.completed.findIndex((eachCompleted) => {
-			return eachCompleted.serviceID === serviceID && eachCompleted.review === null;
-		});
-		orderHistory.completed[indexOfCompletedRequest].review = review;
-		await this.updateRequesterByID(requesterID, {
-			orderHistory
-		});
-
-		this.analytics.logEvent('submit_review');
-
-		return 0;
-	}
-
-	//This method is going to update the review status of a specific product inside a requester object
-	//to indicate that they have opted out of reviewing this product
-	static async skipReview(serviceID, requesterID) {
-		const requester = await this.getRequesterByID(requesterID);
-		let { orderHistory } = requester;
-		const indexOfCompletedRequest = orderHistory.completed.findIndex((eachCompleted) => {
-			return eachCompleted.serviceID === serviceID && eachCompleted.review === null;
-		});
-		orderHistory.completed[indexOfCompletedRequest].review = 'None';
-		await this.updateRequesterByID(requesterID, {
-			orderHistory
-		});
-
-		this.analytics.logEvent('skip_review');
-		return 0;
-	}
-
 	//Returns an array of all the conversation that this user has had, depending on if they are a
 	//requseter or a provider
 	static async getAllUserConversations(userID, isRequester) {
@@ -793,80 +658,7 @@ export default class FirebaseFunctions {
 		this.analytics.logEvent('complete_request');
 		return 0;
 	}
-
-	//This method will take in a request object, which may contain a schedule, answers to questions, or both.
-	//It will add this request object to the right locations. It will also take in an "isEditing" parameter
-	//that will overwrite an old request for this product with the new request
-	static async requestService(newRequest, isEditing) {
-		const ref = this.products.doc(newRequest.serviceID);
-		const doc = await ref.get();
-		const requester = await this.getRequesterByID(newRequest.requesterID);
-
-		let arrayOfCurrentRequests = doc.data().requests.currentRequests;
-
-		//Will remove the old request first before adding the new one
-		if (isEditing === true) {
-			const indexOfRequest = arrayOfCurrentRequests.findIndex((element) => {
-				return element.requesterID === requester.requesterID;
-			});
-			arrayOfCurrentRequests.splice(indexOfRequest, 1);
-		}
-
-		arrayOfCurrentRequests.push(newRequest);
-
-		await this.updateServiceByID(newRequest.serviceID, {
-			requests: {
-				completedRequests: doc.data().requests.completedRequests,
-				currentRequests: arrayOfCurrentRequests
-			}
-		});
-
-		let { inProgress } = requester.orderHistory;
-
-		//Will remove the old request before adding the new one
-		if (isEditing === true) {
-			const indexOfRequest = inProgress.findIndex((element) => {
-				return element.serviceID === newRequest.serviceID;
-			});
-			inProgress.splice(indexOfRequest, 1);
-		}
-		inProgress.push(newRequest);
-		await this.updateRequesterByID(requester.requesterID, {
-			orderHistory: {
-				inProgress,
-				completed: requester.orderHistory.completed
-			}
-		});
-
-		//If the request is a new one, then business will be notified. If it is an old one being edited, the business
-		//will be notified of that as well
-		if (isEditing === true) {
-			this.functions.httpsCallable('sendNotification')({
-				topic: 'p-' + doc.data().offeredByID,
-				title: strings.RequestUpdated,
-				body:
-					requester.username +
-					' ' +
-					strings.HasUpdatedTheirRequestFor +
-					' ' +
-					doc.data().serviceTitle
-			});
-
-			//Logs the event in firebase analytics
-			this.analytics.logEvent('overwrite_request');
-		} else {
-			this.functions.httpsCallable('sendNotification')({
-				topic: 'p-' + doc.data().offeredByID,
-				title: strings.NewRequest,
-				body: strings.YouHaveNewRequestFor + doc.data().serviceTitle
-			});
-
-			//Logs the event in firebase analytics
-			this.analytics.logEvent('request_service');
-		}
-		return 0;
-	}
-
+	
 	//This method will take in a username of a user, the user's UID, and a string containing the issue.
 	//Then it will add the issue to be viewed in the database (in the future, should send an email to
 	//the email of the company)
@@ -882,45 +674,6 @@ export default class FirebaseFunctions {
 
 		//Logs the event in firebase analytics
 		this.analytics.logEvent('report_issue');
-		return 0;
-	}
-
-	//This method will take in a request and a provider and block that provider from being able to sell
-	//to the requester or get in contact with them. It does this by addind the provider's ID to the array
-	//of blocked users that belongs to the requesters
-	static async blockCompany(requester, provider) {
-		//Fetches the old array of blocked companies by this requester and appends this provider to
-		//that list
-		await this.updateRequesterByID(requester.requesterID, {
-			blockedUsers: firebase.firestore.FieldValue.arrayUnion(provider.providerID)
-		});
-
-		//Also sends us a report to make sure the company is appropriate
-		this.reportIssue(requester, {
-			report: 'Report against a company',
-			companyID: provider.providerID,
-			companyName: provider.companyName
-		});
-
-		//Logs the event in firebase analytics
-		this.analytics.logEvent('block_company');
-		return 0;
-	}
-
-	//This method is going to take in a requesterID and a providerID and will unblock that specific businesses from
-	//the requester's blocked businesses
-	static async unblockCompany(requesterID, providerID) {
-		const requester = await this.getRequesterByID(requesterID);
-		let blockedUsers = requester.blockedUsers;
-		const indexOfBlockedBusiness = blockedUsers.findIndex((element) => {
-			return element.providerID === providerID;
-		});
-		blockedUsers.splice(indexOfBlockedBusiness, 1);
-		await this.updateRequesterByID(requesterID, {
-			blockedUsers
-		});
-		//Logs the event in firebase analytics
-		this.analytics.logEvent('unblock_company');
 		return 0;
 	}
 
@@ -947,7 +700,7 @@ export default class FirebaseFunctions {
 
 	//This method will log out the current user of the app & unsubscribed to the notification channel associated with
 	//this user
-	static async logOut(isRequester, uid) {
+	static async logOut(uid) {
 		//Logs the event in firebase analytics & unsubcribes from the notification service
 		await firebase.auth().signOut();
 		if (isRequester === true) {

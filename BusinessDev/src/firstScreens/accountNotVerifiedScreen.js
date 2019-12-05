@@ -23,8 +23,7 @@ export default class accountNotVerified extends Component {
 					title={strings.Verification}
 					leftIconName='angle-left'
 					leftOnPress={async () => {
-						//Method will go back to the splash screen and log out
-						await FirebaseFunctions.logOut();
+						//Method will go back to the splash screen
 						this.props.navigation.push('SplashScreen');
 					}}
 				/>
