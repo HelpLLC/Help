@@ -110,7 +110,6 @@ export default class launchScreen extends Component {
 						//navigate to the normal screens
 						const provider = await FirebaseFunctions.getProviderByID(uid);
 						if (provider.isVerified === true) {
-							//This means this account is a provider since a requester with this ID was not found.
 							this.props.navigation.push('ProviderScreens', {
 								providerID: uid
 							});

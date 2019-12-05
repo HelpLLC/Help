@@ -13,8 +13,6 @@ import screenStyle from 'config/styles/screenStyle';
 import HelpView from '../components/HelpView';
 import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import LeftMenu from '../requesterScreens/LeftMenu';
-import SideMenu from 'react-native-side-menu';
 
 class settingsScreen extends Component {
 	state = {
@@ -32,18 +30,9 @@ class settingsScreen extends Component {
 			<Icon name={'angle-right'} type='font-awesome' color={colors.lightBlue} />
 		);
 		//Retrieves the current user from the params
-		let user = '';
-		let isRequester = '';
-		let uid = '';
-		if (this.props.navigation.state.params.providerID) {
-			user = this.props.navigation.state.params.providerID;
-			isRequester = false;
-			uid = this.props.navigation.state.params.providerID;
-		} else {
-			user = this.props.navigation.state.params.requester;
-			isRequester = true;
-			uid = this.props.navigation.state.params.requester.requesterID;
-		}
+
+		user = this.props.navigation.state.params.providerID;
+		uid = this.props.navigation.state.params.providerID;
 
 		//This is going to contain the main UI because we only display the left menu if it is a requester
 		const mainUI = (
@@ -131,68 +120,25 @@ class settingsScreen extends Component {
 								onPress={() => this.props.navigation.push('CreditsScreen')}
 							/>
 						</View>
-						{this.props.navigation.state.params.providerID ? (
-							//Makes it if they are a provider they can see the log out in settings
-							<View style={{ flex: 1 }}>
-								<WhiteCard
-									style={whiteCardStyle.whiteCardStyle}
-									text={strings.LogOut}
-									mainTextStyle={fontStyles.mainTextStyleRed}
-									//To-Do: Needs to call a logout function
-									onPress={async () => {
-										await FirebaseFunctions.logOut(isRequester, uid);
-										this.props.navigation.push('SplashScreen');
-									}}
-								/>
-							</View>
-						) : (
-							//if they are a requester, they can view businesses they've blocked
-							<View style={{ flex: 1 }}>
-								<WhiteCard
-									style={whiteCardStyle.whiteCardStyle}
-									text={strings.BlockedBusinesses}
-									mainTextStyle={fontStyles.mainTextStyleBlack}
-									comp={angleRightIcon}
-									//Pressing this leads to the blocked users screen
-									onPress={() =>
-										this.props.navigation.push('RequesterBlockedBusinessesScreen', {
-											requesterID: user.requesterID
-										})
-									}
-								/>
-							</View>
-						)}
-						<View
-							style={{
-								flex: this.props.navigation.state.params.providerID ? 1.5 : 3
-							}}></View>
+						<View style={{ flex: 1 }}>
+							<WhiteCard
+								style={whiteCardStyle.whiteCardStyle}
+								text={strings.LogOut}
+								mainTextStyle={fontStyles.mainTextStyleRed}
+								//To-Do: Needs to call a logout function
+								onPress={async () => {
+									await FirebaseFunctions.logOut(uid);
+									this.props.navigation.push('SplashScreen');
+								}}
+							/>
+						</View>
+						<View style={{ flex: 1.5 }}></View>
 					</View>
 				</View>
 			</HelpView>
 		);
 
-		return (
-			<View style={{ flex: 1 }}>
-				{isRequester === true ? (
-					<SideMenu
-						onChange={(isOpen) => {
-							this.setState({ isOpen });
-						}}
-						isOpen={this.state.isOpen}
-						menu={
-							<LeftMenu
-								navigation={this.props.navigation}
-								allProducts={this.props.navigation.state.params.allProducts}
-								requester={this.props.navigation.state.params.requester}
-							/>
-						}>
-						{mainUI}
-					</SideMenu>
-				) : (
-					mainUI
-				)}
-			</View>
-		);
+		return <View style={{ flex: 1 }}>{mainUI}</View>;
 	}
 }
 

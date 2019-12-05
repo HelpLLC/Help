@@ -1,0 +1,12 @@
+{
+  "name": "config",
+  "version": "0.0.1",
+  "rnpm": {
+    "assets": [
+      "./config/fonts/"
+    ]
+  },
+  "dependencies": {
+    "nodemailer": "^6.3.0"
+  }
+}
