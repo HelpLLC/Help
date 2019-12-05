@@ -5,7 +5,7 @@ import { GiftedChat, Send } from 'react-native-gifted-chat';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import firebase from 'react-native-firebase';
-import { View, TouchableWithoutFeedback, Keyboard, Dimensions, TextInput } from 'react-native';
+import { View, TouchableWithoutFeedback } from 'react-native';
 import { Icon } from 'react-native-elements';
 import LoadingSpinner from '../components/LoadingSpinner';
 import TopBanner from '../components/TopBanner';

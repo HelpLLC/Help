@@ -3,7 +3,6 @@
 //will connect with the firebase firestore in order to retrieve the necessary data.
 import firebase from 'react-native-firebase';
 import strings from 'config/strings';
-import haversine from 'haversine';
 import { Platform } from 'react-native';
 
 //All methods should be labeled static. There will also be static variable that reference the collections
