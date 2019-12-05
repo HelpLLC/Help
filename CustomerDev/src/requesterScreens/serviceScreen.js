@@ -23,7 +23,7 @@ import HelpAlert from '../components/HelpAlert';
 import OptionPicker from '../components/OptionPicker';
 import screenStyle from 'config/styles/screenStyle';
 import images from '../../config/images/images';
-import { CachedImage } from 'react-native-img-cache';
+import FastImage from 'react-native-fast-image';
 import TopBanner from '../components/TopBanner';
 import ViewMoreText from 'react-native-view-more-text';
 import call from 'react-native-phone-call';
@@ -307,7 +307,7 @@ class serviceScreen extends Component {
 									height: 258,
 									marginVertical: Dimensions.get('window').height * 0.02
 								}}>
-								<CachedImage
+								<FastImage
 									style={{
 										width: Dimensions.get('window').width,
 										height: 250

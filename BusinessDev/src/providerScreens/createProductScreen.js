@@ -19,7 +19,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import TopBanner from '../../components/TopBanner';
 import HelpAlert from '../../components/HelpAlert';
 import { Icon } from 'react-native-elements';
-import { CachedImage } from 'react-native-img-cache';
+import FastImage from 'react-native-fast-image';
 import OptionPicker from '../../components/OptionPicker';
 import colors from 'config/colors';
 
@@ -251,7 +251,7 @@ class createProductScreen extends Component {
 											x: 0,
 											y: 5
 										}}>
-										<CachedImage
+										<FastImage
 											source={this.state.imageSource}
 											style={{
 												width: Dimensions.get('window').width * 0.25,

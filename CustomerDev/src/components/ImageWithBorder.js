@@ -7,7 +7,7 @@ import colors from 'config/colors';
 import PropTypes from 'prop-types';
 import LoadingSpinner from './LoadingSpinner';
 import images from 'config/images/images';
-import { CachedImage } from 'react-native-img-cache';
+import FastImage from 'react-native-fast-image';
 
 class ImageWithBorder extends Component {
 	//Starts out the loading state as true until the image is downloaded from the database
@@ -50,7 +50,7 @@ class ImageWithBorder extends Component {
 						<LoadingSpinner isVisible={true} />
 					</View>
 				) : (
-						<CachedImage
+						<FastImage
 							source={image}
 							style={{
 								width: width,

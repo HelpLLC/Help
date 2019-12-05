@@ -5,7 +5,7 @@ import { View, Text, Dimensions, TouchableOpacity, Keyboard } from 'react-native
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import { CachedImage } from 'react-native-img-cache';
+import FastImage from 'react-native-fast-image';
 import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -261,7 +261,7 @@ class createRequesterProfileScreen extends Component {
 										x: 0,
 										y: 5
 									}}>
-									<CachedImage
+									<FastImage
 										source={this.state.imageSource}
 										style={{
 											width: Dimensions.get('window').width * 0.25,

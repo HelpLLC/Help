@@ -12,7 +12,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import HelpAlert from '../../components/HelpAlert';
 import HelpView from '../../components/HelpView';
 import OptionPicker from '../../components/OptionPicker';
-import { CachedImage } from 'react-native-img-cache';
+import FastImage from 'react-native-fast-image';
 import ServiceCard from '../../components/ServiceCard';
 import TopBanner from '../../components/TopBanner';
 
@@ -173,7 +173,7 @@ class productScreen extends Component {
 								height: 258,
 								marginVertical: Dimensions.get('window').height * 0.02
 							}}>
-							<CachedImage
+							<FastImage
 								style={{
 									width: Dimensions.get('window').width,
 									height: 250

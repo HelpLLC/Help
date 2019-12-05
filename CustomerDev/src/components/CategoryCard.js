@@ -9,7 +9,7 @@ import fontStyles from 'config/styles/fontStyles';
 import PropTypes from 'prop-types';
 import LoadingSpinner from './LoadingSpinner';
 import { BoxShadow } from 'react-native-shadow';
-import { CachedImage } from "react-native-img-cache";
+import { FastImage } from "react-native-img-cache";
 
 //The component class
 class CategoryCard extends Component {
@@ -68,7 +68,7 @@ class CategoryCard extends Component {
 										<LoadingSpinner isVisible={true} />
 									</View>
 								) : (
-									<CachedImage
+									<FastImage
 										source={image}
 										style={{
 											width: Dimensions.get('window').width * 0.25,

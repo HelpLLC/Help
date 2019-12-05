@@ -9,7 +9,7 @@ import OptionPicker from '../components/OptionPicker';
 import strings from 'config/strings';
 import TopBanner from '../components/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
-import { CachedImage } from 'react-native-img-cache';
+import FastImage from 'react-native-fast-image';
 import LoadingSpinner from '../components/LoadingSpinner';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -121,7 +121,7 @@ export default class serviceRequestedScreen extends Component {
 								<Text style={fontStyles.mainTextStyleBlack}>{request.dateRequested}</Text>
 							</View>
 						</View>
-						<CachedImage
+						<FastImage
 							source={image}
 							style={{
 								width: Dimensions.get('window').width * 0.25,

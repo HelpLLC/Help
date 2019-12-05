@@ -13,7 +13,7 @@ import { Badge } from 'react-native-elements';
 import LoadingSpinner from './LoadingSpinner';
 import { BoxShadow } from 'react-native-shadow';
 import strings from 'config/strings';
-import { CachedImage } from "react-native-img-cache";
+import { FastImage } from "react-native-img-cache";
 
 //The component class
 class ServiceCard extends Component {
@@ -72,7 +72,7 @@ class ServiceCard extends Component {
 										<LoadingSpinner isVisible={true} />
 									</View>
 								) : (
-									<CachedImage
+									<FastImage
 										source={image}
 										style={{
 											width: (Dimensions.get('window').width - 40) * 0.45,

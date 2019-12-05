@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import narrowServiceCardStyle from 'config/styles/componentStyles/narrowServiceCardStyle';
-import { CachedImage } from 'react-native-img-cache';
+import FastImage from 'react-native-fast-image';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import { Rating, AirbnbRating } from 'react-native-ratings';

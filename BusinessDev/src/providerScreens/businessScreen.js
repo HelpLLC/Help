@@ -7,7 +7,7 @@ import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import { CachedImage } from 'react-native-img-cache';
+import FastImage from 'react-native-fast-image';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import TopBanner from '../../components/TopBanner';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
@@ -181,7 +181,7 @@ class businessScreen extends Component {
 					</View>
 
 					<View style={{ flex: 1, justifyContent: 'center' }}>
-						<CachedImage
+						<FastImage
 							source={this.state.image}
 							style={{
 								width: Dimensions.get('window').width * 0.5,
