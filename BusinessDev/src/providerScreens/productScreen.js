@@ -11,7 +11,6 @@ import colors from 'config/colors';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import HelpAlert from '../../components/HelpAlert';
 import HelpView from '../../components/HelpView';
-import OptionPicker from '../../components/OptionPicker';
 import FastImage from 'react-native-fast-image';
 import ServiceCard from '../../components/ServiceCard';
 import TopBanner from '../../components/TopBanner';

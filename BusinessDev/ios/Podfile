@@ -33,9 +33,13 @@ target 'HelpBusiness' do
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
-  pod 'CodePush', :path => '../node_modules/react-native-code-push'
-
+  pod 'Firebase/Core', '~> 6.3.0'
+  pod 'Firebase/Auth', '~> 6.3.0'
+  pod 'Firebase/Firestore', '~> 6.3.0'
+  pod 'Firebase/Storage', '~> 6.3.0'
+  pod 'Firebase/Messaging', '~> 6.3.0'
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
+  pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
   target 'HelpBusinessTests' do
     inherit! :search_paths
