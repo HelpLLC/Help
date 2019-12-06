@@ -13,7 +13,7 @@ import { Badge } from 'react-native-elements';
 import LoadingSpinner from './LoadingSpinner';
 import { BoxShadow } from 'react-native-shadow';
 import strings from 'config/strings';
-import { FastImage } from "react-native-img-cache";
+import { FastImage } from "react-native-fast-image";
 
 //The component class
 class ServiceCard extends Component {

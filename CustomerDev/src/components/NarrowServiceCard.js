@@ -11,7 +11,6 @@ import { Rating, AirbnbRating } from 'react-native-ratings';
 import PropTypes from 'prop-types';
 import LoadingSpinner from './LoadingSpinner';
 import { BoxShadow } from 'react-native-shadow';
-import FastImage from 'react-native-fast-image';
 
 //The component class
 class NarrowServiceCard extends Component {
