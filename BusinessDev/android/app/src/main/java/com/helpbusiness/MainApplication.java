@@ -1,4 +1,4 @@
-package com.helpbusiness;
+package com.Help.HelpBusiness;
 
 import android.app.Application;
 import android.content.Context;
@@ -36,7 +36,6 @@ public class MainApplication extends Application implements ReactApplication {
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
-          packages.add(new CodePush("EbJa5l5rbFSHX35cWSlt_w4Kowc6W0K1bSHVt", MainApplication.this, BuildConfig.DEBUG));
           packages.add(new RNFirebaseAuthPackage());
           packages.add(new RNFirebaseFirestorePackage());
           packages.add(new RNFirebaseStoragePackage());
@@ -67,7 +66,6 @@ public class MainApplication extends Application implements ReactApplication {
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
   }
 
-  @Override
   protected String getJSBundleFile() {
       return CodePush.getJSBundleFile();
   }

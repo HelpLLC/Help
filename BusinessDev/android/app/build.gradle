@@ -129,9 +129,10 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.helpbusiness"
+        applicationId "com.Help.HelpBusiness"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
     }
@@ -188,11 +189,12 @@ dependencies {
     implementation "com.google.android.gms:play-services-base:16.1.0"
     implementation "com.google.firebase:firebase-core:16.0.9"
     implementation "com.google.firebase:firebase-storage:17.0.0"
-    implementation "com.google.firebase:firebase-messaging:18.0.0"
+    implementation "com.google.firebase:firebase-messaging:19.0.0"
     implementation 'com.google.firebase:firebase-analytics:17.2.0'
     implementation "com.google.firebase:firebase-auth:17.0.0"
     implementation "com.google.firebase:firebase-firestore:19.0.0"
     implementation "com.google.firebase:firebase-functions:17.0.0"
+    implementation 'com.android.support:multidex:1.0.3'
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";

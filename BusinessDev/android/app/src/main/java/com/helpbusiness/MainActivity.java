@@ -1,4 +1,4 @@
-package com.helpbusiness;
+package com.Help.HelpBusiness;
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen;
