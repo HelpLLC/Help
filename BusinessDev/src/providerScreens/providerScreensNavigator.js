@@ -1,9 +1,10 @@
 //This navigator represents the bottom tab in which the provider will be able to navigate from
 //screen to screen. It will lead to the settings screen, help screen, and the chats screen.
-import { createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
+import { createAppContainer } from 'react-navigation';
 import settingsScreen from '../settingsScreens/settingsScreen';
+import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import chatsScreen from '../chats/chatsScreen';
-import businessScreen from './providerBusiness/businessScreen';
+import businessScreen from './businessScreen';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import { Dimensions } from 'react-native';

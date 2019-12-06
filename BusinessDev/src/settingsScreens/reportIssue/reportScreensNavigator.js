@@ -4,7 +4,8 @@
 import reportIssueScreen from './reportIssueScreen';
 import issueReportedScreen from './issueReportedScreen';
 import fadeOutTransition from 'config/transitions/fadeOutTransition';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
 
 //This route config will define the routes for this navigator which will only be the
 //reportIssueScreen & the issueReportedScreen

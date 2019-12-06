@@ -38,6 +38,7 @@ target 'HelpBusiness' do
   pod 'Firebase/Firestore', '~> 6.3.0'
   pod 'Firebase/Storage', '~> 6.3.0'
   pod 'Firebase/Messaging', '~> 6.3.0'
+  pod 'Firebase/Functions', '~> 6.3.0'
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
   pod 'CodePush', :path => '../node_modules/react-native-code-push'
 

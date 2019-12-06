@@ -4,7 +4,7 @@ import HelpView from '../components/HelpView';
 import TopBanner from '../components/TopBanner';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
-import RoundBlueButton from '../../components/RoundBlueButton';
+import RoundBlueButton from '../components/RoundBlueButton';
 import colors from 'config/colors';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
