@@ -42,6 +42,8 @@ target 'HelpBusiness' do
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
   pod 'CodePush', :path => '../node_modules/react-native-code-push'
 
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
   target 'HelpBusinessTests' do
     inherit! :search_paths
     # Pods for testing
