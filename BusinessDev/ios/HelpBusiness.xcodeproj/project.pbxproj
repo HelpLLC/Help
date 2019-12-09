@@ -29,7 +29,7 @@
 		8D9A8F95BF83115A7C646964 /* libPods-HelpBusiness-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB66408AF49DA74B1498B533 /* libPods-HelpBusiness-tvOS.a */; };
 		9175988CAE524947BC1B547E /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 067F051AF10B4809B34EF7F6 /* EvilIcons.ttf */; };
 		97F634AC46ECB8A664FFF54B /* libPods-HelpBusiness.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EE3ABAD8BBE18AF6C3B8F44 /* libPods-HelpBusiness.a */; };
-		9BA60F392399E6A9005E06C8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9BA60F382399E6A9005E06C8 /* GoogleService-Info.plist */; };
+		9BA8B5DD239DFC2C00BEBBD7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9BA8B5DC239DFC2C00BEBBD7 /* GoogleService-Info.plist */; };
 		A840297FA507495FB52A42CA /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2943BF3BB82A4AC08E5BE00D /* FontAwesome5_Solid.ttf */; };
 		B4A6397D4EEB4F109BEFA306 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3E583EF5905443D8AD338CF0 /* SimpleLineIcons.ttf */; };
 		C02DB7C59C9D443CA42C994C /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 631AE48AC5E04B1A86078950 /* Ionicons.ttf */; };
@@ -91,7 +91,7 @@
 		81729F30D72D4AA2A39B99EA /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		8C23A94044D37A7C29BE40BE /* Pods-HelpBusiness-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelpBusiness-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-HelpBusiness-tvOSTests/Pods-HelpBusiness-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		91E31F21CB3C6B2DEF0D6E4D /* Pods-HelpBusiness-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelpBusiness-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-HelpBusiness-tvOSTests/Pods-HelpBusiness-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		9BA60F382399E6A9005E06C8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9BA8B5DC239DFC2C00BEBBD7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "HelpBusiness/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9DE496BA9319BEFE6005B021 /* libPods-HelpBusiness-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HelpBusiness-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8F396E68ECC488304A90AB9 /* Pods-HelpBusinessTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelpBusinessTests.debug.xcconfig"; path = "Target Support Files/Pods-HelpBusinessTests/Pods-HelpBusinessTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B6E5F2064F65476E98841F48 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
@@ -161,7 +161,7 @@
 		13B07FAE1A68108700A75B9A /* HelpBusiness */ = {
 			isa = PBXGroup;
 			children = (
-				9BA60F382399E6A9005E06C8 /* GoogleService-Info.plist */,
+				9BA8B5DC239DFC2C00BEBBD7 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -405,7 +405,6 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				9BA60F392399E6A9005E06C8 /* GoogleService-Info.plist in Resources */,
 				EFB1F4DE131246518442E4B7 /* Arial Rounded MT Bold.ttf in Resources */,
 				1C036963C3BB489CBD14A03D /* AntDesign.ttf in Resources */,
 				7F6ECC2FA04A42E9B56D8836 /* Entypo.ttf in Resources */,
@@ -421,6 +420,7 @@
 				3709B6215CE54E98AD276CD2 /* MaterialCommunityIcons.ttf in Resources */,
 				D115922B5526406E8741B3F2 /* MaterialIcons.ttf in Resources */,
 				1D466984207A4729AEC83CF2 /* Octicons.ttf in Resources */,
+				9BA8B5DD239DFC2C00BEBBD7 /* GoogleService-Info.plist in Resources */,
 				B4A6397D4EEB4F109BEFA306 /* SimpleLineIcons.ttf in Resources */,
 				2CA02D0C36544BC0987C8027 /* Zocial.ttf in Resources */,
 			);
@@ -767,11 +767,12 @@
 			baseConfigurationReference = 2C170241C7D87931317AFB9E /* Pods-HelpBusiness.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 3JN2Y9YRF9;
 				INFOPLIST_FILE = HelpBusiness/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -788,10 +789,11 @@
 			baseConfigurationReference = 48AFF588695F634B43B66A85 /* Pods-HelpBusiness.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 3JN2Y9YRF9;
 				INFOPLIST_FILE = HelpBusiness/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
