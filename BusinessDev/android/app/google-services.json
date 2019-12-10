@@ -43,7 +43,8 @@
               "client_id": "464417078624-65pe621d1gpuu67sdmgcas7tlbd2i6p6.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.helpcocontact.helpbusiness"
+                "bundle_id": "com.helpcocontact.helpbusiness",
+                "app_store_id": "1490767192"
               }
             }
           ]
@@ -58,6 +59,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "464417078624-8bg4v4e33tn6qfgt3fm43rhdksf1s9mh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Help.HelpBusiness",
+            "certificate_hash": "08eb913cc07fcaeba219204f8c7ab253e2de9a2b"
+          }
+        },
         {
           "client_id": "464417078624-jthi96jr4obh3t3iieb06au3gkmmq8lr.apps.googleusercontent.com",
           "client_type": 3
@@ -79,7 +88,8 @@
               "client_id": "464417078624-65pe621d1gpuu67sdmgcas7tlbd2i6p6.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.helpcocontact.helpbusiness"
+                "bundle_id": "com.helpcocontact.helpbusiness",
+                "app_store_id": "1490767192"
               }
             }
           ]
