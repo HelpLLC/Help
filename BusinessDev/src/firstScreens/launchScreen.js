@@ -197,12 +197,12 @@ export default class launchScreen extends Component {
 					message={strings.AppWillRestart}
 				/>
 				<HelpAlert
-					isVisible={false}
+					isVisible={true}
 					onPress={() => {
 						if (Platform.OS === 'ios') {
-							Linking.openURL('itms-apps://itunes.apple.com/app/apple-store/id1468626210?mt=8');
+							Linking.openURL('itms-apps://itunes.apple.com/app/apple-store/id1490767192?mt=8');
 						} else if (Platform.OS === 'android') {
-							Linking.openURL('market://details?id=com.Help.Help');
+							Linking.openURL('market://details?id=com.Help.HelpBusiness');
 						}
 					}}
 					title={strings.UpdateAvailable}
