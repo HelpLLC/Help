@@ -1,6 +1,6 @@
 //This screen will represent all the chats belonging to this current user
 import React, { Component } from 'react';
-import { View, Text, FlatList, ScrollView } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../components/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
@@ -69,40 +69,35 @@ class chatsScreen extends Component {
 						</View>
 					) : (
 						<View>
-							<ScrollView
-								style={{ flex: 1 }}
-								showsHorizontalScrollIndicator={false}
-								showsVerticalScrollIndicator={false}>
-								<FlatList
-									data={this.state.userConversations}
-									keyExtractor={(item, index) => {
-										return 'Provider #' + item.providerID + ' + Requester #' + item.requesterID;
-									}}
-									renderItem={({ item, index }) => (
-										<ChatCard
-											username={
-												//Will test if this is the provider or the requester in
-												//order to know which username to display
-												item.requesterName
-											}
-											previewText={
-												item.conversationMessages[item.conversationMessages.length - 1].text
-											}
-											timeText={
-												item.conversationMessages[item.conversationMessages.length - 1].createdAt
-											}
-											onPress={() => {
-												this.props.navigation.push('MessagingScreen', {
-													title: item.requesterName,
-													providerID: item.providerID,
-													requesterID: item.requesterID,
-													userID: item.providerID
-												});
-											}}
-										/>
-									)}
-								/>
-							</ScrollView>
+							<FlatList
+								data={this.state.userConversations}
+								keyExtractor={(item, index) => {
+									return 'Provider #' + item.providerID + ' + Requester #' + item.requesterID;
+								}}
+								renderItem={({ item, index }) => (
+									<ChatCard
+										username={
+											//Will test if this is the provider or the requester in
+											//order to know which username to display
+											item.requesterName
+										}
+										previewText={
+											item.conversationMessages[item.conversationMessages.length - 1].text
+										}
+										timeText={
+											item.conversationMessages[item.conversationMessages.length - 1].createdAt
+										}
+										onPress={() => {
+											this.props.navigation.push('MessagingScreen', {
+												title: item.requesterName,
+												providerID: item.providerID,
+												requesterID: item.requesterID,
+												userID: item.providerID
+											});
+										}}
+									/>
+								)}
+							/>
 						</View>
 					)}
 				</View>
