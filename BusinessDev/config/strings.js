@@ -14,6 +14,7 @@ export default {
 	GetStarted: 'Get Started',
 	HaveAnAccountQuestion: 'Have an account?',
 	LogIn: 'Log In',
+	EYB: 'EYB',
 	Help: 'Help',
 
 	//------------------- Log In Screen -------------------

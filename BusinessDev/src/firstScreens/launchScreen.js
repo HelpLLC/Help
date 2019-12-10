@@ -144,6 +144,9 @@ export default class launchScreen extends Component {
 				<View style={{ marginTop: Dimensions.get('window').height * 0.35 }}>
 					<Text style={fontStyles.bigTitleStyleWhite}>{strings.Help}</Text>
 				</View>
+				<View style={{ marginTop: Dimensions.get('window').height * 0.05 }}>
+					<Text style={fontStyles.bigSubTitleStyleWhite}>{strings.EYB}</Text>
+				</View>
 				<View
 					style={{
 						justifyContent: 'center',

@@ -15,6 +15,7 @@ if (pixelRatio < 3) {
 
 const bigFontSize = baseFontSize * 1.2;
 const subTextFontSize = baseFontSize * 0.9;
+const subTitleFontSize = baseFontSize * 2.2;
 const bigTitleFontSize = baseFontSize * 4.4;
 
 export default StyleSheet.create({
@@ -134,6 +135,13 @@ export default StyleSheet.create({
     bigTitleStyleWhite: {
         fontFamily: font,
         fontSize: bigTitleFontSize,
+        color: colors.white
+    },
+
+    //The style for all big sub white title texts
+    bigSubTitleStyleWhite: {
+        fontFamily: font,
+        fontSize: subTitleFontSize,
         color: colors.white
     },
 
