@@ -1,8 +1,8 @@
 To release iOS (From Dev folder): 
-code-push release-react Help-Empower-Your-Business ios -t 1.0.0 -d Production 
+code-push release-react Help-Empower-Your-Business ios -t 1.0.1 -d Production 
 
 To release Android (From Dev folder):
-code-push release-react Help-Empower-Your-Business-1 android -t 1.0.0 -d Production 
+code-push release-react Help-Empower-Your-Business-1 android -t 1.0.1 -d Production 
 
 iOS Production: c2VstW-FsQmRIW5kvhvL57abnSw5xZEi47KBm
 iOS Staging: UdDu7PFdTOnmLAfa8DQG-k_Fo1RI0J4JizBI_
