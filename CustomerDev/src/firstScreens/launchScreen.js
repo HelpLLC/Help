@@ -219,10 +219,10 @@ export default class launchScreen extends Component {
 					onPress={() => {
 						if (Platform.OS === 'ios') {
 							//Links to the new business app for ios
-							
+							Linking.openURL('itms-apps://itunes.apple.com/app/apple-store/id1490767192?mt=8');
 						} else if (Platform.OS === 'android') {
 							//Links to the new business app for android
-
+							Linking.openURL('market://details?id=com.Help.HelpBusiness');
 						}
 					}}
 					title={strings.NewBusinessApp}
