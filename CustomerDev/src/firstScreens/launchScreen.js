@@ -218,10 +218,12 @@ export default class launchScreen extends Component {
 					isVisible={this.state.businessVersionMessageVisible}
 					onPress={() => {
 						if (Platform.OS === 'ios') {
-							//Links to the new business app for ios
+							//Links to the new business app for ios & logs this user out
+							firebase.auth().signOut();
 							Linking.openURL('itms-apps://itunes.apple.com/app/apple-store/id1490767192?mt=8');
 						} else if (Platform.OS === 'android') {
-							//Links to the new business app for android
+							//Links to the new business app for android & logs this user out
+							firebase.auth().signOut();
 							Linking.openURL('market://details?id=com.Help.HelpBusiness');
 						}
 					}}
