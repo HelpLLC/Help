@@ -1,0 +1,2 @@
+- Fixed logo sizing
+- Bug fixes and improvements
