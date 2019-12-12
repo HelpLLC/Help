@@ -375,20 +375,6 @@ export default class FirebaseFunctions {
     const currentRequests = service.requests.currentRequests;
     for (const request of currentRequests) {
       await this.deleteRequest(serviceID, request.requesterID);
-      this.functions.httpsCallable('sendNotification')({
-        topic: 'r-' + request.requesterID,
-        title: strings.RequestRemoved,
-        body:
-          strings.YourRequestFor +
-          ' ' +
-          service.serviceTitle +
-          ' ' +
-          strings.HasBeenRemovedBecause +
-          ' ' +
-          service.offeredByName +
-          ' ' +
-          strings.NoLongerSellsThisService
-      });
     }
 
     this.analytics.logEvent('delete_service');
@@ -590,6 +576,17 @@ export default class FirebaseFunctions {
         strings.HasCancelledTheirRequestFor +
         ' ' +
         doc.data().serviceTitle
+    });
+
+    this.functions.httpsCallable('sendNotification')({
+      topic: 'r-' + request.requesterID,
+      title: strings.RequestRemoved,
+      body:
+        strings.YourRequestFor +
+        ' ' +
+        doc.data().serviceTitle +
+        ' ' +
+        strings.HasBeenRemovedBecause
     });
 
     //Logs the event in firebase analytics
