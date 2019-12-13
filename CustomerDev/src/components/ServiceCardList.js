@@ -10,7 +10,7 @@ class ServiceCardList extends Component {
 	render() {
 		//Fetches the array of services from the props
 		const { services } = this.props;
-
+		console.log(services);
 		return (
 			<FlatList
 				contentContainerStyle={{
