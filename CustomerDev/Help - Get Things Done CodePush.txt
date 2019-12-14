@@ -1,8 +1,8 @@
 To release iOS (From Dev folder): 
-code-push release-react Help-Get-Things-Done ios -t 2.6.0 -d Production 
+code-push release-react Help-Get-Things-Done ios -t 2.6.1 -d Production 
 
 To release Android (From Dev folder):
-code-push release-react Help-Get-Things-Done-1 android -t 2.6.0 -d Production 
+code-push release-react Help-Get-Things-Done-1 android -t 2.6.1 -d Production 
 
 iOS Production: 1jkOI0CcZrXXjMDlsY7fnEYJtI0T5AbVUo37c
 iOS Staging: VyIOOBVj2YLBPImh6Iu6YFWHwPut_qEwUy-Exw
