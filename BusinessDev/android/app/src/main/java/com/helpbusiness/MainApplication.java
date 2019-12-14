@@ -31,6 +31,11 @@ public class MainApplication extends Application implements ReactApplication {
         }
 
         @Override
+        protected String getJSBundleFile() {
+          return CodePush.getJSBundleFile();
+        }
+
+        @Override
         protected List<ReactPackage> getPackages() {
           @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
@@ -64,10 +69,6 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
-  }
-
-  protected String getJSBundleFile() {
-      return CodePush.getJSBundleFile();
   }
 
   /**
