@@ -7,7 +7,7 @@ import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import strings from 'config/strings';
 import LoadingSpinner from '../components/LoadingSpinner';
 import screenStyle from 'config/styles/screenStyle';
-import { Text, View, Dimensions, Keyboard, TouchableOpacity } from 'react-native';
+import { Text, View, Dimensions, Keyboard, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import firebase from 'react-native-firebase';
 import fontStyles from 'config/styles/fontStyles';
@@ -146,130 +146,132 @@ export default class providerAdditionalInformationScreen extends Component {
 			);
 		}
 		return (
-			<HelpView style={screenStyle.container}>
-				<TopBanner
-					title={this.state.editing === true ? strings.EditCompany : strings.CreateProfile}
-					leftIconName='angle-left'
-					leftOnPress={() => {
-						//Method will go back to the splash screen
-						this.props.navigation.goBack();
-					}}
-				/>
-				<View
-					style={{
-						alignSelf: 'flex-start',
-						justifyContent: 'flex-end',
-						marginVertical: Dimensions.get('window').height * 0.02,
-						marginLeft: Dimensions.get('window').width * 0.2
-					}}>
-					<Text style={fontStyles.bigTextStyleBlack}>{strings.Website}</Text>
-				</View>
-
-				<View style={{ justifyContent: 'center' }}>
-					<OneLineRoundedBoxInput
-						placeholder={strings.EnterWebsiteLink}
-						onChangeText={(input) => this.setState({ website: input })}
-						value={this.state.website}
-						password={false}
-						autoCapitalize={'none'}
-					/>
-				</View>
-				<View
-					style={{
-						alignSelf: 'flex-start',
-						justifyContent: 'flex-end',
-						marginVertical: Dimensions.get('window').height * 0.02,
-						marginLeft: Dimensions.get('window').width * 0.2
-					}}>
-					<Text style={fontStyles.bigTextStyleBlack}>{strings.PhoneNumber}</Text>
-				</View>
-
-				<View style={{ justifyContent: 'center' }}>
-					<OneLineRoundedBoxInput
-						placeholder={strings.EnterPhoneNumber}
-						onChangeText={(input) => this.setState({ phoneNumber: input.replace(/[^0-9]/g, '') })}
-						value={this.state.phoneNumber}
-						password={false}
-						keyboardType='numeric'
-						autoCompleteType={'tel'}
-						maxLength={10}
-					/>
-				</View>
-				<View
-					style={{
-						justifyContent: 'flex-end',
-						alignSelf: 'flex-start',
-						marginVertical: Dimensions.get('window').height * 0.02,
-						marginLeft: Dimensions.get('window').width * 0.2
-					}}>
-					<TouchableOpacity
-						onPress={() => {
-							this.setState({ locationInfoVisible: true });
+			<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+				<View style={screenStyle.container}>
+					<TopBanner
+						title={this.state.editing === true ? strings.EditCompany : strings.CreateProfile}
+						leftIconName='angle-left'
+						leftOnPress={() => {
+							//Method will go back to the splash screen
+							this.props.navigation.goBack();
 						}}
-						style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Text style={fontStyles.bigTextStyleBlack}>{strings.LocationYouServe}</Text>
-						<View style={{ width: Dimensions.get('window').width * 0.01 }}></View>
-						<Icon name={'info-circle'} type='font-awesome' size={25} color={colors.lightBlue} />
-					</TouchableOpacity>
-				</View>
-				<View style={{ height: Dimensions.get('window').height * 0.35 }}>
-					<GoogleCityPicker
-						initialText={this.state.location !== '' ? this.state.location : ''}
-						placeholderText={strings.EnterLocation}
-						onPress={(locationName, long, lat) => {
-							this.setState({
-								location: locationName,
-								coordinates: { long, lat }
+					/>
+					<View
+						style={{
+							alignSelf: 'flex-start',
+							justifyContent: 'flex-end',
+							marginVertical: Dimensions.get('window').height * 0.02,
+							marginLeft: Dimensions.get('window').width * 0.2
+						}}>
+						<Text style={fontStyles.bigTextStyleBlack}>{strings.Website}</Text>
+					</View>
+
+					<View style={{ justifyContent: 'center' }}>
+						<OneLineRoundedBoxInput
+							placeholder={strings.EnterWebsiteLink}
+							onChangeText={(input) => this.setState({ website: input })}
+							value={this.state.website}
+							password={false}
+							autoCapitalize={'none'}
+						/>
+					</View>
+					<View
+						style={{
+							alignSelf: 'flex-start',
+							justifyContent: 'flex-end',
+							marginVertical: Dimensions.get('window').height * 0.02,
+							marginLeft: Dimensions.get('window').width * 0.2
+						}}>
+						<Text style={fontStyles.bigTextStyleBlack}>{strings.PhoneNumber}</Text>
+					</View>
+
+					<View style={{ justifyContent: 'center' }}>
+						<OneLineRoundedBoxInput
+							placeholder={strings.EnterPhoneNumber}
+							onChangeText={(input) => this.setState({ phoneNumber: input.replace(/[^0-9]/g, '') })}
+							value={this.state.phoneNumber}
+							password={false}
+							keyboardType='numeric'
+							autoCompleteType={'tel'}
+							maxLength={10}
+						/>
+					</View>
+					<View
+						style={{
+							justifyContent: 'flex-end',
+							alignSelf: 'flex-start',
+							marginVertical: Dimensions.get('window').height * 0.02,
+							marginLeft: Dimensions.get('window').width * 0.2
+						}}>
+						<TouchableOpacity
+							onPress={() => {
+								this.setState({ locationInfoVisible: true });
+							}}
+							style={{ flexDirection: 'row', alignItems: 'center' }}>
+							<Text style={fontStyles.bigTextStyleBlack}>{strings.LocationYouServe}</Text>
+							<View style={{ width: Dimensions.get('window').width * 0.01 }}></View>
+							<Icon name={'info-circle'} type='font-awesome' size={25} color={colors.lightBlue} />
+						</TouchableOpacity>
+					</View>
+					<View style={{ height: Dimensions.get('window').height * 0.35 }}>
+						<GoogleCityPicker
+							initialText={this.state.location !== '' ? this.state.location : ''}
+							placeholderText={strings.EnterLocation}
+							onPress={(locationName, long, lat) => {
+								this.setState({
+									location: locationName,
+									coordinates: { long, lat }
+								});
+							}}
+						/>
+					</View>
+					<View
+						style={{
+							height: Dimensions.get('window').height * 0.1,
+							justifyContent: 'flex-end',
+							alignSelf: 'center'
+						}}>
+						<RoundBlueButton
+							title={this.state.editing === true ? strings.Done : strings.SignUp}
+							style={roundBlueButtonStyle.MediumSizeButton}
+							textStyle={fontStyles.bigTextStyleWhite}
+							isLoading={this.state.isLoading}
+							onPress={() => {
+								this.addProviderInfo();
+							}}
+							disabled={this.state.isLoading}
+						/>
+					</View>
+					<HelpAlert
+						isVisible={this.state.fieldsError}
+						onPress={() => {
+							this.setState({ fieldsError: false });
+						}}
+						title={strings.Whoops}
+						message={strings.PleaseFillOutAllFields}
+					/>
+					<HelpAlert
+						isVisible={this.state.accountSaved}
+						onPress={() => {
+							this.setState({ accountSaved: false });
+
+							this.props.navigation.push('ProviderScreens', {
+								providerID: this.state.providerID
 							});
 						}}
+						title={strings.Success}
+						message={strings.AccountSaved}
 					/>
-				</View>
-				<View
-					style={{
-						height: Dimensions.get('window').height * 0.1,
-						justifyContent: 'flex-end',
-						alignSelf: 'center'
-					}}>
-					<RoundBlueButton
-						title={this.state.editing === true ? strings.Done : strings.SignUp}
-						style={roundBlueButtonStyle.MediumSizeButton}
-						textStyle={fontStyles.bigTextStyleWhite}
-						isLoading={this.state.isLoading}
+					<HelpAlert
+						isVisible={this.state.locationInfoVisible}
 						onPress={() => {
-							this.addProviderInfo();
+							this.setState({ locationInfoVisible: false });
 						}}
-						disabled={this.state.isLoading}
+						title={strings.Location}
+						message={strings.WhyWeUseLocation}
 					/>
 				</View>
-				<HelpAlert
-					isVisible={this.state.fieldsError}
-					onPress={() => {
-						this.setState({ fieldsError: false });
-					}}
-					title={strings.Whoops}
-					message={strings.PleaseFillOutAllFields}
-				/>
-				<HelpAlert
-					isVisible={this.state.accountSaved}
-					onPress={() => {
-						this.setState({ accountSaved: false });
-
-						this.props.navigation.push('ProviderScreens', {
-							providerID: this.state.providerID
-						});
-					}}
-					title={strings.Success}
-					message={strings.AccountSaved}
-				/>
-				<HelpAlert
-					isVisible={this.state.locationInfoVisible}
-					onPress={() => {
-						this.setState({ locationInfoVisible: false });
-					}}
-					title={strings.Location}
-					message={strings.WhyWeUseLocation}
-				/>
-			</HelpView>
+			</TouchableWithoutFeedback>
 		);
 	}
 }
