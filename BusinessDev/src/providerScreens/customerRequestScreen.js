@@ -312,7 +312,7 @@ export default class customerRequestScreen extends Component {
 					confirmOnPress={async () => {
 						this.setState({ isCompleteRequestVisible: false });
 						//This method will complete a specific request based on the passed in requester ID
-						try {
+						//try {
 							this.setState({ isLoading: true });
 							await FirebaseFunctions.completeRequest(product.serviceID, request.requesterID);
 							//Updates the state of the screen to remove the request from
@@ -321,14 +321,14 @@ export default class customerRequestScreen extends Component {
 								requestCompleted: true,
 								isLoading: false
 							});
-						} catch (error) {
+						/*} catch (error) {
 							this.setState({ isLoading: false, isErrorVisible: true });
 							FirebaseFunctions.logIssue(error, {
 								screen: 'BusinessCustomerRequestScreen',
 								userID: 'p-' + product.offeredByID,
 								productID: product.offeredByID
 							});
-						}
+						}*/
 					}}
 					cancelOnPress={() => {
 						this.setState({ isCompleteRequestVisible: false });

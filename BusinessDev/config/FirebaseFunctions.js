@@ -579,7 +579,7 @@ export default class FirebaseFunctions {
     });
 
     this.functions.httpsCallable('sendNotification')({
-      topic: 'r-' + request.requesterID,
+      topic: 'r-' + requesterID,
       title: strings.RequestRemoved,
       body:
         strings.YourRequestFor +
