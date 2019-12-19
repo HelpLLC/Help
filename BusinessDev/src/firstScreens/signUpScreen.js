@@ -173,7 +173,7 @@ class signUpScreen extends Component {
 					</View>
 					<View
 						style={{
-							height: Dimensions.get('window').height * 0.1,
+							marginVertical: Dimensions.get('window').height * 0.05,
 							justifyContent: 'flex-start',
 							alignItems: 'center',
 							flexDirection: 'column'
