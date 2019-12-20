@@ -83,10 +83,8 @@ class signUpScreen extends Component {
 				}
 			} catch (error) {
 				if (
-					error.message === 'The password is invalid or the user does not have a password.' ||
-					error.message === 'The email address is badly formatted.' ||
 					error.message ===
-						'There is no user record corresponding to this identifier. The user may have been deleted.'
+					'There is no user record corresponding to this identifier. The user may have been deleted.'
 				) {
 					//If this is a new business account, then it will navigate to the create provider
 					//profile screen to finish creating the account there

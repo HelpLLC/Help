@@ -253,9 +253,9 @@ export default class FirebaseFunctions {
 	//This functions will take in a new requester ID and then will add that requester to the firestore
 	//as a new requester with a unique requester ID and a username which will just be their email
 	//without the "@". It will also accept a phone number and an address which are optional for requesters
-	static async addRequesterToDatabase(account, phoneNumber, coordinates, city, name) {
+	static async addRequesterToDatabase(userID, phoneNumber, coordinates, city, name) {
 		const batch = this.database.batch();
-		const uid = account.user.uid;
+		const uid = userID;
 		const ref = this.requesters.doc(uid);
 
 		const newRequester = {
@@ -679,19 +679,17 @@ export default class FirebaseFunctions {
 		const { uid } = account.user;
 		//Starts with searching if this is a requester since that is more common
 		const requester = await this.getRequesterByID(uid);
-
-		if (requester === -1) {
-			throw new Error(
-				'There is no user record corresponding to this identifier. The user may have been deleted.'
-			);
-		} else {
-			//Logs the event in firebase analytics
-			this.analytics.logEvent('customer_log_in');
-			//Subscribes to the requester channel
-			const topicName = 'r-' + uid;
-			await this.fcm.subscribeToTopic(topicName);
-			return topicName;
+		const provider = await this.getProviderByID(uid);
+		//Logs the event in firebase analytics
+		this.analytics.logEvent('customer_log_in');
+		//Subscribes to the requester channel
+		const topicName = 'r-' + uid;
+		await this.fcm.subscribeToTopic(topicName);
+		//If this account is only a provider account, then the method will return a string indicator to show this
+		if (requester === -1 && provider !==-1) {
+			return 'IS_ONLY_PROVIDER ' + topicName;
 		}
+		return topicName;
 	}
 
 	//This method will log out the current user of the app & unsubscribed to the notification channel associated with

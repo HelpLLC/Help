@@ -678,10 +678,10 @@ export default class FirebaseFunctions {
 		const provider = await this.getProviderByID(uid);
 		//Logs the event in firebase analytics
 		this.analytics.logEvent('provider_log_in');
-    //Subscribes to the provider channel
+		//Subscribes to the provider channel
 		const topicName = 'p-' + uid;
-    await this.fcm.subscribeToTopic(topicName);
-    if (requester !== -1 && provider === -1) {
+		await this.fcm.subscribeToTopic(topicName);
+		if (requester !== -1 && provider === -1) {
 			return 'IS_ONLY_REQUESTER ' + topicName;
 		}
 		return topicName;

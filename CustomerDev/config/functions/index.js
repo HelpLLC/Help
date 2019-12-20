@@ -34,25 +34,35 @@ exports.sendNotification = functions.https.onCall(async (input, context) => {
 
 //Method detects when a new business user has been verified & sends them a notification saying they're
 //good to go
-exports.businessGoodToGo = functions.firestore.document('providers/{providerID}').onUpdate(async (change, context) => {
-	if (change.after.data().isVerified === true && change.before.data().isVerified === false) {
-		const topic = 'p-' + change.after.data().providerID;
-		await admin.messaging().sendToTopic(topic, {
-			notification: {
-				title: "Your good to go",
-				body: "You're account has been verified and accepted. Create your first product now!"
-			}
-		});
-	}
+exports.businessGoodToGo = functions.firestore
+	.document('providers/{providerID}')
+	.onUpdate(async (change, context) => {
+		if (change.after.data().isVerified === true && change.before.data().isVerified === false) {
+			const topic = 'p-' + change.after.data().providerID;
+			await admin.messaging().sendToTopic(topic, {
+				notification: {
+					title: 'Your good to go',
+					body: "You're account has been verified and accepted. Create your first product now!"
+				}
+			});
+		}
 
-	return 0;
-});
+		return 0;
+	});
 
 //This method sends an automated email to helpcocontact@gmail.com saying that a new business
 //has signed up and requires verification
 exports.sendNewBusinessEmail = functions.https.onCall(async (input, context) => {
 	//Fetches the business's name and description from the params
-	const { businessName, businessInfo, businessEmail, businessPhoneNumber, businessLocation, businessWebsite, providerID } = input;
+	const {
+		businessName,
+		businessInfo,
+		businessEmail,
+		businessPhoneNumber,
+		businessLocation,
+		businessWebsite,
+		providerID
+	} = input;
 
 	//Configures the email subject, to, and from
 	const mailOptions = {
@@ -175,11 +185,16 @@ exports.declineBusiness = functions.https.onRequest(async (req, res) => {
 			'We apologize for the inconvenience.\n\nHelp LLC';
 		await mailTransport.sendMail(mailOptions);
 
-		//Deletes the user object from firestore and deletes the user from Firebase Authentication
-		const auth = admin.auth();
-		await auth.deleteUser(providerID);
-
+		//Deletes the user object from firestore and deletes the user from Firebase Authentication (unless they have an existing requester object)
 		const firestore = admin.firestore();
+		const doc = await firestore
+			.collection('requesters')
+			.doc(providerID)
+			.get();
+		if (!doc.exists) {
+			const auth = admin.auth();
+			await auth.deleteUser(providerID);
+		}
 		const providerObject = firestore.collection('providers').doc(providerID);
 		await providerObject.delete();
 

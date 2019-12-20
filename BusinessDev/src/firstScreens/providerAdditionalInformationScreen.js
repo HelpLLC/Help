@@ -7,7 +7,14 @@ import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import strings from 'config/strings';
 import LoadingSpinner from '../components/LoadingSpinner';
 import screenStyle from 'config/styles/screenStyle';
-import { Text, View, Dimensions, Keyboard, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import {
+	Text,
+	View,
+	Dimensions,
+	Keyboard,
+	TouchableOpacity,
+	TouchableWithoutFeedback
+} from 'react-native';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import firebase from 'react-native-firebase';
 import fontStyles from 'config/styles/fontStyles';
@@ -77,7 +84,12 @@ export default class providerAdditionalInformationScreen extends Component {
 		} else {
 			this.setState({ isLoading: true });
 			try {
-				const { businessName, businessInfo, email, requesterAccountExists } = this.props.navigation.state.params;
+				const {
+					businessName,
+					businessInfo,
+					email,
+					requesterAccountExists
+				} = this.props.navigation.state.params;
 				const { phoneNumber, website, location, coordinates } = this.state;
 
 				//If this is a new profile, then it will add them to Firebase Authentication in addition to adding them to the database
@@ -85,12 +97,13 @@ export default class providerAdditionalInformationScreen extends Component {
 					firebase.auth().signInAnonymously();
 					const { password } = this.props.navigation.state.params;
 
-					let account = "";
+					let account = '';
 					if (requesterAccountExists === false) {
 						account = await firebase.auth().createUserWithEmailAndPassword(email, password);
+						await FirebaseFunctions.logIn(email, password);
 					} else {
 						account = await FirebaseFunctions.logIn(email, password);
-						account = account.split(" ");
+						account = account.split(' ');
 						account = account[1];
 					}
 					//Creates the base provider object
@@ -107,7 +120,6 @@ export default class providerAdditionalInformationScreen extends Component {
 						providerID: account.user ? account.user.uid : account.substring(2)
 					};
 					await FirebaseFunctions.addProviderToDatabase(provider);
-					await FirebaseFunctions.logIn(email, password);
 					//Navigates to the screen where it tells the business to wait until their account has been verified
 					this.props.navigation.push('AccountNotVerifiedScreen');
 				} else {

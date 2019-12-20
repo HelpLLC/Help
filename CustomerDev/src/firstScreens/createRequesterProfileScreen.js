@@ -175,16 +175,26 @@ class createRequesterProfileScreen extends Component {
 					//If this is a customer, then the account will be created here and
 					//along with the new requester being added to the database then
 					//the screen will shift to the new account's screen
-					const { email, password } = this.props.navigation.state.params;
-					const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
+					const { email, password, hasProviderAccount } = this.props.navigation.state.params;
+					let userID = '';
+					if (hasProviderAccount === true) {
+						//If a provider account already exists with this email, it doesn't add it twice into Firebase
+						//authentication
+						userID = await FirebaseFunctions.logIn(email, password);
+						userID = userID.split(' ')[1];
+						userID = userID.substring(2);
+					} else {
+						userID = await firebase.auth().createUserWithEmailAndPassword(email, password);
+						userID = userID.user.uid;
+						await FirebaseFunctions.logIn(email, password);
+					}
 					const requester = await FirebaseFunctions.addRequesterToDatabase(
-						account,
+						userID,
 						phoneNumber,
 						coordinates,
 						city,
 						name
 					);
-					await FirebaseFunctions.logIn(email, password);
 					const allProducts = await FirebaseFunctions.getAllProducts();
 					this.setState({ isLoading: false });
 					this.props.navigation.push('FeaturedScreen', {
