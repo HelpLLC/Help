@@ -118,7 +118,8 @@ class createProviderProfileScreen extends Component {
 						password,
 						businessInfo,
 						businessName,
-						editing: false
+						editing: false,
+						requesterAccountExists: this.props.navigation.state.params.requesterAccountExists
 					});
 				}
 			}

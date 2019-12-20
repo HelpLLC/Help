@@ -77,14 +77,22 @@ export default class providerAdditionalInformationScreen extends Component {
 		} else {
 			this.setState({ isLoading: true });
 			try {
-				const { businessName, businessInfo, email } = this.props.navigation.state.params;
+				const { businessName, businessInfo, email, requesterAccountExists } = this.props.navigation.state.params;
 				const { phoneNumber, website, location, coordinates } = this.state;
 
 				//If this is a new profile, then it will add them to Firebase Authentication in addition to adding them to the database
 				if (this.state.editing === false) {
 					firebase.auth().signInAnonymously();
 					const { password } = this.props.navigation.state.params;
-					const account = await firebase.auth().createUserWithEmailAndPassword(email, password);
+
+					let account = "";
+					if (requesterAccountExists === false) {
+						account = await firebase.auth().createUserWithEmailAndPassword(email, password);
+					} else {
+						account = await FirebaseFunctions.logIn(email, password);
+						account = account.split(" ");
+						account = account[1];
+					}
 					//Creates the base provider object
 					const provider = {
 						companyName: businessName,
@@ -96,9 +104,9 @@ export default class providerAdditionalInformationScreen extends Component {
 						website,
 						location,
 						coordinates,
-						providerID: account.user.uid
+						providerID: account.user ? account.user.uid : account.substring(2)
 					};
-					await FirebaseFunctions.addProviderToDatabase(account, provider);
+					await FirebaseFunctions.addProviderToDatabase(provider);
 					await FirebaseFunctions.logIn(email, password);
 					//Navigates to the screen where it tells the business to wait until their account has been verified
 					this.props.navigation.push('AccountNotVerifiedScreen');
