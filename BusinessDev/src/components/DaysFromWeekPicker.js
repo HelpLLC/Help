@@ -22,7 +22,7 @@ class DaysFromWeekPicker extends Component {
                     key={day}
 					style={{
                         height: Dimensions.get('window').height * 0.05,
-                        width: Dimensions.get('window').height * 0.05,
+                        width: Dimensions.get('window').height * 0.075,
                         borderRadius: Dimensions.get('window').height * 0.025,
                         alignItems: 'center',
                         justifyContent: 'center',
