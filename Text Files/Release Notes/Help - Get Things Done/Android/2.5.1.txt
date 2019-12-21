@@ -1,0 +1,4 @@
+- Made the update process much smoother
+- Fixed issues with Help's splash screen
+- Improved scheduling from customer side
+- Fixed bugs and improvement issues

@@ -1,0 +1,58 @@
+{
+  "name": "HelpBusiness",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@react-native-community/async-storage": "^1.6.3",
+    "@react-native-community/datetimepicker": "^2.1.0",
+    "@react-native-community/netinfo": "^4.6.1",
+    "react": "16.9.0",
+    "react-native": "0.61.5",
+    "react-native-actionsheet": "^2.4.2",
+    "react-native-awesome-alerts": "^1.3.0",
+    "react-native-check-box": "^2.1.7",
+    "react-native-code-push": "^6.0.0",
+    "react-native-elements": "^1.2.7",
+    "react-native-fast-image": "^7.0.2",
+    "react-native-firebase": "^5.5.6",
+    "react-native-gesture-handler": "^1.5.2",
+    "react-native-gifted-chat": "^0.12.0",
+    "react-native-google-places-autocomplete": "^1.4.0",
+    "react-native-image-crop-picker": "^0.26.1",
+    "react-native-keyboard-aware-scroll-view": "^0.9.1",
+    "react-native-modal-datetime-picker": "^8.0.4",
+    "react-native-picker-select": "^6.3.3",
+    "react-native-reanimated": "^1.4.0",
+    "react-native-shadow": "^1.2.2",
+    "react-native-side-menu": "^1.1.3",
+    "react-native-spinkit": "^1.5.0",
+    "react-native-splash-screen": "^3.2.0",
+    "react-native-svg": "^9.13.3",
+    "react-native-vector-icons": "^6.6.0",
+    "react-native-view-more-text": "^2.1.0",
+    "react-navigation": "^4.0.10",
+    "react-navigation-stack": "^1.10.3",
+    "react-navigation-tabs": "^2.6.2",
+    "react-navigation-transitions": "^1.0.12"
+  },
+  "devDependencies": {
+    "@babel/core": "7.7.4",
+    "@babel/runtime": "7.7.4",
+    "@react-native-community/eslint-config": "0.0.5",
+    "babel-jest": "24.9.0",
+    "eslint": "6.7.2",
+    "jest": "24.9.0",
+    "metro-react-native-babel-preset": "0.56.3",
+    "react-test-renderer": "16.9.0"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
