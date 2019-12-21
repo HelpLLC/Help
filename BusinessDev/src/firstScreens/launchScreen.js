@@ -187,7 +187,6 @@ export default class launchScreen extends Component {
 				/>
 				<HelpAlert
 					isVisible={this.state.willRestart}
-					closeOnTouchOutside={false}
 					onPress={async () => {
 						this.setState({ willRestart: false });
 						await this.state.status.install();

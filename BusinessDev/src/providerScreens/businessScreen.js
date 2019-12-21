@@ -236,7 +236,6 @@ class businessScreen extends Component {
 								editing: true
 							});
 						}}
-						closeOnTouchOutside={false}
 						title={strings.FinishCreatingYourProfile}
 						message={strings.FinishCreatingYourProfileMessage}
 					/>

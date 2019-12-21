@@ -17,9 +17,7 @@ class HelpAlert extends Component {
             show={isVisible}
             title={title}
             message={message}
-            closeOnTouchOutside={
-              this.props.closeOnTouchOutside ? this.props.closeOnTouchOutside : true
-            }
+            closeOnTouchOutside={false}
             showCancelButton={false}
             showConfirmButton={true}
             confirmButtonColor={colors.lightBlue}

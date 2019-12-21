@@ -71,23 +71,34 @@ class signUpScreen extends Component {
 			//If the account is new, then it will go through the normal process to create
 			//the account
 			try {
-				const array = await firebase.auth().fetchSignInMethodsForEmail(email);
-				if (array.length > 0) {
+				const account = await FirebaseFunctions.logIn(email, password);
+				if (account.includes('IS_ONLY_REQUESTER')) {
+					this.setState({ requesterAccountExists: true });
+					throw new Error(
+						'There is no user record corresponding to this identifier. The user may have been deleted.'
+					);
+				} else {
 					this.setState({ emailExistsError: true });
 					this.setState({ isLoading: false });
-				} else {
-					//If this is a business account, then it will navigate to the create provider
+				}
+			} catch (error) {
+				if (
+					error.message ===
+					'There is no user record corresponding to this identifier. The user may have been deleted.'
+				) {
+					//If this is a new business account, then it will navigate to the create provider
 					//profile screen to finish creating the account there
 					this.setState({ isLoading: false });
 					this.props.navigation.push('CreateProviderProfileScreen', {
 						email,
 						password,
-						editing: false
+						editing: false,
+						requesterAccountExists: this.state.requesterAccountExists === true ? true : false
 					});
+				} else {
+					this.setState({ isLoading: false, isErrorVisible: true });
+					FirebaseFunctions.logIssue(error, 'SignUpScreen');
 				}
-			} catch (error) {
-				this.setState({ isLoading: false, isErrorVisible: true });
-				FirebaseFunctions.logIssue(error, 'SignUpScreen');
 			}
 		}
 	}
@@ -173,7 +184,7 @@ class signUpScreen extends Component {
 					</View>
 					<View
 						style={{
-							height: Dimensions.get('window').height * 0.1,
+							marginVertical: Dimensions.get('window').height * 0.05,
 							justifyContent: 'flex-start',
 							alignItems: 'center',
 							flexDirection: 'column'
