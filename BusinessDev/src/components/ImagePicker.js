@@ -34,7 +34,7 @@ export default class ImagePicker extends Component {
 							const image = await Picker.openCamera({
 								width: imageWidth,
 								height: imageHeight,
-								cropping: imageHeight,
+								cropping: false,
 								includeBase64: true
 							});
 							await onImageSelected(image);
