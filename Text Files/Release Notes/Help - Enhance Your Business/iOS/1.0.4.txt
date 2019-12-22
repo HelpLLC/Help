@@ -1,0 +1,2 @@
+- Allowed users with existing customer accounts to create business accounts
+- Fixed bugs & improvements issues
