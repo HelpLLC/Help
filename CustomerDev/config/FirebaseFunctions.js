@@ -28,6 +28,13 @@ export default class FirebaseFunctions {
 		return requesterObject.city && requesterObject.coordinates && requesterObject.phoneNumber;
 	}
 
+	//This method is going to return a boolean value on whether the app is currently under maintenance
+	//or not
+	static async isUnderMaintenance() {
+		const maintenance = await this.helpDev.doc("maintenance").get();
+		return maintenance.data().GTD;
+	}
+
 	//This method will return an array of category objects. Each object will contain two fields. The first field will be the name
 	//of the category, and the second will be the location of the image as it is stored in Firebase Storage. The image will not actually
 	//be downloaded with this method. Instead you must call the method "getCategoryImageByID" to return the downloaded image

@@ -27,6 +27,13 @@ export default class FirebaseFunctions {
 		return providerObject.phoneNumber && providerObject.location && providerObject.coordinates;
 	}
 
+	//This method is going to return a boolean value on whether the app is currently under maintenance
+	//or not
+	static async isUnderMaintenance() {
+		const maintenance = await this.helpDev.doc("maintenance").get();
+		return maintenance.data().EYB;
+	}
+
 	//This method will return an array containing an all products currently in the market
 	static async getAllProducts() {
 		const snapshot = await this.products.get();
