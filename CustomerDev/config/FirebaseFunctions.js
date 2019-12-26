@@ -128,8 +128,9 @@ export default class FirebaseFunctions {
 	}
 
 	static async getCompletedRequestsByRequesterID(requesterID) {
-		const completedServices = await this.requests
-			.where('requesterID', '==', requesterID)
+		const completedServices = await this.requesters
+			.doc(requesterID)
+			.collection('Requests')
 			.where('isCompleted', '==', true)
 			.get();
 		const arrayOfCompletedServices = completedServices.docs.map((doc) => doc.data());
@@ -137,8 +138,9 @@ export default class FirebaseFunctions {
 	}
 
 	static async getInProgressServicesByRequesterID(requesterID) {
-		const inProgressServices = await this.requests
-			.where('requesterID', '==', requesterID)
+		const inProgressServices = await this.requesters
+			.doc(requesterID)
+			.collection('Requests')
 			.where('isCompleted', '==', false)
 			.get();
 		const arrayOfInProgressServices = inProgressServices.docs.map((doc) => doc.data());
@@ -159,7 +161,8 @@ export default class FirebaseFunctions {
 		const requestedService = allInProgressRequests.find((element) => {
 			return element.serviceID === serviceID;
 		});
-		return requestedService;
+		const request = await this.requests.doc(requestedService.requestID).get();
+		return request;
 	}
 
 	static async getCompletedRequestByID(serviceID, requesterID) {
@@ -167,7 +170,8 @@ export default class FirebaseFunctions {
 		const completedService = allCompletedRequests.find((element) => {
 			return element.serviceID === serviceID;
 		});
-		return completedService;
+		const request = await this.requests.doc(completedService.requestID).get();
+		return request;
 	}
 
 	//This method will return an array of all of the providers
@@ -699,7 +703,8 @@ export default class FirebaseFunctions {
 				.doc(requestID)
 				.set({
 					isCompleted: false,
-					requestID: requestID
+					requestID: requestID,
+					serviceID: newRequest.serviceID
 				});
 			await this.requesters
 				.doc(newRequest.requesterID)
@@ -707,7 +712,8 @@ export default class FirebaseFunctions {
 				.doc(requestID)
 				.set({
 					isCompleted: false,
-					requestID: requestID
+					requestID: requestID,
+					serviceID: newRequest.serviceID
 				});
 		}
 
