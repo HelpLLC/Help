@@ -18,7 +18,8 @@ export default class FirebaseFunctions {
 	static providers = this.database.collection('providers');
 	static requesters = this.database.collection('requesters');
 	static products = this.database.collection('products');
-	static messages = this.database.collection('messages');
+	static conversations = this.database.collection('conversations');
+	static requests = this.database.collection('requests');
 	static issues = this.database.collection('issues');
 	static helpDev = this.database.collection('helpDev');
 
@@ -31,8 +32,23 @@ export default class FirebaseFunctions {
 	//This method is going to return a boolean value on whether the app is currently under maintenance
 	//or not
 	static async isUnderMaintenance() {
-		const maintenance = await this.helpDev.doc("maintenance").get();
+		const maintenance = await this.helpDev.doc('maintenance').get();
 		return maintenance.data().GTD;
+	}
+
+	static async isServiceRequestedByRequester(serviceID, requesterID) {
+		const queryResults = (
+			await this.requests
+				.where('requesterID', '==', requesterID)
+				.where('serviceID', '==', serviceID)
+				.where('isCompleted', '==', false)
+				.get()
+		).docs;
+		if (queryResults.length === 0) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	//This method will return an array of category objects. Each object will contain two fields. The first field will be the name
@@ -91,6 +107,67 @@ export default class FirebaseFunctions {
 		}
 
 		return filteredProducts;
+	}
+
+	static async filterProductsByRequesterBlockedUsers(requester, products) {
+		const { requesterID } = requester;
+
+		const filteredProducts = [];
+		for (const service of products) {
+			const { offeredByID } = service;
+			const doc = await this.requesters
+				.doc(requesterID)
+				.collection('BlockedUsers')
+				.doc(offeredByID)
+				.get();
+			if (!doc.exists) {
+				filteredProducts.push(service);
+			}
+		}
+		return filteredProducts;
+	}
+
+	static async getCompletedRequestsByRequesterID(requesterID) {
+		const completedServices = await this.requests
+			.where('requesterID', '==', requesterID)
+			.where('isCompleted', '==', true)
+			.get();
+		const arrayOfCompletedServices = completedServices.docs.map((doc) => doc.data());
+		return arrayOfCompletedServices;
+	}
+
+	static async getInProgressServicesByRequesterID(requesterID) {
+		const inProgressServices = await this.requests
+			.where('requesterID', '==', requesterID)
+			.where('isCompleted', '==', false)
+			.get();
+		const arrayOfInProgressServices = inProgressServices.docs.map((doc) => doc.data());
+		return arrayOfInProgressServices;
+	}
+
+	static async getReviewsByServiceID(serviceID) {
+		const reviews = await this.products
+			.doc(serviceID)
+			.collection('Reviews')
+			.get();
+		const arrayOfReviews = reviews.docs.map((doc) => doc.data());
+		return arrayOfReviews;
+	}
+
+	static async getCurrentRequestByID(serviceID, requesterID) {
+		const allInProgressRequests = await this.getInProgressServicesByRequesterID(requesterID);
+		const requestedService = allInProgressRequests.find((element) => {
+			return element.serviceID === serviceID;
+		});
+		return requestedService;
+	}
+
+	static async getCompletedRequestByID(serviceID, requesterID) {
+		const allCompletedRequests = await this.getCompletedRequestsByRequesterID(requesterID);
+		const completedService = allCompletedRequests.find((element) => {
+			return element.serviceID === serviceID;
+		});
+		return completedService;
 	}
 
 	//This method will return an array of all of the providers
@@ -216,20 +293,45 @@ export default class FirebaseFunctions {
 		return 0;
 	}
 
+	//This method will take in an ID of a request and return that request object if it exists. If it doesn't, then
+	//it will return -1
+	static async getRequestByID(requestID) {
+		const ref = this.requests.doc(requestID + '');
+		const doc = await ref.get();
+
+		if (doc.exists) {
+			return doc.data();
+		}
+		return -1;
+	}
+
+	//This method will take in an ID of a request and update that request object with the fields that are passed in
+	//as a second parameter. If the request doesn't exist, the method will return -1.
+	static async updateRequestByID(requestID, updates) {
+		const ref = this.products.doc(requestID);
+		try {
+			await ref.update(updates);
+		} catch (error) {
+			return -1;
+		}
+		return 0;
+	}
 	//This method will take in an ID of a requester and an ID of a provider and return the object
 	//containing the conversation between the two
 	static async getConversationByID(providerID, requesterID) {
-		const ref = this.messages
+		const ref = this.conversations
 			.where('providerID', '==', providerID)
 			.where('requesterID', '==', requesterID)
 			.limit(1);
 		const query = await ref.get();
 
 		if (query.docs.length > 0) {
-			const doc = query.docs[0];
-			const docData = doc.data();
+			const doc = query.docs[0].ref;
+			//Gets the subcollection and fetches all of the docs
+			const conversation = (await doc.collection('Messages').get()).docs;
+			let conversationMessages = conversation.map((document) => document.data());
 			//Sorts the conversation messages by time
-			const conversationMessages = docData.conversationMessages.sort((a, b) => {
+			conversationMessages = conversationMessages.sort((a, b) => {
 				return b.createdAt - a.createdAt;
 			});
 			return {
@@ -261,7 +363,6 @@ export default class FirebaseFunctions {
 	//as a new requester with a unique requester ID and a username which will just be their email
 	//without the "@". It will also accept a phone number and an address which are optional for requesters
 	static async addRequesterToDatabase(userID, phoneNumber, coordinates, city, name) {
-		const batch = this.database.batch();
 		const uid = userID;
 		const ref = this.requesters.doc(uid);
 
@@ -270,16 +371,23 @@ export default class FirebaseFunctions {
 			username: name,
 			phoneNumber,
 			coordinates,
-			city,
-			orderHistory: {
-				inProgress: [],
-				completed: []
-			},
-			blockedUsers: ['Example Business', 'MRWYHdcULQggTQlxyXwGbykY5r02']
+			city
 		};
 
-		batch.set(ref, newRequester);
-		await batch.commit();
+		//Creates the document and its blocked users subcollection
+		await ref.set(newRequester);
+		await ref
+			.collection('BlockedUsers')
+			.doc('Example Business')
+			.set({
+				providerID: 'Example Business'
+			});
+		await ref
+			.collection('BlockedUsers')
+			.doc('MRWYHdcULQggTQlxyXwGbykY5r02')
+			.set({
+				providerID: 'MRWYHdcULQggTQlxyXwGbykY5r02'
+			});
 
 		//Logs the event in firebase analytics
 		this.analytics.logEvent('requester_sign_up');
@@ -352,25 +460,26 @@ export default class FirebaseFunctions {
 	//then it will create a new messages object between the two communicators
 	static async sendMessage(providerID, requesterID, message, isNewConversation) {
 		if (isNewConversation === true) {
-			const conversationMessages = [];
 			const messageWithCorrectDate = {
 				_id: message[0]._id,
 				createdAt: new Date(message[0].createdAt).getTime(),
 				text: message[0].text,
 				user: message[0].user
 			};
-			conversationMessages.push(messageWithCorrectDate);
 			//Retrieves the names of the requester and the provider so that can be added to the database
 			//as well
 			const provider = await this.getProviderByID(providerID);
 			const requester = await this.getRequesterByID(requesterID);
-			await this.messages.add({
-				conversationMessages,
+			const newDoc = await this.conversations.add({
 				providerID,
 				requesterID,
 				requesterName: requester.username,
 				providerName: provider.companyName
 			});
+			await newDoc
+				.collection('Messages')
+				.doc(messageWithCorrectDate._id)
+				.set(messageWithCorrectDate);
 			//Notifies the user who RECIEVED the message (the opposite of whoever message[0].user is)
 			//Notifies the provider whose service this belongs to
 			if (message[0].user._id === providerID) {
@@ -391,21 +500,21 @@ export default class FirebaseFunctions {
 		} else {
 			const requester = await this.getRequesterByID(requesterID);
 			const provider = await this.getProviderByID(providerID);
-			const ref = this.messages
+			const ref = this.conversations
 				.where('providerID', '==', providerID)
 				.where('requesterID', '==', requesterID);
 			const query = await ref.get();
 			const doc = query.docs[0];
-			const conversationID = doc.id;
 			const messageWithCorrectDate = {
 				_id: message[0]._id,
 				createdAt: new Date(message[0].createdAt).getTime(),
 				text: message[0].text,
 				user: message[0].user
 			};
-			await this.updateCoversationByID(conversationID, {
-				conversationMessages: firebase.firestore.FieldValue.arrayUnion(messageWithCorrectDate)
-			});
+			await doc.ref
+				.collection('Messages')
+				.doc(messageWithCorrectDate._id)
+				.set(messageWithCorrectDate);
 			//Notifies the user who RECIEVED the message (the opposite of whoever message[0].user is)
 			//Notifies the provider whose service this belongs to
 			if (message[0].user._id === providerID) {
@@ -427,14 +536,40 @@ export default class FirebaseFunctions {
 		return 0;
 	}
 
+	//this method will check if a review is due for a customer. If there is not, the function will return false.
+	//If there is, then the function will return an object containing the necessary information for the customer
+	//to complete the review
+	static async isReviewDue(requesterID) {
+		const requestsSub = await this.requesters
+			.doc(requesterID)
+			.collection('Requests')
+			.where('review', '==', 'Pending')
+			.limit(1);
+		const query = (await requestsSub.get()).docs;
+		if (query.length === 0) {
+			return false;
+		} else {
+			const doc = query[0].data();
+			const { requestID } = doc;
+			const request = await this.getRequestByID(requestID);
+			const service = await this.getServiceByID(request.serviceID);
+			return {
+				requestID: requestID,
+				serviceID: service.serviceID,
+				serviceTitle: service.serviceTitle
+			};
+		}
+	}
+
 	//This method is going to add a review to the array of reviews for a specified service. It will also
 	//update the status of the review inside the requester's array of orderHistory.
-	static async submitReview(serviceID, requesterID, stars, comment) {
+	static async submitReview(serviceID, requesterID, stars, comment, requestID) {
 		const requester = await this.getRequesterByID(requesterID);
 		review = {
 			requesterName: requester.username,
 			stars,
 			requesterID,
+			requestID,
 			comment
 		};
 
@@ -447,20 +582,30 @@ export default class FirebaseFunctions {
 		const newRating = b / c;
 
 		await this.updateServiceByID(serviceID, {
-			reviews: firebase.firestore.FieldValue.arrayUnion(review),
 			averageRating: newRating,
 			totalReviews: service.totalReviews + 1
 		});
 
-		//Updates the requester object's completed array with the new review specific to this object
-		let { orderHistory } = requester;
-		const indexOfCompletedRequest = orderHistory.completed.findIndex((eachCompleted) => {
-			return eachCompleted.serviceID === serviceID && eachCompleted.review === null;
+		//Fetches the document of the service so it can add the review as an object to the subcollection
+		await this.products
+			.doc(serviceID)
+			.collection('Reviews')
+			.doc(requestID)
+			.set(review);
+
+		//Adds the review to the request document
+		await this.updateRequestByID(requestID, {
+			review: review
 		});
-		orderHistory.completed[indexOfCompletedRequest].review = review;
-		await this.updateRequesterByID(requesterID, {
-			orderHistory
-		});
+
+		//Indicates that the user has completed the review
+		await this.requesters
+			.doc(requesterID)
+			.collection('Requests')
+			.doc(requestID)
+			.update({
+				review: 'Done'
+			});
 
 		this.analytics.logEvent('submit_review');
 
@@ -469,17 +614,15 @@ export default class FirebaseFunctions {
 
 	//This method is going to update the review status of a specific product inside a requester object
 	//to indicate that they have opted out of reviewing this product
-	static async skipReview(serviceID, requesterID) {
-		const requester = await this.getRequesterByID(requesterID);
-		let { orderHistory } = requester;
-		const indexOfCompletedRequest = orderHistory.completed.findIndex((eachCompleted) => {
-			return eachCompleted.serviceID === serviceID && eachCompleted.review === null;
-		});
-		orderHistory.completed[indexOfCompletedRequest].review = 'None';
-		await this.updateRequesterByID(requesterID, {
-			orderHistory
-		});
-
+	static async skipReview(requestID, requesterID) {
+		//Indicates that the user has skipped the review
+		await this.requesters
+			.doc(requesterID)
+			.collection('Requests')
+			.doc(requestID)
+			.update({
+				review: 'Skipped'
+			});
 		this.analytics.logEvent('skip_review');
 		return 0;
 	}
@@ -488,58 +631,45 @@ export default class FirebaseFunctions {
 	//requseter or a provider
 	static async getAllUserConversations(userID) {
 		let allUserConversations = [];
-		const ref = this.messages.where('requesterID', '==', userID);
+		const ref = this.conversations.where('requesterID', '==', userID);
 		const query = await ref.get();
 		const docs = query.docs;
-		allUserConversations = docs.map((doc) => doc.data());
+		for (const doc of docs) {
+			const obj = await doc.get();
+			const objWithConversation = this.getConversationByID(obj.providerID, obj.reqeusterID);
+			allUserConversations.push(objWithConversation);
+		}
 
 		return allUserConversations;
 	}
 
 	//This method will take in a product ID and a requester ID and then delete that requester's request
-	//from the array of the product's current requests. It will also remove the request from the inProgress section of
+	//from the subcollection of the product's current requests. It will also remove the request from the inProgress section of
 	//the requester's orders array
-	static async deleteRequest(productID, requesterID) {
-		const ref = this.products.doc(productID);
-		const doc = await ref.get();
+	static async deleteRequest(productID, requesterID, requestID) {
+		//updates the subcollection by removing the request
+		await this.products
+			.doc(productID)
+			.collection('Requests')
+			.doc(requestID)
+			.delete();
+		await this.requesters
+			.doc(requesterID)
+			.collection('Requests')
+			.doc(requestID)
+			.delete();
+		await this.requests.doc(requestID).delete();
 
-		//Creates a copy of the array of requests minus the request corresponding to this requester ID
-		const oldRequests = doc.data().requests.currentRequests;
-		const indexOfRequest = oldRequests.findIndex((request) => {
-			return request.requesterID === requesterID;
-		});
-
-		oldRequests.splice(indexOfRequest, 1);
-		await this.updateServiceByID(productID, {
-			requests: {
-				currentRequests: oldRequests,
-				completedRequests: doc.data().requests.completedRequests
-			}
-		});
-
+		//Fetches the necessary data to send a notification
+		const product = await this.getServiceByID(productID);
 		const requester = await this.getRequesterByID(requesterID);
-		let { inProgress } = requester.orderHistory;
-		const indexOfRequestInOrderHistory = inProgress.findIndex((request) => {
-			return request.serviceID === productID;
-		});
-		inProgress.splice(indexOfRequestInOrderHistory, 1);
-		await this.updateRequesterByID(requesterID, {
-			orderHistory: {
-				inProgress,
-				completed: requester.orderHistory.completed
-			}
-		});
 
 		//Notifies the business that the request has been deleted.
 		this.functions.httpsCallable('sendNotification')({
-			topic: 'p-' + doc.data().offeredByID,
+			topic: 'p-' + product.offeredByID,
 			title: strings.RequestCancelled,
 			body:
-				requester.username +
-				' ' +
-				strings.HasCancelledTheirRequestFor +
-				' ' +
-				doc.data().serviceTitle
+				requester.username + ' ' + strings.HasCancelledTheirRequestFor + ' ' + product.serviceTitle
 		});
 
 		//Logs the event in firebase analytics
@@ -551,67 +681,57 @@ export default class FirebaseFunctions {
 	//It will add this request object to the right locations. It will also take in an "isEditing" parameter
 	//that will overwrite an old request for this product with the new request
 	static async requestService(newRequest, isEditing) {
-		const ref = this.products.doc(newRequest.serviceID);
-		const doc = await ref.get();
-		const requester = await this.getRequesterByID(newRequest.requesterID);
-
-		let arrayOfCurrentRequests = doc.data().requests.currentRequests;
-
-		//Will remove the old request first before adding the new one
+		//If this is a request being edited, the old request document will be edited, else it will be added
 		if (isEditing === true) {
-			const indexOfRequest = arrayOfCurrentRequests.findIndex((element) => {
-				return element.requesterID === requester.requesterID;
+			await this.updateRequestByID(newRequest.requestID, newRequest);
+		} else {
+			const newRequest = await this.requests.add(newRequest);
+			const requestID = newRequest.id;
+			//Adds the ID to the request document
+			await this.updateRequestByID(requestID, {
+				requestID: requestID
 			});
-			arrayOfCurrentRequests.splice(indexOfRequest, 1);
+
+			//Adds the request reference to the product's subcollection as well as the requester's subcollection
+			await this.products
+				.doc(newRequest.serviceID)
+				.collection('Requests')
+				.doc(requestID)
+				.set({
+					isCompleted: false,
+					requestID: requestID
+				});
+			await this.requesters
+				.doc(newRequest.requesterID)
+				.collection('Requests')
+				.doc(requestID)
+				.set({
+					isCompleted: false,
+					requestID: requestID
+				});
 		}
 
-		arrayOfCurrentRequests.push(newRequest);
-
-		await this.updateServiceByID(newRequest.serviceID, {
-			requests: {
-				completedRequests: doc.data().requests.completedRequests,
-				currentRequests: arrayOfCurrentRequests
-			}
-		});
-
-		let { inProgress } = requester.orderHistory;
-
-		//Will remove the old request before adding the new one
-		if (isEditing === true) {
-			const indexOfRequest = inProgress.findIndex((element) => {
-				return element.serviceID === newRequest.serviceID;
-			});
-			inProgress.splice(indexOfRequest, 1);
-		}
-		inProgress.push(newRequest);
-		await this.updateRequesterByID(requester.requesterID, {
-			orderHistory: {
-				inProgress,
-				completed: requester.orderHistory.completed
-			}
-		});
+		//Fetches the correct fields in order to send a notification
+		const service = await this.getServiceByID(newRequest.serviceID);
+		const requester = await this.getRequesterByID(newRequest.reqeusterID);
 
 		//If the request is a new one, then business will be notified. If it is an old one being edited, the business
 		//will be notified of that as well
 		if (isEditing === true) {
 			this.functions.httpsCallable('sendNotification')({
-				topic: 'p-' + doc.data().offeredByID,
+				topic: 'p-' + service.offeredByID,
 				title: strings.RequestUpdated,
 				body:
-					requester.username +
-					' ' +
-					strings.HasUpdatedTheirRequestFor +
-					' ' +
-					doc.data().serviceTitle
+					requester.username + ' ' + strings.HasUpdatedTheirRequestFor + ' ' + service.serviceTitle
 			});
 
 			//Logs the event in firebase analytics
 			this.analytics.logEvent('overwrite_request');
 		} else {
 			this.functions.httpsCallable('sendNotification')({
-				topic: 'p-' + doc.data().offeredByID,
+				topic: 'p-' + service.offeredByID,
 				title: strings.NewRequest,
-				body: strings.YouHaveNewRequestFor + doc.data().serviceTitle
+				body: strings.YouHaveNewRequestFor + service.serviceTitle
 			});
 
 			//Logs the event in firebase analytics
@@ -639,14 +759,18 @@ export default class FirebaseFunctions {
 	}
 
 	//This method will take in a request and a provider and block that provider from being able to sell
-	//to the requester or get in contact with them. It does this by addind the provider's ID to the array
-	//of blocked users that belongs to the requesters
+	//to the requester or get in contact with them. It does this by addind the provider's ID as a new document in
+	//the subcollection
 	static async blockCompany(requester, provider) {
 		//Fetches the old array of blocked companies by this requester and appends this provider to
 		//that list
-		await this.updateRequesterByID(requester.requesterID, {
-			blockedUsers: firebase.firestore.FieldValue.arrayUnion(provider.providerID)
-		});
+		await this.requesters
+			.doc(requester.requesterID)
+			.collection('BlockedUsers')
+			.doc(provider.providerID)
+			.set({
+				providerID: provider.providerID
+			});
 
 		//Also sends us a report to make sure the company is appropriate
 		this.reportIssue(requester, {
@@ -660,18 +784,50 @@ export default class FirebaseFunctions {
 		return 0;
 	}
 
+	//This method is going to return an array of providers that have been blocked by a requester. The array
+	//will contain objects containing two fields: the provider's ID and the provider's company name
+	static async getBlockedBusinessesByRequesterID(requesterID) {
+		const docs = await this.requesters
+			.doc(requesterID)
+			.collection('BlockedUsers')
+			.get();
+		const docData = docs.docs.map((doc) => doc.data());
+		const finalArray = [];
+		for (const blocked of docData) {
+			const { providerID } = blocked;
+			//Removes the default businesses from the list of blocked users (unless it is our test account)
+			//No matter what, don't add the Example Provider Document
+			if (providerID !== 'Example Provider') {
+				//If it is the test business account, only add it if it is on the requester test account
+				if (providerID === 'MRWYHdcULQggTQlxyXwGbykY5r02') {
+					if (requesterID === 'IaRNsJxXE4O6gdBqbBv24bo39g33') {
+						const provider = await this.getProviderByID(providerID);
+						finalArray.push({
+							providerID: provider.providerID,
+							companyName: provider.companyName
+						});
+					}
+					//If it is just normal blocked user, add them to array
+				} else {
+					const provider = await this.getProviderByID(providerID);
+					finalArray.push({
+						providerID: provider.providerID,
+						companyName: provider.companyName
+					});
+				}
+			}
+		}
+		return finalArray;
+	}
+
 	//This method is going to take in a requesterID and a providerID and will unblock that specific businesses from
 	//the requester's blocked businesses
 	static async unblockCompany(requesterID, providerID) {
-		const requester = await this.getRequesterByID(requesterID);
-		let blockedUsers = requester.blockedUsers;
-		const indexOfBlockedBusiness = blockedUsers.findIndex((element) => {
-			return element.providerID === providerID;
-		});
-		blockedUsers.splice(indexOfBlockedBusiness, 1);
-		await this.updateRequesterByID(requesterID, {
-			blockedUsers
-		});
+		await this.requesters
+			.doc(requesterID)
+			.collection('BlockedUsers')
+			.doc(providerID)
+			.delete();
 		//Logs the event in firebase analytics
 		this.analytics.logEvent('unblock_company');
 		return 0;
@@ -693,7 +849,7 @@ export default class FirebaseFunctions {
 		const topicName = 'r-' + uid;
 		await this.fcm.subscribeToTopic(topicName);
 		//If this account is only a provider account, then the method will return a string indicator to show this
-		if (requester === -1 && provider !==-1) {
+		if (requester === -1 && provider !== -1) {
 			return 'IS_ONLY_PROVIDER ' + topicName;
 		}
 		return topicName;

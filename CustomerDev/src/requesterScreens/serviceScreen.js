@@ -59,18 +59,18 @@ class serviceScreen extends Component {
 			const provider = await FirebaseFunctions.getProviderByID(providerID);
 			const product = await FirebaseFunctions.getServiceByID(productID);
 			const url = await FirebaseFunctions.getProductImageByID(product.serviceID);
-			const isRequested = product.requests.currentRequests.findIndex((request) => {
-				return request.requesterID === requester.requesterID;
-			});
+			const isRequested = await FirebaseFunctions.isServiceRequestedByRequester(productID, requesterID);
+			const reviews = await FirebaseFunctions.getReviewsByServiceID(product.serviceID);
 
-			if (isRequested === -1) {
+			if (isRequested === false) {
 				this.setState({
 					isLoading: false,
 					provider,
 					requester,
 					isRequested: false,
 					product,
-					image: url
+					image: url,
+					reviews
 				});
 			} else {
 				this.setState({
@@ -79,7 +79,8 @@ class serviceScreen extends Component {
 					requester,
 					isRequested: true,
 					product,
-					image: url
+					image: url,
+					reviews
 				});
 			}
 		} catch (error) {
@@ -662,7 +663,7 @@ class serviceScreen extends Component {
 								</TouchableOpacity>
 							</View>
 							<View style={{ height: Dimensions.get('window').height * 0.05 }}></View>
-							{product.reviews.length > 0 ? (
+							{this.state.reviews.length > 0 ? (
 								<View>
 									<View
 										style={{
@@ -675,7 +676,7 @@ class serviceScreen extends Component {
 									</View>
 									<FlatList
 										showsHorizontalScrollIndicator={false}
-										data={product.reviews}
+										data={this.state.reviews}
 										keyExtractor={(item) => item.requesterID}
 										showsVerticalScrollIndicator={false}
 										renderItem={({ item, index }) =>

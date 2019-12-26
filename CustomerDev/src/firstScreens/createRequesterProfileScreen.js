@@ -98,57 +98,9 @@ class createRequesterProfileScreen extends Component {
 			if (this.state.isEditing === true) {
 				const { requester } = this.props.navigation.state.params;
 				try {
-					//If the user changed their name, then all the reviews submitted by their name will also
-					//be updated
-					let orderHistory = [];
-					if (requester.username.trim() !== name) {
-						let oldOrderHistory = requester.orderHistory.completed;
-						for (const completed of oldOrderHistory) {
-							//Tests if a review has even been given for that service
-							if (completed.review && completed.review !== null && completed.review !== 'None') {
-								completed.review.requesterName = name;
-							}
-							orderHistory.push(completed);
-							//Updates the actual service itself with the new name of the user in the order history.
-							//Not calling await on purpose at the end because the user doesn't need to wait until this action is done
-							const service = await FirebaseFunctions.getServiceByID(completed.serviceID);
-							let completedRequests = service.requests.completedRequests;
-							let currentRequests = service.requests.currentRequests;
-							//Adjusts the name in the array of completed requests
-							for (let i = 0; i < completedRequests.length; i++) {
-								if (completedRequests[i].requesterID === requester.requesterID) {
-									completedRequests[i].requesterName = name;
-								}
-							}
-							//Adjusts the name in the array of current requests
-							for (let i = 0; i < currentRequests.length; i++) {
-								if (currentRequests[i].requesterID === requester.requesterID) {
-									currentRequests[i].requesterName = name;
-								}
-							}
-							//Adjusts the name in the array of past reviews
-							let reviews = service.reviews;
-							for (let i = 0; i < reviews.length; i++) {
-								if (reviews[i].requesterID === requester.requesterID) {
-									reviews[i].requesterName = name;
-								}
-							}
-							FirebaseFunctions.updateServiceByID(service.serviceID, {
-								reviews: reviews,
-								requests: {
-									currentRequests: currentRequests,
-									completedRequests: completedRequests
-								}
-							});
-						}
-					}
 					await FirebaseFunctions.updateRequesterByID(requester.requesterID, {
 						username: name,
 						phoneNumber: phoneNumber,
-						orderHistory: {
-							inProgress: requester.orderHistory.inProgress,
-							completed: orderHistory.length === 0 ? requester.orderHistory.completed : orderHistory
-						},
 						city: city,
 						coordinates: coordinates
 					});
@@ -162,7 +114,6 @@ class createRequesterProfileScreen extends Component {
 					}
 					const allProducts = this.props.navigation.state.params.allProducts;
 					const updatedRequeter = await FirebaseFunctions.getRequesterByID(requester.requesterID);
-
 					this.setState({ accountSaved: true, updatedRequeter, allProducts, isLoading: false });
 				} catch (error) {
 					this.setState({ isLoading: false, isErrorVisible: true });

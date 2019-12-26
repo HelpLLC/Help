@@ -38,7 +38,7 @@ export default class launchScreen extends Component {
         });
         return;
       }
-      const isUnderMaintenance = await FirebaseFunctions.isUnderMaintenance();
+      const isUnderMaintenance = false;
       if (isUnderMaintenance === true) {
         this.setState({ isUnderMaintenance });
         return;

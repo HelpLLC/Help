@@ -37,31 +37,7 @@ export default class blockedBusinessesScreen extends Component {
 		const { requesterID } = this.props.navigation.state.params;
 		const requester = await FirebaseFunctions.getRequesterByID(requesterID);
 		const allProducts = await FirebaseFunctions.getAllProducts();
-		let { blockedUsers } = requester;
-		let newBlockedUsersList = [];
-		for (const providerID of blockedUsers) {
-			//Removes the default businesses from the list of blocked users (unless it is our test account)
-			//No matter what, don't add the Example Provider Document
-			if (providerID !== 'Example Provider') {
-				//If it is the test business account, only add it if it is on the requester test account
-				if (providerID === 'MRWYHdcULQggTQlxyXwGbykY5r02') {
-					if (requesterID === 'IaRNsJxXE4O6gdBqbBv24bo39g33') {
-						const provider = await FirebaseFunctions.getProviderByID(providerID);
-						newBlockedUsersList.push({
-							providerID,
-							companyName: provider.companyName
-						});
-					}
-					//If it is just normal blocked user, add them to array
-				} else {
-					const provider = await FirebaseFunctions.getProviderByID(providerID);
-					newBlockedUsersList.push({
-						providerID,
-						companyName: provider.companyName
-					});
-				}
-			}
-		}
+		const newBlockedUsersList = await FirebaseFunctions.getBlockedBusinessesByRequesterID(requesterID);
 		this.setState({
 			allProducts,
 			isScreenLoading: false,

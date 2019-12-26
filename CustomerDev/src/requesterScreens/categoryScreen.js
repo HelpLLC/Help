@@ -27,9 +27,10 @@ class categoryScreen extends Component {
 		const requester = await FirebaseFunctions.getRequesterByID(requesterID);
 		//Gets products from categories
 		let products = await FirebaseFunctions.getProductsByCategory(allProducts, categoryName);
-		products = products.filter((product) => {
-			return !requester.blockedUsers.includes(product.offeredByID);
-		});
+		products = await FirebaseFunctions.filterProductsByRequesterBlockedUsers(
+			requester,
+			products
+		);
 
 		//Filters the product so that only ones that nearby are shown (50)
 		products = await FirebaseFunctions.filterProductsByRequesterLocation(requester, products);

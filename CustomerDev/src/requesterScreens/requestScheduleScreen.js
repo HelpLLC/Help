@@ -48,7 +48,7 @@ export default class requesterScheduleScreen extends Component {
       this.setState({
         product,
         requester,
-        selectedDate: request.daySelected,
+        selectedDate: request.dateSelected,
         selectedTime: request.selectedTime,
         scheduleType: product.schedule.scheduleType
       });
@@ -133,7 +133,7 @@ export default class requesterScheduleScreen extends Component {
     requestObject = {
       ...requestObject,
       selectedTime: this.state.selectedTime,
-      daySelected: this.state.selectedDate
+      dateSelected: this.state.selectedDate
     };
     //Adds the answers to the questions if this product has any questions
     if (this.props.navigation.state.params.answers) {

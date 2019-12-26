@@ -11,7 +11,6 @@ import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
-import firebase from 'react-native-firebase';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import TopBanner from '../components/TopBanner';
 import { Icon } from 'react-native-elements';

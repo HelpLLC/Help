@@ -40,9 +40,6 @@ export default class featuredScreen extends Component {
 
 		//Filters the products and removes any that are posted by blocked users
 		let { allProducts, requester } = this.props.navigation.state.params;
-		allProducts = allProducts.filter((product) => {
-			return !requester.blockedUsers.includes(product.offeredByID);
-		});
 
 		//Tests to see if the requester's account has been fully completed (used for pre-2.0 users)
 		if (!FirebaseFunctions.isRequesterUpToDate(requester)) {
@@ -53,25 +50,22 @@ export default class featuredScreen extends Component {
 				allProducts
 			});
 		} else {
-			allProducts = allProducts.filter((product) => {
-				return !requester.blockedUsers.includes(product.offeredByID);
-			});
+			allProducts = await FirebaseFunctions.filterProductsByRequesterBlockedUsers(
+				requester,
+				allProducts
+			);
 			allProducts = await FirebaseFunctions.filterProductsByRequesterLocation(
 				requester,
 				allProducts
 			);
-			for (i = 0; i < requester.orderHistory.completed.length; i++) {
-				if (requester.orderHistory.completed[i].review === null) {
-					const service = await FirebaseFunctions.getServiceByID(
-						requester.orderHistory.completed[i].serviceID
-					);
-					this.setState({
-						isReviewDue: true,
-						isReviewDueID: service.serviceID,
-						isReviewDueName: service.serviceTitle
-					});
-					break;
-				}
+			const isReviewDue = await FirebaseFunctions.isReviewDue(requester.requesterID);
+			if (isReviewDue !== false) {
+				this.setState({
+					isReviewDue: true,
+					isReviewDueID: isReviewDue.serviceID,
+					isReviewDueName: isReviewDue.serviceTitle,
+					requestID: isReviewDue.requestID
+				});
 			}
 			this.setState({
 				allProducts,
@@ -224,7 +218,8 @@ export default class featuredScreen extends Component {
 										this.state.isReviewDueID,
 										requester.requesterID,
 										this.state.stars,
-										this.state.comment
+										this.state.comment,
+										this.state.requestID
 									);
 								} catch (error) {
 									FirebaseFunctions.logIssue(error, {
@@ -238,7 +233,7 @@ export default class featuredScreen extends Component {
 						cancelOnPress={() => {
 							this.setState({ isReviewDue: false });
 							try {
-								FirebaseFunctions.skipReview(this.state.isReviewDueID, requester.requesterID);
+								FirebaseFunctions.skipReview(this.state.requestID, requester.requesterID);
 							} catch (error) {
 								FirebaseFunctions.logIssue(error, {
 									screen: 'Featured Screen',

@@ -46,9 +46,9 @@ export default class orderHistoryScreen extends Component {
 				isLoading: false
 			});
 		} else {
-			//Fetches the array of services that are in progress and completed. Will fetch both the array of serviceIDs and their dates
-			//from the requester object and will also fetch the actual services themselves using the serviceID
-			const { inProgress, completed } = requester.orderHistory;
+			//Fetches both the in progress services & the completed services in order to show them on the screen
+			const inProgress = await FirebaseFunctions.getInProgressServicesByRequesterID(requesterID);
+			const completed = await FirebaseFunctions.getCompletedRequestsByRequesterID(requesterID);
 			let serviceObjectsInProgress = [];
 			let serviceObjectsCompleted = [];
 			for (const requestInProgess of inProgress) {
@@ -180,7 +180,6 @@ export default class orderHistoryScreen extends Component {
 													product: service,
 													requesterID: requester.requesterID,
 													completed: true,
-													request: service
 												});
 											}}
 											currentRequests={false}

@@ -26,20 +26,17 @@ class messagingScreen extends Component {
 		const { providerID, requesterID } = this.props.navigation.state.params;
 
 		//Creates the onsnapshot method to listen for real updates in the database for this document
-		const ref = firebase
+		let ref = await firebase
 			.firestore()
 			.collection('messages')
 			.where('providerID', '==', providerID)
 			.where('requesterID', '==', requesterID)
 			.limit(1);
+		ref = await (await ref.get()).docs[0].ref.collection("Messages");
 		ref.onSnapshot(async (snapshot) => {
 			//Fetches the doc changes and sets them to the new state
 			if (snapshot.docChanges.length > 0) {
-				const docData = await snapshot.docChanges[0].doc.data();
-				//Sorts the conversation messages by time
-				const conversationMessages = docData.conversationMessages.sort((a, b) => {
-					return b.createdAt - a.createdAt;
-				});
+				const conversationMessages = await FirebaseFuncions.getConversationByID(providerID, requesterID);
 				this.setState({
 					isLoading: false,
 					messages: conversationMessages,
