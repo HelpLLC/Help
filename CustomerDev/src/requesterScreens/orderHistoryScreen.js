@@ -8,7 +8,7 @@ import LeftMenu from './LeftMenu';
 import SideMenu from 'react-native-side-menu';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import strings from 'config/strings';
-import { View, Text, Dimensions, ScrollView, FlatList } from 'react-native';
+import { View, Text, Dimensions, ScrollView } from 'react-native';
 import LoadingSpinner from '../components/LoadingSpinner';
 import fontStyles from 'config/styles/fontStyles';
 import TopBanner from '../components/TopBanner';
@@ -46,9 +46,9 @@ export default class orderHistoryScreen extends Component {
 				isLoading: false
 			});
 		} else {
-			//Fetches the array of services that are in progress and completed. Will fetch both the array of serviceIDs and their dates
-			//from the requester object and will also fetch the actual services themselves using the serviceID
-			const { inProgress, completed } = requester.orderHistory;
+			//Fetches both the in progress services & the completed services in order to show them on the screen
+			const inProgress = await FirebaseFunctions.getInProgressServicesByRequesterID(requesterID);
+			const completed = await FirebaseFunctions.getCompletedRequestsByRequesterID(requesterID);
 			let serviceObjectsInProgress = [];
 			let serviceObjectsCompleted = [];
 			for (const requestInProgess of inProgress) {
@@ -130,7 +130,7 @@ export default class orderHistoryScreen extends Component {
 									<View>
 										<View
 											style={{
-												width: Dimensions.get('window').width * 0.86,
+												width: Dimensions.get('window').width * 0.9,
 												height: Dimensions.get('window').height * 0.06,
 												justifyContent: 'center',
 												alignSelf: 'center',
@@ -163,7 +163,7 @@ export default class orderHistoryScreen extends Component {
 									<View>
 										<View
 											style={{
-												width: Dimensions.get('window').width * 0.86,
+												width: Dimensions.get('window').width * 0.9,
 												height: Dimensions.get('window').height * 0.06,
 												justifyContent: 'center',
 												alignSelf: 'center',
@@ -180,7 +180,6 @@ export default class orderHistoryScreen extends Component {
 													product: service,
 													requesterID: requester.requesterID,
 													completed: true,
-													request: service
 												});
 											}}
 											currentRequests={false}

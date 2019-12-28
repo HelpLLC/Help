@@ -25,8 +25,6 @@ class companyProfileScreen extends Component {
 			serviceIDsLength: 0,
 			providerProducts: [],
 			isErrorVisible: false,
-			isCompanyReportedVisible: false,
-			isBlockCompanyVisible: false,
 			search: '',
 			displayedProducts: ''
 		};

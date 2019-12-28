@@ -38,6 +38,11 @@ export default class launchScreen extends Component {
         });
         return;
       }
+      const isUnderMaintenance = false;
+      if (isUnderMaintenance === true) {
+        this.setState({ isUnderMaintenance });
+        return;
+      }
       await this.isUserLoggedIn();
     } else {
       this.setState({ internetConnection: false });
@@ -52,8 +57,9 @@ export default class launchScreen extends Component {
     isLoading: false,
     willRestart: false,
     status: '',
-	businessVersionMessageVisible: false,
-	providerID: ''
+    businessVersionMessageVisible: false,
+    providerID: '',
+    isUnderMaintenance: false
   };
 
   /*
@@ -163,16 +169,6 @@ export default class launchScreen extends Component {
             alignItems: 'center',
             marginTop: Dimensions.get('window').height * 0.2
           }}>
-          <View
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginBottom: Dimensions.get('window').height * 0.05
-            }}>
-            <Text style={fontStyles.bigTextStyleWhite}>
-              {this.state.isLoading ? strings.UpdatingAppDotDotDot : strings.LoadingAppDotDotDot}
-            </Text>
-          </View>
           <LoadingSpinner isVisible={true} color={colors.white} />
         </View>
         <HelpAlert
@@ -221,20 +217,28 @@ export default class launchScreen extends Component {
         <HelpAlert
           isVisible={this.state.businessVersionMessageVisible}
           onPress={() => {
-			firebase.auth().signOut();
-			FirebaseFunctions.fcm.unsubscribeFromTopic('p-' + this.state.providerID);
+            firebase.auth().signOut();
+            FirebaseFunctions.fcm.unsubscribeFromTopic('p-' + this.state.providerID);
             if (Platform.OS === 'ios') {
               //Links to the new business app for ios & logs this user out
               Linking.openURL('itms-apps://itunes.apple.com/app/apple-store/id1490767192?mt=8');
             } else if (Platform.OS === 'android') {
               //Links to the new business app for android & logs this user out
               Linking.openURL('market://details?id=com.Help.HelpBusiness');
-			}
-			this.setState({ businessVersionMessageVisible: false });
-			this.props.navigation.push('SplashScreen');
+            }
+            this.setState({ businessVersionMessageVisible: false });
+            this.props.navigation.push('SplashScreen');
           }}
           title={strings.NewBusinessApp}
           message={strings.NewBusinessAppMessage}
+        />
+        <HelpAlert
+          isVisible={this.state.isUnderMaintenance}
+          onPress={() => {
+            CodePush.restartApp();
+          }}
+          title={strings.UnderMaintenance}
+          message={strings.AppIsUnderMaintenance}
         />
       </View>
     );

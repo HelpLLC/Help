@@ -38,6 +38,11 @@ export default class launchScreen extends Component {
 				});
 				return;
 			}
+			const isUnderMaintenance = await FirebaseFunctions.isUnderMaintenance();
+			if (isUnderMaintenance === true) {
+				this.setState({ isUnderMaintenance });
+				return;
+			}
 			await this.isUserLoggedIn();
 		} else {
 			this.setState({ internetConnection: false });
@@ -51,7 +56,8 @@ export default class launchScreen extends Component {
 		internetConnection: true,
 		isLoading: false,
 		willRestart: false,
-		status: ''
+		status: '',
+		isUnderMaintenance: false
 	};
 
 	/*
@@ -153,16 +159,6 @@ export default class launchScreen extends Component {
 						alignItems: 'center',
 						marginTop: Dimensions.get('window').height * 0.2
 					}}>
-					<View
-						style={{
-							justifyContent: 'center',
-							alignItems: 'center',
-							marginBottom: Dimensions.get('window').height * 0.05
-						}}>
-						<Text style={fontStyles.bigTextStyleWhite}>
-							{this.state.isLoading ? strings.UpdatingAppDotDotDot : strings.LoadingAppDotDotDot}
-						</Text>
-					</View>
 					<LoadingSpinner isVisible={true} color={colors.white} />
 				</View>
 				<HelpAlert
@@ -187,7 +183,6 @@ export default class launchScreen extends Component {
 				/>
 				<HelpAlert
 					isVisible={this.state.willRestart}
-					closeOnTouchOutside={false}
 					onPress={async () => {
 						this.setState({ willRestart: false });
 						await this.state.status.install();
@@ -207,6 +202,14 @@ export default class launchScreen extends Component {
 					}}
 					title={strings.UpdateAvailable}
 					message={strings.UpdateAvailableMessage}
+				/>
+				<HelpAlert
+					isVisible={this.state.isUnderMaintenance}
+					onPress={() => {
+						CodePush.restartApp();
+					}}
+					title={strings.UnderMaintenance}
+					message={strings.AppIsUnderMaintenance}
 				/>
 			</View>
 		);

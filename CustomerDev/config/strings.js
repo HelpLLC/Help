@@ -272,11 +272,11 @@ export default {
 	Ok: 'Ok',
 	NoConnection: 'Something went wrong. Check your internet connection & try again',
 	UpdateAvailable: 'Update Available',
-	UpdatingAppDotDotDot: 'Updating Help...',
-	LoadingAppDotDotDot: 'Loading Help...',
 	UpdateAvailableMessage: 'There is a new update available for Help! Go download it now!',
 	Restart: 'Restart',
 	AppWillRestart: 'Help will now restart to install the update.',
 	NewBusinessApp: 'Help for Businesses',
-	NewBusinessAppMessage: 'Businesses on Help now use a seperate app to manage their business. Go download it now!'
+	NewBusinessAppMessage: 'Businesses on Help now use a seperate app to manage their business. Go download it now!',
+	UnderMaintenance: 'Under Maintenance',
+	AppIsUnderMaintenance: 'Help is currently under scheduled maintenance. It should be back up soon.'
 };

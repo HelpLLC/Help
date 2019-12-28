@@ -56,6 +56,12 @@ class logInScreen extends Component {
 				//Uses the firebase functions method to log in, and based on the return, it determines if the
 				//account belongs to a requester or not, and navigates to the correct screen
 				const account = await FirebaseFunctions.logIn(email, password);
+				if (account.includes('IS_ONLY_PROVIDER')) {
+					FirebaseFunctions.logOut(account.split(' ')[1]);
+					throw new Error(
+						'There is no user record corresponding to this identifier. The user may have been deleted.'
+					);
+				}
 				const allProducts = await FirebaseFunctions.getAllProducts();
 				const requester = await FirebaseFunctions.getRequesterByID(account.substring(2));
 				//If this is a requester, then it will navigate to the screens & pass in the

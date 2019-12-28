@@ -43,11 +43,15 @@ export default class serviceRequestedScreen extends Component {
 		//Fetches the request based on if this is completed or not
 		let request = '';
 		if (this.state.completed === true) {
-			request = this.props.navigation.state.params.request;
+			request = await FirebaseFunctions.getCompletedRequestByID(
+				this.props.navigation.state.params.product.serviceID,
+				requester.requesterID
+			);
 		} else {
-			request = this.state.product.requests.currentRequests.find((element) => {
-				return element.requesterID === requester.requesterID;
-			});
+			request = await FirebaseFunctions.getCurrentRequestByID(
+				this.props.navigation.state.params.product.serviceID,
+				requester.requesterID
+			);
 		}
 		this.setState({ isScreenLoading: false, image, request, requester });
 	}
@@ -133,7 +137,7 @@ export default class serviceRequestedScreen extends Component {
 						/>
 					</View>
 					{//Renders the scheduled time if there is one
-					request.daySelected ? (
+					request.dateSelected ? (
 						request.selectedTime ? (
 							<View
 								style={{
@@ -144,7 +148,7 @@ export default class serviceRequestedScreen extends Component {
 									alignItems: 'center'
 								}}>
 								<Text style={fontStyles.mainTextStyleBlack}>
-									{strings.ScheduledOn} {request.daySelected} {strings.at} {request.selectedTime}
+									{strings.ScheduledOn} {request.dateSelected} {strings.at} {request.selectedTime}
 								</Text>
 							</View>
 						) : (
@@ -157,7 +161,7 @@ export default class serviceRequestedScreen extends Component {
 									alignItems: 'center'
 								}}>
 								<Text style={fontStyles.mainTextStyleBlack}>
-									{strings.ScheduledOn} {request.daySelected}
+									{strings.ScheduledOn} {request.dateSelected}
 								</Text>
 							</View>
 						)
@@ -352,7 +356,11 @@ export default class serviceRequestedScreen extends Component {
 						//This method will cancel the request by making sure the user wants to cancel it
 						const { product, requester } = this.state;
 						try {
-							await FirebaseFunctions.deleteRequest(product.serviceID, requester.requesterID);
+							await FirebaseFunctions.deleteRequest(
+								product.serviceID,
+								requester.requesterID,
+								request.requestID
+							);
 							const newRequesterObject = await FirebaseFunctions.getRequesterByID(
 								requester.requesterID
 							);

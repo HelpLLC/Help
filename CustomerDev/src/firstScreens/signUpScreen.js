@@ -11,7 +11,6 @@ import RoundBlueButton from '../components/RoundBlueButton';
 import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
-import firebase from 'react-native-firebase';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import TopBanner from '../components/TopBanner';
 import { Icon } from 'react-native-elements';
@@ -72,22 +71,34 @@ class signUpScreen extends Component {
 			//If the account is new, then it will go through the normal process to create
 			//the account
 			try {
-				const array = await firebase.auth().fetchSignInMethodsForEmail(email);
-				if (array.length > 0) {
+				const account = await FirebaseFunctions.logIn(email, password);
+				if (account.includes('IS_ONLY_PROVIDER')) {
+					//Indicates to the app that this email has a business account
+					this.setState({ hasProviderAccount: true });
+					throw new Error(
+						'There is no user record corresponding to this identifier. The user may have been deleted.'
+					);
+				} else {
 					this.setState({ emailExistsError: true });
 					this.setState({ isLoading: false });
-				} else {
-					//If this is a customer, it will push to the createrequester screen and create profile there
+				}
+			} catch (error) {
+				if (
+					error.message ===
+					'There is no user record corresponding to this identifier. The user may have been deleted.'
+				) {
+					//will push to the createrequester screen and create profile there
 					this.setState({ isLoading: false });
 					this.props.navigation.push('CreateRequesterProfileScreen', {
 						email,
 						password,
-						isEditing: false
+						isEditing: false,
+						hasProviderAccount: this.state.hasProviderAccount === true ? true : false
 					});
+				} else {
+					this.setState({ isLoading: false, isErrorVisible: true });
+					FirebaseFunctions.logIssue(error, 'SignUpScreen');
 				}
-			} catch (error) {
-				this.setState({ isLoading: false, isErrorVisible: true });
-				FirebaseFunctions.logIssue(error, 'SignUpScreen');
 			}
 		}
 	}
@@ -174,7 +185,9 @@ class signUpScreen extends Component {
 					<View
 						style={{
 							height: Dimensions.get('window').height * 0.1,
-							justifyContent: 'flex-start',
+							marginTop: Dimensions.get('window').height * 0.1,
+							marginBottom: Dimensions.get('window').height * 0.1,
+							justifyContent: 'center',
 							alignItems: 'center',
 							flexDirection: 'column'
 						}}>

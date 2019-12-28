@@ -55,6 +55,11 @@ class logInScreen extends Component {
 			try {
 				//Uses the firebase functions method to log in
 				const account = await FirebaseFunctions.logIn(email, password);
+				if (account.includes('IS_ONLY_REQUESTER')) {
+					throw new Error(
+						'There is no user record corresponding to this identifier. The user may have been deleted.'
+					);
+				}
 				//Will first test if the business has been verified. If it has not, then it will go to the screen
 				//which says your account has not yet been approved
 				const id = account.substring(2);
@@ -99,58 +104,70 @@ class logInScreen extends Component {
 						this.props.navigation.goBack();
 					}}
 				/>
-				<View style={{ flex: 1, justifyContent: 'center' }}>
-					<View style={{ flex: 1, justifyContent: 'flex-end' }}>
-						<Text style={fontStyles.bigTextStyleBlack}>{strings.Email}</Text>
-					</View>
-
-					<View style={{ flex: 1, justifyContent: 'center' }}>
-						<OneLineRoundedBoxInput
-							placeholder={strings.EnterYourEmail}
-							onChangeText={(input) => this.setState({ email: input })}
-							value={this.state.email}
-							password={false}
-							autoCompleteType={'email'}
-							keyboardType={'email-address'}
-						/>
-					</View>
+				<View
+					style={{
+						justifyContent: 'flex-end',
+						alignItems: 'flex-start',
+						width: Dimensions.get('window').width * 0.6,
+						marginVertical: Dimensions.get('window').height * 0.05
+					}}>
+					<Text style={fontStyles.bigTextStyleBlack}>{strings.Email}</Text>
 				</View>
 
-				<View style={{ flex: 1, justifyContent: 'center' }}>
-					<View style={{ flex: 1, justifyContent: 'flex-end' }}>
-						<Text style={fontStyles.bigTextStyleBlack}>{strings.Password}</Text>
-					</View>
-
-					<View style={{ flex: 1, justifyContent: 'center' }}>
-						<OneLineRoundedBoxInput
-							placeholder={strings.EnterYourPassword}
-							onChangeText={(input) => this.setState({ password: input })}
-							value={this.state.password}
-							additionalIcon={
-								<TouchableOpacity
-									onPress={() => {
-										const { isPasswordVisible } = this.state;
-										this.setState({
-											isPasswordVisible: !isPasswordVisible
-										});
-									}}
-									style={{
-										justifyContent: 'center',
-										height: Dimensions.get('window').height * 0.06
-									}}>
-									<Icon
-										name={this.state.isPasswordVisible === true ? 'eye' : 'eye-slash'}
-										type='font-awesome'
-										color={this.state.isPasswordVisible === true ? colors.lightBlue : colors.gray}
-									/>
-								</TouchableOpacity>
-							}
-							password={!this.state.isPasswordVisible}
-							autoCompleteType={'password'}
-						/>
-					</View>
+				<View style={{ justifyContent: 'center' }}>
+					<OneLineRoundedBoxInput
+						placeholder={strings.EnterYourEmail}
+						onChangeText={(input) => this.setState({ email: input })}
+						value={this.state.email}
+						password={false}
+						autoCompleteType={'email'}
+						keyboardType={'email-address'}
+					/>
 				</View>
-				<View style={{ flex: 0.5, justifyContent: 'center' }}>
+
+				<View
+					style={{
+						justifyContent: 'flex-end',
+						alignItems: 'flex-start',
+						width: Dimensions.get('window').width * 0.6,
+						marginVertical: Dimensions.get('window').height * 0.05
+					}}>
+					<Text style={fontStyles.bigTextStyleBlack}>{strings.Password}</Text>
+				</View>
+
+				<View style={{ justifyContent: 'center' }}>
+					<OneLineRoundedBoxInput
+						placeholder={strings.EnterYourPassword}
+						onChangeText={(input) => this.setState({ password: input })}
+						value={this.state.password}
+						additionalIcon={
+							<TouchableOpacity
+								onPress={() => {
+									const { isPasswordVisible } = this.state;
+									this.setState({
+										isPasswordVisible: !isPasswordVisible
+									});
+								}}
+								style={{
+									justifyContent: 'center',
+									height: Dimensions.get('window').height * 0.06
+								}}>
+								<Icon
+									name={this.state.isPasswordVisible === true ? 'eye' : 'eye-slash'}
+									type='font-awesome'
+									color={this.state.isPasswordVisible === true ? colors.lightBlue : colors.gray}
+								/>
+							</TouchableOpacity>
+						}
+						password={!this.state.isPasswordVisible}
+						autoCompleteType={'password'}
+					/>
+				</View>
+				<View
+					style={{
+						justifyContent: 'center',
+						marginVertical: Dimensions.get('window').height * 0.05
+					}}>
 					<TouchableOpacity
 						onPress={() => {
 							//Navigates to the Forgot Password screen
@@ -161,20 +178,18 @@ class logInScreen extends Component {
 						</Text>
 					</TouchableOpacity>
 				</View>
-				<View style={{ flex: 1.5, alignItems: 'center', justifyContent: 'center' }}>
-					<RoundBlueButton
-						title={strings.LogIn}
-						style={roundBlueButtonStyle.MediumSizeButton}
-						textStyle={fontStyles.bigTextStyleWhite}
-						isLoading={this.state.isLoading}
-						//Method logs the person in based on what is entered into the text
-						//input
-						onPress={() => {
-							this.logIn();
-						}}
-						disabled={this.state.isLoading}
-					/>
-				</View>
+				<RoundBlueButton
+					title={strings.LogIn}
+					style={roundBlueButtonStyle.MediumSizeButton}
+					textStyle={fontStyles.bigTextStyleWhite}
+					isLoading={this.state.isLoading}
+					//Method logs the person in based on what is entered into the text
+					//input
+					onPress={() => {
+						this.logIn();
+					}}
+					disabled={this.state.isLoading}
+				/>
 				<HelpAlert
 					isVisible={this.state.isErrorVisible}
 					onPress={() => {

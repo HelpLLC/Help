@@ -26,8 +26,7 @@ class chatsScreen extends Component {
 	async fetchDatabaseData() {
 		//Fetches all the conversations that this user has done and stores them in an array
 		const convos = await FirebaseFunctions.getAllUserConversations(
-			this.props.navigation.state.params.providerID,
-			false
+			this.props.navigation.state.params.providerID
 		);
 		this.setState({
 			userID: this.props.navigation.state.params.providerID,
