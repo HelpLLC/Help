@@ -61,22 +61,6 @@ class createProviderProfileScreen extends Component {
 		isLoadingScreen: true,
 		isErrorVisible: false
 	};
-
-	//This method will return whether the company name is taken or not (boolean)
-	//Checks if the company name is taken by another user or not
-	async isCompanyNameTaken(businessName) {
-		//Queries the providers to see if a provider exists
-		const ref = FirebaseFunctions.providers.where('companyName', '==', businessName);
-		const snapshot = await ref.get();
-
-		//If the array contains anything, then the name is taken and true will be returned
-		if (snapshot.docs.length === 0) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
 	//Double checks that all of the information has been fully filled out and then passes it onto the next screen which collects
 	//additional info then signs them up. It first checks if this company name is already taken
 	async goToAddtionalInfoScreen() {
@@ -107,21 +91,16 @@ class createProviderProfileScreen extends Component {
 				});
 			} else {
 				const { email, password } = this.props.navigation.state.params;
-				const isCompanyNameTaken = await this.isCompanyNameTaken(businessName);
 				this.setState({ isLoading: false });
-				if (isCompanyNameTaken === true) {
-					this.setState({ companyNameTakenError: true });
-				} else {
-					//navigates to the next screen
-					this.props.navigation.push('ProviderAdditionalInformationScreen', {
-						email,
-						password,
-						businessInfo,
-						businessName,
-						editing: false,
-						requesterAccountExists: this.props.navigation.state.params.requesterAccountExists
-					});
-				}
+				//navigates to the next screen
+				this.props.navigation.push('ProviderAdditionalInformationScreen', {
+					email,
+					password,
+					businessInfo,
+					businessName,
+					editing: false,
+					requesterAccountExists: this.props.navigation.state.params.requesterAccountExists
+				});
 			}
 		}
 	}
@@ -232,14 +211,6 @@ class createProviderProfileScreen extends Component {
 					}}
 					title={strings.Whoops}
 					message={strings.PleaseEnterADescriptionWithAtLeast150Characters}
-				/>
-				<HelpAlert
-					isVisible={this.state.companyNameTakenError}
-					onPress={() => {
-						this.setState({ companyNameTakenError: false });
-					}}
-					title={strings.Whoops}
-					message={strings.CompanyNameTakenPleaseChooseAnotherName}
 				/>
 			</HelpView>
 		);

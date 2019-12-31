@@ -35,9 +35,11 @@ export default class blockedBusinessesScreen extends Component {
 	async componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('BlockedBusinessesScreen', 'blockedbusinessesScreen');
 		const { requesterID } = this.props.navigation.state.params;
-		const requester = await FirebaseFunctions.getRequesterByID(requesterID);
-		const allProducts = await FirebaseFunctions.getAllProducts();
-		const newBlockedUsersList = await FirebaseFunctions.getBlockedBusinessesByRequesterID(requesterID);
+		const requester = await FirebaseFunctions.call('getRequesterByID', { requesterID });
+		const allProducts = await FirebaseFunctions.call('getAllProducts', {});
+		const newBlockedUsersList = await FirebaseFunctions.call('getBlockedBusinessesByRequesterID', {
+			requesterID
+		});
 		this.setState({
 			allProducts,
 			isScreenLoading: false,
@@ -130,15 +132,25 @@ export default class blockedBusinessesScreen extends Component {
 						confirmOnPress={async () => {
 							try {
 								this.setState({ isLoading: true, isUnblockCompanyVisible: false });
-								await FirebaseFunctions.unblockCompany(requesterID, companyClicked.providerID);
+								await FirebaseFunctions.call('unblockCompany', {
+									requesterID,
+									providerID: companyClicked.providerID
+								});
 								//Gets the updated requester
-								const requester = await FirebaseFunctions.getRequesterByID(requesterID);
-								this.setState({ isCompanyHasBeenUnblockedVisible: true, isLoading: false, requester });
+								const requester = await FirebaseFunctions.call('getRequesterByID', { requesterID });
+								this.setState({
+									isCompanyHasBeenUnblockedVisible: true,
+									isLoading: false,
+									requester
+								});
 							} catch (error) {
 								this.setState({ isLoading: false, isErrorVisible: true });
-								FirebaseFunctions.logIssue(error, {
-									screen: 'Blocked Businesses Screen',
-									userID: 'r-' + requesterID
+								FirebaseFunctions.call('logIssue', {
+									error,
+									userID: {
+										screen: 'Blocked Businesses Screen',
+										userID: 'r-' + requesterID
+									}
 								});
 							}
 						}}

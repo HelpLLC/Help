@@ -82,9 +82,6 @@ class ReviewPopup extends Component {
 				onCancelPressed={() => {
 					cancelOnPress();
 				}}
-				onDismiss={() => {
-					cancelOnPress();
-				}}
 			/>
 		);
 	}

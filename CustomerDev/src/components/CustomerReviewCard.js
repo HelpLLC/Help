@@ -43,7 +43,7 @@ class CustomerReviewCard extends Component {
 						height={Dimensions.get('window').height * 0.06}
 						imageFunction={async () => {
 							//Passes in the function to retrieve the image of this requester
-							return await FirebaseFunctions.getProfilePictureByID(customerID);
+							return await FirebaseFunctions.call('getProfilePictureByID', { ID: customerID });
 						}}
 					/>
 					<View style={{ width: Dimensions.get('window').width * 0.05 }}></View>

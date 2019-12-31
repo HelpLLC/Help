@@ -14,7 +14,7 @@ import fontStyles from 'config/styles/fontStyles';
 import DaysFromWeekPicker from '../components/DaysFromWeekPicker';
 import { Icon } from 'react-native-elements';
 import HelpAlert from '../components/HelpAlert';
-import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, Platform } from 'react-native';
 import LoadingSpinner from '../components/LoadingSpinner';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 
@@ -189,7 +189,22 @@ export default class createScheduleScreen extends Component {
           ...newProductObject,
           schedule
         };
-        await FirebaseFunctions.updateServiceInfo(productID, newProductObject);
+        await FirebaseFunctions.call('updateServiceInfo', {
+          productID,
+          newProductObject
+        });
+        //Reuploads the image if it has changed
+        if (newProductObject.response !== null) {
+          //Fetches the absolute path of the image (depending on android or ios)
+          let absolutePath = '';
+          if (Platform.OS === 'android') {
+            absolutePath = 'file://' + newProductObject.response.path;
+          } else {
+            absolutePath = newProductObject.response.path;
+          }
+          //Creates the reference & uploads the image (async)
+          await FirebaseFunctions.storage.ref('products/' + productID).putFile(absolutePath);
+        }
         this.setState({ isLoading: false, productUpdated: true });
       } else {
         let { providerID, newProductObject } = this.state;
@@ -198,7 +213,19 @@ export default class createScheduleScreen extends Component {
           ...newProductObject,
           schedule
         };
-        await FirebaseFunctions.addProductToDatabase(providerID, newProductObject);
+        const id = await FirebaseFunctions.call('addProductToDatabase', {
+          providerID,
+          newProductObject
+        });
+        //Fetches the absolute path of the image (depending on android or ios)
+        let absolutePath = '';
+        if (Platform.OS === 'android') {
+          absolutePath = 'file://' + newProductObject.response.path;
+        } else {
+          absolutePath = newProductObject.response.path;
+        }
+        //Creates the reference & uploads the image (async)
+        await FirebaseFunctions.storage.ref('products/' + id).putFile(absolutePath);
         this.setState({ isLoading: false, productCreated: true });
       }
     }

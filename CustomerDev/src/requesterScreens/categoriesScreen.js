@@ -28,14 +28,14 @@ export default class categoriesScreen extends Component {
 
 	async componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('CategoriesScreen', 'categoriesScreen');
-		let categories = await FirebaseFunctions.getCategoryObjects();
+		let categories = await FirebaseFunctions.call('getCategoryObjects', {});
 		this.setState({
 			categories,
 			allCategories: categories,
 			isLoading: false
 		});
 		//Tests to see if the requester's account has been fully completed (used for pre-2.0 users)
-		if (!FirebaseFunctions.isRequesterUpToDate(this.state.requester)) {
+		if (!FirebaseFunctions.call('isRequesterUpToDate', { requesterObject: this.state.requester })) {
 			this.setState({
 				incompleteProfile: true
 			});

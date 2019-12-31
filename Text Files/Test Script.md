@@ -17,13 +17,13 @@ scheduling types
 14. User is able to search through a list of products from a specific category
 15. User to able to view specific products from a customer account
 16. User is able to request a product from a customer account with questions and scheduling if ones are set from the business side
-17. User is able to view their in progress product in the OrderHistoryScreen from the customer account
+17. User is able to view their in progress request in the OrderHistoryScreen from the customer account
+18. User is able to edit their existing request from a customer account
 18. User is able to cancel an existing request from a customer account
 19. User is able to stay logged in as a customer account after app has been closed and reopened
 20. User is able to log out of a customer account
 21. User is able to log into a business account
-22. User is able to view a product's current requests from a business account including viewing the scheduled time,
-as well as the answers to the required questions
+22. User is able to view a product's current requests from a business account including viewing the scheduled time, as well as the answers to the required questions
 23. User is able to mark a request as completed/delete a request from a business account
 24. User is able to view a specific product's history from a business account
 25. User is able to report an issue from a business account from the settings screen

@@ -10,7 +10,6 @@ class ServiceCardList extends Component {
 	render() {
 		//Fetches the array of services from the props
 		const { services } = this.props;
-		console.log(services);
 		return (
 			<FlatList
 				contentContainerStyle={{
@@ -35,7 +34,7 @@ class ServiceCardList extends Component {
 							price={this.props.dateCompleted ? item.dateRequested : item.pricing}
 							imageFunction={async () => {
 								//Passes in the function to retrieve the image of this product
-								return await FirebaseFunctions.getProductImageByID(item.serviceID);
+								return await FirebaseFunctions.call('getProductImageByID', { ID: item.serviceID });
 							}}
 							numCurrentRequests={
 								this.props.currentRequests === false ? 0 : item.requests.currentRequests.length

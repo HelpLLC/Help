@@ -32,15 +32,18 @@ class reportIssueScreen extends Component {
 			this.setState({ fieldsError: true });
 		} else {
 			try {
-				FirebaseFunctions.reportIssue(user, this.state.userInput);
+				FirebaseFunctions.call('reportIssue', { user, issue: this.state.userInput });
 				this.props.navigation.push('IssueReportedScreen', {
 					user: this.props.navigation.state.params.user
 				});
 			} catch (error) {
 				this.setState({ isLoading: false, isErrorVisible: true });
-				FirebaseFunctions.logIssue(error, {
-					screen: 'ReportIssueScreen',
-					userID: 'p-' + user.providerID
+				FirebaseFunctions.call('logIssue', {
+					error,
+					userID: {
+						screen: 'ReportIssueScreen',
+						userID: 'p-' + user.providerID
+					}
 				});
 			}
 		}

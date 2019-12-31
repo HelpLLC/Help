@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import MainStackNavigator from './src/MainStackNavigator';
 import { YellowBox } from 'react-native';
 import codePush from 'react-native-code-push';
-import FirebaseFunctions from 'config/FirebaseFunctions';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 //Launches the app with the persisted store

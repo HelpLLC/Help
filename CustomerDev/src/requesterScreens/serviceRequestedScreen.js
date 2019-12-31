@@ -35,24 +35,17 @@ export default class serviceRequestedScreen extends Component {
 	//Fetches the image for this product along with getting the specifc request from the product's current requests
 	async componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('ServiceRequestedScreen', 'serviceRequestedScreen');
-		const image = await FirebaseFunctions.getProductImageByID(this.state.product.serviceID);
+		const image = await FirebaseFunctions.call('getProductImageByID', {
+			ID: this.state.product.serviceID
+		});
 
-		const requester = await FirebaseFunctions.getRequesterByID(
-			this.props.navigation.state.params.requesterID
-		);
-		//Fetches the request based on if this is completed or not
-		let request = '';
-		if (this.state.completed === true) {
-			request = await FirebaseFunctions.getCompletedRequestByID(
-				this.props.navigation.state.params.product.serviceID,
-				requester.requesterID
-			);
-		} else {
-			request = await FirebaseFunctions.getCurrentRequestByID(
-				this.props.navigation.state.params.product.serviceID,
-				requester.requesterID
-			);
-		}
+		const requester = await FirebaseFunctions.call('getRequesterByID', {
+			requesterID: this.props.navigation.state.params.requesterID
+		});
+		//Fetches the request based
+		request = await FirebaseFunctions.call('getRequestByID', {
+			requestID: this.props.navigation.state.params.requestID
+		});
 		this.setState({ isScreenLoading: false, image, request, requester });
 	}
 
@@ -356,15 +349,15 @@ export default class serviceRequestedScreen extends Component {
 						//This method will cancel the request by making sure the user wants to cancel it
 						const { product, requester } = this.state;
 						try {
-							await FirebaseFunctions.deleteRequest(
-								product.serviceID,
-								requester.requesterID,
-								request.requestID
-							);
-							const newRequesterObject = await FirebaseFunctions.getRequesterByID(
-								requester.requesterID
-							);
-							const allProducts = await FirebaseFunctions.getAllProducts();
+							await FirebaseFunctions.call('deleteRequest', {
+								productID: product.serviceID,
+								requesterID: requester.requesterID,
+								requestID: request.requestID
+							});
+							const newRequesterObject = await FirebaseFunctions.call('getRequesterByID', {
+								requesterID: requester.requesterID
+							});
+							const allProducts = await FirebaseFunctions.call('getAllProducts', {});
 							this.setState({
 								requestCancelled: true,
 								isLoading: false,
@@ -373,10 +366,13 @@ export default class serviceRequestedScreen extends Component {
 							});
 						} catch (error) {
 							this.setState({ isLoading: false, isErrorVisible: true });
-							FirebaseFunctions.logIssue(error, {
-								screen: 'RequesterRequestedServiceScreen',
-								userID: 'r-' + requester.requesterID,
-								productID: product.productID
+							FirebaseFunctions.call('logIssue', {
+								error,
+								userID: {
+									screen: 'RequesterRequestedServiceScreen',
+									userID: 'r-' + requester.requesterID,
+									productID: product.productID
+								}
 							});
 						}
 					}}

@@ -49,10 +49,10 @@ class NarrowServiceCardList extends Component {
 						)}
 						<NarrowServiceCard
 							serviceTitle={item.serviceTitle}
-							price={this.props.dateRequested ? item.dateRequested : item.pricing}
+							price={this.props.dateSelected ? item.dateSelected : item.pricing}
 							imageFunction={async () => {
 								//Passes in the function to retrieve the image of this product
-								return await FirebaseFunctions.getProductImageByID(item.serviceID);
+								return await FirebaseFunctions.call('getProductImageByID', { ID: item.serviceID });
 							}}
 							totalReviews={item.totalReviews}
 							averageRating={item.averageRating}

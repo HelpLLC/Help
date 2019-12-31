@@ -97,7 +97,7 @@ class signUpScreen extends Component {
 					});
 				} else {
 					this.setState({ isLoading: false, isErrorVisible: true });
-					FirebaseFunctions.logIssue(error, 'SignUpScreen');
+					FirebaseFunctions.call('logIssue', { error, userID: 'SignUpScreen' });
 				}
 			}
 		}
