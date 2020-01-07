@@ -34,7 +34,7 @@ class businessScreen extends Component {
 
   //Fetches the data associated with this screen
   async fetchDatabaseData() {
-    try {
+    //try {
       const { providerID } = this.props.navigation.state.params;
       const provider = await FirebaseFunctions.call('getProviderByID', { providerID });
       this.setState({ provider });
@@ -61,7 +61,7 @@ class businessScreen extends Component {
           newArrayOfProducts.push(service);
           newArrayOfProducts.sort((productA, productB) => {
             return (
-              productB.requests.currentRequests.length - productA.requests.currentRequests.length
+              productB.numCurrentRequests - productA.numCurrentRequests
             );
           });
           this.setState({
@@ -73,7 +73,7 @@ class businessScreen extends Component {
           isLoading: false
         });
       }
-    } catch (error) {
+    /*} catch (error) {
       this.setState({ isLoading: false, isErrorVisible: true });
       FirebaseFunctions.call('logIssue', {
         error,
@@ -82,7 +82,7 @@ class businessScreen extends Component {
           userID: 'p-' + this.props.navigation.state.params.providerID
         }
       });
-    }
+    }*/
     return 0;
   }
 
