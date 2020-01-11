@@ -42,7 +42,7 @@ export default class featuredScreen extends Component {
 		let { allProducts, requester } = this.props.navigation.state.params;
 
 		//Tests to see if the requester's account has been fully completed (used for pre-2.0 users)
-		if (!FirebaseFunctions.isRequesterUpToDate(requester)) {
+		if (!FirebaseFunctions.call('isRequesterUpToDate', { requesterObject: requester })) {
 			this.setState({
 				incompleteProfile: true,
 				isLoading: false,
@@ -50,15 +50,17 @@ export default class featuredScreen extends Component {
 				allProducts
 			});
 		} else {
-			allProducts = await FirebaseFunctions.filterProductsByRequesterBlockedUsers(
+			allProducts = await FirebaseFunctions.call('filterProductsByRequesterBlockedUsers', {
 				requester,
-				allProducts
-			);
-			allProducts = await FirebaseFunctions.filterProductsByRequesterLocation(
+				products: allProducts
+			});
+			allProducts = await FirebaseFunctions.call('filterProductsByRequesterLocation', {
 				requester,
-				allProducts
-			);
-			const isReviewDue = await FirebaseFunctions.isReviewDue(requester.requesterID);
+				products: allProducts
+			});
+			const isReviewDue = await FirebaseFunctions.call('isReviewDue', {
+				requesterID: requester.requesterID
+			});
 			if (isReviewDue !== false) {
 				this.setState({
 					isReviewDue: true,
@@ -201,7 +203,9 @@ export default class featuredScreen extends Component {
 						confirmText={strings.Submit}
 						cancelText={strings.Skip}
 						imageFunction={async () => {
-							return await FirebaseFunctions.getProductImageByID(this.state.isReviewDueID);
+							return await FirebaseFunctions.call('getProductImageByID', {
+								ID: this.state.isReviewDueID
+							});
 						}}
 						clickOutside={true}
 						value={this.state.comment}
@@ -214,17 +218,20 @@ export default class featuredScreen extends Component {
 								this.setState({ reviewError: true, isReviewDue: false });
 							} else {
 								try {
-									FirebaseFunctions.submitReview(
-										this.state.isReviewDueID,
-										requester.requesterID,
-										this.state.stars,
-										this.state.comment,
-										this.state.requestID
-									);
+									FirebaseFunctions.call('submitReview', {
+										serviceID: this.state.isReviewDueID,
+										requesterID: requester.requesterID,
+										stars: this.state.stars,
+										comment: this.state.comment,
+										requestID: this.state.requestID
+									});
 								} catch (error) {
-									FirebaseFunctions.logIssue(error, {
-										screen: 'Featured Screen',
-										userID: 'r-' + requester.requesterID
+									FirebaseFunctions.call('logIssue', {
+										error,
+										userID: {
+											screen: 'Featured Screen',
+											userID: 'r-' + requester.requesterID
+										}
 									});
 								}
 								this.setState({ isReviewDue: false });
@@ -233,11 +240,17 @@ export default class featuredScreen extends Component {
 						cancelOnPress={() => {
 							this.setState({ isReviewDue: false });
 							try {
-								FirebaseFunctions.skipReview(this.state.requestID, requester.requesterID);
+								FirebaseFunctions.call('skipReview', {
+									requestID: this.state.requestID,
+									requesterID: requester.requesterID
+								});
 							} catch (error) {
-								FirebaseFunctions.logIssue(error, {
-									screen: 'Featured Screen',
-									userID: 'r-' + requester.requesterID
+								FirebaseFunctions.call('logIssue', {
+									error,
+									userID: {
+										screen: 'Featured Screen',
+										userID: 'r-' + requester.requesterID
+									}
 								});
 							}
 						}}

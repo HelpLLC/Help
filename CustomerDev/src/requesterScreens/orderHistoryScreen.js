@@ -38,28 +38,38 @@ export default class orderHistoryScreen extends Component {
 
 		//Fetches the most up to date version of the requester
 		const requesterID = this.props.navigation.state.params.requester.requesterID;
-		const requester = await FirebaseFunctions.getRequesterByID(requesterID);
+		const requester = await FirebaseFunctions.call('getRequesterByID', {
+			requesterID: requesterID
+		});
 		//Tests to see if the requester's account has been fully completed (used for pre-2.0 users)
-		if (!FirebaseFunctions.isRequesterUpToDate(requester)) {
+		if (!FirebaseFunctions.call('isRequesterUpToDate', { requesterObject: requester })) {
 			this.setState({
 				incompleteProfile: true,
 				isLoading: false
 			});
 		} else {
 			//Fetches both the in progress services & the completed services in order to show them on the screen
-			const inProgress = await FirebaseFunctions.getInProgressServicesByRequesterID(requesterID);
-			const completed = await FirebaseFunctions.getCompletedRequestsByRequesterID(requesterID);
+			const inProgress = await FirebaseFunctions.call('getInProgressRequestsByRequesterID', {
+				requesterID
+			});
+			const completed = await FirebaseFunctions.call('getCompletedRequestsByRequesterID', {
+				requesterID
+			});
 			let serviceObjectsInProgress = [];
 			let serviceObjectsCompleted = [];
 			for (const requestInProgess of inProgress) {
-				const service = await FirebaseFunctions.getServiceByID(requestInProgess.serviceID);
+				const service = await FirebaseFunctions.call('getServiceByID', {
+					serviceID: requestInProgess.serviceID
+				});
 				serviceObjectsInProgress.push({
 					...service,
 					...requestInProgess
 				});
 			}
 			for (const requestCompleted of completed) {
-				const service = await FirebaseFunctions.getServiceByID(requestCompleted.serviceID);
+				const service = await FirebaseFunctions.call('getServiceByID', {
+					serviceID: requestCompleted.serviceID
+				});
 				serviceObjectsCompleted.push({
 					...service,
 					...requestCompleted
@@ -145,11 +155,12 @@ export default class orderHistoryScreen extends Component {
 											requesterID={requester.requesterID}
 											navigation={this.props.navigation}
 											services={serviceObjectsInProgress}
-											dateRequested={true}
+											dateSelected={true}
 											onPress={(service) => {
 												this.props.navigation.push('RequesterServiceRequestedScreen', {
 													product: service,
 													requesterID: requester.requesterID,
+													requestID: service.requestID,
 													completed: false
 												});
 											}}
@@ -179,7 +190,8 @@ export default class orderHistoryScreen extends Component {
 												this.props.navigation.push('RequesterServiceRequestedScreen', {
 													product: service,
 													requesterID: requester.requesterID,
-													completed: true,
+													requestID: service.requestID,
+													completed: true
 												});
 											}}
 											currentRequests={false}

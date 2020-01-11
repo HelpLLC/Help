@@ -20,7 +20,7 @@ export default class privacyScreen extends Component {
 		return (
 			<HelpView style={screenStyle.container}>
 				<TopBanner
-					title={strings.PrivacyPolicy}
+					title={strings.PrivacyPolicyString}
 					leftIconName='angle-left'
 					leftOnPress={() => this.props.navigation.goBack()}
 				/>

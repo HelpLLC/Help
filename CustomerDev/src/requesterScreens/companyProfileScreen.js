@@ -40,7 +40,7 @@ class companyProfileScreen extends Component {
 			try {
 				const serviceIDs = provider.serviceIDs;
 				for (const ID of serviceIDs) {
-					const service = await FirebaseFunctions.getServiceByID(ID);
+					const service = await FirebaseFunctions.call('getServiceByID', { serviceID: ID });
 					const newArrayOfProducts = this.state.providerProducts;
 					newArrayOfProducts.push(service);
 					this.setState({
@@ -54,10 +54,13 @@ class companyProfileScreen extends Component {
 				});
 			} catch (error) {
 				this.setState({ isLoading: false, isErrorVisible: true });
-				FirebaseFunctions.logIssue(error, {
-					screen: 'CompanyProfileScreen',
-					userID: 'r-' + this.props.navigation.state.params.requesterID,
-					companyID: provider.providerID
+				FirebaseFunctions.call('logIssue', {
+					error,
+					userID: {
+						screen: 'CompanyProfileScreen',
+						userID: 'r-' + this.props.navigation.state.params.requesterID,
+						companyID: provider.providerID
+					}
 				});
 			}
 		}
@@ -120,7 +123,7 @@ class companyProfileScreen extends Component {
 			return (
 				<HelpView style={screenStyle.container}>
 					<TopBanner
-						title={" "}
+						title={' '}
 						leftIconName='angle-left'
 						leftOnPress={() => this.props.navigation.goBack()}
 					/>

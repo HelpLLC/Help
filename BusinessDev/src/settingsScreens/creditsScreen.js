@@ -32,7 +32,7 @@ export default class creditsScreen extends Component {
 					contentContainerStyle={{
 						justifyContent: 'space-between',
 						alignItems: 'center',
-						paddingVertical: Dimensions.get('window').height * 0.02
+						padding: Dimensions.get('window').height * 0.02
 					}}>
 					<Text style={fontStyles.mainTextStyleBlack}>
 						1) Icons made by "https://www.flaticon.com/authors/smashicons"{'\n\n'}

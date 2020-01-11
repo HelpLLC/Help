@@ -62,8 +62,10 @@ class logInScreen extends Component {
 						'There is no user record corresponding to this identifier. The user may have been deleted.'
 					);
 				}
-				const allProducts = await FirebaseFunctions.getAllProducts();
-				const requester = await FirebaseFunctions.getRequesterByID(account.substring(2));
+				const allProducts = await FirebaseFunctions.call('getAllProducts', {});
+				const requester = await FirebaseFunctions.call('getRequesterByID', {
+					requesterID: account.substring(2)
+				});
 				//If this is a requester, then it will navigate to the screens & pass in the
 				//correct params
 				this.setState({ isLoading: false });
@@ -81,10 +83,12 @@ class logInScreen extends Component {
 					this.setState({ infoError: true, isLoading: false });
 				} else {
 					this.setState({ isLoading: false, isErrorVisible: true });
-					FirebaseFunctions.logIssue(error, {
-						screen: 'LogInScreen',
-						email,
-						password
+					FirebaseFunctions.call('logIssue', {
+						error,
+						userID: {
+							screen: 'LogInScreen',
+							email
+						}
 					});
 				}
 			}

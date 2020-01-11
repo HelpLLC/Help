@@ -221,6 +221,7 @@ export default {
 	RequestUpdated: 'Request Updated',
 
 	//------------------- Documents -----------------
+	PrivacyPolicyString: 'Privacy Policy',
 	PrivacyPolicy:
 		'Welcome to our Privacy Policy' +
 		'-- Your privacy is critically important to us.' +

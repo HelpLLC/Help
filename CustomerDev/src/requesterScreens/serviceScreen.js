@@ -55,12 +55,17 @@ class serviceScreen extends Component {
 	async fetchDatabaseData() {
 		try {
 			const { productID, requesterID, providerID } = this.props.navigation.state.params;
-			const requester = await FirebaseFunctions.getRequesterByID(requesterID);
-			const provider = await FirebaseFunctions.getProviderByID(providerID);
-			const product = await FirebaseFunctions.getServiceByID(productID);
-			const url = await FirebaseFunctions.getProductImageByID(product.serviceID);
-			const isRequested = await FirebaseFunctions.isServiceRequestedByRequester(productID, requesterID);
-			const reviews = await FirebaseFunctions.getReviewsByServiceID(product.serviceID);
+			const requester = await FirebaseFunctions.call('getRequesterByID', { requesterID });
+			const provider = await FirebaseFunctions.call('getProviderByID', { providerID });
+			const product = await FirebaseFunctions.call('getServiceByID', { serviceID: productID });
+			const url = await FirebaseFunctions.call('getProductImageByID', { ID: product.serviceID });
+			const isRequested = await FirebaseFunctions.call('isServiceRequestedByRequester', {
+				serviceID: productID,
+				requesterID: requesterID
+			});
+			const reviews = await FirebaseFunctions.call('getReviewsByServiceID', {
+				serviceID: product.serviceID
+			});
 
 			if (isRequested === false) {
 				this.setState({
@@ -73,6 +78,13 @@ class serviceScreen extends Component {
 					reviews
 				});
 			} else {
+				//Fetches the request object's ID to pass in to the next screen if necessary
+				const inProgress = await FirebaseFunctions.call('getInProgressRequestsByRequesterID', {
+					requesterID
+				});
+				const requestID = inProgress.find((element) => {
+					return element.serviceID === product.serviceID;
+				}).requestID;
 				this.setState({
 					isLoading: false,
 					provider,
@@ -80,15 +92,19 @@ class serviceScreen extends Component {
 					isRequested: true,
 					product,
 					image: url,
+					requestID,
 					reviews
 				});
 			}
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
-			FirebaseFunctions.logIssue(error, {
-				screen: 'RequesterServiceScreen',
-				userID: 'r-' + requester.requesterID,
-				productID
+			FirebaseFunctions.call('logIssue', {
+				error,
+				userID: {
+					screen: 'RequesterServiceScreen',
+					userID: 'r-' + requester.requesterID,
+					productID
+				}
 			});
 		}
 
@@ -132,10 +148,13 @@ class serviceScreen extends Component {
 			call(args);
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
-			FirebaseFunctions.logIssue(error, {
-				screen: 'RequesterServiceScreen',
-				userID: 'r-' + requester.requesterID,
-				productID: product.productID
+			FirebaseFunctions.call('logIssue', {
+				error,
+				userID: {
+					screen: 'RequesterServiceScreen',
+					userID: 'r-' + requester.requesterID,
+					productID: product.productID
+				}
 			});
 		}
 	}
@@ -150,10 +169,13 @@ class serviceScreen extends Component {
 			});
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
-			FirebaseFunctions.logIssue(error, {
-				screen: 'RequesterServiceScreen',
-				userID: 'r-' + requester.requesterID,
-				productID: product.productID
+			FirebaseFunctions.call('logIssue', {
+				error,
+				userID: {
+					screen: 'RequesterServiceScreen',
+					userID: 'r-' + requester.requesterID,
+					productID: product.productID
+				}
 			});
 		}
 	}
@@ -173,12 +195,14 @@ class serviceScreen extends Component {
 
 		//First blocks the user
 		this.setState({ isLoading: true });
-		await FirebaseFunctions.blockCompany(requester, provider);
+		await FirebaseFunctions.call('blockCompany', { requester, provider });
 
 		//Navigates back to the request screen
 		try {
-			const newRequesterObject = await FirebaseFunctions.getRequesterByID(requester.requesterID);
-			const allProducts = await FirebaseFunctions.getAllProducts();
+			const newRequesterObject = await FirebaseFunctions.call('getRequesterByID', {
+				requesterID: requester.requesterID
+			});
+			const allProducts = await FirebaseFunctions.call('getAllProducts', {});
 			this.setState({
 				isLoading: false,
 				isCompanyBlockedVisible: true,
@@ -192,10 +216,13 @@ class serviceScreen extends Component {
 
 	reportCompany() {
 		const { provider, requester } = this.state;
-		FirebaseFunctions.reportIssue(requester, {
-			report: 'Report against a company',
-			companyID: provider.providerID,
-			companyName: provider.companyName
+		FirebaseFunctions.call('reportIssue', {
+			user: requester,
+			issue: {
+				report: 'Report against a company',
+				companyID: provider.providerID,
+				companyName: provider.companyName
+			}
 		});
 		this.setState({ isCompanyReportedVisible: true });
 	}
@@ -435,6 +462,7 @@ class serviceScreen extends Component {
 												this.props.navigation.push('RequesterServiceRequestedScreen', {
 													product,
 													requesterID: requester.requesterID,
+													requestID: this.state.requestID,
 													completed: false
 												});
 											}}
@@ -620,10 +648,13 @@ class serviceScreen extends Component {
 															isLoading: false,
 															isErrorVisible: true
 														});
-														FirebaseFunctions.logIssue(error, {
-															screen: 'RequesterServiceScreen',
-															userID: 'r-' + requester.requesterID,
-															productID: product.productID
+														FirebaseFunctions.call('logIssue', {
+															error,
+															userID: {
+																screen: 'RequesterServiceScreen',
+																userID: 'r-' + requester.requesterID,
+																productID: product.productID
+															}
 														});
 													}
 												}}>

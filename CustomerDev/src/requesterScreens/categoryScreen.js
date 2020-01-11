@@ -24,16 +24,22 @@ class categoryScreen extends Component {
 		FirebaseFunctions.setCurrentScreen('CategoryScreen', 'categoryScreen');
 		//Gets products from parameters
 		const { allProducts, categoryName, requesterID } = this.props.navigation.state.params;
-		const requester = await FirebaseFunctions.getRequesterByID(requesterID);
+		const requester = await FirebaseFunctions.call('getRequesterByID', { requesterID });
 		//Gets products from categories
-		let products = await FirebaseFunctions.getProductsByCategory(allProducts, categoryName);
-		products = await FirebaseFunctions.filterProductsByRequesterBlockedUsers(
+		let products = await FirebaseFunctions.call('getProductsByCategory', {
+			allProducts,
+			categoryName
+		});
+		products = await FirebaseFunctions.call('filterProductsByRequesterBlockedUsers', {
 			requester,
 			products
-		);
+		});
 
 		//Filters the product so that only ones that nearby are shown (50)
-		products = await FirebaseFunctions.filterProductsByRequesterLocation(requester, products);
+		products = await FirebaseFunctions.call('filterProductsByRequesterLocation', {
+			requester,
+			products
+		});
 
 		//sets the state
 		this.setState({

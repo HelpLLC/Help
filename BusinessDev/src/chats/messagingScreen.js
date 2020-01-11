@@ -21,7 +21,6 @@ class messagingScreen extends Component {
 	}
 
 	async componentDidMount() {
-
 		FirebaseFunctions.setCurrentScreen('MessagingScreen', 'messagingScreen');
 		const { providerID, requesterID } = this.props.navigation.state.params;
 
@@ -62,7 +61,12 @@ class messagingScreen extends Component {
 		const { providerID, requesterID } = this.props.navigation.state.params;
 
 		//Adds the message to the database of messages
-		FirebaseFunctions.sendMessage(providerID, requesterID, message, this.state.isNewConversation);
+		FirebaseFunctions.call('sendMessage', {
+			providerID,
+			requesterID,
+			message,
+			isNewConversation: this.state.isNewConversation
+		});
 	}
 
 	//Renders the screen using the gifted chat module and binding it with the props of the screen
@@ -86,7 +90,7 @@ class messagingScreen extends Component {
 								keyboardShouldPersistTaps={'handled'}
 								{...props}
 								renderSend={(props) => {
-									//Gifted chat doesn't use dimensions based heights and widths, 
+									//Gifted chat doesn't use dimensions based heights and widths,
 									//which is the reason for using exact numeric margins, and sizes
 									return (
 										<Send {...props}>

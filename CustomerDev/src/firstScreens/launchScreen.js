@@ -38,7 +38,7 @@ export default class launchScreen extends Component {
         });
         return;
       }
-      const isUnderMaintenance = false;
+      const isUnderMaintenance = await FirebaseFunctions.call('isGTDUnderMaintenance', {});
       if (isUnderMaintenance === true) {
         this.setState({ isUnderMaintenance });
         return;
@@ -114,9 +114,11 @@ export default class launchScreen extends Component {
           if (user) {
             const { uid } = user;
             //Starts with searching if this is a requester since that is more common
-            const requester = await FirebaseFunctions.getRequesterByID(uid);
+            const requester = await FirebaseFunctions.call('getRequesterByID', {
+              requesterID: uid
+            });
             if (requester === -1) {
-              const provider = await FirebaseFunctions.getProviderByID(uid);
+              const provider = await FirebaseFunctions.call('getProviderByID', { providerID: uid });
               if (provider === -1) {
                 this.setState({ isErrorVisible: true });
               } else {
@@ -128,7 +130,7 @@ export default class launchScreen extends Component {
               //This means that the logged in user is a provider from earlier versions, so a message
               //will display if they are a provider
             } else {
-              const allProducts = await FirebaseFunctions.getAllProducts();
+              const allProducts = await FirebaseFunctions.call('getAllProducts', {});
               //If this is a requester, then it will navigate to the screens & pass in the
               //correct params.
               this.props.navigation.push('FeaturedScreen', {
@@ -146,7 +148,7 @@ export default class launchScreen extends Component {
       });
     } catch (error) {
       this.setState({ isErrorVisible: true });
-      FirebaseFunctions.logIssue(error, 'LaunchScreen');
+      FirebaseFunctions.call('logIssue', { error, userID: 'LaunchScreen' });
     }
     return 0;
   }

@@ -35,9 +35,10 @@ class aboutScreen extends Component {
 							justifyContent: 'center',
 							width: Dimensions.get('window').width * 0.9,
 							flexDirection: 'row',
-							alignItems: 'center'
+							alignItems: 'center',
+							alignSelf: 'center'
 						}}>
-						<Text style={fontStyles.subTextStyleBlack}>{strings.MarketingMessage}</Text>
+						<Text style={fontStyles.bigTextStyleBlack}>{strings.MarketingMessage}</Text>
 					</View>
 					<View style={{ flexDirection: 'column', flex: 3 }}>
 						<WhiteCard

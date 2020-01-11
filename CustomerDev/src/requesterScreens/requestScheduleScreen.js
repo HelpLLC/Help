@@ -49,6 +49,7 @@ export default class requesterScheduleScreen extends Component {
         product,
         requester,
         selectedDate: request.dateSelected,
+        request,
         selectedTime: request.selectedTime,
         scheduleType: product.schedule.scheduleType
       });
@@ -110,6 +111,7 @@ export default class requesterScheduleScreen extends Component {
             month: '2-digit',
             day: '2-digit'
           }),
+      requestID: this.state.request.requestID,
       requesterID: requester.requesterID,
       serviceID: product.serviceID,
       requesterName: requester.username,
@@ -146,12 +148,12 @@ export default class requesterScheduleScreen extends Component {
     try {
       //If the request is being edited, this will overwrite the request, then navigate to the featured
       //screen.
-      await FirebaseFunctions.requestService(
-        requestObject,
-        this.props.navigation.state.params.isEditing
-      );
+      await FirebaseFunctions.call('requestService', {
+        newRequest: requestObject,
+        isEditing: this.props.navigation.state.params.isEditing
+      });
       //Fetches all products so that it is ready to navigate to the featuredScreen
-      const allProducts = await FirebaseFunctions.getAllProducts();
+      const allProducts = await FirebaseFunctions.call('getAllProducts', {});
       this.setState({ isLoading: false, allProducts });
       if (this.props.navigation.state.params.isEditing === true) {
         this.setState({ isRequestSavedSucess: true });
@@ -160,10 +162,13 @@ export default class requesterScheduleScreen extends Component {
       }
     } catch (error) {
       this.setState({ isLoading: false, isErrorVisible: true });
-      FirebaseFunctions.logIssue(error, {
-        screen: 'RequesterScheduleScreen',
-        userID: 'r-' + requester.requesterID,
-        productID: product.productID
+      FirebaseFunctions.call('logIssue', {
+        error,
+        userID: {
+          screen: 'RequesterScheduleScreen',
+          userID: 'r-' + requester.requesterID,
+          productID: product.productID
+        }
       });
     }
   }
@@ -242,8 +247,8 @@ export default class requesterScheduleScreen extends Component {
             <View
               style={{
                 justifyContent: 'center',
-				alignItems: 'center',
-				alignSelf: 'center',
+                alignItems: 'center',
+                alignSelf: 'center',
                 marginVertical: Dimensions.get('window').height * 0.025,
                 width: Dimensions.get('window').width * 0.8
               }}>
