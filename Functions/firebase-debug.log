@@ -1,0 +1,532 @@
+[debug] [2020-01-21T01:37:25.268Z] ----------------------------------------------------------------------
+[debug] [2020-01-21T01:37:25.271Z] Command:       /usr/local/Cellar/node/13.5.0/bin/node /usr/local/bin/firebase deploy
+[debug] [2020-01-21T01:37:25.272Z] CLI Version:   7.4.0
+[debug] [2020-01-21T01:37:25.272Z] Platform:      darwin
+[debug] [2020-01-21T01:37:25.272Z] Node Version:  v13.5.0
+[debug] [2020-01-21T01:37:25.273Z] Time:          Mon Jan 20 2020 17:37:25 GMT-0800 (Pacific Standard Time)
+[debug] [2020-01-21T01:37:25.274Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2020-01-21T01:37:25.289Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-01-21T01:37:25.289Z] > authorizing via signed-in user
+[debug] [2020-01-21T01:37:25.289Z] [iam] checking project help-d194d for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2020-01-21T01:37:25.291Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/help-d194d:testIamPermissions  
+
+[debug] [2020-01-21T01:37:25.515Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'help-d194d'...
+[info] 
+[info] i  deploying functions
+[debug] [2020-01-21T01:37:28.496Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase serve --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "8"
+  },
+  "dependencies": {
+    "firebase-admin": "^8.0.0",
+    "firebase-functions": "^3.1.0",
+    "haversine": "^1.1.1",
+    "nodemailer": "^6.4.2",
+    "xoauth2": "^1.2.0"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^0.1.6"
+  },
+  "private": true
+}
+[info] i  functions: ensuring necessary APIs are enabled...
+[debug] [2020-01-21T01:37:28.498Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/help-d194d/services/cloudfunctions.googleapis.com  
+ 
+[debug] [2020-01-21T01:37:28.498Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/help-d194d/services/runtimeconfig.googleapis.com  
+ 
+[debug] [2020-01-21T01:37:29.165Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:29.195Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: all necessary APIs are enabled
+[debug] [2020-01-21T01:37:29.196Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/help-d194d/adminSdkConfig  
+ 
+[debug] [2020-01-21T01:37:29.477Z] <<< HTTP RESPONSE 200
+[info] i  functions: preparing functions directory for uploading...
+[debug] [2020-01-21T01:37:29.480Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/help-d194d/configs  
+ 
+[debug] [2020-01-21T01:37:29.721Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:29.725Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/help-d194d/configs/gmail/variables  
+ 
+[debug] [2020-01-21T01:37:30.332Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:30.335Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/help-d194d/configs/gmail/variables/password  
+ 
+[debug] [2020-01-21T01:37:30.335Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/help-d194d/configs/gmail/variables/email  
+ 
+[debug] [2020-01-21T01:37:30.533Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:30.534Z] <<< HTTP RESPONSE 200
+[info] i  functions: packaged functions (37.32 KB) for uploading
+[debug] [2020-01-21T01:37:31.293Z] >>> HTTP REQUEST POST https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions:generateUploadUrl  
+ 
+[debug] [2020-01-21T01:37:32.463Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:32.464Z] >>> HTTP REQUEST PUT https://storage.googleapis.com/gcf-upload-us-central1-79ea8e39-f4fd-407b-aa01-4e270c9f41f0/c5f678e2-14a8-4d57-b27b-a82dad8dd671.zip?GoogleAccessId=service-464417078624@gcf-admin-robot.iam.gserviceaccount.com&Expires=1579572452&Signature=RF4RWWtvUYFufSLDClzMc4Oorkjm6mZSbHvZ2TzvGBavfWUE8Idq4Msq0BxS8hUOYgZmWdt5iBCzMxKGz91PndZSM%2BC1GeDwjJcz5%2BCW5VHuu5FxyJ8hn9XeVQrAf%2BJqw3cnuJQzNUDM2nbGSYm2ucaYJQs5KyCyzJMiwpVoqzuWlqooDNY05p4lNVdC%2FtNAKNchTn0P2AKxA73zIv5x4WpZGQBYmz8%2BZ7f90qGCuETZlJbu74RCyaRgjTmnhji1bNAD1bkpPbOKpubtGEVJUjX6Yw%2FWASaUnIchXBBAbygjVdv6Xe9jOu251elKJdnb72Mpq8jmV3EHbuJl3Pg31g%3D%3D  
+ <request body omitted>
+[debug] [2020-01-21T01:37:32.995Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: functions folder uploaded successfully
+[debug] [2020-01-21T01:37:33.008Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/-/functions  
+ 
+[debug] [2020-01-21T01:37:33.608Z] <<< HTTP RESPONSE 200
+[info] i  functions: updating Node.js 8 function getAllProviders(us-central1)...
+[debug] [2020-01-21T01:37:33.613Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getAllRequesters(us-central1)...
+[debug] [2020-01-21T01:37:33.614Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getAllProducts(us-central1)...
+[debug] [2020-01-21T01:37:33.615Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getAllConversations(us-central1)...
+[debug] [2020-01-21T01:37:33.615Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getAllRequests(us-central1)...
+[debug] [2020-01-21T01:37:33.615Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getProviderByID(us-central1)...
+[debug] [2020-01-21T01:37:33.616Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getRequesterByID(us-central1)...
+[debug] [2020-01-21T01:37:33.616Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getServiceByID(us-central1)...
+[debug] [2020-01-21T01:37:33.616Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getRequestByID(us-central1)...
+[debug] [2020-01-21T01:37:33.617Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getConversationByID(us-central1)...
+[debug] [2020-01-21T01:37:33.617Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getCompletedRequestsByRequesterID(us-central1)...
+[debug] [2020-01-21T01:37:33.617Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getInProgressRequestsByRequesterID(us-central1)...
+[debug] [2020-01-21T01:37:33.618Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getCategoryObjects(us-central1)...
+[debug] [2020-01-21T01:37:33.618Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getProductsByCategory(us-central1)...
+[debug] [2020-01-21T01:37:33.619Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getReviewsByServiceID(us-central1)...
+[debug] [2020-01-21T01:37:33.619Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getAllUserConversations(us-central1)...
+[debug] [2020-01-21T01:37:33.619Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getBlockedBusinessesByRequesterID(us-central1)...
+[debug] [2020-01-21T01:37:33.620Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getNumCurrentRequestByServiceID(us-central1)...
+[debug] [2020-01-21T01:37:33.620Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getCurrentRequestsByServiceID(us-central1)...
+[debug] [2020-01-21T01:37:33.620Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getCompletedRequestsByServiceID(us-central1)...
+[debug] [2020-01-21T01:37:33.620Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function updateProviderByID(us-central1)...
+[debug] [2020-01-21T01:37:33.621Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function updateRequesterByID(us-central1)...
+[debug] [2020-01-21T01:37:33.621Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function updateServiceByID(us-central1)...
+[debug] [2020-01-21T01:37:33.621Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function updateRequestByID(us-central1)...
+[debug] [2020-01-21T01:37:33.622Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function updateCoversationByID(us-central1)...
+[debug] [2020-01-21T01:37:33.622Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function updateProviderInfo(us-central1)...
+[debug] [2020-01-21T01:37:33.622Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function updateServiceInfo(us-central1)...
+[debug] [2020-01-21T01:37:33.622Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function deleteService(us-central1)...
+[debug] [2020-01-21T01:37:33.625Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function addRequesterToDatabase(us-central1)...
+[debug] [2020-01-21T01:37:33.625Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function addProviderToDatabase(us-central1)...
+[debug] [2020-01-21T01:37:33.625Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function addProductToDatabase(us-central1)...
+[debug] [2020-01-21T01:37:33.625Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function sendMessage(us-central1)...
+[debug] [2020-01-21T01:37:33.626Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getCategoryImageByID(us-central1)...
+[debug] [2020-01-21T01:37:33.626Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getProductImageByID(us-central1)...
+[debug] [2020-01-21T01:37:33.626Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function getProfilePictureByID(us-central1)...
+[debug] [2020-01-21T01:37:33.626Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function requestService(us-central1)...
+[debug] [2020-01-21T01:37:33.627Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function completeRequest(us-central1)...
+[debug] [2020-01-21T01:37:33.627Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function deleteRequest(us-central1)...
+[debug] [2020-01-21T01:37:33.627Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function submitReview(us-central1)...
+[debug] [2020-01-21T01:37:33.627Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function skipReview(us-central1)...
+[debug] [2020-01-21T01:37:33.628Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function blockCompany(us-central1)...
+[debug] [2020-01-21T01:37:33.628Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function unblockCompany(us-central1)...
+[debug] [2020-01-21T01:37:33.628Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function reportIssue(us-central1)...
+[debug] [2020-01-21T01:37:33.628Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function isRequesterUpToDate(us-central1)...
+[debug] [2020-01-21T01:37:33.629Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function isProviderUpToDate(us-central1)...
+[debug] [2020-01-21T01:37:33.629Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function isEYBUnderMaintenance(us-central1)...
+[debug] [2020-01-21T01:37:33.629Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function isGTDUnderMaintenance(us-central1)...
+[debug] [2020-01-21T01:37:33.629Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function isServiceRequestedByRequester(us-central1)...
+[debug] [2020-01-21T01:37:33.630Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function isReviewDue(us-central1)...
+[debug] [2020-01-21T01:37:33.630Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function filterProductsByRequesterLocation(us-central1)...
+[debug] [2020-01-21T01:37:33.630Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function filterProductsByRequesterBlockedUsers(us-central1)...
+[debug] [2020-01-21T01:37:33.630Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function sendNotification(us-central1)...
+[debug] [2020-01-21T01:37:33.631Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function businessGoodToGo(us-central1)...
+[debug] [2020-01-21T01:37:33.631Z] Trigger is:  {"eventTrigger":{"resource":"projects/help-d194d/databases/(default)/documents/providers/{providerID}","eventType":"providers/cloud.firestore/eventTypes/document.update","service":"firestore.googleapis.com"}}
+[info] i  functions: updating Node.js 8 function verifyBusiness(us-central1)...
+[debug] [2020-01-21T01:37:33.631Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function declineBusiness(us-central1)...
+[debug] [2020-01-21T01:37:33.631Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating Node.js 8 function logIssue(us-central1)...
+[debug] [2020-01-21T01:37:33.632Z] Trigger is:  {"httpsTrigger":{}}
+[debug] [2020-01-21T01:37:33.633Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/help-d194d/services/cloudscheduler.googleapis.com  
+ 
+[debug] [2020-01-21T01:37:34.084Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.091Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getAllProviders {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.093Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getAllRequesters {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.094Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getAllProducts {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.095Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getAllConversations {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.095Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getAllRequests {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.096Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getProviderByID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.096Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getRequesterByID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.097Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getServiceByID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.098Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getRequestByID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.103Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getConversationByID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.106Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getCompletedRequestsByRequesterID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.106Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getInProgressRequestsByRequesterID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.107Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getCategoryObjects {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.107Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getProductsByCategory {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.108Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getReviewsByServiceID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.108Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getAllUserConversations {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.108Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getBlockedBusinessesByRequesterID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.109Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getNumCurrentRequestByServiceID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.109Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getCurrentRequestsByServiceID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.110Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getCompletedRequestsByServiceID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.111Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/updateProviderByID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.112Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/updateRequesterByID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.112Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/updateServiceByID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.113Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/updateRequestByID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.113Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/updateCoversationByID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.114Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/updateProviderInfo {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.114Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/updateServiceInfo {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.115Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/deleteService {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.115Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/addRequesterToDatabase {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.115Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/addProviderToDatabase {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.116Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/addProductToDatabase {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.116Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/sendMessage {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.117Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getCategoryImageByID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.117Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getProductImageByID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.118Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/getProfilePictureByID {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.118Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/requestService {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.119Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/completeRequest {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.120Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/deleteRequest {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.120Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/submitReview {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.121Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/skipReview {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.122Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/blockCompany {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.122Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/unblockCompany {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.122Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/reportIssue {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.123Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/isRequesterUpToDate {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.124Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/isProviderUpToDate {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.124Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/isEYBUnderMaintenance {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.125Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/isGTDUnderMaintenance {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.125Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/isServiceRequestedByRequester {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.125Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/isReviewDue {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.126Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/filterProductsByRequesterLocation {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.127Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/filterProductsByRequesterBlockedUsers {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.127Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/sendNotification {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.128Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/businessGoodToGo {"updateMask":"sourceUploadUrl,name,labels,runtime,eventTrigger.resource,eventTrigger.eventType,eventTrigger.service"} 
+
+[debug] [2020-01-21T01:37:34.128Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/verifyBusiness {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.128Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/declineBusiness {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.128Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/us-central1/functions/logIssue {"updateMask":"sourceUploadUrl,name,labels,runtime,httpsTrigger"} 
+
+[debug] [2020-01-21T01:37:34.775Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.779Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.783Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.784Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.784Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.785Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.787Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.788Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.790Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.790Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.791Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.792Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.794Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.795Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.796Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.797Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.800Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.801Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.801Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.802Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.803Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.804Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.806Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.807Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.808Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.808Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.809Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.813Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.814Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.814Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.815Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.816Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.817Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.817Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.820Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.821Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.821Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.822Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.823Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.825Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.826Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.827Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.828Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.828Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.829Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.830Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.830Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.831Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.832Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.832Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.833Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.834Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.835Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.836Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.838Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.839Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:34.840Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/projects/help-d194d/locations/-/functions  
+ 
+[debug] [2020-01-21T01:37:35.282Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.287Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRBbGxQcm92aWRlcnMvemNCOWhDNGhqNEU  
+ 
+[debug] [2020-01-21T01:37:35.287Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRBbGxSZXF1ZXN0ZXJzL1MxMGF6a2NtQktj  
+ 
+[debug] [2020-01-21T01:37:35.288Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRBbGxQcm9kdWN0cy93b2gzcWtSREpkRQ  
+ 
+[debug] [2020-01-21T01:37:35.288Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRBbGxDb252ZXJzYXRpb25zL0U0MUY3elZZTC1z  
+ 
+[debug] [2020-01-21T01:37:35.288Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRBbGxSZXF1ZXN0cy9ZLUN6Vy1GOUt4MA  
+ 
+[debug] [2020-01-21T01:37:35.288Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRQcm92aWRlckJ5SUQvaHhyZ1RVSkNJQzQ  
+ 
+[debug] [2020-01-21T01:37:35.288Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRSZXF1ZXN0ZXJCeUlEL0M4X3VVTldIZDBj  
+ 
+[debug] [2020-01-21T01:37:35.288Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRTZXJ2aWNlQnlJRC9rREVBaC0tVWZwQQ  
+ 
+[debug] [2020-01-21T01:37:35.288Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRSZXF1ZXN0QnlJRC9IdjVYVnNFWnRQRQ  
+ 
+[debug] [2020-01-21T01:37:35.289Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRDb252ZXJzYXRpb25CeUlEL1RuR0MweXdBcV84  
+ 
+[debug] [2020-01-21T01:37:35.289Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRDb21wbGV0ZWRSZXF1ZXN0c0J5UmVxdWVzdGVySUQvallJMHJkaHFuYVU  
+ 
+[debug] [2020-01-21T01:37:35.289Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRJblByb2dyZXNzUmVxdWVzdHNCeVJlcXVlc3RlcklEL3c4M1NwbEZTNXk4  
+ 
+[debug] [2020-01-21T01:37:35.289Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRDYXRlZ29yeU9iamVjdHMvNHVYUU05MUh3YzA  
+ 
+[debug] [2020-01-21T01:37:35.289Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRQcm9kdWN0c0J5Q2F0ZWdvcnkvNnRIOUFXUDVhc1U  
+ 
+[debug] [2020-01-21T01:37:35.289Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRSZXZpZXdzQnlTZXJ2aWNlSUQvMm42OHExZHlwazQ  
+ 
+[debug] [2020-01-21T01:37:35.289Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRBbGxVc2VyQ29udmVyc2F0aW9ucy91WnRKWlItZmZHcw  
+ 
+[debug] [2020-01-21T01:37:35.289Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRCbG9ja2VkQnVzaW5lc3Nlc0J5UmVxdWVzdGVySUQvUEE4cnlKVzJyM0U  
+ 
+[debug] [2020-01-21T01:37:35.290Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXROdW1DdXJyZW50UmVxdWVzdEJ5U2VydmljZUlEL1BsS2lyWUFUdE9J  
+ 
+[debug] [2020-01-21T01:37:35.290Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRDdXJyZW50UmVxdWVzdHNCeVNlcnZpY2VJRC9TT0xjbXJKTHExRQ  
+ 
+[debug] [2020-01-21T01:37:35.290Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRDb21wbGV0ZWRSZXF1ZXN0c0J5U2VydmljZUlEL19WZmZtb1VrN3Rj  
+ 
+[debug] [2020-01-21T01:37:35.290Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS91cGRhdGVQcm92aWRlckJ5SUQvOVJXMlRBa2ZsN0k  
+ 
+[debug] [2020-01-21T01:37:35.290Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS91cGRhdGVSZXF1ZXN0ZXJCeUlELzBmWnFUMk1xRUdF  
+ 
+[debug] [2020-01-21T01:37:35.290Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS91cGRhdGVTZXJ2aWNlQnlJRC9JdEJDa1lVZi1GYw  
+ 
+[debug] [2020-01-21T01:37:35.290Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS91cGRhdGVSZXF1ZXN0QnlJRC9OQk01VFdHYkdLWQ  
+ 
+[debug] [2020-01-21T01:37:35.290Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS91cGRhdGVDb3ZlcnNhdGlvbkJ5SUQvUGNWR09SQlJMd1k  
+ 
+[debug] [2020-01-21T01:37:35.291Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS91cGRhdGVQcm92aWRlckluZm8vZVg4dTJSaFFYMkk  
+ 
+[debug] [2020-01-21T01:37:35.291Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS91cGRhdGVTZXJ2aWNlSW5mby8tVHp4akZkMU45cw  
+ 
+[debug] [2020-01-21T01:37:35.291Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9kZWxldGVTZXJ2aWNlL2F2NzdsNnl3S1JV  
+ 
+[debug] [2020-01-21T01:37:35.291Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9hZGRSZXF1ZXN0ZXJUb0RhdGFiYXNlL0JSSVlIQ3JGQVFF  
+ 
+[debug] [2020-01-21T01:37:35.291Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9hZGRQcm92aWRlclRvRGF0YWJhc2UvUVFNUjlsWnFwSzg  
+ 
+[debug] [2020-01-21T01:37:35.291Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9hZGRQcm9kdWN0VG9EYXRhYmFzZS9qenNhSTNLbTR0UQ  
+ 
+[debug] [2020-01-21T01:37:35.291Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9zZW5kTWVzc2FnZS9EQWNaZDNIQlo0SQ  
+ 
+[debug] [2020-01-21T01:37:35.291Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRDYXRlZ29yeUltYWdlQnlJRC9lTzkwaXJHMzZvUQ  
+ 
+[debug] [2020-01-21T01:37:35.292Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRQcm9kdWN0SW1hZ2VCeUlEL3NDM2VXbEg3eTJZ  
+ 
+[debug] [2020-01-21T01:37:35.292Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9nZXRQcm9maWxlUGljdHVyZUJ5SUQvQ19nRzI5ZzY5REE  
+ 
+[debug] [2020-01-21T01:37:35.292Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9yZXF1ZXN0U2VydmljZS8wdWctaE9SUWN1aw  
+ 
+[debug] [2020-01-21T01:37:35.292Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9jb21wbGV0ZVJlcXVlc3Qvb2lOYUNHU2JNZHc  
+ 
+[debug] [2020-01-21T01:37:35.292Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9kZWxldGVSZXF1ZXN0LzNwcHR1eGpIWUlj  
+ 
+[debug] [2020-01-21T01:37:35.292Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9zdWJtaXRSZXZpZXcveXBadDlzOWVIWGc  
+ 
+[debug] [2020-01-21T01:37:35.292Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9za2lwUmV2aWV3L1NsMWlHTzZuZkM0  
+ 
+[debug] [2020-01-21T01:37:35.292Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9ibG9ja0NvbXBhbnkvMmpTbDdETGN6ckE  
+ 
+[debug] [2020-01-21T01:37:35.293Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS91bmJsb2NrQ29tcGFueS9nTGtCTnEwa3YyUQ  
+ 
+[debug] [2020-01-21T01:37:35.293Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9yZXBvcnRJc3N1ZS9LYzRLZHh1STNJYw  
+ 
+[debug] [2020-01-21T01:37:35.293Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9pc1JlcXVlc3RlclVwVG9EYXRlLzR6QUdHOHdHU2h3  
+ 
+[debug] [2020-01-21T01:37:35.293Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9pc1Byb3ZpZGVyVXBUb0RhdGUvV2dmbkRndzRxLTg  
+ 
+[debug] [2020-01-21T01:37:35.293Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9pc0VZQlVuZGVyTWFpbnRlbmFuY2UvYUNGazNsb2d6eXM  
+ 
+[debug] [2020-01-21T01:37:35.293Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9pc0dURFVuZGVyTWFpbnRlbmFuY2UvNzBiYWRnV0NkakU  
+ 
+[debug] [2020-01-21T01:37:35.293Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9pc1NlcnZpY2VSZXF1ZXN0ZWRCeVJlcXVlc3Rlci93TEZ1djNFSzFfdw  
+ 
+[debug] [2020-01-21T01:37:35.293Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9pc1Jldmlld0R1ZS8tWnlIeVhtQWJTUQ  
+ 
+[debug] [2020-01-21T01:37:35.293Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9maWx0ZXJQcm9kdWN0c0J5UmVxdWVzdGVyTG9jYXRpb24vNDV5ZjI5eWFUZ1k  
+ 
+[debug] [2020-01-21T01:37:35.294Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9maWx0ZXJQcm9kdWN0c0J5UmVxdWVzdGVyQmxvY2tlZFVzZXJzLy1mSVhkTUtPeDBF  
+ 
+[debug] [2020-01-21T01:37:35.294Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9zZW5kTm90aWZpY2F0aW9uL0N6eDF2UEdTMldj  
+ 
+[debug] [2020-01-21T01:37:35.294Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9idXNpbmVzc0dvb2RUb0dvL0ZVanU2OVBsbFJv  
+ 
+[debug] [2020-01-21T01:37:35.294Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS92ZXJpZnlCdXNpbmVzcy91bmlzMWxzWTRTUQ  
+ 
+[debug] [2020-01-21T01:37:35.294Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9kZWNsaW5lQnVzaW5lc3MvaElScDZjQlFEb0k  
+ 
+[debug] [2020-01-21T01:37:35.294Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/aGVscC1kMTk0ZC91cy1jZW50cmFsMS9sb2dJc3N1ZS92dUxXQi1jaDlJUQ  
+ 
+[debug] [2020-01-21T01:37:35.618Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.628Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.630Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.633Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.634Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.638Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.648Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.689Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.690Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.693Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.695Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.695Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.705Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.707Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.709Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.720Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.737Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.809Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.810Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.813Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.814Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.821Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.827Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.828Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.829Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.830Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.831Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.833Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.834Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.837Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.838Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.839Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.841Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.841Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.843Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.845Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.846Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.846Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.853Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.854Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.855Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.858Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.864Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.864Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.872Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.877Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.880Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.881Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.881Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.884Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.887Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.892Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.896Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.897Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.909Z] <<< HTTP RESPONSE 200
+[debug] [2020-01-21T01:37:35.946Z] <<< HTTP RESPONSE 200
