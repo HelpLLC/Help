@@ -12,14 +12,11 @@ import createProviderProfileScreen from './firstScreens/createProviderProfileScr
 import accountNotVerifiedScreen from './firstScreens/accountNotVerifiedScreen';
 import customerRequestScreen from './providerScreens/customerRequestScreen';
 import ProviderProductHistoryScreen from './providerScreens/productHistoryScreen';
-import MessagingScreen from './chats/messagingScreen';
 import forgotPasswordScreen from './firstScreens/forgotPasswordScreen';
 import aboutScreen from './settingsScreens/aboutScreen';
 import privacyScreen from './settingsScreens/privacyScreen';
 import reportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';
-import chatsScreen from './chats/chatsScreen';
-import settingsScreen from './settingsScreens/settingsScreen';
-import providerScreensNavigator from './providerScreens/providerScreensNavigator';
+import providerScreensNavigator from './bottomTabScreens/providerScreensNavigator';
 import { fadeIn, fromRight } from 'react-navigation-transitions';
 import { createAppContainer } from 'react-navigation';
 import termsAndConditionsScreen from './firstScreens/termsAndConditionsScreen';
@@ -98,6 +95,14 @@ const routeConfig = {
 
 	//--------------------------- Business Screens ---------------------------
 
+	//The provider screen's default route (The bottom tab navigator)
+	ProviderScreens: {
+		screen: providerScreensNavigator,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false
+		})
+	},
+
 	//The route going to the create product screen
 	ProviderCreateProductScreen: {
 		screen: ProviderCreateProductScreen
@@ -111,14 +116,6 @@ const routeConfig = {
 	//Route leading to where businesses create their questions
 	ProviderCreateQuestionsScreen: {
 		screen: createQuestionsScreen
-	},
-
-	//Takes you to the provider screen navigator's default route
-	ProviderScreens: {
-		screen: providerScreensNavigator,
-		navigationOptions: ({ navigation }) => ({
-			gesturesEnabled: false
-		})
 	},
 
 	//The route going to the screen for a specific request
@@ -141,33 +138,7 @@ const routeConfig = {
 		screen: createScheduleScreen
 	},
 
-	//--------------------------- Messaging Screens ---------------------------
-
-	//The route going the screen where users can chat
-	MessagingScreen: {
-		screen: MessagingScreen
-	},
-
-	//Route connecting to the chats screen
-	ChatsScreen: {
-		//connects the object with the chats screen component
-		screen: chatsScreen,
-		//sets up what the tab will be titled
-		navigationOptions: ({ navigation }) => ({
-			gesturesEnabled: false
-		})
-	},
-
 	//--------------------------- Settings Screen ---------------------------
-
-	//Route connecting to the settings screen
-	SettingsScreen: {
-		//connects the object with the settings screen component
-		screen: settingsScreen,
-		navigationOptions: ({ navigation }) => ({
-			gesturesEnabled: false
-		})
-	},
 
 	//Takes you to the about screen
 	AboutScreen: {
