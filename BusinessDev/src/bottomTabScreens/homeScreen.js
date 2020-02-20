@@ -1,7 +1,5 @@
-//This screen will represent the main business screen for any given provider. It will contain the
-//business's profile and will be the landing screen for the user when they login. If this is the
-//first time that the user logs in or if they do not yet have products, then the screen will
-//display prompting the user to sign in.
+//This screen will represent the landing screen for any given provider. It will contain the
+//business's profile and will be the landing screen for the user when they login.
 import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import strings from 'config/strings';
@@ -114,7 +112,7 @@ class businessScreen extends Component {
     const topView = (
       <View style={{ alignItems: 'center', height: Dimensions.get('window').height * 0.25 }}>
         <View style={{ flex: 1 }}>
-          <TopBanner title={strings.Business} />
+          <TopBanner title={strings.Home} />
         </View>
         <View style={{ flex: 0.125 }}></View>
         <View style={{ flex: 1, justifyContent: 'center' }}>
@@ -171,7 +169,7 @@ class businessScreen extends Component {
     if (isLoading === true) {
       return (
         <HelpView style={screenStyle.container}>
-          <TopBanner title={strings.Business} />
+          <TopBanner title={strings.Home} />
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <LoadingSpinner isVisible={true} />
           </View>

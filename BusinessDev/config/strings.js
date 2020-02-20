@@ -5,10 +5,11 @@ export default {
 	SomethingWentWrong: 'Something went wrong, please try again later',
 
 	//------------------- Tab Bar Navigators -------------------
-	Business: 'Business',
-	Chats: 'Chats',
+	Analytics: 'Analytics',
+	Payments: 'Payments',
+	Home: 'Home',
+	Schedule: 'Schedule',
 	Settings: 'Settings',
-	Request: 'Request',
 
 	//-------------------  Splash Screen -------------------
 	GetStarted: 'Get Started',
