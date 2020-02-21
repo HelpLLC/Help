@@ -245,20 +245,6 @@ export default class customerRequestScreen extends Component {
                 disabled={this.state.isLoading}
               />
               <RoundBlueButton
-                title={strings.Message}
-                style={roundBlueButtonStyle.SmallSizeButton}
-                textStyle={fontStyles.mainTextStyleWhite}
-                onPress={() => {
-                  this.props.navigation.push('MessagingScreen', {
-                    title: request.requesterName,
-                    providerID: product.offeredByID,
-                    requesterID: request.requesterID,
-                    userID: product.offeredByID
-                  });
-                }}
-                disabled={this.state.isLoading}
-              />
-              <RoundBlueButton
                 title={strings.Complete}
                 style={roundBlueButtonStyle.SmallSizeButton}
                 textStyle={fontStyles.mainTextStyleWhite}
