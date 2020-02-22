@@ -1,190 +1,92 @@
-//This component will represent the card which which will display a service as the narrow card.
-//The card will only be accessible from requester side. Cicking on the service would allow them to view
-//the service and request it if they need it.
+//This component will render a 2 column list of services using the narrowServiceCard. The only prop it will take is the array of
+//services. Then it just uses that render the 2 column list.
 import React, { Component } from "react";
-import { View, Text, Dimensions, TouchableOpacity } from "react-native";
-import narrowServiceCardStyle from "config/styles/componentStyles/narrowServiceCardStyle";
-import FastImage from "react-native-fast-image";
-import colors from "config/colors";
-import fontStyles from "config/styles/fontStyles";
-import { Rating, AirbnbRating } from "react-native-ratings";
+import { View, Dimensions, FlatList } from "react-native";
+import NarrowServiceCard from "./NarrowServiceCard";
 import PropTypes from "prop-types";
-import LoadingSpinner from "./LoadingSpinner";
-import { BoxShadow } from "react-native-shadow";
+import FirebaseFunctions from "config/FirebaseFunctions";
 
-//The component class
-class NarrowServiceCard extends Component {
-  //Starts out the loading state as true until the image is downloaded from the database
-  state = {
-    isImageLoading: true,
-    image: ""
-  };
-
-  //Loads the image (async)
-  async componentDidMount() {
-    const { imageFunction } = this.props;
-    const url = await imageFunction();
-    this.setState({
-      isImageLoading: false,
-      image: url
-    });
-  }
-
-  //Only updates the component if it is switching from loading the image to not loading the image any
-  //more
-  shouldComponentUpdate(nextProps, nextState) {
-    if (
-      this.state.isImageLoading === true &&
-      nextState.isImageLoading === false
-    ) {
-      return true;
+//Defines the class
+class NarrowServiceCardList extends Component {
+  //This function goes to a screen of a specific service based on its index within the services array
+  goToServiceScreen(index) {
+    //If an exclusive onPress function is called, that will be called instead
+    if (this.props.onPress) {
+      const { services } = this.props;
+      this.props.onPress(services[index]);
     } else {
-      return false;
+      const { services, requesterID } = this.props;
+      this.props.navigation.push("RequesterServiceScreen", {
+        productID: services[index].serviceID,
+        requesterID,
+        providerID: services[index].offeredByID
+      });
     }
   }
 
-  //Renders the component
   render() {
-    //The props for the NarrowServiceCard. It will take in a service title, a price, and a
-    //image to display, along with an onPress method. An additional prop is also how many current
-    //requests this product currently has. This prop should only be used by the provider screens
-    //It can also take the average reviews
-    const {
-      serviceTitle,
-      price,
-      onPress,
-      averageRating,
-      totalReviews
-    } = this.props;
-
-    //Fetches the image and the isImageLoading from the state
-    const { isImageLoading, image } = this.state;
-    //Returns the rendered component
-    const huh = true;
-    if (huh) {
-		return(
-			<View>
-				
-			</View>
-		)
-    } else {
-      return (
-        <TouchableOpacity
-          onPress={onPress}
-          style={{
-            width: Dimensions.get("window").width * 0.45,
-            height: Dimensions.get("window").height * 0.35,
-            alignItems: "center",
-            justifyContent: "center"
-          }}
-        >
-          <View>
-            <BoxShadow
-              setting={{
-                width: Dimensions.get("window").width * 0.45,
-                height: Dimensions.get("window").height * 0.26,
-                color: colors.gray,
-                border: 10,
-                radius: Dimensions.get("window").height * 0.0439238653,
-                opacity: 0.2,
-                x: 0,
-                y: 10
+    //Fetches the array of services from the props along with the requester object that is signed in
+    const { services } = this.props;
+    return (
+      <FlatList
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+        data={services}
+        numColumns={2}
+        maxToRenderPerBatch={2}
+        initialNumToRender={2}
+        windowSize={3}
+        keyExtractor={(item, index) => item.serviceID + index.toString()}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item, index }) => (
+          <View style={{ flexDirection: "row" }}>
+            {//Adds a space before the first service if there is only one service because it otherwise has justify
+            //content of flex start
+            services.length === 1 ? (
+              <View style={{ width: Dimensions.get("window").width * 0.03 }} />
+            ) : (
+              <View></View>
+            )}
+            <NarrowServiceCard
+              serviceTitle={item.serviceTitle}
+              price={this.props.dateSelected ? item.dateSelected : item.pricing}
+              imageFunction={async () => {
+                //Passes in the function to retrieve the image of this product
+                return await FirebaseFunctions.call("getProductImageByID", {
+                  ID: item.serviceID
+                });
               }}
-            >
-              <View style={narrowServiceCardStyle.style}>
-                <View style={{ flex: 1 }}>
-                  {isImageLoading === true ? (
-                    <View
-                      style={{
-                        flex: 1,
-                        alignItems: "center",
-                        justifyContent: "center"
-                      }}
-                    >
-                      <LoadingSpinner isVisible={true} />
-                    </View>
-                  ) : (
-                    <FastImage
-                      style={{
-                        width: Dimensions.get("window").width * 0.45 - 7,
-                        height: Dimensions.get("window").height * 0.13,
-                        borderRadius:
-                          Dimensions.get("window").height * 0.0439238653 - 3.5
-                      }}
-                      source={image}
-                    />
-                  )}
-                </View>
-                <View style={{ flex: 0.5 }}></View>
-                <View
-                  style={{
-                    flexDirection: "column",
-                    flex: 1.5,
-                    alignItems: "flex-start",
-                    justifyContent: "space-evenly"
-                  }}
-                >
-                  <Text
-                    style={[
-                      fontStyles.mainTextStyleBlack,
-                      {
-                        paddingLeft: Dimensions.get("window").width * 0.025
-                      }
-                    ]}
-                  >
-                    {serviceTitle}
-                  </Text>
-                  {totalReviews > 0 ? (
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        paddingLeft: Dimensions.get("window").width * 0.025,
-                        alignItems: "center"
-                      }}
-                    >
-                      <AirbnbRating
-                        count={5}
-                        size={15}
-                        isDisabled={true}
-                        defaultRating={averageRating}
-                        showRating={false}
-                      />
-                      <Text style={fontStyles.subTextStyleBlack}>
-                        {" "}
-                        ({totalReviews})
-                      </Text>
-                    </View>
-                  ) : (
-                    <View></View>
-                  )}
-                  <Text
-                    style={[
-                      fontStyles.mainTextStyleBlack,
-                      {
-                        paddingLeft: Dimensions.get("window").width * 0.025
-                      }
-                    ]}
-                  >
-                    {price}
-                  </Text>
-                </View>
-              </View>
-            </BoxShadow>
+              totalReviews={item.totalReviews}
+              averageRating={item.averageRating}
+              numCurrentRequests={0}
+              //Passes all of the necessary props to the actual screen that contains
+              //more information about the service
+              onPress={() => {
+                this.goToServiceScreen(index);
+              }}
+            />
+            {//Adds a space in between each column
+            index % 2 === 0 && services.length > 1 ? (
+              <View style={{ width: Dimensions.get("window").width * 0.03 }} />
+            ) : (
+              <View></View>
+            )}
           </View>
-        </TouchableOpacity>
-      );
-    }
+        )}
+      />
+    );
   }
 }
 
-//These are the propTypes for the topBanner component. It defines whether they are required or not
-//and what their types should be
-NarrowServiceCard.propTypes = {
-  serviceTitle: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
-  imageFunction: PropTypes.func.isRequired,
-  onPress: PropTypes.func.isRequired
+//Sets the PropTypes for this component. There will be and it is required. "services" which will be of type array & requester object
+//who will be the one requesting the services.  It will also take in an optional boolean to display the date requester of a product
+//instead of a price (used in RequesterOrderHistoryScreen)
+NarrowServiceCardList.propTypes = {
+  services: PropTypes.array.isRequired,
+  requesterID: PropTypes.string.isRequired,
+  dateRequested: PropTypes.bool,
+  onPress: PropTypes.func
 };
 
-//exports the module
-export default NarrowServiceCard;
+//Exports the module
+export default NarrowServiceCardList;
