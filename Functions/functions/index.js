@@ -4,8 +4,8 @@ const haversine = require('haversine');
 var serviceAccount = require('./serviceAccountKey.json');
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
-	databaseURL: 'https://help-d194d.firebaseio.com',
-	storageBucket: 'help-d194d.appspot.com'
+	databaseURL: 'https://help-technologies-e4e1c.firebaseio.com',
+	storageBucket: 'help-technologies-e4e1c.appspot.com'
 });
 //Configures email for automated emails
 const nodemailer = require('nodemailer');

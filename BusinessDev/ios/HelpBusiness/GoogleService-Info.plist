@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>464417078624-65pe621d1gpuu67sdmgcas7tlbd2i6p6.apps.googleusercontent.com</string>
+	<string>127668734841-ltfftqubt6r1c8or6ttgh0rrlea6v2nj.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.464417078624-65pe621d1gpuu67sdmgcas7tlbd2i6p6</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>464417078624-6ja9npnq6jclc6pt83fe2ir83iej6mv4.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.127668734841-ltfftqubt6r1c8or6ttgh0rrlea6v2nj</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCJ39Pp39vFJOy6pbA0NLdjhzXIqSEAzFs</string>
+	<string>AIzaSyD4ZgDClEWVn_x3316F17b7bPMs4Ojg0Jg</string>
 	<key>GCM_SENDER_ID</key>
-	<string>464417078624</string>
+	<string>127668734841</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.helpcocontact.helpbusiness</string>
 	<key>PROJECT_ID</key>
-	<string>help-d194d</string>
+	<string>help-technologies-e4e1c</string>
 	<key>STORAGE_BUCKET</key>
-	<string>help-d194d.appspot.com</string>
+	<string>help-technologies-e4e1c.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:464417078624:ios:d20cda75ff00fc99617205</string>
+	<string>1:127668734841:ios:ec91e8fe7da232f8653da8</string>
 	<key>DATABASE_URL</key>
-	<string>https://help-d194d.firebaseio.com</string>
+	<string>https://help-technologies-e4e1c.firebaseio.com</string>
 </dict>
 </plist>
