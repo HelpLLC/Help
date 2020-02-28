@@ -41,6 +41,13 @@ export default StyleSheet.create({
         color: colors.lightBlue
     },
 
+    //The style for main text that will be colored gray
+    bigTextStyleGray: {
+        fontFamily: font,
+        fontSize: bigFontSize,
+        color: colors.gray
+    },
+
     //The style for main text that will be colored black
     mainTextStyleBlack: {
         fontFamily: font,

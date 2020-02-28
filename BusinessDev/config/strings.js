@@ -192,6 +192,13 @@ export default {
 	FromTimeIsMoreThanToTime: "Please select a 'From' time that is less than a 'To' time.",
 	ProductCreated: 'The service has been created.',
 	ProductUpdated: 'The service has been updated.',
+	Monday: 'Mon',
+	Tuesday: 'Tue',
+	Wednesday: 'Wed',
+	Thursday: 'Thu',
+	Friday: 'Fri',
+	Saturday: 'Sat',
+	Sunday: 'Sun',
 
 	//------------------- Create Questions Screen -------------------
 	InfoFromCustomersQuestion:
