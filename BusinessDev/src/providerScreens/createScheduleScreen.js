@@ -28,29 +28,6 @@ export default class createScheduleScreen extends Component {
       FirebaseFunctions.setCurrentScreen('EditScheduleScreen', 'createScheduleScreen');
       const { product } = this.props.navigation.state.params;
       const { schedule } = product;
-      if (schedule.scheduleType === 'Anytime') {
-        this.setState({
-          scheduleType: schedule.scheduleType
-        });
-      } else if (schedule.scheduleType === 'SpecificDaysAndTimes') {
-        this.setState({
-          scheduleType: schedule.scheduleType,
-          daysSelected: schedule.daysSelected,
-          fromTime: schedule.fromTime,
-          toTime: schedule.toTime
-        });
-      } else if (schedule.scheduleType === 'SpecificDays') {
-        this.setState({
-          scheduleType: schedule.scheduleType,
-          daysSelected: schedule.daysSelected
-        });
-      } else {
-        this.setState({
-          scheduleType: schedule.scheduleType,
-          fromTime: schedule.fromTime,
-          toTime: schedule.toTime
-        });
-      }
       const { productID, providerID, newProductObject } = this.props.navigation.state.params;
       this.setState({
         productID,
@@ -67,6 +44,81 @@ export default class createScheduleScreen extends Component {
         newProductObject,
         isScreenLoading: false
       });
+    }
+  }
+  //This function takes all of the information that has been collected for the business and registers them  into the database
+  //while also making sure all required fields have been adequetly filled out. That is if this is the non-editing version of the
+  //screen. If this is an existing business editing their information, then it will overwrite their existing information in the data
+  //base.
+  async addProviderInfo() {
+    Keyboard.dismiss();
+
+    if (this.state.location === '' || this.state.phoneNumber === '') {
+      this.setState({ fieldsError: true });
+    } else {
+      this.setState({ isLoading: true });
+      try {
+        const {
+          businessName,
+          businessInfo,
+          email,
+          requesterAccountExists
+        } = this.props.navigation.state.params;
+        const { phoneNumber, website, location, coordinates } = this.state;
+
+        //If this is a new profile, then it will add them to Firebase Authentication in addition to adding them to the database
+        if (this.state.editing === false) {
+          firebase.auth().signInAnonymously();
+          const { password } = this.props.navigation.state.params;
+
+          let account = '';
+          if (requesterAccountExists === false) {
+            account = await firebase.auth().createUserWithEmailAndPassword(email, password);
+            await FirebaseFunctions.logIn(email, password);
+          } else {
+            account = await FirebaseFunctions.logIn(email, password);
+            account = account.split(' ');
+            account = account[1];
+          }
+          //Creates the base provider object
+          const provider = {
+            companyName: businessName,
+            companyDescription: businessInfo,
+            email,
+            isVerified: false,
+            serviceIDs: [],
+            phoneNumber,
+            website,
+            location,
+            coordinates,
+            providerID: account.user ? account.user.uid : account.substring(2)
+          };
+          await FirebaseFunctions.call('addProviderToDatabase', { newProvider: provider });
+          //Navigates to the screen where it tells the business to wait until their account has been verified
+          this.props.navigation.push('AccountNotVerifiedScreen');
+        } else {
+          //Creates the base provider object
+          const provider = {
+            companyName: businessName,
+            companyDescription: businessInfo,
+            phoneNumber,
+            website,
+            location,
+            coordinates
+          };
+          await FirebaseFunctions.call('updateProviderInfo', {
+            providerID: this.state.providerID,
+            newProviderInfo: provider
+          });
+          this.setState({ isLoading: false, accountSaved: true });
+        }
+      } catch (error) {
+        this.setState({ isLoading: false, isErrorVisible: true });
+        FirebaseFunctions.call('logIssue', {
+          error,
+          userID: 'ProviderAdditionalInformationScreen'
+        });
+      }
     }
   }
   //Controls the state of the screen (what type of schedule the business wants to use)

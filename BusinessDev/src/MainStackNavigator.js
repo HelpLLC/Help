@@ -24,6 +24,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import creditsScreen from './settingsScreens/creditsScreen';
 import createScheduleScreen from './providerScreens/createScheduleScreen';
 import createQuestionsScreen from './providerScreens/createQuestionsScreen';
+import signUpSchedule from './firstScreens/signUpSchedule';
 
 //The route config for all of the screens
 const routeConfig = {
@@ -80,6 +81,14 @@ const routeConfig = {
 	//Takes you to the screen which will allow providers to add more information about themselves
 	ProviderAdditionalInformationScreen: {
 		screen: providerAdditionalInformationScreen,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false
+		})
+	},
+
+	//Takes you to the screen which will allow providers to add their schedule
+	CreateBusinessSchedule: {
+		screen: signUpSchedule,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
