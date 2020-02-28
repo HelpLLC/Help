@@ -25,7 +25,7 @@ const mailTransport = nodemailer.createTransport({
 const database = admin.firestore();
 const storage = admin.storage().bucket();
 const fcm = admin.messaging();
-const providers = database.collection('providers');
+const businesses = database.collection('businesses');
 const requesters = database.collection('requesters');
 const products = database.collection('products');
 const conversations = database.collection('conversations');
@@ -131,9 +131,9 @@ const deleteRequest = async (productID, requesterID, requestID) => {
 
 //--------------------------------- "Document-Object" Getters ---------------------------------
 
-//Method returns an array with all providers
-exports.getAllProviders = functions.https.onCall(async (input, context) => {
-	const snapshot = await providers.get();
+//Method returns an array with all businesses
+exports.getAllBusinesses = functions.https.onCall(async (input, context) => {
+	const snapshot = await businesses.get();
 	const array = await snapshot.docs.map((doc) => doc.data());
 
 	//Returns the array which contains all of the docs
@@ -174,9 +174,9 @@ exports.getAllRequests = functions.https.onCall(async (input, context) => {
 });
 
 //Method fetches a provider by ID & returns the provider as an object. If the provider does not exist, returns -1
-exports.getProviderByID = functions.https.onCall(async (input, context) => {
+exports.getBusinessByID = functions.https.onCall(async (input, context) => {
 	const { providerID } = input;
-	const ref = providers.doc(providerID + '');
+	const ref = businesses.doc(providerID + '');
 	const doc = await ref.get();
 
 	if (doc.exists) {
@@ -309,7 +309,7 @@ exports.getAllUserConversations = functions.https.onCall(async (input, context) 
 	return allUserConversations;
 });
 
-//Method is going to return an array of providers that have been blocked by a requester. The array
+//Method is going to return an array of businesses that have been blocked by a requester. The array
 //will contain objects containing two fields: the provider's ID and the provider's company name
 exports.getBlockedBusinessesByRequesterID = functions.https.onCall(async (input, context) => {
 	const { requesterID } = input;
@@ -327,7 +327,7 @@ exports.getBlockedBusinessesByRequesterID = functions.https.onCall(async (input,
 			//If it is the test business account, only add it if it is on the requester test account
 			if (providerID === 'MRWYHdcULQggTQlxyXwGbykY5r02') {
 				if (requesterID === 'IaRNsJxXE4O6gdBqbBv24bo39g33') {
-					const provider = (await providers.doc(providerID).get()).data();
+					const provider = (await businesses.doc(providerID).get()).data();
 					finalArray.push({
 						providerID: provider.providerID,
 						companyName: provider.companyName
@@ -335,11 +335,8 @@ exports.getBlockedBusinessesByRequesterID = functions.https.onCall(async (input,
 				}
 				//If it is just normal blocked user, add them to array
 			} else {
-				console.log(providerID);
-				const providerDoc = await providers.doc(providerID).get();
-				console.log(providerDoc);
+				const providerDoc = await businesses.doc(providerID).get();
 				const provider = providerDoc.data();
-				console.log(provider);
 				finalArray.push({
 					providerID: provider.providerID,
 					companyName: provider.companyName
@@ -394,7 +391,7 @@ exports.getCompletedRequestsByServiceID = functions.https.onCall(async (input, c
 //be the second parameter of the method. If the provider doesn't exist, then the method will return -1.
 exports.updateProviderByID = functions.https.onCall(async (input, context) => {
 	const { providerID, updates } = input;
-	const ref = providers.doc(providerID);
+	const ref = businesses.doc(providerID);
 	try {
 		await ref.update(updates);
 	} catch (error) {
@@ -458,7 +455,7 @@ exports.updateCoversationByID = functions.https.onCall(async (input, context) =>
 //Method will update the information for a provider by taking in the new provider object and overwriting it in firebase
 exports.updateProviderInfo = functions.https.onCall(async (input, context) => {
 	const { providerID, newProviderInfo } = input;
-	await providers.doc(providerID).update(newProviderInfo);
+	await businesses.doc(providerID).update(newProviderInfo);
 
 	//Goes through and edits all of the products that belong to this business & updated the
 	//field that connects them to the correct provider to the new businessName
@@ -516,13 +513,13 @@ exports.deleteService = functions.https.onCall(async (input, context) => {
 		isDeleted: true
 	});
 
-	const provider = (await providers.doc(providerID).get()).data();
+	const provider = (await businesses.doc(providerID).get()).data();
 	let { serviceIDs } = provider;
 	let indexOfService = serviceIDs.findIndex((productID) => {
 		return productID === serviceID;
 	});
 	serviceIDs.splice(indexOfService, 1);
-	await providers.doc(providerID).update({
+	await businesses.doc(providerID).update({
 		serviceIDs
 	});
 
@@ -578,20 +575,37 @@ exports.addRequesterToDatabase = functions.https.onCall(async (input, context) =
 //the "@". It will also have the companyName and the companyDescription that is passed along with a phone
 //number. Must wait for verfication by developers (default value for "isVerified" is false), when switched to true,
 //user can log in
-exports.addProviderToDatabase = functions.https.onCall(async (input, context) => {
-	const { newProvider } = input;
-	await providers.doc(newProvider.providerID).set(newProvider);
-
+exports.addBusinessToDatabase = functions.https.onCall(async (input, context) => {
+	console.log(1);
 	const {
-		companyName,
-		companyDescription,
+		//Fields for the business
+		businessName,
+		businessDescription,
+		businessHours,
+		coordinates,
 		email,
-		phoneNumber,
 		location,
+		serviceIDs,
 		website,
-		providerID
-	} = newProvider;
-
+		businessID,
+		phoneNumber,
+		isVerified
+	} = input;
+	console.log(2);
+	await businesses.doc(businessID).set({
+		businessName,
+		businessDescription,
+		businessHours,
+		coordinates,
+		businessID,
+		email,
+		location,
+		serviceIDs,
+		website,
+		phoneNumber,
+		isVerified
+	});
+	console.log(3);
 	//Fetches the business's name and description from the params
 
 	//Configures the email subject, to, and from
@@ -600,17 +614,17 @@ exports.addProviderToDatabase = functions.https.onCall(async (input, context) =>
 		to: 'helpcocontact@gmail.com',
 		subject: 'New Business'
 	};
-
+	console.log(4);
 	//This is in the case that the user has not installed a new version of the app
-	if (!providerID) {
+	if (!businessID) {
 		//The text of the email
 		mailOptions.text =
 			'A new business has signed up on Help. Here is its information.\n\n' +
 			'Business Name: ' +
-			companyName +
+			businessName +
 			'\n\n' +
 			'Business Description: ' +
-			companyDescription +
+			businessDescription +
 			'\n\n' +
 			'Business Email: ' +
 			email +
@@ -625,10 +639,10 @@ exports.addProviderToDatabase = functions.https.onCall(async (input, context) =>
 		mailOptions.text =
 			'A new business has signed up on Help. Here is its information.\n\n' +
 			'Business Name: ' +
-			companyName +
+			businessName +
 			'\n\n' +
 			'Business Description: ' +
-			companyDescription +
+			businessDescription +
 			'\n\n' +
 			'Business Email: ' +
 			email +
@@ -646,18 +660,19 @@ exports.addProviderToDatabase = functions.https.onCall(async (input, context) =>
 			'https://us-central1-help-d194d.cloudfunctions.net/verifyBusiness?businessEmail=' +
 			email +
 			'&providerID=' +
-			providerID +
+			businessID +
 			'\n\n' +
 			'To decline this business, click this link: \n' +
 			'https://us-central1-help-d194d.cloudfunctions.net/declineBusiness?businessEmail=' +
 			email +
 			'&providerID=' +
-			providerID +
+			businessID +
 			'\n\nHelp LLC';
 	}
-
+	console.log(5);
 	await mailTransport.sendMail(mailOptions);
-	return newProvider;
+	console.log(6);
+	return 0;
 });
 
 //This method will take information about a new product and add it to the firestore database. It will
@@ -674,7 +689,7 @@ exports.addProductToDatabase = functions.https.onCall(async (input, context) => 
 			? '$' + price.min + ' ' + 'to' + ' $' + price.max
 			: '$' + price.priceFixed;
 	//Fetches the provider by their ID so they can get some required information
-	const provider = (await providers.doc(providerID).get()).data();
+	const provider = (await businesses.doc(providerID).get()).data();
 	const { coordinates, location, companyName } = provider;
 	//Adds the remaining required fields to the object
 	let product = {
@@ -700,7 +715,7 @@ exports.addProductToDatabase = functions.https.onCall(async (input, context) => 
 	await products.doc(newProduct.id).update({
 		serviceID: newProduct.id
 	});
-	await providers.doc(providerID).update({
+	await businesses.doc(providerID).update({
 		serviceIDs: admin.firestore.FieldValue.arrayUnion(newProduct.id)
 	});
 
@@ -714,7 +729,7 @@ exports.sendMessage = functions.https.onCall(async (input, context) => {
 
 	//Retrieves the names of the requester and the provider so that can be added to the database
 	//as well
-	const provider = (await providers.doc(providerID).get()).data();
+	const provider = (await businesses.doc(providerID).get()).data();
 	const requester = (await requesters.doc(requesterID).get()).data();
 	if (isNewConversation === true) {
 		const messageWithCorrectDate = {
@@ -1179,7 +1194,7 @@ exports.sendNotification = functions.https.onCall(async (input, context) => {
 //Method detects when a new business user has been verified & sends them a notification saying they're
 //good to go
 exports.businessGoodToGo = functions.firestore
-	.document('providers/{providerID}')
+	.document('businesses/{providerID}')
 	.onUpdate(async (change, context) => {
 		if (change.after.data().isVerified === true && change.before.data().isVerified === false) {
 			const topic = 'p-' + change.after.data().providerID;
@@ -1202,7 +1217,7 @@ exports.verifyBusiness = functions.https.onRequest(async (req, res) => {
 
 		//Actually verifies the business
 		const firestore = admin.firestore();
-		const providerObject = firestore.collection('providers').doc(providerID);
+		const providerObject = firestore.collection('businesses').doc(providerID);
 		await providerObject.update({
 			isVerified: true
 		});
@@ -1258,7 +1273,7 @@ exports.declineBusiness = functions.https.onRequest(async (req, res) => {
 			const auth = admin.auth();
 			await auth.deleteUser(providerID);
 		}
-		const providerObject = firestore.collection('providers').doc(providerID);
+		const providerObject = firestore.collection('businesses').doc(providerID);
 		await providerObject.delete();
 
 		res.send('Business has been declined');

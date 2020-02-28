@@ -181,17 +181,7 @@ export default {
 	PleaseSelectADayForYourService: 'Please select a day for your service.',
 
 	//------------------- Create Schedule Screen -------------------
-	CreateSchedule: 'Create Schedule',
-	AvailableTimesToCompleteService: 'Available Times to Complete Service',
-	SpecificDays: 'Specific Days',
-	SpecificDaysAndTimes: 'Specific Days & Times',
-	SpecificTimes: 'Specific Times',
-	Anytime: 'Anytime',
-	PleaseSelectATime: 'Please select the times when you are available to complete this service.',
-	PleaseSelectDay: 'Please select the days that you are available to complete this service.',
-	FromTimeIsMoreThanToTime: "Please select a 'From' time that is less than a 'To' time.",
-	ProductCreated: 'The service has been created.',
-	ProductUpdated: 'The service has been updated.',
+	BusinessHours: 'Business Hours',
 	Monday: 'Mon',
 	Tuesday: 'Tue',
 	Wednesday: 'Wed',

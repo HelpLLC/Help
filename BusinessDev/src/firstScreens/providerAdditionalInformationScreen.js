@@ -59,6 +59,35 @@ export default class providerAdditionalInformationScreen extends Component {
     }
   }
 
+  //Function checks that all of the fields have been filled out and goes to the next screen
+  goToNextScreen() {
+    const {
+      businessName,
+      businessInfo,
+      email,
+      requesterAccountExists,
+      password
+    } = this.props.navigation.state.params;
+    const { phoneNumber, website, location, coordinates } = this.state;
+    if (phoneNumber !== '' && location !== '' && coordinates !== '') {
+      this.props.navigation.push('CreateBusinessSchedule', {
+        businessName,
+        businessInfo,
+        email,
+        password,
+        requesterAccountExists,
+        phoneNumber,
+        website,
+        location,
+        coordinates
+      });
+    } else {
+      this.setState({
+        fieldsError: true
+      })
+    }
+  }
+
   //The state which will control the value of the text inputs and the locations
   state = {
     phoneNumber: '',
@@ -187,7 +216,9 @@ export default class providerAdditionalInformationScreen extends Component {
               textStyle={fontStyles.bigTextStyleWhite}
               isLoading={this.state.isLoading}
               onPress={() => {
-                this.props.navigation.push('CreateBusinessSchedule');
+                //Function goes to the next screen
+                this.goToNextScreen();
+               
               }}
               disabled={this.state.isLoading}
             />

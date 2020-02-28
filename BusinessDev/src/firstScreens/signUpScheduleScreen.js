@@ -11,8 +11,8 @@ import screenStyle from 'config/styles/screenStyle';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import HelpAlert from '../components/HelpAlert';
-import { View, Text, Dimensions, TouchableOpacity, Platform } from 'react-native';
-import LoadingSpinner from '../components/LoadingSpinner';
+import { View, Text, Dimensions, TouchableOpacity, Keyboard } from 'react-native';
+import firebase from 'react-native-firebase';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 
 //exports and creates the class
@@ -28,67 +28,66 @@ export default class signUpScheduleScreen extends Component {
 			this.setState({ fieldsError: true });
 		} else {
 			this.setState({ isLoading: true });
-			try {
-				const {
-					businessName,
-					businessInfo,
-					email,
-					requesterAccountExists
-				} = this.props.navigation.state.params;
-				const { phoneNumber, website, location, coordinates } = this.state;
 
-				//If this is a new profile, then it will add them to Firebase Authentication in addition to adding them to the database
-				if (this.state.editing === false) {
-					firebase.auth().signInAnonymously();
-					const { password } = this.props.navigation.state.params;
+			const {
+				businessName,
+				businessInfo,
+				email,
+				requesterAccountExists,
+				phoneNumber,
+				website,
+				location,
+				coordinates
+			} = this.props.navigation.state.params;
+			const { sunday, monday, tuesday, wednesday, thursday, friday, saturday } = this.state;
 
-					let account = '';
-					if (requesterAccountExists === false) {
-						account = await firebase.auth().createUserWithEmailAndPassword(email, password);
-						await FirebaseFunctions.logIn(email, password);
-					} else {
-						account = await FirebaseFunctions.logIn(email, password);
-						account = account.split(' ');
-						account = account[1];
-					}
-					//Creates the base provider object
-					const provider = {
-						companyName: businessName,
-						companyDescription: businessInfo,
-						email,
-						isVerified: false,
-						serviceIDs: [],
-						phoneNumber,
-						website,
-						location,
-						coordinates,
-						providerID: account.user ? account.user.uid : account.substring(2)
-					};
-					await FirebaseFunctions.call('addProviderToDatabase', { newProvider: provider });
-					//Navigates to the screen where it tells the business to wait until their account has been verified
-					this.props.navigation.push('AccountNotVerifiedScreen');
+			//If this is a new profile, then it will add them to Firebase Authentication in addition to adding them to the database
+			if (this.state.editing === false) {
+				firebase.auth().signInAnonymously();
+				const { password } = this.props.navigation.state.params;
+
+				//Fetches the account information based on whether the business also has a customer account
+				let account = '';
+				if (requesterAccountExists === false) {
+					account = await firebase.auth().createUserWithEmailAndPassword(email, password);
+					await FirebaseFunctions.logIn(email, password);
 				} else {
-					//Creates the base provider object
-					const provider = {
-						companyName: businessName,
-						companyDescription: businessInfo,
-						phoneNumber,
-						website,
-						location,
-						coordinates
-					};
-					await FirebaseFunctions.call('updateProviderInfo', {
-						providerID: this.state.providerID,
-						newProviderInfo: provider
-					});
-					this.setState({ isLoading: false, accountSaved: true });
+					account = await FirebaseFunctions.logIn(email, password);
+					account = account.split(' ');
+					account = account[1];
 				}
-			} catch (error) {
-				this.setState({ isLoading: false, isErrorVisible: true });
-				FirebaseFunctions.call('logIssue', {
-					error,
-					userID: 'ProviderAdditionalInformationScreen'
+				//Adds the business to the databasae
+				await FirebaseFunctions.call('addBusinessToDatabase', {
+					//Fields for the business
+					businessName,
+					businessDescription: businessInfo,
+					businessHours: { sunday, monday, tuesday, wednesday, thursday, friday, saturday },
+					coordinates,
+					email,
+					location,
+					serviceIDs: [],
+					website,
+					phoneNumber,
+					isVerified: false,
+					businessID: account.user.uid
 				});
+				//Navigates to the screen where it tells the business to wait until their account has been verified
+				this.props.navigation.push('AccountNotVerifiedScreen');
+			} else {
+				//Creates the base provider object
+				const provider = {
+					companyName: businessName,
+					companyDescription: businessInfo,
+					phoneNumber,
+					website,
+					location,
+					coordinates
+				};
+				await FirebaseFunctions.call('updateProviderInfo', {
+					providerID: this.state.providerID,
+					newProviderInfo: provider
+				});
+				this.setState({ isLoading: false, accountSaved: true });
 			}
 		}
 	}
@@ -101,32 +100,32 @@ export default class signUpScheduleScreen extends Component {
 	//Also controls the loading state
 	state = {
 		monday: {
-			from: '',
-			to: ''
+			from: '9:00 AM',
+			to: '5:00 PM'
 		},
 		tuesday: {
-			from: '',
-			to: ''
+			from: '9:00 AM',
+			to: '5:00 PM'
 		},
 		wednesday: {
-			from: '',
-			to: ''
+			from: '9:00 AM',
+			to: '5:00 PM'
 		},
 		thursday: {
-			from: '',
-			to: ''
+			from: '9:00 AM',
+			to: '5:00 PM'
 		},
 		friday: {
-			from: '',
-			to: ''
+			from: '9:00 AM',
+			to: '5:00 PM'
 		},
 		saturday: {
-			from: '',
-			to: ''
+			from: '9:00 AM',
+			to: '5:00 PM'
 		},
 		sunday: {
-			from: '',
-			to: ''
+			from: '9:00 AM',
+			to: '5:00 PM'
 		},
 		isScreenLoading: false,
 		isFromTimeGreaterErrorVisible: false,
@@ -134,7 +133,8 @@ export default class signUpScheduleScreen extends Component {
 		isToTimeShowing: false,
 		isLoading: false,
 		isTimesErrorVisible: false,
-		isDaysErrorVisible: false
+		isDaysErrorVisible: false,
+		editing: false
 	};
 
 	//Creates the function that returns a time picker component for each day
@@ -289,7 +289,7 @@ export default class signUpScheduleScreen extends Component {
 		return (
 			<HelpView style={screenStyle.container}>
 				<TopBanner
-					title={'My Schedule'}
+					title={strings.BusinessHours}
 					leftIconName='angle-left'
 					leftOnPress={() => this.props.navigation.goBack()}
 				/>
@@ -299,10 +299,6 @@ export default class signUpScheduleScreen extends Component {
 						alignItems: 'center',
 						marginTop: Dimensions.get('window').height * 0.01
 					}}>
-					<Text style={fontStyles.mainTextStyleBlack}>
-						{strings.AvailableTimesToCompleteService}
-					</Text>
-
 					<View
 						style={{
 							flexDirection: 'column',
@@ -457,34 +453,18 @@ export default class signUpScheduleScreen extends Component {
 							alignItems: 'flex-end'
 						}}>
 						<RoundBlueButton
-							title={strings.Done}
+							title={strings.SignUp}
 							isLoading={this.state.isLoading}
 							style={roundBlueButtonStyle.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={async () => {
 								//Creates the product
-								await this.createProduct();
+								await this.addProviderInfo();
 							}}
 							disabled={this.state.isLoading}
 						/>
 					</View>
 				</View>
-				<HelpAlert
-					isVisible={this.state.isDaysErrorVisible}
-					onPress={() => {
-						this.setState({ isDaysErrorVisible: false });
-					}}
-					title={strings.Whoops}
-					message={strings.PleaseSelectDay}
-				/>
-				<HelpAlert
-					isVisible={this.state.isTimesErrorVisible}
-					onPress={() => {
-						this.setState({ isTimesErrorVisible: false });
-					}}
-					title={strings.Whoops}
-					message={strings.PleaseSelectATime}
-				/>
 				<HelpAlert
 					isVisible={this.state.isFromTimeGreaterErrorVisible}
 					onPress={() => {
