@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Image } from "react";
 import "./Analytics.css";
 import Header from "./Header";
 import "./LandingPage.css";
@@ -26,12 +26,11 @@ export default class Analytics extends Component {
         <section class="about" id="about">
           <h2 class="hidden">About</h2>
           <p class="text_column">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur.
+            As one of the leading local businesses in the Woodinville area, we
+            attribute our reputation to the lasting customer relationships we’ve
+            developed throughout the years. We believe that all of our customers
+            deserve the highest level of service, and we are committed to
+            providing just that. Get in touch today to learn more.
           </p>
           <p class="text_column">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
@@ -50,34 +49,14 @@ export default class Analytics extends Component {
             pariatur.
           </p>
         </section>
-        <div class="gallery">
-          <div class="thumbnail">
-            <h1 class="stats">1500</h1>
-            <h4>TITLE</h4>
-            <p>One line description</p>
-          </div>
-          <div class="thumbnail">
-            <h1 class="stats">2300</h1>
-            <h4>TITLE</h4>
-            <p>One line description</p>
-          </div>
-          <div class="thumbnail">
-            <h1 class="stats">7500</h1>
-            <h4>TITLE</h4>
-            <p>One line description</p>
-          </div>
-          <div class="thumbnail">
-            <h1 class="stats">9870</h1>
-            <h4>TITLE</h4>
-            <p>One line description</p>
-          </div>
-        </div>
         <section class="banner">
-          <h2 class="parallax">PARALLAX HERO</h2>
+          <h2 class="parallax">About</h2>
           <p class="parallax_description">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam
+            As one of the leading local businesses in the Woodinville area, we
+            attribute our reputation to the lasting customer relationships we’ve
+            developed throughout the years. We believe that all of our customers
+            deserve the highest level of service, and we are committed to
+            providing just that. Get in touch today to learn more.
           </p>
         </section>
         <footer>
