@@ -22,9 +22,8 @@ import { createAppContainer } from 'react-navigation';
 import termsAndConditionsScreen from './firstScreens/termsAndConditionsScreen';
 import { createStackNavigator } from 'react-navigation-stack';
 import creditsScreen from './settingsScreens/creditsScreen';
-import createScheduleScreen from './providerScreens/createScheduleScreen';
 import createQuestionsScreen from './providerScreens/createQuestionsScreen';
-import signUpSchedule from './firstScreens/signUpSchedule';
+import signUpScheduleScreen from './firstScreens/signUpScheduleScreen';
 
 //The route config for all of the screens
 const routeConfig = {
@@ -88,7 +87,7 @@ const routeConfig = {
 
 	//Takes you to the screen which will allow providers to add their schedule
 	CreateBusinessSchedule: {
-		screen: signUpSchedule,
+		screen: signUpScheduleScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
@@ -140,11 +139,6 @@ const routeConfig = {
 	//The route going to the product history screen
 	ProviderProductHistoryScreen: {
 		screen: ProviderProductHistoryScreen
-	},
-
-	//route leading to where businesses create their schedules
-	ProviderCreateScheduleScreen: {
-		screen: createScheduleScreen
 	},
 
 	//--------------------------- Settings Screen ---------------------------

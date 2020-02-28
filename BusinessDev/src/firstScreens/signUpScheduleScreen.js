@@ -1,25 +1,22 @@
-//This screen is going to be navigated from the questions screen & will be in the create product flow from the
-//business side. It allows businesses to specify when they can complete a specific job.
+//This screen is going to be navigated in the first screens. It'll be used to set the business schedule. It is accessed from
+//the providerAdditionalInformationScreen
 import React, { Component } from 'react';
 import TopBanner from '../components/TopBanner';
 import strings from 'config/strings';
 import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import HelpView from '../components/HelpView';
-import RNPickerSelect from 'react-native-picker-select';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import screenStyle from 'config/styles/screenStyle';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
-import DaysFromWeekPicker from '../components/DaysFromWeekPicker';
-import { Icon } from 'react-native-elements';
 import HelpAlert from '../components/HelpAlert';
 import { View, Text, Dimensions, TouchableOpacity, Platform } from 'react-native';
 import LoadingSpinner from '../components/LoadingSpinner';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 
 //exports and creates the class
-export default class createScheduleScreen extends Component {
+export default class signUpScheduleScreen extends Component {
 	//This function takes all of the information that has been collected for the business and registers them  into the database
 	//while also making sure all required fields have been adequetly filled out. That is if this is the non-editing version of the
 	//screen. If this is an existing business editing their information, then it will overwrite their existing information in the data
@@ -95,46 +92,44 @@ export default class createScheduleScreen extends Component {
 			}
 		}
 	}
-	//if this screen is to edit existing service, it will fetch the correct fields
+
+	//if this screen is to edit existing business, it will fetch the correct fields
 	async componentDidMount() {
-		//If a product has been passed in, then the correct fields will be set, other wise, the normal screen will
-		//be set for user to create product
-		if (this.props.navigation.state.params && this.props.navigation.state.params.product) {
-			FirebaseFunctions.setCurrentScreen('EditBusinessSchedule', 'signUpSchedule');
-			const { product } = this.props.navigation.state.params;
-			const { schedule } = product;
-			const { productID, providerID, newProductObject } = this.props.navigation.state.params;
-			this.setState({
-				productID,
-				providerID,
-				product,
-				newProductObject,
-				isScreenLoading: false
-			});
-		} else {
-			FirebaseFunctions.setCurrentScreen('CreateBusinessSchedule', 'signUpSchedule');
-		}
+		FirebaseFunctions.setCurrentScreen('SignUpScheduleScreen', 'signUpScheduleScreen');
 	}
 	//Controls the state of the screen (what type of schedule the business wants to use)
 	//Also controls the loading state
 	state = {
-		fromTime: '',
-		toTime: '',
-		toTimeObject: '',
-		fromTimeObject: '',
-		daysSelected: {
-			Sun: false,
-			Mon: false,
-			Tue: false,
-			Wed: false,
-			Thu: false,
-			Fri: false,
-			Sat: false
+		monday: {
+			from: '',
+			to: ''
+		},
+		tuesday: {
+			from: '',
+			to: ''
+		},
+		wednesday: {
+			from: '',
+			to: ''
+		},
+		thursday: {
+			from: '',
+			to: ''
+		},
+		friday: {
+			from: '',
+			to: ''
+		},
+		saturday: {
+			from: '',
+			to: ''
+		},
+		sunday: {
+			from: '',
+			to: ''
 		},
 		isScreenLoading: false,
 		isFromTimeGreaterErrorVisible: false,
-		productCreated: false,
-		productUpdated: false,
 		isFromTimeShowing: false,
 		isToTimeShowing: false,
 		isLoading: false,
@@ -142,53 +137,9 @@ export default class createScheduleScreen extends Component {
 		isDaysErrorVisible: false
 	};
 
-	//Until android supports toTimeLocaleString(), this is our own method for formatting the time
-	getAndroidTime(time) {
-		let hour = time.getHours();
-		let minutes = time.getMinutes();
-		const ampm = hour > 11 ? 'PM' : 'AM';
-		if (hour === 0) {
-			hour = 12;
-		} else if (hour === 12) {
-			hour = 12;
-		} else {
-			hour = hour % 12;
-		}
-		if (minutes < 10) {
-			minutes = '0' + minutes;
-		}
-		return hour + ':' + minutes + ' ' + ampm;
-	}
-
-	//Function returns true if at least one field in an object is true
-	containsAtLeastOneTrue(object) {
-		for (const field in object) {
-			if (object[field] === true) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	//Fetches all the information from the previous screens and actually creates the product and adds it to the
-	//database
-	async createProduct() {
-		this.setState({ isLoading: true });
-	}
-
-	//renders the screen
-	render() {
-		//Fetches the current schedule type from the stored state
-		const {
-			scheduleType,
-			isFromTimeShowing,
-			isToTimeShowing,
-			toTime,
-			fromTime,
-			daysSelected
-		} = this.state;
-
-		const timePicker = (
+	//Creates the function that returns a time picker component for each day
+	timePicker(day) {
+		return (
 			//If only specific times are selected, only the time pickers will be displayed
 			<View
 				style={{
@@ -206,7 +157,14 @@ export default class createScheduleScreen extends Component {
 
 				<TouchableOpacity
 					onPress={() => {
-						this.setState({ isFromTimeShowing: true, isToTimeShowing: false });
+						this.setState({
+							[day]: {
+								to: this.state[day].to,
+								from: this.state[day].from,
+								isToTimeShowing: false,
+								isFromTimeShowing: true
+							}
+						});
 					}}
 					style={{
 						borderWidth: 3,
@@ -219,9 +177,8 @@ export default class createScheduleScreen extends Component {
 						backgroundColor: colors.white,
 						color: colors.black
 					}}>
-					<Text style={fontStyles.subTextStyleBlack}>{fromTime}</Text>
+					<Text style={fontStyles.subTextStyleBlack}>{this.state[day].from}</Text>
 				</TouchableOpacity>
-
 				<View
 					style={{
 						justifyContent: 'center',
@@ -230,7 +187,6 @@ export default class createScheduleScreen extends Component {
 					}}></View>
 
 				<Text style={fontStyles.mainTextStyleBlack}>{strings.to}</Text>
-
 				<View
 					style={{
 						justifyContent: 'center',
@@ -241,7 +197,14 @@ export default class createScheduleScreen extends Component {
 				<TouchableOpacity
 					onPress={() => {
 						//Makes sure only one is visible at a time
-						this.setState({ isToTimeShowing: true, isFromTimeShowing: false });
+						this.setState({
+							[day]: {
+								to: this.state[day].to,
+								from: this.state[day].from,
+								isToTimeShowing: true,
+								isFromTimeShowing: false
+							}
+						});
 					}}
 					style={{
 						borderWidth: 3,
@@ -254,67 +217,75 @@ export default class createScheduleScreen extends Component {
 						backgroundColor: colors.white,
 						color: colors.black
 					}}>
-					<Text style={fontStyles.subTextStyleBlack}>{toTime}</Text>
+					<Text style={fontStyles.subTextStyleBlack}>{this.state[day].to}</Text>
 				</TouchableOpacity>
 				<DateTimePickerModal
 					is24Hour={false}
-					isVisible={isFromTimeShowing}
+					isVisible={this.state[day].isFromTimeShowing}
 					mode='time'
 					headerTextIOS={strings.PickATime}
 					onConfirm={(time) => {
 						//Sets the selected date, and makes the picker go away
 						this.setState({
-							fromTimeObject: time,
-							fromTime:
-								time.getHours() < 12
-									? time.getHours() + ':' + time.getMinutes() + ' AM'
-									: time.getHours() - 12 + ':' + time.getMinutes() + ' PM',
-							selectedTime:
-								Platform.OS === 'ios'
-									? time.toLocaleTimeString('en', {
-											hour: 'numeric',
-											minute: '2-digit',
-											hour12: true
-									  })
-									: this.getAndroidTime(time),
-							isFromTimeShowing: false
+							[day]: {
+								to: this.state[day].to,
+								from:
+									time.getHours() < 12
+										? time.getHours() + ':' + time.getMinutes() + ' AM'
+										: time.getHours() - 12 + ':' + time.getMinutes() + ' PM',
+								isFromTimeShowing: false,
+								isToTimeShowing: false
+							}
 						});
 					}}
 					onCancel={() => {
 						//Makes the picker go away
-						this.setState({ isFromTimeShowing: false });
+						this.setState({
+							[day]: {
+								to: this.state[day].to,
+								from: this.state[day].from,
+								isToTimeShowing: false,
+								isFromTimeShowing: false
+							}
+						});
 					}}
 				/>
 				<DateTimePickerModal
 					is24Hour={false}
-					isVisible={isToTimeShowing}
+					isVisible={this.state[day].isToTimeShowing}
 					mode='time'
 					onConfirm={(time) => {
 						//Sets the selected date, and makes the picker go away
 						this.setState({
-							toTimeObject: time,
-							toTime:
-								time.getHours() < 12
-									? time.getHours() + ':' + time.getMinutes() + ' AM'
-									: time.getHours() - 12 + ':' + time.getMinutes() + ' PM',
-							selectedTime:
-								Platform.OS === 'ios'
-									? time.toLocaleTimeString('en', {
-											hour: 'numeric',
-											minute: '2-digit',
-											hour12: true
-									  })
-									: this.getAndroidTime(time),
-							isToTimeShowing: false
+							[day]: {
+								to:
+									time.getHours() < 12
+										? time.getHours() + ':' + time.getMinutes() + ' AM'
+										: time.getHours() - 12 + ':' + time.getMinutes() + ' PM',
+								from: this.state[day].from,
+								isFromTimeShowing: false,
+								isToTimeShowing: false
+							}
 						});
 					}}
 					onCancel={() => {
 						//Makes the picker go away
-						this.setState({ isToTimeShowing: false });
+						this.setState({
+							[day]: {
+								to: this.state[day].to,
+								from: this.state[day].from,
+								isToTimeShowing: false,
+								isFromTimeShowing: false
+							}
+						});
 					}}
 				/>
 			</View>
 		);
+	}
+
+	//renders the screen
+	render() {
 		return (
 			<HelpView style={screenStyle.container}>
 				<TopBanner
@@ -340,95 +311,138 @@ export default class createScheduleScreen extends Component {
 							marginVertical: Dimensions.get('window').height * 0.02
 						}}></View>
 
-					<View style={{ flexDirection: 'row', marginLeft: Dimensions.get('window').height * 0.1 }}>
-						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
-							<Text style={fontStyles.bigTextStyleGray}>{strings.Monday}</Text>
-						</View>
-						{timePicker}
-					</View>
-
 					<View
 						style={{
-							justifyContent: 'center',
-							alignItems: 'center',
-							marginVertical: Dimensions.get('window').height * 0.01
-						}}></View>
-
-					<View style={{ flexDirection: 'row', marginLeft: Dimensions.get('window').height * 0.1 }}>
-						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
-							<Text style={fontStyles.bigTextStyleGray}>{strings.Tuesday}</Text>
-						</View>
-						{timePicker}
-					</View>
-
-					<View
-						style={{
-							justifyContent: 'center',
-							alignItems: 'center',
-							marginVertical: Dimensions.get('window').height * 0.01
-						}}></View>
-
-					<View style={{ flexDirection: 'row', marginLeft: Dimensions.get('window').height * 0.1 }}>
-						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
-							<Text style={fontStyles.bigTextStyleGray}>{strings.Wednesday}</Text>
-						</View>
-						{timePicker}
-					</View>
-
-					<View
-						style={{
-							justifyContent: 'center',
-							alignItems: 'center',
-							marginVertical: Dimensions.get('window').height * 0.01
-						}}></View>
-
-					<View style={{ flexDirection: 'row', marginLeft: Dimensions.get('window').height * 0.1 }}>
-						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
-							<Text style={fontStyles.bigTextStyleGray}>{strings.Thursday}</Text>
-						</View>
-						{timePicker}
-					</View>
-
-					<View
-						style={{
-							justifyContent: 'center',
-							alignItems: 'center',
-							marginVertical: Dimensions.get('window').height * 0.01
-						}}></View>
-
-					<View style={{ flexDirection: 'row', marginLeft: Dimensions.get('window').height * 0.1 }}>
-						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
-							<Text style={fontStyles.bigTextStyleGray}>{strings.Friday}</Text>
-						</View>
-						{timePicker}
-					</View>
-
-					<View
-						style={{
-							justifyContent: 'center',
-							alignItems: 'center',
-							marginVertical: Dimensions.get('window').height * 0.01
-						}}></View>
-
-					<View style={{ flexDirection: 'row', marginLeft: Dimensions.get('window').height * 0.1 }}>
-						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
-							<Text style={fontStyles.bigTextStyleGray}>{strings.Saturday}</Text>
-						</View>
-						{timePicker}
-					</View>
-
-					<View
-						style={{
-							justifyContent: 'center',
-							alignItems: 'center',
-							marginVertical: Dimensions.get('window').height * 0.01
-						}}></View>
-
-					<View style={{ flexDirection: 'row', marginLeft: Dimensions.get('window').height * 0.1 }}>
+							width: Dimensions.get('window').width,
+							justifyContent: 'flex-end',
+							flexDirection: 'row',
+							marginLeft: Dimensions.get('window').height * 0.15
+						}}>
 						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
 							<Text style={fontStyles.bigTextStyleGray}>{strings.Sunday}</Text>
 						</View>
-						{timePicker}
+						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('sunday')}</View>
+					</View>
+
+					<View
+						style={{
+							flexDirection: 'column',
+							justifyContent: 'center',
+							alignItems: 'center',
+							marginVertical: Dimensions.get('window').height * 0.01
+						}}></View>
+
+					<View
+						style={{
+							width: Dimensions.get('window').width,
+							justifyContent: 'flex-end',
+							flexDirection: 'row',
+							marginLeft: Dimensions.get('window').height * 0.15
+						}}>
+						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
+							<Text style={fontStyles.bigTextStyleGray}>{strings.Monday}</Text>
+						</View>
+						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('monday')}</View>
+					</View>
+
+					<View
+						style={{
+							justifyContent: 'center',
+							alignItems: 'center',
+							marginVertical: Dimensions.get('window').height * 0.01
+						}}></View>
+
+					<View
+						style={{
+							width: Dimensions.get('window').width,
+							justifyContent: 'flex-end',
+							flexDirection: 'row',
+							marginLeft: Dimensions.get('window').height * 0.15
+						}}>
+						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
+							<Text style={fontStyles.bigTextStyleGray}>{strings.Tuesday}</Text>
+						</View>
+						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('tuesday')}</View>
+					</View>
+
+					<View
+						style={{
+							justifyContent: 'center',
+							alignItems: 'center',
+							marginVertical: Dimensions.get('window').height * 0.01
+						}}></View>
+
+					<View
+						style={{
+							width: Dimensions.get('window').width,
+							justifyContent: 'flex-end',
+							flexDirection: 'row',
+							marginLeft: Dimensions.get('window').height * 0.15
+						}}>
+						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
+							<Text style={fontStyles.bigTextStyleGray}>{strings.Wednesday}</Text>
+						</View>
+						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('wednesday')}</View>
+					</View>
+
+					<View
+						style={{
+							justifyContent: 'center',
+							alignItems: 'center',
+							marginVertical: Dimensions.get('window').height * 0.01
+						}}></View>
+
+					<View
+						style={{
+							width: Dimensions.get('window').width,
+							justifyContent: 'flex-end',
+							flexDirection: 'row',
+							marginLeft: Dimensions.get('window').height * 0.15
+						}}>
+						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
+							<Text style={fontStyles.bigTextStyleGray}>{strings.Thursday}</Text>
+						</View>
+						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('thursday')}</View>
+					</View>
+
+					<View
+						style={{
+							justifyContent: 'center',
+							alignItems: 'center',
+							marginVertical: Dimensions.get('window').height * 0.01
+						}}></View>
+
+					<View
+						style={{
+							width: Dimensions.get('window').width,
+							justifyContent: 'flex-end',
+							flexDirection: 'row',
+							marginLeft: Dimensions.get('window').height * 0.15
+						}}>
+						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
+							<Text style={fontStyles.bigTextStyleGray}>{strings.Friday}</Text>
+						</View>
+						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('friday')}</View>
+					</View>
+
+					<View
+						style={{
+							justifyContent: 'center',
+							alignItems: 'center',
+							marginVertical: Dimensions.get('window').height * 0.01
+						}}></View>
+
+					<View
+						style={{
+							width: Dimensions.get('window').width,
+							justifyContent: 'flex-end',
+							flexDirection: 'row',
+							marginLeft: Dimensions.get('window').height * 0.15
+						}}>
+						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
+							<Text style={fontStyles.bigTextStyleGray}>{strings.Saturday}</Text>
+						</View>
+						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('saturday')}</View>
 					</View>
 
 					<View
@@ -470,28 +484,6 @@ export default class createScheduleScreen extends Component {
 					}}
 					title={strings.Whoops}
 					message={strings.PleaseSelectATime}
-				/>
-				<HelpAlert
-					isVisible={this.state.productCreated}
-					onPress={() => {
-						this.setState({ productCreated: false });
-						this.props.navigation.push('ProviderScreens', {
-							providerID: this.state.providerID
-						});
-					}}
-					title={strings.Success}
-					message={strings.ProductCreated}
-				/>
-				<HelpAlert
-					isVisible={this.state.productUpdated}
-					onPress={() => {
-						this.setState({ productUpdated: false });
-						this.props.navigation.push('ProviderScreens', {
-							providerID: this.state.providerID
-						});
-					}}
-					title={strings.Success}
-					message={strings.ProductUpdated}
 				/>
 				<HelpAlert
 					isVisible={this.state.isFromTimeGreaterErrorVisible}
