@@ -72,82 +72,6 @@ export default class providerAdditionalInformationScreen extends Component {
     accountSaved: false
   };
 
-  //This function takes all of the information that has been collected for the business and registers them  into the database
-  //while also making sure all required fields have been adequetly filled out. That is if this is the non-editing version of the
-  //screen. If this is an existing business editing their information, then it will overwrite their existing information in the data
-  //base.
-  async addProviderInfo() {
-    Keyboard.dismiss();
-
-    if (this.state.location === '' || this.state.phoneNumber === '') {
-      this.setState({ fieldsError: true });
-    } else {
-      this.setState({ isLoading: true });
-      try {
-        const {
-          businessName,
-          businessInfo,
-          email,
-          requesterAccountExists
-        } = this.props.navigation.state.params;
-        const { phoneNumber, website, location, coordinates } = this.state;
-
-        //If this is a new profile, then it will add them to Firebase Authentication in addition to adding them to the database
-        if (this.state.editing === false) {
-          firebase.auth().signInAnonymously();
-          const { password } = this.props.navigation.state.params;
-
-          let account = '';
-          if (requesterAccountExists === false) {
-            account = await firebase.auth().createUserWithEmailAndPassword(email, password);
-            await FirebaseFunctions.logIn(email, password);
-          } else {
-            account = await FirebaseFunctions.logIn(email, password);
-            account = account.split(' ');
-            account = account[1];
-          }
-          //Creates the base provider object
-          const provider = {
-            companyName: businessName,
-            companyDescription: businessInfo,
-            email,
-            isVerified: false,
-            serviceIDs: [],
-            phoneNumber,
-            website,
-            location,
-            coordinates,
-            providerID: account.user ? account.user.uid : account.substring(2)
-          };
-          await FirebaseFunctions.call('addProviderToDatabase', { newProvider: provider });
-          //Navigates to the screen where it tells the business to wait until their account has been verified
-          this.props.navigation.push('AccountNotVerifiedScreen');
-        } else {
-          //Creates the base provider object
-          const provider = {
-            companyName: businessName,
-            companyDescription: businessInfo,
-            phoneNumber,
-            website,
-            location,
-            coordinates
-          };
-          await FirebaseFunctions.call('updateProviderInfo', {
-            providerID: this.state.providerID,
-            newProviderInfo: provider
-          });
-          this.setState({ isLoading: false, accountSaved: true });
-        }
-      } catch (error) {
-        this.setState({ isLoading: false, isErrorVisible: true });
-        FirebaseFunctions.call('logIssue', {
-          error,
-          userID: 'ProviderAdditionalInformationScreen'
-        });
-      }
-    }
-  }
-
   //This function renders the screen
   render() {
     if (this.state.isLoadingScreen === true) {
@@ -258,12 +182,12 @@ export default class providerAdditionalInformationScreen extends Component {
               alignSelf: 'center'
             }}>
             <RoundBlueButton
-              title={this.state.editing === true ? strings.Done : strings.SignUp}
+              title={this.state.editing === true ? strings.Done : strings.Next}
               style={roundBlueButtonStyle.MediumSizeButton}
               textStyle={fontStyles.bigTextStyleWhite}
               isLoading={this.state.isLoading}
               onPress={() => {
-                this.addProviderInfo();
+                this.props.navigation.push('CreateBusinessSchedule');
               }}
               disabled={this.state.isLoading}
             />
