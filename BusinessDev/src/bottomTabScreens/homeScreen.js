@@ -33,8 +33,8 @@ class businessScreen extends Component {
   //Fetches the data associated with this screen
   async fetchDatabaseData() {
     //try {
-      const { providerID } = this.props.navigation.state.params;
-      const provider = await FirebaseFunctions.call('getProviderByID', { providerID });
+      const { businessID } = this.props.navigation.state.params;
+      const provider = await FirebaseFunctions.call('getBusinessByID', { businessID });
       this.setState({ provider });
       if (provider.serviceIDs.length === 0) {
         const image = await FirebaseFunctions.call('getCategoryImageByID', {

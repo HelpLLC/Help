@@ -45,7 +45,6 @@ export default class signUpScheduleScreen extends Component {
 			if (this.state.editing === false) {
 				firebase.auth().signInAnonymously();
 				const { password } = this.props.navigation.state.params;
-
 				//Fetches the account information based on whether the business also has a customer account
 				let account = '';
 				if (requesterAccountExists === false) {
@@ -56,12 +55,21 @@ export default class signUpScheduleScreen extends Component {
 					account = account.split(' ');
 					account = account[1];
 				}
+
+				//Removes the extra fields in the businessHours
+				let businessHours = { sunday, monday, tuesday, wednesday, thursday, friday, saturday };
+				for (let key of Object.keys(businessHours)) {
+					let value = businessHours[key];
+					delete value.isToTimeShowing;
+					delete value.isFromTimeShowing;
+					businessHours[key] = value;
+				}
 				//Adds the business to the databasae
 				await FirebaseFunctions.call('addBusinessToDatabase', {
 					//Fields for the business
 					businessName,
 					businessDescription: businessInfo,
-					businessHours: { sunday, monday, tuesday, wednesday, thursday, friday, saturday },
+					businessHours,
 					coordinates,
 					email,
 					location,
@@ -90,6 +98,31 @@ export default class signUpScheduleScreen extends Component {
 				this.setState({ isLoading: false, accountSaved: true });
 			}
 		}
+	}
+
+	//this local function will convert a time object to a format that can be understood by us
+	convertTime(time) {
+		let hours = time.getHours();
+		let minutes = time.getMinutes();
+		let AMPM = '';
+
+		if (minutes < 10) {
+			minutes = ('0' + minutes);
+		}
+
+		if (hours < 12) {
+			AMPM = ' AM';
+		} else {
+			AMPM = ' PM';
+		}
+
+		if (hours === 0) {
+			hours = 12;
+		} else if (hours > 12) {
+			hours -= 12;
+		}
+
+		return (hours.toString() + ':' + minutes.toString() + AMPM);
 	}
 
 	//if this screen is to edit existing business, it will fetch the correct fields
@@ -229,10 +262,8 @@ export default class signUpScheduleScreen extends Component {
 						this.setState({
 							[day]: {
 								to: this.state[day].to,
-								from:
-									time.getHours() < 12
-										? time.getHours() + ':' + time.getMinutes() + ' AM'
-										: time.getHours() - 12 + ':' + time.getMinutes() + ' PM',
+								from: this.convertTime(time),
+										
 								isFromTimeShowing: false,
 								isToTimeShowing: false
 							}
@@ -258,10 +289,7 @@ export default class signUpScheduleScreen extends Component {
 						//Sets the selected date, and makes the picker go away
 						this.setState({
 							[day]: {
-								to:
-									time.getHours() < 12
-										? time.getHours() + ':' + time.getMinutes() + ' AM'
-										: time.getHours() - 12 + ':' + time.getMinutes() + ' PM',
+								to: this.convertTime(time),
 								from: this.state[day].from,
 								isFromTimeShowing: false,
 								isToTimeShowing: false

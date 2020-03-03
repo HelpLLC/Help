@@ -37,9 +37,9 @@ export default class orderHistoryScreen extends Component {
 		);
 
 		//Fetches the most up to date version of the requester
-		const requesterID = this.props.navigation.state.params.requester.requesterID;
-		const requester = await FirebaseFunctions.call('getRequesterByID', {
-			requesterID: requesterID
+		const customerID = this.props.navigation.state.params.requester.requesterID;
+		const requester = await FirebaseFunctions.call('getCustomerByID', {
+			customerID: customerID
 		});
 		//Tests to see if the requester's account has been fully completed (used for pre-2.0 users)
 		if (!FirebaseFunctions.call('isRequesterUpToDate', { requesterObject: requester })) {

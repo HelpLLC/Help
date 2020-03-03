@@ -39,8 +39,8 @@ export default class serviceRequestedScreen extends Component {
 			ID: this.state.product.serviceID
 		});
 
-		const requester = await FirebaseFunctions.call('getRequesterByID', {
-			requesterID: this.props.navigation.state.params.requesterID
+		const requester = await FirebaseFunctions.call('getCustomerByID', {
+			customerID: this.props.navigation.state.params.customerID
 		});
 		//Fetches the request based
 		request = await FirebaseFunctions.call('getRequestByID', {
@@ -354,8 +354,8 @@ export default class serviceRequestedScreen extends Component {
 								requesterID: requester.requesterID,
 								requestID: request.requestID
 							});
-							const newRequesterObject = await FirebaseFunctions.call('getRequesterByID', {
-								requesterID: requester.requesterID
+							const newRequesterObject = await FirebaseFunctions.call('getCustomerByID', {
+								customerID: requester.customerID
 							});
 							const allProducts = await FirebaseFunctions.call('getAllProducts', {});
 							this.setState({

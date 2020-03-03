@@ -26,7 +26,7 @@ const database = admin.firestore();
 const storage = admin.storage().bucket();
 const fcm = admin.messaging();
 const businesses = database.collection('businesses');
-const requesters = database.collection('requesters');
+const customers = database.collection('customers');
 const products = database.collection('products');
 const conversations = database.collection('conversations');
 const requests = database.collection('requests');
@@ -108,7 +108,7 @@ const deleteRequest = async (productID, requesterID, requestID) => {
 		.collection('Requests')
 		.doc(requestID)
 		.delete();
-	await requesters
+	await customers
 		.doc(requesterID)
 		.collection('Requests')
 		.doc(requestID)
@@ -117,7 +117,7 @@ const deleteRequest = async (productID, requesterID, requestID) => {
 
 	//Fetches the necessary data to send a notification
 	const product = (await products.doc(productID).get()).data();
-	const requester = (await requesters.doc(requesterID).get()).data();
+	const requester = (await customers.doc(requesterID).get()).data();
 
 	//Notifies the business that the request has been deleted.
 	sendNotification(
@@ -140,9 +140,9 @@ exports.getAllBusinesses = functions.https.onCall(async (input, context) => {
 	return array;
 });
 
-//Method returns an array with all requesters
-exports.getAllRequesters = functions.https.onCall(async (input, context) => {
-	const snapshot = await requesters.get();
+//Method returns an array with all customers
+exports.getAllCustomers = functions.https.onCall(async (input, context) => {
+	const snapshot = await customers.get();
 	const array = await snapshot.docs.map((doc) => doc.data());
 
 	//Returns the array which contains all of the docs
@@ -175,8 +175,8 @@ exports.getAllRequests = functions.https.onCall(async (input, context) => {
 
 //Method fetches a provider by ID & returns the provider as an object. If the provider does not exist, returns -1
 exports.getBusinessByID = functions.https.onCall(async (input, context) => {
-	const { providerID } = input;
-	const ref = businesses.doc(providerID + '');
+	const { businessID } = input;
+	const ref = businesses.doc(businessID + '');
 	const doc = await ref.get();
 
 	if (doc.exists) {
@@ -186,10 +186,10 @@ exports.getBusinessByID = functions.https.onCall(async (input, context) => {
 	}
 });
 
-//Method fetches a requester by ID & returns the requester as an object. If the requester does not exist, returns -1
-exports.getRequesterByID = functions.https.onCall(async (input, context) => {
-	const { requesterID } = input;
-	const ref = requesters.doc(requesterID + '');
+//Method fetches a customer by ID & returns the customer as an object. If the customer does not exist, returns -1
+exports.getCustomerByID = functions.https.onCall(async (input, context) => {
+	const { customerID } = input;
+	const ref = customers.doc(customerID + '');
 	const doc = await ref.get();
 
 	if (doc.exists) {
@@ -236,7 +236,7 @@ exports.getConversationByID = functions.https.onCall(async (input, context) => {
 //Method fetches the array of completed subcollection level request objects that belong to a specific requester
 exports.getCompletedRequestsByRequesterID = functions.https.onCall(async (input, context) => {
 	const { requesterID } = input;
-	const completedServices = await requesters
+	const completedServices = await customers
 		.doc(requesterID)
 		.collection('Requests')
 		.where('isCompleted', '==', true)
@@ -248,7 +248,7 @@ exports.getCompletedRequestsByRequesterID = functions.https.onCall(async (input,
 //Method fetches the array of in progress subcollection level request objects that belong to a specific requester
 exports.getInProgressRequestsByRequesterID = functions.https.onCall(async (input, context) => {
 	const { requesterID } = input;
-	const inProgressServices = await requesters
+	const inProgressServices = await customers
 		.doc(requesterID)
 		.collection('Requests')
 		.where('isCompleted', '==', false)
@@ -313,7 +313,7 @@ exports.getAllUserConversations = functions.https.onCall(async (input, context) 
 //will contain objects containing two fields: the provider's ID and the provider's company name
 exports.getBlockedBusinessesByRequesterID = functions.https.onCall(async (input, context) => {
 	const { requesterID } = input;
-	const allDocs = await requesters
+	const allDocs = await customers
 		.doc(requesterID)
 		.collection('BlockedUsers')
 		.get();
@@ -404,7 +404,7 @@ exports.updateProviderByID = functions.https.onCall(async (input, context) => {
 //be the second parameter of the method. If the requester doesn't exist, then the method will return -1.
 exports.updateRequesterByID = functions.https.onCall(async (input, context) => {
 	const { requesterID, updates } = input;
-	const ref = requesters.doc(requesterID);
+	const ref = customers.doc(requesterID);
 	try {
 		await ref.update(updates);
 	} catch (error) {
@@ -541,7 +541,7 @@ exports.deleteService = functions.https.onCall(async (input, context) => {
 exports.addRequesterToDatabase = functions.https.onCall(async (input, context) => {
 	const { userID, phoneNumber, coordinates, city, name } = input;
 	const uid = userID;
-	const ref = requesters.doc(uid);
+	const ref = customers.doc(uid);
 
 	const newRequester = {
 		requesterID: uid,
@@ -576,7 +576,6 @@ exports.addRequesterToDatabase = functions.https.onCall(async (input, context) =
 //number. Must wait for verfication by developers (default value for "isVerified" is false), when switched to true,
 //user can log in
 exports.addBusinessToDatabase = functions.https.onCall(async (input, context) => {
-	console.log(1);
 	const {
 		//Fields for the business
 		businessName,
@@ -591,7 +590,6 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		phoneNumber,
 		isVerified
 	} = input;
-	console.log(2);
 	await businesses.doc(businessID).set({
 		businessName,
 		businessDescription,
@@ -605,7 +603,6 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		phoneNumber,
 		isVerified
 	});
-	console.log(3);
 	//Fetches the business's name and description from the params
 
 	//Configures the email subject, to, and from
@@ -614,7 +611,6 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		to: 'helpcocontact@gmail.com',
 		subject: 'New Business'
 	};
-	console.log(4);
 	//This is in the case that the user has not installed a new version of the app
 	if (!businessID) {
 		//The text of the email
@@ -669,9 +665,7 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 			businessID +
 			'\n\nHelp LLC';
 	}
-	console.log(5);
 	await mailTransport.sendMail(mailOptions);
-	console.log(6);
 	return 0;
 });
 
@@ -730,7 +724,7 @@ exports.sendMessage = functions.https.onCall(async (input, context) => {
 	//Retrieves the names of the requester and the provider so that can be added to the database
 	//as well
 	const provider = (await businesses.doc(providerID).get()).data();
-	const requester = (await requesters.doc(requesterID).get()).data();
+	const requester = (await customers.doc(requesterID).get()).data();
 	if (isNewConversation === true) {
 		const messageWithCorrectDate = {
 			_id: message[0]._id,
@@ -847,7 +841,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 				serviceID: newRequest.serviceID,
 				dateSelected: newRequest.dateSelected
 			});
-		await requesters
+		await customers
 			.doc(newRequest.requesterID)
 			.collection('Requests')
 			.doc(requestID)
@@ -860,7 +854,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 	}
 	//Fetches the correct fields in order to send a notification
 	const service = (await products.doc(newRequest.serviceID).get()).data();
-	const requester = (await requesters.doc(newRequest.requesterID).get()).data();
+	const requester = (await customers.doc(newRequest.requesterID).get()).data();
 
 	//If the request is a new one, then business will be notified. If it is an old one being edited, the business
 	//will be notified of that as well
@@ -914,7 +908,7 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 		.update({
 			isCompleted: true
 		});
-	await requesters
+	await customers
 		.doc(requesterID)
 		.collection('Requests')
 		.doc(requestID)
@@ -941,7 +935,7 @@ exports.deleteRequest = functions.https.onCall(async (input, context) => {
 //update the status of the review inside the requester's array of orderHistory.
 exports.submitReview = functions.https.onCall(async (input, context) => {
 	const { serviceID, requesterID, stars, comment, requestID } = input;
-	const requester = (await requesters.doc(requesterID).get()).data();
+	const requester = (await customers.doc(requesterID).get()).data();
 	review = {
 		requesterName: requester.username,
 		stars,
@@ -974,7 +968,7 @@ exports.submitReview = functions.https.onCall(async (input, context) => {
 	await requests.doc(requestID).update({ review: review });
 
 	//Indicates that the user has completed the review
-	await requesters
+	await customers
 		.doc(requesterID)
 		.collection('Requests')
 		.doc(requestID)
@@ -990,7 +984,7 @@ exports.submitReview = functions.https.onCall(async (input, context) => {
 exports.skipReview = functions.https.onCall(async (input, context) => {
 	const { requestID, requesterID } = input;
 	//Indicates that the user has skipped the review
-	await requesters
+	await customers
 		.doc(requesterID)
 		.collection('Requests')
 		.doc(requestID)
@@ -1007,7 +1001,7 @@ exports.skipReview = functions.https.onCall(async (input, context) => {
 //the subcollection. Also notifies the developers by  reporting the company
 exports.blockCompany = functions.https.onCall(async (input, context) => {
 	const { requester, provider } = input;
-	await requesters
+	await customers
 		.doc(requester.requesterID)
 		.collection('BlockedUsers')
 		.doc(provider.providerID)
@@ -1031,7 +1025,7 @@ exports.blockCompany = functions.https.onCall(async (input, context) => {
 //the requester's blocked businesses
 exports.unblockCompany = functions.https.onCall(async (input, context) => {
 	const { requesterID, providerID } = input;
-	await requesters
+	await customers
 		.doc(requesterID)
 		.collection('BlockedUsers')
 		.doc(providerID)
@@ -1108,7 +1102,7 @@ exports.isServiceRequestedByRequester = functions.https.onCall(async (input, con
 //to complete the review
 exports.isReviewDue = functions.https.onCall(async (input, context) => {
 	const { requesterID } = input;
-	const requestsSub = await requesters
+	const requestsSub = await customers
 		.doc(requesterID)
 		.collection('Requests')
 		.where('review', '==', 'Pending')
@@ -1168,7 +1162,7 @@ exports.filterProductsByRequesterBlockedUsers = functions.https.onCall(async (in
 	const filteredProducts = [];
 	for (const service of products) {
 		const { offeredByID } = service;
-		const doc = await requesters
+		const doc = await customers
 			.doc(requesterID)
 			.collection('BlockedUsers')
 			.doc(offeredByID)
@@ -1266,7 +1260,7 @@ exports.declineBusiness = functions.https.onRequest(async (req, res) => {
 		//Deletes the user object from firestore and deletes the user from Firebase Authentication (unless they have an existing requester object)
 		const firestore = admin.firestore();
 		const doc = await firestore
-			.collection('requesters')
+			.collection('customers')
 			.doc(providerID)
 			.get();
 		if (!doc.exists) {

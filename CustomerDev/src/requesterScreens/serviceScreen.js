@@ -54,9 +54,9 @@ class serviceScreen extends Component {
 	//Fetches the data associated with this screen
 	async fetchDatabaseData() {
 		try {
-			const { productID, requesterID, providerID } = this.props.navigation.state.params;
-			const requester = await FirebaseFunctions.call('getRequesterByID', { requesterID });
-			const provider = await FirebaseFunctions.call('getProviderByID', { providerID });
+			const { productID, requesterID, businessID } = this.props.navigation.state.params;
+			const requester = await FirebaseFunctions.call('getCustomerByID', { requesterID });
+			const provider = await FirebaseFunctions.call('getBusinessByID', { businessID });
 			const product = await FirebaseFunctions.call('getServiceByID', { serviceID: productID });
 			const url = await FirebaseFunctions.call('getProductImageByID', { ID: product.serviceID });
 			const isRequested = await FirebaseFunctions.call('isServiceRequestedByRequester', {
@@ -199,8 +199,8 @@ class serviceScreen extends Component {
 
 		//Navigates back to the request screen
 		try {
-			const newRequesterObject = await FirebaseFunctions.call('getRequesterByID', {
-				requesterID: requester.requesterID
+			const newRequesterObject = await FirebaseFunctions.call('getCustomerByID', {
+				customerID: requester.customerID
 			});
 			const allProducts = await FirebaseFunctions.call('getAllProducts', {});
 			this.setState({

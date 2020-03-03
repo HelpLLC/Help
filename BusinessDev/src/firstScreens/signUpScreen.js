@@ -71,7 +71,7 @@ class signUpScreen extends Component {
 			//the account
 			try {
 				const account = await FirebaseFunctions.logIn(email, password);
-				if (account.includes('IS_ONLY_REQUESTER')) {
+				if (account.includes('IS_ONLY_CUSTOMER')) {
 					this.setState({ requesterAccountExists: true });
 					throw new Error(
 						'There is no user record corresponding to this identifier. The user may have been deleted.'

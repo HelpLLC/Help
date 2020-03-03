@@ -63,7 +63,7 @@ class logInScreen extends Component {
 				//Will first test if the business has been verified. If it has not, then it will go to the screen
 				//which says your account has not yet been approved
 				const id = account.substring(2);
-				const provider = await FirebaseFunctions.call('getProviderByID', { providerID: id });
+				const provider = await FirebaseFunctions.call('getBusinessByID', { businessID: id });
 				if (provider.isVerified === true) {
 					//This means this account is a provider since a requester with this ID was not found
 					this.props.navigation.push('ProviderScreens', {

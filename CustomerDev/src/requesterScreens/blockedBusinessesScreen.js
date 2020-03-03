@@ -35,7 +35,7 @@ export default class blockedBusinessesScreen extends Component {
 	async componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('BlockedBusinessesScreen', 'blockedbusinessesScreen');
 		const { requesterID } = this.props.navigation.state.params;
-		const requester = await FirebaseFunctions.call('getRequesterByID', { requesterID });
+		const requester = await FirebaseFunctions.call('getCustomerByID', { customerID });
 		const allProducts = await FirebaseFunctions.call('getAllProducts', {});
 		const newBlockedUsersList = await FirebaseFunctions.call('getBlockedBusinessesByRequesterID', {
 			requesterID
@@ -137,7 +137,7 @@ export default class blockedBusinessesScreen extends Component {
 									providerID: companyClicked.providerID
 								});
 								//Gets the updated requester
-								const requester = await FirebaseFunctions.call('getRequesterByID', { requesterID });
+								const requester = await FirebaseFunctions.call('getCustomerByID', { customerID });
 								this.setState({
 									isCompanyHasBeenUnblockedVisible: true,
 									isLoading: false,
