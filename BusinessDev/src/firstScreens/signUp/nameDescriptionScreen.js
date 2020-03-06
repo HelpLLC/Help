@@ -7,38 +7,38 @@ import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import RoundBlueButton from '../components/RoundBlueButton';
-import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
-import LoadingSpinner from '../components/LoadingSpinner';
-import HelpView from '../components/HelpView';
-import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
+import RoundBlueButton from '../../components/RoundBlueButton';
+import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import HelpView from '../../components/HelpView';
+import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import HelpAlert from '../components/HelpAlert';
-import TopBanner from '../components/TopBanner';
+import HelpAlert from '../../components/HelpAlert';
+import TopBanner from '../../components/TopBanner';
 
 //The class that will create the look of this screen
-class createProviderProfileScreen extends Component {
+class nameDescriptionScreen extends Component {
 	//Method will detect if this screen is in editing mode, and will display the business's previous information if so
 	componentDidMount() {
 		const { editing } = this.props.navigation.state.params;
 		if (editing === true) {
 			FirebaseFunctions.setCurrentScreen(
-				'EditProviderProfileScreen',
-				'createProviderProfileScreen'
+				'EditNameDescriptionScreen',
+				'nameDescriptionScreen'
 			);
-			const { provider, providerID } = this.props.navigation.state.params;
+			const { business, businessID } = this.props.navigation.state.params;
 			this.setState({
-				businessInfo: provider.companyDescription,
-				businessName: provider.companyName,
-				providerID,
-				provider,
+				businessInfo: business.businessDescription,
+				businessName: business.businessName,
+				businessID,
+				business,
 				isLoadingScreen: false,
 				editing
 			});
 		} else {
 			FirebaseFunctions.setCurrentScreen(
-				'CreateProviderProfileScreen',
-				'createProviderProfileScreen'
+				'CreateNameDescriptionScreen',
+				'nameDescriptionScreen'
 			);
 			this.setState({
 				businessInfo: '',
@@ -78,22 +78,22 @@ class createProviderProfileScreen extends Component {
 			this.setState({ isLoading: true });
 
 			//Tests if this is an editing screen or not to go to the correct screen & pass the correct params
-			const { businessName, businessInfo, providerID, provider } = this.state;
+			const { businessName, businessInfo, businessID, business } = this.state;
 			if (this.state.editing === true) {
 				//navigates to the next screen
 				this.setState({ isLoading: false });
-				this.props.navigation.push('ProviderAdditionalInformationScreen', {
+				this.props.navigation.push('AdditionalInformationScreen', {
 					businessInfo,
 					businessName,
-					providerID,
-					provider,
+					business,
+					businessID,
 					editing: true
 				});
 			} else {
 				const { email, password } = this.props.navigation.state.params;
 				this.setState({ isLoading: false });
 				//navigates to the next screen
-				this.props.navigation.push('ProviderAdditionalInformationScreen', {
+				this.props.navigation.push('AdditionalInformationScreen', {
 					email,
 					password,
 					businessInfo,
@@ -218,4 +218,4 @@ class createProviderProfileScreen extends Component {
 }
 
 //exports the screen
-export default createProviderProfileScreen;
+export default nameDescriptionScreen;

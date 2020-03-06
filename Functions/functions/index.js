@@ -240,20 +240,6 @@ exports.getReviewsByServiceID = functions.https.onCall(async (input, context) =>
 	return arrayOfReviews;
 });
 
-//Method is going to take an ID of a service & return the number of current requests that service
-//currently has
-exports.getNumCurrentRequestByServiceID = functions.https.onCall(async (input, context) => {
-	const { serviceID } = input;
-	const number = (
-		await products
-			.doc(serviceID)
-			.collection('Requests')
-			.where('isCompleted', '==', false)
-			.get()
-	).docs.length;
-	return number;
-});
-
 //Method is going to take in an ID of a service & return all of the completed request object that are
 //associated with this service
 exports.getCompletedRequestsByServiceID = functions.https.onCall(async (input, context) => {
@@ -312,7 +298,7 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		coordinates,
 		email,
 		location,
-		serviceIDs,
+		services,
 		website,
 		businessID,
 		phoneNumber,
@@ -326,7 +312,7 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		businessID,
 		email,
 		location,
-		serviceIDs,
+		services,
 		website,
 		phoneNumber,
 		isVerified
@@ -368,6 +354,38 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 			'\n\nHelp LLC'
 	);
 	return 0;
+});
+
+//This function is going to take in fields for a business and a businessID and update that business's information in
+//firestore. It will also update any existing references to the business from existing documents
+exports.updateBusinessInformation = functions.https.onCall(async (input, context) => {
+	const {
+		businessName,
+		businessDescription,
+		businessHours,
+		coordinates,
+		location,
+		website,
+		phoneNumber,
+		businessID,
+		business
+	} = input;
+
+	await businesses.doc(businessID).update({
+		businessName,
+		businessDescription,
+		businessHours,
+		coordinates,
+		location,
+		website,
+		phoneNumber
+	});
+
+	for (const service of business.services) {
+		await services.doc(service.serviceID).update({
+			businessName
+		});
+	}
 });
 
 //This method will take information about a new service and add it to the firestore database. It will

@@ -15,7 +15,7 @@ import TopBanner from '../components/TopBanner';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 //The class for this screen
-class productHistoryScreen extends Component {
+class serviceHistoryScreen extends Component {
   state = {
     isLoading: true,
     completedRequests: false
@@ -128,4 +128,4 @@ class productHistoryScreen extends Component {
 }
 
 //Exports the screen
-export default productHistoryScreen;
+export default serviceHistoryScreen;

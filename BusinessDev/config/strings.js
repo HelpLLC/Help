@@ -66,11 +66,10 @@ export default {
 	BusinessSignUp: 'Business Sign Up',
 	Next: 'Next',
 
-	//------------------- Customer Sign Up Screen -------------------
+	//------------------- Business Sign Up Screen -------------------
 	City: 'City',
 	Name: 'Name',
 	EnterCityDotDotDot: 'Enter city...',
-	AccountSaved: 'Your account has been saved.',
 	PleaseEnterName: 'Please enter your name...',
 	MyProfile: 'My Profile',
 
@@ -190,6 +189,8 @@ export default {
 	Friday: 'Fri',
 	Saturday: 'Sat',
 	Sunday: 'Sun',
+	BusinessUpdated: 'Business Updated',
+	BusinessUpdatedMessage: 'Your business information has been updated.',
 
 	//------------------- Create Questions Screen -------------------
 	InfoFromCustomersQuestion:

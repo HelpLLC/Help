@@ -18,7 +18,7 @@ import TopBanner from '../components/TopBanner';
 import ViewMoreText from 'react-native-view-more-text';
 
 //The class representing the screen
-class productScreen extends Component {
+class serviceScreen extends Component {
   //Initializes the loading state
   constructor() {
     super();
@@ -293,4 +293,4 @@ class productScreen extends Component {
 }
 
 //Exports the screen
-export default productScreen;
+export default serviceScreen;

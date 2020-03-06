@@ -5,13 +5,13 @@ import { View, Text, Dimensions } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import RoundBlueButton from '../components/RoundBlueButton';
-import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
-import HelpView from '../components/HelpView';
+import RoundBlueButton from '../../components/RoundBlueButton';
+import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
+import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
-import TopBanner from '../components/TopBanner';
-import FirebaseFunctions from '../../config/FirebaseFunctions';
-import HelpAlert from '../components/HelpAlert';
+import TopBanner from '../../components/TopBanner';
+import FirebaseFunctions from '../../../config/FirebaseFunctions';
+import HelpAlert from '../../components/HelpAlert';
 
 //The class that will create the look of this screen
 class forgotPasswordScreen extends Component {

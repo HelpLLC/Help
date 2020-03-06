@@ -23,7 +23,7 @@ import FastImage from 'react-native-fast-image';
 import OptionPicker from '../components/OptionPicker';
 import colors from 'config/colors';
 
-class createProductScreen extends Component {
+class createServiceScreen extends Component {
 	state = {
 		isScreenLoading: true,
 		isLoading: false,
@@ -603,4 +603,4 @@ class createProductScreen extends Component {
 }
 
 //Exports the class
-export default createProductScreen;
+export default createServiceScreen;

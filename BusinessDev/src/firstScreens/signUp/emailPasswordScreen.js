@@ -7,19 +7,19 @@ import strings from 'config/strings';
 import CheckBox from 'react-native-check-box';
 import colors from 'config/colors';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import RoundBlueButton from '../components/RoundBlueButton';
-import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
-import HelpView from '../components/HelpView';
+import RoundBlueButton from '../../components/RoundBlueButton';
+import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
+import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
-import FirebaseFunctions from '../../config/FirebaseFunctions';
-import TopBanner from '../components/TopBanner';
+import FirebaseFunctions from '../../../config/FirebaseFunctions';
+import TopBanner from '../../components/TopBanner';
 import { Icon } from 'react-native-elements';
-import HelpAlert from '../components/HelpAlert';
+import HelpAlert from '../../components/HelpAlert';
 
 //The class that will create the look of this screen
-class signUpScreen extends Component {
+class emailPasswordScreen extends Component {
 	componentDidMount() {
-		FirebaseFunctions.setCurrentScreen('SignUpScreen', 'signUpScreen');
+		FirebaseFunctions.setCurrentScreen('EmailPasswordScreen', 'emailPasswordScreen');
 	}
 
 	//The state which will contain whatever the user typed in, along with the selected account type
@@ -88,7 +88,7 @@ class signUpScreen extends Component {
 					//If this is a new business account, then it will navigate to the create provider
 					//profile screen to finish creating the account there
 					this.setState({ isLoading: false });
-					this.props.navigation.push('CreateProviderProfileScreen', {
+					this.props.navigation.push('NameDescriptionScreen', {
 						email,
 						password,
 						editing: false,
@@ -96,7 +96,7 @@ class signUpScreen extends Component {
 					});
 				} else {
 					this.setState({ isLoading: false, isErrorVisible: true });
-					FirebaseFunctions.call('logIssue', { error, userID: 'SignUpScreen' });
+					FirebaseFunctions.call('logIssue', { error, userID: 'EmailPasswordScreen' });
 				}
 			}
 		}
@@ -281,4 +281,4 @@ class signUpScreen extends Component {
 }
 
 //Exports the screen
-export default signUpScreen;
+export default emailPasswordScreen;

@@ -6,13 +6,13 @@ import { View, Text, Keyboard, TouchableOpacity, Dimensions } from 'react-native
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import RoundBlueButton from '../components/RoundBlueButton';
-import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
-import HelpView from '../components/HelpView';
+import RoundBlueButton from '../../components/RoundBlueButton';
+import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
+import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
-import TopBanner from '../components/TopBanner';
-import HelpAlert from '../components/HelpAlert';
-import FirebaseFunctions from '../../config/FirebaseFunctions';
+import TopBanner from '../../components/TopBanner';
+import HelpAlert from '../../components/HelpAlert';
+import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import { Icon } from 'react-native-elements';
 import colors from 'config/colors';
 
@@ -66,7 +66,7 @@ class logInScreen extends Component {
 				const provider = await FirebaseFunctions.call('getBusinessByID', { businessID: id });
 				if (provider.isVerified === true) {
 					//This means this account is a provider since a requester with this ID was not found
-					this.props.navigation.push('ProviderScreens', {
+					this.props.navigation.push('BusinessScreens', {
 						providerID: account.substring(2)
 					});
 				} else {

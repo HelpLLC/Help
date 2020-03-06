@@ -4,10 +4,10 @@ import React, { Component } from 'react';
 import { View, Text, Dimensions } from 'react-native';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
-import HelpView from '../components/HelpView';
+import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../../components/TopBanner';
 
 export default class accountNotVerified extends Component {
 	componentWillMount() {

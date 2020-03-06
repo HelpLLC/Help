@@ -1,22 +1,101 @@
 //This screen is going to be navigated in the first screens. It'll be used to set the business schedule. It is accessed from
 //the providerAdditionalInformationScreen
 import React, { Component } from 'react';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../../components/TopBanner';
 import strings from 'config/strings';
-import RoundBlueButton from '../components/RoundBlueButton';
+import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import HelpView from '../components/HelpView';
+import HelpView from '../../components/HelpView';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import screenStyle from 'config/styles/screenStyle';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
-import HelpAlert from '../components/HelpAlert';
+import HelpAlert from '../../components/HelpAlert';
 import { View, Text, Dimensions, TouchableOpacity, Keyboard } from 'react-native';
 import firebase from 'react-native-firebase';
 import FirebaseFunctions from 'config/FirebaseFunctions';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 //exports and creates the class
-export default class signUpScheduleScreen extends Component {
+export default class createScheduleScreen extends Component {
+	//Controls the state of the screen (what type of schedule the business wants to use)
+	//Also controls the loading state
+	state = {
+		isScreenLoading: true,
+		isFromTimeShowing: false,
+		isToTimeShowing: false,
+		businessUpdated: false,
+		isLoading: false,
+		isTimesErrorVisible: false
+	};
+
+	//if this screen is to edit existing business, it will fetch the correct fields
+	async componentDidMount() {
+		//Determines whether its editing or not
+		const { editing } = this.props.navigation.state.params;
+		if (editing === true) {
+			FirebaseFunctions.setCurrentScreen('EditScheduleScreen', 'createScheduleScreen');
+			const {
+				businessName,
+				businessInfo,
+				phoneNumber,
+				website,
+				location,
+				coordinates,
+				editing,
+				business,
+				businessID
+			} = this.props.navigation.state.params;
+			this.setState({
+				businessName,
+				businessInfo,
+				phoneNumber,
+				website,
+				location,
+				coordinates,
+				editing,
+				business,
+				businessID,
+				isScreenLoading: false,
+				...business.businessHours
+			});
+		} else {
+			FirebaseFunctions.setCurrentScreen('CreateScheduleScreen', 'createScheduleScreen');
+			this.setState({
+				monday: {
+					from: '9:00 AM',
+					to: '5:00 PM'
+				},
+				tuesday: {
+					from: '9:00 AM',
+					to: '5:00 PM'
+				},
+				wednesday: {
+					from: '9:00 AM',
+					to: '5:00 PM'
+				},
+				thursday: {
+					from: '9:00 AM',
+					to: '5:00 PM'
+				},
+				friday: {
+					from: '9:00 AM',
+					to: '5:00 PM'
+				},
+				saturday: {
+					from: '9:00 AM',
+					to: '5:00 PM'
+				},
+				sunday: {
+					from: '9:00 AM',
+					to: '5:00 PM'
+				},
+				editing,
+				isScreenLoading: false
+			});
+		}
+	}
+
 	//This function takes all of the information that has been collected for the business and registers them  into the database
 	//while also making sure all required fields have been adequetly filled out. That is if this is the non-editing version of the
 	//screen. If this is an existing business editing their information, then it will overwrite their existing information in the data
@@ -49,21 +128,18 @@ export default class signUpScheduleScreen extends Component {
 					//Does nothing
 				} else if (from.indexOf('PM') !== -1 && to.indexOf('AM') !== -1) {
 					this.setState({ isTimesErrorVisible: true, isLoading: false });
-					console.log(1)
 					return;
 				} else {
 					const fromHour = from.substring(0, from.indexOf(':'));
 					const toHour = to.substring(0, to.indexOf(':'));
-					if ((parseInt(toHour) < parseInt(fromHour)) && parseInt(fromHour) !== 12) {
+					if (parseInt(toHour) < parseInt(fromHour) && parseInt(fromHour) !== 12) {
 						this.setState({ isTimesErrorVisible: true, isLoading: false });
-						console.log(2);
 						return;
 					} else if (fromHour === toHour) {
 						const fromMin = from.substring(from.indexOf(':') + 1, from.indexOf(' '));
 						const toMin = to.substring(to.indexOf(':') + 1, to.indexOf(' '));
 						if (parseInt(toMin) < parseInt(fromMin)) {
 							this.setState({ isTimesErrorVisible: true, isLoading: false });
-							console.log(3);
 							return;
 						}
 					}
@@ -101,7 +177,7 @@ export default class signUpScheduleScreen extends Component {
 					coordinates,
 					email,
 					location,
-					serviceIDs: [],
+					services: [],
 					website,
 					phoneNumber,
 					isVerified: false,
@@ -110,20 +186,27 @@ export default class signUpScheduleScreen extends Component {
 				//Navigates to the screen where it tells the business to wait until their account has been verified
 				this.props.navigation.push('AccountNotVerifiedScreen');
 			} else {
-				//Creates the base provider object
-				const provider = {
-					companyName: businessName,
-					companyDescription: businessInfo,
-					phoneNumber,
-					website,
+				//Removes the extra fields in the businessHours
+				for (let key of Object.keys(businessHours)) {
+					let value = businessHours[key];
+					delete value.isToTimeShowing;
+					delete value.isFromTimeShowing;
+					businessHours[key] = value;
+				}
+				//Adds the business to the databasae
+				await FirebaseFunctions.call('updateBusinessInformation', {
+					//Fields for the business
+					businessName,
+					businessDescription: businessInfo,
+					businessHours,
+					coordinates,
 					location,
-					coordinates
-				};
-				await FirebaseFunctions.call('updateProviderInfo', {
-					providerID: this.state.providerID,
-					newProviderInfo: provider
+					website,
+					phoneNumber,
+					businessID: this.state.businessID,
+					business: this.state.business
 				});
-				this.setState({ isLoading: false, accountSaved: true });
+				this.setState({ isLoading: false, businessUpdated: true });
 			}
 		}
 	}
@@ -152,49 +235,6 @@ export default class signUpScheduleScreen extends Component {
 
 		return hours.toString() + ':' + minutes.toString() + AMPM;
 	}
-
-	//if this screen is to edit existing business, it will fetch the correct fields
-	async componentDidMount() {
-		FirebaseFunctions.setCurrentScreen('SignUpScheduleScreen', 'signUpScheduleScreen');
-	}
-	//Controls the state of the screen (what type of schedule the business wants to use)
-	//Also controls the loading state
-	state = {
-		monday: {
-			from: '9:00 AM',
-			to: '5:00 PM'
-		},
-		tuesday: {
-			from: '9:00 AM',
-			to: '5:00 PM'
-		},
-		wednesday: {
-			from: '9:00 AM',
-			to: '5:00 PM'
-		},
-		thursday: {
-			from: '9:00 AM',
-			to: '5:00 PM'
-		},
-		friday: {
-			from: '9:00 AM',
-			to: '5:00 PM'
-		},
-		saturday: {
-			from: '9:00 AM',
-			to: '5:00 PM'
-		},
-		sunday: {
-			from: '9:00 AM',
-			to: '5:00 PM'
-		},
-		isScreenLoading: false,
-		isFromTimeShowing: false,
-		isToTimeShowing: false,
-		isLoading: false,
-		isTimesErrorVisible: false,
-		editing: false
-	};
 
 	//Creates the function that returns a time picker component for each day
 	timePicker(day) {
@@ -340,6 +380,20 @@ export default class signUpScheduleScreen extends Component {
 
 	//renders the screen
 	render() {
+		if (this.state.isScreenLoading === true) {
+			return (
+				<HelpView style={screenStyle.container}>
+					<TopBanner
+						title={strings.BusinessHours}
+						leftIconName='angle-left'
+						leftOnPress={() => this.props.navigation.goBack()}
+					/>
+					<View>
+						<LoadingSpinner isVisible={true} />
+					</View>
+				</HelpView>
+			);
+		}
 		return (
 			<HelpView style={screenStyle.container}>
 				<TopBanner
@@ -507,7 +561,7 @@ export default class signUpScheduleScreen extends Component {
 							alignItems: 'flex-end'
 						}}>
 						<RoundBlueButton
-							title={strings.SignUp}
+							title={this.state.editing ? strings.Done : strings.SignUp}
 							isLoading={this.state.isLoading}
 							style={roundBlueButtonStyle.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
@@ -526,6 +580,17 @@ export default class signUpScheduleScreen extends Component {
 					}}
 					title={strings.Whoops}
 					message={strings.ToTimeMustBeAfterFromTime}
+				/>
+				<HelpAlert
+					isVisible={this.state.businessUpdated}
+					onPress={() => {
+						this.setState({ businessUpdated: false });
+						this.props.navigation.push('BusinessScreens', {
+							businessID: this.state.businessID
+						});
+					}}
+					title={strings.BusinessUpdated}
+					message={strings.BusinessUpdatedMessage}
 				/>
 			</HelpView>
 		);
