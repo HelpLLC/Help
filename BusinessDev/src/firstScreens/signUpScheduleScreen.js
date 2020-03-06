@@ -40,6 +40,35 @@ export default class signUpScheduleScreen extends Component {
 				coordinates
 			} = this.props.navigation.state.params;
 			const { sunday, monday, tuesday, wednesday, thursday, friday, saturday } = this.state;
+			let businessHours = { sunday, monday, tuesday, wednesday, thursday, friday, saturday };
+			//Tests to make sure that the hours are in the correct order (from is before to)
+			for (let key of Object.keys(businessHours)) {
+				const value = businessHours[key];
+				const { from, to } = value;
+				if (from.indexOf('AM') !== -1 && to.indexOf('PM') !== -1) {
+					//Does nothing
+				} else if (from.indexOf('PM') !== -1 && to.indexOf('AM') !== -1) {
+					this.setState({ isTimesErrorVisible: true, isLoading: false });
+					console.log(1)
+					return;
+				} else {
+					const fromHour = from.substring(0, from.indexOf(':'));
+					const toHour = to.substring(0, to.indexOf(':'));
+					if ((parseInt(toHour) < parseInt(fromHour)) && parseInt(fromHour) !== 12) {
+						this.setState({ isTimesErrorVisible: true, isLoading: false });
+						console.log(2);
+						return;
+					} else if (fromHour === toHour) {
+						const fromMin = from.substring(from.indexOf(':') + 1, from.indexOf(' '));
+						const toMin = to.substring(to.indexOf(':') + 1, to.indexOf(' '));
+						if (parseInt(toMin) < parseInt(fromMin)) {
+							this.setState({ isTimesErrorVisible: true, isLoading: false });
+							console.log(3);
+							return;
+						}
+					}
+				}
+			}
 
 			//If this is a new profile, then it will add them to Firebase Authentication in addition to adding them to the database
 			if (this.state.editing === false) {
@@ -57,7 +86,6 @@ export default class signUpScheduleScreen extends Component {
 				}
 
 				//Removes the extra fields in the businessHours
-				let businessHours = { sunday, monday, tuesday, wednesday, thursday, friday, saturday };
 				for (let key of Object.keys(businessHours)) {
 					let value = businessHours[key];
 					delete value.isToTimeShowing;
@@ -107,7 +135,7 @@ export default class signUpScheduleScreen extends Component {
 		let AMPM = '';
 
 		if (minutes < 10) {
-			minutes = ('0' + minutes);
+			minutes = '0' + minutes;
 		}
 
 		if (hours < 12) {
@@ -122,7 +150,7 @@ export default class signUpScheduleScreen extends Component {
 			hours -= 12;
 		}
 
-		return (hours.toString() + ':' + minutes.toString() + AMPM);
+		return hours.toString() + ':' + minutes.toString() + AMPM;
 	}
 
 	//if this screen is to edit existing business, it will fetch the correct fields
@@ -161,12 +189,10 @@ export default class signUpScheduleScreen extends Component {
 			to: '5:00 PM'
 		},
 		isScreenLoading: false,
-		isFromTimeGreaterErrorVisible: false,
 		isFromTimeShowing: false,
 		isToTimeShowing: false,
 		isLoading: false,
 		isTimesErrorVisible: false,
-		isDaysErrorVisible: false,
 		editing: false
 	};
 
@@ -263,7 +289,7 @@ export default class signUpScheduleScreen extends Component {
 							[day]: {
 								to: this.state[day].to,
 								from: this.convertTime(time),
-										
+
 								isFromTimeShowing: false,
 								isToTimeShowing: false
 							}
@@ -494,12 +520,12 @@ export default class signUpScheduleScreen extends Component {
 					</View>
 				</View>
 				<HelpAlert
-					isVisible={this.state.isFromTimeGreaterErrorVisible}
+					isVisible={this.state.isTimesErrorVisible}
 					onPress={() => {
-						this.setState({ isFromTimeGreaterErrorVisible: false });
+						this.setState({ isTimesErrorVisible: false });
 					}}
 					title={strings.Whoops}
-					message={strings.FromTimeIsMoreThanToTime}
+					message={strings.ToTimeMustBeAfterFromTime}
 				/>
 			</HelpView>
 		);

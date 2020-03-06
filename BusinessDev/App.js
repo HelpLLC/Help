@@ -10,7 +10,6 @@ import firebase from 'react-native-firebase';
 //Launches the app with the persisted store
 class App extends Component {
 	render() {
-		firebase.auth().signOut();
 		Icon.loadFont();
 		//Ignores a specific warning
 		YellowBox.ignoreWarnings([

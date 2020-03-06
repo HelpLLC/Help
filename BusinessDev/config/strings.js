@@ -182,6 +182,7 @@ export default {
 
 	//------------------- Create Schedule Screen -------------------
 	BusinessHours: 'Business Hours',
+	ToTimeMustBeAfterFromTime: 'The \'To\' time needs to be after the \'from\' time.',
 	Monday: 'Mon',
 	Tuesday: 'Tue',
 	Wednesday: 'Wed',
