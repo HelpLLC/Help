@@ -98,6 +98,15 @@ const deleteRequest = async (serviceID, customerID, requestID) => {
 	const service = (await products.doc(serviceID).get()).data();
 	const customer = (await customers.doc(customerID).get()).data();
 
+	//Decrements the numRequests for the service
+	let business = (await businesses.doc(service.businessID).get()).data();
+	const indexOfService = business.services.findIndex((element) => element.serviceID === serviceID);
+	business.services[indexOfService].numCurrentRequests =
+		business.services[indexOfService].numCurrentRequests - 1;
+	await businesses.doc(service.businessID).update({
+		services: business.services
+	});
+
 	//Notifies the business that the request has been deleted.
 	sendNotification(
 		'b-' + service.businessID,
@@ -427,7 +436,13 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 	await newServiceDocument.update({ serviceID });
 
 	await businesses.doc(businessID).update({
-		serviceIDs: admin.firestore.FieldValue.arrayUnion(serviceID)
+		services: admin.firestore.FieldValue.arrayUnion({
+			numCurrentRequests: 0,
+			serviceID,
+			serviceDescription,
+			serviceTitle,
+			price
+		})
 	});
 
 	return serviceID;
@@ -557,6 +572,15 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 			status,
 			time
 		})
+	});
+
+	//Increments the numRequests for the service
+	let business = (await businesses.doc(businessID).get()).data();
+	const indexOfService = business.services.findIndex((element) => element.serviceID === serviceID);
+	business.services[indexOfService].numCurrentRequests =
+		business.services[indexOfService].numCurrentRequests + 1;
+	await businesses.doc(businessID).update({
+		services: business.services
 	});
 
 	sendNotification('b-' + businessID, 'New Request', 'You have a new request for ' + serviceTitle);
@@ -703,6 +727,17 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 	service.currentRequests.splice(indexOfServiceRequest, 1);
 	await services.doc(request.serviceID).update({
 		currentRequests: service.currentRequests
+	});
+
+	//Increments the numRequests for the service
+	let business = (await businesses.doc(service.businessID).get()).data();
+	const indexOfService = business.services.findIndex(
+		(element) => element.serviceID === service.serviceID
+	);
+	business.services[indexOfService].numCurrentRequests =
+		business.services[indexOfService].numCurrentRequests - 1;
+	await businesses.doc(service.businessID).update({
+		services: business.services
 	});
 
 	return 0;
