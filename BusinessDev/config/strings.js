@@ -214,6 +214,9 @@ export default {
 	SimultaneousRequests: 'Simultaneous Requests',
 	SimultaneousRequestsMessage:
 		'This means how many requests of this service can you do at the same time. For example, if you had two people, and it only takes one person to complete the request, then you could do two requests at the same time.',
+	HowWillCustomersPay: 'How will customers pay for this service?',
+	Cash: 'Cash',
+	CreditDebitCard: 'Credit/Debit Card',
 
 	//------------------- Edit Company Profile Screen -------------------
 	EditCompany: 'Edit Company',

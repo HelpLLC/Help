@@ -377,7 +377,7 @@ exports.updateBusinessInformation = functions.https.onCall(async (input, context
 		website,
 		phoneNumber,
 		businessID,
-		business
+		business,
 	} = input;
 
 	await businesses.doc(businessID).update({
@@ -415,7 +415,9 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 		questions,
 		serviceDescription,
 		serviceTitle,
-		totalReviews
+		totalReviews,
+		cash,
+		card
 	} = input;
 
 	//Adds the service to the collection
@@ -434,6 +436,8 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 		questions,
 		serviceDescription,
 		serviceTitle,
+		card,
+		cash,
 		totalReviews
 	});
 
@@ -466,7 +470,9 @@ exports.updateServiceInformation = functions.https.onCall(async (input, context)
 		serviceDescription,
 		serviceTitle,
 		serviceID,
-		businessID
+		businessID,
+		card,
+		cash
 	} = input;
 
 	await services.doc(serviceID).update({
@@ -476,6 +482,8 @@ exports.updateServiceInformation = functions.https.onCall(async (input, context)
 		price,
 		questions,
 		serviceDescription,
+		card,
+		cash,
 		serviceTitle
 	});
 

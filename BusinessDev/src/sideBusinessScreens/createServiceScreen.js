@@ -77,6 +77,8 @@ class createServiceScreen extends Component {
 			this.setState({
 				serviceTitle: '',
 				serviceDescription: '',
+				business: this.props.navigation.state.params.business,
+				businessID: this.props.navigation.state.params.businessID,
 				imageSource: images.BlankWhite,
 				isScreenLoading: false,
 				editing: false,

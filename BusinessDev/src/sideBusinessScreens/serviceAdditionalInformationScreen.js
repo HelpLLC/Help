@@ -18,7 +18,9 @@ class serviceAdditionalInformationScreen extends Component {
 		isScreenLoading: true,
 		simultaneousRequestsInfoVisible: false,
 		fieldsError: false,
-		isLoading: false
+		isLoading: false,
+		cash: false,
+		card: false
 	};
 	componentDidMount() {
 		if (this.props.navigation.state.params.editing === true) {
@@ -27,12 +29,14 @@ class serviceAdditionalInformationScreen extends Component {
 				'serviceAdditionalInformationScreen'
 			);
 			const { service, serviceID } = this.props.navigation.state.params;
-			const { simultaneousRequests, serviceDuration } = service;
+			const { simultaneousRequests, serviceDuration, card, cash } = service;
 			this.setState({
 				service,
 				serviceID,
 				simultaneousRequests,
 				serviceDuration,
+				cash,
+				card,
 				editing: true
 			});
 		} else {
@@ -48,12 +52,14 @@ class serviceAdditionalInformationScreen extends Component {
 	//Either creates or edits the completed service
 	async finishService() {
 		this.setState({ isLoading: true });
-		const { serviceDuration, simultaneousRequests } = this.state;
+		const { serviceDuration, simultaneousRequests, card, cash } = this.state;
 		if (
 			serviceDuration === '' ||
 			simultaneousRequests === '' ||
 			simultaneousRequests === '0' ||
-			serviceDuration === '0'
+			serviceDuration === '0' ||
+			(card === false &&
+			cash === false)
 		) {
 			this.setState({ isLoading: false, fieldsError: true });
 		} else {
@@ -87,6 +93,8 @@ class serviceAdditionalInformationScreen extends Component {
 				price,
 				questions,
 				serviceDescription,
+				cash,
+				card,
 				serviceTitle,
 				totalReviews: 0
 			};
@@ -96,8 +104,7 @@ class serviceAdditionalInformationScreen extends Component {
 					...finalService,
 					serviceID: this.state.serviceID
 				});
-				if (response !== null) {
-					await FirebaseFunctions.storage.ref('services/' + this.state.serviceID).delete();
+				if (response) {
 					//Handles the logic for uploading the image to Firebase
 					//Fetches the absolute path of the image (depending on android or ios)
 					let absolutePath = '';
@@ -107,7 +114,9 @@ class serviceAdditionalInformationScreen extends Component {
 						absolutePath = response.path;
 					}
 					//Creates the reference & uploads the image (async)
-					await FirebaseFunctions.storage.ref('services/' + this.state.serviceID).putFile(absolutePath);
+					await FirebaseFunctions.storage
+						.ref('services/' + this.state.serviceID)
+						.putFile(absolutePath);
 				}
 			} else {
 				const serviceID = await FirebaseFunctions.call('addServiceToDatabase', finalService);
@@ -195,7 +204,9 @@ class serviceAdditionalInformationScreen extends Component {
 						style={{
 							flexDirection: 'row',
 							alignItems: 'center',
-							marginTop: Dimensions.get('window').height * 0.02
+							justifyContent: 'flex-start',
+							marginTop: Dimensions.get('window').height * 0.02,
+							width: Dimensions.get('window').width * 0.85
 						}}>
 						<Text style={[{ textAlign: 'center' }, fontStyles.bigTextStyleBlack]}>
 							{strings.AmountOfServicesAtATime}
@@ -227,9 +238,66 @@ class serviceAdditionalInformationScreen extends Component {
 				</View>
 				<View
 					style={{
+						marginTop: Dimensions.get('window').height * 0.025,
+						marginHorizontal: Dimensions.get('window').width * 0.05
+					}}>
+					<Text style={[{ textAlign: 'center' }, fontStyles.bigTextStyleBlack]}>
+						{strings.HowWillCustomersPay}
+					</Text>
+					<View
+						style={{
+							marginTop: Dimensions.get('window').height * 0.025
+						}}>
+						<RoundBlueButton
+							title={strings.Cash}
+							//Tests if this button is selected, if it is, then the border color will
+							//be blue
+							style={[
+								roundBlueButtonStyle.AccountTypeButton,
+								{
+									//Width increased for longer text
+									width: Dimensions.get('window').width * 0.75,
+									borderColor: this.state.cash === true ? colors.lightBlue : colors.white
+								}
+							]}
+							textStyle={fontStyles.mainTextStyleBlue}
+							//Method selects the cash button and deselects the card
+							onPress={() => {
+								this.setState({ cash: true, card: false })
+							}}
+							disabled={this.state.isLoading}
+						/>
+					</View>
+					<View
+						style={{
+							marginTop: Dimensions.get('window').height * 0.025
+						}}>
+						<RoundBlueButton
+							title={strings.CreditDebitCard}
+							//Tests if this button is selected, if it is, then the border color will
+							//be blue
+							style={[
+								roundBlueButtonStyle.AccountTypeButton,
+								{
+									//Width increased for longer text
+									width: Dimensions.get('window').width * 0.75,
+									borderColor: this.state.card === true ? colors.lightBlue : colors.white
+								}
+							]}
+							textStyle={fontStyles.mainTextStyleBlue}
+							//Method selects the card button and deselects the cash
+							onPress={() => {
+								this.setState({ cash: false, card: true })
+							}}
+							disabled={this.state.isLoading}
+						/>
+					</View>
+				</View>
+				<View
+					style={{
 						justifyContent: 'flex-end',
 						alignContent: 'flex-end',
-						marginTop: Dimensions.get('window').height * 0.35
+						marginTop: Dimensions.get('window').height * 0.05
 					}}>
 					<RoundBlueButton
 						title={this.state.editing === true ? strings.Done : strings.Create}
