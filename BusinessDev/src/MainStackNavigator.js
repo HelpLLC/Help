@@ -1,6 +1,6 @@
 //This stack navigator will contain all of the screens & navigators that will be accessed with the
 //default slide right transition
-import CreateProductScreen from './sideBusinessScreens/createServiceScreen';
+import CreateServiceScreen from './sideBusinessScreens/createServiceScreen';
 import NameDescriptionScreen from './firstScreens/signUp/nameDescriptionScreen';
 import AdditionalInformationScreen from './firstScreens/signUp/additionalInformationScreen';
 import ServiceScreen from './sideBusinessScreens/serviceScreen';
@@ -22,6 +22,7 @@ import CreateScheduleScreen from './firstScreens/signUp/createScheduleScreen';
 import { fadeIn, fromRight } from 'react-navigation-transitions';
 import { createAppContainer } from 'react-navigation';
 import TermsAndConditionsScreen from './settingsScreens/termsAndConditionsScreen';
+import ServiceAdditionalInformationScreen from './sideBusinessScreens/serviceAdditionalInformationScreen';
 import { createStackNavigator } from 'react-navigation-stack';
 
 //The route config for all of the screens
@@ -111,13 +112,17 @@ const routeConfig = {
 	},
 
 	//The route going to the create product screen
-	CreateProductScreen: {
-		screen: CreateProductScreen
+	CreateServiceScreen: {
+		screen: CreateServiceScreen
 	},
 
 	//Route leading to where businesses create their questions
 	CreateQuestionsScreen: {
 		screen: CreateQuestionsScreen
+	},
+
+	ServiceAdditionalInformationScreen: {
+		screen: ServiceAdditionalInformationScreen
 	},
 
 	//The route going to the screen for a specific request

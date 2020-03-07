@@ -1,4 +1,4 @@
-//This screen will be the product editing screen where the business will either create a new product
+//This screen will be the service editing screen where the business will either create a new service
 //or edit an old one, depending on where the screen will be accessed from
 import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity, Keyboard } from 'react-native';
@@ -27,80 +27,65 @@ class createServiceScreen extends Component {
 	state = {
 		isScreenLoading: true,
 		isLoading: false,
-		isDeleteProductVisible: false
+		isDeleteServiceVisible: false,
+		isErrorVisible: false,
+		fieldsError: false,
+		serviceDescriptionError: false,
+		serviceDeleted: false,
+		isShowing: false
 	};
 
 	//This componentWil lMount method will decide, based on the params that are passed in, whether
-	//this screen is going to edit a product or create a new one.
+	//this screen is going to edit a service or create a new one.
 	async componentDidMount() {
-		if (this.props.navigation.state.params && this.props.navigation.state.params.product) {
-			FirebaseFunctions.setCurrentScreen('EditProductScreen', 'editProductScreen');
+		if (this.props.navigation.state.params.editing === true) {
+			FirebaseFunctions.setCurrentScreen('EditServiceScreen', 'createServiceScreen');
 
 			//This means that this screen is an editing screen
-			const { product, productID } = this.props.navigation.state.params;
-			const imageSource = await FirebaseFunctions.call('getProductImageByID', { ID: productID });
+			const { businessID, business, serviceID, service } = this.props.navigation.state.params;
+			const imageSource = await FirebaseFunctions.call('getServiceImageByID', { serviceID });
 
 			this.setState({
-				serviceTitle: product.serviceTitle,
-				serviceID: productID,
-				serviceDescription: product.serviceDescription,
-				isEditing: true,
+				serviceTitle: service.serviceTitle,
+				service,
+				serviceID: serviceID,
+				serviceDescription: service.serviceDescription,
+				editing: true,
 				imageSource,
-				isLoading: false,
-				isScreenLoading: true,
-				isErrorVisible: false,
-				fieldsError: false,
-				serviceDescriptionError: false,
-				productDeleted: false,
 				imageError: false,
-				priceType: product.price.priceType,
-				pricePerNumber: '',
-				pricePerText: '',
-				priceMin: '',
-				priceMax: '',
-				priceFixed: ''
+				priceType: service.price.priceType,
+				businessID,
+				business
 			});
 
 			//Sets the correct price type
-			if (product.price.priceType === 'per') {
+			if (service.price.priceType === 'per') {
 				this.setState({
-					pricePerNumber: product.price.price + '',
-					pricePerText: product.price.per,
-					isScreenLoading: false
-				});
-			} else if (product.price.priceType === 'range') {
-				this.setState({
-					priceMin: product.price.min + '',
-					priceMax: product.price.max + '',
+					pricePerNumber: service.price.price + '',
+					pricePerText: service.price.per,
 					isScreenLoading: false
 				});
 			} else {
 				this.setState({
-					priceFixed: product.price.priceFixed + '',
+					priceFixed: service.price.priceFixed + '',
 					isScreenLoading: false
 				});
 			}
 		} else {
-			FirebaseFunctions.setCurrentScreen('CreateProductScreen', 'createProductScreen');
-			//This means that this screen is going to create a new product
+			FirebaseFunctions.setCurrentScreen('CreateServiceScreen', 'createServiceScreen');
+			//This means that this screen is going to create a new service
 			this.setState({
 				serviceTitle: '',
 				serviceDescription: '',
+				business: this.props.navigation.state.params.business,
+				businessID: this.props.navigation.state.params.businessID,
 				imageSource: images.BlankWhite,
-				isLoading: false,
 				isScreenLoading: false,
-				isErrorVisible: false,
-				fieldsError: false,
-				serviceDescriptionError: false,
-				isEditing: false,
-				productDeleted: false,
+				editing: false,
 				imageError: false,
 				priceType: 'fixed',
 				pricePerNumber: '',
 				pricePerText: '',
-				priceMin: '',
-				isShowing: false,
-				priceMax: '',
 				priceFixed: ''
 			});
 		}
@@ -116,14 +101,22 @@ class createServiceScreen extends Component {
 	async goToQuestionsScreen() {
 		Keyboard.dismiss();
 		//Retrieves the state of the input fields
-		const { serviceTitle, serviceDescription, priceType, response, imageSource } = this.state;
-		const { productID, providerID } = this.props.navigation.state.params;
+		const {
+			serviceTitle,
+			serviceDescription,
+			priceType,
+			response,
+			imageSource,
+			businessID,
+			business
+		} = this.state;
+
+		//Makes sure all the  fields are valid
 		if (
 			serviceTitle.trim() === '' ||
 			serviceDescription.trim() === '' ||
 			(priceType === 'per' &&
 				(this.state.pricePerNumber === '' || this.state.pricePerText.trim() === '')) ||
-			(priceType === 'range' && (this.state.priceMax === '' || this.state.priceMin === '')) ||
 			(priceType === 'fixed' && this.state.priceFixed === '')
 		) {
 			this.setState({ fieldsError: true });
@@ -141,42 +134,32 @@ class createServiceScreen extends Component {
 			if (priceType === 'per') {
 				price.price = parseFloat(this.state.pricePerNumber);
 				price.per = this.state.pricePerText;
-			} else if (priceType === 'range') {
-				price.min = parseFloat(this.state.priceMin);
-				price.max = parseFloat(this.state.priceMax);
 			} else {
 				price.priceFixed = parseFloat(this.state.priceFixed);
 			}
-			let newProductObject = {
-				serviceTitle,
-				serviceDescription,
-				price
-			};
-			if (!this.state.response) {
-				newProductObject = {
-					...newProductObject,
-					response: null
-				};
-			} else {
-				newProductObject = {
-					...newProductObject,
-					response: response
-				};
-			}
-
-			//Passes the correct params to the next screen if the product is being edited, or created
+			//Passes the correct params to the next screen if the service is being edited, or created
 			this.setState({ isLoading: false });
-			if (this.state.isEditing) {
-				this.props.navigation.push('ProviderCreateQuestionsScreen', {
-					providerID,
-					productID,
-					product: this.props.navigation.state.params.product,
-					newProductObject
+			if (this.state.editing === true) {
+				this.props.navigation.push('CreateQuestionsScreen', {
+					businessID,
+					editing: true,
+					serviceTitle,
+					serviceDescription,
+					price,
+					business,
+					response,
+					serviceID: this.state.serviceID,
+					service: this.state.service
 				});
 			} else {
-				this.props.navigation.push('ProviderCreateQuestionsScreen', {
-					providerID,
-					newProductObject
+				this.props.navigation.push('CreateQuestionsScreen', {
+					businessID,
+					editing: false,
+					serviceTitle,
+					serviceDescription,
+					price,
+					business,
+					response
 				});
 			}
 		}
@@ -325,13 +308,12 @@ class createServiceScreen extends Component {
 									onValueChange={(value) => this.setState({ priceType: value })}
 									items={[
 										{ label: strings.Fixed, value: 'fixed' },
-										{ label: strings.Per, value: 'per' },
-										{ label: strings.Range, value: 'range' }
+										{ label: strings.Per, value: 'per' }
 									]}
 									value={this.state.priceType}
 									style={{
 										iconContainer: {
-											top: Dimensions.get('window').height * 0.011
+											top: Dimensions.get('window').height * 0.015
 										},
 										inputIOS: {
 											width: Dimensions.get('window').width * 0.2,
@@ -362,7 +344,8 @@ class createServiceScreen extends Component {
 											justifyContent: 'flex-start',
 											alignItems: 'center'
 										}}>
-										<Text style={fontStyles.mainTextStyleBlack}>{strings.DollarSign} </Text>
+										<Text style={fontStyles.bigTextStyleBlack}>{strings.DollarSign}</Text>
+										<View style={{ width: Dimensions.get('window').width * 0.01 }} />
 										<OneLineRoundedBoxInput
 											placeholder={''}
 											onChangeText={(input) => this.setState({ pricePerNumber: input })}
@@ -372,13 +355,15 @@ class createServiceScreen extends Component {
 											width={Dimensions.get('window').width * 0.2}
 										/>
 									</View>
+									<View style={{ width: Dimensions.get('window').width * 0.02 }} />
 									<View
 										style={{
 											justifyContent: 'center',
 											alignItems: 'center'
 										}}>
-										<Text style={fontStyles.mainTextStyleBlack}> {strings.per} </Text>
+										<Text style={fontStyles.bigTextStyleBlack}>{strings.per}</Text>
 									</View>
+									<View style={{ width: Dimensions.get('window').width * 0.02 }} />
 									<View
 										style={{
 											alignItems: 'flex-start',
@@ -401,7 +386,8 @@ class createServiceScreen extends Component {
 											justifyContent: 'flex-start',
 											alignItems: 'center'
 										}}>
-										<Text style={fontStyles.mainTextStyleBlack}>{strings.DollarSign} </Text>
+										<Text style={fontStyles.bigTextStyleBlack}>{strings.DollarSign}</Text>
+										<View style={{ width: Dimensions.get('window').width * 0.01 }} />
 										<OneLineRoundedBoxInput
 											placeholder={''}
 											onChangeText={(input) => this.setState({ priceFixed: input })}
@@ -420,7 +406,8 @@ class createServiceScreen extends Component {
 											justifyContent: 'flex-start',
 											alignItems: 'center'
 										}}>
-										<Text style={fontStyles.mainTextStyleBlack}>{strings.DollarSign} </Text>
+										<Text style={fontStyles.bigTextStyleBlack}>{strings.DollarSign}</Text>
+										<View style={{ width: Dimensions.get('window').width * 0.01 }} />
 										<OneLineRoundedBoxInput
 											placeholder={strings.Min}
 											onChangeText={(input) => this.setState({ priceMin: input })}
@@ -430,19 +417,22 @@ class createServiceScreen extends Component {
 											width={Dimensions.get('window').width * 0.2}
 										/>
 									</View>
+									<View style={{ width: Dimensions.get('window').width * 0.02 }} />
 									<View
 										style={{
 											justifyContent: 'center',
 											alignItems: 'center'
 										}}>
-										<Text style={fontStyles.mainTextStyleBlack}> {strings.to} </Text>
+										<Text style={fontStyles.bigTextStyleBlack}>{strings.to}</Text>
 									</View>
+									<View style={{ width: Dimensions.get('window').width * 0.02 }} />
 									<View
 										style={{
 											flexDirection: 'row',
 											alignItems: 'center'
 										}}>
-										<Text style={fontStyles.mainTextStyleBlack}>{strings.DollarSign} </Text>
+										<Text style={fontStyles.bigTextStyleBlack}>{strings.DollarSign}</Text>
+										<View style={{ width: Dimensions.get('window').width * 0.01 }} />
 										<OneLineRoundedBoxInput
 											placeholder={strings.Max}
 											onChangeText={(input) => this.setState({ priceMax: input })}
@@ -473,7 +463,7 @@ class createServiceScreen extends Component {
 									style={roundBlueButtonStyle.MediumSizeButtonRed}
 									textStyle={fontStyles.bigTextStyleWhite}
 									onPress={() => {
-										this.setState({ isDeleteProductVisible: true });
+										this.setState({ isDeleteServiceVisible: true });
 									}}
 									disabled={this.state.isLoading}
 								/>
@@ -512,15 +502,15 @@ class createServiceScreen extends Component {
 					message={strings.SomethingWentWrong}
 				/>
 				<HelpAlert
-					isVisible={this.state.productDeleted}
+					isVisible={this.state.serviceDeleted}
 					onPress={() => {
-						this.setState({ productDeleted: false });
-						this.props.navigation.push('ProviderScreens', {
-							providerID: this.props.navigation.state.params.providerID
+						this.setState({ serviceDeleted: false });
+						this.props.navigation.push('BusinessScreens', {
+							businessID
 						});
 					}}
 					title={strings.Success}
-					message={strings.ProductDeleted}
+					message={strings.ServiceDeleted}
 				/>
 				<HelpAlert
 					isVisible={this.state.fieldsError}
@@ -547,32 +537,31 @@ class createServiceScreen extends Component {
 					message={strings.PleaseAddAnImage}
 				/>
 				<OptionPicker
-					isVisible={this.state.isDeleteProductVisible}
+					isVisible={this.state.isDeleteServiceVisible}
 					title={strings.DeleteService}
 					message={strings.AreYouSureDeleteService}
 					confirmText={strings.Yes}
 					cancelText={strings.Cancel}
 					clickOutside={true}
 					confirmOnPress={async () => {
-						const { productID, providerID } = this.props.navigation.state.params;
-						this.setState({ isLoading: true, isDeleteProductVisible: false });
+						this.setState({ isLoading: true, isDeleteServiceVisible: false });
 						try {
-							await FirebaseFunctions.call('deleteService', { serviceID: productID, providerID });
-							this.setState({ isLoading: false, productDeleted: true });
+							await FirebaseFunctions.call('deleteService', { serviceID, businessID });
+							this.setState({ isLoading: false, serviceDeleted: true });
 						} catch (error) {
 							this.setState({ isLoading: false, isErrorVisible: true });
 							FirebaseFunctions.call('logIssue', {
 								error,
 								userID: {
-									screen: 'EditProductScreen',
-									userID: 'p-' + providerID,
-									productID
+									screen: 'CreateServiceScreen',
+									userID: 'b-' + businessID,
+									businessID
 								}
 							});
 						}
 					}}
 					cancelOnPress={() => {
-						this.setState({ isDeleteProductVisible: false });
+						this.setState({ isDeleteServiceVisible: false });
 					}}
 				/>
 				<ImagePicker

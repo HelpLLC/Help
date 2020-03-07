@@ -21,53 +21,71 @@ class createQuestionsScreen extends Component {
 	componentDidMount() {
 		//If this product is being edited, then it is going to display the previously entered questions
 		//Otherwise, an empty questions box will appear
-		if (this.props.navigation.state.params && this.props.navigation.state.params.product) {
+		if (this.props.navigation.state.params.editing === true) {
 			FirebaseFunctions.setCurrentScreen('EditQuestionsScreen', 'createQuestionsScreen');
 			const {
-				productID,
-				providerID,
-				product,
-				newProductObject
+				businessID,
+				serviceTitle,
+				serviceDescription,
+				price,
+				business,
+				response,
+				serviceID,
+				service
 			} = this.props.navigation.state.params;
+
+			const { questions } = service;
+			//Structures the default questions and removes them from the questions array
+			const defaultQuestions = [
+				{
+					name: strings.Email,
+					isSelected: questions.includes(strings.WhatIsYourEmailAddressQuestion) ? true : false,
+					question: strings.WhatIsYourEmailAddressQuestion
+				},
+				{
+					name: strings.PhoneNumber,
+					isSelected: questions.includes(strings.WhatIsYourPhoneNumberQuestion) ? true : false,
+					question: strings.WhatIsYourPhoneNumberQuestion
+				},
+				{
+					name: strings.Address,
+					isSelected: questions.includes(strings.WhatIsYourAddressQuestion) ? true : false,
+					question: strings.WhatIsYourAddressQuestion
+				}
+			];
 			this.setState({
-				questions: product.questions,
-				//Fetches the default questions in case in the future, we decide to add more,
-				//they display for exisiting products
-				defaultQuestions: [
-					{
-						name: strings.Email,
-						isSelected: product.defaultQuestions[0]
-							? product.defaultQuestions[0].isSelected
-							: false,
-						question: strings.WhatIsYourEmailAddressQuestion
-					},
-					{
-						name: strings.PhoneNumber,
-						isSelected: product.defaultQuestions[1]
-							? product.defaultQuestions[1].isSelected
-							: false,
-						question: strings.WhatIsYourPhoneNumberQuestion
-					},
-					{
-						name: strings.Address,
-						isSelected: product.defaultQuestions[2]
-							? product.defaultQuestions[2].isSelected
-							: false,
-						question: strings.WhatIsYourAddressQuestion
-					}
-				],
-				productID,
-				providerID,
-				product,
+				//Removes the default questions from the array
+				questions: questions.filter(
+					(element) =>
+						element !== strings.WhatIsYourAddressQuestion &&
+						element !== strings.WhatIsYourPhoneNumberQuestion &&
+						element !== strings.WhatIsYourEmailAddressQuestion
+				),
+				defaultQuestions,
+				serviceID,
+				businessID,
+				service,
+				editing: true,
 				isScreenLoading: false,
-				newProductObject
+				serviceTitle,
+				serviceDescription,
+				price,
+				business,
+				response
 			});
 		} else {
 			FirebaseFunctions.setCurrentScreen('CreateQuestionsScreen', 'createQuestionsScreen');
-			const { providerID, newProductObject } = this.props.navigation.state.params;
+			const {
+				businessID,
+				serviceTitle,
+				serviceDescription,
+				price,
+				response,
+				business
+			} = this.props.navigation.state.params;
 			this.setState({
 				questions: [],
-				providerID: providerID,
+				business,
 				defaultQuestions: [
 					{
 						name: strings.Email,
@@ -85,19 +103,28 @@ class createQuestionsScreen extends Component {
 						question: strings.WhatIsYourAddressQuestion
 					}
 				],
-				newProductObject,
+				businessID,
+				serviceTitle,
+				editing: false,
+				serviceDescription,
+				price,
+				response,
 				isScreenLoading: false
 			});
 		}
 	}
 
-	async goToScheduleScreen() {
-		//Based on which buttons were clicked from the suggested question types, it adds them to the array
-		//of questions. This is going to be a seperate field in the business because if it is not, then it
-		//would be displayed in the list of questions, which we don't want to happen. And we can easily extend
-		//this in the future when we have more default questions.
-		//The name field is so we know how to display these questions when businesses are creating the products
-		const { defaultQuestions, questions } = this.state;
+	async goToAddtionalInfoScreen() {
+		const {
+			defaultQuestions,
+			questions,
+			businessID,
+			serviceTitle,
+			serviceDescription,
+			price,
+			response,
+			business
+		} = this.state;
 
 		//Checks if any questions are empty. If they are, pops up an alert
 		for (const question of questions) {
@@ -106,34 +133,39 @@ class createQuestionsScreen extends Component {
 				return;
 			}
 		}
+
+		//Converts the default questions into normal questions
+		for (const question of defaultQuestions) {
+			if (question.isSelected === true) {
+				questions.push(question.question);
+			}
+		}
+
 		//Passes the correct parameters to the next screen depending on whether the product is being edited, or being
 		//created
-		if (this.state.product) {
-			let { productID, providerID, product, newProductObject } = this.state;
-
-			FirebaseFunctions.analytics.logEvent('create_questions_of_length_' + questions.length);
-			newProductObject = {
-				...newProductObject,
-				defaultQuestions,
-				questions: questions
-			};
-			this.props.navigation.push('ProviderCreateScheduleScreen', {
-				productID,
-				providerID,
-				product,
-				newProductObject
+		if (this.state.editing === true) {
+			let { service, serviceID } = this.state;
+			this.props.navigation.push('ServiceAdditionalInformationScreen', {
+				businessID,
+				service,
+				serviceID,
+				serviceTitle,
+				serviceDescription,
+				price,
+				response,
+				questions,
+				business,
+				editing: true
 			});
 		} else {
-			FirebaseFunctions.analytics.logEvent('create_questions_of_length_' + questions.length);
-			let { providerID, newProductObject } = this.state;
-			newProductObject = {
-				...newProductObject,
-				defaultQuestions,
-				questions
-			};
-			this.props.navigation.push('ProviderCreateScheduleScreen', {
-				providerID,
-				newProductObject
+			this.props.navigation.push('ServiceAdditionalInformationScreen', {
+				businessID,
+				serviceTitle,
+				serviceDescription,
+				price,
+				response,
+				questions,
+				business
 			});
 		}
 	}
@@ -327,7 +359,7 @@ class createQuestionsScreen extends Component {
 							style={roundBlueButtonStyle.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={async () => {
-								await this.goToScheduleScreen();
+								await this.goToAddtionalInfoScreen();
 							}}
 							disabled={this.state.isLoading}
 						/>

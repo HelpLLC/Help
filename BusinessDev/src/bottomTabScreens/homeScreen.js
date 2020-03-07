@@ -183,11 +183,11 @@ class homeScreen extends Component {
 						onPress={(service) => {
 							this.props.navigation.push('ServiceScreen', {
 								serviceID: service.serviceID,
-								businessID: business.businessID
+								businessID: business.businessID,
+								business
 							});
 						}}
 					/>
-					<View style={{ height: Dimensions.get('window').height * 0.025 }}></View>
 				</HelpView>
 			);
 		}
