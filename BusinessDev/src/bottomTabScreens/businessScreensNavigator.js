@@ -101,7 +101,6 @@ const navigatorConfig = {
 		style: {
 			backgroundColor: colors.white,
 			height: Dimensions.get('window').height * 0.1,
-			padding: (Dimensions.get('window').height * 0.1) / 7
 		},
 		//This styles the tabBarLabel
 		labelStyle: fontStyles.tabLabelStyle,

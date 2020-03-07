@@ -408,7 +408,10 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 		coordinates,
 		currentRequests,
 		displayedReviews,
+		serviceDuration,
+		simultaneousRequests,
 		price,
+		priceText,
 		questions,
 		serviceDescription,
 		serviceTitle,
@@ -424,6 +427,9 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 		coordinates,
 		currentRequests,
 		displayedReviews,
+		serviceDuration,
+		priceText,
+		simultaneousRequests,
 		price,
 		questions,
 		serviceDescription,
@@ -441,11 +447,53 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 			serviceID,
 			serviceDescription,
 			serviceTitle,
-			price
+			priceText
 		})
 	});
 
 	return serviceID;
+});
+
+//This method is going to take in a new version of a service and is going to update the service in firestore accorinding to
+//updates. Updates the service document in addition to the service copy in the business document
+exports.updateServiceInformation = functions.https.onCall(async (input, context) => {
+	const {
+		priceText,
+		serviceDuration,
+		simultaneousRequests,
+		price,
+		questions,
+		serviceDescription,
+		serviceTitle,
+		serviceID,
+		businessID
+	} = input;
+
+	await services.doc(serviceID).update({
+		priceText,
+		serviceDuration,
+		simultaneousRequests,
+		price,
+		questions,
+		serviceDescription,
+		serviceTitle
+	});
+
+	//Updates the business document with the new information
+	let business = (await businesses.doc(businessID).get()).data();
+	const indexOfService = business.services.findIndex((element) => element.serviceID === serviceID);
+	business.services[indexOfService] = {
+		...business.services[indexOfService],
+		serviceTitle,
+		priceText,
+		serviceDescription
+	};
+
+	await businesses.doc(businessID).update({
+		services: business.services
+	});
+
+	return 0;
 });
 
 //Method is going to remove a business's reference to a service as well as give this service
