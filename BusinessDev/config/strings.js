@@ -66,11 +66,10 @@ export default {
 	BusinessSignUp: 'Business Sign Up',
 	Next: 'Next',
 
-	//------------------- Customer Sign Up Screen -------------------
+	//------------------- Business Sign Up Screen -------------------
 	City: 'City',
 	Name: 'Name',
 	EnterCityDotDotDot: 'Enter city...',
-	AccountSaved: 'Your account has been saved.',
 	PleaseEnterName: 'Please enter your name...',
 	MyProfile: 'My Profile',
 
@@ -181,17 +180,8 @@ export default {
 	PleaseSelectADayForYourService: 'Please select a day for your service.',
 
 	//------------------- Create Schedule Screen -------------------
-	CreateSchedule: 'Create Schedule',
-	AvailableTimesToCompleteService: 'Available Times to Complete Service',
-	SpecificDays: 'Specific Days',
-	SpecificDaysAndTimes: 'Specific Days & Times',
-	SpecificTimes: 'Specific Times',
-	Anytime: 'Anytime',
-	PleaseSelectATime: 'Please select the times when you are available to complete this service.',
-	PleaseSelectDay: 'Please select the days that you are available to complete this service.',
-	FromTimeIsMoreThanToTime: "Please select a 'From' time that is less than a 'To' time.",
-	ProductCreated: 'The service has been created.',
-	ProductUpdated: 'The service has been updated.',
+	BusinessHours: 'Business Hours',
+	ToTimeMustBeAfterFromTime: 'The \'To\' time needs to be after the \'from\' time.',
 	Monday: 'Mon',
 	Tuesday: 'Tue',
 	Wednesday: 'Wed',
@@ -199,6 +189,8 @@ export default {
 	Friday: 'Fri',
 	Saturday: 'Sat',
 	Sunday: 'Sun',
+	BusinessUpdated: 'Business Updated',
+	BusinessUpdatedMessage: 'Your business information has been updated.',
 
 	//------------------- Create Questions Screen -------------------
 	InfoFromCustomersQuestion:

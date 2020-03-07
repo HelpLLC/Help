@@ -24,7 +24,7 @@ class categoryScreen extends Component {
 		FirebaseFunctions.setCurrentScreen('CategoryScreen', 'categoryScreen');
 		//Gets products from parameters
 		const { allProducts, categoryName, requesterID } = this.props.navigation.state.params;
-		const requester = await FirebaseFunctions.call('getRequesterByID', { requesterID });
+		const requester = await FirebaseFunctions.call('getCustomerByID', { customerID });
 		//Gets products from categories
 		let products = await FirebaseFunctions.call('getProductsByCategory', {
 			allProducts,

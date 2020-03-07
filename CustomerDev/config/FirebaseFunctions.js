@@ -47,8 +47,8 @@ export default class FirebaseFunctions {
     //Tests whether this is a provider or a requester & based on that, subscribes to the correct channel
     const { uid } = account.user;
     //Starts with searching if this is a requester since that is more common
-    const requester = await this.call('getRequesterByID', { requesterID: uid });
-    const provider = await this.call('getProviderByID', { providerID: uid });
+    const requester = await this.call('getCustomerByID', { customerID: uid });
+    const provider = await this.call('getBusinessByID', { businessID: uid });
     //Logs the event in firebase analytics
     this.analytics.logEvent('customer_log_in');
     //Subscribes to the requester channel

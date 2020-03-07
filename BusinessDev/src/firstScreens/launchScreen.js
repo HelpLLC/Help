@@ -38,7 +38,7 @@ export default class launchScreen extends Component {
         });
         return;
       }
-      const isUnderMaintenance = await FirebaseFunctions.call('isEYBUnderMaintenance', {});
+      const isUnderMaintenance = await FirebaseFunctions.call('isBusinessAppUnderMaintenance', {});
       if (isUnderMaintenance === true) {
         this.setState({ isUnderMaintenance });
         return;
@@ -114,10 +114,10 @@ export default class launchScreen extends Component {
             //Tests if this account is verified or not. If the account is not verified, then it will
             //go to a screen displaying a message saying wait for verification. If they are, it will
             //navigate to the normal screens
-            const provider = await FirebaseFunctions.call('getProviderByID', { providerID: uid });
-            if (provider.isVerified === true) {
-              this.props.navigation.push('ProviderScreens', {
-                providerID: uid
+            const business = await FirebaseFunctions.call('getBusinessByID', { businessID: uid });
+            if (business.isVerified === true) {
+              this.props.navigation.push('BusinessScreens', {
+                businessID: uid
               });
             } else {
               //Navigates to the account not verified screen.

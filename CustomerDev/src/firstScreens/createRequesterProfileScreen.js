@@ -125,8 +125,8 @@ class createRequesterProfileScreen extends Component {
               .putFile(absolutePath);
           }
           const allProducts = this.props.navigation.state.params.allProducts;
-          const updatedRequeter = await FirebaseFunctions.call('getRequesterByID', {
-            requesterID: requester.requesterID
+          const updatedRequeter = await FirebaseFunctions.call('getCustomerByID', {
+            customerID: requester.requesterID
           });
           this.setState({ accountSaved: true, updatedRequeter, allProducts, isLoading: false });
         } catch (error) {

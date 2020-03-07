@@ -1,30 +1,28 @@
 //This stack navigator will contain all of the screens & navigators that will be accessed with the
 //default slide right transition
-import ProviderCreateProductScreen from './providerScreens/createProductScreen';
-import ProviderEditCompanyProfileScreen from './firstScreens/createProviderProfileScreen';
-import providerAdditionalInformationScreen from './firstScreens/providerAdditionalInformationScreen';
-import ProviderProductScreen from './providerScreens/productScreen';
-import launchScreen from './firstScreens/launchScreen';
-import splashScreen from './firstScreens/splashScreen';
-import logInScreen from './firstScreens/logInScreen';
-import signUpScreen from './firstScreens/signUpScreen';
-import createProviderProfileScreen from './firstScreens/createProviderProfileScreen';
-import accountNotVerifiedScreen from './firstScreens/accountNotVerifiedScreen';
-import customerRequestScreen from './providerScreens/customerRequestScreen';
-import ProviderProductHistoryScreen from './providerScreens/productHistoryScreen';
-import forgotPasswordScreen from './firstScreens/forgotPasswordScreen';
-import aboutScreen from './settingsScreens/aboutScreen';
-import privacyScreen from './settingsScreens/privacyScreen';
-import reportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';
-import providerScreensNavigator from './bottomTabScreens/providerScreensNavigator';
+import CreateProductScreen from './sideBusinessScreens/createServiceScreen';
+import NameDescriptionScreen from './firstScreens/signUp/nameDescriptionScreen';
+import AdditionalInformationScreen from './firstScreens/signUp/additionalInformationScreen';
+import ServiceScreen from './sideBusinessScreens/serviceScreen';
+import LaunchScreen from './firstScreens/launchScreen';
+import SplashScreen from './firstScreens/splashScreen';
+import LogInScreen from './firstScreens/logIn/logInScreen';
+import EmailPasswordScreen from './firstScreens/signUp/emailPasswordScreen';
+import AccountNotVerifiedScreen from './firstScreens/logIn/accountNotVerifiedScreen';
+import CustomerRequestScreen from './sideBusinessScreens/customerRequestScreen';
+import ServiceHistoryScreen from './sideBusinessScreens/serviceHistoryScreen';
+import ForgotPasswordScreen from './firstScreens/logIn/forgotPasswordScreen';
+import AboutScreen from './settingsScreens/aboutScreen';
+import PrivacyScreen from './settingsScreens/privacyScreen';
+import ReportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';
+import BusinessScreensNavigator from './bottomTabScreens/businessScreensNavigator';
+import CreditsScreen from './settingsScreens/creditsScreen';
+import CreateQuestionsScreen from './sideBusinessScreens/createQuestionsScreen';
+import CreateScheduleScreen from './firstScreens/signUp/createScheduleScreen';
 import { fadeIn, fromRight } from 'react-navigation-transitions';
 import { createAppContainer } from 'react-navigation';
-import termsAndConditionsScreen from './firstScreens/termsAndConditionsScreen';
+import TermsAndConditionsScreen from './settingsScreens/termsAndConditionsScreen';
 import { createStackNavigator } from 'react-navigation-stack';
-import creditsScreen from './settingsScreens/creditsScreen';
-import createScheduleScreen from './providerScreens/createScheduleScreen';
-import createQuestionsScreen from './providerScreens/createQuestionsScreen';
-import signUpSchedule from './firstScreens/signUpSchedule';
 
 //The route config for all of the screens
 const routeConfig = {
@@ -32,7 +30,7 @@ const routeConfig = {
 
 	//Takes you to the launch screen which is the blue logo
 	LaunchScreen: {
-		screen: launchScreen,
+		screen: LaunchScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
@@ -40,7 +38,7 @@ const routeConfig = {
 
 	//Takes you to the splash screen of the app
 	SplashScreen: {
-		screen: splashScreen,
+		screen: SplashScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
@@ -48,15 +46,15 @@ const routeConfig = {
 
 	//Takes you to the log in screen of the app
 	LogInScreen: {
-		screen: logInScreen,
+		screen: LogInScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
 	},
 
 	//Takes you to the sign up screen of the app
-	SignUpScreen: {
-		screen: signUpScreen,
+	EmailPasswordScreen: {
+		screen: EmailPasswordScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
@@ -64,31 +62,31 @@ const routeConfig = {
 
 	//Takes you to the forgot password screen of the app
 	ForgotPasswordScreen: {
-		screen: forgotPasswordScreen,
+		screen: ForgotPasswordScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
 	},
 
 	//Takes you to the screen where businesses will create their initial profile
-	CreateProviderProfileScreen: {
-		screen: createProviderProfileScreen,
+	NameDescriptionScreen: {
+		screen: NameDescriptionScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
 	},
 
-	//Takes you to the screen which will allow providers to add more information about themselves
-	ProviderAdditionalInformationScreen: {
-		screen: providerAdditionalInformationScreen,
+	//Takes you to the screen which will allow businesses to add more information about themselves
+	AdditionalInformationScreen: {
+		screen: AdditionalInformationScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
 	},
 
 	//Takes you to the screen which will allow providers to add their schedule
-	CreateBusinessSchedule: {
-		screen: signUpSchedule,
+	CreateScheduleScreen: {
+		screen: CreateScheduleScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
@@ -96,82 +94,72 @@ const routeConfig = {
 
 	//Takes you to the screen which will display if a business account has not yet been approved
 	AccountNotVerifiedScreen: {
-		screen: accountNotVerifiedScreen,
+		screen: AccountNotVerifiedScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
 	},
 
-	//--------------------------- Business Screens ---------------------------
+	//--------------------------- Side Business Screens ---------------------------
 
 	//The provider screen's default route (The bottom tab navigator)
-	ProviderScreens: {
-		screen: providerScreensNavigator,
+	BusinessScreens: {
+		screen: BusinessScreensNavigator,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
 	},
 
 	//The route going to the create product screen
-	ProviderCreateProductScreen: {
-		screen: ProviderCreateProductScreen
-	},
-
-	//The route going to the edit company profile screen
-	ProviderEditCompanyProfileScreen: {
-		screen: ProviderEditCompanyProfileScreen
+	CreateProductScreen: {
+		screen: CreateProductScreen
 	},
 
 	//Route leading to where businesses create their questions
-	ProviderCreateQuestionsScreen: {
-		screen: createQuestionsScreen
+	CreateQuestionsScreen: {
+		screen: CreateQuestionsScreen
 	},
 
 	//The route going to the screen for a specific request
 	CustomerRequestScreen: {
-		screen: customerRequestScreen
+		screen: CustomerRequestScreen
 	},
 
 	//The route going to the product screen
-	ProviderProductScreen: {
-		screen: ProviderProductScreen
+	ServiceScreen: {
+		screen: ServiceScreen
 	},
 
 	//The route going to the product history screen
-	ProviderProductHistoryScreen: {
-		screen: ProviderProductHistoryScreen
-	},
-
-	//route leading to where businesses create their schedules
-	ProviderCreateScheduleScreen: {
-		screen: createScheduleScreen
+	ServiceHistoryScreen: {
+		screen: ServiceHistoryScreen
 	},
 
 	//--------------------------- Settings Screen ---------------------------
 
 	//Takes you to the about screen
 	AboutScreen: {
-		screen: aboutScreen
+		screen: AboutScreen
 	},
 
 	//Takes you to the report an issue screen
 	ReportIssueScreen: {
-		screen: reportIssueScreensNavigator
+		screen: ReportIssueScreensNavigator
 	},
 
 	//Takes you to the screen containing the privacy policy
 	PrivacyScreen: {
-		screen: privacyScreen
+		screen: PrivacyScreen
 	},
 
 	//Takes you to the terms and conditions screen
 	TermsAndConditionsScreen: {
-		screen: termsAndConditionsScreen
+		screen: TermsAndConditionsScreen
 	},
 
 	//Takes you to the credits screen
 	CreditsScreen: {
-		screen: creditsScreen
+		screen: CreditsScreen
 	}
 };
 
