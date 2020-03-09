@@ -6,13 +6,13 @@ import { View, Text, Keyboard, TouchableOpacity, Dimensions } from 'react-native
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import RoundBlueButton from '../components/RoundBlueButton';
-import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
-import HelpView from '../components/HelpView';
+import RoundBlueButton from '../../components/RoundBlueButton';
+import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
+import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
-import TopBanner from '../components/TopBanner';
-import HelpAlert from '../components/HelpAlert';
-import FirebaseFunctions from '../../config/FirebaseFunctions';
+import TopBanner from '../../components/TopBanner';
+import HelpAlert from '../../components/HelpAlert';
+import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import { Icon } from 'react-native-elements';
 import colors from 'config/colors';
 
@@ -62,16 +62,16 @@ class logInScreen extends Component {
 						'There is no user record corresponding to this identifier. The user may have been deleted.'
 					);
 				}
-				const allProducts = await FirebaseFunctions.call('getAllProducts', {});
-				const requester = await FirebaseFunctions.call('getCustomerByID', {
+				const allServices = await FirebaseFunctions.call('getAllServices', {});
+				const customer = await FirebaseFunctions.call('getCustomerByID', {
 					customerID: account.substring(2)
 				});
 				//If this is a requester, then it will navigate to the screens & pass in the
 				//correct params
 				this.setState({ isLoading: false });
 				this.props.navigation.push('FeaturedScreen', {
-					requester: requester,
-					allProducts
+					customer,
+					allServices
 				});
 			} catch (error) {
 				if (

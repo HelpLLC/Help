@@ -1,4 +1,4 @@
-//This screen represents the main screen that is launched once the requester logs in. Here will be displayed the featured products
+//This screen represents the main screen that is launched once the customer logs in. Here will be displayed the featured products
 //where customers will be able to click on them to request them. The side menu  will also be accessible from this screen
 import React, { Component } from 'react';
 import { View, Text, Dimensions } from 'react-native';
@@ -25,7 +25,7 @@ export default class featuredScreen extends Component {
 		stars: 0,
 		comment: '',
 		search: '',
-		allProducts: '',
+		allServices: '',
 		displayedProducts: '',
 		incompleteProfile: false,
 		reviewError: false,
@@ -39,42 +39,24 @@ export default class featuredScreen extends Component {
 		FirebaseFunctions.setCurrentScreen('FeaturedScreen', 'featuredScreen');
 
 		//Filters the products and removes any that are posted by blocked users
-		let { allProducts, requester } = this.props.navigation.state.params;
+		let { allServices, customer } = this.props.navigation.state.params
 
-		//Tests to see if the requester's account has been fully completed (used for pre-2.0 users)
-		if (!FirebaseFunctions.call('isRequesterUpToDate', { requesterObject: requester })) {
+		allServices = allServices.filter(
+			(element) => customer.blockedBusinesses.indexOf(element.businessID) === -1
+		);
+
+		if (customer.isReviewDue.length > 0) {
 			this.setState({
-				incompleteProfile: true,
-				isLoading: false,
-				displayedProducts: allProducts,
-				allProducts
-			});
-		} else {
-			allProducts = await FirebaseFunctions.call('filterProductsByRequesterBlockedUsers', {
-				requester,
-				products: allProducts
-			});
-			allProducts = await FirebaseFunctions.call('filterProductsByRequesterLocation', {
-				requester,
-				products: allProducts
-			});
-			const isReviewDue = await FirebaseFunctions.call('isReviewDue', {
-				requesterID: requester.requesterID
-			});
-			if (isReviewDue !== false) {
-				this.setState({
-					isReviewDue: true,
-					isReviewDueID: isReviewDue.serviceID,
-					isReviewDueName: isReviewDue.serviceTitle,
-					requestID: isReviewDue.requestID
-				});
-			}
-			this.setState({
-				allProducts,
-				displayedProducts: allProducts,
-				isLoading: false
+				isReviewDue: true,
+				requestID: customer.isReviewDue[0]
 			});
 		}
+		this.setState({
+			allServices,
+			customer,
+			displayedProducts: allServices,
+			isLoading: false
+		});
 	}
 
 	//Function searches through the array of products and displays the results by changing the state
@@ -85,25 +67,25 @@ export default class featuredScreen extends Component {
 		//character
 		let text = this.state.search;
 		text = text.trim().toLowerCase();
-		const { allProducts } = this.state;
-		const newProducts = [];
-		for (const product of allProducts) {
-			const productName = product.serviceTitle.trim().toLowerCase();
-			const business = product.offeredByName.trim().toLowerCase();
-			const category = product.category.trim().toLowerCase();
-			if (productName.includes(text) || business.includes(text) || category.includes(text)) {
-				newProducts.push(product);
+		const { allServices } = this.state;
+		const newServices = [];
+		for (const service of allServices) {
+			const serviceTitle = service.serviceTitle.trim().toLowerCase();
+			const business = service.businessID.trim().toLowerCase();
+			const category = service.category.trim().toLowerCase();
+			if (serviceTitle.includes(text) || business.includes(text) || category.includes(text)) {
+				newServices.push(product);
 			}
 		}
 
-		//If new products is empty or the search is empty, all the categories will be displayed.
+		//If new service is empty or the search is empty, all the services will be displayed.
 		//Otherwise, the results will be displayed
-		if (newProducts.length === 0 || text.length === 0) {
+		if (newServices.length === 0 || text.length === 0) {
 			this.setState({
-				displayedProducts: this.state.allProducts
+				displayedProducts: this.state.allServices
 			});
 		} else {
-			this.setState({ displayedProducts: newProducts });
+			this.setState({ displayedProducts: newServices });
 		}
 		//This timeout is necessary so that images time to be "undownloaded" --> They only need a timeout
 		//of 1, but to make it look good, 500 is ideal
@@ -113,9 +95,7 @@ export default class featuredScreen extends Component {
 	}
 
 	render() {
-		//Filters the products and removes any that are posted by blocked users
-		let { requester } = this.props.navigation.state.params;
-		let { displayedProducts, allProducts } = this.state;
+		let { displayedProducts, allServices, customer } = this.state;
 
 		if (this.state.isLoading === true) {
 			return (
@@ -139,8 +119,8 @@ export default class featuredScreen extends Component {
 				menu={
 					<LeftMenu
 						navigation={this.props.navigation}
-						allProducts={allProducts}
-						requester={requester}
+						allServices={allServices}
+						customer={customer}
 					/>
 				}>
 				<HelpView style={screenStyle.container}>
@@ -177,7 +157,7 @@ export default class featuredScreen extends Component {
 						<Text style={fontStyles.bigTextStyleBlue}>{strings.FeaturedServices}</Text>
 					</View>
 					<NarrowServiceCardList
-						requesterID={requester.requesterID}
+						customerID={customer.customerID}
 						navigation={this.props.navigation}
 						services={displayedProducts}
 					/>
@@ -185,9 +165,9 @@ export default class featuredScreen extends Component {
 						isVisible={this.state.incompleteProfile}
 						onPress={() => {
 							this.setState({ incompleteProfile: false });
-							this.props.navigation.push('EditRequesterProfileScreen', {
-								requester: requester,
-								allProducts: allProducts,
+							this.props.navigation.push('AdditionalCustomerInfoScreen', {
+								customer: customer,
+								allServices: allServices,
 								isEditing: true
 							});
 						}}
@@ -220,7 +200,7 @@ export default class featuredScreen extends Component {
 								try {
 									FirebaseFunctions.call('submitReview', {
 										serviceID: this.state.isReviewDueID,
-										requesterID: requester.requesterID,
+										customerID: customer.customerID,
 										stars: this.state.stars,
 										comment: this.state.comment,
 										requestID: this.state.requestID
@@ -230,7 +210,7 @@ export default class featuredScreen extends Component {
 										error,
 										userID: {
 											screen: 'Featured Screen',
-											userID: 'r-' + requester.requesterID
+											userID: 'r-' + customer.customerID
 										}
 									});
 								}
@@ -242,14 +222,14 @@ export default class featuredScreen extends Component {
 							try {
 								FirebaseFunctions.call('skipReview', {
 									requestID: this.state.requestID,
-									requesterID: requester.requesterID
+									customerID: customer.customer
 								});
 							} catch (error) {
 								FirebaseFunctions.call('logIssue', {
 									error,
 									userID: {
 										screen: 'Featured Screen',
-										userID: 'r-' + requester.requesterID
+										userID: 'r-' + customer.customerID
 									}
 								});
 							}

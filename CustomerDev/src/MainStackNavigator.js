@@ -17,7 +17,7 @@ import { fadeIn, fromRight } from 'react-navigation-transitions';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import TermsAndConditionsScreen from './settingsScreens/termsAndConditionsScreen';
 import CreditsScreen from './settingsScreens/creditsScreen';
-import CategoriesScreen from './categories/categoriesScreen';
+import CategoriesScreen from './customerScreens/categoriesScreen';
 import CategoryScreen from './customerScreens/categoryScreen';
 import AdditionalCustomerInfoScreen from './firstScreens/signUp/additionalCustomerInfoScreen';
 import BusinessScheduleScreen from './customerScreens/businessScheduleScreen';
@@ -54,7 +54,7 @@ const routeConfig = {
 	},
 
 	//Takes you to the sign up screen of the app
-	SignUpScreen: {
+	EmailPasswordScreen: {
 		screen: EmailPasswordScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false

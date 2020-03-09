@@ -272,6 +272,7 @@ exports.addCustomerToDatabase = functions.https.onCall(async (input, context) =>
 		coordinates,
 		currentRequests,
 		customerID,
+		city,
 		email,
 		name,
 		phoneNumber,
@@ -283,12 +284,34 @@ exports.addCustomerToDatabase = functions.https.onCall(async (input, context) =>
 		blockedBusinesses,
 		coordinates,
 		currentRequests,
+		city,
 		customerID,
 		email,
 		name,
 		phoneNumber,
 		isReviewDue
 	});
+
+	return 0;
+});
+
+//method will take in new versions of customer inputs and will update them in firestore. Updated the customer document along
+//with any customer information that is in any other documents
+exports.updateCustomerInformation = functions.https.onCall(async (input, context) => {
+	const { address, coordinates, customerID, city, name, phoneNumber, currentRequests } = input;
+
+	await customers.doc(customerID).update({
+		address,
+		coordinates,
+		customerID,
+		city,
+		name,
+		phoneNumber
+	});
+
+	for (const request of currentRequests) {
+		await requests.doc(request.requestID).update({ customerName: name });
+	}
 
 	return 0;
 });
@@ -377,7 +400,7 @@ exports.updateBusinessInformation = functions.https.onCall(async (input, context
 		website,
 		phoneNumber,
 		businessID,
-		business,
+		business
 	} = input;
 
 	await businesses.doc(businessID).update({

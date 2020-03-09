@@ -51,6 +51,8 @@ export default {
 	//------------------- Customer Sign Up Screen -------------------
 	City: 'City',
 	Name: 'Name',
+	StreetAddress: 'Street Address',
+	EnterYourAddress: '12345 Willow Road',
 	EnterCityDotDotDot: 'Enter city...',
 	AccountSaved: 'Your account has been saved.',
 	PleaseEnterName: 'Please enter your name...',

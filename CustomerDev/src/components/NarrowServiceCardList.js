@@ -15,18 +15,19 @@ class NarrowServiceCardList extends Component {
 			const { services } = this.props;
 			this.props.onPress(services[index]);
 		} else {
-			const { services, requesterID } = this.props;
-			this.props.navigation.push('RequesterServiceScreen', {
-				productID: services[index].serviceID,
-				requesterID,
-				providerID: services[index].offeredByID
+			const { services, customerID } = this.props;
+			this.props.navigation.push('ServiceScreen', {
+				serviceID: services[index].serviceID,
+				customerID,
+				businessID: services[index].businessID
 			});
 		}
 	}
 
 	render() {
-		//Fetches the array of services from the props along with the requester object that is signed in
+		//Fetches the array of services from the props along with the customer object that is signed in
 		const { services } = this.props;
+		console.log(services);
 		return (
 			<FlatList
 				showsHorizontalScrollIndicator={false}
@@ -49,10 +50,10 @@ class NarrowServiceCardList extends Component {
 						)}
 						<NarrowServiceCard
 							serviceTitle={item.serviceTitle}
-							price={this.props.dateSelected ? item.dateSelected : item.pricing}
+							price={this.props.dateSelected ? item.dateSelected : item.priceText}
 							imageFunction={async () => {
 								//Passes in the function to retrieve the image of this product
-								return await FirebaseFunctions.call('getProductImageByID', { ID: item.serviceID });
+								return await FirebaseFunctions.call('getServiceImageByID', { serviceID: item.serviceID });
 							}}
 							totalReviews={item.totalReviews}
 							averageRating={item.averageRating}
@@ -76,12 +77,12 @@ class NarrowServiceCardList extends Component {
 	}
 }
 
-//Sets the PropTypes for this component. There will be and it is required. "services" which will be of type array & requester object
-//who will be the one requesting the services.  It will also take in an optional boolean to display the date requester of a product
-//instead of a price (used in RequesterOrderHistoryScreen)
+//Sets the PropTypes for this component. There will be and it is required. "services" which will be of type array & customer object
+//who will be the one requesting the services.  It will also take in an optional boolean to display the date customer of a product
+//instead of a price (used in OrderHistoryScreen)
 NarrowServiceCardList.propTypes = {
 	services: PropTypes.array.isRequired,
-	requesterID: PropTypes.string.isRequired,
+	customerID: PropTypes.string.isRequired,
 	dateRequested: PropTypes.bool,
 	onPress: PropTypes.func
 };
