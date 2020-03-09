@@ -11,7 +11,6 @@ export default class FirebaseFunctions {
   static analytics = firebase.analytics();
   static functions = firebase.functions();
   static storage = firebase.storage()
-
   //Method calls a firebase function by taking the functions name as a parameter, the parameters of the cloud function
   //as a second parameter, and then returns the functions result
   static async call(functionName, parameters) {
@@ -25,15 +24,15 @@ export default class FirebaseFunctions {
     //Tests whether this is a provider or a requester & based on that, subscribes to the correct channel
     const { uid } = account.user;
     //If the user only has a requester account, an error is returned
-    const requester = await this.functions.httpsCallable('getRequesterByID')({ requesterID: uid });
-    const provider = await this.functions.httpsCallable('getProviderByID')({ providerID: uid });
+    const requester = await this.functions.httpsCallable('getCustomerByID')({ customerID: uid });
+    const provider = await this.functions.httpsCallable('getBusinessByID')({ businessID: uid });
     //Logs the event in firebase analytics
     this.analytics.logEvent('provider_log_in');
     //Subscribes to the provider channel
-    const topicName = 'p-' + uid;
+    const topicName = 'b-' + uid;
     await this.fcm.subscribeToTopic(topicName);
     if (requester !== -1 && provider === -1) {
-      return 'IS_ONLY_REQUESTER ' + topicName;
+      return 'IS_ONLY_CUSTOMER ' + topicName;
     }
     return topicName;
   }

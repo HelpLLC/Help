@@ -114,11 +114,11 @@ export default class launchScreen extends Component {
           if (user) {
             const { uid } = user;
             //Starts with searching if this is a requester since that is more common
-            const requester = await FirebaseFunctions.call('getRequesterByID', {
-              requesterID: uid
+            const requester = await FirebaseFunctions.call('getCustomerByID', {
+              customerID: uid
             });
             if (requester === -1) {
-              const provider = await FirebaseFunctions.call('getProviderByID', { providerID: uid });
+              const provider = await FirebaseFunctions.call('getBusinessByID', { businessID: uid });
               if (provider === -1) {
                 this.setState({ isErrorVisible: true });
               } else {

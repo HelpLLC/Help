@@ -63,8 +63,8 @@ class logInScreen extends Component {
 					);
 				}
 				const allProducts = await FirebaseFunctions.call('getAllProducts', {});
-				const requester = await FirebaseFunctions.call('getRequesterByID', {
-					requesterID: account.substring(2)
+				const requester = await FirebaseFunctions.call('getCustomerByID', {
+					customerID: account.substring(2)
 				});
 				//If this is a requester, then it will navigate to the screens & pass in the
 				//correct params

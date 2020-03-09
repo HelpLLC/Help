@@ -24,7 +24,7 @@ class splashScreen extends Component {
 							style={roundBlueButtonStyle.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={() => {
-								this.props.navigation.push('SignUpScreen');
+								this.props.navigation.push('EmailPasswordScreen');
 							}}
 						/>
 					</View>

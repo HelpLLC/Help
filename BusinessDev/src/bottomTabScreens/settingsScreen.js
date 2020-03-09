@@ -42,11 +42,6 @@ class settingsScreen extends Component {
 						<TopBanner title={strings.Settings} />
 					) : (
 						<TopBanner
-							leftIconName='navicon'
-							leftOnPress={() => {
-								FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_settings');
-								this.setState({ isOpen: true });
-							}}
 							size={30}
 							title={strings.Settings}
 						/>
