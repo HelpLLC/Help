@@ -1,6 +1,6 @@
 //This screen will be the one where the user will be able to view a service's details, price, name
-//of the company providing it, etc. There will be a button at the bottom of the screen allowing the
-//requester to request the service.
+//of the business providing it, etc. There will be a button at the bottom of the screen allowing the
+//customer to request the service.
 import React, { Component } from 'react';
 import {
 	View,
@@ -34,66 +34,62 @@ import { Rating, AirbnbRating } from 'react-native-ratings';
 import ActionSheet from 'react-native-actionsheet';
 
 class serviceScreen extends Component {
-	//This constructor and componentDidMount will wait until all the products loaded if there are any
-	constructor() {
-		super();
-		this.state = {
-			isLoading: true,
-			product: '',
-			isRequested: '',
-			isErrorVisible: false,
-			isRequestServiceVisible: false,
-			isCancelRequestVisible: false,
-			image: images.BlankWhite,
-			isCompanyReportedVisible: false,
-			isBlockCompanyVisible: false,
-			isCompanyBlockedVisible: false
-		};
-	}
+	state = {
+		isLoading: true,
+		service: '',
+		isRequested: '',
+		isErrorVisible: false,
+		isRequestServiceVisible: false,
+		businessID: '',
+		business: '',
+		customerID: '',
+		customer: '',
+		reviews: '',
+		isCancelRequestVisible: false,
+		image: images.BlankWhite,
+		isBusinessReportedVisible: false,
+		isBlockBusinessVisible: false,
+		isBusinessBlockedVisible: false
+	};
 
-	//Fetches the data associated with this screen
-	async fetchDatabaseData() {
+	//This will fetch the data about this business and the service from firestore
+	async componentDidMount() {
+		FirebaseFunctions.setCurrentScreen('CustomerServiceScreen', 'serviceScreen');
+		const { serviceID, customerID, businessID } = this.props.navigation.state.params;
 		try {
-			const { productID, requesterID, businessID } = this.props.navigation.state.params;
-			const requester = await FirebaseFunctions.call('getCustomerByID', { requesterID });
-			const provider = await FirebaseFunctions.call('getBusinessByID', { businessID });
-			const product = await FirebaseFunctions.call('getServiceByID', { serviceID: productID });
-			const url = await FirebaseFunctions.call('getProductImageByID', { ID: product.serviceID });
-			const isRequested = await FirebaseFunctions.call('isServiceRequestedByRequester', {
-				serviceID: productID,
-				requesterID: requesterID
-			});
-			const reviews = await FirebaseFunctions.call('getReviewsByServiceID', {
-				serviceID: product.serviceID
-			});
+			const customer = await FirebaseFunctions.call('getCustomerByID', { customerID });
+			const business = await FirebaseFunctions.call('getBusinessByID', { businessID });
+			const service = await FirebaseFunctions.call('getServiceByID', { serviceID });
+			const url = await FirebaseFunctions.call('getServiceImageByID', { serviceID: serviceID });
 
-			if (isRequested === false) {
+			const isRequested = customer.currentRequests.find(
+				(element) => element.serviceID === serviceID
+			);
+
+			if (isRequested) {
 				this.setState({
 					isLoading: false,
-					provider,
-					requester,
-					isRequested: false,
-					product,
+					business,
+					businessID,
+					customer,
+					customerID,
+					isRequested: true,
+					service,
 					image: url,
-					reviews
+					requestID: isRequested.requestID,
+					reviews: service.displayedReviews
 				});
 			} else {
-				//Fetches the request object's ID to pass in to the next screen if necessary
-				const inProgress = await FirebaseFunctions.call('getInProgressRequestsByRequesterID', {
-					requesterID
-				});
-				const requestID = inProgress.find((element) => {
-					return element.serviceID === product.serviceID;
-				}).requestID;
 				this.setState({
 					isLoading: false,
-					provider,
-					requester,
-					isRequested: true,
-					product,
+					business,
+					businessID,
+					customer,
+					customerID,
+					isRequested: false,
+					service,
 					image: url,
-					requestID,
-					reviews
+					reviews: service.displayedReviews
 				});
 			}
 		} catch (error) {
@@ -101,36 +97,13 @@ class serviceScreen extends Component {
 			FirebaseFunctions.call('logIssue', {
 				error,
 				userID: {
-					screen: 'RequesterServiceScreen',
-					userID: 'r-' + requester.requesterID,
-					productID
+					screen: 'CustomerServiceScreen',
+					userID: 'c-' + customerID,
+					serviceID
 				}
 			});
 		}
-
-		return 0;
-	}
-
-	//This will fetch the data about this provider and his products from firestore
-	async componentDidMount() {
-		FirebaseFunctions.setCurrentScreen('requesterServiceScreen', 'serviceScreen');
-
-		this.setState({ isLoading: true });
-		//Adds the listener to add the listener to refetch the data once this component is returned to
-		this.willFocusListener = this.props.navigation.addListener('willFocus', async () => {
-			await this.fetchDatabaseData();
-			this.setState({ isLoading: false });
-		});
-	}
-
-	//This method returns true if any of the fields in a default question object are true. Other wise returns false
-	isObjectTruthy(object) {
-		for (const field in object) {
-			if (object[field].isSelected === true) {
-				return true;
-			}
-		}
-		return false;
+		this.setState({ isLoading: false });
 	}
 
 	//Removes the listener when the screen is switched away from
@@ -143,7 +116,7 @@ class serviceScreen extends Component {
 			number: phoneNumber, // String value with the number to call
 			prompt: true // Optional boolean property. Determines if the user should be prompt prior to the call
 		};
-		const { requester } = this.state;
+		const { customer } = this.state;
 		try {
 			call(args);
 		} catch (error) {
@@ -151,87 +124,84 @@ class serviceScreen extends Component {
 			FirebaseFunctions.call('logIssue', {
 				error,
 				userID: {
-					screen: 'RequesterServiceScreen',
-					userID: 'r-' + requester.requesterID,
-					productID: product.productID
+					screen: 'ServiceScreen',
+					userID: 'c-' + customer.customerID,
+					serviceID: serviceID
 				}
 			});
 		}
 	}
 
 	handleEmail(emailAddress) {
-		const { requester } = this.state;
+		const { customer } = this.state;
 		const to = [emailAddress]; // string or array of email addresses
 		try {
 			email(to, {
 				// Optional additional arguments
-				subject: 'Your Service on Help ' + this.state.product.serviceTitle
+				subject: 'Your Service on Help ' + this.state.service.serviceTitle
 			});
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
 			FirebaseFunctions.call('logIssue', {
 				error,
 				userID: {
-					screen: 'RequesterServiceScreen',
-					userID: 'r-' + requester.requesterID,
-					productID: product.productID
+					screen: 'ServiceScreen',
+					userID: 'c-' + customer.customerID,
+					serviceID: service.serviceID
 				}
 			});
 		}
 	}
 
-	messageProvider() {
-		const { provider, requester } = this.state;
-		this.props.navigation.push('MessagingScreen', {
-			title: provider.companyName,
-			providerID: provider.providerID,
-			requesterID: requester.requesterID,
-			userID: requester.requesterID
-		});
-	}
-
-	async blockCompany() {
-		const { provider, requester } = this.state;
+	async blockBusiness() {
+		const { business, customer } = this.state;
 
 		//First blocks the user
 		this.setState({ isLoading: true });
-		await FirebaseFunctions.call('blockCompany', { requester, provider });
+		await FirebaseFunctions.call('blockBusiness', { customer, business });
 
 		//Navigates back to the request screen
 		try {
-			const newRequesterObject = await FirebaseFunctions.call('getCustomerByID', {
-				customerID: requester.customerID
+			const newCustomerObject = await FirebaseFunctions.call('getCustomerByID', {
+				customerID: customer.customerID
 			});
-			const allProducts = await FirebaseFunctions.call('getAllProducts', {});
+			const allServices = await FirebaseFunctions.call('getAllServices', {});
 			this.setState({
 				isLoading: false,
-				isCompanyBlockedVisible: true,
-				allProducts,
-				newRequesterObject
+				isBusinessBlockedVisible: true,
+				allServices,
+				newCustomerObject
 			});
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
 		}
 	}
 
-	reportCompany() {
-		const { provider, requester } = this.state;
+	reportBusiness() {
+		const { business, customer } = this.state;
 		FirebaseFunctions.call('reportIssue', {
-			user: requester,
+			user: customer,
 			issue: {
-				report: 'Report against a company',
-				companyID: provider.providerID,
-				companyName: provider.companyName
+				report: 'Report against a business',
+				businessID: business.businessID,
+				businessName: business.businessName
 			}
 		});
-		this.setState({ isCompanyReportedVisible: true });
+		this.setState({ isBusinessReportedVisible: true });
 	}
 
 	//Renders the UI
 	render() {
-		const { product, isLoading, isRequested, requester } = this.state;
-		const { provider } = this.state;
-		if (isLoading === true || isRequested === '') {
+		const {
+			service,
+			isLoading,
+			isRequested,
+			customer,
+			business,
+			businessID,
+			customerID
+		} = this.state;
+		if (isLoading === true) {
 			return (
 				<HelpView style={screenStyle.container}>
 					<TopBanner
@@ -272,7 +242,7 @@ class serviceScreen extends Component {
 											marginLeft: Dimensions.get('window').width * 0.05,
 											flexDirection: 'column'
 										}}>
-										<Text style={fontStyles.bigTextStyleBlack}>{product.serviceTitle}</Text>
+										<Text style={fontStyles.bigTextStyleBlack}>{service.serviceTitle}</Text>
 									</View>
 								</View>
 								<View
@@ -287,10 +257,10 @@ class serviceScreen extends Component {
 											count={5}
 											size={15}
 											isDisabled={true}
-											defaultRating={product.averageRating}
+											defaultRating={service.averageRating}
 											showRating={false}
 										/>
-										<Text style={fontStyles.subTextStyleBlack}> ({product.totalReviews})</Text>
+										<Text style={fontStyles.subTextStyleBlack}> ({service.totalReviews})</Text>
 									</View>
 									<View
 										style={{
@@ -316,12 +286,12 @@ class serviceScreen extends Component {
 									</View>
 									<TouchableOpacity
 										onPress={() => {
-											this.props.navigation.push('RequesterCompanyProfileScreen', {
-												provider,
-												requester
+											this.props.navigation.push('BusinessProfileScreen', {
+												business,
+												customer
 											});
 										}}>
-										<Text style={fontStyles.bigTextStyleBlue}>{provider.companyName}</Text>
+										<Text style={fontStyles.bigTextStyleBlue}>{business.businessName}</Text>
 									</TouchableOpacity>
 								</View>
 							</View>
@@ -380,7 +350,7 @@ class serviceScreen extends Component {
 											);
 										}}
 										textStyle={{ textAlign: 'left' }}>
-										<Text style={fontStyles.subTextStyleBlack}>{product.serviceDescription}</Text>
+										<Text style={fontStyles.subTextStyleBlack}>{service.serviceDescription}</Text>
 									</ViewMoreText>
 								</View>
 								<View
@@ -389,13 +359,13 @@ class serviceScreen extends Component {
 										alignItems: 'center',
 										marginBottom: Dimensions.get('window').height * 0.04
 									}}>
-									<Text style={fontStyles.bigTextStyleBlack}>{product.pricing}</Text>
+									<Text style={fontStyles.bigTextStyleBlack}>{service.priceText}</Text>
 								</View>
 
-								{//First tests if the product has been removed by the business (in this case, the product
-								//is probably being accessed from order history). If the product still exists, it will test
-								//if the product has been requested or not
-								this.state.product.isDeleted && this.state.product.isDeleted === true ? (
+								{//First tests if the service has been removed by the business (in this case, the service
+								//is probably being accessed from order history). If the service still exists, it will test
+								//if the service has been requested or not
+								this.state.service.isDeleted && this.state.service.isDeleted === true ? (
 									<View
 										style={{
 											justifyContent: 'center',
@@ -405,7 +375,7 @@ class serviceScreen extends Component {
 										}}>
 										<Text style={fontStyles.bigTextStyleBlack}>{strings.ServiceDeleted}</Text>
 									</View>
-								) : this.state.isRequested === false ? (
+								) : isRequested === false ? (
 									<View
 										style={{
 											flex: 1,
@@ -418,27 +388,24 @@ class serviceScreen extends Component {
 											style={roundBlueButtonStyle.MediumSizeButton}
 											textStyle={fontStyles.bigTextStyleWhite}
 											onPress={() => {
-												const { product, requester } = this.state;
-												//If the product has questions associated with it, then it will
+												const { service, customer } = this.state;
+												//If the service has questions associated with it, then it will
 												//go to the questions screen. If it only has a schedule associated
 												//with it, it will go to the scheduling screen.
-												if (
-													product.questions.length > 0 ||
-													this.isObjectTruthy(product.defaultQuestions)
-												) {
-													this.props.navigation.push('RequesterQuestionsScreen', {
-														product,
-														requester,
+												if (service.questions.length > 0) {
+													this.props.navigation.push('ServiceQuestionsScreen', {
+														service,
+														customer,
 														isEditing: false
 													});
 												}
-												//All products would require scheduling, so it goes to the
+												//All services would require scheduling, so it goes to the
 												//scheduling screen no matter what
 												else {
 													//Navigates to the scheduling screen
-													this.props.navigation.push('RequesterScheduleScreen', {
-														product,
-														requester,
+													this.props.navigation.push('BusinessScheduleScreen', {
+														service,
+														customer,
 														isEditing: false
 													});
 												}
@@ -459,9 +426,9 @@ class serviceScreen extends Component {
 											textStyle={fontStyles.bigTextStyleWhite}
 											onPress={() => {
 												//This take the user to the screen to view their request for this service
-												this.props.navigation.push('RequesterServiceRequestedScreen', {
-													product,
-													requesterID: requester.requesterID,
+												this.props.navigation.push('ServiceRequestedScreen', {
+													service,
+													customerID: customer.customerID,
 													requestID: this.state.requestID,
 													completed: false
 												});
@@ -507,12 +474,12 @@ class serviceScreen extends Component {
 										}}>
 										<TouchableOpacity
 											onPress={() => {
-												this.props.navigation.push('RequesterCompanyProfileScreen', {
-													provider,
-													requester
+												this.props.navigation.push('BusinessProfileScreen', {
+													business,
+													customer
 												});
 											}}>
-											<Text style={fontStyles.mainTextStyleBlue}>{provider.companyName}</Text>
+											<Text style={fontStyles.mainTextStyleBlue}>{business.businessName}</Text>
 										</TouchableOpacity>
 									</View>
 								</View>
@@ -543,9 +510,9 @@ class serviceScreen extends Component {
 										}}>
 										<TouchableOpacity
 											onPress={() => {
-												this.callNumber(provider.phoneNumber);
+												this.callNumber(business.phoneNumber);
 											}}>
-											<Text style={fontStyles.mainTextStyleBlue}>{provider.phoneNumber}</Text>
+											<Text style={fontStyles.mainTextStyleBlue}>{business.phoneNumber}</Text>
 										</TouchableOpacity>
 									</View>
 								</View>
@@ -576,12 +543,12 @@ class serviceScreen extends Component {
 										}}>
 										<TouchableOpacity
 											onPress={() => {
-												this.handleEmail(provider.email);
+												this.handleEmail(business.email);
 											}}>
 											<Text style={fontStyles.mainTextStyleBlue}>
-												{provider.email.length > 14
-													? provider.email.substring(0, 13) + strings.DotDotDot
-													: provider.email}
+												{business.email.length > 14
+													? business.email.substring(0, 13) + strings.DotDotDot
+													: business.email}
 											</Text>
 										</TouchableOpacity>
 									</View>
@@ -610,10 +577,10 @@ class serviceScreen extends Component {
 											justifyContent: 'flex-end',
 											marginBottom: Dimensions.get('window').height * 0.01
 										}}>
-										<Text style={fontStyles.mainTextStyleBlack}>{provider.location}</Text>
+										<Text style={fontStyles.mainTextStyleBlack}>{business.location}</Text>
 									</View>
 								</View>
-								{provider.website && provider.website.length > 0 ? (
+								{business.website && business.website.length > 0 ? (
 									<View
 										style={{
 											flexDirection: 'row',
@@ -642,7 +609,7 @@ class serviceScreen extends Component {
 											<TouchableOpacity
 												onPress={() => {
 													try {
-														Linking.openURL('https://' + provider.website);
+														Linking.openURL('https://' + business.website);
 													} catch (error) {
 														this.setState({
 															isLoading: false,
@@ -651,14 +618,14 @@ class serviceScreen extends Component {
 														FirebaseFunctions.call('logIssue', {
 															error,
 															userID: {
-																screen: 'RequesterServiceScreen',
-																userID: 'r-' + requester.requesterID,
-																productID: product.productID
+																screen: 'ServiceScreen',
+																userID: 'c-' + customer.customerID,
+																serviceID: service.serviceID
 															}
 														});
 													}
 												}}>
-												<Text style={fontStyles.mainTextStyleBlue}>{provider.website}</Text>
+												<Text style={fontStyles.mainTextStyleBlue}>{business.website}</Text>
 											</TouchableOpacity>
 										</View>
 									</View>
@@ -674,7 +641,7 @@ class serviceScreen extends Component {
 									marginTop: Dimensions.get('window').height * 0.02,
 									marginHorizontal: Dimensions.get('window').width * 0.05
 								}}>
-								<Text style={fontStyles.subTextStyleBlack}>{provider.companyDescription}</Text>
+								<Text style={fontStyles.subTextStyleBlack}>{business.businessDescription}</Text>
 							</View>
 							<View
 								style={{
@@ -685,9 +652,9 @@ class serviceScreen extends Component {
 								}}>
 								<TouchableOpacity
 									onPress={() => {
-										this.props.navigation.push('RequesterCompanyProfileScreen', {
-											provider,
-											requester
+										this.props.navigation.push('BusinessProfileScreen', {
+											business,
+											customer
 										});
 									}}>
 									<Text style={fontStyles.mainTextStyleBlue}>{strings.MoreByThisBusiness}</Text>
@@ -708,7 +675,7 @@ class serviceScreen extends Component {
 									<FlatList
 										showsHorizontalScrollIndicator={false}
 										data={this.state.reviews}
-										keyExtractor={(item) => item.requesterID}
+										keyExtractor={(item) => item.customerID}
 										showsVerticalScrollIndicator={false}
 										renderItem={({ item, index }) =>
 											item.comment.trim().length > 0 ? (
@@ -716,8 +683,8 @@ class serviceScreen extends Component {
 													<CustomerReviewCard
 														stars={item.stars}
 														comment={item.comment}
-														customerName={item.requesterName}
-														customerID={item.requesterID}
+														customerName={item.name}
+														customerID={item.customerID}
 													/>
 												</View>
 											) : (
@@ -741,28 +708,28 @@ class serviceScreen extends Component {
 						message={strings.SomethingWentWrong}
 					/>
 					<HelpAlert
-						isVisible={this.state.isCompanyReportedVisible}
+						isVisible={this.state.isBusinessReportedVisible}
 						onPress={() => {
-							this.setState({ isCompanyReportedVisible: false });
+							this.setState({ isBusinessReportedVisible: false });
 						}}
-						title={strings.CompanyReported}
-						message={strings.CompanyHasBeenReported}
+						title={strings.BusinessReported}
+						message={strings.BusinessHasBeenReported}
 					/>
 					<HelpAlert
-						isVisible={this.state.isCompanyBlockedVisible}
+						isVisible={this.state.isBusinessBlockedVisible}
 						onPress={() => {
-							this.setState({ isCompanyBlockedVisible: false });
+							this.setState({ isBusinessBlockedVisible: false });
 							this.props.navigation.push('FeaturedScreen', {
-								requester: this.state.newRequesterObject,
-								allProducts: this.state.allProducts
+								customer: this.state.newCustomerObject,
+								allServices: this.state.allServices
 							});
 						}}
-						title={strings.CompanyBlocked}
-						message={strings.CompanyHasBeenBlocked}
+						title={strings.BusinessBlocked}
+						message={strings.BusinessHasBeenBlocked}
 					/>
 					<ActionSheet
 						ref={(o) => (this.ActionSheet = o)}
-						title={provider.companyName}
+						title={business.businessName}
 						options={[strings.Message, strings.Report, strings.Block, strings.Cancel]}
 						cancelButtonIndex={3}
 						styles={{
@@ -771,27 +738,25 @@ class serviceScreen extends Component {
 						destructiveButtonIndex={3}
 						onPress={(index) => {
 							if (index === 1) {
-								this.reportCompany();
+								this.reportBusiness();
 							} else if (index === 2) {
-								this.setState({ isBlockCompanyVisible: true });
-							} else if (index === 0) {
-								this.messageProvider();
+								this.setState({ isBlockBusinessVisible: true });
 							}
 						}}
 					/>
 					<OptionPicker
-						isVisible={this.state.isBlockCompanyVisible}
+						isVisible={this.state.isBlockBusinessVisible}
 						title={strings.Block}
-						message={strings.AreYouSureYouWantToBlock + ' ' + provider.companyName + '?'}
+						message={strings.AreYouSureYouWantToBlock + ' ' + business.businessName + '?'}
 						confirmText={strings.Yes}
 						cancelText={strings.Cancel}
 						clickOutside={true}
 						confirmOnPress={() => {
-							this.setState({ isBlockCompanyVisible: false });
-							this.blockCompany();
+							this.setState({ isBlockBusinessVisible: false });
+							this.blockBusiness();
 						}}
 						cancelOnPress={() => {
-							this.setState({ isBlockCompanyVisible: false });
+							this.setState({ isBlockBusinessVisible: false });
 						}}
 					/>
 				</HelpView>

@@ -61,7 +61,7 @@ export default {
 	//------------------- Blocked Businesses Screen -------------------
 	Blocked: 'Blocked',
 	Unblock: 'Unblock',
-	UnblockCompany: 'Unblock Company',
+	UnblockBusiness: 'Unblock Business',
 	AreYouSureYouWantToUnblock: 'Are you sure you want to unblock ',
 	HasBeenUnblocked: 'has been unblocked.',
 
@@ -163,14 +163,14 @@ export default {
 	RequestService: 'Request Service',
 	AreYouSureRequestService: 'Are you sure you want to request this service?',
 	Yes: 'Yes',
-	CompanyServices: 'Company Services',
+	BusinessServices: 'Business Services',
 	MoreByThisBusiness: 'More by this business',
 	ReadMore: 'Read More',
 	ReadLess: 'Read Less',
 	CustomerReviews: 'Customer Reviews',
 	ServiceDeleted: 'The business no longer sells this service',
-	CompanyBlocked: 'Company Blocked',
-	CompanyHasBeenBlocked: 'The company has been blocked',
+	BusinessBlocked: 'Business Blocked',
+	BusinessHasBeenBlocked: 'The business has been blocked',
 	ViewRequest: 'View Request',
 
 	//------------------- Requester Answer Questions Screen -------------------
@@ -198,13 +198,13 @@ export default {
 	Credits: 'Credits',
 	Categories: 'Categories',
 
-	//------------------- Requester Side Company Profile Screen -------------------
-	CompanyProfile: 'Company Profile',
+	//------------------- Customer Side Business Profile Screen -------------------
+	BusinessProfile: 'Business Profile',
 	Block: 'Block',
-	CompanyReported: 'Company Reported',
+	BusinessReported: 'Business Reported',
 	AreYouSureYouWantToBlock: 'Are you sure your want to block',
-	CompanyHasBeenReported:
-		'This company has been reported. Help staff will take a look. Thank you for your patience.',
+	BusinessHasBeenReported:
+		'This business has been reported. Help staff will take a look. Thank you for your patience.',
 
 	//------------------- Chats Screen -------------------
 	NoMessagesYet: 'No messages yet',

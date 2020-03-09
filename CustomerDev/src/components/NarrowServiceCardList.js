@@ -27,7 +27,6 @@ class NarrowServiceCardList extends Component {
 	render() {
 		//Fetches the array of services from the props along with the customer object that is signed in
 		const { services } = this.props;
-		console.log(services);
 		return (
 			<FlatList
 				showsHorizontalScrollIndicator={false}
