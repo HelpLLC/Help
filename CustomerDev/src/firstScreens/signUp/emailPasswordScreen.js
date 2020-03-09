@@ -7,14 +7,14 @@ import strings from 'config/strings';
 import CheckBox from 'react-native-check-box';
 import colors from 'config/colors';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import RoundBlueButton from '../components/RoundBlueButton';
-import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
-import HelpView from '../components/HelpView';
+import RoundBlueButton from '../../components/RoundBlueButton';
+import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
+import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
-import FirebaseFunctions from '../../config/FirebaseFunctions';
-import TopBanner from '../components/TopBanner';
+import FirebaseFunctions from '../../../config/FirebaseFunctions';
+import TopBanner from '../../components/TopBanner';
 import { Icon } from 'react-native-elements';
-import HelpAlert from '../components/HelpAlert';
+import HelpAlert from '../../components/HelpAlert';
 
 //The class that will create the look of this screen
 class signUpScreen extends Component {
