@@ -161,7 +161,7 @@ export default class businessScheduleScreen extends Component {
 			}
 		}
 
-		this.setState({ availableTimes: filteredTimes });
+		return filteredTimes;
 	}
 
 	//Requests the service by checking if all fields have been filled out correctly
@@ -189,8 +189,15 @@ export default class businessScheduleScreen extends Component {
 			time: selectedTime
 		});
 		const allServices = await FirebaseFunctions.call('getAllServices', {});
-		const updatedCustomer = await FirebaseFunctions.call('getCustomerByID', { customerID: customer.customerID });
-		this.setState({ isLoading: false, isRequestSucess: true, customer: updatedCustomer, allServices });
+		const updatedCustomer = await FirebaseFunctions.call('getCustomerByID', {
+			customerID: customer.customerID
+		});
+		this.setState({
+			isLoading: false,
+			isRequestSucess: true,
+			customer: updatedCustomer,
+			allServices
+		});
 	}
 
 	render() {
@@ -240,14 +247,20 @@ export default class businessScheduleScreen extends Component {
 								? new Date(this.state.selectedDate)
 								: new Date()
 						}
+						disabledDates={(date) => {
+							return this.setAvailableTimes(new Date(date)).length === 0;
+						}}
 						minDate={new Date()}
 						todayBackgroundColor={colors.lightGray}
 						todayTextStyle={fontStyles.subTextStyleBlack}
 						selectedDayColor={colors.lightBlue}
 						onDateChange={(newDate) => {
 							const dateObject = new Date(newDate);
-							this.setState({ selectedDate: dateObject.toLocaleDateString(), selectedTime: '' });
-							this.setAvailableTimes(dateObject);
+							this.setState({
+								selectedDate: dateObject.toLocaleDateString(),
+								selectedTime: '',
+								availableTimes: this.setAvailableTimes(dateObject)
+							});
 						}}
 					/>
 				</View>
