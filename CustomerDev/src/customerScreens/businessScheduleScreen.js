@@ -40,7 +40,8 @@ export default class businessScheduleScreen extends Component {
 		request: '',
 		selectedDate: '',
 		selectedTime: '',
-		isSaveRequestVisible: false,
+		fieldsError: false,
+		requestSummaryVisible: false,
 		isErrorVisible: false,
 		isRequestSavedSucess: false,
 		isRequestSucess: false
@@ -168,6 +169,28 @@ export default class businessScheduleScreen extends Component {
 		this.setState({
 			isLoading: true
 		});
+
+		//Fetches all the required fields
+		const { business, customer, selectedDate, answers, service, selectedTime } = this.state;
+
+		//Uploads the request to firebase
+		await FirebaseFunctions.call('requestService', {
+			assignedTo: '',
+			businessID: business.businessID,
+			customerID: customer.customerID,
+			date: selectedDate,
+			questions: answers,
+			review: '',
+			serviceTitle: service.serviceTitle,
+			customerName: customer.name,
+			serviceDuration: service.serviceDuration,
+			serviceID: service.serviceID,
+			status: 'AWAITING',
+			time: selectedTime
+		});
+		const allServices = await FirebaseFunctions.call('getAllServices', {});
+		const updatedCustomer = await FirebaseFunctions.call('getCustomerByID', { customerID: customer.customerID });
+		this.setState({ isLoading: false, isRequestSucess: true, customer: updatedCustomer, allServices });
 	}
 
 	render() {
@@ -179,9 +202,9 @@ export default class businessScheduleScreen extends Component {
 			selectedDate,
 			selectedTime,
 			isScreenLoading,
-			isSaveRequestVisible,
 			isErrorVisible,
 			isRequestSavedSucess,
+			requestSummaryVisible,
 			isRequestSucess,
 			allServices
 		} = this.state;
@@ -260,8 +283,11 @@ export default class businessScheduleScreen extends Component {
 									textStyle={fontStyles.bigTextStyleWhite}
 									isLoading={this.state.isLoading}
 									onPress={() => {
-										//Passes the correct parameters to the scheduling screen
-										this.requestService();
+										if (selectedDate === '' || selectedTime === '') {
+											this.setState({ fieldsError: true });
+										} else {
+											this.setState({ requestSummaryVisible: true });
+										}
 									}}
 								/>
 							</View>
@@ -316,6 +342,14 @@ export default class businessScheduleScreen extends Component {
 					message={strings.TheServiceHasBeenRequested}
 				/>
 				<HelpAlert
+					isVisible={this.state.fieldsError}
+					onPress={() => {
+						this.setState({ fieldsError: false });
+					}}
+					title={strings.Whoops}
+					message={strings.PleaseFillOutAllFields}
+				/>
+				<HelpAlert
 					isVisible={isRequestSavedSucess}
 					onPress={() => {
 						this.setState({ isRequestSavedSucess: false });
@@ -328,19 +362,36 @@ export default class businessScheduleScreen extends Component {
 					message={strings.TheServiceRequestHasBeenSaved}
 				/>
 				<OptionPicker
-					isVisible={isSaveRequestVisible}
-					title={strings.SaveRequest}
+					isVisible={requestSummaryVisible}
+					title={strings.RequestSummary}
 					clickOutside={false}
-					message={strings.AreYouSureYouWantToOverwriteOldRequest}
-					confirmText={strings.Yes}
+					message={
+						'\n' +
+						strings.ServiceColon +
+						service.serviceTitle +
+						'\n\n' +
+						strings.OfferedByColon +
+						service.businessName +
+						'\n\n' +
+						strings.PriceColon +
+						service.priceText +
+						'\n\n' +
+						strings.ScheduledDateColon +
+						selectedDate +
+						'\n\n' +
+						strings.ScheduleTimeColon +
+						selectedTime +
+						'\n\n'
+					}
+					confirmText={strings.Request}
 					confirmOnPress={() => {
 						//Requests the service
 						this.requestService();
-						this.setState({ isSaveRequestVisible: false });
+						this.setState({ requestSummaryVisible: false });
 					}}
 					cancelText={strings.Cancel}
 					cancelOnPress={() => {
-						this.setState({ isSaveRequestVisible: false });
+						this.setState({ requestSummaryVisible: false });
 					}}
 				/>
 			</HelpView>

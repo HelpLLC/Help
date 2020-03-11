@@ -38,7 +38,7 @@ export default {
 	Password: 'Password',
 	ChooseAPassword: 'Choose a password...',
 	SignUp: 'Sign Up',
-	PleaseFillOutAllFields: 'Please fill out all of the above fields',
+	PleaseFillOutAllFields: 'Please fill out all of the fields',
 	PleaseEnterAValidEmail: 'Please enter a valid email',
 	EmailExists: 'An account with this email already exists. Go back and log into this account',
 	ShortPassword: 'Password must be at least 6 characters',
@@ -118,6 +118,12 @@ export default {
 	Save: 'Save',
 	TheServiceRequestHasBeenSaved: 'Your request has been saved',
 	NoAvailableTimes: 'There are no available times on this date',
+	RequestSummary: 'Request Summary',
+	ServiceColon: 'Service: ',
+	OfferedByColon: 'Offered By: ',
+	PriceColon: 'Price: ',
+	ScheduledDateColon: 'Scheduled Date: ',
+	ScheduleTimeColon: 'Scheduled Time: ',
 	Done: 'Done',
 
 	//------------------- Product Screen -------------------

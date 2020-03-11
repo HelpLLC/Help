@@ -422,7 +422,10 @@ class serviceScreen extends Component {
 										}}>
 										<RoundBlueButton
 											title={strings.ViewRequest}
-											style={roundBlueButtonStyle.MediumSizeButton}
+											style={[
+												roundBlueButtonStyle.MediumSizeButton,
+												{ width: Dimensions.get('window').width * 0.45 }
+											]}
 											textStyle={fontStyles.bigTextStyleWhite}
 											onPress={() => {
 												//This take the user to the screen to view their request for this service
