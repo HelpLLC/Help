@@ -1,4 +1,4 @@
-//this screen will represent the screen where requesters answer the questions which have been determined by the business
+//this screen will represent the screen where customers answer the questions which have been determined by the business
 import React, { Component } from 'react';
 import { View, Text, Dimensions, FlatList, ScrollView } from 'react-native';
 import HelpView from '../components/HelpView';
@@ -12,10 +12,10 @@ import HelpAlert from '../components/HelpAlert';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-class requesterQuestionsScreen extends Component {
+class serviceQuestionsScreen extends Component {
 	state = {
-		product: '',
-		requester: '',
+		service: '',
+		customer: '',
 		isLoading: false,
 		answers: [],
 		isScreenLoading: true,
@@ -27,22 +27,16 @@ class requesterQuestionsScreen extends Component {
 
 	//Sets the initial state with the questions and the array of empty answers
 	async componentDidMount() {
-		FirebaseFunctions.setCurrentScreen('RequesterQuestionsScreen', 'requesterQuestionsScreen');
-		const { product, requester } = this.props.navigation.state.params;
-		let { questions } = product;
-		//Adds the default questions to the array of qeustions if any are present
-		let { defaultQuestions } = product;
-		for (const defaultQuestion of defaultQuestions) {
-			if (defaultQuestion.isSelected === true) {
-				questions.push(defaultQuestion.question);
-			}
-		}
+		const { service, customer, isEditing } = this.props.navigation.state.params;
+		let { questions } = service;
 		let answers = [];
 		//If this screen is to edit a previous request, then the answer that was previously put down will be set
-		const { request, isEditing } = this.props.navigation.state.params;
 		if (isEditing === true) {
+			const { request } = this.props.navigation.state.params;
+			FirebaseFunctions.setCurrentScreen('NewServiceQuestionsScreen', 'serviceQuestionsScreen');
 			answers = request.answers;
 		} else {
+			FirebaseFunctions.setCurrentScreen('EditServiceQuestionsScreen', 'serviceQuestionsScreen');
 			answers = questions.map((element) => {
 				return {
 					question: element,
@@ -54,16 +48,16 @@ class requesterQuestionsScreen extends Component {
 			isScreenLoading: false,
 			questions,
 			answers,
-			product,
-			requester
+			service,
+			customer
 		});
 	}
 
 	//This function will double check that all answers have been answered. If they have, then the app will pass
-	//the answers the next step of requesting the product, which is scheduling. If they haven't a pop up will
+	//the answers the next step of requesting the service, which is scheduling. If they haven't a pop up will
 	//appear telling them to.
 	goToSchedulingScreen() {
-		const { answers, product, requester } = this.state;
+		const { answers, service, customer } = this.state;
 		//Double checks they aren't empty strings
 		for (const answer of answers) {
 			if (!answer || answer.answer.trim() === '') {
@@ -73,10 +67,10 @@ class requesterQuestionsScreen extends Component {
 		}
 		//If the program has reached this stage of the clause, that means the request is good to go
 		//Goes to the next step of the process which is scheduling
-		this.props.navigation.push('RequesterScheduleScreen', {
+		this.props.navigation.push('BusinessScheduleScreen', {
 			answers,
-			product,
-			requester,
+			service,
+			customer,
 			isEditing: this.props.navigation.state.params.isEditing,
 			request: this.props.navigation.state.params.request
 		});
@@ -84,7 +78,7 @@ class requesterQuestionsScreen extends Component {
 
 	//Renders the UI
 	render() {
-		const { questions, answers, product } = this.state;
+		const { questions, answers } = this.state;
 		if (this.state.isScreenLoading === true) {
 			return (
 				<HelpView>
@@ -154,7 +148,7 @@ class requesterQuestionsScreen extends Component {
 					/>
 					<View style={{ marginVertical: Dimensions.get('window').height * 0.05 }}>
 						<RoundBlueButton
-							title={product.schedule.scheduleType === 'Anytime' ? strings.Request : strings.Next}
+							title={strings.Next}
 							style={roundBlueButtonStyle.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
 							isLoading={this.state.isLoading}
@@ -181,21 +175,9 @@ class requesterQuestionsScreen extends Component {
 					title={strings.Whoops}
 					message={strings.SomethingWentWrong}
 				/>
-				<HelpAlert
-					isVisible={this.state.isRequestSucess}
-					onPress={() => {
-						this.setState({ isRequestSucess: false });
-						this.props.navigation.push('FeaturedScreen', {
-							requester: this.state.requester,
-							allProducts: this.state.allProducts
-						});
-					}}
-					title={strings.Success}
-					message={strings.TheServiceHasBeenRequested}
-				/>
 			</HelpView>
 		);
 	}
 }
 
-export default requesterQuestionsScreen;
+export default serviceQuestionsScreen;

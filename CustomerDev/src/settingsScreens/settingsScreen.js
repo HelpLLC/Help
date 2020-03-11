@@ -13,7 +13,7 @@ import screenStyle from 'config/styles/screenStyle';
 import HelpView from '../components/HelpView';
 import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import LeftMenu from '../requesterScreens/LeftMenu';
+import LeftMenu from '../customerScreens/LeftMenu';
 import SideMenu from 'react-native-side-menu';
 
 class settingsScreen extends Component {

@@ -40,23 +40,23 @@ export default class FirebaseFunctions {
   }
 
   //Logs the user in and subscribes to the notification service associated with his/her account
-  //If the user is a requester, the topic will be named "r-accountUID", and if they are a provider, it will be
+  //If the user is a customer, the topic will be named "r-accountUID", and if they are a business, it will be
   //"p-accountUID". The method will then return the topic name
   static async logIn(email, password) {
     const account = await firebase.auth().signInWithEmailAndPassword(email, password);
-    //Tests whether this is a provider or a requester & based on that, subscribes to the correct channel
+    //Tests whether this is a business or a customer & based on that, subscribes to the correct channel
     const { uid } = account.user;
-    //Starts with searching if this is a requester since that is more common
-    const requester = await this.call('getCustomerByID', { customerID: uid });
-    const provider = await this.call('getBusinessByID', { businessID: uid });
+    //Starts with searching if this is a customer since that is more common
+    const customer = await this.call('getCustomerByID', { customerID: uid });
+    const business = await this.call('getBusinessByID', { businessID: uid });
     //Logs the event in firebase analytics
     this.analytics.logEvent('customer_log_in');
-    //Subscribes to the requester channel
-    const topicName = 'r-' + uid;
+    //Subscribes to the customer channel
+    const topicName = 'c-' + uid;
     await this.fcm.subscribeToTopic(topicName);
-    //If this account is only a provider account, then the method will return a string indicator to show this
-    if (requester === -1 && provider !== -1) {
-      return 'IS_ONLY_PROVIDER ' + topicName;
+    //If this account is only a business account, then the method will return a string indicator to show this
+    if (customer === -1 && business !== -1) {
+      return 'IS_ONLY_BUSINESS ' + topicName;
     }
     return topicName;
   }
