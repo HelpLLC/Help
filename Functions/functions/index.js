@@ -327,6 +327,7 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		businessName,
 		businessDescription,
 		businessHours,
+		currentRequests,
 		coordinates,
 		email,
 		location,
@@ -340,6 +341,7 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		businessName,
 		businessDescription,
 		businessHours,
+		currentRequests,
 		coordinates,
 		businessID,
 		email,
@@ -606,6 +608,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		review,
 		serviceTitle,
 		customerName,
+		serviceDuration,
 		serviceID,
 		status,
 		time
@@ -653,13 +656,19 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		})
 	});
 
-	//Increments the numRequests for the service
+	//Increments the numRequests for the service. Also adds scheduling information for the business
 	let business = (await businesses.doc(businessID).get()).data();
 	const indexOfService = business.services.findIndex((element) => element.serviceID === serviceID);
 	business.services[indexOfService].numCurrentRequests =
 		business.services[indexOfService].numCurrentRequests + 1;
 	await businesses.doc(businessID).update({
-		services: business.services
+		services: business.services,
+		currentRequests: admin.firestore.FieldValue.arrayUnion({
+			date,
+			time,
+			requestID,
+			serviceDuration
+		})
 	});
 
 	sendNotification('b-' + businessID, 'New Request', 'You have a new request for ' + serviceTitle);
@@ -808,15 +817,20 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 		currentRequests: service.currentRequests
 	});
 
-	//Increments the numRequests for the service
+	//Decrements the numRequests for the service and updates current requests in the business document
 	let business = (await businesses.doc(service.businessID).get()).data();
 	const indexOfService = business.services.findIndex(
 		(element) => element.serviceID === service.serviceID
 	);
 	business.services[indexOfService].numCurrentRequests =
 		business.services[indexOfService].numCurrentRequests - 1;
+	const indexOfRequest = business.currentRequests.findIndex(
+		(element) => element.requestID === requestID
+	);
+	business.currentRequests.splice(indexOfRequest, 1);
 	await businesses.doc(service.businessID).update({
-		services: business.services
+		services: business.services,
+		currentRequests: business.currentRequests
 	});
 
 	return 0;

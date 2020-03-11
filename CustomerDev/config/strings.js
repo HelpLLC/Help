@@ -108,10 +108,6 @@ export default {
 
 	//------------------- Requester Schedule Screen -------------------
 	Schedule: 'Schedule',
-	PickADate: 'Pick a Date',
-	PickATime: 'Pick a Time',
-	FinishRequesting: 'Finish Request',
-	isAvailableBetween: 'is available between',
 	and: 'and',
 	PleaseSelectATimeInWhichTheBusinessIsAvailable:
 		'Please select a time in which the business is available.',
@@ -121,7 +117,7 @@ export default {
 	SaveRequest: 'Save Request',
 	Save: 'Save',
 	TheServiceRequestHasBeenSaved: 'Your request has been saved',
-	PleaseSelectADayForYourService: 'Please select a day for your service.',
+	NoAvailableTimes: 'There are no available times on this date',
 	Done: 'Done',
 
 	//------------------- Product Screen -------------------

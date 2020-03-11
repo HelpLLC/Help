@@ -1,10 +1,18 @@
-//This is going to be the screen in which requesters can choose from the business's specific available dates
+//This is going to be the screen in which customers can choose from the business's specific available dates
 //for the request to completed. After this screen, the actual request is requested
 import React, { Component } from 'react';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../components/TopBanner';
-import { View, Dimensions, TouchableOpacity, Text, Platform, ScrollView } from 'react-native';
+import {
+	View,
+	Dimensions,
+	FlatList,
+	TouchableOpacity,
+	Text,
+	Platform,
+	ScrollView
+} from 'react-native';
 import strings from 'config/strings';
 import CalendarPicker from 'react-native-calendar-picker';
 import colors from 'config/colors';
@@ -18,166 +26,166 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 import HelpAlert from '../components/HelpAlert';
 
 //Renders the actual class
-export default class requesterScheduleScreen extends Component {
-	//The initial date/time which nothing is selected
+export default class businessScheduleScreen extends Component {
+	//The initial date/time which nothing is selected along with other HelpAlerts
 	state = {
+		isLoading: false,
+		isScreenLoading: true,
+		availableTimes: '',
+		answers: '',
+		service: '',
+		customer: '',
+		business: '',
+		isEditing: '',
+		request: '',
 		selectedDate: '',
 		selectedTime: '',
-		isTimePickerShowing: false,
-		isScreenLoading: false,
-		scheduleType: '',
-		product: '',
-		requester: '',
-		isLoading: false,
-		isRequestVisible: false,
-		isErrorVisible: false,
-		isSelectDayErrorVisible: false,
-		isSelectTimeErrorVisible: false,
 		isSaveRequestVisible: false,
-		timeSlotError: false,
+		isErrorVisible: false,
 		isRequestSavedSucess: false,
 		isRequestSucess: false
 	};
 
-	//Detects what kind of schedule type the current product has, and displays the right UI based on that. Also
-	//adds the necessary fields to the state for later use
-	componentDidMount() {
-		FirebaseFunctions.setCurrentScreen('RequesterScheduleScreen', 'requesterScheduleScreen');
-		const { product, requester, isEditing, request } = this.props.navigation.state.params;
+	//Sets the initial fields and fetches the correct business schedule for that date
+	async componentDidMount() {
+		const { answers, service, customer, isEditing } = this.props.navigation.state.params;
 		if (isEditing === true) {
-			this.setState({
-				product,
-				requester,
-				selectedDate: request.dateSelected,
-				request,
-				selectedTime: request.selectedTime,
-				scheduleType: product.schedule.scheduleType
+			const { request } = this.props.navigation.state.params;
+			//Sets the correct fields for existing request
+		} else {
+			//Fetches the business
+			const business = await FirebaseFunctions.call('getBusinessByID', {
+				businessID: service.businessID
 			});
-		} else {
+
 			this.setState({
-				product,
-				requester,
-				scheduleType: product.schedule.scheduleType
+				business,
+				answers,
+				service,
+				customer,
+				isEditing,
+				isScreenLoading: false
 			});
 		}
 	}
 
-	//This function determines whether the time selected by the user is in the time  slot in which the business
-	//indicated they are available only if the business has specified there's only certain times that they can work.
-	isTimeValid() {
-		const { scheduleType } = this.state;
-		if (scheduleType === 'SpecificDaysAndTimes' || scheduleType === 'SpecificTimes') {
-			const moment = require('moment');
-			const { selectedTime, product } = this.state;
-			const { fromTime, toTime } = product.schedule;
-			let momentSelectedTime = moment(selectedTime, 'hh:mm a');
-			let momentFromTime = moment(fromTime, 'hh:mm a');
-			let momentToTime = moment(toTime, 'hh:mm a');
-			return momentSelectedTime.isBetween(momentFromTime, momentToTime);
-		} else {
-			return true;
+	//This method converts a specific time like 9:00 AM into how many minutes have passed since 12 AM. Returns a number
+	convertToMinutes(time) {
+		let hours = parseInt(time.substring(0, time.indexOf(':')));
+		if (hours === 12) {
+			if (time.includes('AM')) {
+				hours = 0;
+			} else {
+				hours = 12;
+			}
+		} else if (time.includes('PM')) {
+			hours += 12;
 		}
+		let minutes = parseInt(time.substring(time.indexOf(':') + 1, time.indexOf(' ')));
+		return hours * 60 + minutes;
 	}
 
-	//Until android supports toTimeLocaleString(), this is our own method for formatting the time
-	getAndroidTime(time) {
-		let hour = time.getHours();
-		let minutes = time.getMinutes();
-		const ampm = hour > 11 ? 'PM' : 'AM';
-		if (hour === 0) {
-			hour = 12;
-		} else if (hour === 12) {
-			hour = 12;
+	//Sets the array of available times based on the business's schedule, service duration, and amount of requests the business
+	//can handle at a time. Takes in a specific date as a parameter
+	setAvailableTimes(dateObject) {
+		const dayOfTheWeek = [
+			'sunday',
+			'monday',
+			'tuesday',
+			'wednesday',
+			'thursday',
+			'friday',
+			'saturday'
+		][dateObject.getDay()];
+		const date = dateObject.toLocaleDateString('en-US');
+
+		//Constructs the array based on the business schedule
+		const { business, service } = this.state;
+		const businessSchedule = business.businessHours[dayOfTheWeek];
+		const { serviceDuration } = service;
+
+		//Converts the business schedule to date objects
+		let { from, to } = businessSchedule;
+
+		let minutesInterval = 30;
+		let fromTime = this.convertToMinutes(from);
+		let toTime = this.convertToMinutes(to);
+		let times = [];
+
+		//loop to increment the time and push results in array
+		for (let i = 0; fromTime <= toTime - serviceDuration * 60; i++) {
+			let hours = Math.floor(fromTime / 60);
+			let minutes = fromTime % 60;
+			//Formats the result and pushes to array of times
+			let hour = ('' + (hours % 12)).slice(-2);
+			if (hour === '0') {
+				hour = 12;
+			}
+			times[i] =
+				hour + ':' + ('0' + minutes).slice(-2) + ' ' + ['AM', 'PM'][Math.floor(hours / 12)];
+
+			fromTime = fromTime + minutesInterval;
+		}
+
+		//Filters for requests the business already has
+		const { currentRequests } = business;
+		let filteredTimes = [];
+		if (currentRequests.length === 0) {
+			filteredTimes = times;
 		} else {
-			hour = hour % 12;
+			for (let i = 0; i < times.length; i++) {
+				for (const request of currentRequests) {
+					let time = times[i];
+					if (date === request.date) {
+						//Tests if it interferes with existing request
+						const beginExistingRequestTime = this.convertToMinutes(request.time);
+						const endExistingRequestTime = beginExistingRequestTime + 60 * request.serviceDuration;
+
+						const beginNewRequestTime = this.convertToMinutes(time);
+						const endNewRequestTime = beginNewRequestTime + 60 * serviceDuration;
+
+						//Tests all the scenarios for conflicts
+						if (
+							(endNewRequestTime < beginExistingRequestTime &&
+								beginNewRequestTime < beginExistingRequestTime) ||
+							(endExistingRequestTime < beginNewRequestTime &&
+								beginExistingRequestTime < beginNewRequestTime)
+						) {
+							filteredTimes.push(time);
+						}
+					} else {
+						filteredTimes.push(time);
+					}
+				}
+			}
 		}
-		if (minutes < 10) {
-			minutes = '0' + minutes;
-		}
-		return hour + ':' + minutes + ' ' + ampm;
+
+		this.setState({ availableTimes: filteredTimes });
 	}
 
-	//Requests the product by checking if all fields have been filled out correctly
-	async requestProduct() {
+	//Requests the service by checking if all fields have been filled out correctly
+	async requestService() {
 		this.setState({
 			isLoading: true
 		});
-		const { product, requester, scheduleType } = this.state;
-		let requestObject = {
-			dateRequested: this.props.navigation.state.params.isEditing
-				? this.props.navigation.state.params.request.dateRequested
-				: new Date().toLocaleDateString('en-US', {
-						year: 'numeric',
-						month: '2-digit',
-						day: '2-digit'
-				  }),
-			requesterID: requester.requesterID,
-			serviceID: product.serviceID,
-			requesterName: requester.username,
-			scheduleType
-		};
-		if (this.props.navigation.state.params.isEditing === true) {
-			requestObject.requestID = this.state.request.requestID;
-		}
-		//Double checks that the field has been filled out
-		if (this.state.selectedDate === '') {
-			this.setState({ isSelectDayErrorVisible: true, isLoading: false });
-			return;
-		}
-		//Double checks that the field has been filled out
-		if (this.state.selectedTime === '') {
-			this.setState({ isSelectTimeErrorVisible: true, isLoading: false });
-			return;
-		}
-		//Double checks that the time selected is in the business's availability
-		if (!this.isTimeValid()) {
-			this.setState({ timeSlotError: true, isLoading: false });
-			return;
-		}
-		requestObject = {
-			...requestObject,
-			selectedTime: this.state.selectedTime,
-			dateSelected: this.state.selectedDate
-		};
-		//Adds the answers to the questions if this product has any questions
-		if (this.props.navigation.state.params.answers) {
-			requestObject = {
-				...requestObject,
-				answers: this.props.navigation.state.params.answers
-			};
-		}
-		//Sends the request up to Firebase
-		try {
-			//If the request is being edited, this will overwrite the request, then navigate to the featured
-			//screen.
-			await FirebaseFunctions.call('requestService', {
-				newRequest: requestObject,
-				isEditing: this.props.navigation.state.params.isEditing
-			});
-			//Fetches all products so that it is ready to navigate to the featuredScreen
-			const allProducts = await FirebaseFunctions.call('getAllProducts', {});
-			this.setState({ isLoading: false, allProducts });
-			if (this.props.navigation.state.params.isEditing === true) {
-				this.setState({ isRequestSavedSucess: true });
-			} else {
-				this.setState({ isRequestSucess: true });
-			}
-		} catch (error) {
-			this.setState({ isLoading: false, isErrorVisible: true });
-			FirebaseFunctions.call('logIssue', {
-				error,
-				userID: {
-					screen: 'RequesterScheduleScreen',
-					userID: 'r-' + requester.requesterID,
-					productID: product.productID
-				}
-			});
-		}
 	}
 
 	render() {
-		const { product, requester, scheduleType } = this.state;
-		if (this.state.isScreenLoading === true) {
+		const {
+			customer,
+			business,
+			service,
+			availableTimes,
+			selectedDate,
+			selectedTime,
+			isScreenLoading,
+			isSaveRequestVisible,
+			isErrorVisible,
+			isRequestSavedSucess,
+			isRequestSucess,
+			allServices
+		} = this.state;
+		if (isScreenLoading === true) {
 			return (
 				<HelpView style={screenStyle.container}>
 					<TopBanner
@@ -198,242 +206,143 @@ export default class requesterScheduleScreen extends Component {
 					leftIconName='angle-left'
 					leftOnPress={() => this.props.navigation.goBack()}
 				/>
-				<ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-					<View>
-						<View
-							style={{
-								marginVertical: Dimensions.get('window').height * 0.025,
-								justifyContent: 'center',
-								alignItems: 'center'
-							}}>
-							<Text style={fontStyles.bigTextStyleBlack}>{strings.PickADate}</Text>
-						</View>
-						<View>
-							<CalendarPicker
-								textStyle={fontStyles.subTextStyleBlack}
-								selectedDayTextColor={colors.white}
-								initialDate={
-									//if this is a request that is being edited, then it defaults to the previously selected
-									//date
-									this.props.navigation.state.params.isEditing === true
-										? new Date(this.state.selectedDate)
-										: new Date()
-								}
-								minDate={new Date()}
-								todayBackgroundColor={colors.lightGray}
-								todayTextStyle={fontStyles.subTextStyleBlack}
-								selectedDayColor={colors.lightBlue}
-								disabledDates={(date) => {
-									//Only disabled certain dates for business who have specified they only work
-									//certain days
-									if (scheduleType === 'SpecificDaysAndTimes' || scheduleType === 'SpecificDays') {
-										const dayName = new Date(date).toString().split(' ')[0];
-										return !product.schedule.daysSelected[dayName];
-									} else {
-										return false;
-									}
-								}}
-								onDateChange={(newDate) => {
-									this.setState({
-										selectedDate: new Date(newDate).toLocaleString('en-US', {
-											year: 'numeric',
-											month: '2-digit',
-											day: '2-digit'
-										})
-									});
-								}}
-							/>
-						</View>
-					</View>
-					<View>
-						<View
-							style={{
-								justifyContent: 'center',
-								alignItems: 'center',
-								alignSelf: 'center',
-								marginVertical: Dimensions.get('window').height * 0.025,
-								width: Dimensions.get('window').width * 0.8
-							}}>
-							<Text style={fontStyles.bigTextStyleBlack}>{strings.PickATime}</Text>
-							<View style={{ height: Dimensions.get('window').height * 0.01 }} />
-							{scheduleType === 'SpecificDaysAndTimes' || scheduleType === 'SpecificTimes' ? (
-								<Text style={fontStyles.subTextStyleBlack}>
-									{product.offeredByName} {strings.isAvailableBetween} {product.schedule.fromTime}{' '}
-									{strings.and} {product.schedule.toTime}
-								</Text>
+				<View>
+					<CalendarPicker
+						textStyle={fontStyles.subTextStyleBlack}
+						selectedDayTextColor={colors.white}
+						initialDate={
+							//if this is a request that is being edited, then it defaults to the previously selected
+							//date
+							this.props.navigation.state.params.isEditing === true
+								? new Date(this.state.selectedDate)
+								: new Date()
+						}
+						minDate={new Date()}
+						todayBackgroundColor={colors.lightGray}
+						todayTextStyle={fontStyles.subTextStyleBlack}
+						selectedDayColor={colors.lightBlue}
+						onDateChange={(newDate) => {
+							const dateObject = new Date(newDate);
+							this.setState({ selectedDate: dateObject.toLocaleDateString(), selectedTime: '' });
+							this.setAvailableTimes(dateObject);
+						}}
+					/>
+				</View>
+				<View style={{ width: Dimensions.get('window').width, flex: 1 }}>
+					<FlatList
+						showsHorizontalScrollIndicator={false}
+						showsVerticalScrollIndicator={false}
+						numColumns={2}
+						data={availableTimes}
+						extraData={this.state}
+						keyExtractor={(item) => item}
+						showsVerticalScrollIndicator={false}
+						ListEmptyComponent={
+							selectedDate === '' ? (
+								<View />
 							) : (
-								<View></View>
-							)}
-						</View>
-						<TouchableOpacity
-							onPress={() => {
-								//Makes the time picker appear
-								this.setState({
-									isTimePickerShowing: true
-								});
-							}}
-							style={{
-								borderWidth: 3,
-								borderColor: colors.lightBlue,
-								width: Dimensions.get('window').width * 0.5,
-								height: Dimensions.get('window').height * 0.085,
-								borderRadius: 20,
-								justifyContent: 'center',
-								alignItems: 'center',
-								alignSelf: 'center',
-								backgroundColor: colors.white,
-								color: colors.black
-							}}>
-							<Text style={fontStyles.mainTextStyleBlack}>{this.state.selectedTime}</Text>
-						</TouchableOpacity>
-					</View>
-					{this.props.navigation.state.params.isEditing === true ? (
-						<View
-							style={{
-								marginTop: Dimensions.get('window').height * 0.1
-							}}>
-							<RoundBlueButton
-								title={strings.Save}
-								isLoading={this.state.isLoading}
-								style={roundBlueButtonStyle.MediumSizeButton}
-								textStyle={fontStyles.bigTextStyleWhite}
-								onPress={() => {
-									this.setState({ isSaveRequestVisible: true });
-								}}
-								disabled={this.state.isLoading}
-							/>
-						</View>
-					) : (
-						<View
-							style={{
-								marginVertical: Dimensions.get('window').height * 0.1
-							}}>
-							<RoundBlueButton
-								title={strings.Request}
-								isLoading={this.state.isLoading}
-								style={roundBlueButtonStyle.MediumSizeButton}
-								textStyle={fontStyles.bigTextStyleWhite}
-								onPress={() => {
-									this.setState({ isRequestVisible: true });
-								}}
-								disabled={this.state.isLoading}
-							/>
-						</View>
-					)}
-					<OptionPicker
-						isVisible={this.state.isRequestVisible}
-						title={strings.FinishRequesting}
-						clickOutside={false}
-						message={strings.AreYouSureRequestService}
-						confirmText={strings.Yes}
-						confirmOnPress={() => {
-							//Requests the product
-							this.requestProduct();
-							this.setState({ isRequestVisible: false });
-						}}
-						cancelText={strings.Cancel}
-						cancelOnPress={() => {
-							this.setState({ isRequestVisible: false });
-						}}
+								<View
+									style={{
+										marginVertical: Dimensions.get('window').height * 0.05,
+										marginHorizontal: Dimensions.get('window').width * 0.025
+									}}>
+									<Text style={[fontStyles.bigTextStyleBlack, { textAlign: 'center' }]}>
+										{strings.NoAvailableTimes}
+									</Text>
+								</View>
+							)
+						}
+						ListFooterComponent={
+							<View style={{ marginVertical: Dimensions.get('window').height * 0.05 }}>
+								<RoundBlueButton
+									title={strings.Request}
+									style={roundBlueButtonStyle.MediumSizeButton}
+									textStyle={fontStyles.bigTextStyleWhite}
+									isLoading={this.state.isLoading}
+									onPress={() => {
+										//Passes the correct parameters to the scheduling screen
+										this.requestService();
+									}}
+								/>
+							</View>
+						}
+						renderItem={({ item, index }) => (
+							<View
+								style={{
+									marginLeft: Dimensions.get('window').width * 0.1,
+									marginBottom: Dimensions.get('window').height * 0.02
+								}}>
+								<RoundBlueButton
+									title={item}
+									//Tests if this button is selected, if it is, then the border color will
+									//be blue
+									style={[
+										roundBlueButtonStyle.AccountTypeButton,
+										{
+											//Width increased for longer text
+											width: Dimensions.get('window').width * 0.35,
+											borderColor: selectedTime === item ? colors.lightBlue : colors.white
+										}
+									]}
+									textStyle={fontStyles.mainTextStyleBlue}
+									//Method selects the business button and deselects the other
+									onPress={() => {
+										this.setState({ selectedTime: item });
+									}}
+									disabled={this.state.isLoading}
+								/>
+							</View>
+						)}
 					/>
-					<OptionPicker
-						isVisible={this.state.isSaveRequestVisible}
-						title={strings.SaveRequest}
-						clickOutside={false}
-						message={strings.AreYouSureYouWantToOverwriteOldRequest}
-						confirmText={strings.Yes}
-						confirmOnPress={() => {
-							//Requests the product
-							this.requestProduct();
-							this.setState({ isSaveRequestVisible: false });
-						}}
-						cancelText={strings.Cancel}
-						cancelOnPress={() => {
-							this.setState({ isSaveRequestVisible: false });
-						}}
-					/>
-					<HelpAlert
-						isVisible={this.state.isErrorVisible}
-						onPress={() => {
-							this.setState({ isErrorVisible: false });
-						}}
-						title={strings.Whoops}
-						message={strings.SomethingWentWrong}
-					/>
-					<HelpAlert
-						isVisible={this.state.isSelectDayErrorVisible}
-						onPress={() => {
-							this.setState({ isSelectDayErrorVisible: false });
-						}}
-						title={strings.Whoops}
-						message={strings.PleaseSelectADayForYourService}
-					/>
-					<HelpAlert
-						isVisible={this.state.isSelectTimeErrorVisible}
-						onPress={() => {
-							this.setState({ isSelectTimeErrorVisible: false });
-						}}
-						title={strings.Whoops}
-						message={strings.PleaseSelectATimeForYourService}
-					/>
-					<HelpAlert
-						isVisible={this.state.timeSlotError}
-						onPress={() => {
-							this.setState({ timeSlotError: false });
-						}}
-						title={strings.Whoops}
-						message={strings.PleaseSelectATimeInWhichTheBusinessIsAvailable}
-					/>
-					<DateTimePickerModal
-						is24Hour={false}
-						timePickerModeAndroid={'default'}
-						isVisible={this.state.isTimePickerShowing}
-						mode='time'
-						headerTextIOS={strings.PickATime}
-						onConfirm={(time) => {
-							//Sets the selected time, and makes the picker go away
-							this.setState({
-								selectedTime:
-									Platform.OS === 'ios'
-										? time.toLocaleTimeString('en', {
-												hour: 'numeric',
-												minute: '2-digit',
-												hour12: true
-										  })
-										: this.getAndroidTime(time),
-								isTimePickerShowing: false
-							});
-						}}
-						onCancel={() => {
-							//Makes the picker go away
-							this.setState({ isTimePickerShowing: false });
-						}}
-					/>
-					<HelpAlert
-						isVisible={this.state.isRequestSucess}
-						onPress={() => {
-							this.setState({ isRequestSucess: false });
-							this.props.navigation.push('FeaturedScreen', {
-								requester: requester,
-								allProducts: this.state.allProducts
-							});
-						}}
-						title={strings.Success}
-						message={strings.TheServiceHasBeenRequested}
-					/>
-					<HelpAlert
-						isVisible={this.state.isRequestSavedSucess}
-						onPress={() => {
-							this.setState({ isRequestSavedSucess: false });
-							this.props.navigation.push('FeaturedScreen', {
-								requester: requester,
-								allProducts: this.state.allProducts
-							});
-						}}
-						title={strings.Success}
-						message={strings.TheServiceRequestHasBeenSaved}
-					/>
-				</ScrollView>
+				</View>
+				<HelpAlert
+					isVisible={isErrorVisible}
+					onPress={() => {
+						this.setState({ isErrorVisible: false });
+					}}
+					title={strings.Whoops}
+					message={strings.SomethingWentWrong}
+				/>
+				<HelpAlert
+					isVisible={isRequestSucess}
+					onPress={() => {
+						this.setState({ isRequestSucess: false });
+						this.props.navigation.push('FeaturedScreen', {
+							customer: customer,
+							allServices: allServices
+						});
+					}}
+					title={strings.Success}
+					message={strings.TheServiceHasBeenRequested}
+				/>
+				<HelpAlert
+					isVisible={isRequestSavedSucess}
+					onPress={() => {
+						this.setState({ isRequestSavedSucess: false });
+						this.props.navigation.push('FeaturedScreen', {
+							customer: customer,
+							allServices: allServices
+						});
+					}}
+					title={strings.Success}
+					message={strings.TheServiceRequestHasBeenSaved}
+				/>
+				<OptionPicker
+					isVisible={isSaveRequestVisible}
+					title={strings.SaveRequest}
+					clickOutside={false}
+					message={strings.AreYouSureYouWantToOverwriteOldRequest}
+					confirmText={strings.Yes}
+					confirmOnPress={() => {
+						//Requests the service
+						this.requestService();
+						this.setState({ isSaveRequestVisible: false });
+					}}
+					cancelText={strings.Cancel}
+					cancelOnPress={() => {
+						this.setState({ isSaveRequestVisible: false });
+					}}
+				/>
 			</HelpView>
 		);
 	}
