@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import "./Header.css";
-import Home from "./Dashboar";
-import Analytics from "./Analytics";
-import Payments from "./Payments";
+import LandingPage from "../LandingPage/LandingPage";
+import Login from '../Login/Login'
 
 export default class Header extends Component {
   render() {
@@ -32,15 +31,11 @@ export default class Header extends Component {
         </div>
         <Switch>
           <Route path="/home">
-            <Home />
+            <LandingPage />
           </Route>
-          <Route path="/analytics">
-            <Analytics />
+          <Route path="/login">
+            <Login />
           </Route>
-          <Route path="/payments">
-            <Payments />
-          </Route>
-          <Route path="/calender"></Route>
         </Switch>
       </BrowserRouter>
     );
