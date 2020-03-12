@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+container{
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.input{
+    align-items: center;
+}

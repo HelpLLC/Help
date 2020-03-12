@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import './Header.css';
-import Home from './Home';
+import Dashboard from './Dashboard';
 import Analytics from './Analytics';
 import Payments from './Payments';
 import SignUpScreen from './SignUpScreen';
@@ -33,7 +33,7 @@ export default class Header extends Component {
 				</div>
 				<Switch>
 					<Route path='/home'>
-						<Home />
+						<Dashboard />
 					</Route>
 					<Route path='/analytics'>
 						<Analytics />
