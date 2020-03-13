@@ -6,12 +6,13 @@ import HelpView from '../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import { View, Dimensions, Text } from 'react-native';
 import TopBanner from '../components/TopBanner';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import { Agenda } from 'react-native-calendars';
 import fontStyles from 'config/styles/fontStyles';
 import colors from 'config/colors';
 import LoadingSpinner from '../components/LoadingSpinner';
 import strings from 'config/strings';
 import HelpAlert from '../components/HelpAlert';
+import RequestCard from '../components/RequestCard';
 
 //Creates and exports the class
 export default class scheduleScreen extends Component {
@@ -20,10 +21,43 @@ export default class scheduleScreen extends Component {
 		businessFetched: '',
 		isLoading: true,
 		isErrorVisible: false,
-		selectedDate: new Date(),
+		selectedDate: '',
 		business: '',
-		dateString: ''
+		dateString: '',
+		items: '',
+		markedDates: ''
 	};
+
+	//Converts a date object to the following format "YYYY-MM-DD"
+	convertDateFormat(date) {
+		let year = date.getFullYear();
+		let month = date.getMonth() + 1;
+		let day = date.getDate();
+		if (month < 10) {
+			month = '0' + month;
+		}
+		if (day < 10) {
+			day = '0' + day;
+		}
+		const dateString = year + '-' + month + '-' + day;
+		return dateString;
+	}
+
+	//This method converts a specific time like 9:00 AM into how many minutes have passed since 12 AM. Returns a number
+	convertToMinutes(time) {
+		let hours = parseInt(time.substring(0, time.indexOf(':')));
+		if (hours === 12) {
+			if (time.includes('AM')) {
+				hours = 0;
+			} else {
+				hours = 12;
+			}
+		} else if (time.includes('PM')) {
+			hours += 12;
+		}
+		let minutes = parseInt(time.substring(time.indexOf(':') + 1, time.indexOf(' ')));
+		return hours * 60 + minutes;
+	}
 
 	//Declares the screen name in Firebase and fetches necessary data
 	async componentDidMount() {
@@ -39,20 +73,62 @@ export default class scheduleScreen extends Component {
 				business = await FirebaseFunctions.call('getBusinessByID', { businessID });
 			}
 
-			//Sets the current date
-			const date = new Date();
-			let year = date.getFullYear();
-			let month = date.getMonth() + 1;
-			let day = date.getDate();
-			if (month < 10) {
-				month = '0' + month;
+			//Constructs the items based on the business's current requests
+			//The format is { '2020-03-22': [{ name: 'Event 1' }, { name: 'Event 2' }] }
+			let items = {};
+			let markedDates = {};
+			const { currentRequests } = business;
+			currentRequests.sort((a, b) => {
+				return new Date(a.date) - new Date(b.date);
+			});
+			for (const request of currentRequests) {
+				let { customerName, date, serviceID, serviceTitle, time, requestID } = request;
+				const image = await FirebaseFunctions.call('getServiceImageByID', { serviceID: serviceID });
+				//Converts the date to the correct date
+				date = new Date(date);
+				date = this.convertDateFormat(date);
+				if (items[date]) {
+					const array = items[date];
+					array.push({
+						customerName,
+						serviceID,
+						image,
+						serviceTitle,
+						time,
+						requestID
+					});
+					array.sort((a, b) => {
+						return this.convertToMinutes(a.time) - this.convertToMinutes(b.time);
+					});
+					items[date] = array;
+				} else {
+					items[date] = [
+						{
+							customerName,
+							image,
+							serviceID,
+							serviceTitle,
+							time,
+							requestID
+						}
+					];
+				}
+				markedDates[date] = { marked: true };
 			}
-
-			if (day < 10) {
-				day = '0' + day;
+			let initialDate = '';
+			if (currentRequests.length === 0) {
+				initialDate = new Date();
+			} else {
+				initialDate = new Date(currentRequests[0].date);
 			}
-			const dateString = year + '-' + month + '-' + day;
-			this.setState({ business, dateString, isLoading: false });
+			this.setState({
+				business,
+				selectedDate: initialDate,
+				dateString: this.convertDateFormat(initialDate),
+				isLoading: false,
+				items,
+				markedDates
+			});
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
 			FirebaseFunctions.call('logIssue', {
@@ -66,7 +142,7 @@ export default class scheduleScreen extends Component {
 	}
 
 	render() {
-		const { isErrorVisible, isLoading, selectedDate, dateString, business } = this.state;
+		const { isErrorVisible, isLoading, selectedDate, dateString, markedDates, items } = this.state;
 		if (isLoading === true) {
 			return (
 				<HelpView style={screenStyle.container}>
@@ -89,13 +165,12 @@ export default class scheduleScreen extends Component {
 		} else {
 			return (
 				//View that dismisses the keyboard when clicked anywhere else
-				<HelpView style={screenStyle.container}>
+				<View style={screenStyle.container}>
 					<View>
 						<TopBanner title={strings.Schedule} />
 					</View>
 					<Agenda
-						//This is the syntax for rendering items: 
-						//items={{ '2020-03-22': [{ name: 'Event 1' }, { name: 'Event 2' }] }}
+						items={items}
 						style={{ width: Dimensions.get('window').width }}
 						theme={{
 							selectedDayBackgroundColor: colors.lightBlue,
@@ -114,17 +189,34 @@ export default class scheduleScreen extends Component {
 						}}
 						markedDates={{
 							[dateString]: { selected: true },
+							...markedDates
 						}}
 						refreshing={false}
 						//When there is nothing on that day
 						renderEmptyData={() => {
-							return <View />;
+							return <View></View>;
 						}}
 						//How each item is rendered in the agenda
 						renderItem={(item, firstItemInDay) => {
 							return (
-								<View>
-									<Text>{item.name}</Text>
+								<View
+									style={
+										firstItemInDay
+											? {
+													marginTop: Dimensions.get('window').height * 0.025,
+													width: Dimensions.get('window').width * 0.7,
+													borderTopColor: colors.gray,
+													borderTopWidth: 1.5
+											  }
+											: {}
+									}>
+									<RequestCard
+										onPress={() => {}}
+										image={item.image}
+										serviceTitle={item.serviceTitle}
+										time={item.time}
+										customerName={item.customerName}
+									/>
 								</View>
 							);
 						}}
@@ -141,7 +233,7 @@ export default class scheduleScreen extends Component {
 							});
 						}}
 					/>
-				</HelpView>
+				</View>
 			);
 		}
 	}

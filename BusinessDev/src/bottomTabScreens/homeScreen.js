@@ -184,7 +184,7 @@ class homeScreen extends Component {
 			);
 		} else {
 			return (
-				<HelpView style={screenStyle.container}>
+				<View style={screenStyle.container}>
 					{topView}
 					<ServiceCardList
 						services={business.services}
@@ -196,7 +196,7 @@ class homeScreen extends Component {
 							});
 						}}
 					/>
-				</HelpView>
+				</View>
 			);
 		}
 	}
