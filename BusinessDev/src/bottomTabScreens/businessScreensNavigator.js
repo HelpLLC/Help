@@ -22,9 +22,8 @@ const routeConfig = {
 		screen: analyticsScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
-			tabBarLabel: strings.Analytics,
 			tabBarIcon: ({ tintColor, focused }) => (
-				<Icon name='chart-line' size={25} type='material-community' color={tintColor} />
+				<Icon name='chart-line' size={40} type='material-community' color={tintColor} />
 			)
 		})
 	},
@@ -35,9 +34,8 @@ const routeConfig = {
 		screen: paymentsScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
-			tabBarLabel: strings.Payments,
 			tabBarIcon: ({ tintColor, focused }) => (
-				<Icon name='dollar' size={25} type='font-awesome' color={tintColor} />
+				<Icon name='dollar' size={40} type='font-awesome' color={tintColor} />
 			)
 		})
 	},
@@ -50,7 +48,7 @@ const routeConfig = {
 		navigationOptions: ({ navigation }) => ({
 			tabBarLabel: strings.Home,
 			tabBarIcon: ({ tintColor, focused }) => (
-				<Icon name='home' size={25} type='font-awesome' color={tintColor} />
+				<Icon name='home' size={40} type='font-awesome' color={tintColor} />
 			)
 		})
 	},
@@ -61,9 +59,8 @@ const routeConfig = {
 		screen: scheduleScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
-			tabBarLabel: strings.Schedule,
 			tabBarIcon: ({ tintColor, focused }) => (
-				<Icon name='table' size={25} type='font-awesome' color={tintColor} />
+				<Icon name='table' size={40} type='font-awesome' color={tintColor} />
 			)
 		})
 	},
@@ -74,9 +71,8 @@ const routeConfig = {
 		screen: settingsScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
-			tabBarLabel: strings.Settings,
 			tabBarIcon: ({ tintColor, focused }) => (
-				<Icon name='cogs' size={25} type='font-awesome' color={tintColor} />
+				<Icon name='cogs' size={40} type='font-awesome' color={tintColor} />
 			)
 		})
 	}
@@ -102,8 +98,7 @@ const navigatorConfig = {
 			backgroundColor: colors.white,
 			height: Dimensions.get('window').height * 0.1,
 		},
-		//This styles the tabBarLabel
-		labelStyle: fontStyles.tabLabelStyle,
+		showLabel: false,
 		showIcon: true
 	}
 };
