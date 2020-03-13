@@ -274,7 +274,7 @@ export default class businessScheduleScreen extends Component {
 							dateObject.setMonth(newDate.month - 1);
 							dateObject.setDate(newDate.day);
 							this.setState({
-								selectedDate: dateObject.toLocaleDateString(),
+								selectedDate: dateObject.toLocaleDateString('en-US'),
 								dateString: newDate.dateString,
 								selectedTime: '',
 								availableTimes: this.setAvailableTimes(dateObject)
