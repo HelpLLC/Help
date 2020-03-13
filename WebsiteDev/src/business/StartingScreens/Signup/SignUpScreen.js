@@ -1,11 +1,11 @@
 import React, { useState, Fragment } from "react";
 // import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { makeStyles } from '@material-ui/core/styles';
-import EditText from '../components/EditText.js';
-import ButtonComponent from '../components/ButtonComponent.js';
-import TitleComponent from '../components/TitleComponent.js';
-import TimePicker from '../components/TimePicker.js';
-import DayText from "../components/DayText.js";
+import EditText from '../../../components/EditText.js';
+import ButtonComponent from '../../../components/ButtonComponent.js';
+import TitleComponent from '../../../components/TitleComponent.js';
+import TimePicker from '../../../components/TimePicker.js';
+import DayText from "../../../components/DayText.js";
 import './Signup.css';
 
 

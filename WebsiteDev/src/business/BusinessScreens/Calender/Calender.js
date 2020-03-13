@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Analytics.css';
-import Header from './Header';
+import Header from '../Header/Header';
 
 export default class Analytics extends Component {
 	render() {
