@@ -7,7 +7,7 @@ import TopBanner from '../components/TopBanner';
 import { View, Dimensions, FlatList, Text } from 'react-native';
 import strings from 'config/strings';
 import colors from 'config/colors';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import { Calendar } from 'react-native-calendars';
 import fontStyles from '../../config/styles/fontStyles';
 import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
@@ -30,7 +30,7 @@ export default class businessScheduleScreen extends Component {
 		isEditing: '',
 		request: '',
 		selectedDate: new Date(),
-		dateString: new Date().toISOString().split('T')[0],
+		dateString: '',
 		selectedTime: '',
 		fieldsError: false,
 		requestSummaryVisible: false,
@@ -51,7 +51,22 @@ export default class businessScheduleScreen extends Component {
 				businessID: service.businessID
 			});
 
+			//Sets the initial selected date
+			const date = new Date();
+			let year = date.getFullYear();
+			let month = date.getMonth() + 1;
+			let day = date.getDate();
+			if (month < 10) {
+				month = '0' + month;
+			}
+
+			if (day < 10) {
+				day = '0' + day;
+			}
+			const dateString = year + '-' + month + '-' + day;
+
 			this.setState({
+				dateString,
 				business,
 				answers,
 				service,
