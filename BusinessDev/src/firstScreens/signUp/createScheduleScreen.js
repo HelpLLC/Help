@@ -175,6 +175,7 @@ export default class createScheduleScreen extends Component {
 					businessDescription: businessInfo,
 					businessHours,
 					coordinates,
+					currentRequests: [],
 					email,
 					location,
 					services: [],

@@ -12,7 +12,7 @@ import colors from 'config/colors';
 //This screen is the side menu where you can navigate to all the screens for the customer
 class LeftMenu extends Component {
   render() {
-    const { requester } = this.props;
+    const { customer } = this.props;
     return (
       <HelpView style={screenStyle.container}>
         <View style={{ height: Dimensions.get('window').height * 0.05 }}></View>
@@ -32,9 +32,9 @@ class LeftMenu extends Component {
             onPress={() => {
               //Home leads to featured screen
               FirebaseFunctions.analytics.logEvent('my_profile_clicked');
-              this.props.navigation.push('EditRequesterProfileScreen', {
-                requester: this.props.requester,
-                allProducts: this.props.allProducts,
+              this.props.navigation.push('AdditionalCustomerInfoScreen', {
+                customer: this.props.customer,
+                allServices: this.props.allServices,
                 isEditing: true
               });
             }}>
@@ -42,9 +42,9 @@ class LeftMenu extends Component {
               width={Dimensions.get('window').height * 0.075}
               height={Dimensions.get('window').height * 0.075}
               imageFunction={async () => {
-                //Passes in the function to retrieve the image of this requester
+                //Passes in the function to retrieve the image of this customer
                 return await FirebaseFunctions.call('getProfilePictureByID', {
-                  ID: this.props.requester.requesterID
+                  ID: this.props.customer.customerID
                 });
               }}
             />
@@ -55,17 +55,17 @@ class LeftMenu extends Component {
               }}>
               <Text style={fontStyles.bigTextStyleBlack}>
                 {//Creates a first name effect
-                requester.username.trim().includes(' ')
-                  ? requester.username.substring(0, requester.username.trim().indexOf(' '))
-                  : requester.username}
+                customer.name.trim().includes(' ')
+                  ? customer.name.substring(0, customer.name.trim().indexOf(' '))
+                  : customer.name}
               </Text>
               <View style={{ height: Dimensions.get('window').height * 0.01 }}></View>
               <Text style={fontStyles.subTextStyleBlack}>
-                {requester.city
+                {customer.city
                   ? //Method shows only one comma in location: "Redmond, WA" not Redmond, WA, USA
-                    requester.city.substring(requester.city.indexOf(',') + 1).includes(',')
-                    ? requester.city.substring(0, requester.city.lastIndexOf(','))
-                    : requester.city
+                  customer.city.substring(customer.city.indexOf(',') + 1).includes(',')
+                    ? customer.city.substring(0, customer.city.lastIndexOf(','))
+                    : customer.city
                   : ''}
               </Text>
             </View>
@@ -78,8 +78,8 @@ class LeftMenu extends Component {
                 //Home leads to featured screen
                 FirebaseFunctions.analytics.logEvent('home_card_clicked');
                 this.props.navigation.push('FeaturedScreen', {
-                  requester: this.props.requester,
-                  allProducts: this.props.allProducts
+                  customer: this.props.customer,
+                  allServices: this.props.allServices
                 });
               }}
               renderBorder={true}
@@ -90,9 +90,9 @@ class LeftMenu extends Component {
               onPress={() => {
                 //Categories leads to the categories screen
                 FirebaseFunctions.analytics.logEvent('category_card_clicked');
-                this.props.navigation.push('RequesterCategoriesScreen', {
-                  requester: this.props.requester,
-                  allProducts: this.props.allProducts
+                this.props.navigation.push('CategoriesScreen', {
+                  customer: this.props.customer,
+                  allServices: this.props.allServices
                 });
               }}
               renderBorder={true}
@@ -103,37 +103,22 @@ class LeftMenu extends Component {
               onPress={() => {
                 //Order History leads to order history screen
                 FirebaseFunctions.analytics.logEvent('order_history_card_clicked');
-                this.props.navigation.push('RequesterOrderHistoryScreen', {
-                  requester: this.props.requester,
-                  allProducts: this.props.allProducts
+                this.props.navigation.push('OrderHistoryScreen', {
+                  customer: this.props.customer,
+                  allServices: this.props.allServices
                 });
               }}
               renderBorder={true}
             />
-            {/*
-						<LeftMenuCard
-							text={strings.Chats}
-							textColor={colors.lightBlue}
-							onPress={() => {
-								//Chats leads to the chats screen
-								FirebaseFunctions.analytics.logEvent('chat_card_clicked');
-								this.props.navigation.push('ChatsScreen', {
-									requester: this.props.requester,
-									allProducts: this.props.allProducts
-								});
-							}}
-							renderBorder={true}
-						/>
-						*/}
             <LeftMenuCard
               text={strings.MyProfile}
               textColor={colors.lightBlue}
               onPress={() => {
                 //Home leads to featured screen
                 FirebaseFunctions.analytics.logEvent('my_profile_card_clicked');
-                this.props.navigation.push('EditRequesterProfileScreen', {
-                  requester: this.props.requester,
-                  allProducts: this.props.allProducts,
+                this.props.navigation.push('AdditionalCustomerInfoScreen', {
+                  customer: this.props.customer,
+                  allServices: this.props.allServices,
                   isEditing: true
                 });
               }}
@@ -146,8 +131,8 @@ class LeftMenu extends Component {
                 //Settings leads to the settings screen
                 FirebaseFunctions.analytics.logEvent('settings_card_clicked');
                 this.props.navigation.push('SettingsScreen', {
-                  requester: this.props.requester,
-                  allProducts: this.props.allProducts
+                  customer: this.props.customer,
+                  allServices: this.props.allServices
                 });
               }}
               renderBorder={false}
@@ -166,7 +151,7 @@ class LeftMenu extends Component {
             onPress={async () => {
               //Logs the current user out and goes to first screens
               FirebaseFunctions.analytics.logEvent('logged_out_from_sideMenu');
-              FirebaseFunctions.logOut(this.props.requester.requesterID);
+              FirebaseFunctions.logOut(this.props.customer.customerID);
               this.props.navigation.push('SplashScreen');
             }}
             renderBorder={false}

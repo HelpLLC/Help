@@ -1,31 +1,29 @@
 //This stack navigator will contain all of the screens & navigators that will be accessed with the
 //default slide right transition
-import launchScreen from './firstScreens/launchScreen';
-import splashScreen from './firstScreens/splashScreen';
-import logInScreen from './firstScreens/logInScreen';
-import signUpScreen from './firstScreens/signUpScreen';
-import RequesterServiceScreen from './requesterScreens/serviceScreen';
-import RequesterCompanyProfileScreen from './requesterScreens/companyProfileScreen';
-import MessagingScreen from './chats/messagingScreen';
-import forgotPasswordScreen from './firstScreens/forgotPasswordScreen';
-import aboutScreen from './settingsScreens/aboutScreen';
-import privacyScreen from './settingsScreens/privacyScreen';
-import reportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';
-import chatsScreen from './chats/chatsScreen';
-import settingsScreen from './settingsScreens/settingsScreen';
-import FeaturedScreen from './requesterScreens/featuredScreen';
-import RequesterOrderHistoryScreen from './requesterScreens/orderHistoryScreen';
+import LaunchScreen from './firstScreens/launchScreen';
+import SplashScreen from './firstScreens/splashScreen';
+import LogInScreen from './firstScreens/logIn/logInScreen';
+import EmailPasswordScreen from './firstScreens/signUp/emailPasswordScreen';
+import ServiceScreen from './customerScreens/serviceScreen';
+import BusinessProfileScreen from './customerScreens/businessProfileScreen';
+import ForgotPasswordScreen from './firstScreens/logIn/forgotPasswordScreen';
+import AboutScreen from './settingsScreens/aboutScreen';
+import PrivacyScreen from './settingsScreens/privacyScreen';
+import ReportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';
+import SettingsScreen from './settingsScreens/settingsScreen';
+import FeaturedScreen from './customerScreens/featuredScreen';
+import OrderHistoryScreen from './customerScreens/orderHistoryScreen';
 import { fadeIn, fromRight } from 'react-navigation-transitions';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import termsAndConditionsScreen from './firstScreens/termsAndConditionsScreen';
-import creditsScreen from './settingsScreens/creditsScreen';
-import RequesterCategoriesScreen from './requesterScreens/categoriesScreen';
-import categoryScreen from './requesterScreens/categoryScreen';
-import createRequesterProfileScreen from './firstScreens/createRequesterProfileScreen';
-import requesterScheduleScreen from './requesterScreens/requestScheduleScreen';
-import requesterQuestionsScreen from './requesterScreens/requesterQuestionsScreen';
-import blockedBusinessesScreen from './requesterScreens/blockedBusinessesScreen';
-import RequesterServiceRequestedScreen from './requesterScreens/serviceRequestedScreen';
+import TermsAndConditionsScreen from './settingsScreens/termsAndConditionsScreen';
+import CreditsScreen from './settingsScreens/creditsScreen';
+import CategoriesScreen from './customerScreens/categoriesScreen';
+import CategoryScreen from './customerScreens/categoryScreen';
+import AdditionalCustomerInfoScreen from './firstScreens/signUp/additionalCustomerInfoScreen';
+import BusinessScheduleScreen from './customerScreens/businessScheduleScreen';
+import ServiceQuestionsScreen from './customerScreens/serviceQuestionsScreen';
+import BlockedBusinessScreens from './customerScreens/blockedBusinessesScreen';
+import ServiceRequestedScreen from './customerScreens/serviceRequestedScreen';
 
 //The route config for all of the screens
 const routeConfig = {
@@ -33,7 +31,7 @@ const routeConfig = {
 
 	//Takes you to the launch screen which is the blue logo
 	LaunchScreen: {
-		screen: launchScreen,
+		screen: LaunchScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
@@ -41,7 +39,7 @@ const routeConfig = {
 
 	//Takes you to the splash screen of the app
 	SplashScreen: {
-		screen: splashScreen,
+		screen: SplashScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
@@ -49,23 +47,23 @@ const routeConfig = {
 
 	//Takes you to the log in screen of the app
 	LogInScreen: {
-		screen: logInScreen,
+		screen: LogInScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
 	},
 
 	//Takes you to the sign up screen of the app
-	SignUpScreen: {
-		screen: signUpScreen,
+	EmailPasswordScreen: {
+		screen: EmailPasswordScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
 	},
 
-	//Route to screen where you create an initial requester
-	CreateRequesterProfileScreen: {
-		screen: createRequesterProfileScreen,
+	//Route to screen where you create an initial customer account
+	AdditionalCustomerInfoScreen: {
+		screen: AdditionalCustomerInfoScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
@@ -73,50 +71,50 @@ const routeConfig = {
 
 	//Takes you to the forgot password screen of the app
 	ForgotPasswordScreen: {
-		screen: forgotPasswordScreen,
+		screen: ForgotPasswordScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
 	},
 
-	//--------------------------- Requester Screens ---------------------------
+	//--------------------------- Customer Screens ---------------------------
 
-	//The route going to the requester service screen
-	RequesterServiceScreen: {
-		screen: RequesterServiceScreen
+	//The route going to the customer service screen
+	ServiceScreen: {
+		screen: ServiceScreen
 	},
 
-	//The route going to the requester scheduling screen
-	RequesterScheduleScreen: {
-		screen: requesterScheduleScreen
+	//The route going to the customer scheduling screen
+	BusinessScheduleScreen: {
+		screen: BusinessScheduleScreen
 	},
 
 	//Route to screen with list of all categories
-	RequesterCategoriesScreen: {
-		screen: RequesterCategoriesScreen
+	CategoriesScreen: {
+		screen: CategoriesScreen
 	},
 
 	//Route leading to the screen with the array of blocked businesses
-	RequesterBlockedBusinessesScreen: {
-		screen: blockedBusinessesScreen
+	BlockedBusinessScreens: {
+		screen: BlockedBusinessScreens
 	},
 
-	RequesterServiceRequestedScreen: {
-		screen: RequesterServiceRequestedScreen
+	ServiceRequestedScreen: {
+		screen: ServiceRequestedScreen
 	},
 
 	//Route leading to where the customer answers questions for the product
-	RequesterQuestionsScreen: {
-		screen: requesterQuestionsScreen
+	ServiceQuestionsScreen: {
+		screen: ServiceQuestionsScreen
 	},
 	//Route leading to the screen that displays a specific category
 	CategoryScreen: {
-		screen: categoryScreen
+		screen: CategoryScreen
 	},
 
-	//The route going to the requester company profile screen
-	RequesterCompanyProfileScreen: {
-		screen: RequesterCompanyProfileScreen
+	//The route going to the customer company profile screen
+	BusinessProfileScreen: {
+		screen: BusinessProfileScreen
 	},
 
 	//Route connecting to the featured screen
@@ -129,45 +127,19 @@ const routeConfig = {
 	},
 
 	//Route connecting to the order history screen
-	RequesterOrderHistoryScreen: {
+	OrderHistoryScreen: {
 		//connects the object with the help screen component
-		screen: RequesterOrderHistoryScreen,
+		screen: OrderHistoryScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
 	},
-
-	//Route to edit a requester's profile
-	EditRequesterProfileScreen: {
-		screen: createRequesterProfileScreen,
-		navigationOptions: ({ navigation }) => ({
-			gesturesEnabled: false
-		})
-	},
-
-	//--------------------------- Messaging Screens ---------------------------
-
-	//The route going the screen where users can chat
-	MessagingScreen: {
-		screen: MessagingScreen
-	},
-
-	//Route connecting to the chats screen
-	ChatsScreen: {
-		//connects the object with the chats screen component
-		screen: chatsScreen,
-		//sets up what the tab will be titled
-		navigationOptions: ({ navigation }) => ({
-			gesturesEnabled: false
-		})
-	},
-
 	//--------------------------- Settings Screen ---------------------------
 
 	//Route connecting to the settings screen
 	SettingsScreen: {
 		//connects the object with the settings screen component
-		screen: settingsScreen,
+		screen: SettingsScreen,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false
 		})
@@ -175,27 +147,27 @@ const routeConfig = {
 
 	//Takes you to the about screen
 	AboutScreen: {
-		screen: aboutScreen
+		screen: AboutScreen
 	},
 
 	//Takes you to the report an issue screen
 	ReportIssueScreen: {
-		screen: reportIssueScreensNavigator
+		screen: ReportIssueScreensNavigator
 	},
 
 	//Takes you to the screen containing the privacy policy
 	PrivacyScreen: {
-		screen: privacyScreen
+		screen: PrivacyScreen
 	},
 
 	//Takes you to the terms and conditions screen
 	TermsAndConditionsScreen: {
-		screen: termsAndConditionsScreen
+		screen: TermsAndConditionsScreen
 	},
 
 	//Takes you to the credits screen
 	CreditsScreen: {
-		screen: creditsScreen
+		screen: CreditsScreen
 	}
 };
 

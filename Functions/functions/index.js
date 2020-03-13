@@ -272,6 +272,7 @@ exports.addCustomerToDatabase = functions.https.onCall(async (input, context) =>
 		coordinates,
 		currentRequests,
 		customerID,
+		city,
 		email,
 		name,
 		phoneNumber,
@@ -283,12 +284,34 @@ exports.addCustomerToDatabase = functions.https.onCall(async (input, context) =>
 		blockedBusinesses,
 		coordinates,
 		currentRequests,
+		city,
 		customerID,
 		email,
 		name,
 		phoneNumber,
 		isReviewDue
 	});
+
+	return 0;
+});
+
+//method will take in new versions of customer inputs and will update them in firestore. Updated the customer document along
+//with any customer information that is in any other documents
+exports.updateCustomerInformation = functions.https.onCall(async (input, context) => {
+	const { address, coordinates, customerID, city, name, phoneNumber, currentRequests } = input;
+
+	await customers.doc(customerID).update({
+		address,
+		coordinates,
+		customerID,
+		city,
+		name,
+		phoneNumber
+	});
+
+	for (const request of currentRequests) {
+		await requests.doc(request.requestID).update({ customerName: name });
+	}
 
 	return 0;
 });
@@ -304,6 +327,7 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		businessName,
 		businessDescription,
 		businessHours,
+		currentRequests,
 		coordinates,
 		email,
 		location,
@@ -317,6 +341,7 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		businessName,
 		businessDescription,
 		businessHours,
+		currentRequests,
 		coordinates,
 		businessID,
 		email,
@@ -377,7 +402,7 @@ exports.updateBusinessInformation = functions.https.onCall(async (input, context
 		website,
 		phoneNumber,
 		businessID,
-		business,
+		business
 	} = input;
 
 	await businesses.doc(businessID).update({
@@ -583,6 +608,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		review,
 		serviceTitle,
 		customerName,
+		serviceDuration,
 		serviceID,
 		status,
 		time
@@ -630,13 +656,19 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		})
 	});
 
-	//Increments the numRequests for the service
+	//Increments the numRequests for the service. Also adds scheduling information for the business
 	let business = (await businesses.doc(businessID).get()).data();
 	const indexOfService = business.services.findIndex((element) => element.serviceID === serviceID);
 	business.services[indexOfService].numCurrentRequests =
 		business.services[indexOfService].numCurrentRequests + 1;
 	await businesses.doc(businessID).update({
-		services: business.services
+		services: business.services,
+		currentRequests: admin.firestore.FieldValue.arrayUnion({
+			date,
+			time,
+			requestID,
+			serviceDuration
+		})
 	});
 
 	sendNotification('b-' + businessID, 'New Request', 'You have a new request for ' + serviceTitle);
@@ -785,15 +817,20 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 		currentRequests: service.currentRequests
 	});
 
-	//Increments the numRequests for the service
+	//Decrements the numRequests for the service and updates current requests in the business document
 	let business = (await businesses.doc(service.businessID).get()).data();
 	const indexOfService = business.services.findIndex(
 		(element) => element.serviceID === service.serviceID
 	);
 	business.services[indexOfService].numCurrentRequests =
 		business.services[indexOfService].numCurrentRequests - 1;
+	const indexOfRequest = business.currentRequests.findIndex(
+		(element) => element.requestID === requestID
+	);
+	business.currentRequests.splice(indexOfRequest, 1);
 	await businesses.doc(service.businessID).update({
-		services: business.services
+		services: business.services,
+		currentRequests: business.currentRequests
 	});
 
 	return 0;

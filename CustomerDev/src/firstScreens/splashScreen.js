@@ -20,11 +20,11 @@ class splashScreen extends Component {
 				<View style={{ flex: 0.75 }}>
 					<View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
 						<RoundBlueButton
-							title={strings.GetStarted}
+							title={strings.SignUp}
 							style={roundBlueButtonStyle.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={() => {
-								this.props.navigation.push('SignUpScreen');
+								this.props.navigation.push('EmailPasswordScreen');
 							}}
 						/>
 					</View>

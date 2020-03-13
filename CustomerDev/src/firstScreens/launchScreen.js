@@ -38,7 +38,7 @@ export default class launchScreen extends Component {
         });
         return;
       }
-      const isUnderMaintenance = await FirebaseFunctions.call('isGTDUnderMaintenance', {});
+      const isUnderMaintenance = await FirebaseFunctions.call('isCustomerAppUnderMaintenance', {});
       if (isUnderMaintenance === true) {
         this.setState({ isUnderMaintenance });
         return;
@@ -114,28 +114,28 @@ export default class launchScreen extends Component {
           if (user) {
             const { uid } = user;
             //Starts with searching if this is a requester since that is more common
-            const requester = await FirebaseFunctions.call('getCustomerByID', {
+            const customer = await FirebaseFunctions.call('getCustomerByID', {
               customerID: uid
             });
-            if (requester === -1) {
-              const provider = await FirebaseFunctions.call('getBusinessByID', { businessID: uid });
-              if (provider === -1) {
+            if (customer === -1) {
+              const business = await FirebaseFunctions.call('getBusinessByID', { businessID: uid });
+              if (business === -1) {
                 this.setState({ isErrorVisible: true });
               } else {
                 this.setState({
                   businessVersionMessageVisible: true,
-                  providerID: provider.providerID
+                  businessID: business.businessID
                 });
               }
               //This means that the logged in user is a provider from earlier versions, so a message
               //will display if they are a provider
             } else {
-              const allProducts = await FirebaseFunctions.call('getAllProducts', {});
+              const allServices = await FirebaseFunctions.call('getAllServices', {});
               //If this is a requester, then it will navigate to the screens & pass in the
               //correct params.
               this.props.navigation.push('FeaturedScreen', {
-                requester: requester,
-                allProducts
+                customer,
+                allServices
               });
             }
           } else {

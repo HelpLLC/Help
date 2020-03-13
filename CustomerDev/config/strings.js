@@ -38,7 +38,7 @@ export default {
 	Password: 'Password',
 	ChooseAPassword: 'Choose a password...',
 	SignUp: 'Sign Up',
-	PleaseFillOutAllFields: 'Please fill out all of the above fields',
+	PleaseFillOutAllFields: 'Please fill out all of the fields',
 	PleaseEnterAValidEmail: 'Please enter a valid email',
 	EmailExists: 'An account with this email already exists. Go back and log into this account',
 	ShortPassword: 'Password must be at least 6 characters',
@@ -51,6 +51,8 @@ export default {
 	//------------------- Customer Sign Up Screen -------------------
 	City: 'City',
 	Name: 'Name',
+	StreetAddress: 'Street Address',
+	EnterYourAddress: '12345 Willow Road',
 	EnterCityDotDotDot: 'Enter city...',
 	AccountSaved: 'Your account has been saved.',
 	PleaseEnterName: 'Please enter your name...',
@@ -59,7 +61,7 @@ export default {
 	//------------------- Blocked Businesses Screen -------------------
 	Blocked: 'Blocked',
 	Unblock: 'Unblock',
-	UnblockCompany: 'Unblock Company',
+	UnblockBusiness: 'Unblock Business',
 	AreYouSureYouWantToUnblock: 'Are you sure you want to unblock ',
 	HasBeenUnblocked: 'has been unblocked.',
 
@@ -106,10 +108,6 @@ export default {
 
 	//------------------- Requester Schedule Screen -------------------
 	Schedule: 'Schedule',
-	PickADate: 'Pick a Date',
-	PickATime: 'Pick a Time',
-	FinishRequesting: 'Finish Request',
-	isAvailableBetween: 'is available between',
 	and: 'and',
 	PleaseSelectATimeInWhichTheBusinessIsAvailable:
 		'Please select a time in which the business is available.',
@@ -119,7 +117,13 @@ export default {
 	SaveRequest: 'Save Request',
 	Save: 'Save',
 	TheServiceRequestHasBeenSaved: 'Your request has been saved',
-	PleaseSelectADayForYourService: 'Please select a day for your service.',
+	NoAvailableTimes: 'There are no available times on this date',
+	RequestSummary: 'Request Summary',
+	ServiceColon: 'Service: ',
+	OfferedByColon: 'Offered By: ',
+	PriceColon: 'Price: ',
+	ScheduledDateColon: 'Scheduled Date: ',
+	ScheduleTimeColon: 'Scheduled Time: ',
 	Done: 'Done',
 
 	//------------------- Product Screen -------------------
@@ -161,14 +165,14 @@ export default {
 	RequestService: 'Request Service',
 	AreYouSureRequestService: 'Are you sure you want to request this service?',
 	Yes: 'Yes',
-	CompanyServices: 'Company Services',
+	BusinessServices: 'Business Services',
 	MoreByThisBusiness: 'More by this business',
 	ReadMore: 'Read More',
 	ReadLess: 'Read Less',
 	CustomerReviews: 'Customer Reviews',
 	ServiceDeleted: 'The business no longer sells this service',
-	CompanyBlocked: 'Company Blocked',
-	CompanyHasBeenBlocked: 'The company has been blocked',
+	BusinessBlocked: 'Business Blocked',
+	BusinessHasBeenBlocked: 'The business has been blocked',
 	ViewRequest: 'View Request',
 
 	//------------------- Requester Answer Questions Screen -------------------
@@ -196,13 +200,13 @@ export default {
 	Credits: 'Credits',
 	Categories: 'Categories',
 
-	//------------------- Requester Side Company Profile Screen -------------------
-	CompanyProfile: 'Company Profile',
+	//------------------- Customer Side Business Profile Screen -------------------
+	BusinessProfile: 'Business Profile',
 	Block: 'Block',
-	CompanyReported: 'Company Reported',
+	BusinessReported: 'Business Reported',
 	AreYouSureYouWantToBlock: 'Are you sure your want to block',
-	CompanyHasBeenReported:
-		'This company has been reported. Help staff will take a look. Thank you for your patience.',
+	BusinessHasBeenReported:
+		'This business has been reported. Help staff will take a look. Thank you for your patience.',
 
 	//------------------- Chats Screen -------------------
 	NoMessagesYet: 'No messages yet',
