@@ -178,6 +178,7 @@ export default {
 	Save: 'Save',
 	TheServiceRequestHasBeenSaved: 'Your request has been saved',
 	PleaseSelectADayForYourService: 'Please select a day for your service.',
+	RequestedBy: 'Requested By',
 
 	//------------------- Create Schedule Screen -------------------
 	BusinessHours: 'Business Hours',

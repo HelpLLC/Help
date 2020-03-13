@@ -667,7 +667,10 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 			date,
 			time,
 			requestID,
-			serviceDuration
+			serviceDuration,
+			serviceTitle,
+			serviceID,
+			customerName
 		})
 	});
 
