@@ -33,10 +33,10 @@ class serviceQuestionsScreen extends Component {
 		//If this screen is to edit a previous request, then the answer that was previously put down will be set
 		if (isEditing === true) {
 			const { request } = this.props.navigation.state.params;
-			FirebaseFunctions.setCurrentScreen('NewServiceQuestionsScreen', 'serviceQuestionsScreen');
-			answers = request.answers;
-		} else {
 			FirebaseFunctions.setCurrentScreen('EditServiceQuestionsScreen', 'serviceQuestionsScreen');
+			answers = request.questions;
+		} else {
+			FirebaseFunctions.setCurrentScreen('NewServiceQuestionsScreen', 'serviceQuestionsScreen');
 			answers = questions.map((element) => {
 				return {
 					question: element,
@@ -46,6 +46,7 @@ class serviceQuestionsScreen extends Component {
 		}
 		this.setState({
 			isScreenLoading: false,
+			isEditing,
 			questions,
 			answers,
 			service,
@@ -57,7 +58,7 @@ class serviceQuestionsScreen extends Component {
 	//the answers the next step of requesting the service, which is scheduling. If they haven't a pop up will
 	//appear telling them to.
 	goToSchedulingScreen() {
-		const { answers, service, customer } = this.state;
+		const { answers, service, customer, isEditing } = this.state;
 		//Double checks they aren't empty strings
 		for (const answer of answers) {
 			if (!answer || answer.answer.trim() === '') {
@@ -65,13 +66,15 @@ class serviceQuestionsScreen extends Component {
 				return;
 			}
 		}
+
 		//If the program has reached this stage of the clause, that means the request is good to go
-		//Goes to the next step of the process which is scheduling
+		//Goes to the next step of the process which is scheduling. If it is editing an existing request, 
+		//then the request will also be passed
 		this.props.navigation.push('BusinessScheduleScreen', {
 			answers,
 			service,
 			customer,
-			isEditing: this.props.navigation.state.params.isEditing,
+			isEditing: isEditing,
 			request: this.props.navigation.state.params.request
 		});
 	}

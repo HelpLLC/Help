@@ -106,11 +106,6 @@ class serviceScreen extends Component {
 		this.setState({ isLoading: false });
 	}
 
-	//Removes the listener when the screen is switched away from
-	componentWillUnmount() {
-		this.willFocusListener.remove();
-	}
-
 	callNumber(phoneNumber) {
 		const args = {
 			number: phoneNumber, // String value with the number to call
@@ -430,10 +425,9 @@ class serviceScreen extends Component {
 											onPress={() => {
 												//This take the user to the screen to view their request for this service
 												this.props.navigation.push('ServiceRequestedScreen', {
-													service,
-													customerID: customer.customerID,
 													requestID: this.state.requestID,
-													completed: false
+													service,
+													customer
 												});
 											}}
 										/>
@@ -733,16 +727,16 @@ class serviceScreen extends Component {
 					<ActionSheet
 						ref={(o) => (this.ActionSheet = o)}
 						title={business.businessName}
-						options={[strings.Message, strings.Report, strings.Block, strings.Cancel]}
+						options={[strings.Report, strings.Block, strings.Cancel]}
 						cancelButtonIndex={3}
 						styles={{
 							titleText: fontStyles.subTextStyleBlue
 						}}
 						destructiveButtonIndex={3}
 						onPress={(index) => {
-							if (index === 1) {
+							if (index === 0) {
 								this.reportBusiness();
-							} else if (index === 2) {
+							} else if (index === 1) {
 								this.setState({ isBlockBusinessVisible: true });
 							}
 						}}

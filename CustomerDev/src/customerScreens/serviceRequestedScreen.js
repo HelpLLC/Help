@@ -23,53 +23,39 @@ export default class serviceRequestedScreen extends Component {
 	state = {
 		isLoading: false,
 		isScreenLoading: true,
-		product: this.props.navigation.state.params.product,
-		completed: this.props.navigation.state.params.completed,
-		requester: '',
 		request: '',
+		service: '',
 		isErrorVisible: false,
 		isCancelRequestVisible: false,
 		requestCancelled: false,
 		image: ''
 	};
-	//Fetches the image for this product along with getting the specifc request from the product's current requests
+	//Fetches the image for this service along with getting the specifc request from the service's current requests
 	async componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('ServiceRequestedScreen', 'serviceRequestedScreen');
-		const image = await FirebaseFunctions.call('getProductImageByID', {
-			ID: this.state.product.serviceID
-		});
 
-		const requester = await FirebaseFunctions.call('getCustomerByID', {
-			customerID: this.props.navigation.state.params.customerID
+		//Fetches the request object
+		const { requestID, service, customer } = this.props.navigation.state.params;
+		const request = await FirebaseFunctions.call('getRequestByID', {
+			requestID
 		});
-		//Fetches the request based
-		request = await FirebaseFunctions.call('getRequestByID', {
-			requestID: this.props.navigation.state.params.requestID
+		const image = await FirebaseFunctions.call('getServiceImageByID', {
+			serviceID: request.serviceID
 		});
-		this.setState({ isScreenLoading: false, image, request, requester });
-	}
-
-	//This method returns true if any of the fields in a default question object are true. Other wise returns false
-	isObjectTruthy(object) {
-		for (const field in object) {
-			if (object[field].isSelected === true) {
-				return true;
-			}
-		}
-		return false;
+		this.setState({ isScreenLoading: false, image, request, service, customer });
 	}
 
 	//Renders the view
 	render() {
 		//Fetches the state
 		const {
-			product,
+			service,
 			request,
+			customer,
 			isScreenLoading,
 			image,
 			isCancelRequestVisible,
 			isErrorVisible,
-			requester,
 			requestCancelled,
 			completed
 		} = this.state;
@@ -110,12 +96,12 @@ export default class serviceRequestedScreen extends Component {
 									justifyContent: 'flex-end',
 									marginVertical: Dimensions.get('window').height * 0.03
 								}}>
-								<Text style={fontStyles.bigTextStyleBlack}>{product.serviceTitle}</Text>
+								<Text style={fontStyles.bigTextStyleBlack}>{service.serviceTitle}</Text>
 							</View>
 							<View>
 								<Text style={fontStyles.mainTextStyleBlack}>{strings.RequestedOn}</Text>
 								<View style={{ height: Dimensions.get('window').height * 0.01 }}></View>
-								<Text style={fontStyles.mainTextStyleBlack}>{request.dateRequested}</Text>
+								<Text style={fontStyles.mainTextStyleBlack}>{request.requestedOn}</Text>
 							</View>
 						</View>
 						<FastImage
@@ -129,52 +115,19 @@ export default class serviceRequestedScreen extends Component {
 							}}
 						/>
 					</View>
-					{//Renders the scheduled time if there is one
-					request.dateSelected ? (
-						request.selectedTime ? (
-							<View
-								style={{
-									width: Dimensions.get('window').width * 0.9,
-									marginTop: Dimensions.get('window').height * 0.05,
-									alignSelf: 'center',
-									justifyContent: 'center',
-									alignItems: 'center'
-								}}>
-								<Text style={fontStyles.mainTextStyleBlack}>
-									{strings.ScheduledOn} {request.dateSelected} {strings.at} {request.selectedTime}
-								</Text>
-							</View>
-						) : (
-							<View
-								style={{
-									width: Dimensions.get('window').width * 0.9,
-									marginTop: Dimensions.get('window').height * 0.05,
-									alignSelf: 'center',
-									justifyContent: 'center',
-									alignItems: 'center'
-								}}>
-								<Text style={fontStyles.mainTextStyleBlack}>
-									{strings.ScheduledOn} {request.dateSelected}
-								</Text>
-							</View>
-						)
-					) : request.selectedTime ? (
-						<View
-							style={{
-								width: Dimensions.get('window').width * 0.9,
-								marginTop: Dimensions.get('window').height * 0.05,
-								alignSelf: 'center',
-								justifyContent: 'center',
-								alignItems: 'center'
-							}}>
-							<Text style={fontStyles.mainTextStyleBlack}>
-								{strings.ScheduledAt} {request.selectedTime}
-							</Text>
-						</View>
-					) : (
-						<View></View>
-					)}
-					{this.props.navigation.state.params.completed === true ? (
+					<View
+						style={{
+							width: Dimensions.get('window').width * 0.9,
+							marginTop: Dimensions.get('window').height * 0.05,
+							alignSelf: 'center',
+							justifyContent: 'center',
+							alignItems: 'center'
+						}}>
+						<Text style={fontStyles.mainTextStyleBlack}>
+							{strings.ScheduledOn} {request.date} {strings.at} {request.time}
+						</Text>
+					</View>
+					{request.status === 'COMPLETED' ? (
 						<View
 							style={{
 								width: Dimensions.get('window').width * 0.9,
@@ -190,7 +143,7 @@ export default class serviceRequestedScreen extends Component {
 					) : (
 						<View></View>
 					)}
-					{request.answers ? (
+					{request.questions ? (
 						<View
 							style={{
 								marginTop: Dimensions.get('window').height * 0.025,
@@ -204,7 +157,7 @@ export default class serviceRequestedScreen extends Component {
 						<View></View>
 					)}
 					<FlatList
-						data={request.answers}
+						data={request.questions}
 						extraData={this.state}
 						keyExtractor={(item, index) => item.question}
 						renderItem={({ item, index }) => (
@@ -259,9 +212,9 @@ export default class serviceRequestedScreen extends Component {
 								textStyle={fontStyles.bigTextStyleWhite}
 								onPress={() => {
 									this.props.navigation.push('RequesterServiceScreen', {
-										productID: product.serviceID,
-										requesterID: requester.requesterID,
-										providerID: product.offeredByID
+										serviceID: service.serviceID,
+										customerID: service.customerID,
+										businessID: request.businessID
 									});
 								}}
 								disabled={this.state.isLoading}
@@ -286,36 +239,17 @@ export default class serviceRequestedScreen extends Component {
 								disabled={this.state.isLoading}
 							/>
 							<RoundBlueButton
-								title={strings.Message}
-								style={roundBlueButtonStyle.SmallSizeButton}
-								textStyle={fontStyles.mainTextStyleWhite}
-								onPress={() => {
-									this.props.navigation.push('MessagingScreen', {
-										title: request.requesterName,
-										providerID: product.offeredByID,
-										requesterID: requester.requesterID,
-										userID: requester.requesterID
-									});
-								}}
-								disabled={this.state.isLoading}
-							/>
-							<RoundBlueButton
 								title={strings.Edit}
 								style={roundBlueButtonStyle.SmallSizeButton}
 								textStyle={fontStyles.mainTextStyleWhite}
 								onPress={() => {
-									//Goes to the screens to edit the service
-									const { product, requester, request } = this.state;
 									//If the product has questions associated with it, then it will
 									//go to the questions screen. If it only has a schedule associated
 									//with it, it will go to the scheduling screen.
-									if (
-										product.questions.length > 0 ||
-										this.isObjectTruthy(product.defaultQuestions)
-									) {
-										this.props.navigation.push('RequesterQuestionsScreen', {
-											product,
-											requester,
+									if (service.questions.length > 0) {
+										this.props.navigation.push('ServiceQuestionsScreen', {
+											service,
+											customer,
 											isEditing: true,
 											request
 										});
@@ -324,9 +258,9 @@ export default class serviceRequestedScreen extends Component {
 									//scheduling screen no matter what
 									else {
 										//Navigates to the scheduling screen
-										this.props.navigation.push('RequesterScheduleScreen', {
-											product,
-											requester,
+										this.props.navigation.push('BusinessScheduleScreen', {
+											service,
+											customer,
 											isEditing: true,
 											request
 										});
@@ -347,31 +281,31 @@ export default class serviceRequestedScreen extends Component {
 					confirmOnPress={async () => {
 						this.setState({ isCancelRequestVisible: false, isLoading: true });
 						//This method will cancel the request by making sure the user wants to cancel it
-						const { product, requester } = this.state;
+						const { service, customer } = this.state;
 						try {
 							await FirebaseFunctions.call('deleteRequest', {
-								productID: product.serviceID,
-								requesterID: requester.requesterID,
+								serviceID: service.serviceID,
+								customerID: customer.customerID,
 								requestID: request.requestID
 							});
-							const newRequesterObject = await FirebaseFunctions.call('getCustomerByID', {
-								customerID: requester.customerID
+							const newCustomerObject = await FirebaseFunctions.call('getCustomerByID', {
+								customerID: customer.customerID
 							});
-							const allProducts = await FirebaseFunctions.call('getAllProducts', {});
+							const allServices = await FirebaseFunctions.call('getAllServices', {});
 							this.setState({
 								requestCancelled: true,
 								isLoading: false,
-								newRequesterObject,
-								allProducts
+								newCustomerObject,
+								allServices
 							});
 						} catch (error) {
 							this.setState({ isLoading: false, isErrorVisible: true });
 							FirebaseFunctions.call('logIssue', {
 								error,
 								userID: {
-									screen: 'RequesterRequestedServiceScreen',
-									userID: 'r-' + requester.requesterID,
-									productID: product.productID
+									screen: 'CustomerRequestedServiceScreen',
+									userID: 'c-' + customer.customerID,
+									serviceID: service.serviceID
 								}
 							});
 						}
@@ -393,8 +327,8 @@ export default class serviceRequestedScreen extends Component {
 					onPress={() => {
 						this.setState({ requestCancelled: false });
 						this.props.navigation.push('FeaturedScreen', {
-							requester: this.state.newRequesterObject,
-							allProducts: this.state.allProducts
+							customer: this.state.newCustomerObject,
+							allServices: this.state.allServices
 						});
 					}}
 					title={strings.Success}

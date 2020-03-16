@@ -696,31 +696,23 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 
 //Method is going to edit a request by it's ID as well as update any fields necessary in the current requests arrays
 //of the customer and the service.
-exports.updateRequestInformation = functions.https.onCall(async (input, context) => {
+exports.updateCustomerRequest = functions.https.onCall(async (input, context) => {
 	const {
-		assignedTo,
-		businessID,
+		requestID,
 		customerID,
+		businessID,
 		date,
+		serviceDuration,
 		questions,
-		review,
+		time,
 		serviceTitle,
-		customerName,
-		serviceID,
 		status,
-		time
+		serviceID,
+		customerName
 	} = input;
 	await requests.doc(requestID).update({
-		assignedTo,
-		businessID,
-		customerID,
 		date,
 		questions,
-		review,
-		serviceTitle,
-		customerName,
-		serviceID,
-		status,
 		time
 	});
 
@@ -752,7 +744,23 @@ exports.updateRequestInformation = functions.https.onCall(async (input, context)
 		status,
 		time
 	};
-	await services.doc(serviceID).update({ currentRequests: service.currentRequests });
+	await customers.doc(customerID).update({ currentRequests: customer.currentRequests });
+
+	//updates the request within the business
+	let business = (await businesses.doc(businessID).get()).data();
+	const indexOfBusinessRequest = business.currentRequests.findIndex(
+		(element) => element.requestID === requestID
+	);
+	business.currentRequests[indexOfBusinessRequest] = {
+		date,
+		time,
+		requestID,
+		serviceDuration,
+		serviceTitle,
+		serviceID,
+		customerName
+	};
+	await businesses.doc(businessID).update({ currentRequests: business.currentRequests });
 
 	//Sends notifications to the customer and the business
 	sendNotification(

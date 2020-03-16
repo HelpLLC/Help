@@ -29,7 +29,7 @@ export default class businessScheduleScreen extends Component {
 		business: '',
 		isEditing: '',
 		request: '',
-		selectedDate: new Date(),
+		selectedDate: '',
 		dateString: '',
 		selectedTime: '',
 		fieldsError: false,
@@ -41,16 +41,36 @@ export default class businessScheduleScreen extends Component {
 
 	//Sets the initial fields and fetches the correct business schedule for that date
 	async componentDidMount() {
-		const { answers, service, customer, isEditing } = this.props.navigation.state.params;
-		if (isEditing === true) {
-			const { request } = this.props.navigation.state.params;
-			//Sets the correct fields for existing request
-		} else {
-			//Fetches the business
-			const business = await FirebaseFunctions.call('getBusinessByID', {
-				businessID: service.businessID
-			});
+		const { answers, service, customer, isEditing, request } = this.props.navigation.state.params;
+		//Fetches the business
+		const business = await FirebaseFunctions.call('getBusinessByID', {
+			businessID: service.businessID
+		});
+		this.setState({ business, service, answers, customer, isEditing, request });
 
+		if (isEditing === true) {
+			//Sets the correct fields for existing request
+			const { date, time } = request;
+			//Sets the initial selected date
+			const dateObject = new Date(date);
+			let year = dateObject.getFullYear();
+			let month = dateObject.getMonth() + 1;
+			let day = dateObject.getDate();
+			if (month < 10) {
+				month = '0' + month;
+			}
+
+			if (day < 10) {
+				day = '0' + day;
+			}
+			const dateString = year + '-' + month + '-' + day;
+			this.setState({
+				dateString,
+				availableTimes: this.setAvailableTimes(dateObject),
+				selectedDate: dateObject,
+				selectedTime: time
+			});
+		} else {
 			//Sets the initial selected date
 			const date = new Date();
 			let year = date.getFullYear();
@@ -67,18 +87,13 @@ export default class businessScheduleScreen extends Component {
 
 			this.setState({
 				dateString,
-				business,
-				answers,
-				service,
-				customer,
-				isEditing
-			});
-
-			this.setState({
-				isScreenLoading: false,
-				availableTimes: this.setAvailableTimes(new Date())
+				availableTimes: this.setAvailableTimes(date),
+				selectedDate: new Date()
 			});
 		}
+		this.setState({
+			isScreenLoading: false
+		});
 	}
 
 	//This method converts a specific time like 9:00 AM into how many minutes have passed since 12 AM. Returns a number
@@ -161,7 +176,8 @@ export default class businessScheduleScreen extends Component {
 							(endNewRequestTime < beginExistingRequestTime &&
 								beginNewRequestTime < beginExistingRequestTime) ||
 							(endExistingRequestTime < beginNewRequestTime &&
-								beginExistingRequestTime < beginNewRequestTime)
+								beginExistingRequestTime < beginNewRequestTime) ||
+							(this.state.isEditing === true && time === this.state.request.time)
 						) {
 							filteredTimes.push(time);
 						}
@@ -182,24 +198,49 @@ export default class businessScheduleScreen extends Component {
 		});
 
 		//Fetches all the required fields
-		const { business, customer, selectedDate, answers, service, selectedTime } = this.state;
+		const {
+			business,
+			customer,
+			selectedDate,
+			answers,
+			service,
+			selectedTime,
+			isEditing,
+			request
+		} = this.state;
 
 		//Uploads the request to firebase
-		await FirebaseFunctions.call('requestService', {
-			assignedTo: '',
-			businessID: business.businessID,
-			customerID: customer.customerID,
-			date: selectedDate,
-			questions: answers,
-			review: '',
-			serviceTitle: service.serviceTitle,
-			customerName: customer.name,
-			serviceDuration: service.serviceDuration,
-			serviceID: service.serviceID,
-			requestedOn: new Date().toLocaleDateString('en-US'),
-			status: 'AWAITING',
-			time: selectedTime
-		});
+		if (isEditing === true) {
+			await FirebaseFunctions.call('updateCustomerRequest', {
+				requestID: request.requestID,
+				status: request.status,
+				customerID: request.customerID,
+				businessID: request.businessID,
+				serviceTitle: service.serviceTitle,
+				customerName: customer.name,
+				serviceID: request.serviceID,
+				date: selectedDate,
+				serviceDuration: service.serviceDuration,
+				questions: answers,
+				time: selectedTime
+			})
+		} else {
+			await FirebaseFunctions.call('requestService', {
+				assignedTo: '',
+				businessID: business.businessID,
+				customerID: customer.customerID,
+				date: selectedDate,
+				questions: answers,
+				review: '',
+				serviceTitle: service.serviceTitle,
+				customerName: customer.name,
+				serviceDuration: service.serviceDuration,
+				serviceID: service.serviceID,
+				requestedOn: new Date().toLocaleDateString('en-US'),
+				status: 'AWAITING',
+				time: selectedTime
+			});
+		}
 		const allServices = await FirebaseFunctions.call('getAllServices', {});
 		const updatedCustomer = await FirebaseFunctions.call('getCustomerByID', {
 			customerID: customer.customerID
@@ -268,7 +309,7 @@ export default class businessScheduleScreen extends Component {
 							[this.state.dateString]: { selected: true }
 						}}
 						current={this.state.selectedDate}
-						minDate={new Date()}
+						minDate={this.state.isEditing === true ? null : new Date()}
 						onDayPress={(newDate) => {
 							const dateObject = new Date();
 							dateObject.setFullYear(newDate.year);
