@@ -1,24 +1,19 @@
 //This class will represent all the font styles that should be used throughout the application
 //This includes font families, sizes, and colors.
 import colors from "./colors";
-import { StyleSheet, Platform, PixelRatio } from "react-native";
 
 //Gets the correct font based on either iOS or Android
 const font = "Arial Rounded MT Bold";
 
 //Sets the font size
-let baseFontSize = Platform.OS === "android" ? 20 : 18;
-const pixelRatio = PixelRatio.get();
-if (pixelRatio < 3) {
-  baseFontSize = Platform.OS === "android" ? 16 : 14.4;
-}
+let baseFontSize = 20
 
 const bigFontSize = baseFontSize * 1.2;
 const subTextFontSize = baseFontSize * 0.9;
 const subTitleFontSize = baseFontSize * 2.2;
 const bigTitleFontSize = baseFontSize * 4.4;
 
-export default StyleSheet.create({
+export default fontstyles={
   //The style for all big text that will be colored black
   bigTextStyleBlack: {
     fontFamily: font,
@@ -150,4 +145,4 @@ export default StyleSheet.create({
     fontSize: subTitleFontSize,
     color: colors.white
   }
-});
+}
