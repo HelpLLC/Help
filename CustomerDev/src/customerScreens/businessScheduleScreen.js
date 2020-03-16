@@ -196,6 +196,7 @@ export default class businessScheduleScreen extends Component {
 			customerName: customer.name,
 			serviceDuration: service.serviceDuration,
 			serviceID: service.serviceID,
+			requestedOn: new Date().toLocaleDateString('en-US'),
 			status: 'AWAITING',
 			time: selectedTime
 		});

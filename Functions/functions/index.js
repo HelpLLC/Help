@@ -579,9 +579,9 @@ exports.getServiceImageByID = functions.https.onCall(async (input, context) => {
 //Method will take in a reference to a picture (the same as the profile ID it is fetching)
 //and return the download URL for the image which is used as an image source
 exports.getProfilePictureByID = functions.https.onCall(async (input, context) => {
-	const { ID } = input;
+	const { customerID } = input;
 	//Creates the reference
-	const uri = storage.file('profilePictures/' + ID);
+	const uri = storage.file('profilePictures/' + customerID);
 	const exists = await uri.exists();
 	if (exists[0] === true) {
 		const downloadURL = await uri.getSignedUrl({ action: 'read', expires: '03-17-2025' });
@@ -609,6 +609,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		serviceTitle,
 		customerName,
 		serviceDuration,
+		requestedOn,
 		serviceID,
 		status,
 		time
@@ -624,6 +625,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		review,
 		serviceTitle,
 		customerName,
+		requestedOn,
 		serviceID,
 		status,
 		time

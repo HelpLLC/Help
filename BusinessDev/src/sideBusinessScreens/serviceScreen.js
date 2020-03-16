@@ -39,10 +39,10 @@ class serviceScreen extends Component {
 			const image = await FirebaseFunctions.call('getServiceImageByID', { serviceID: serviceID });
 			this.setState({
 				isLoading: false,
-        service,
-        business,
-        businessID,
-        serviceID,
+				service,
+				business,
+				businessID,
+				serviceID,
 				image
 			});
 		} catch (error) {
@@ -69,9 +69,7 @@ class serviceScreen extends Component {
 					<TopBanner
 						title={strings.Service}
 						leftIconName='angle-left'
-						leftOnPress={() =>
-							this.props.navigation.goBack()
-						}
+						leftOnPress={() => this.props.navigation.goBack()}
 					/>
 					<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 						<LoadingSpinner isVisible={isLoading} />
@@ -88,15 +86,16 @@ class serviceScreen extends Component {
 			);
 		} else {
 			return (
-				<HelpView style={screenStyle.container}>
+				<View style={screenStyle.container}>
 					<TopBanner
 						title={strings.Service}
 						leftIconName='angle-left'
-						leftOnPress={() =>
-							this.props.navigation.goBack()
-						}
+						leftOnPress={() => this.props.navigation.goBack()}
 					/>
-					<ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+					<ScrollView
+						style={{ flex: 1 }}
+						showsHorizontalScrollIndicator={false}
+						showsVerticalScrollIndicator={false}>
 						<View
 							style={{
 								flexDirection: 'row',
@@ -117,12 +116,12 @@ class serviceScreen extends Component {
 								<TouchableOpacity
 									onPress={() => {
 										this.props.navigation.push('CreateServiceScreen', {
-                      businessID,
-                      business,
-                      serviceID,
-                      service,
-                      editing: true
-                    });
+											businessID,
+											business,
+											serviceID,
+											service,
+											editing: true
+										});
 									}}
 									style={{ justifyContent: 'flex-end' }}>
 									<Text style={fontStyles.bigTextStyleBlue}>{strings.EditService}</Text>
@@ -224,36 +223,32 @@ class serviceScreen extends Component {
 									}}>
 									<Text style={fontStyles.bigTextStyleBlack}>{strings.CurrentRequests}</Text>
 								</View>
-								<FlatList
-									data={currentRequests}
-									keyExtractor={(item, index) => {
-										return item.requesterID;
-									}}
-									renderItem={({ item, index }) => (
-										<View style={{ marginBottom: Dimensions.get('window').height * 0.025 }}>
-											<ServiceCard
-												serviceTitle={item.requesterName}
-												serviceDescription={' '}
-												price={strings.RequestedOn + ' ' + item.dateRequested}
-												imageFunction={async () => {
-													//Passes the function to get the profile picture of the user
-													//Passes in the function to retrieve the image of this requester
-													return await FirebaseFunctions.call('getProfilePictureByID', {
-														ID: item.requesterID
-													});
-												}}
-												onPress={() => {
-													//Goes to the screen for the specific request
-													this.props.navigation.push('CustomerRequestScreen', {
-														service: service,
-														request: item,
-														completed: false
-													});
-												}}
-											/>
-										</View>
-									)}
-								/>
+								{service.currentRequests.map((item) => (
+									<View
+										key={item.requestID}
+										style={{
+											marginBottom: Dimensions.get('window').height * 0.025
+										}}>
+										<ServiceCard
+											serviceTitle={item.customerName}
+											serviceDescription={strings.ScheduledAt + ' ' + item.time}
+											price={strings.ScheduledOn + ' ' + item.date}
+											imageFunction={async () => {
+												//Passes the function to get the profile picture of the user
+												//Passes in the function to retrieve the image of this requester
+												return await FirebaseFunctions.call('getProfilePictureByID', {
+													customerID: item.customerID
+												});
+											}}
+											onPress={() => {
+												//Goes to the screen for the specific request
+												this.props.navigation.push('CustomerRequestScreen', {
+													requestID: item.requestID
+												});
+											}}
+										/>
+									</View>
+								))}
 							</View>
 						) : (
 							<View style={{ alignSelf: 'center', justifyContent: 'center' }}>
@@ -261,7 +256,7 @@ class serviceScreen extends Component {
 							</View>
 						)}
 					</ScrollView>
-				</HelpView>
+				</View>
 			);
 		}
 	}

@@ -225,10 +225,11 @@ export default {
 	EditDescription: 'Edit Description',
 	Done: 'Done',
 
-	//------------------- Product Screen -------------------
+	//------------------- Service Screen -------------------
 	Service: 'Service',
 	EditService: 'Edit Service',
 	NoCurrentRequests: 'No Current Requests',
+	at: 'at',
 	Cancel: 'Cancel',
 	RequestedOn: 'Requested On',
 	CurrentRequests: 'Current Requests',

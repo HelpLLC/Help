@@ -211,7 +211,12 @@ export default class scheduleScreen extends Component {
 											: {}
 									}>
 									<RequestCard
-										onPress={() => {}}
+										onPress={() => {
+											//Goes to the screen for the specific request
+											this.props.navigation.push('CustomerRequestScreen', {
+												requestID: item.requestID
+											});
+										}}
 										image={item.image}
 										serviceTitle={item.serviceTitle}
 										time={item.time}
