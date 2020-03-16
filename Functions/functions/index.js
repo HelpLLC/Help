@@ -81,30 +81,39 @@ const sendEmail = async (recepient, subject, text) => {
 	return 0;
 };
 
-//Method will take in a service ID and a customer ID and then delete that customer's request
-//from the service's current requests. It will also remove the request from the Requests subcollection
-//of the requester
-const deleteRequest = async (serviceID, customerID, requestID) => {
-	//updates the subcollection by removing the request
-	await services.doc(serviceID).update({
-		currentRequests: admin.firestore.FieldValue.arrayRemove({ requestID: requestID })
-	});
-	await customers
-		.doc(requesterID)
-		.update({ currentRequests: admin.firestore.FieldValue.arrayRemove({ requestID: requestID }) });
+//Method will take in a service ID and a customer ID and a requestID and a businessID and then delete that customer's request
+//from the service's current requests.
+const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
+	
+	//Updates the request collection
 	await requests.doc(requestID).delete();
 
-	//Fetches the necessary data to send a notification
-	const service = (await products.doc(serviceID).get()).data();
-	const customer = (await customers.doc(customerID).get()).data();
-
-	//Decrements the numRequests for the service
-	let business = (await businesses.doc(service.businessID).get()).data();
+	//Updates the business document
+	let business = (await businesses.doc(businessID).get()).data();
 	const indexOfService = business.services.findIndex((element) => element.serviceID === serviceID);
 	business.services[indexOfService].numCurrentRequests =
 		business.services[indexOfService].numCurrentRequests - 1;
-	await businesses.doc(service.businessID).update({
-		services: business.services
+	let indexOfRequest = business.currentRequests.findIndex((element) => element.requestID === requestID);
+	business.currentRequests.splice(indexOfRequest, 1);
+	await businesses.doc(businessID).update({
+		services: business.services,
+		currentRequests: business.currentRequests
+	});
+
+	//Updates the customer document
+	const customer = (await customers.doc(customerID).get()).data();
+	indexOfRequest = customer.currentRequests.findIndex((element) => element.requestID === requestID);
+	customer.currentRequests.splice(indexOfRequest, 1);
+	await customers.doc(customerID).update({
+		currentRequests: customer.currentRequests
+	});
+
+	//Updates the service document
+	const service = (await services.doc(serviceID).get()).data();
+	indexOfRequest = service.currentRequests.findIndex((element) => element.requestID === requestID);
+	service.currentRequests.splice(indexOfRequest, 1);
+	await services.doc(serviceID).update({
+		currentRequests: service.currentRequests
 	});
 
 	//Notifies the business that the request has been deleted.
@@ -547,7 +556,7 @@ exports.deleteService = functions.https.onCall(async (input, context) => {
 	//Deletes all current requests for the service & notifies the customers
 	const service = await (await services.doc(serviceID).get()).data();
 	for (const request of service.currentRequests) {
-		await deleteRequest(serviceID, request.customerID, request.requestID);
+		await deleteRequest(serviceID, request.customerID, request.requestID, request.businessID);
 	}
 
 	return 0;
@@ -852,8 +861,8 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 //Method will take in a service ID and a customer ID and then delete that customer's request from the collection and
 //the corresponding array.
 exports.deleteRequest = functions.https.onCall(async (input, context) => {
-	const { serviceID, customerID, requestID } = input;
-	const deleted = await deleteRequest(serviceID, customerID, requestID);
+	const { serviceID, customerID, requestID, businessID } = input;
+	const deleted = await deleteRequest(serviceID, customerID, requestID, businessID);
 	return deleted;
 });
 

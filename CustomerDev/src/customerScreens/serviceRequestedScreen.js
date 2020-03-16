@@ -286,6 +286,7 @@ export default class serviceRequestedScreen extends Component {
 							await FirebaseFunctions.call('deleteRequest', {
 								serviceID: service.serviceID,
 								customerID: customer.customerID,
+								businessID: request.businessID,
 								requestID: request.requestID
 							});
 							const newCustomerObject = await FirebaseFunctions.call('getCustomerByID', {
