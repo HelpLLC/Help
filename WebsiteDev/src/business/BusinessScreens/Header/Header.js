@@ -12,13 +12,13 @@ export default class Header extends Component {
 			<BrowserRouter>
 				<div className='container'>
 					<header>
-							<h4 class='logo'>Help LLC&nbsp;</h4>
+						<h4 class='logo'>Help LLC&nbsp;</h4>
 						<nav>
 							<ul>
 								<li>
 									<Link to={'/home'}>Home</Link>
 								</li>
-                			<li>
+								<li>
 									<Link to={'/analytics'}>Analytics</Link>
 								</li>
 								<li>
