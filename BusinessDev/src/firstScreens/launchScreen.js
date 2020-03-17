@@ -117,7 +117,9 @@ export default class launchScreen extends Component {
             const business = await FirebaseFunctions.call('getBusinessByID', { businessID: uid });
             if (business.isVerified === true) {
               this.props.navigation.push('BusinessScreens', {
-                businessID: uid
+                businessID: uid,
+                businessFetched: true,
+                business
               });
             } else {
               //Navigates to the account not verified screen.

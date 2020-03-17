@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 
 class TitleComponent extends Component {
 render() {
-  const { text, isCentered, marginLeft } = this.props;
+  const { text, isCentered, marginLeft, backgroundColor, textColor } = this.props;
   const mystyle = {
-   color: "#00B0F0",
-   backgroundColor: "#fff",
+   color: this.props.textColor !== null? this.props.textColor: "#00B0F0",
+   backgroundColor: this.props.backgroundColor !== null? this.props.backgroundColor: "#fff",
    padding: "10px",
    fontFamily: "Arial Rounded MT Bold",
    textAlign: this.props.isCentered === true ? "center" : "",
@@ -27,7 +27,9 @@ propTypes = {
   text: PropTypes.string.isRequired,
   isCentered: PropTypes.bool.isRequired,
   marginLeft: PropTypes.number,
-  fontSize: PropTypes.number
+  fontSize: PropTypes.number,
+  backgroundColor: PropTypes.string,
+  textColor: PropTypes.string
 };
 }
 

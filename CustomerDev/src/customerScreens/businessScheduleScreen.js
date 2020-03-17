@@ -4,19 +4,10 @@ import React, { Component } from 'react';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../components/TopBanner';
-import {
-	View,
-	Dimensions,
-	FlatList,
-	TouchableOpacity,
-	Text,
-	Platform,
-	ScrollView
-} from 'react-native';
+import { View, Dimensions, FlatList, Text } from 'react-native';
 import strings from 'config/strings';
-import CalendarPicker from 'react-native-calendar-picker';
 import colors from 'config/colors';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { Calendar } from 'react-native-calendars';
 import fontStyles from '../../config/styles/fontStyles';
 import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
@@ -38,7 +29,8 @@ export default class businessScheduleScreen extends Component {
 		business: '',
 		isEditing: '',
 		request: '',
-		selectedDate: '',
+		selectedDate: new Date(),
+		dateString: '',
 		selectedTime: '',
 		fieldsError: false,
 		requestSummaryVisible: false,
@@ -59,13 +51,32 @@ export default class businessScheduleScreen extends Component {
 				businessID: service.businessID
 			});
 
+			//Sets the initial selected date
+			const date = new Date();
+			let year = date.getFullYear();
+			let month = date.getMonth() + 1;
+			let day = date.getDate();
+			if (month < 10) {
+				month = '0' + month;
+			}
+
+			if (day < 10) {
+				day = '0' + day;
+			}
+			const dateString = year + '-' + month + '-' + day;
+
 			this.setState({
+				dateString,
 				business,
 				answers,
 				service,
 				customer,
-				isEditing,
-				isScreenLoading: false
+				isEditing
+			});
+
+			this.setState({
+				isScreenLoading: false,
+				availableTimes: this.setAvailableTimes(new Date())
 			});
 		}
 	}
@@ -237,27 +248,34 @@ export default class businessScheduleScreen extends Component {
 					leftOnPress={() => this.props.navigation.goBack()}
 				/>
 				<View>
-					<CalendarPicker
-						textStyle={fontStyles.subTextStyleBlack}
-						selectedDayTextColor={colors.white}
-						initialDate={
-							//if this is a request that is being edited, then it defaults to the previously selected
-							//date
-							this.props.navigation.state.params.isEditing === true
-								? new Date(this.state.selectedDate)
-								: new Date()
-						}
-						disabledDates={(date) => {
-							return this.setAvailableTimes(new Date(date)).length === 0;
+					<Calendar
+						style={{ width: Dimensions.get('window').width }}
+						theme={{
+							selectedDayBackgroundColor: colors.lightBlue,
+							selectedDayTextColor: colors.white,
+							todayTextColor: colors.black,
+							dayTextColor: colors.black,
+							arrowColor: colors.lightBlue,
+							monthTextColor: colors.black,
+							textDayFontFamily: fontStyles.mainTextStyleBlack.fontFamily,
+							textMonthFontFamily: fontStyles.mainTextStyleBlack.fontFamily,
+							textDayHeaderFontFamily: fontStyles.mainTextStyleBlack.fontFamily,
+							textDayFontSize: fontStyles.subTextStyleBlack.fontSize,
+							textMonthFontSize: fontStyles.bigTextStyleBlack.fontSize
 						}}
+						markedDates={{
+							[this.state.dateString]: { selected: true }
+						}}
+						current={this.state.selectedDate}
 						minDate={new Date()}
-						todayBackgroundColor={colors.lightGray}
-						todayTextStyle={fontStyles.subTextStyleBlack}
-						selectedDayColor={colors.lightBlue}
-						onDateChange={(newDate) => {
-							const dateObject = new Date(newDate);
+						onDayPress={(newDate) => {
+							const dateObject = new Date();
+							dateObject.setFullYear(newDate.year);
+							dateObject.setMonth(newDate.month - 1);
+							dateObject.setDate(newDate.day);
 							this.setState({
-								selectedDate: dateObject.toLocaleDateString(),
+								selectedDate: dateObject.toLocaleDateString('en-US'),
+								dateString: newDate.dateString,
 								selectedTime: '',
 								availableTimes: this.setAvailableTimes(dateObject)
 							});
@@ -309,7 +327,7 @@ export default class businessScheduleScreen extends Component {
 							<View
 								style={{
 									marginLeft: Dimensions.get('window').width * 0.1,
-									marginBottom: Dimensions.get('window').height * 0.02
+									marginTop: Dimensions.get('window').height * 0.025
 								}}>
 								<RoundBlueButton
 									title={item}
