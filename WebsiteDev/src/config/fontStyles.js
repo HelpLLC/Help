@@ -6,14 +6,14 @@ import colors from "./colors";
 const font = "Arial Rounded MT Bold";
 
 //Sets the font size
-let baseFontSize = 20
+let baseFontSize = 20;
 
 const bigFontSize = baseFontSize * 1.2;
 const subTextFontSize = baseFontSize * 0.9;
 const subTitleFontSize = baseFontSize * 2.2;
 const bigTitleFontSize = baseFontSize * 4.4;
 
-export default fontstyles={
+export default {
   //The style for all big text that will be colored black
   bigTextStyleBlack: {
     fontFamily: font,
@@ -145,4 +145,4 @@ export default fontstyles={
     fontSize: subTitleFontSize,
     color: colors.white
   }
-}
+};

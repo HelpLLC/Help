@@ -15,26 +15,26 @@ class BusinessServiceCard extends Component {
   render() {
     return (
       <Card class="container">
-        <CardContent font={fontStyles.font}>
+        <CardContent style={fontStyles.mainTextStyleBlack}>
           <Typography class="header">House cleaning</Typography>
           <Divider varient="middle" />
           <img src={image} />
         </CardContent>
         <Divider orientation="vertical" flexItem />
-        <CardContent>
+        <CardContent style={fontStyles.mainTextStyleBlack}>
           <Typography class="header">Rating</Typography>
           <Divider varient="middle" />
           <Typography>5 Stars</Typography>
           <Typography>252 Reviews</Typography>
         </CardContent>
         <Divider orientation="vertical" flexItem />
-        <CardContent class="body2">
+        <CardContent class="body2" style={fontStyles.mainTextStyleBlack}>
           <Typography class="header">Price</Typography>
           <Divider varient="middle" />
           <Typography>$120 per 4 hours</Typography>
         </CardContent>
         <Divider orientation="vertical" flexItem />
-        <CardContent class="body3">
+        <CardContent class="body3" style={fontStyles.mainTextStyleBlack}>
           <Typography class="header">Description</Typography>
           <Divider varient="middle" />
           <Typography>
@@ -43,13 +43,13 @@ class BusinessServiceCard extends Component {
           </Typography>
         </CardContent>
         <Divider orientation="vertical" flexItem />
-        <CardContent class="body4">
+        <CardContent class="body4" style={fontStyles.mainTextStyleBlack}>
           <Typography class="header">Requests</Typography>
           <Divider varient="middle" />
           <Typography>137 requests in the past month</Typography>
         </CardContent>
         <Divider orientation="vertical" flexItem />
-        <CardContent class="body5">
+        <CardContent class="body5" style={fontStyles.mainTextStyleBlack}>
           <Typography class="header">Days offered</Typography>
           <Divider varient="middle" />
           <Typography>M/T/F</Typography>
