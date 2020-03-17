@@ -6,7 +6,5 @@ import Login from "./business/StartingScreens/Login/Login";
 import BusinessServiceCard from "./components/BusinessServiceCard";
 
 export default class App extends Component {
-  render() {
-    return <BusinessServiceCard />;
-  }
+  render() {}
 }
