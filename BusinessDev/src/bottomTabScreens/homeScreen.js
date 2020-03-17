@@ -17,16 +17,12 @@ import HelpView from '../components/HelpView';
 import ServiceCardList from '../components/ServiceCardList';
 
 class homeScreen extends Component {
-	//This constructor and componentDidMount will wait until all the products loaded if there are any
-	constructor() {
-		super();
-		this.state = {
-			isLoading: true,
-			business: '',
-			isErrorVisible: false,
-			incompleteProfile: false
-		};
-	}
+	state = {
+		isLoading: true,
+		business: '',
+		isErrorVisible: false,
+		incompleteProfile: false
+	};
 
 	//Fetches the data associated with this screen
 	async fetchDatabaseData() {
@@ -38,9 +34,21 @@ class homeScreen extends Component {
 		FirebaseFunctions.setCurrentScreen('HomeScreen', 'homeScreen');
 
 		try {
-			const { businessID } = this.props.navigation.state.params;
-			const business = await FirebaseFunctions.call('getBusinessByID', { businessID });
-			const image = await FirebaseFunctions.call('getCategoryImageByID', { ID: 'lawn-mower.png' });
+			//If navigated from launch screen or the log in screen, won't "double fetch" the business object because it'll have
+			//already been fetched
+
+			const { businessID, businessFetched } = this.props.navigation.state.params;
+			let business = '';
+			let image = '';
+			if (businessFetched === true) {
+				business = this.props.navigation.state.params.business;
+			} else {
+				business = await FirebaseFunctions.call('getBusinessByID', { businessID });
+			}
+			//Fetches the image if the business has no services
+			if (business.services.length === 0) {
+				image = await FirebaseFunctions.call('getCategoryImageByID', { ID: 'lawn-mower.png' });
+			}
 			this.setState({ image, business, isLoading: false });
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
@@ -176,7 +184,7 @@ class homeScreen extends Component {
 			);
 		} else {
 			return (
-				<HelpView style={screenStyle.container}>
+				<View style={screenStyle.container}>
 					{topView}
 					<ServiceCardList
 						services={business.services}
@@ -188,7 +196,7 @@ class homeScreen extends Component {
 							});
 						}}
 					/>
-				</HelpView>
+				</View>
 			);
 		}
 	}

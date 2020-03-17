@@ -22,7 +22,7 @@
     "react-native": "0.60.3",
     "react-native-actionsheet": "^2.4.2",
     "react-native-awesome-alerts": "^1.2.0",
-    "react-native-calendar-picker": "^6.0.2",
+    "react-native-calendars": "^1.264.0",
     "react-native-check-box": "^2.1.7",
     "react-native-code-push": "^5.7.0",
     "react-native-elements": "^1.2.6",
