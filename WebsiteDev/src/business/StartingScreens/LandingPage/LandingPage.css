@@ -21,7 +21,7 @@ body {
 /* Navigation */
 .header {
 	width: 100%;
-	height: 100%;
+	height: 50px;
 	background-color: #00B0F0;
 	border-bottom: 1px solid #2C9AB7;
 }
@@ -474,6 +474,4 @@ nav ul li {
 	margin-top: 0px;
 	padding-top: 0px;
 }
-}
-#loginbutton {
 }

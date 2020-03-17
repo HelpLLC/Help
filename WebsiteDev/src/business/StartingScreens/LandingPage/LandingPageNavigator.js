@@ -9,8 +9,8 @@ import LandingPage from './LandingPage';
 export default function LandingPageNavigator() {
 	return (
 		<BrowserRouter>
-			<div className='container'>
-				<header>
+			<div>
+				<header className="header">
 					<h4 style={fontStyles.mainTextStyleWhite} class='logo'>
 						Help For Business
 					</h4>
