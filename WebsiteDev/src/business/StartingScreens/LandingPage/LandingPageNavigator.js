@@ -1,41 +1,46 @@
-import React from "react";
-import { Route, Switch, BrowserRouter, Link} from "react-router-dom";
-import Login from "../Login/Login";
-import SignUpScreen from "../Signup/SignUpScreen";
-import LandingPage from "./LandingPage";
+import React from 'react';
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import './LandingPage.css';
+import Login from '../Login/Login';
+import SignUpScreen from '../Signup/SignUpScreen';
+import fontStyles from '../../../config/fontStyles';
+import LandingPage from './LandingPage';
 
 export default function LandingPageNavigator() {
-  return (
-    <BrowserRouter>
-      <div>
-        <header>
-          <h4 class="logo">Help LLC&nbsp;</h4>
-          <nav>
-            <ul>
-              <li>
-                <Link to={"/"}>Home</Link>
-              </li>
-              <li>
-                <Link to={"/login"}>Login</Link>
-              </li>
-              <li>
-                <Link to={"/signup"}>Signup</Link>
-              </li>
-            </ul>
-          </nav>
-        </header>
-      </div>
-      <Switch>
-        <Route path="/">
-          <LandingPage />
-        </Route>
-        <Route path="/login">
-          <Login/>
-        </Route>
-        <Route path="/signup">
-          <SignUpScreen />
-        </Route>
-      </Switch>
-    </BrowserRouter>
-  );
+	return (
+		<BrowserRouter>
+			<div className='container'>
+				<header>
+					<h4 style={fontStyles.mainTextStyleWhite} class='logo'>
+						Help For Business
+					</h4>
+					<nav>
+						<ul>
+							<li>
+								<Link style={fontStyles.mainTextStyleWhite} to={'/login'}>
+									Log In
+								</Link>
+							</li>
+							<li>
+								<Link style={fontStyles.mainTextStyleWhite} to={'/signUp'}>
+									Sign Up
+								</Link>
+							</li>
+						</ul>
+					</nav>
+				</header>
+			</div>
+			<Switch>
+				<Route exact path='/'>
+					<LandingPage />
+				</Route>
+				<Route path='/login'>
+					<Login />
+				</Route>
+				<Route path='/signUp'>
+					<SignUpScreen />
+				</Route>
+			</Switch>
+		</BrowserRouter>
+	);
 }

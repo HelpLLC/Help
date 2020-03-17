@@ -12,16 +12,16 @@ body {
 }
 /* Container */
 .container {
-	width: 90%;
+	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
 	height: 1000px;
 	background-color: #FFFFFF;
 }
 /* Navigation */
-header {
+.header {
 	width: 100%;
-	height: 5%;
+	height: 100%;
 	background-color: #00B0F0;
 	border-bottom: 1px solid #2C9AB7;
 }
@@ -29,7 +29,7 @@ header {
 	color: #fff;
 	font-weight: bold;
 	text-align: undefined;
-	width: 10%;
+	width: 30%;
 	float: left;
 	margin-top: 15px;
 	margin-left: 25px;
