@@ -1,12 +1,13 @@
-//This screen will be where the requester will be able to view a profile of a company offering services.
-//They'll see its name & description, be able to message it and view all of its specific products.
+//This screen will be where the customer will be able to view a profile of a company offering services.
+//They'll see its name & description, be able to message it and view all of its specific services.
 //In the future we want to add reviews and such features.
 //This screen will be the one where the user will be able to view a service's details, price, name
 //of the company providing it, etc. There will be a button at the bottom of the screen allowing the
-//requester to request the service.
+//customer to request the service.
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import NarrowServiceCardList from '../components/NarrowServiceCardList';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpView from '../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
@@ -17,70 +18,29 @@ import TopBanner from '../components/TopBanner';
 import HelpSearchBar from '../components/HelpSearchBar';
 
 class companyProfileScreen extends Component {
-	//This constructor and componentDidMount will wait until all the products loaded if there are any
-	constructor() {
-		super();
-		this.state = {
-			isLoading: true,
-			serviceIDsLength: 0,
-			providerProducts: [],
-			isErrorVisible: false,
-			search: '',
-			displayedProducts: ''
-		};
-	}
+	//State of the screen
+	state = {
+		isLoading: true,
+		services: [],
+		isErrorVisible: false,
+		search: '',
+		displayedServices: ''
+	};
 
-	//Fetches the data associated with this screen
-	async fetchDatabaseData() {
-		const { provider } = this.props.navigation.state.params;
-		this.setState({ provider });
-		if (provider.serviceIDs.length === 0) {
-			this.setState({ isLoading: false });
-		} else {
-			try {
-				const serviceIDs = provider.serviceIDs;
-				for (const ID of serviceIDs) {
-					const service = await FirebaseFunctions.call('getServiceByID', { serviceID: ID });
-					const newArrayOfProducts = this.state.providerProducts;
-					newArrayOfProducts.push(service);
-					this.setState({
-						providerProducts: newArrayOfProducts,
-						displayedProducts: newArrayOfProducts
-					});
-				}
-				this.setState({
-					isLoading: false,
-					serviceIDsLength: serviceIDs.length
-				});
-			} catch (error) {
-				this.setState({ isLoading: false, isErrorVisible: true });
-				FirebaseFunctions.call('logIssue', {
-					error,
-					userID: {
-						screen: 'CompanyProfileScreen',
-						userID: 'r-' + this.props.navigation.state.params.requesterID,
-						companyID: provider.providerID
-					}
-				});
-			}
-		}
-		return 0;
-	}
-
-	//This will fetch the data about this provider and his products from firestore
+	//This will fetch the data about this business and his services from firestore
 	async componentDidMount() {
-		FirebaseFunctions.setCurrentScreen('RequesterCompanyProfileScreen', 'companyProfileScreen');
+		FirebaseFunctions.setCurrentScreen('CustomerBusinessProfileScreen', 'businessProfileScreen');
 
-		this.setState({ isLoading: true });
-		//Adds the listener to add the listener to refetch the data once this component is returned to
-		this.willFocusListener = this.props.navigation.addListener('willFocus', async () => {
-			await this.fetchDatabaseData();
+		const { business, customer } = this.props.navigation.state.params;
+		this.setState({
+			business,
+			customer,
+			services: business.services,
+			isLoading: false,
+			displayedServices: business.services
 		});
-	}
 
-	//Removes the listener when the screen is switched away from
-	componentWillUnmount() {
-		this.willFocusListener.remove();
+		return 0;
 	}
 
 	renderSearch() {
@@ -90,25 +50,24 @@ class companyProfileScreen extends Component {
 		//character
 		let text = this.state.search;
 		text = text.trim().toLowerCase();
-		const { providerProducts } = this.state;
-		const newProducts = [];
-		for (const product of providerProducts) {
-			const productName = product.serviceTitle.trim().toLowerCase();
-			const business = product.offeredByName.trim().toLowerCase();
-			const category = product.category.trim().toLowerCase();
-			if (productName.includes(text) || business.includes(text) || category.includes(text)) {
-				newProducts.push(product);
+		const { services } = this.state;
+		const newServices = [];
+		for (const service of services) {
+			const serviceName = service.serviceTitle.trim().toLowerCase();
+			const category = service.category.trim().toLowerCase();
+			if (serviceName.includes(text) || category.includes(text)) {
+				newServices.push(service);
 			}
 		}
 
-		//If new products is empty or the search is empty, all the categories will be displayed.
+		//If new services is empty or the search is empty, all the categories will be displayed.
 		//Otherwise, the results will be displayed
-		if (newProducts.length === 0 || text.length === 0) {
+		if (newServices.length === 0 || text.length === 0) {
 			this.setState({
-				displayedProducts: this.state.providerProducts
+				displayedServices: services
 			});
 		} else {
-			this.setState({ displayedProducts: newProducts });
+			this.setState({ displayedServices: newServices });
 		}
 		//This timeout is necessary so that images time to be "undownloaded" --> They only need a timeout
 		//of 1, but to make it look good, 500 is ideal
@@ -118,8 +77,8 @@ class companyProfileScreen extends Component {
 	}
 
 	render() {
-		const { isLoading, providerProducts, serviceIDsLength } = this.state;
-		if (isLoading === true || (providerProducts.length == 0 && serviceIDsLength > 0)) {
+		const { isLoading, services } = this.state;
+		if (isLoading === true) {
 			return (
 				<HelpView style={screenStyle.container}>
 					<TopBanner
@@ -133,12 +92,12 @@ class companyProfileScreen extends Component {
 				</HelpView>
 			);
 		} else {
-			const { provider, requester } = this.props.navigation.state.params;
-			const { search, displayedProducts } = this.state;
+			const { business, customer } = this.props.navigation.state.params;
+			const { search, displayedServices } = this.state;
 			return (
 				<HelpView style={screenStyle.container}>
 					<TopBanner
-						title={provider.companyName}
+						title={business.businessName}
 						leftIconName='angle-left'
 						leftOnPress={() => this.props.navigation.goBack()}
 					/>
@@ -155,10 +114,9 @@ class companyProfileScreen extends Component {
 					/>
 					<NarrowServiceCardList
 						navigation={this.props.navigation}
-						services={displayedProducts}
-						requesterID={requester.requesterID}
+						services={displayedServices}
+						customerID={customer.customerID}
 					/>
-
 					<HelpAlert
 						isVisible={this.state.isErrorVisible}
 						onPress={() => {

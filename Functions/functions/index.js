@@ -81,30 +81,39 @@ const sendEmail = async (recepient, subject, text) => {
 	return 0;
 };
 
-//Method will take in a service ID and a customer ID and then delete that customer's request
-//from the service's current requests. It will also remove the request from the Requests subcollection
-//of the requester
-const deleteRequest = async (serviceID, customerID, requestID) => {
-	//updates the subcollection by removing the request
-	await services.doc(serviceID).update({
-		currentRequests: admin.firestore.FieldValue.arrayRemove({ requestID: requestID })
-	});
-	await customers
-		.doc(requesterID)
-		.update({ currentRequests: admin.firestore.FieldValue.arrayRemove({ requestID: requestID }) });
+//Method will take in a service ID and a customer ID and a requestID and a businessID and then delete that customer's request
+//from the service's current requests.
+const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
+	
+	//Updates the request collection
 	await requests.doc(requestID).delete();
 
-	//Fetches the necessary data to send a notification
-	const service = (await products.doc(serviceID).get()).data();
-	const customer = (await customers.doc(customerID).get()).data();
-
-	//Decrements the numRequests for the service
-	let business = (await businesses.doc(service.businessID).get()).data();
+	//Updates the business document
+	let business = (await businesses.doc(businessID).get()).data();
 	const indexOfService = business.services.findIndex((element) => element.serviceID === serviceID);
 	business.services[indexOfService].numCurrentRequests =
 		business.services[indexOfService].numCurrentRequests - 1;
-	await businesses.doc(service.businessID).update({
-		services: business.services
+	let indexOfRequest = business.currentRequests.findIndex((element) => element.requestID === requestID);
+	business.currentRequests.splice(indexOfRequest, 1);
+	await businesses.doc(businessID).update({
+		services: business.services,
+		currentRequests: business.currentRequests
+	});
+
+	//Updates the customer document
+	const customer = (await customers.doc(customerID).get()).data();
+	indexOfRequest = customer.currentRequests.findIndex((element) => element.requestID === requestID);
+	customer.currentRequests.splice(indexOfRequest, 1);
+	await customers.doc(customerID).update({
+		currentRequests: customer.currentRequests
+	});
+
+	//Updates the service document
+	const service = (await services.doc(serviceID).get()).data();
+	indexOfRequest = service.currentRequests.findIndex((element) => element.requestID === requestID);
+	service.currentRequests.splice(indexOfRequest, 1);
+	await services.doc(serviceID).update({
+		currentRequests: service.currentRequests
 	});
 
 	//Notifies the business that the request has been deleted.
@@ -474,6 +483,7 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 		services: admin.firestore.FieldValue.arrayUnion({
 			numCurrentRequests: 0,
 			serviceID,
+			category,
 			serviceDescription,
 			serviceTitle,
 			priceText
@@ -547,7 +557,7 @@ exports.deleteService = functions.https.onCall(async (input, context) => {
 	//Deletes all current requests for the service & notifies the customers
 	const service = await (await services.doc(serviceID).get()).data();
 	for (const request of service.currentRequests) {
-		await deleteRequest(serviceID, request.customerID, request.requestID);
+		await deleteRequest(serviceID, request.customerID, request.requestID, request.businessID);
 	}
 
 	return 0;
@@ -579,9 +589,9 @@ exports.getServiceImageByID = functions.https.onCall(async (input, context) => {
 //Method will take in a reference to a picture (the same as the profile ID it is fetching)
 //and return the download URL for the image which is used as an image source
 exports.getProfilePictureByID = functions.https.onCall(async (input, context) => {
-	const { ID } = input;
+	const { customerID } = input;
 	//Creates the reference
-	const uri = storage.file('profilePictures/' + ID);
+	const uri = storage.file('profilePictures/' + customerID);
 	const exists = await uri.exists();
 	if (exists[0] === true) {
 		const downloadURL = await uri.getSignedUrl({ action: 'read', expires: '03-17-2025' });
@@ -609,6 +619,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		serviceTitle,
 		customerName,
 		serviceDuration,
+		requestedOn,
 		serviceID,
 		status,
 		time
@@ -624,6 +635,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		review,
 		serviceTitle,
 		customerName,
+		requestedOn,
 		serviceID,
 		status,
 		time
@@ -694,31 +706,23 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 
 //Method is going to edit a request by it's ID as well as update any fields necessary in the current requests arrays
 //of the customer and the service.
-exports.updateRequestInformation = functions.https.onCall(async (input, context) => {
+exports.updateCustomerRequest = functions.https.onCall(async (input, context) => {
 	const {
-		assignedTo,
-		businessID,
+		requestID,
 		customerID,
+		businessID,
 		date,
+		serviceDuration,
 		questions,
-		review,
+		time,
 		serviceTitle,
-		customerName,
-		serviceID,
 		status,
-		time
+		serviceID,
+		customerName
 	} = input;
 	await requests.doc(requestID).update({
-		assignedTo,
-		businessID,
-		customerID,
 		date,
 		questions,
-		review,
-		serviceTitle,
-		customerName,
-		serviceID,
-		status,
 		time
 	});
 
@@ -750,7 +754,23 @@ exports.updateRequestInformation = functions.https.onCall(async (input, context)
 		status,
 		time
 	};
-	await services.doc(serviceID).update({ currentRequests: service.currentRequests });
+	await customers.doc(customerID).update({ currentRequests: customer.currentRequests });
+
+	//updates the request within the business
+	let business = (await businesses.doc(businessID).get()).data();
+	const indexOfBusinessRequest = business.currentRequests.findIndex(
+		(element) => element.requestID === requestID
+	);
+	business.currentRequests[indexOfBusinessRequest] = {
+		date,
+		time,
+		requestID,
+		serviceDuration,
+		serviceTitle,
+		serviceID,
+		customerName
+	};
+	await businesses.doc(businessID).update({ currentRequests: business.currentRequests });
 
 	//Sends notifications to the customer and the business
 	sendNotification(
@@ -842,8 +862,8 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 //Method will take in a service ID and a customer ID and then delete that customer's request from the collection and
 //the corresponding array.
 exports.deleteRequest = functions.https.onCall(async (input, context) => {
-	const { serviceID, customerID, requestID } = input;
-	const deleted = await deleteRequest(serviceID, customerID, requestID);
+	const { serviceID, customerID, requestID, businessID } = input;
+	const deleted = await deleteRequest(serviceID, customerID, requestID, businessID);
 	return deleted;
 });
 
@@ -917,7 +937,7 @@ exports.skipReview = functions.https.onCall(async (input, context) => {
 //Method will block a specific business from a customer's account. It will append the business ID to the customer's
 //blockedbusinesses array. It will also submit a report to the help support team to indicate that this action was taken. This
 //will be in the form of an automated email.
-exports.blockCompany = functions.https.onCall(async (input, context) => {
+exports.blockBusiness = functions.https.onCall(async (input, context) => {
 	const { customerID, businessID } = input;
 	await customers.doc(customerID).update({
 		blockedBusinesses: admin.firestore.FieldValue.arrayUnion(businessID)

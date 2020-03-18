@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import strings from 'config/strings';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import googleCityPickerStyle from 'config/styles/componentStyles/googleCityPickerStyle';
 import PropTypes from 'prop-types';
 import colors from 'config/colors';

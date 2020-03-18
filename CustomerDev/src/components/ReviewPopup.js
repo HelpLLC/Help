@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { View, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import ImageWithBorder from '../components/ImageWithBorder';
@@ -38,14 +39,14 @@ class ReviewPopup extends Component {
 							style={{
 								justifyContent: 'center',
 								alignItems: 'center',
-								paddingVertical: Dimensions.get('window').height * 0.025
+								paddingVertical: screenHeight * 0.025
 							}}>
 							<ImageWithBorder
 								style={{
 									flex: 1
 								}}
-								width={Dimensions.get('window').height * 0.075}
-								height={Dimensions.get('window').height * 0.075}
+								width={screenHeight * 0.075}
+								height={screenHeight * 0.075}
 								imageFunction={async () => {
 									//Passes in the function to retrieve the image of this product
 									return await imageFunction();
@@ -59,10 +60,10 @@ class ReviewPopup extends Component {
 							showRating={false}
 							defaultRating={0}
 						/>
-						<View style={{ paddingBottom: Dimensions.get('window').height * 0.025 }}></View>
+						<View style={{ paddingBottom: screenHeight * 0.025 }}></View>
 						<MultiLineRoundedBoxInput
-							width={Dimensions.get('window').width * 0.6}
-							height={Dimensions.get('window').height * 0.1}
+							width={screenWidth * 0.6}
+							height={screenHeight * 0.1}
 							placeholder={placeholder}
 							onChangeText={(input) => onChangeText(input)}
 							value={value}

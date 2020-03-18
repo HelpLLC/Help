@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import leftMenuCardStyle from 'config/styles/componentStyles/leftMenuCardStyle';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import fontStyles from 'config/styles/fontStyles';
 
 class LeftMenuCard extends Component {

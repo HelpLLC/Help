@@ -5,6 +5,7 @@ import TopBanner from '../components/TopBanner';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../components/RoundBlueButton';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -198,12 +199,12 @@ class createQuestionsScreen extends Component {
 						style={{
 							justifyContent: 'flex-start',
 							alignItems: 'center',
-							marginHorizontal: Dimensions.get('window').width * 0.025,
-							marginVertical: Dimensions.get('window').height * 0.025
+							marginHorizontal: screenWidth * 0.025,
+							marginVertical: screenHeight * 0.025
 						}}>
 						<Text style={fontStyles.mainTextStyleBlack}>{strings.InfoFromCustomersQuestion}</Text>
 					</View>
-					<View style={{ marginTop: Dimensions.get('window').height * 0.01 }}>
+					<View style={{ marginTop: screenHeight * 0.01 }}>
 						<FlatList
 							showsHorizontalScrollIndicator={false}
 							showsVerticalScrollIndicator={false}
@@ -217,7 +218,7 @@ class createQuestionsScreen extends Component {
 									style={{
 										flex: 1,
 										alignItems: 'center',
-										marginLeft: Dimensions.get('window').width * 0.025
+										marginLeft: screenWidth * 0.025
 									}}>
 									<RoundBlueButton
 										title={item.name}
@@ -227,7 +228,7 @@ class createQuestionsScreen extends Component {
 											roundBlueButtonStyle.AccountTypeButton,
 											{
 												//Width increased for longer text
-												width: Dimensions.get('window').width * 0.39,
+												width: screenWidth * 0.39,
 												borderColor: item.isSelected === true ? colors.lightBlue : colors.white
 											}
 										]}
@@ -252,15 +253,15 @@ class createQuestionsScreen extends Component {
 						/>
 						<View
 							style={{
-								marginTop: Dimensions.get('window').height * 0.02,
+								marginTop: screenHeight * 0.02,
 								borderTopColor: colors.lightBlue,
-								width: Dimensions.get('window').width * 0.95,
+								width: screenWidth * 0.95,
 								alignSelf: 'center',
 								borderTopWidth: 1
 							}}>
 							<View
 								style={{
-									marginTop: Dimensions.get('window').height * 0.025
+									marginTop: screenHeight * 0.025
 								}}>
 								<Text style={fontStyles.bigTextStyleBlack}>{strings.CustomQuestions}</Text>
 							</View>
@@ -273,21 +274,21 @@ class createQuestionsScreen extends Component {
 								extraData={this.state}
 								showsVerticalScrollIndicator={false}
 								renderItem={({ item, index }) => (
-									<View style={{ marginLeft: Dimensions.get('window').width * 0.03 }}>
-										<View style={{ marginTop: Dimensions.get('window').height * 0.02 }}>
+									<View style={{ marginLeft: screenWidth * 0.03 }}>
+										<View style={{ marginTop: screenHeight * 0.02 }}>
 											<Text style={fontStyles.subTextStyleBlack}>
 												{strings.Question + ' ' + (index + 1)}
 											</Text>
 										</View>
 										<View
 											style={{
-												marginTop: Dimensions.get('window').height * 0.01,
+												marginTop: screenHeight * 0.01,
 												flexDirection: 'row',
 												justifyContent: 'space-evenly'
 											}}>
 											<MultiLineRoundedBoxInput
-												width={Dimensions.get('window').width * 0.8}
-												height={Dimensions.get('window').height * 0.075}
+												width={screenWidth * 0.8}
+												height={screenHeight * 0.075}
 												placeholder={strings.AskQuestionsForCustomers}
 												onChangeText={(input) => {
 													questions[index] = input;
@@ -306,10 +307,10 @@ class createQuestionsScreen extends Component {
 													});
 												}}
 												style={{
-													width: Dimensions.get('window').width * 0.1,
-													height: Dimensions.get('window').width * 0.1,
-													borderRadius: Dimensions.get('window').width * 0.5,
-													marginLeft: Dimensions.get('window').width * 0.02,
+													width: screenWidth * 0.1,
+													height: screenWidth * 0.1,
+													borderRadius: screenWidth * 0.5,
+													marginLeft: screenWidth * 0.02,
 													backgroundColor: colors.red,
 													justifyContent: 'center',
 													alignItems: 'center',
@@ -317,8 +318,8 @@ class createQuestionsScreen extends Component {
 												}}>
 												<Icon
 													style={{
-														width: Dimensions.get('window').width * 0.1,
-														height: Dimensions.get('window').width * 0.1
+														width: screenWidth * 0.1,
+														height: screenWidth * 0.1
 													}}
 													name='delete'
 													color={colors.white}
@@ -337,12 +338,12 @@ class createQuestionsScreen extends Component {
 								}}
 								disabled={this.state.isLoading}
 								style={{
-									marginTop: Dimensions.get('window').height * 0.02,
+									marginTop: screenHeight * 0.02,
 									justifyContent: 'center',
 									alignItems: 'center',
 									alignSelf: 'center',
-									width: Dimensions.get('window').width * 0.39,
-									height: Dimensions.get('window').height * 0.0878
+									width: screenWidth * 0.39,
+									height: screenHeight * 0.0878
 								}}>
 								<Text style={fontStyles.bigTextStyleBlue}>{strings.AddQuestion}</Text>
 							</TouchableOpacity>
@@ -352,7 +353,7 @@ class createQuestionsScreen extends Component {
 						style={{
 							justifyContent: 'flex-end',
 							alignContent: 'flex-end',
-							marginTop: Dimensions.get('window').height * 0.03
+							marginTop: screenHeight * 0.03
 						}}>
 						<RoundBlueButton
 							title={strings.Next}

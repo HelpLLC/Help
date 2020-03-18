@@ -1,6 +1,7 @@
 //This will contain all of the styles used in the GoogleCityPicker component
 import colors from '../../colors';
-import { Dimensions } from 'react-native';
+ 
+import { screenWidth, screenHeight } from 'config/dimensions';
 
 export default {
 	//The style for the container itself
@@ -16,16 +17,16 @@ export default {
 		justifyContent: 'center',
 		alignSelf: 'center',
 		backgroundColor: colors.white,
-		width: Dimensions.get('window').width * 0.6
+		width: screenWidth * 0.6
 	},
 	//The style that contains the results of the entered text
 	listView: {
-		height: Dimensions.get('window').height * 0.2,
+		height: screenHeight * 0.2,
 		borderColor: colors.lightBlue,
-		marginTop: Dimensions.get('window').height * 0.01,
+		marginTop: screenHeight * 0.01,
 		borderRadius: 20,
 		borderWidth: 3,
-		width: Dimensions.get('window').width * 0.6,
+		width: screenWidth * 0.6,
 		backgroundColor: colors.white
 	},
 	//The style that renders the "powered by Google" image

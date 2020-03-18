@@ -6,6 +6,7 @@ import { SearchBar, Icon } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import colors from 'config/colors';
 import helpSearchBarStyle from 'config/styles/componentStyles/helpSearchBarStyle';
+import { screenWidth, screenHeight } from 'config/dimensions';
 
 class HelpSearchBar extends Component {
 	render() {
@@ -13,9 +14,9 @@ class HelpSearchBar extends Component {
 		return (
 			<View
 				style={{
-					marginTop: Dimensions.get('window').height * 0.02,
-					marginBottom: Dimensions.get('window').height * 0.01,
-					width: Dimensions.get('window').width * 0.96
+					marginTop: screenHeight * 0.02,
+					marginBottom: screenHeight * 0.01,
+					width: screenWidth * 0.96
 				}}>
 				{/*  Where we display search */}
 				<SearchBar

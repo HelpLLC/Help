@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
 import HelpView from '../components/HelpView';

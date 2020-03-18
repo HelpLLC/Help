@@ -9,7 +9,8 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import homeScreen from './homeScreen';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
-import { Dimensions } from 'react-native';
+ 
+import { screenWidth, screenHeight } from 'config/dimensions';
 import { Icon } from 'react-native-elements';
 import React from 'react';
 import colors from 'config/colors';
@@ -96,7 +97,7 @@ const navigatorConfig = {
 		//This styles the tabBar itself; the color, height, etc.
 		style: {
 			backgroundColor: colors.white,
-			height: Dimensions.get('window').height * 0.1,
+			height: screenHeight * 0.1,
 		},
 		showLabel: false,
 		showIcon: true

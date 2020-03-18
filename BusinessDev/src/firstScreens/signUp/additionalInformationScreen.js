@@ -6,6 +6,7 @@ import HelpView from '../../components/HelpView';
 import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import strings from 'config/strings';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import screenStyle from 'config/styles/screenStyle';
 import {
 	Text,
@@ -145,8 +146,8 @@ export default class additionalInformationScreen extends Component {
 						style={{
 							alignSelf: 'flex-start',
 							justifyContent: 'flex-end',
-							marginVertical: Dimensions.get('window').height * 0.02,
-							marginLeft: Dimensions.get('window').width * 0.2
+							marginVertical: screenHeight * 0.02,
+							marginLeft: screenWidth * 0.2
 						}}>
 						<Text style={fontStyles.bigTextStyleBlack}>{strings.Website}</Text>
 					</View>
@@ -164,8 +165,8 @@ export default class additionalInformationScreen extends Component {
 						style={{
 							alignSelf: 'flex-start',
 							justifyContent: 'flex-end',
-							marginVertical: Dimensions.get('window').height * 0.02,
-							marginLeft: Dimensions.get('window').width * 0.2
+							marginVertical: screenHeight * 0.02,
+							marginLeft: screenWidth * 0.2
 						}}>
 						<Text style={fontStyles.bigTextStyleBlack}>{strings.PhoneNumber}</Text>
 					</View>
@@ -185,8 +186,8 @@ export default class additionalInformationScreen extends Component {
 						style={{
 							justifyContent: 'flex-end',
 							alignSelf: 'flex-start',
-							marginVertical: Dimensions.get('window').height * 0.02,
-							marginLeft: Dimensions.get('window').width * 0.2
+							marginVertical: screenHeight * 0.02,
+							marginLeft: screenWidth * 0.2
 						}}>
 						<TouchableOpacity
 							onPress={() => {
@@ -194,11 +195,11 @@ export default class additionalInformationScreen extends Component {
 							}}
 							style={{ flexDirection: 'row', alignItems: 'center' }}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.LocationYouServe}</Text>
-							<View style={{ width: Dimensions.get('window').width * 0.01 }}></View>
+							<View style={{ width: screenWidth * 0.01 }}></View>
 							<Icon name={'info-circle'} type='font-awesome' size={25} color={colors.lightBlue} />
 						</TouchableOpacity>
 					</View>
-					<View style={{ height: Dimensions.get('window').height * 0.35 }}>
+					<View style={{ height: screenHeight * 0.35 }}>
 						<GoogleCityPicker
 							initialText={this.state.location !== '' ? this.state.location : ''}
 							placeholderText={strings.EnterLocation}
@@ -212,7 +213,7 @@ export default class additionalInformationScreen extends Component {
 					</View>
 					<View
 						style={{
-							height: Dimensions.get('window').height * 0.1,
+							height: screenHeight * 0.1,
 							justifyContent: 'flex-end',
 							alignSelf: 'center'
 						}}>

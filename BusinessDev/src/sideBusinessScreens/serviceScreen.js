@@ -9,6 +9,7 @@ import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import colors from 'config/colors';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpAlert from '../components/HelpAlert';
 import HelpView from '../components/HelpView';
 import FastImage from 'react-native-fast-image';
@@ -39,10 +40,10 @@ class serviceScreen extends Component {
 			const image = await FirebaseFunctions.call('getServiceImageByID', { serviceID: serviceID });
 			this.setState({
 				isLoading: false,
-        service,
-        business,
-        businessID,
-        serviceID,
+				service,
+				business,
+				businessID,
+				serviceID,
 				image
 			});
 		} catch (error) {
@@ -69,9 +70,7 @@ class serviceScreen extends Component {
 					<TopBanner
 						title={strings.Service}
 						leftIconName='angle-left'
-						leftOnPress={() =>
-							this.props.navigation.goBack()
-						}
+						leftOnPress={() => this.props.navigation.goBack()}
 					/>
 					<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 						<LoadingSpinner isVisible={isLoading} />
@@ -88,19 +87,20 @@ class serviceScreen extends Component {
 			);
 		} else {
 			return (
-				<HelpView style={screenStyle.container}>
+				<View style={screenStyle.container}>
 					<TopBanner
 						title={strings.Service}
 						leftIconName='angle-left'
-						leftOnPress={() =>
-							this.props.navigation.goBack()
-						}
+						leftOnPress={() => this.props.navigation.goBack()}
 					/>
-					<ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+					<ScrollView
+						style={{ flex: 1 }}
+						showsHorizontalScrollIndicator={false}
+						showsVerticalScrollIndicator={false}>
 						<View
 							style={{
 								flexDirection: 'row',
-								width: Dimensions.get('window').width - 40,
+								width: screenWidth - 40,
 								alignItems: 'center',
 								alignSelf: 'center',
 								justifyContent: 'space-between'
@@ -109,7 +109,7 @@ class serviceScreen extends Component {
 								<View
 									style={{
 										justifyContent: 'flex-end',
-										marginVertical: Dimensions.get('window').height * 0.03
+										marginVertical: screenHeight * 0.03
 									}}>
 									<Text style={fontStyles.bigTextStyleBlack}>{service.serviceTitle}</Text>
 								</View>
@@ -117,12 +117,12 @@ class serviceScreen extends Component {
 								<TouchableOpacity
 									onPress={() => {
 										this.props.navigation.push('CreateServiceScreen', {
-                      businessID,
-                      business,
-                      serviceID,
-                      service,
-                      editing: true
-                    });
+											businessID,
+											business,
+											serviceID,
+											service,
+											editing: true
+										});
 									}}
 									style={{ justifyContent: 'flex-end' }}>
 									<Text style={fontStyles.bigTextStyleBlue}>{strings.EditService}</Text>
@@ -136,7 +136,7 @@ class serviceScreen extends Component {
 									}}
 									style={{
 										justifyContent: 'flex-end',
-										marginTop: Dimensions.get('window').height * 0.02
+										marginTop: screenHeight * 0.02
 									}}>
 									<Text style={fontStyles.bigTextStyleBlue}>{strings.History}</Text>
 								</TouchableOpacity>
@@ -148,13 +148,13 @@ class serviceScreen extends Component {
 								borderTopColor: colors.lightBlue,
 								borderBottomWidth: 4,
 								borderTopWidth: 4,
-								width: Dimensions.get('window').width,
+								width: screenWidth,
 								height: 258,
-								marginVertical: Dimensions.get('window').height * 0.02
+								marginVertical: screenHeight * 0.02
 							}}>
 							<FastImage
 								style={{
-									width: Dimensions.get('window').width,
+									width: screenWidth,
 									height: 250
 								}}
 								source={this.state.image}
@@ -162,13 +162,13 @@ class serviceScreen extends Component {
 						</View>
 						<View
 							style={{
-								marginVertical: Dimensions.get('window').height * 0.03
+								marginVertical: screenHeight * 0.03
 							}}>
 							<View
 								style={{
 									justifyContent: 'center',
-									width: Dimensions.get('window').width * 0.92,
-									marginLeft: Dimensions.get('window').width * 0.04
+									width: screenWidth * 0.92,
+									marginLeft: screenWidth * 0.04
 								}}>
 								<ViewMoreText
 									numberOfLines={3}
@@ -177,8 +177,8 @@ class serviceScreen extends Component {
 											<TouchableOpacity
 												onPress={onPress}
 												style={{
-													width: Dimensions.get('window').width * 0.3,
-													height: Dimensions.get('window').height * 0.1
+													width: screenWidth * 0.3,
+													height: screenHeight * 0.1
 												}}>
 												<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadMore}</Text>
 											</TouchableOpacity>
@@ -189,8 +189,8 @@ class serviceScreen extends Component {
 											<TouchableOpacity
 												onPress={onPress}
 												style={{
-													width: Dimensions.get('window').width * 0.3,
-													height: Dimensions.get('window').height * 0.1
+													width: screenWidth * 0.3,
+													height: screenHeight * 0.1
 												}}>
 												<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadLess}</Text>
 											</TouchableOpacity>
@@ -214,46 +214,42 @@ class serviceScreen extends Component {
 							<View>
 								<View
 									style={{
-										width: Dimensions.get('window').width * 0.9,
+										width: screenWidth * 0.9,
 										alignSelf: 'center',
 										justifyContent: 'center',
 										borderBottomColor: colors.lightBlue,
 										borderWidth: 0.5,
-										height: Dimensions.get('window').height * 0.05,
+										height: screenHeight * 0.05,
 										borderColor: colors.lightGray
 									}}>
 									<Text style={fontStyles.bigTextStyleBlack}>{strings.CurrentRequests}</Text>
 								</View>
-								<FlatList
-									data={currentRequests}
-									keyExtractor={(item, index) => {
-										return item.requesterID;
-									}}
-									renderItem={({ item, index }) => (
-										<View style={{ marginBottom: Dimensions.get('window').height * 0.025 }}>
-											<ServiceCard
-												serviceTitle={item.requesterName}
-												serviceDescription={' '}
-												price={strings.RequestedOn + ' ' + item.dateRequested}
-												imageFunction={async () => {
-													//Passes the function to get the profile picture of the user
-													//Passes in the function to retrieve the image of this requester
-													return await FirebaseFunctions.call('getProfilePictureByID', {
-														ID: item.requesterID
-													});
-												}}
-												onPress={() => {
-													//Goes to the screen for the specific request
-													this.props.navigation.push('CustomerRequestScreen', {
-														service: service,
-														request: item,
-														completed: false
-													});
-												}}
-											/>
-										</View>
-									)}
-								/>
+								{service.currentRequests.map((item) => (
+									<View
+										key={item.requestID}
+										style={{
+											marginBottom: screenHeight * 0.025
+										}}>
+										<ServiceCard
+											serviceTitle={item.customerName}
+											serviceDescription={strings.ScheduledAt + ' ' + item.time}
+											price={strings.ScheduledOn + ' ' + item.date}
+											imageFunction={async () => {
+												//Passes the function to get the profile picture of the user
+												//Passes in the function to retrieve the image of this requester
+												return await FirebaseFunctions.call('getProfilePictureByID', {
+													customerID: item.customerID
+												});
+											}}
+											onPress={() => {
+												//Goes to the screen for the specific request
+												this.props.navigation.push('CustomerRequestScreen', {
+													requestID: item.requestID
+												});
+											}}
+										/>
+									</View>
+								))}
 							</View>
 						) : (
 							<View style={{ alignSelf: 'center', justifyContent: 'center' }}>
@@ -261,7 +257,7 @@ class serviceScreen extends Component {
 							</View>
 						)}
 					</ScrollView>
-				</HelpView>
+				</View>
 			);
 		}
 	}

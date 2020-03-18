@@ -5,6 +5,7 @@ import { View, Text, Dimensions, Keyboard, TouchableOpacity, ScrollView } from '
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import CheckBox from 'react-native-check-box';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../../components/RoundBlueButton';
@@ -115,10 +116,10 @@ class emailPasswordScreen extends Component {
 					}}
 				/>
 				<ScrollView>
-					<View style={{ height: Dimensions.get('window').height * 0.03 }}></View>
+					<View style={{ height: screenHeight * 0.03 }}></View>
 					<View
 						style={{
-							height: Dimensions.get('window').height * 0.15,
+							height: screenHeight * 0.15,
 							justifyContent: 'center',
 							alignSelf: 'center'
 						}}>
@@ -140,7 +141,7 @@ class emailPasswordScreen extends Component {
 					</View>
 					<View
 						style={{
-							height: Dimensions.get('window').height * 0.15,
+							height: screenHeight * 0.15,
 							justifyContent: 'center',
 							alignSelf: 'center'
 						}}>
@@ -151,7 +152,7 @@ class emailPasswordScreen extends Component {
 							style={{
 								flex: 1,
 								justifyContent: 'center',
-								marginTop: Dimensions.get('window').height * 0.02
+								marginTop: screenHeight * 0.02
 							}}>
 							<OneLineRoundedBoxInput
 								placeholder={strings.ChooseAPassword}
@@ -167,7 +168,7 @@ class emailPasswordScreen extends Component {
 										}}
 										style={{
 											justifyContent: 'center',
-											height: Dimensions.get('window').height * 0.06
+											height: screenHeight * 0.06
 										}}>
 										<Icon
 											name={this.state.isPasswordVisible === true ? 'eye' : 'eye-slash'}
@@ -183,7 +184,7 @@ class emailPasswordScreen extends Component {
 					</View>
 					<View
 						style={{
-							marginVertical: Dimensions.get('window').height * 0.05,
+							marginVertical: screenHeight * 0.05,
 							justifyContent: 'flex-start',
 							alignItems: 'center',
 							flexDirection: 'column'
@@ -207,10 +208,10 @@ class emailPasswordScreen extends Component {
 							</Text>
 						</TouchableOpacity>
 					</View>
-					<View style={{ height: Dimensions.get('window').height * 0.03 }}></View>
+					<View style={{ height: screenHeight * 0.03 }}></View>
 					<View
 						style={{
-							height: Dimensions.get('window').height * 0.12,
+							height: screenHeight * 0.12,
 							justifyContent: 'flex-end',
 							alignSelf: 'center'
 						}}>
@@ -225,7 +226,7 @@ class emailPasswordScreen extends Component {
 							disabled={this.state.isLoading}
 						/>
 					</View>
-					<View style={{ height: Dimensions.get('window').height * 0.03 }}></View>
+					<View style={{ height: screenHeight * 0.03 }}></View>
 				</ScrollView>
 				<HelpAlert
 					isVisible={this.state.isErrorVisible}

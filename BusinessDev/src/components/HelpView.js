@@ -6,6 +6,7 @@ import React from 'react';
 import { View, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import screenStyle from 'config/styles/screenStyle';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { screenWidth, screenHeight } from 'config/dimensions';
 
 //Creates the higher order component
 const HelpViewHOC = (Comp) => {

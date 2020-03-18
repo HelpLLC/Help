@@ -5,6 +5,7 @@ import FirebaseFunctions from '../../config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import screenStyle from 'config/styles/screenStyle';
 import HelpView from '../components/HelpView';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import NarrowServiceCardList from '../components/NarrowServiceCardList';
 import TopBanner from '../components/TopBanner';
 import HelpSearchBar from '../components/HelpSearchBar';
@@ -14,45 +15,38 @@ class categoryScreen extends Component {
 	state = {
 		isOpen: false,
 		isLoading: true,
-		searchedProducts: null,
-		products: '',
-		search: ''
+		searchServices: null,
+		services: '',
+		search: '',
+		displayedServices: ''
 	};
 
-	//Fetches the products for this category
+	//Fetches the services for this category
 	async componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('CategoryScreen', 'categoryScreen');
-		//Gets products from parameters
-		const { allProducts, categoryName, requesterID } = this.props.navigation.state.params;
-		const requester = await FirebaseFunctions.call('getCustomerByID', { customerID });
-		//Gets products from categories
-		let products = await FirebaseFunctions.call('getProductsByCategory', {
-			allProducts,
+		//Gets services from parameters
+		const { allServices, categoryName, customerID } = this.props.navigation.state.params;
+		const customer = await FirebaseFunctions.call('getCustomerByID', { customerID });
+		//Gets services from categories
+		let services = await FirebaseFunctions.call('getServicesByCategory', {
+			allServices,
 			categoryName
 		});
-		products = await FirebaseFunctions.call('filterProductsByRequesterBlockedUsers', {
-			requester,
-			products
-		});
-
-		//Filters the product so that only ones that nearby are shown (50)
-		products = await FirebaseFunctions.call('filterProductsByRequesterLocation', {
-			requester,
-			products
-		});
-
+		services = services.filter(
+			(service) => !customer.blockedBusinesses.includes(service.businessID)
+		);
 		//sets the state
 		this.setState({
-			products,
-			requester,
-			displayedProducts: products,
+			services,
+			customer,
+			displayedServices: services,
 			isLoading: false
 		});
 
 		return 0;
 	}
 
-	//Function searches through the array of products and displays the results by changing the state
+	//Function searches through the array of services and displays the results by changing the state
 	renderSearch() {
 		this.setState({ isLoading: true });
 		//If there is only one character typed into the search, it will simply display the results
@@ -60,24 +54,24 @@ class categoryScreen extends Component {
 		//character
 		let text = this.state.search;
 		text = text.trim().toLowerCase();
-		const { products } = this.state;
-		const newProducts = [];
-		for (const product of products) {
-			const productName = product.serviceTitle.trim().toLowerCase();
-			const business = product.offeredByName.trim().toLowerCase();
-			if (productName.includes(text) || business.includes(text)) {
-				newProducts.push(product);
+		const { services } = this.state;
+		const newServices = [];
+		for (const service of services) {
+			const serviceName = service.serviceTitle.trim().toLowerCase();
+			const business = service.businessName.trim().toLowerCase();
+			if (serviceName.includes(text) || business.includes(text)) {
+				newServices.push(service);
 			}
 		}
 
-		//If new products is empty or the search is empty, all the categories will be displayed.
+		//If new services is empty or the search is empty, all the categories will be displayed.
 		//Otherwise, the results will be displayed
-		if (newProducts.length === 0 || text.length === 0) {
+		if (newServices.length === 0 || text.length === 0) {
 			this.setState({
-				displayedProducts: this.state.products
+				displayedServices: services
 			});
 		} else {
-			this.setState({ displayedProducts: newProducts });
+			this.setState({ displayedServices: newServices });
 		}
 		//This timeout is necessary so that images time to be "undownloaded" --> They only need a timeout
 		//of 1, but to make it look good, 500 is ideal
@@ -89,7 +83,8 @@ class categoryScreen extends Component {
 	render() {
 		//Fetches the correct params
 		const { categoryName } = this.props.navigation.state.params;
-		const { displayedProducts, search, requester } = this.state;
+		const { displayedServices, search, customer } = this.state;
+		console.log(displayedServices);
 		//If loading it shows loading spinner
 		if (this.state.isLoading === true) {
 			return (
@@ -125,11 +120,11 @@ class categoryScreen extends Component {
 						this.renderSearch();
 					}}
 				/>
-				{/* Shows all Products in the category (or search results) */}
+				{/* Shows all Services in the category (or search results) */}
 				<NarrowServiceCardList
-					requesterID={requester.requesterID}
+					customerID={customer.customerID}
 					navigation={this.props.navigation}
-					services={displayedProducts}
+					services={displayedServices}
 				/>
 			</HelpView>
 		);

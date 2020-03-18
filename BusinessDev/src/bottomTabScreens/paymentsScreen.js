@@ -6,6 +6,7 @@ import HelpView from '../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import strings from 'config/strings';
 import TopBanner from '../components/TopBanner';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import { View } from 'react-native';
 
 //Creates and exports the class

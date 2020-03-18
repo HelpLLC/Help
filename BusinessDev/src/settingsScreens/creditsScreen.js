@@ -2,6 +2,7 @@
 //This will be navigated to from the settings screen.
 import React, { Component } from 'react';
 import { Text, ScrollView, Dimensions } from 'react-native';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -32,7 +33,7 @@ export default class creditsScreen extends Component {
 					contentContainerStyle={{
 						justifyContent: 'space-between',
 						alignItems: 'center',
-						padding: Dimensions.get('window').height * 0.02
+						padding: screenHeight * 0.02
 					}}>
 					<Text style={fontStyles.mainTextStyleBlack}>
 						1) Icons made by "https://www.flaticon.com/authors/smashicons"{'\n\n'}

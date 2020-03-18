@@ -9,6 +9,7 @@ import TopBanner from '../components/TopBanner';
 import { Agenda } from 'react-native-calendars';
 import fontStyles from 'config/styles/fontStyles';
 import colors from 'config/colors';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import strings from 'config/strings';
 import HelpAlert from '../components/HelpAlert';
@@ -171,7 +172,7 @@ export default class scheduleScreen extends Component {
 					</View>
 					<Agenda
 						items={items}
-						style={{ width: Dimensions.get('window').width }}
+						style={{ width: screenWidth }}
 						theme={{
 							selectedDayBackgroundColor: colors.lightBlue,
 							selectedDayTextColor: colors.white,
@@ -203,15 +204,20 @@ export default class scheduleScreen extends Component {
 									style={
 										firstItemInDay
 											? {
-													marginTop: Dimensions.get('window').height * 0.025,
-													width: Dimensions.get('window').width * 0.7,
+													marginTop: screenHeight * 0.025,
+													width: screenWidth * 0.7,
 													borderTopColor: colors.gray,
 													borderTopWidth: 1.5
 											  }
 											: {}
 									}>
 									<RequestCard
-										onPress={() => {}}
+										onPress={() => {
+											//Goes to the screen for the specific request
+											this.props.navigation.push('CustomerRequestScreen', {
+												requestID: item.requestID
+											});
+										}}
 										image={item.image}
 										serviceTitle={item.serviceTitle}
 										time={item.time}

@@ -5,6 +5,7 @@ import screenStyle from 'config/styles/screenStyle';
 import HelpView from '../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import TopBanner from '../components/TopBanner';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import strings from 'config/strings';
 import { View } from 'react-native';
 

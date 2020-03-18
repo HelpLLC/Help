@@ -25,7 +25,7 @@ export default class FirebaseFunctions {
     //Logs the event in firebase analytics & unsubcribes from the notification service
     await firebase.auth().signOut();
     this.analytics.logEvent('customer_log_out');
-    this.fcm.unsubscribeFromTopic('r-' + uid);
+    this.fcm.unsubscribeFromTopic('c-' + uid);
     return 0;
   }
 
@@ -40,8 +40,8 @@ export default class FirebaseFunctions {
   }
 
   //Logs the user in and subscribes to the notification service associated with his/her account
-  //If the user is a customer, the topic will be named "r-accountUID", and if they are a business, it will be
-  //"p-accountUID". The method will then return the topic name
+  //If the user is a customer, the topic will be named "c-accountUID", and if they are a business, it will be
+  //"b-accountUID". The method will then return the topic name
   static async logIn(email, password) {
     const account = await firebase.auth().signInWithEmailAndPassword(email, password);
     //Tests whether this is a business or a customer & based on that, subscribes to the correct channel

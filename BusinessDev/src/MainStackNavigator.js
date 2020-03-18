@@ -12,6 +12,7 @@ import AccountNotVerifiedScreen from './firstScreens/logIn/accountNotVerifiedScr
 import CustomerRequestScreen from './sideBusinessScreens/customerRequestScreen';
 import ServiceHistoryScreen from './sideBusinessScreens/serviceHistoryScreen';
 import ForgotPasswordScreen from './firstScreens/logIn/forgotPasswordScreen';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import AboutScreen from './settingsScreens/aboutScreen';
 import PrivacyScreen from './settingsScreens/privacyScreen';
 import ReportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';

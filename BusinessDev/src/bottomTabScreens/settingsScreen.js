@@ -8,6 +8,7 @@ import whiteCardStyle from '../../config/styles/componentStyles/whiteCardStyle';
 import fontStyles from 'config/styles/fontStyles';
 import WhiteCard from '../components/WhiteCard';
 import { Icon } from 'react-native-elements';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
 import screenStyle from 'config/styles/screenStyle';
 import HelpView from '../components/HelpView';

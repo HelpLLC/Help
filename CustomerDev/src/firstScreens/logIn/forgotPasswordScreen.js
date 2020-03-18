@@ -10,6 +10,7 @@ import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../../components/TopBanner';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import HelpAlert from '../../components/HelpAlert';
 

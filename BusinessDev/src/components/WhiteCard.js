@@ -2,6 +2,7 @@
 //icon or button on the right side.
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import PropTypes from 'prop-types';
 import colors from 'config/colors';
 
@@ -16,8 +17,8 @@ class WhiteCard extends Component {
 			//on the left, and some icon or component on the right
 			<TouchableOpacity
 				style={{
-					height: Dimensions.get('window').height * 0.07,
-					width: Dimensions.get('window').width,
+					height: screenHeight * 0.07,
+					width: screenWidth,
 					backgroundColor: colors.white,
 					alignItems: 'center'
 				}}

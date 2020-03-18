@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Text, View, TouchableOpacity, Dimensions } from 'react-native';
 import colors from 'config/colors';
 import { Icon } from 'react-native-elements';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import topBannerStyle from 'config/styles/componentStyles/topBannerStyle';
 import fontStyles from 'config/styles/fontStyles';
 
@@ -23,7 +24,7 @@ class TopBanner extends Component {
 							flex: 1,
 							justifyContent: 'center',
 							alignItems: 'flex-start',
-							height: Dimensions.get('window').height * 0.12
+							height: screenHeight * 0.12
 						}}
 						onPress={leftOnPress ? () => leftOnPress() : () => {}}>
 						<Icon name={leftIconName} type='font-awesome' size={size ? size : 40} color={colors.lightBlue} />
@@ -38,7 +39,7 @@ class TopBanner extends Component {
 							flex: 1,
 							justifyContent: 'center',
 							alignItems: 'flex-end',
-							height: Dimensions.get('window').height * 0.12
+							height: screenHeight * 0.12
 						}}
 						onPress={() => {
 							rightOnPress ? () => rightOnPress() : () => {};

@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { Modal, View } from 'react-native';
 import PropTypes from 'prop-types';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
 
 //The class that will render the alert

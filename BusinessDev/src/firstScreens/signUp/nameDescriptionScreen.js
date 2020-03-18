@@ -10,6 +10,7 @@ import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonS
 import RoundBlueButton from '../../components/RoundBlueButton';
 import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpView from '../../components/HelpView';
 import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -135,8 +136,8 @@ class nameDescriptionScreen extends Component {
 					style={{
 						alignSelf: 'flex-start',
 						justifyContent: 'flex-end',
-						marginVertical: Dimensions.get('window').height * 0.04,
-						marginLeft: Dimensions.get('window').width * 0.2
+						marginVertical: screenHeight * 0.04,
+						marginLeft: screenWidth * 0.2
 					}}>
 					<Text style={fontStyles.bigTextStyleBlack}>{strings.BusinessName}</Text>
 				</View>
@@ -155,15 +156,15 @@ class nameDescriptionScreen extends Component {
 					style={{
 						alignSelf: 'flex-start',
 						justifyContent: 'flex-end',
-						marginVertical: Dimensions.get('window').height * 0.04,
-						marginLeft: Dimensions.get('window').width * 0.2
+						marginVertical: screenHeight * 0.04,
+						marginLeft: screenWidth * 0.2
 					}}>
 					<Text style={fontStyles.bigTextStyleBlack}>{strings.BusinessDescription}</Text>
 				</View>
 				<View style={{ alignSelf: 'center', justifyContent: 'flex-start' }}>
 					<MultiLineRoundedBoxInput
-						width={Dimensions.get('window').width * 0.6}
-						height={Dimensions.get('window').height * 0.14641}
+						width={screenWidth * 0.6}
+						height={screenHeight * 0.14641}
 						placeholder={strings.TellYourCustomersAboutYourselfDotDotDot}
 						onChangeText={(input) => this.setState({ businessInfo: input })}
 						value={this.state.businessInfo}
@@ -172,8 +173,8 @@ class nameDescriptionScreen extends Component {
 				</View>
 				<View
 					style={{
-						height: Dimensions.get('window').height * 0.1,
-						marginTop: Dimensions.get('window').height * 0.25,
+						height: screenHeight * 0.1,
+						marginTop: screenHeight * 0.25,
 						justifyContent: 'flex-end',
 						alignSelf: 'center'
 					}}>

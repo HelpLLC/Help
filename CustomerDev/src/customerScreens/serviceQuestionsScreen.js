@@ -6,6 +6,7 @@ import TopBanner from '../components/TopBanner';
 import strings from '../../config/strings';
 import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from '../../config/styles/componentStyles/roundBlueButtonStyle';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import fontStyles from '../../config/styles/fontStyles';
 import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
 import HelpAlert from '../components/HelpAlert';
@@ -33,10 +34,10 @@ class serviceQuestionsScreen extends Component {
 		//If this screen is to edit a previous request, then the answer that was previously put down will be set
 		if (isEditing === true) {
 			const { request } = this.props.navigation.state.params;
-			FirebaseFunctions.setCurrentScreen('NewServiceQuestionsScreen', 'serviceQuestionsScreen');
-			answers = request.answers;
-		} else {
 			FirebaseFunctions.setCurrentScreen('EditServiceQuestionsScreen', 'serviceQuestionsScreen');
+			answers = request.questions;
+		} else {
+			FirebaseFunctions.setCurrentScreen('NewServiceQuestionsScreen', 'serviceQuestionsScreen');
 			answers = questions.map((element) => {
 				return {
 					question: element,
@@ -46,6 +47,7 @@ class serviceQuestionsScreen extends Component {
 		}
 		this.setState({
 			isScreenLoading: false,
+			isEditing,
 			questions,
 			answers,
 			service,
@@ -57,7 +59,7 @@ class serviceQuestionsScreen extends Component {
 	//the answers the next step of requesting the service, which is scheduling. If they haven't a pop up will
 	//appear telling them to.
 	goToSchedulingScreen() {
-		const { answers, service, customer } = this.state;
+		const { answers, service, customer, isEditing } = this.state;
 		//Double checks they aren't empty strings
 		for (const answer of answers) {
 			if (!answer || answer.answer.trim() === '') {
@@ -65,13 +67,15 @@ class serviceQuestionsScreen extends Component {
 				return;
 			}
 		}
+
 		//If the program has reached this stage of the clause, that means the request is good to go
-		//Goes to the next step of the process which is scheduling
+		//Goes to the next step of the process which is scheduling. If it is editing an existing request, 
+		//then the request will also be passed
 		this.props.navigation.push('BusinessScheduleScreen', {
 			answers,
 			service,
 			customer,
-			isEditing: this.props.navigation.state.params.isEditing,
+			isEditing: isEditing,
 			request: this.props.navigation.state.params.request
 		});
 	}
@@ -114,21 +118,21 @@ class serviceQuestionsScreen extends Component {
 						renderItem={({ item, index }) => (
 							<View
 								style={{
-									marginLeft: Dimensions.get('window').width * 0.1,
-									marginTop: Dimensions.get('window').height * 0.05,
+									marginLeft: screenWidth * 0.1,
+									marginTop: screenHeight * 0.05,
 									alignItems: 'flex-start',
 									flexDirection: 'column'
 								}}>
 								<View
 									style={{
-										marginBottom: Dimensions.get('window').height * 0.025
+										marginBottom: screenHeight * 0.025
 									}}>
 									<Text style={fontStyles.mainTextStyleBlack}>{item}</Text>
 								</View>
 								<View>
 									<MultiLineRoundedBoxInput
-										width={Dimensions.get('window').width * 0.8}
-										height={Dimensions.get('window').height * 0.08}
+										width={screenWidth * 0.8}
+										height={screenHeight * 0.08}
 										placeholder={strings.AnswerHereDotDotDot}
 										onChangeText={(input) => {
 											answers[index] = {
@@ -146,7 +150,7 @@ class serviceQuestionsScreen extends Component {
 							</View>
 						)}
 					/>
-					<View style={{ marginVertical: Dimensions.get('window').height * 0.05 }}>
+					<View style={{ marginVertical: screenHeight * 0.05 }}>
 						<RoundBlueButton
 							title={strings.Next}
 							style={roundBlueButtonStyle.MediumSizeButton}

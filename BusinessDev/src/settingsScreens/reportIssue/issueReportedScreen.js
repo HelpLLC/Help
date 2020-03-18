@@ -2,6 +2,7 @@
 //developers. The screen will stay visible for about 4 seconds and then will shift back
 //to the reportIssueScreen
 import React, { Component } from 'react';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import { View, Text } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';

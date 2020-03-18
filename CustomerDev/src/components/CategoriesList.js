@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { View, Dimensions, FlatList } from 'react-native';
 import CategoryCard from './CategoryCard';
 import PropTypes from 'prop-types';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 
 //Defines the class
@@ -11,12 +12,12 @@ class CategoriesList extends Component {
 	//This function goes to a screen of a specific category
 	async goToCategoryScreen(categoryName) {
 		FirebaseFunctions.analytics.logEvent(categoryName + '_category_clicked');
-		const { allProducts, requesterID } = this.props;
+		const { allServices, customerID } = this.props;
 		try {
 			this.props.navigation.push('CategoryScreen', {
 				categoryName: categoryName,
-				requesterID: requesterID,
-				allProducts: allProducts
+				customerID: customerID,
+				allServices: allServices
 			});
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
@@ -24,7 +25,7 @@ class CategoriesList extends Component {
 				error,
 				userID: {
 					screen: 'Categories Screen',
-					userID: 'r-' + requesterID
+					userID: 'c-' + customerID
 				}
 			});
 		}
@@ -54,7 +55,7 @@ class CategoriesList extends Component {
 						{//Adds a space before the first service if there is only one service because it otherwise has justify
 						//content of flex start
 						categories.length === 1 ? (
-							<View style={{ width: Dimensions.get('window').width * 0.03 }} />
+							<View style={{ width: screenWidth * 0.03 }} />
 						) : (
 							<View></View>
 						)}
@@ -73,7 +74,7 @@ class CategoriesList extends Component {
 						/>
 						{//Adds a space in between each column
 						index % 2 === 0 && categories.length > 1 ? (
-							<View style={{ width: Dimensions.get('window').width * 0.03 }} />
+							<View style={{ width: screenWidth * 0.03 }} />
 						) : (
 							<View></View>
 						)}
@@ -84,11 +85,11 @@ class CategoriesList extends Component {
 	}
 }
 
-//Sets the PropTypes for this component. There will be and it is required. "categories" which will be of type array & requester object
+//Sets the PropTypes for this component. There will be and it is required. "categories" which will be of type array & customerID
 //who will be the one requesting the categories
 CategoriesList.propTypes = {
 	categories: PropTypes.array.isRequired,
-	requesterID: PropTypes.string.isRequired
+	customerID: PropTypes.string.isRequired
 };
 
 //Exports the module

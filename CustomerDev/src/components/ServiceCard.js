@@ -8,6 +8,7 @@ import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import serviceCardStyle from 'config/styles/componentStyles/serviceCardStyle';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import PropTypes from 'prop-types';
 import { Badge } from 'react-native-elements';
 import LoadingSpinner from './LoadingSpinner';
@@ -48,19 +49,19 @@ class ServiceCard extends Component {
 			<TouchableOpacity
 				onPress={onPress}
 				style={{
-					width: Dimensions.get('window').width,
-					height: Dimensions.get('window').height * 0.31,
+					width: screenWidth,
+					height: screenHeight * 0.31,
 					alignItems: 'center',
 					justifyContent: 'center'
 				}}>
 				<View>
 					<BoxShadow
 						setting={{
-							width: Dimensions.get('window').width - 40,
-							height: Dimensions.get('window').height * 0.21961933,
+							width: screenWidth - 40,
+							height: screenHeight * 0.21961933,
 							color: colors.gray,
 							border: 10,
-							radius: Dimensions.get('window').height * 0.04392387,
+							radius: screenHeight * 0.04392387,
 							opacity: 0.2,
 							x: 0,
 							y: 5
@@ -75,9 +76,9 @@ class ServiceCard extends Component {
 									<FastImage
 										source={image}
 										style={{
-											width: (Dimensions.get('window').width - 40) * 0.45,
-											height: Dimensions.get('window').height * 0.21961933 - 12,
-											borderRadius: Dimensions.get('window').height * 0.03440703
+											width: (screenWidth - 40) * 0.45,
+											height: screenHeight * 0.21961933 - 12,
+											borderRadius: screenHeight * 0.03440703
 										}}
 									/>
 								)}
@@ -110,12 +111,12 @@ class ServiceCard extends Component {
 						status='error'
 						value={numCurrentRequests}
 						badgeStyle={{
-							width: Dimensions.get('window').width * 0.0973,
-							height: Dimensions.get('window').width * 0.0973,
-							borderRadius: (Dimensions.get('window').width * 0.0973) / 2
+							width: screenWidth * 0.0973,
+							height: screenWidth * 0.0973,
+							borderRadius: (screenWidth * 0.0973) / 2
 						}}
 						textStyle={fontStyles.mainTextStyleWhite}
-						containerStyle={{ position: 'absolute', top: Dimensions.get('window').height * 0.03, right: Dimensions.get('window').width * 0.04 }}
+						containerStyle={{ position: 'absolute', top: screenHeight * 0.03, right: screenWidth * 0.04 }}
 					/>
 				) : (
 					<View></View>
