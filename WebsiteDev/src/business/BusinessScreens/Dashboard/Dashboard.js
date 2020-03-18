@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import './Dashboard.css';
-import Header from './Header';
+import Header from '../Header/Header';
 
 export default class Home extends Component {
 	render() {

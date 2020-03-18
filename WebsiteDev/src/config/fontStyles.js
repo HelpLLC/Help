@@ -1,6 +1,6 @@
 //This class will represent all the font styles that should be used throughout the application
 //This includes font families, sizes, and colors.
-import colors from "./colors";
+import colors from './colors';
 
 //Gets the correct font based on either iOS or Android
 const font = "Arial Rounded MT Bold";

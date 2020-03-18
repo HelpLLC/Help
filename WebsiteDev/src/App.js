@@ -1,10 +1,14 @@
 import React, { Component } from "react";
-import Header from "./business/Header";
-import LandingPage from "./business/StartingScreens/LandingPage/LandingPage.js";
+import Header from "./business/BusinessScreens/Header/Header";
 import { BrowserRouter } from "react-router-dom";
-import Login from "./business/StartingScreens/Login/Login";
-import BusinessServiceCard from "./components/BusinessServiceCard";
+import LandingPageNavigator from "./business/StartingScreens/LandingPage/LandingPageNavigator";
 
 export default class App extends Component {
-  render() {}
+  render() {
+    return (
+      <BrowserRouter>
+        <LandingPageNavigator />
+      </BrowserRouter>
+    );
+  }
 }

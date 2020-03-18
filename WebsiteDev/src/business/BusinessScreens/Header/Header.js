@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import './Header.css';
-import Dashboard from './Dashboard';
-import Analytics from './Analytics';
-import Payments from './Payments';
-import SignUpScreen from './SignUpScreen';
+import Dashboard from '../Dashboard/Dashboard';
+import Analytics from '../Analytics/Analytics';
+import Payments from '../Payments/Payments';
+import SignUpScreen from '../../StartingScreens/Signup/SignUpScreen';
 
 export default class Header extends Component {
 	render() {
@@ -12,13 +12,13 @@ export default class Header extends Component {
 			<BrowserRouter>
 				<div className='container'>
 					<header>
-							<h4 class='logo'>Help LLC&nbsp;</h4>
+						<h4 class='logo'>Help LLC&nbsp;</h4>
 						<nav>
 							<ul>
 								<li>
 									<Link to={'/home'}>Home</Link>
 								</li>
-                			<li>
+								<li>
 									<Link to={'/analytics'}>Analytics</Link>
 								</li>
 								<li>
