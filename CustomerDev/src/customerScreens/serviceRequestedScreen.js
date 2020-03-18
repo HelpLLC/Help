@@ -15,6 +15,7 @@ import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpAlert from '../components/HelpAlert';
 
 //Creates the class and exports it
@@ -85,7 +86,7 @@ export default class serviceRequestedScreen extends Component {
 					<View
 						style={{
 							flexDirection: 'row',
-							width: Dimensions.get('window').width - 40,
+							width: screenWidth - 40,
 							alignItems: 'center',
 							alignSelf: 'center',
 							justifyContent: 'space-between'
@@ -94,31 +95,31 @@ export default class serviceRequestedScreen extends Component {
 							<View
 								style={{
 									justifyContent: 'flex-end',
-									marginVertical: Dimensions.get('window').height * 0.03
+									marginVertical: screenHeight * 0.03
 								}}>
 								<Text style={fontStyles.bigTextStyleBlack}>{service.serviceTitle}</Text>
 							</View>
 							<View>
 								<Text style={fontStyles.mainTextStyleBlack}>{strings.RequestedOn}</Text>
-								<View style={{ height: Dimensions.get('window').height * 0.01 }}></View>
+								<View style={{ height: screenHeight * 0.01 }}></View>
 								<Text style={fontStyles.mainTextStyleBlack}>{request.requestedOn}</Text>
 							</View>
 						</View>
 						<FastImage
 							source={image}
 							style={{
-								width: Dimensions.get('window').width * 0.25,
-								height: Dimensions.get('window').width * 0.25,
+								width: screenWidth * 0.25,
+								height: screenWidth * 0.25,
 								borderColor: colors.lightBlue,
-								borderWidth: (Dimensions.get('window').width * 0.25) / 17,
-								borderRadius: (Dimensions.get('window').width * 0.25) / 2
+								borderWidth: (screenWidth * 0.25) / 17,
+								borderRadius: (screenWidth * 0.25) / 2
 							}}
 						/>
 					</View>
 					<View
 						style={{
-							width: Dimensions.get('window').width * 0.9,
-							marginTop: Dimensions.get('window').height * 0.05,
+							width: screenWidth * 0.9,
+							marginTop: screenHeight * 0.05,
 							alignSelf: 'center',
 							justifyContent: 'center',
 							alignItems: 'center'
@@ -130,8 +131,8 @@ export default class serviceRequestedScreen extends Component {
 					{request.status === 'COMPLETED' ? (
 						<View
 							style={{
-								width: Dimensions.get('window').width * 0.9,
-								marginTop: Dimensions.get('window').height * 0.02,
+								width: screenWidth * 0.9,
+								marginTop: screenHeight * 0.02,
 								alignSelf: 'center',
 								justifyContent: 'center',
 								alignItems: 'center'
@@ -146,10 +147,10 @@ export default class serviceRequestedScreen extends Component {
 					{request.questions ? (
 						<View
 							style={{
-								marginTop: Dimensions.get('window').height * 0.025,
+								marginTop: screenHeight * 0.025,
 								borderBottomColor: colors.lightBlue,
 								borderBottomWidth: 1,
-								paddingBottom: Dimensions.get('window').width * 0.01
+								paddingBottom: screenWidth * 0.01
 							}}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.Questions}</Text>
 						</View>
@@ -163,26 +164,26 @@ export default class serviceRequestedScreen extends Component {
 						renderItem={({ item, index }) => (
 							<View
 								style={{
-									width: Dimensions.get('window').width * 0.9,
+									width: screenWidth * 0.9,
 									alignSelf: 'center',
-									marginVertical: Dimensions.get('window').height * 0.02
+									marginVertical: screenHeight * 0.02
 								}}>
 								<Text style={fontStyles.mainTextStyleBlack}>{item.question}</Text>
 								<View
 									style={{
 										backgroundColor: colors.white,
-										marginTop: Dimensions.get('window').height * 0.01,
+										marginTop: screenHeight * 0.01,
 										alignItems: 'flex-start',
 										justifyContent: 'flex-start',
-										paddingVertical: Dimensions.get('window').height * 0.01,
-										width: Dimensions.get('window').width * 0.9,
-										borderRadius: Dimensions.get('window').height * 0.0292825769,
+										paddingVertical: screenHeight * 0.01,
+										width: screenWidth * 0.9,
+										borderRadius: screenHeight * 0.0292825769,
 										borderWidth: 3,
 										borderColor: colors.lightBlue
 									}}>
 									<View
 										style={{
-											marginHorizontal: Dimensions.get('window').width * 0.025
+											marginHorizontal: screenWidth * 0.025
 										}}>
 										<Text style={fontStyles.subTextStyleBlack}>{item.answer}</Text>
 									</View>
@@ -193,7 +194,7 @@ export default class serviceRequestedScreen extends Component {
 					{this.state.isLoading === true ? (
 						<View
 							style={{
-								marginTop: Dimensions.get('window').height * 0.025,
+								marginTop: screenHeight * 0.025,
 								justifyContent: 'center',
 								alignItems: 'center'
 							}}>
@@ -202,7 +203,7 @@ export default class serviceRequestedScreen extends Component {
 					) : completed === true ? (
 						<View
 							style={{
-								marginTop: Dimensions.get('window').height * 0.025,
+								marginTop: screenHeight * 0.025,
 								flexDirection: 'row',
 								justifyContent: 'space-evenly'
 							}}>
@@ -223,7 +224,7 @@ export default class serviceRequestedScreen extends Component {
 					) : (
 						<View
 							style={{
-								marginTop: Dimensions.get('window').height * 0.025,
+								marginTop: screenHeight * 0.025,
 								flexDirection: 'row',
 								justifyContent: 'space-evenly'
 							}}>

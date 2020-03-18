@@ -1,6 +1,7 @@
 //This component will represest a single lined text input that will have a bottom border
 //color and a placeholder
 import React, { Component } from 'react';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import { View, TextInput, Dimensions } from 'react-native';
 import colors from 'config/colors';
 import PropTypes from 'prop-types';
@@ -27,8 +28,8 @@ class OneLineRoundedBoxInput extends Component {
 				style={{
 					borderWidth: 3,
 					borderColor: colors.lightBlue,
-					width: width ? width : Dimensions.get('window').width * 0.6,
-					height: Dimensions.get('window').height * 0.06,
+					width: width ? width : screenWidth * 0.6,
+					height: screenHeight * 0.06,
 					borderRadius: 20,
 					paddingLeft: 10,
 					backgroundColor: colors.white,
@@ -46,9 +47,9 @@ class OneLineRoundedBoxInput extends Component {
 								? width * 0.8
 								: width
 							: additionalIcon
-							? Dimensions.get('window').width * 0.48
-							: Dimensions.get('window').width * 0.55,
-						height: Dimensions.get('window').height * 0.06
+							? screenWidth * 0.48
+							: screenWidth * 0.55,
+						height: screenHeight * 0.06
 					}}
 					secureTextEntry={password}
 					keyboardType={keyboardType ? keyboardType : 'default'}

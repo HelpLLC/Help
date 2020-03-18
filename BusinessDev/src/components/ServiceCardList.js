@@ -4,6 +4,7 @@ import { View, Dimensions, FlatList } from 'react-native';
 import ServiceCard from './ServiceCard';
 import PropTypes from 'prop-types';
 import FirebaseFunctions from 'config/FirebaseFunctions';
+import { screenWidth, screenHeight } from 'config/dimensions';
 
 //Defines the class
 class ServiceCardList extends Component {
@@ -27,7 +28,7 @@ class ServiceCardList extends Component {
 						key={index}
 						style={{
 							flexDirection: 'row',
-							height: Dimensions.get('window').height * 0.33
+							height: screenHeight * 0.33
 						}}>
 						<ServiceCard
 							serviceTitle={item.serviceTitle}

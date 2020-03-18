@@ -2,6 +2,7 @@
 //It'll be used in the create schedule screen from the business side primarily
 import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
 import PropTypes from 'prop-types';
 import fontStyles from 'config/styles/fontStyles';
@@ -21,9 +22,9 @@ class DaysFromWeekPicker extends Component {
 				<TouchableOpacity
                     key={day}
 					style={{
-                        height: Dimensions.get('window').height * 0.05,
-                        width: Dimensions.get('window').height * 0.075,
-                        borderRadius: Dimensions.get('window').height * 0.025,
+                        height: screenHeight * 0.05,
+                        width: screenHeight * 0.075,
+                        borderRadius: screenHeight * 0.025,
                         alignItems: 'center',
                         justifyContent: 'center',
                         backgroundColor: daysSelected[day] === true ? colors.lightBlue : colors.lightGray
@@ -43,12 +44,12 @@ class DaysFromWeekPicker extends Component {
 		return (
 			<View
 				style={{
-					width: Dimensions.get('window').width * 0.95,
-                    height: Dimensions.get('window').height * 0.075,
+					width: screenWidth * 0.95,
+                    height: screenHeight * 0.075,
                     borderColor: colors.lightBlue,
                     backgroundColor: colors.white,
                     borderWidth: 4,
-                    borderRadius: Dimensions.get('window').width * 0.075,
+                    borderRadius: screenWidth * 0.075,
 					flexDirection: 'row',
                     justifyContent: 'space-evenly',
                     alignItems: 'center'

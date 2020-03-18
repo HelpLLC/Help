@@ -10,6 +10,7 @@ import ForgotPasswordScreen from './firstScreens/logIn/forgotPasswordScreen';
 import AboutScreen from './settingsScreens/aboutScreen';
 import PrivacyScreen from './settingsScreens/privacyScreen';
 import ReportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import SettingsScreen from './settingsScreens/settingsScreen';
 import FeaturedScreen from './customerScreens/featuredScreen';
 import OrderHistoryScreen from './customerScreens/orderHistoryScreen';

@@ -7,6 +7,7 @@ import fontStyles from 'config/styles/fontStyles';
 import WhiteCard from '../components/WhiteCard';
 import strings from 'config/strings';
 import whiteCardStyle from '../../config/styles/componentStyles/whiteCardStyle';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -33,7 +34,7 @@ class aboutScreen extends Component {
             style={{
               flex: 0.75,
               justifyContent: 'center',
-              width: Dimensions.get('window').width * 0.9,
+              width: screenWidth * 0.9,
               flexDirection: 'row',
               alignItems: 'center',
               alignSelf: 'center'

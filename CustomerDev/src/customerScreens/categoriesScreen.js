@@ -9,6 +9,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../components/TopBanner';
 import FirebaseFunctions from 'config/FirebaseFunctions';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import strings from 'config/strings';
 import LeftMenu from './LeftMenu';
 import fontStyles from 'config/styles/fontStyles';
@@ -124,8 +125,8 @@ export default class categoriesScreen extends Component {
 						/>
 						<View
 							style={{
-								height: Dimensions.get('window').height * 0.05,
-								width: Dimensions.get('window').width * 0.93,
+								height: screenHeight * 0.05,
+								width: screenWidth * 0.93,
 								justifyContent: 'flex-end',
 								alignItems: 'flex-start'
 							}}>

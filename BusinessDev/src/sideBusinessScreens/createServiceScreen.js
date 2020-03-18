@@ -6,6 +6,7 @@ import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../components/RoundBlueButton';
 import RNPickerSelect from 'react-native-picker-select';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import { BoxShadow } from 'react-native-shadow';
 import HelpView from '../components/HelpView';
@@ -193,14 +194,14 @@ class createServiceScreen extends Component {
 						style={{
 							flexDirection: 'row',
 							justifyContent: 'space-between',
-							width: Dimensions.get('window').width - 40,
+							width: screenWidth - 40,
 							alignItems: 'center'
 						}}>
 						<View style={{ flexDirection: 'column' }}>
 							<View
 								style={{
 									justifyContent: 'flex-end',
-									marginVertical: Dimensions.get('window').height * 0.02
+									marginVertical: screenHeight * 0.02
 								}}>
 								<Text style={fontStyles.bigTextStyleBlack}>{strings.ServiceTitle}</Text>
 							</View>
@@ -211,7 +212,7 @@ class createServiceScreen extends Component {
 									value={this.state.serviceTitle}
 									password={false}
 									maxLength={21}
-									width={Dimensions.get('window').width * 0.35}
+									width={screenWidth * 0.35}
 								/>
 							</View>
 						</View>
@@ -229,16 +230,16 @@ class createServiceScreen extends Component {
 								style={{
 									justifyContent: 'center',
 									alignItems: 'center',
-									marginTop: Dimensions.get('window').height * 0.02
+									marginTop: screenHeight * 0.02
 								}}>
 								<View style={{ justifyContent: 'flex-start' }}>
 									<BoxShadow
 										setting={{
-											width: Dimensions.get('window').width * 0.25,
-											height: Dimensions.get('window').width * 0.25,
+											width: screenWidth * 0.25,
+											height: screenWidth * 0.25,
 											color: colors.gray,
 											border: 10,
-											radius: (Dimensions.get('window').width * 0.25) / 2,
+											radius: (screenWidth * 0.25) / 2,
 											opacity: 0.2,
 											x: 0,
 											y: 5
@@ -246,11 +247,11 @@ class createServiceScreen extends Component {
 										<FastImage
 											source={this.state.imageSource}
 											style={{
-												width: Dimensions.get('window').width * 0.25,
-												height: Dimensions.get('window').width * 0.25,
+												width: screenWidth * 0.25,
+												height: screenWidth * 0.25,
 												borderColor: colors.lightBlue,
-												borderWidth: (Dimensions.get('window').width * 0.25) / 17,
-												borderRadius: (Dimensions.get('window').width * 0.25) / 2
+												borderWidth: (screenWidth * 0.25) / 17,
+												borderRadius: (screenWidth * 0.25) / 2
 											}}
 										/>
 									</BoxShadow>
@@ -258,23 +259,23 @@ class createServiceScreen extends Component {
 								<View
 									style={{
 										justifyContent: 'flex-end',
-										marginTop: Dimensions.get('window').height * 0.02
+										marginTop: screenHeight * 0.02
 									}}>
 									<Text style={fontStyles.mainTextStyleBlue}>{strings.EditImage}</Text>
 								</View>
 							</TouchableOpacity>
 						</View>
 					</View>
-					<View style={{ marginTop: Dimensions.get('window').height * 0.05 }}>
+					<View style={{ marginTop: screenHeight * 0.05 }}>
 						<View
 							style={{
-								marginVertical: Dimensions.get('window').height * 0.02
+								marginVertical: screenHeight * 0.02
 							}}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.ServiceDescription}</Text>
 						</View>
 						<MultiLineRoundedBoxInput
-							width={Dimensions.get('window').width - 40}
-							height={Dimensions.get('window').height * 0.14641}
+							width={screenWidth - 40}
+							height={screenHeight * 0.14641}
 							placeholder={strings.EnterDescriptionForCustomersDotDotDot}
 							onChangeText={(input) => this.setState({ serviceDescription: input })}
 							value={this.state.serviceDescription}
@@ -284,7 +285,7 @@ class createServiceScreen extends Component {
 					<View
 						style={{
 							justifyContent: 'flex-end',
-							marginVertical: Dimensions.get('window').height * 0.02
+							marginVertical: screenHeight * 0.02
 						}}>
 						<View style={{ justifyContent: 'flex-end' }}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.Pricing}</Text>
@@ -294,7 +295,7 @@ class createServiceScreen extends Component {
 								flexDirection: 'row',
 								justifyContent: 'space-between',
 								alignItems: 'center',
-								marginVertical: Dimensions.get('window').height * 0.02
+								marginVertical: screenHeight * 0.02
 							}}>
 							<View
 								style={{
@@ -302,7 +303,7 @@ class createServiceScreen extends Component {
 									borderColor: colors.lightBlue,
 									backgroundColor: colors.white,
 									borderRadius: 20,
-									paddingHorizontal: Dimensions.get('window').width * 0.01
+									paddingHorizontal: screenWidth * 0.01
 								}}>
 								<RNPickerSelect
 									onValueChange={(value) => this.setState({ priceType: value })}
@@ -313,16 +314,16 @@ class createServiceScreen extends Component {
 									value={this.state.priceType}
 									style={{
 										iconContainer: {
-											top: Dimensions.get('window').height * 0.015
+											top: screenHeight * 0.015
 										},
 										inputIOS: {
-											width: Dimensions.get('window').width * 0.2,
-											height: Dimensions.get('window').height * 0.05,
+											width: screenWidth * 0.2,
+											height: screenHeight * 0.05,
 											color: colors.black
 										},
 										inputAndroid: {
-											width: Dimensions.get('window').width * 0.2,
-											height: Dimensions.get('window').height * 0.05,
+											width: screenWidth * 0.2,
+											height: screenHeight * 0.05,
 											color: colors.black
 										}
 									}}
@@ -345,17 +346,17 @@ class createServiceScreen extends Component {
 											alignItems: 'center'
 										}}>
 										<Text style={fontStyles.bigTextStyleBlack}>{strings.DollarSign}</Text>
-										<View style={{ width: Dimensions.get('window').width * 0.01 }} />
+										<View style={{ width: screenWidth * 0.01 }} />
 										<OneLineRoundedBoxInput
 											placeholder={''}
 											onChangeText={(input) => this.setState({ pricePerNumber: input })}
 											value={this.state.pricePerNumber}
 											password={false}
 											keyboardType={'numeric'}
-											width={Dimensions.get('window').width * 0.2}
+											width={screenWidth * 0.2}
 										/>
 									</View>
-									<View style={{ width: Dimensions.get('window').width * 0.02 }} />
+									<View style={{ width: screenWidth * 0.02 }} />
 									<View
 										style={{
 											justifyContent: 'center',
@@ -363,7 +364,7 @@ class createServiceScreen extends Component {
 										}}>
 										<Text style={fontStyles.bigTextStyleBlack}>{strings.per}</Text>
 									</View>
-									<View style={{ width: Dimensions.get('window').width * 0.02 }} />
+									<View style={{ width: screenWidth * 0.02 }} />
 									<View
 										style={{
 											alignItems: 'flex-start',
@@ -374,7 +375,7 @@ class createServiceScreen extends Component {
 											onChangeText={(input) => this.setState({ pricePerText: input })}
 											value={this.state.pricePerText}
 											password={false}
-											width={Dimensions.get('window').width * 0.2}
+											width={screenWidth * 0.2}
 										/>
 									</View>
 								</View>
@@ -387,14 +388,14 @@ class createServiceScreen extends Component {
 											alignItems: 'center'
 										}}>
 										<Text style={fontStyles.bigTextStyleBlack}>{strings.DollarSign}</Text>
-										<View style={{ width: Dimensions.get('window').width * 0.01 }} />
+										<View style={{ width: screenWidth * 0.01 }} />
 										<OneLineRoundedBoxInput
 											placeholder={''}
 											onChangeText={(input) => this.setState({ priceFixed: input })}
 											value={this.state.priceFixed}
 											password={false}
 											keyboardType={'numeric'}
-											width={Dimensions.get('window').width * 0.2}
+											width={screenWidth * 0.2}
 										/>
 									</View>
 								</View>
@@ -407,17 +408,17 @@ class createServiceScreen extends Component {
 											alignItems: 'center'
 										}}>
 										<Text style={fontStyles.bigTextStyleBlack}>{strings.DollarSign}</Text>
-										<View style={{ width: Dimensions.get('window').width * 0.01 }} />
+										<View style={{ width: screenWidth * 0.01 }} />
 										<OneLineRoundedBoxInput
 											placeholder={strings.Min}
 											onChangeText={(input) => this.setState({ priceMin: input })}
 											value={this.state.priceMin}
 											password={false}
 											keyboardType={'numeric'}
-											width={Dimensions.get('window').width * 0.2}
+											width={screenWidth * 0.2}
 										/>
 									</View>
-									<View style={{ width: Dimensions.get('window').width * 0.02 }} />
+									<View style={{ width: screenWidth * 0.02 }} />
 									<View
 										style={{
 											justifyContent: 'center',
@@ -425,21 +426,21 @@ class createServiceScreen extends Component {
 										}}>
 										<Text style={fontStyles.bigTextStyleBlack}>{strings.to}</Text>
 									</View>
-									<View style={{ width: Dimensions.get('window').width * 0.02 }} />
+									<View style={{ width: screenWidth * 0.02 }} />
 									<View
 										style={{
 											flexDirection: 'row',
 											alignItems: 'center'
 										}}>
 										<Text style={fontStyles.bigTextStyleBlack}>{strings.DollarSign}</Text>
-										<View style={{ width: Dimensions.get('window').width * 0.01 }} />
+										<View style={{ width: screenWidth * 0.01 }} />
 										<OneLineRoundedBoxInput
 											placeholder={strings.Max}
 											onChangeText={(input) => this.setState({ priceMax: input })}
 											value={this.state.priceMax}
 											password={false}
 											keyboardType={'numeric'}
-											width={Dimensions.get('window').width * 0.2}
+											width={screenWidth * 0.2}
 										/>
 									</View>
 								</View>
@@ -569,7 +570,7 @@ class createServiceScreen extends Component {
 					onImageCanceled={() => {
 						this.setState({ isShowing: false });
 					}}
-					imageWidth={Dimensions.get('window').width}
+					imageWidth={screenWidth}
 					onImageSelected={(response) => {
 						this.setState({ isShowing: false });
 						if (response) {

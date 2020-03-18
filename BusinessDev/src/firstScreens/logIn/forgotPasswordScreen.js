@@ -5,6 +5,7 @@ import { View, Text, Dimensions } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import HelpView from '../../components/HelpView';
@@ -48,7 +49,7 @@ class forgotPasswordScreen extends Component {
           <View
             style={{
               justifyContent: 'flex-end',
-              marginVertical: Dimensions.get('window').height * 0.05
+              marginVertical: screenHeight * 0.05
             }}>
             <Text style={fontStyles.bigTextStyleBlack}>{strings.Email}</Text>
           </View>
@@ -67,7 +68,7 @@ class forgotPasswordScreen extends Component {
           style={{
             justifyContent: 'flex-end',
             alignSelf: 'center',
-            marginVertical: Dimensions.get('window').height * 0.05
+            marginVertical: screenHeight * 0.05
           }}>
           <RoundBlueButton
             title={strings.EmailMe}

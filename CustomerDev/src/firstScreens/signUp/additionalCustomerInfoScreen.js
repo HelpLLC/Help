@@ -10,6 +10,7 @@ import RoundBlueButton from '../../components/RoundBlueButton';
 import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import HelpView from '../../components/HelpView';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import firebase from 'react-native-firebase';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import screenStyle from '../../../config/styles/screenStyle';
@@ -217,8 +218,8 @@ class additionalCustomerInfoScreen extends Component {
 				{this.state.isEditing === true ? (
 					<View
 						style={{
-							width: Dimensions.get('window').width,
-							marginTop: Dimensions.get('window').height * 0.02,
+							width: screenWidth,
+							marginTop: screenHeight * 0.02,
 							flexDirection: 'row',
 							alignItems: 'center',
 							justifyContent: 'space-evenly'
@@ -231,16 +232,16 @@ class additionalCustomerInfoScreen extends Component {
 							style={{ justifyContent: 'center', alignItems: 'center' }}>
 							<View
 								style={{
-									marginBottom: Dimensions.get('window').height * 0.02,
+									marginBottom: screenHeight * 0.02,
 									justifyContent: 'flex-start'
 								}}>
 								<BoxShadow
 									setting={{
-										width: Dimensions.get('window').width * 0.25,
-										height: Dimensions.get('window').width * 0.25,
+										width: screenWidth * 0.25,
+										height: screenWidth * 0.25,
 										color: colors.gray,
 										border: 10,
-										radius: (Dimensions.get('window').width * 0.25) / 2,
+										radius: (screenWidth * 0.25) / 2,
 										opacity: 0.2,
 										x: 0,
 										y: 5
@@ -248,11 +249,11 @@ class additionalCustomerInfoScreen extends Component {
 									<FastImage
 										source={this.state.imageSource}
 										style={{
-											width: Dimensions.get('window').width * 0.25,
-											height: Dimensions.get('window').width * 0.25,
+											width: screenWidth * 0.25,
+											height: screenWidth * 0.25,
 											borderColor: colors.lightBlue,
-											borderWidth: (Dimensions.get('window').width * 0.25) / 17,
-											borderRadius: (Dimensions.get('window').width * 0.25) / 2
+											borderWidth: (screenWidth * 0.25) / 17,
+											borderRadius: (screenWidth * 0.25) / 2
 										}}
 									/>
 								</BoxShadow>
@@ -261,13 +262,13 @@ class additionalCustomerInfoScreen extends Component {
 								<Text style={fontStyles.mainTextStyleBlue}>{strings.EditImage}</Text>
 							</View>
 						</TouchableOpacity>
-						<View style={{ width: Dimensions.get('window').width * 0.1 }}></View>
+						<View style={{ width: screenWidth * 0.1 }}></View>
 						<View>
 							<View
 								style={{
 									alignSelf: 'flex-start',
 									justifyContent: 'flex-end',
-									marginVertical: Dimensions.get('window').height * 0.02
+									marginVertical: screenHeight * 0.02
 								}}>
 								<Text style={fontStyles.bigTextStyleBlack}>{strings.Name}</Text>
 							</View>
@@ -278,7 +279,7 @@ class additionalCustomerInfoScreen extends Component {
 									onChangeText={(input) => this.setState({ name: input })}
 									value={this.state.name}
 									password={false}
-									width={Dimensions.get('window').height * 0.2}
+									width={screenHeight * 0.2}
 									maxLength={20}
 								/>
 							</View>
@@ -290,7 +291,7 @@ class additionalCustomerInfoScreen extends Component {
 							style={{
 								alignSelf: 'flex-start',
 								justifyContent: 'flex-end',
-								marginVertical: Dimensions.get('window').height * 0.02
+								marginVertical: screenHeight * 0.02
 							}}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.Name}</Text>
 						</View>
@@ -310,9 +311,9 @@ class additionalCustomerInfoScreen extends Component {
 					style={{
 						justifyContent: 'flex-end',
 						alignItems: 'flex-start',
-						width: Dimensions.get('window').width * 0.6,
+						width: screenWidth * 0.6,
 						alignSelf: 'center',
-						marginVertical: Dimensions.get('window').height * 0.02
+						marginVertical: screenHeight * 0.02
 					}}>
 					<Text style={fontStyles.bigTextStyleBlack}>{strings.PhoneNumber}</Text>
 				</View>
@@ -334,9 +335,9 @@ class additionalCustomerInfoScreen extends Component {
 					style={{
 						justifyContent: 'flex-end',
 						alignItems: 'flex-start',
-						width: Dimensions.get('window').width * 0.6,
+						width: screenWidth * 0.6,
 						alignSelf: 'center',
-						marginVertical: Dimensions.get('window').height * 0.02
+						marginVertical: screenHeight * 0.02
 					}}>
 					<Text style={fontStyles.bigTextStyleBlack}>{strings.StreetAddress}</Text>
 				</View>
@@ -355,9 +356,9 @@ class additionalCustomerInfoScreen extends Component {
 					style={{
 						justifyContent: 'flex-end',
 						alignItems: 'flex-start',
-						width: Dimensions.get('window').width * 0.6,
+						width: screenWidth * 0.6,
 						alignSelf: 'center',
-						marginVertical: Dimensions.get('window').height * 0.02
+						marginVertical: screenHeight * 0.02
 					}}>
 					<TouchableOpacity
 						onPress={() => {
@@ -365,7 +366,7 @@ class additionalCustomerInfoScreen extends Component {
 						}}
 						style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<Text style={fontStyles.bigTextStyleBlack}>{strings.City}</Text>
-						<View style={{ width: Dimensions.get('window').width * 0.01 }}></View>
+						<View style={{ width: screenWidth * 0.01 }}></View>
 						<Icon name={'info-circle'} type='font-awesome' size={25} color={colors.lightBlue} />
 					</TouchableOpacity>
 				</View>
@@ -373,8 +374,8 @@ class additionalCustomerInfoScreen extends Component {
 					style={{
 						height:
 							this.state.isEditing === true
-								? Dimensions.get('window').height * 0.25
-								: Dimensions.get('window').height * 0.275
+								? screenHeight * 0.25
+								: screenHeight * 0.275
 					}}>
 					<GoogleCityPicker
 						initialText={this.state.city}
@@ -388,7 +389,7 @@ class additionalCustomerInfoScreen extends Component {
 				</View>
 				<View
 					style={{
-						height: Dimensions.get('window').height * 0.1,
+						height: screenHeight * 0.1,
 						justifyContent: 'flex-end',
 						alignSelf: 'center'
 					}}>

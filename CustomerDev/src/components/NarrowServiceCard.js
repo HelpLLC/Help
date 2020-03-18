@@ -7,6 +7,7 @@ import narrowServiceCardStyle from 'config/styles/componentStyles/narrowServiceC
 import FastImage from 'react-native-fast-image';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import PropTypes from 'prop-types';
 import LoadingSpinner from './LoadingSpinner';
@@ -55,19 +56,19 @@ class NarrowServiceCard extends Component {
 			<TouchableOpacity
 				onPress={onPress}
 				style={{
-					width: Dimensions.get('window').width * 0.45,
-					height: Dimensions.get('window').height * 0.35,
+					width: screenWidth * 0.45,
+					height: screenHeight * 0.35,
 					alignItems: 'center',
 					justifyContent: 'center'
 				}}>
 				<View>
 					<BoxShadow
 						setting={{
-							width: Dimensions.get('window').width * 0.45,
-							height: Dimensions.get('window').height * 0.26,
+							width: screenWidth * 0.45,
+							height: screenHeight * 0.26,
 							color: colors.gray,
 							border: 10,
-							radius: Dimensions.get('window').height * 0.0439238653,
+							radius: screenHeight * 0.0439238653,
 							opacity: 0.2,
 							x: 0,
 							y: 10
@@ -81,9 +82,9 @@ class NarrowServiceCard extends Component {
 								) : (
 									<FastImage
 										style={{
-											width: Dimensions.get('window').width * 0.45 - 7,
-											height: Dimensions.get('window').height * 0.13,
-											borderRadius: Dimensions.get('window').height * 0.0439238653 - 3.5
+											width: screenWidth * 0.45 - 7,
+											height: screenHeight * 0.13,
+											borderRadius: screenHeight * 0.0439238653 - 3.5
 										}}
 										source={image}
 									/>
@@ -101,7 +102,7 @@ class NarrowServiceCard extends Component {
 									style={[
 										fontStyles.mainTextStyleBlack,
 										{
-											paddingLeft: Dimensions.get('window').width * 0.025
+											paddingLeft: screenWidth * 0.025
 										}
 									]}>
 									{serviceTitle}
@@ -110,7 +111,7 @@ class NarrowServiceCard extends Component {
 									<View
 										style={{
 											flexDirection: 'row',
-											paddingLeft: Dimensions.get('window').width * 0.025,
+											paddingLeft: screenWidth * 0.025,
 											alignItems: 'center'
 										}}>
 										<AirbnbRating
@@ -129,7 +130,7 @@ class NarrowServiceCard extends Component {
 									style={[
 										fontStyles.mainTextStyleBlack,
 										{
-											paddingLeft: Dimensions.get('window').width * 0.025
+											paddingLeft: screenWidth * 0.025
 										}
 									]}>
 									{price}

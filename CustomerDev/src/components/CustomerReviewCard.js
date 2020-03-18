@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { View, Text, Dimensions } from 'react-native';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import PropTypes, { string } from 'prop-types';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import ViewMoreText from 'react-native-view-more-text';
 import ImageWithBorder from './ImageWithBorder';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -22,13 +23,13 @@ class CustomerReviewCard extends Component {
 			<View
 				style={{
 					flexDirection: 'column',
-					width: Dimensions.get('window').width * 0.9,
+					width: screenWidth * 0.9,
 					alignSelf: 'center',
 					alignItems: 'flex-start',
 					borderColor: colors.lightGray,
 					borderTopColor: colors.lightBlue,
 					borderWidth: 0.5,
-					paddingVertical: Dimensions.get('window').height * 0.025
+					paddingVertical: screenHeight * 0.025
 				}}>
 				<View
 					style={{
@@ -39,17 +40,17 @@ class CustomerReviewCard extends Component {
 						style={{
 							flex: 1
 						}}
-						width={Dimensions.get('window').height * 0.06}
-						height={Dimensions.get('window').height * 0.06}
+						width={screenHeight * 0.06}
+						height={screenHeight * 0.06}
 						imageFunction={async () => {
 							//Passes in the function to retrieve the image of this requester
 							return await FirebaseFunctions.call('getProfilePictureByID', { ID: customerID });
 						}}
 					/>
-					<View style={{ width: Dimensions.get('window').width * 0.05 }}></View>
+					<View style={{ width: screenWidth * 0.05 }}></View>
 					<Text style={fontStyles.subTextStyleBlack}>{customerName}</Text>
 				</View>
-				<View style={{ marginTop: Dimensions.get('window').height * 0.01 }}>
+				<View style={{ marginTop: screenHeight * 0.01 }}>
 					<AirbnbRating
 						count={5}
 						size={15}
@@ -58,15 +59,15 @@ class CustomerReviewCard extends Component {
 						showRating={false}
 					/>
 				</View>
-				<View style={{ marginTop: Dimensions.get('window').height * 0.01 }}>
+				<View style={{ marginTop: screenHeight * 0.01 }}>
 					<ViewMoreText
 						numberOfLines={2}
 						renderViewMore={(onPress) => (
 							<TouchableOpacity
 								onPress={onPress}
 								style={{
-									width: Dimensions.get('window').width * 0.3,
-									height: Dimensions.get('window').height * 0.1
+									width: screenWidth * 0.3,
+									height: screenHeight * 0.1
 								}}>
 								<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadMore}</Text>
 							</TouchableOpacity>
@@ -75,8 +76,8 @@ class CustomerReviewCard extends Component {
 							<TouchableOpacity
 								onPress={onPress}
 								style={{
-									width: Dimensions.get('window').width * 0.3,
-									height: Dimensions.get('window').height * 0.1
+									width: screenWidth * 0.3,
+									height: screenHeight * 0.1
 								}}>
 								<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadLess}</Text>
 							</TouchableOpacity>

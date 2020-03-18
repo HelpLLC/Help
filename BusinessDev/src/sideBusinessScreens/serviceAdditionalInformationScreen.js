@@ -7,6 +7,7 @@ import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../components/RoundBlueButton';
 import colors from 'config/colors';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Icon } from 'react-native-elements';
@@ -163,23 +164,23 @@ class serviceAdditionalInformationScreen extends Component {
 				/>
 				<View
 					style={{
-						marginTop: Dimensions.get('window').height * 0.025,
-						marginHorizontal: Dimensions.get('window').width * 0.05
+						marginTop: screenHeight * 0.025,
+						marginHorizontal: screenWidth * 0.05
 					}}>
-					<View style={{ marginTop: Dimensions.get('window').height * 0.02 }}>
+					<View style={{ marginTop: screenHeight * 0.02 }}>
 						<Text style={[{ textAlign: 'center' }, fontStyles.bigTextStyleBlack]}>
 							{strings.ServiceDuration}
 						</Text>
 					</View>
 					<View
 						style={{
-							marginTop: Dimensions.get('window').height * 0.025,
+							marginTop: screenHeight * 0.025,
 							flexDirection: 'row',
 							justifyContent: 'space-evenly'
 						}}>
 						<OneLineRoundedBoxInput
-							width={Dimensions.get('window').width * 0.35}
-							height={Dimensions.get('window').height * 0.075}
+							width={screenWidth * 0.35}
+							height={screenHeight * 0.075}
 							keyboardType={'numeric'}
 							placeholder={'0'}
 							onChangeText={(input) => {
@@ -187,15 +188,15 @@ class serviceAdditionalInformationScreen extends Component {
 							}}
 							value={this.state.serviceDuration}
 						/>
-						<View style={{ marginTop: Dimensions.get('window').height * 0.02 }}>
+						<View style={{ marginTop: screenHeight * 0.02 }}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.Hours}</Text>
 						</View>
 					</View>
 				</View>
 				<View
 					style={{
-						marginTop: Dimensions.get('window').height * 0.025,
-						marginHorizontal: Dimensions.get('window').width * 0.05
+						marginTop: screenHeight * 0.025,
+						marginHorizontal: screenWidth * 0.05
 					}}>
 					<TouchableOpacity
 						onPress={() => {
@@ -205,25 +206,25 @@ class serviceAdditionalInformationScreen extends Component {
 							flexDirection: 'row',
 							alignItems: 'center',
 							justifyContent: 'flex-start',
-							marginTop: Dimensions.get('window').height * 0.02,
-							width: Dimensions.get('window').width * 0.85
+							marginTop: screenHeight * 0.02,
+							width: screenWidth * 0.85
 						}}>
 						<Text style={[{ textAlign: 'center' }, fontStyles.bigTextStyleBlack]}>
 							{strings.AmountOfServicesAtATime}
 						</Text>
-						<View style={{ width: Dimensions.get('window').width * 0.02 }} />
+						<View style={{ width: screenWidth * 0.02 }} />
 						<Icon name={'info-circle'} type='font-awesome' size={25} color={colors.lightBlue} />
 					</TouchableOpacity>
 
 					<View
 						style={{
-							marginTop: Dimensions.get('window').height * 0.025,
+							marginTop: screenHeight * 0.025,
 							flexDirection: 'row',
 							justifyContent: 'space-evenly'
 						}}>
 						<OneLineRoundedBoxInput
-							width={Dimensions.get('window').width * 0.35}
-							height={Dimensions.get('window').height * 0.075}
+							width={screenWidth * 0.35}
+							height={screenHeight * 0.075}
 							keyboardType={'numeric'}
 							placeholder={'0'}
 							onChangeText={(input) => {
@@ -231,22 +232,22 @@ class serviceAdditionalInformationScreen extends Component {
 							}}
 							value={this.state.simultaneousRequests}
 						/>
-						<View style={{ marginTop: Dimensions.get('window').height * 0.02 }}>
+						<View style={{ marginTop: screenHeight * 0.02 }}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.Requests}</Text>
 						</View>
 					</View>
 				</View>
 				<View
 					style={{
-						marginTop: Dimensions.get('window').height * 0.025,
-						marginHorizontal: Dimensions.get('window').width * 0.05
+						marginTop: screenHeight * 0.025,
+						marginHorizontal: screenWidth * 0.05
 					}}>
 					<Text style={[{ textAlign: 'center' }, fontStyles.bigTextStyleBlack]}>
 						{strings.HowWillCustomersPay}
 					</Text>
 					<View
 						style={{
-							marginTop: Dimensions.get('window').height * 0.025
+							marginTop: screenHeight * 0.025
 						}}>
 						<RoundBlueButton
 							title={strings.Cash}
@@ -256,7 +257,7 @@ class serviceAdditionalInformationScreen extends Component {
 								roundBlueButtonStyle.AccountTypeButton,
 								{
 									//Width increased for longer text
-									width: Dimensions.get('window').width * 0.75,
+									width: screenWidth * 0.75,
 									borderColor: this.state.cash === true ? colors.lightBlue : colors.white
 								}
 							]}
@@ -270,7 +271,7 @@ class serviceAdditionalInformationScreen extends Component {
 					</View>
 					<View
 						style={{
-							marginTop: Dimensions.get('window').height * 0.025
+							marginTop: screenHeight * 0.025
 						}}>
 						<RoundBlueButton
 							title={strings.CreditDebitCard}
@@ -280,7 +281,7 @@ class serviceAdditionalInformationScreen extends Component {
 								roundBlueButtonStyle.AccountTypeButton,
 								{
 									//Width increased for longer text
-									width: Dimensions.get('window').width * 0.75,
+									width: screenWidth * 0.75,
 									borderColor: this.state.card === true ? colors.lightBlue : colors.white
 								}
 							]}
@@ -297,7 +298,7 @@ class serviceAdditionalInformationScreen extends Component {
 					style={{
 						justifyContent: 'flex-end',
 						alignContent: 'flex-end',
-						marginTop: Dimensions.get('window').height * 0.05
+						marginTop: screenHeight * 0.05
 					}}>
 					<RoundBlueButton
 						title={this.state.editing === true ? strings.Done : strings.Create}

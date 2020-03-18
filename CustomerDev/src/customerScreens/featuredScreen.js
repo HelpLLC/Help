@@ -7,6 +7,7 @@ import strings from 'config/strings';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import screenStyle from 'config/styles/screenStyle';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import NarrowServiceCardList from '../components/NarrowServiceCardList';
 import LeftMenu from './LeftMenu';
 import SideMenu from 'react-native-side-menu';
@@ -146,8 +147,8 @@ export default class featuredScreen extends Component {
 					/>
 					<View
 						style={{
-							height: Dimensions.get('window').height * 0.05,
-							width: Dimensions.get('window').width * 0.9,
+							height: screenHeight * 0.05,
+							width: screenWidth * 0.9,
 							borderColor: colors.lightGray,
 							borderBottomColor: colors.lightBlue,
 							borderWidth: 0.5,

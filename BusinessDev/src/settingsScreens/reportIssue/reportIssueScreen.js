@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { View, Text, Keyboard, Dimensions } from 'react-native';
 import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import HelpAlert from '../../components/HelpAlert';
 import fontStyles from 'config/styles/fontStyles';
@@ -72,8 +73,8 @@ class reportIssueScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginTop: Dimensions.get('window').height * 0.1,
-							marginBottom: Dimensions.get('window').height * 0.05
+							marginTop: screenHeight * 0.1,
+							marginBottom: screenHeight * 0.05
 						}}>
 						<Text style={fontStyles.bigTextStyleBlack}>
 							{strings.WhatSeemsToBeTheProblemQuestion}
@@ -83,11 +84,11 @@ class reportIssueScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginBottom: Dimensions.get('window').height * 0.05
+							marginBottom: screenHeight * 0.05
 						}}>
 						<MultiLineRoundedBoxInput
-							width={Dimensions.get('window').width * 0.66909}
-							height={Dimensions.get('window').height * 0.29282577}
+							width={screenWidth * 0.66909}
+							height={screenHeight * 0.29282577}
 							placeholder={strings.DescribeYourIssueHereDotDotDot}
 							onChangeText={(input) => this.setState({ userInput: input })}
 							value={this.state.userInput}

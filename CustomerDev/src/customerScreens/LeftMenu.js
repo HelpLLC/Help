@@ -7,6 +7,7 @@ import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import ImageWithBorder from '../components/ImageWithBorder';
 import LeftMenuCard from '../components/LeftMenuCard';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
 
 //This screen is the side menu where you can navigate to all the screens for the customer
@@ -15,19 +16,19 @@ class LeftMenu extends Component {
     const { customer } = this.props;
     return (
       <HelpView style={screenStyle.container}>
-        <View style={{ height: Dimensions.get('window').height * 0.05 }}></View>
+        <View style={{ height: screenHeight * 0.05 }}></View>
         <View
           style={{
-            height: Dimensions.get('window').height * 0.65
+            height: screenHeight * 0.65
           }}>
           <TouchableOpacity
             style={{
               flexDirection: 'row',
-              height: Dimensions.get('window').height * 0.075,
-              marginBottom: Dimensions.get('window').height * 0.01,
+              height: screenHeight * 0.075,
+              marginBottom: screenHeight * 0.01,
               justifyContent: 'space-evenly',
               alignItems: 'center',
-              marginRight: Dimensions.get('window').width * 0.1
+              marginRight: screenWidth * 0.1
             }}
             onPress={() => {
               //Home leads to featured screen
@@ -39,8 +40,8 @@ class LeftMenu extends Component {
               });
             }}>
             <ImageWithBorder
-              width={Dimensions.get('window').height * 0.075}
-              height={Dimensions.get('window').height * 0.075}
+              width={screenHeight * 0.075}
+              height={screenHeight * 0.075}
               imageFunction={async () => {
                 //Passes in the function to retrieve the image of this customer
                 return await FirebaseFunctions.call('getProfilePictureByID', {
@@ -59,7 +60,7 @@ class LeftMenu extends Component {
                   ? customer.name.substring(0, customer.name.trim().indexOf(' '))
                   : customer.name}
               </Text>
-              <View style={{ height: Dimensions.get('window').height * 0.01 }}></View>
+              <View style={{ height: screenHeight * 0.01 }}></View>
               <Text style={fontStyles.subTextStyleBlack}>
                 {customer.city
                   ? //Method shows only one comma in location: "Redmond, WA" not Redmond, WA, USA
@@ -70,7 +71,7 @@ class LeftMenu extends Component {
               </Text>
             </View>
           </TouchableOpacity>
-          <View style={{ marginLeft: Dimensions.get('window').width * 0.05 }}>
+          <View style={{ marginLeft: screenWidth * 0.05 }}>
             <LeftMenuCard
               text={strings.Home}
               textColor={colors.lightBlue}
@@ -141,9 +142,9 @@ class LeftMenu extends Component {
         </View>
         <View
           style={{
-            height: Dimensions.get('window').height * 0.25,
+            height: screenHeight * 0.25,
             justifyContent: 'flex-end',
-            marginLeft: Dimensions.get('window').width * 0.05
+            marginLeft: screenWidth * 0.05
           }}>
           <LeftMenuCard
             text={strings.LogOut}
@@ -157,7 +158,7 @@ class LeftMenu extends Component {
             renderBorder={false}
           />
         </View>
-        <View style={{ height: Dimensions.get('window').height * 0.05 }}></View>
+        <View style={{ height: screenHeight * 0.05 }}></View>
       </HelpView>
     );
   }

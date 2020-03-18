@@ -6,6 +6,7 @@ import TopBanner from '../components/TopBanner';
 import strings from '../../config/strings';
 import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from '../../config/styles/componentStyles/roundBlueButtonStyle';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import fontStyles from '../../config/styles/fontStyles';
 import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
 import HelpAlert from '../components/HelpAlert';
@@ -117,21 +118,21 @@ class serviceQuestionsScreen extends Component {
 						renderItem={({ item, index }) => (
 							<View
 								style={{
-									marginLeft: Dimensions.get('window').width * 0.1,
-									marginTop: Dimensions.get('window').height * 0.05,
+									marginLeft: screenWidth * 0.1,
+									marginTop: screenHeight * 0.05,
 									alignItems: 'flex-start',
 									flexDirection: 'column'
 								}}>
 								<View
 									style={{
-										marginBottom: Dimensions.get('window').height * 0.025
+										marginBottom: screenHeight * 0.025
 									}}>
 									<Text style={fontStyles.mainTextStyleBlack}>{item}</Text>
 								</View>
 								<View>
 									<MultiLineRoundedBoxInput
-										width={Dimensions.get('window').width * 0.8}
-										height={Dimensions.get('window').height * 0.08}
+										width={screenWidth * 0.8}
+										height={screenHeight * 0.08}
 										placeholder={strings.AnswerHereDotDotDot}
 										onChangeText={(input) => {
 											answers[index] = {
@@ -149,7 +150,7 @@ class serviceQuestionsScreen extends Component {
 							</View>
 						)}
 					/>
-					<View style={{ marginVertical: Dimensions.get('window').height * 0.05 }}>
+					<View style={{ marginVertical: screenHeight * 0.05 }}>
 						<RoundBlueButton
 							title={strings.Next}
 							style={roundBlueButtonStyle.MediumSizeButton}

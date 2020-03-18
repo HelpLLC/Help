@@ -5,6 +5,7 @@ import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import { Text, FlatList, View, Dimensions, ScrollView } from 'react-native';
 import FirebaseFunctions from 'config/FirebaseFunctions';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import TopBanner from '../components/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -96,13 +97,13 @@ export default class blockedBusinessesScreen extends Component {
 						renderItem={({ item, index }) => (
 							<View
 								style={{
-									height: Dimensions.get('window').height * 0.07,
-									marginTop: Dimensions.get('window').height * 0.01,
+									height: screenHeight * 0.07,
+									marginTop: screenHeight * 0.01,
 									flexDirection: 'row',
 									justifyContent: 'space-between',
 									alignSelf: 'center',
 									alignItems: 'center',
-									width: Dimensions.get('window').width * 0.95,
+									width: screenWidth * 0.95,
 									borderBottomColor: colors.lightBlue,
 									borderBottomWidth: 1
 								}}>
@@ -162,8 +163,8 @@ export default class blockedBusinessesScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginTop: Dimensions.get('window').height * 0.05,
-							width: Dimensions.get('window').width
+							marginTop: screenHeight * 0.05,
+							width: screenWidth
 						}}>
 						<LoadingSpinner isVisible={isLoading} />
 					</View>

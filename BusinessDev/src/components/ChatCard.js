@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Text, Dimensions } from 'react-native';
 import strings from 'config/strings';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import chatCardStyle from 'config/styles/componentStyles/chatCardStyle';
 import PropTypes from 'prop-types';
 import fontStyles from 'config/styles/fontStyles';
@@ -46,7 +47,7 @@ class ChatCard extends Component {
 			<TouchableOpacity onPress={onPress}>
 				<View
 					style={{
-						width: Dimensions.get('window').width,
+						width: screenWidth,
 						backgroundColor: colors.white,
 						alignItems: 'center'
 					}}>

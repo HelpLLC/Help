@@ -9,6 +9,7 @@ import fontStyles from 'config/styles/fontStyles';
 import WhiteCard from '../components/WhiteCard';
 import { Icon } from 'react-native-elements';
 import colors from 'config/colors';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import screenStyle from 'config/styles/screenStyle';
 import HelpView from '../components/HelpView';
 import strings from 'config/strings';

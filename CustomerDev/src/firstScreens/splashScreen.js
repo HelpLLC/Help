@@ -7,6 +7,7 @@ import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonS
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
 import HelpView from '../components/HelpView';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import screenStyle from 'config/styles/screenStyle';
 
 class splashScreen extends Component {

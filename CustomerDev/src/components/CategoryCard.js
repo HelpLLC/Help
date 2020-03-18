@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import categoryCardStyle from 'config/styles/componentStyles/categoryCardStyle';
 import colors from 'config/colors';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import fontStyles from 'config/styles/fontStyles';
 import PropTypes from 'prop-types';
 import LoadingSpinner from './LoadingSpinner';
@@ -44,19 +45,19 @@ class CategoryCard extends Component {
 			<TouchableOpacity
 				onPress={onPress}
 				style={{
-					width: Dimensions.get('window').width * 0.45,
-					height: Dimensions.get('window').height * 0.35,
+					width: screenWidth * 0.45,
+					height: screenHeight * 0.35,
 					alignItems: 'center',
 					justifyContent: 'center'
 				}}>
 				<View>
 					<BoxShadow
 						setting={{
-							width: Dimensions.get('window').width * 0.45,
-							height: Dimensions.get('window').height * 0.275,
+							width: screenWidth * 0.45,
+							height: screenHeight * 0.275,
 							color: colors.gray,
 							border: 10,
-							radius: Dimensions.get('window').height * 0.0439238653,
+							radius: screenHeight * 0.0439238653,
 							opacity: 0.2,
 							x: 0,
 							y: 10
@@ -71,8 +72,8 @@ class CategoryCard extends Component {
 									<FastImage
 										source={image}
 										style={{
-											width: Dimensions.get('window').width * 0.25,
-											height: Dimensions.get('window').width * 0.25
+											width: screenWidth * 0.25,
+											height: screenWidth * 0.25
 										}}
 									/>
 								)}

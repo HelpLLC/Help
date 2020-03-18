@@ -8,6 +8,7 @@ import strings from 'config/strings';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import HelpView from '../components/HelpView';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import ImageWithBorder from '../components/ImageWithBorder';
@@ -61,20 +62,20 @@ class serviceHistoryScreen extends Component {
           <View
             style={{
               flexDirection: 'row',
-              width: Dimensions.get('window').width - 40,
+              width: screenWidth - 40,
               borderColor: colors.lightGray,
               borderBottomColor: colors.black,
               borderWidth: 0.5,
               alignSelf: 'center',
               alignItems: 'center',
               justifyContent: 'space-between',
-              height: Dimensions.get('window').height * 0.2
+              height: screenHeight * 0.2
             }}>
             <Text style={fontStyles.bigTextStyleBlack}>{product.serviceTitle}</Text>
 
             <ImageWithBorder
-              width={Dimensions.get('window').width * 0.25}
-              height={Dimensions.get('window').width * 0.25}
+              width={screenWidth * 0.25}
+              height={screenWidth * 0.25}
               imageFunction={async () => {
                 //Passes in the function to retrieve the image of this product
                 return await FirebaseFunctions.call('getProductImageByID', {
@@ -83,7 +84,7 @@ class serviceHistoryScreen extends Component {
               }}
             />
           </View>
-          <View style={{ height: Dimensions.get('window').height * 0.05 }}></View>
+          <View style={{ height: screenHeight * 0.05 }}></View>
           {//Tests if the current product has had any requests yet
           completedRequests.length > 0 ? (
             <FlatList
@@ -92,7 +93,7 @@ class serviceHistoryScreen extends Component {
                 return item.requesterID + index.toString();
               }}
               renderItem={({ item, index }) => (
-                <View style={{ marginBottom: Dimensions.get('window').height * 0.025 }}>
+                <View style={{ marginBottom: screenHeight * 0.025 }}>
                   <ServiceCard
                     serviceTitle={item.requesterName}
                     serviceDescription={' '}

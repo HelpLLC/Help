@@ -7,6 +7,7 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import NarrowServiceCardList from '../components/NarrowServiceCardList';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpView from '../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';

@@ -9,6 +9,7 @@ import FastImage from 'react-native-fast-image';
 import RoundBlueButton from '../components/RoundBlueButton';
 import TopBanner from '../components/TopBanner';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -67,7 +68,7 @@ class homeScreen extends Component {
 		const { isLoading, business } = this.state;
 		//Stores the top part of this view
 		const topView = (
-			<View style={{ alignItems: 'center', height: Dimensions.get('window').height * 0.25 }}>
+			<View style={{ alignItems: 'center', height: screenHeight * 0.25 }}>
 				<View style={{ flex: 1 }}>
 					<TopBanner title={strings.Home} />
 				</View>
@@ -76,7 +77,7 @@ class homeScreen extends Component {
 					<View
 						style={{
 							flexDirection: 'row',
-							width: Dimensions.get('window').width - 40,
+							width: screenWidth - 40,
 							borderColor: colors.lightGray,
 							borderBottomColor: colors.black,
 							borderWidth: 0.5,
@@ -154,8 +155,8 @@ class homeScreen extends Component {
 						<FastImage
 							source={this.state.image}
 							style={{
-								width: Dimensions.get('window').width * 0.5,
-								height: Dimensions.get('window').height * 0.2
+								width: screenWidth * 0.5,
+								height: screenHeight * 0.2
 							}}
 						/>
 					</View>

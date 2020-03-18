@@ -9,6 +9,7 @@ import NetInfo from '@react-native-community/netinfo';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import firebase from 'react-native-firebase';
 import AsyncStorage from '@react-native-community/async-storage';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpAlert from '../components/HelpAlert';
 import LoadingSpinner from '../components/LoadingSpinner';
 import CodePush from 'react-native-code-push';
@@ -149,17 +150,17 @@ export default class launchScreen extends Component {
           backgroundColor: colors.lightBlue,
           alignItems: 'center'
         }}>
-        <View style={{ marginTop: Dimensions.get('window').height * 0.35 }}>
+        <View style={{ marginTop: screenHeight * 0.35 }}>
           <Text style={fontStyles.bigTitleStyleWhite}>{strings.Help}</Text>
         </View>
-        <View style={{ marginTop: Dimensions.get('window').height * 0.05 }}>
+        <View style={{ marginTop: screenHeight * 0.05 }}>
           <Text style={fontStyles.bigSubTitleStyleWhite}>{strings.EYB}</Text>
         </View>
         <View
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: Dimensions.get('window').height * 0.2
+            marginTop: screenHeight * 0.2
           }}>
           <LoadingSpinner isVisible={true} color={colors.white} />
         </View>

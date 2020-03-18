@@ -7,6 +7,7 @@ import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import HelpView from '../../components/HelpView';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import screenStyle from 'config/styles/screenStyle';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
@@ -246,13 +247,13 @@ export default class createScheduleScreen extends Component {
 					flexDirection: 'row',
 					justifyContent: 'flex-start',
 					alignItems: 'center',
-					width: Dimensions.get('window').width
+					width: screenWidth
 				}}>
 				<View
 					style={{
 						justifyContent: 'center',
 						alignItems: 'center',
-						marginHorizontal: Dimensions.get('window').height * 0.02
+						marginHorizontal: screenHeight * 0.02
 					}}></View>
 
 				<TouchableOpacity
@@ -269,8 +270,8 @@ export default class createScheduleScreen extends Component {
 					style={{
 						borderWidth: 3,
 						borderColor: colors.lightBlue,
-						width: Dimensions.get('window').width * 0.2,
-						height: Dimensions.get('window').height * 0.055,
+						width: screenWidth * 0.2,
+						height: screenHeight * 0.055,
 						borderRadius: 20,
 						justifyContent: 'center',
 						alignItems: 'center',
@@ -283,7 +284,7 @@ export default class createScheduleScreen extends Component {
 					style={{
 						justifyContent: 'center',
 						alignItems: 'center',
-						marginHorizontal: Dimensions.get('window').height * 0.02
+						marginHorizontal: screenHeight * 0.02
 					}}></View>
 
 				<Text style={fontStyles.mainTextStyleBlack}>{strings.to}</Text>
@@ -291,7 +292,7 @@ export default class createScheduleScreen extends Component {
 					style={{
 						justifyContent: 'center',
 						alignItems: 'center',
-						marginHorizontal: Dimensions.get('window').height * 0.02
+						marginHorizontal: screenHeight * 0.02
 					}}></View>
 
 				<TouchableOpacity
@@ -309,8 +310,8 @@ export default class createScheduleScreen extends Component {
 					style={{
 						borderWidth: 3,
 						borderColor: colors.lightBlue,
-						width: Dimensions.get('window').width * 0.2,
-						height: Dimensions.get('window').height * 0.055,
+						width: screenWidth * 0.2,
+						height: screenHeight * 0.055,
 						borderRadius: 20,
 						justifyContent: 'center',
 						alignItems: 'center',
@@ -406,24 +407,24 @@ export default class createScheduleScreen extends Component {
 					style={{
 						// flexDirection: 'column',
 						alignItems: 'center',
-						marginTop: Dimensions.get('window').height * 0.01
+						marginTop: screenHeight * 0.01
 					}}>
 					<View
 						style={{
 							flexDirection: 'column',
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginVertical: Dimensions.get('window').height * 0.02
+							marginVertical: screenHeight * 0.02
 						}}></View>
 
 					<View
 						style={{
-							width: Dimensions.get('window').width,
+							width: screenWidth,
 							justifyContent: 'flex-end',
 							flexDirection: 'row',
-							marginLeft: Dimensions.get('window').height * 0.15
+							marginLeft: screenHeight * 0.15
 						}}>
-						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
+						<View style={{ marginTop: screenHeight * 0.015 }}>
 							<Text style={fontStyles.bigTextStyleGray}>{strings.Sunday}</Text>
 						</View>
 						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('sunday')}</View>
@@ -434,17 +435,17 @@ export default class createScheduleScreen extends Component {
 							flexDirection: 'column',
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginVertical: Dimensions.get('window').height * 0.01
+							marginVertical: screenHeight * 0.01
 						}}></View>
 
 					<View
 						style={{
-							width: Dimensions.get('window').width,
+							width: screenWidth,
 							justifyContent: 'flex-end',
 							flexDirection: 'row',
-							marginLeft: Dimensions.get('window').height * 0.15
+							marginLeft: screenHeight * 0.15
 						}}>
-						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
+						<View style={{ marginTop: screenHeight * 0.015 }}>
 							<Text style={fontStyles.bigTextStyleGray}>{strings.Monday}</Text>
 						</View>
 						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('monday')}</View>
@@ -454,17 +455,17 @@ export default class createScheduleScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginVertical: Dimensions.get('window').height * 0.01
+							marginVertical: screenHeight * 0.01
 						}}></View>
 
 					<View
 						style={{
-							width: Dimensions.get('window').width,
+							width: screenWidth,
 							justifyContent: 'flex-end',
 							flexDirection: 'row',
-							marginLeft: Dimensions.get('window').height * 0.15
+							marginLeft: screenHeight * 0.15
 						}}>
-						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
+						<View style={{ marginTop: screenHeight * 0.015 }}>
 							<Text style={fontStyles.bigTextStyleGray}>{strings.Tuesday}</Text>
 						</View>
 						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('tuesday')}</View>
@@ -474,17 +475,17 @@ export default class createScheduleScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginVertical: Dimensions.get('window').height * 0.01
+							marginVertical: screenHeight * 0.01
 						}}></View>
 
 					<View
 						style={{
-							width: Dimensions.get('window').width,
+							width: screenWidth,
 							justifyContent: 'flex-end',
 							flexDirection: 'row',
-							marginLeft: Dimensions.get('window').height * 0.15
+							marginLeft: screenHeight * 0.15
 						}}>
-						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
+						<View style={{ marginTop: screenHeight * 0.015 }}>
 							<Text style={fontStyles.bigTextStyleGray}>{strings.Wednesday}</Text>
 						</View>
 						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('wednesday')}</View>
@@ -494,17 +495,17 @@ export default class createScheduleScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginVertical: Dimensions.get('window').height * 0.01
+							marginVertical: screenHeight * 0.01
 						}}></View>
 
 					<View
 						style={{
-							width: Dimensions.get('window').width,
+							width: screenWidth,
 							justifyContent: 'flex-end',
 							flexDirection: 'row',
-							marginLeft: Dimensions.get('window').height * 0.15
+							marginLeft: screenHeight * 0.15
 						}}>
-						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
+						<View style={{ marginTop: screenHeight * 0.015 }}>
 							<Text style={fontStyles.bigTextStyleGray}>{strings.Thursday}</Text>
 						</View>
 						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('thursday')}</View>
@@ -514,17 +515,17 @@ export default class createScheduleScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginVertical: Dimensions.get('window').height * 0.01
+							marginVertical: screenHeight * 0.01
 						}}></View>
 
 					<View
 						style={{
-							width: Dimensions.get('window').width,
+							width: screenWidth,
 							justifyContent: 'flex-end',
 							flexDirection: 'row',
-							marginLeft: Dimensions.get('window').height * 0.15
+							marginLeft: screenHeight * 0.15
 						}}>
-						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
+						<View style={{ marginTop: screenHeight * 0.015 }}>
 							<Text style={fontStyles.bigTextStyleGray}>{strings.Friday}</Text>
 						</View>
 						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('friday')}</View>
@@ -534,17 +535,17 @@ export default class createScheduleScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginVertical: Dimensions.get('window').height * 0.01
+							marginVertical: screenHeight * 0.01
 						}}></View>
 
 					<View
 						style={{
-							width: Dimensions.get('window').width,
+							width: screenWidth,
 							justifyContent: 'flex-end',
 							flexDirection: 'row',
-							marginLeft: Dimensions.get('window').height * 0.15
+							marginLeft: screenHeight * 0.15
 						}}>
-						<View style={{ marginTop: Dimensions.get('window').height * 0.015 }}>
+						<View style={{ marginTop: screenHeight * 0.015 }}>
 							<Text style={fontStyles.bigTextStyleGray}>{strings.Saturday}</Text>
 						</View>
 						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('saturday')}</View>
@@ -554,7 +555,7 @@ export default class createScheduleScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginVertical: Dimensions.get('window').height * 0.02
+							marginVertical: screenHeight * 0.02
 						}}></View>
 					<View
 						style={{

@@ -12,6 +12,7 @@ import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../../components/TopBanner';
 import HelpAlert from '../../components/HelpAlert';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import { Icon } from 'react-native-elements';
 import colors from 'config/colors';
@@ -143,7 +144,7 @@ class logInScreen extends Component {
 									}}
 									style={{
 										justifyContent: 'center',
-										height: Dimensions.get('window').height * 0.06
+										height: screenHeight * 0.06
 									}}>
 									<Icon
 										name={this.state.isPasswordVisible === true ? 'eye' : 'eye-slash'}

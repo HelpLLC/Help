@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import strings from 'config/strings';
 import ActionSheet from 'react-native-actionsheet';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import fontStyles from 'config/styles/fontStyles';
 import Picker from 'react-native-image-crop-picker';
 

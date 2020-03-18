@@ -2,6 +2,7 @@
 //application
 import React, { Component } from "react";
 import { TouchableOpacity, Text, View } from "react-native";
+import { screenWidth, screenHeight } from 'config/dimensions';
 import PropTypes from "prop-types";
 import LoadingSpinner from "./LoadingSpinner";
 

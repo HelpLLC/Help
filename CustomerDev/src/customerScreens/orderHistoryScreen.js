@@ -9,6 +9,7 @@ import SideMenu from 'react-native-side-menu';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import strings from 'config/strings';
 import { View, Text, Dimensions, ScrollView } from 'react-native';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import fontStyles from 'config/styles/fontStyles';
 import TopBanner from '../components/TopBanner';
@@ -126,7 +127,7 @@ export default class orderHistoryScreen extends Component {
 									flex: 1,
 									justifyContent: 'center',
 									alignItems: 'center',
-									width: Dimensions.get('window').width * 0.9
+									width: screenWidth * 0.9
 								}}>
 								<Text style={fontStyles.bigTextStyleBlack}>{strings.NoRequestsYet}</Text>
 							</View>
@@ -140,8 +141,8 @@ export default class orderHistoryScreen extends Component {
 									<View>
 										<View
 											style={{
-												width: Dimensions.get('window').width * 0.9,
-												height: Dimensions.get('window').height * 0.06,
+												width: screenWidth * 0.9,
+												height: screenHeight * 0.06,
 												justifyContent: 'center',
 												alignSelf: 'center',
 												borderBottomColor: colors.lightBlue,
@@ -174,8 +175,8 @@ export default class orderHistoryScreen extends Component {
 									<View>
 										<View
 											style={{
-												width: Dimensions.get('window').width * 0.9,
-												height: Dimensions.get('window').height * 0.06,
+												width: screenWidth * 0.9,
+												height: screenHeight * 0.06,
 												justifyContent: 'center',
 												alignSelf: 'center',
 												borderBottomColor: colors.black,

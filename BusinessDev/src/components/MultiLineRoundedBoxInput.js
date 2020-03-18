@@ -2,6 +2,7 @@
 //multiple lines within it.
 import React, { Component } from 'react';
 import { View, TextInput, Dimensions } from 'react-native';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
 import PropTypes from 'prop-types';
 
@@ -22,7 +23,7 @@ class MultiLineRoundedBoxInput extends Component {
 					justifyContent: 'center',
 					height: height,
 					width: width,
-					borderRadius: Dimensions.get('window').height * 0.0292825769,
+					borderRadius: screenHeight * 0.0292825769,
 					borderWidth: 3,
 					borderColor: colors.lightBlue
 				}}>

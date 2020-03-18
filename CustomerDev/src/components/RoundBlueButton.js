@@ -4,6 +4,7 @@ import React, { Component } from "react";
 import { TouchableOpacity, Text, View } from "react-native";
 import PropTypes from "prop-types";
 import LoadingSpinner from "./LoadingSpinner";
+import { screenWidth, screenHeight } from 'config/dimensions';
 
 class RoundBlueButton extends Component {
   render() {

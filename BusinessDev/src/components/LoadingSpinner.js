@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import Spinner from 'react-native-spinkit';
 import colors from 'config/colors';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import PropTypes from 'prop-types';
 
 //The class that will render the spinner

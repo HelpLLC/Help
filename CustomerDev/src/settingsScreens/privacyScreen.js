@@ -6,6 +6,7 @@ import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import HelpView from '../components/HelpView';
 import screenStyle from '../../config/styles/screenStyle';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import TopBanner from '../components/TopBanner';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
@@ -27,8 +28,8 @@ export default class privacyScreen extends Component {
 				<ScrollView
 					style={{ flex: 1, backgroundColor: colors.lightGray }}
 					contentContainerStyle={{
-						paddingVertical: Dimensions.get('window').height * 0.02,
-						marginHorizontal: Dimensions.get('window').width * 0.02
+						paddingVertical: screenHeight * 0.02,
+						marginHorizontal: screenWidth * 0.02
 					}}>
 					<Text style={fontStyles.bigTextStyleBlack}>Welcome to our Privacy Policy</Text>
 					<Text style={fontStyles.subTextStyleBlack}>

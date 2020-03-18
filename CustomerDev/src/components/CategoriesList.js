@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { View, Dimensions, FlatList } from 'react-native';
 import CategoryCard from './CategoryCard';
 import PropTypes from 'prop-types';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 
 //Defines the class
@@ -54,7 +55,7 @@ class CategoriesList extends Component {
 						{//Adds a space before the first service if there is only one service because it otherwise has justify
 						//content of flex start
 						categories.length === 1 ? (
-							<View style={{ width: Dimensions.get('window').width * 0.03 }} />
+							<View style={{ width: screenWidth * 0.03 }} />
 						) : (
 							<View></View>
 						)}
@@ -73,7 +74,7 @@ class CategoriesList extends Component {
 						/>
 						{//Adds a space in between each column
 						index % 2 === 0 && categories.length > 1 ? (
-							<View style={{ width: Dimensions.get('window').width * 0.03 }} />
+							<View style={{ width: screenWidth * 0.03 }} />
 						) : (
 							<View></View>
 						)}

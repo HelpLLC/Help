@@ -10,6 +10,7 @@ import colors from 'config/colors';
 import { Calendar } from 'react-native-calendars';
 import fontStyles from '../../config/styles/fontStyles';
 import RoundBlueButton from '../components/RoundBlueButton';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import OptionPicker from '../components/OptionPicker';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -291,7 +292,7 @@ export default class businessScheduleScreen extends Component {
 				/>
 				<View>
 					<Calendar
-						style={{ width: Dimensions.get('window').width }}
+						style={{ width: screenWidth }}
 						theme={{
 							selectedDayBackgroundColor: colors.lightBlue,
 							selectedDayTextColor: colors.white,
@@ -324,7 +325,7 @@ export default class businessScheduleScreen extends Component {
 						}}
 					/>
 				</View>
-				<View style={{ width: Dimensions.get('window').width, flex: 1 }}>
+				<View style={{ width: screenWidth, flex: 1 }}>
 					<FlatList
 						showsHorizontalScrollIndicator={false}
 						showsVerticalScrollIndicator={false}
@@ -339,8 +340,8 @@ export default class businessScheduleScreen extends Component {
 							) : (
 								<View
 									style={{
-										marginVertical: Dimensions.get('window').height * 0.05,
-										marginHorizontal: Dimensions.get('window').width * 0.025
+										marginVertical: screenHeight * 0.05,
+										marginHorizontal: screenWidth * 0.025
 									}}>
 									<Text style={[fontStyles.bigTextStyleBlack, { textAlign: 'center' }]}>
 										{strings.NoAvailableTimes}
@@ -349,7 +350,7 @@ export default class businessScheduleScreen extends Component {
 							)
 						}
 						ListFooterComponent={
-							<View style={{ marginVertical: Dimensions.get('window').height * 0.05 }}>
+							<View style={{ marginVertical: screenHeight * 0.05 }}>
 								<RoundBlueButton
 									title={strings.Request}
 									style={roundBlueButtonStyle.MediumSizeButton}
@@ -368,8 +369,8 @@ export default class businessScheduleScreen extends Component {
 						renderItem={({ item, index }) => (
 							<View
 								style={{
-									marginLeft: Dimensions.get('window').width * 0.1,
-									marginTop: Dimensions.get('window').height * 0.025
+									marginLeft: screenWidth * 0.1,
+									marginTop: screenHeight * 0.025
 								}}>
 								<RoundBlueButton
 									title={item}
@@ -379,7 +380,7 @@ export default class businessScheduleScreen extends Component {
 										roundBlueButtonStyle.AccountTypeButton,
 										{
 											//Width increased for longer text
-											width: Dimensions.get('window').width * 0.35,
+											width: screenWidth * 0.35,
 											borderColor: selectedTime === item ? colors.lightBlue : colors.white
 										}
 									]}

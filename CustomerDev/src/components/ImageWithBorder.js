@@ -5,6 +5,7 @@ import { BoxShadow } from 'react-native-shadow';
 import { View } from 'react-native';
 import colors from 'config/colors';
 import PropTypes from 'prop-types';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import LoadingSpinner from './LoadingSpinner';
 import images from 'config/images/images';
 import FastImage from 'react-native-fast-image';

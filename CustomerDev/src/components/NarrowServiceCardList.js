@@ -5,6 +5,7 @@ import { View, Dimensions, FlatList } from 'react-native';
 import NarrowServiceCard from './NarrowServiceCard';
 import PropTypes from 'prop-types';
 import FirebaseFunctions from 'config/FirebaseFunctions';
+import { screenWidth, screenHeight } from 'config/dimensions';
 
 //Defines the class
 class NarrowServiceCardList extends Component {
@@ -43,7 +44,7 @@ class NarrowServiceCardList extends Component {
 						{//Adds a space before the first service if there is only one service because it otherwise has justify
 						//content of flex start
 						services.length === 1 ? (
-							<View style={{ width: Dimensions.get('window').width * 0.03 }} />
+							<View style={{ width: screenWidth * 0.03 }} />
 						) : (
 							<View></View>
 						)}
@@ -65,7 +66,7 @@ class NarrowServiceCardList extends Component {
 						/>
 						{//Adds a space in between each column
 						index % 2 === 0 && services.length > 1 ? (
-							<View style={{ width: Dimensions.get('window').width * 0.03 }} />
+							<View style={{ width: screenWidth * 0.03 }} />
 						) : (
 							<View></View>
 						)}

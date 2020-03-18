@@ -5,6 +5,7 @@ import FirebaseFunctions from '../../config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import screenStyle from 'config/styles/screenStyle';
 import HelpView from '../components/HelpView';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import NarrowServiceCardList from '../components/NarrowServiceCardList';
 import TopBanner from '../components/TopBanner';
 import HelpSearchBar from '../components/HelpSearchBar';

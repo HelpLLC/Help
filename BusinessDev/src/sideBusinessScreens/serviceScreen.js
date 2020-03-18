@@ -9,6 +9,7 @@ import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import colors from 'config/colors';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpAlert from '../components/HelpAlert';
 import HelpView from '../components/HelpView';
 import FastImage from 'react-native-fast-image';
@@ -99,7 +100,7 @@ class serviceScreen extends Component {
 						<View
 							style={{
 								flexDirection: 'row',
-								width: Dimensions.get('window').width - 40,
+								width: screenWidth - 40,
 								alignItems: 'center',
 								alignSelf: 'center',
 								justifyContent: 'space-between'
@@ -108,7 +109,7 @@ class serviceScreen extends Component {
 								<View
 									style={{
 										justifyContent: 'flex-end',
-										marginVertical: Dimensions.get('window').height * 0.03
+										marginVertical: screenHeight * 0.03
 									}}>
 									<Text style={fontStyles.bigTextStyleBlack}>{service.serviceTitle}</Text>
 								</View>
@@ -135,7 +136,7 @@ class serviceScreen extends Component {
 									}}
 									style={{
 										justifyContent: 'flex-end',
-										marginTop: Dimensions.get('window').height * 0.02
+										marginTop: screenHeight * 0.02
 									}}>
 									<Text style={fontStyles.bigTextStyleBlue}>{strings.History}</Text>
 								</TouchableOpacity>
@@ -147,13 +148,13 @@ class serviceScreen extends Component {
 								borderTopColor: colors.lightBlue,
 								borderBottomWidth: 4,
 								borderTopWidth: 4,
-								width: Dimensions.get('window').width,
+								width: screenWidth,
 								height: 258,
-								marginVertical: Dimensions.get('window').height * 0.02
+								marginVertical: screenHeight * 0.02
 							}}>
 							<FastImage
 								style={{
-									width: Dimensions.get('window').width,
+									width: screenWidth,
 									height: 250
 								}}
 								source={this.state.image}
@@ -161,13 +162,13 @@ class serviceScreen extends Component {
 						</View>
 						<View
 							style={{
-								marginVertical: Dimensions.get('window').height * 0.03
+								marginVertical: screenHeight * 0.03
 							}}>
 							<View
 								style={{
 									justifyContent: 'center',
-									width: Dimensions.get('window').width * 0.92,
-									marginLeft: Dimensions.get('window').width * 0.04
+									width: screenWidth * 0.92,
+									marginLeft: screenWidth * 0.04
 								}}>
 								<ViewMoreText
 									numberOfLines={3}
@@ -176,8 +177,8 @@ class serviceScreen extends Component {
 											<TouchableOpacity
 												onPress={onPress}
 												style={{
-													width: Dimensions.get('window').width * 0.3,
-													height: Dimensions.get('window').height * 0.1
+													width: screenWidth * 0.3,
+													height: screenHeight * 0.1
 												}}>
 												<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadMore}</Text>
 											</TouchableOpacity>
@@ -188,8 +189,8 @@ class serviceScreen extends Component {
 											<TouchableOpacity
 												onPress={onPress}
 												style={{
-													width: Dimensions.get('window').width * 0.3,
-													height: Dimensions.get('window').height * 0.1
+													width: screenWidth * 0.3,
+													height: screenHeight * 0.1
 												}}>
 												<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadLess}</Text>
 											</TouchableOpacity>
@@ -213,12 +214,12 @@ class serviceScreen extends Component {
 							<View>
 								<View
 									style={{
-										width: Dimensions.get('window').width * 0.9,
+										width: screenWidth * 0.9,
 										alignSelf: 'center',
 										justifyContent: 'center',
 										borderBottomColor: colors.lightBlue,
 										borderWidth: 0.5,
-										height: Dimensions.get('window').height * 0.05,
+										height: screenHeight * 0.05,
 										borderColor: colors.lightGray
 									}}>
 									<Text style={fontStyles.bigTextStyleBlack}>{strings.CurrentRequests}</Text>
@@ -227,7 +228,7 @@ class serviceScreen extends Component {
 									<View
 										key={item.requestID}
 										style={{
-											marginBottom: Dimensions.get('window').height * 0.025
+											marginBottom: screenHeight * 0.025
 										}}>
 										<ServiceCard
 											serviceTitle={item.customerName}

@@ -18,6 +18,7 @@ import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { screenWidth, screenHeight } from 'config/dimensions';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import HelpAlert from '../components/HelpAlert';
 import OptionPicker from '../components/OptionPicker';
@@ -222,19 +223,19 @@ class serviceScreen extends Component {
 							<View
 								style={{
 									flexDirection: 'column',
-									marginTop: Dimensions.get('window').height * 0.02,
-									width: Dimensions.get('window').width
+									marginTop: screenHeight * 0.02,
+									width: screenWidth
 								}}>
 								<View
 									style={{
 										flexDirection: 'row',
 										justifyContent: 'space-between',
-										width: Dimensions.get('window').width
+										width: screenWidth
 									}}>
 									<View
 										style={{
 											justifyContent: 'flex-start',
-											marginLeft: Dimensions.get('window').width * 0.05,
+											marginLeft: screenWidth * 0.05,
 											flexDirection: 'column'
 										}}>
 										<Text style={fontStyles.bigTextStyleBlack}>{service.serviceTitle}</Text>
@@ -242,7 +243,7 @@ class serviceScreen extends Component {
 								</View>
 								<View
 									style={{
-										marginLeft: Dimensions.get('window').width * 0.04,
+										marginLeft: screenWidth * 0.04,
 										alignItems: 'center',
 										justifyContent: 'space-between',
 										flexDirection: 'row'
@@ -259,7 +260,7 @@ class serviceScreen extends Component {
 									</View>
 									<View
 										style={{
-											marginRight: Dimensions.get('window').width * 0.05
+											marginRight: screenWidth * 0.05
 										}}>
 										<TouchableOpacity onPress={() => this.ActionSheet.show()}>
 											<Icon
@@ -274,7 +275,7 @@ class serviceScreen extends Component {
 								<View
 									style={{
 										justifyContent: 'flex-start',
-										marginLeft: Dimensions.get('window').width * 0.05
+										marginLeft: screenWidth * 0.05
 									}}>
 									<View>
 										<Text style={fontStyles.subTextStyleGray}>{strings.OfferedBy}</Text>
@@ -296,13 +297,13 @@ class serviceScreen extends Component {
 									borderTopColor: colors.lightBlue,
 									borderBottomWidth: 4,
 									borderTopWidth: 4,
-									width: Dimensions.get('window').width,
+									width: screenWidth,
 									height: 258,
-									marginVertical: Dimensions.get('window').height * 0.02
+									marginVertical: screenHeight * 0.02
 								}}>
 								<FastImage
 									style={{
-										width: Dimensions.get('window').width,
+										width: screenWidth,
 										height: 250
 									}}
 									source={this.state.image}
@@ -310,13 +311,13 @@ class serviceScreen extends Component {
 							</View>
 							<View
 								style={{
-									marginVertical: Dimensions.get('window').height * 0.03
+									marginVertical: screenHeight * 0.03
 								}}>
 								<View
 									style={{
 										justifyContent: 'center',
-										width: Dimensions.get('window').width * 0.92,
-										marginLeft: Dimensions.get('window').width * 0.04
+										width: screenWidth * 0.92,
+										marginLeft: screenWidth * 0.04
 									}}>
 									<ViewMoreText
 										numberOfLines={3}
@@ -325,8 +326,8 @@ class serviceScreen extends Component {
 												<TouchableOpacity
 													onPress={onPress}
 													style={{
-														width: Dimensions.get('window').width * 0.3,
-														height: Dimensions.get('window').height * 0.1
+														width: screenWidth * 0.3,
+														height: screenHeight * 0.1
 													}}>
 													<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadMore}</Text>
 												</TouchableOpacity>
@@ -337,8 +338,8 @@ class serviceScreen extends Component {
 												<TouchableOpacity
 													onPress={onPress}
 													style={{
-														width: Dimensions.get('window').width * 0.3,
-														height: Dimensions.get('window').height * 0.1
+														width: screenWidth * 0.3,
+														height: screenHeight * 0.1
 													}}>
 													<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadLess}</Text>
 												</TouchableOpacity>
@@ -352,7 +353,7 @@ class serviceScreen extends Component {
 									style={{
 										justifyContent: 'center',
 										alignItems: 'center',
-										marginBottom: Dimensions.get('window').height * 0.04
+										marginBottom: screenHeight * 0.04
 									}}>
 									<Text style={fontStyles.bigTextStyleBlack}>{service.priceText}</Text>
 								</View>
@@ -365,8 +366,8 @@ class serviceScreen extends Component {
 										style={{
 											justifyContent: 'center',
 											alignItems: 'center',
-											marginTop: Dimensions.get('window').height * 0.05,
-											width: Dimensions.get('window').width * 0.95
+											marginTop: screenHeight * 0.05,
+											width: screenWidth * 0.95
 										}}>
 										<Text style={fontStyles.bigTextStyleBlack}>{strings.ServiceDeleted}</Text>
 									</View>
@@ -376,7 +377,7 @@ class serviceScreen extends Component {
 											flex: 1,
 											justifyContent: 'center',
 											alignItems: 'center',
-											marginTop: Dimensions.get('window').height * 0.05
+											marginTop: screenHeight * 0.05
 										}}>
 										<RoundBlueButton
 											title={strings.Request}
@@ -413,13 +414,13 @@ class serviceScreen extends Component {
 											flex: 1,
 											justifyContent: 'center',
 											alignItems: 'center',
-											marginTop: Dimensions.get('window').height * 0.05
+											marginTop: screenHeight * 0.05
 										}}>
 										<RoundBlueButton
 											title={strings.ViewRequest}
 											style={[
 												roundBlueButtonStyle.MediumSizeButton,
-												{ width: Dimensions.get('window').width * 0.45 }
+												{ width: screenWidth * 0.45 }
 											]}
 											textStyle={fontStyles.bigTextStyleWhite}
 											onPress={() => {
@@ -436,18 +437,18 @@ class serviceScreen extends Component {
 							</View>
 							<View
 								style={{
-									marginTop: Dimensions.get('window').height * 0.05,
+									marginTop: screenHeight * 0.05,
 									justifyContent: 'center',
 									flexDirection: 'column',
 									alignSelf: 'center',
 									borderBottomWidth: 0.5,
 									borderBottomColor: colors.gray,
-									width: Dimensions.get('window').width * 0.9
+									width: screenWidth * 0.9
 								}}>
 								<View
 									style={{
 										flexDirection: 'row',
-										width: Dimensions.get('window').width * 0.9,
+										width: screenWidth * 0.9,
 										justifyContent: 'space-between',
 										alignSelf: 'center',
 										borderTopWidth: 0.5,
@@ -457,8 +458,8 @@ class serviceScreen extends Component {
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-start',
-											marginTop: Dimensions.get('window').height * 0.01,
-											marginBottom: Dimensions.get('window').height * 0.01
+											marginTop: screenHeight * 0.01,
+											marginBottom: screenHeight * 0.01
 										}}>
 										<Text style={fontStyles.mainTextStyleBlack}>{strings.BusinessName}</Text>
 									</View>
@@ -466,7 +467,7 @@ class serviceScreen extends Component {
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-end',
-											marginBottom: Dimensions.get('window').height * 0.01,
+											marginBottom: screenHeight * 0.01,
 											alignItems: 'flex-end'
 										}}>
 										<TouchableOpacity
@@ -483,7 +484,7 @@ class serviceScreen extends Component {
 								<View
 									style={{
 										flexDirection: 'row',
-										width: Dimensions.get('window').width * 0.9,
+										width: screenWidth * 0.9,
 										justifyContent: 'space-between',
 										alignSelf: 'center',
 										borderTopWidth: 0.5,
@@ -493,8 +494,8 @@ class serviceScreen extends Component {
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-start',
-											marginTop: Dimensions.get('window').height * 0.01,
-											marginBottom: Dimensions.get('window').height * 0.01
+											marginTop: screenHeight * 0.01,
+											marginBottom: screenHeight * 0.01
 										}}>
 										<Text style={fontStyles.mainTextStyleBlack}>{strings.PhoneNumber}</Text>
 									</View>
@@ -502,7 +503,7 @@ class serviceScreen extends Component {
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-end',
-											marginBottom: Dimensions.get('window').height * 0.01,
+											marginBottom: screenHeight * 0.01,
 											alignItems: 'flex-end'
 										}}>
 										<TouchableOpacity
@@ -516,7 +517,7 @@ class serviceScreen extends Component {
 								<View
 									style={{
 										flexDirection: 'row',
-										width: Dimensions.get('window').width * 0.9,
+										width: screenWidth * 0.9,
 										justifyContent: 'space-between',
 										alignSelf: 'center',
 										borderTopWidth: 0.5,
@@ -526,8 +527,8 @@ class serviceScreen extends Component {
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-start',
-											marginTop: Dimensions.get('window').height * 0.01,
-											marginBottom: Dimensions.get('window').height * 0.01
+											marginTop: screenHeight * 0.01,
+											marginBottom: screenHeight * 0.01
 										}}>
 										<Text style={fontStyles.mainTextStyleBlack}>{strings.Email}</Text>
 									</View>
@@ -535,7 +536,7 @@ class serviceScreen extends Component {
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-end',
-											marginBottom: Dimensions.get('window').height * 0.01,
+											marginBottom: screenHeight * 0.01,
 											alignItems: 'flex-end'
 										}}>
 										<TouchableOpacity
@@ -553,7 +554,7 @@ class serviceScreen extends Component {
 								<View
 									style={{
 										flexDirection: 'row',
-										width: Dimensions.get('window').width * 0.9,
+										width: screenWidth * 0.9,
 										justifyContent: 'space-between',
 										alignSelf: 'center',
 										borderTopWidth: 0.5,
@@ -563,8 +564,8 @@ class serviceScreen extends Component {
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-start',
-											marginTop: Dimensions.get('window').height * 0.01,
-											marginBottom: Dimensions.get('window').height * 0.01
+											marginTop: screenHeight * 0.01,
+											marginBottom: screenHeight * 0.01
 										}}>
 										<Text style={fontStyles.mainTextStyleBlack}>{strings.City}</Text>
 									</View>
@@ -572,7 +573,7 @@ class serviceScreen extends Component {
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-end',
-											marginBottom: Dimensions.get('window').height * 0.01
+											marginBottom: screenHeight * 0.01
 										}}>
 										<Text style={fontStyles.mainTextStyleBlack}>{business.location}</Text>
 									</View>
@@ -581,7 +582,7 @@ class serviceScreen extends Component {
 									<View
 										style={{
 											flexDirection: 'row',
-											width: Dimensions.get('window').width * 0.9,
+											width: screenWidth * 0.9,
 											justifyContent: 'space-between',
 											alignSelf: 'center',
 											borderTopWidth: 0.5,
@@ -591,8 +592,8 @@ class serviceScreen extends Component {
 											style={{
 												flexDirection: 'column',
 												justifyContent: 'flex-start',
-												marginTop: Dimensions.get('window').height * 0.01,
-												marginBottom: Dimensions.get('window').height * 0.01
+												marginTop: screenHeight * 0.01,
+												marginBottom: screenHeight * 0.01
 											}}>
 											<Text style={fontStyles.mainTextStyleBlack}>{strings.Website}</Text>
 										</View>
@@ -600,7 +601,7 @@ class serviceScreen extends Component {
 											style={{
 												flexDirection: 'column',
 												justifyContent: 'flex-end',
-												marginBottom: Dimensions.get('window').height * 0.01,
+												marginBottom: screenHeight * 0.01,
 												alignItems: 'flex-end'
 											}}>
 											<TouchableOpacity
@@ -635,8 +636,8 @@ class serviceScreen extends Component {
 									flexDirection: 'column',
 									justifyContent: 'center',
 									alignItems: 'center',
-									marginTop: Dimensions.get('window').height * 0.02,
-									marginHorizontal: Dimensions.get('window').width * 0.05
+									marginTop: screenHeight * 0.02,
+									marginHorizontal: screenWidth * 0.05
 								}}>
 								<Text style={fontStyles.subTextStyleBlack}>{business.businessDescription}</Text>
 							</View>
@@ -645,7 +646,7 @@ class serviceScreen extends Component {
 									flexDirection: 'column',
 									justifyContent: 'center',
 									alignItems: 'center',
-									marginTop: Dimensions.get('window').height * 0.02
+									marginTop: screenHeight * 0.02
 								}}>
 								<TouchableOpacity
 									onPress={() => {
@@ -657,15 +658,15 @@ class serviceScreen extends Component {
 									<Text style={fontStyles.mainTextStyleBlue}>{strings.MoreByThisBusiness}</Text>
 								</TouchableOpacity>
 							</View>
-							<View style={{ height: Dimensions.get('window').height * 0.05 }}></View>
+							<View style={{ height: screenHeight * 0.05 }}></View>
 							{this.state.reviews.length > 0 ? (
 								<View>
 									<View
 										style={{
 											alignItems: 'flex-start',
 											alignSelf: 'center',
-											width: Dimensions.get('window').width * 0.9,
-											marginBottom: Dimensions.get('window').height * 0.05
+											width: screenWidth * 0.9,
+											marginBottom: screenHeight * 0.05
 										}}>
 										<Text style={fontStyles.mainTextStyleBlack}>{strings.CustomerReviews}</Text>
 									</View>
@@ -693,7 +694,7 @@ class serviceScreen extends Component {
 							) : (
 								<View></View>
 							)}
-							<View style={{ height: Dimensions.get('window').height * 0.05 }}></View>
+							<View style={{ height: screenHeight * 0.05 }}></View>
 						</View>
 					</ScrollView>
 					<HelpAlert
