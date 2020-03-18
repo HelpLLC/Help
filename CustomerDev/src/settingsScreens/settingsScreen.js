@@ -1,4 +1,4 @@
-//This screen is the settings screen that will availalbe from both providers and requesters' home
+//This screen is the settings screen that will availalbe from both providers and customer's home
 //screens. It will contain multiple options the user can choose from that will take them to seperate
 //screens using a StackNavigator
 import React, { Component } from 'react';
@@ -33,9 +33,9 @@ class settingsScreen extends Component {
 			<Icon name={'angle-right'} type='font-awesome' color={colors.lightBlue} />
 		);
 		//Retrieves the current user from the params
-		let user = this.props.navigation.state.params.requester;
+		let user = this.props.navigation.state.params.customer;
 
-		//This is going to contain the main UI because we only display the left menu if it is a requester
+		//This is going to contain the main UI because we only display the left menu if it is a customer
 		const mainUI = (
 			<HelpView style={screenStyle.container}>
 				<View>
@@ -124,8 +124,8 @@ class settingsScreen extends Component {
 								comp={angleRightIcon}
 								//Pressing this leads to the blocked users screen
 								onPress={() =>
-									this.props.navigation.push('RequesterBlockedBusinessesScreen', {
-										requesterID: user.requesterID
+									this.props.navigation.push('BlockedBusinessesScreen', {
+										customer: user
 									})
 								}
 							/>
@@ -146,8 +146,8 @@ class settingsScreen extends Component {
 					menu={
 						<LeftMenu
 							navigation={this.props.navigation}
-							allProducts={this.props.navigation.state.params.allProducts}
-							requester={this.props.navigation.state.params.requester}
+							allServices={this.props.navigation.state.params.allServices}
+							customer={this.props.navigation.state.params.customer}
 						/>
 					}>
 					{mainUI}

@@ -23,7 +23,7 @@ import CategoryScreen from './customerScreens/categoryScreen';
 import AdditionalCustomerInfoScreen from './firstScreens/signUp/additionalCustomerInfoScreen';
 import BusinessScheduleScreen from './customerScreens/businessScheduleScreen';
 import ServiceQuestionsScreen from './customerScreens/serviceQuestionsScreen';
-import BlockedBusinessScreens from './customerScreens/blockedBusinessesScreen';
+import BlockedBusinessesScreen from './settingsScreens/blockedBusinessesScreen';
 import ServiceRequestedScreen from './customerScreens/serviceRequestedScreen';
 
 //The route config for all of the screens
@@ -96,8 +96,8 @@ const routeConfig = {
 	},
 
 	//Route leading to the screen with the array of blocked businesses
-	BlockedBusinessScreens: {
-		screen: BlockedBusinessScreens
+	BlockedBusinessesScreen: {
+		screen: BlockedBusinessesScreen
 	},
 
 	ServiceRequestedScreen: {

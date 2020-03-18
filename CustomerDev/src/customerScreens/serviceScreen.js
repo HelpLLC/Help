@@ -154,7 +154,10 @@ class serviceScreen extends Component {
 
 		//First blocks the user
 		this.setState({ isLoading: true });
-		await FirebaseFunctions.call('blockBusiness', { customer, business });
+		await FirebaseFunctions.call('blockBusiness', {
+			customerID: customer.customerID,
+			businessID: business.businessID
+		});
 
 		//Navigates back to the request screen
 		try {
@@ -176,12 +179,8 @@ class serviceScreen extends Component {
 	reportBusiness() {
 		const { business, customer } = this.state;
 		FirebaseFunctions.call('reportIssue', {
-			user: customer,
-			issue: {
-				report: 'Report against a business',
-				businessID: business.businessID,
-				businessName: business.businessName
-			}
+			userID: customer.customerID,
+			issue: 'Report against business #' + business.businessID
 		});
 		this.setState({ isBusinessReportedVisible: true });
 	}
@@ -418,10 +417,7 @@ class serviceScreen extends Component {
 										}}>
 										<RoundBlueButton
 											title={strings.ViewRequest}
-											style={[
-												roundBlueButtonStyle.MediumSizeButton,
-												{ width: screenWidth * 0.45 }
-											]}
+											style={[roundBlueButtonStyle.MediumSizeButton, { width: screenWidth * 0.45 }]}
 											textStyle={fontStyles.bigTextStyleWhite}
 											onPress={() => {
 												//This take the user to the screen to view their request for this service

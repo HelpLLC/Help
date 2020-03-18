@@ -937,7 +937,7 @@ exports.skipReview = functions.https.onCall(async (input, context) => {
 //Method will block a specific business from a customer's account. It will append the business ID to the customer's
 //blockedbusinesses array. It will also submit a report to the help support team to indicate that this action was taken. This
 //will be in the form of an automated email.
-exports.blockCompany = functions.https.onCall(async (input, context) => {
+exports.blockBusiness = functions.https.onCall(async (input, context) => {
 	const { customerID, businessID } = input;
 	await customers.doc(customerID).update({
 		blockedBusinesses: admin.firestore.FieldValue.arrayUnion(businessID)

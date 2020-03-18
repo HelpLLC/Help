@@ -1,5 +1,5 @@
 //This screen will display the businesses that have been blocked by a requeuster and allow them to unblock those
-//requesters if they want to
+//customers if they want to
 import React, { Component } from 'react';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
@@ -22,31 +22,32 @@ export default class blockedBusinessesScreen extends Component {
 	state = {
 		isScreenLoading: true,
 		isLoading: false,
-		requesterID: '',
 		blockedBusinesses: '',
-		requester: '',
+		customer: '',
 		isUnblockCompanyVisible: false,
 		companyClicked: '',
 		isErrorVisible: false,
 		isCompanyHasBeenUnblockedVisible: false,
-		allProducts: ''
+		allServices: ''
 	};
 
-	//Fetches the correct variables based on the requester's array of blocked users
+	//Fetches the correct variables based on the customer's array of blocked users
 	async componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('BlockedBusinessesScreen', 'blockedbusinessesScreen');
-		const { requesterID } = this.props.navigation.state.params;
-		const requester = await FirebaseFunctions.call('getCustomerByID', { customerID });
-		const allProducts = await FirebaseFunctions.call('getAllProducts', {});
-		const newBlockedUsersList = await FirebaseFunctions.call('getBlockedBusinessesByRequesterID', {
-			requesterID
-		});
+		const { customer } = this.props.navigation.state.params;
+		const allServices = await FirebaseFunctions.call('getAllServices', {});
+
+		let blocked = [];
+		for (const businessID of customer.blockedBusinesses) {
+			const business = await FirebaseFunctions.call('getBusinessByID', { businessID });
+			blocked.push(business);
+		}
+		console.log(blocked);
 		this.setState({
-			allProducts,
+			allServices,
 			isScreenLoading: false,
-			requesterID,
-			requester,
-			blockedBusinesses: newBlockedUsersList
+			customer,
+			blockedBusinesses: blocked
 		});
 	}
 
@@ -56,8 +57,8 @@ export default class blockedBusinessesScreen extends Component {
 		const {
 			isScreenLoading,
 			isLoading,
-			requesterID,
 			blockedBusinesses,
+			customer,
 			isUnblockCompanyVisible,
 			companyClicked,
 			isErrorVisible,
@@ -92,7 +93,7 @@ export default class blockedBusinessesScreen extends Component {
 						data={blockedBusinesses}
 						extraData={this.state}
 						keyExtractor={(item, index) => {
-							return item.providerID;
+							return item.businessID;
 						}}
 						renderItem={({ item, index }) => (
 							<View
@@ -107,7 +108,7 @@ export default class blockedBusinessesScreen extends Component {
 									borderBottomColor: colors.lightBlue,
 									borderBottomWidth: 1
 								}}>
-								<Text style={fontStyles.mainTextStyleBlack}>{item.companyName}</Text>
+								<Text style={fontStyles.mainTextStyleBlack}>{item.businessName}</Text>
 								<RoundBlueButton
 									title={strings.Unblock}
 									style={roundBlueButtonStyle.SmallSizeButton}
@@ -125,35 +126,37 @@ export default class blockedBusinessesScreen extends Component {
 					/>
 					<OptionPicker
 						isVisible={isUnblockCompanyVisible}
-						title={strings.UnblockCompany}
-						message={strings.AreYouSureYouWantToUnblock + companyClicked.companyName + '?'}
+						title={strings.UnblockBusiness}
+						message={strings.AreYouSureYouWantToUnblock + companyClicked.businessName + '?'}
 						confirmText={strings.Yes}
 						cancelText={strings.Cancel}
 						clickOutside={true}
 						confirmOnPress={async () => {
-							try {
-								this.setState({ isLoading: true, isUnblockCompanyVisible: false });
-								await FirebaseFunctions.call('unblockCompany', {
-									requesterID,
-									providerID: companyClicked.providerID
-								});
-								//Gets the updated requester
-								const requester = await FirebaseFunctions.call('getCustomerByID', { customerID });
-								this.setState({
-									isCompanyHasBeenUnblockedVisible: true,
-									isLoading: false,
-									requester
-								});
-							} catch (error) {
+							//try {
+							this.setState({ isLoading: true, isUnblockCompanyVisible: false });
+							await FirebaseFunctions.call('unblockCompany', {
+								customerID: customer.customerID,
+								businessID: companyClicked.businessID
+							});
+							//Gets the updated customer
+							const newCustomer = await FirebaseFunctions.call('getCustomerByID', {
+								customerID: customer.customerID
+							});
+							this.setState({
+								isCompanyHasBeenUnblockedVisible: true,
+								isLoading: false,
+								customer: newCustomer
+							});
+							/*	} catch (error) {
 								this.setState({ isLoading: false, isErrorVisible: true });
 								FirebaseFunctions.call('logIssue', {
 									error,
 									userID: {
 										screen: 'Blocked Businesses Screen',
-										userID: 'c-' + requesterID
+										userID: 'c-' + customer.customerID
 									}
 								});
-							}
+							}*/
 						}}
 						cancelOnPress={() => {
 							this.setState({ isUnblockCompanyVisible: false, isLoading: false });
@@ -183,12 +186,12 @@ export default class blockedBusinessesScreen extends Component {
 								isCompanyHasBeenUnblockedVisible: false
 							});
 							this.props.navigation.push('FeaturedScreen', {
-								requester: this.state.requester,
-								allProducts: this.state.allProducts
+								customer: this.state.customer,
+								allServices: this.state.allServices
 							});
 						}}
 						title={strings.Success}
-						message={companyClicked.companyName + ' ' + strings.HasBeenUnblocked}
+						message={companyClicked.businessName + ' ' + strings.HasBeenUnblocked}
 					/>
 				</ScrollView>
 			</HelpView>
