@@ -483,6 +483,7 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 		services: admin.firestore.FieldValue.arrayUnion({
 			numCurrentRequests: 0,
 			serviceID,
+			category,
 			serviceDescription,
 			serviceTitle,
 			priceText

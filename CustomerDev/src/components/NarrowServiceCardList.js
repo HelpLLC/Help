@@ -21,6 +21,8 @@ class NarrowServiceCardList extends Component {
 				serviceID: services[index].serviceID,
 				customerID,
 				businessID: services[index].businessID
+					? services[index].businessID
+					: this.props.navigation.state.params.business.businessID
 			});
 		}
 	}
@@ -43,17 +45,15 @@ class NarrowServiceCardList extends Component {
 					<View style={{ flexDirection: 'row' }}>
 						{//Adds a space before the first service if there is only one service because it otherwise has justify
 						//content of flex start
-						services.length === 1 ? (
-							<View style={{ width: screenWidth * 0.03 }} />
-						) : (
-							<View></View>
-						)}
+						services.length === 1 ? <View style={{ width: screenWidth * 0.03 }} /> : <View></View>}
 						<NarrowServiceCard
 							serviceTitle={item.serviceTitle}
 							price={this.props.dateSelected ? item.dateSelected : item.priceText}
 							imageFunction={async () => {
 								//Passes in the function to retrieve the image of this product
-								return await FirebaseFunctions.call('getServiceImageByID', { serviceID: item.serviceID });
+								return await FirebaseFunctions.call('getServiceImageByID', {
+									serviceID: item.serviceID
+								});
 							}}
 							totalReviews={item.totalReviews}
 							averageRating={item.averageRating}
