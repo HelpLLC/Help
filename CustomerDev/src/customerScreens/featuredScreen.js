@@ -1,4 +1,4 @@
-//This screen represents the main screen that is launched once the customer logs in. Here will be displayed the featured products
+//This screen represents the main screen that is launched once the customer logs in. Here will be displayed the featured services
 //where customers will be able to click on them to request them. The side menu  will also be accessible from this screen
 import React, { Component } from 'react';
 import { View, Text, Dimensions } from 'react-native';
@@ -27,20 +27,19 @@ export default class featuredScreen extends Component {
 		comment: '',
 		search: '',
 		allServices: '',
-		displayedProducts: '',
-		incompleteProfile: false,
+		displayedServices: '',
 		reviewError: false,
 		isReviewDueName: '',
 		isReviewDueID: ''
 	};
 
-	//Filters the products by ones that the user has blocked, and also returns only the products that are being offered within 50 miles
+	//Filters the services by ones that the user has blocked, and also returns only the services that are being offered within 50 miles
 	async componentDidMount() {
 		this.setState({ isLoading: true });
 		FirebaseFunctions.setCurrentScreen('FeaturedScreen', 'featuredScreen');
 
-		//Filters the products and removes any that are posted by blocked users
-		let { allServices, customer } = this.props.navigation.state.params
+		//Filters the services and removes any that are posted by blocked users
+		let { allServices, customer } = this.props.navigation.state.params;
 
 		allServices = allServices.filter(
 			(element) => customer.blockedBusinesses.indexOf(element.businessID) === -1
@@ -55,12 +54,12 @@ export default class featuredScreen extends Component {
 		this.setState({
 			allServices,
 			customer,
-			displayedProducts: allServices,
+			displayedServices: allServices,
 			isLoading: false
 		});
 	}
 
-	//Function searches through the array of products and displays the results by changing the state
+	//Function searches through the array of services and displays the results by changing the state
 	renderSearch() {
 		this.setState({ isLoading: true });
 		//If there is only one character typed into the search, it will simply display the results
@@ -75,7 +74,7 @@ export default class featuredScreen extends Component {
 			const business = service.businessID.trim().toLowerCase();
 			const category = service.category.trim().toLowerCase();
 			if (serviceTitle.includes(text) || business.includes(text) || category.includes(text)) {
-				newServices.push(product);
+				newServices.push(service);
 			}
 		}
 
@@ -83,10 +82,10 @@ export default class featuredScreen extends Component {
 		//Otherwise, the results will be displayed
 		if (newServices.length === 0 || text.length === 0) {
 			this.setState({
-				displayedProducts: this.state.allServices
+				displayedServices: allServices
 			});
 		} else {
-			this.setState({ displayedProducts: newServices });
+			this.setState({ displayedServices: newServices });
 		}
 		//This timeout is necessary so that images time to be "undownloaded" --> They only need a timeout
 		//of 1, but to make it look good, 500 is ideal
@@ -96,7 +95,7 @@ export default class featuredScreen extends Component {
 	}
 
 	render() {
-		let { displayedProducts, allServices, customer } = this.state;
+		let { displayedServices, allServices, customer } = this.state;
 
 		if (this.state.isLoading === true) {
 			return (
@@ -160,21 +159,7 @@ export default class featuredScreen extends Component {
 					<NarrowServiceCardList
 						customerID={customer.customerID}
 						navigation={this.props.navigation}
-						services={displayedProducts}
-					/>
-					<HelpAlert
-						isVisible={this.state.incompleteProfile}
-						onPress={() => {
-							this.setState({ incompleteProfile: false });
-							this.props.navigation.push('AdditionalCustomerInfoScreen', {
-								customer: customer,
-								allServices: allServices,
-								isEditing: true
-							});
-						}}
-						closeOnTouchOutside={false}
-						title={strings.FinishCreatingYourProfile}
-						message={strings.FinishCreatingYourProfileMessage}
+						services={displayedServices}
 					/>
 					<ReviewPopup
 						isVisible={this.state.isReviewDue}
@@ -184,8 +169,8 @@ export default class featuredScreen extends Component {
 						confirmText={strings.Submit}
 						cancelText={strings.Skip}
 						imageFunction={async () => {
-							return await FirebaseFunctions.call('getProductImageByID', {
-								ID: this.state.isReviewDueID
+							return await FirebaseFunctions.call('getServiceImageByID', {
+								serviceID: this.state.isReviewDueID
 							});
 						}}
 						clickOutside={true}
