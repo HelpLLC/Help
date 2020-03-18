@@ -43,7 +43,7 @@ export default class FirebaseFunctions {
     //Logs the event in firebase analytics & unsubcribes from the notification service
     await firebase.auth().signOut();
     this.analytics.logEvent('provider_log_out');
-    this.fcm.unsubscribeFromTopic('p-' + uid);
+    this.fcm.unsubscribeFromTopic('b-' + uid);
     return 0;
   }
 

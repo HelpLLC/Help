@@ -43,7 +43,7 @@ class reportIssueScreen extends Component {
 					error,
 					userID: {
 						screen: 'ReportIssueScreen',
-						userID: 'r-' + user.requesterID
+						userID: 'c-' + user.requesterID
 					}
 				});
 			}

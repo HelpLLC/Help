@@ -21,26 +21,22 @@ export default class categoriesScreen extends Component {
 	state = {
 		isLoading: true,
 		categories: null,
-		requester: this.props.navigation.state.params.requester,
+		customer: '',
 		isOpen: false,
 		search: '',
-		incompleteProfile: false
 	};
 
 	async componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('CategoriesScreen', 'categoriesScreen');
 		let categories = await FirebaseFunctions.call('getCategoryObjects', {});
+		const { customer, allServices } = this.props.navigation.state.params;
 		this.setState({
 			categories,
 			allCategories: categories,
+			customer,
+			allServices,
 			isLoading: false
 		});
-		//Tests to see if the requester's account has been fully completed (used for pre-2.0 users)
-		if (!FirebaseFunctions.call('isRequesterUpToDate', { requesterObject: this.state.requester })) {
-			this.setState({
-				incompleteProfile: true
-			});
-		}
 	}
 
 	//Function searches through the array of categories and displays the results by changing the state
@@ -87,7 +83,7 @@ export default class categoriesScreen extends Component {
 				</HelpView>
 			);
 		} else {
-			const { search } = this.state;
+			const { search, customer, allServices } = this.state;
 
 			return (
 				<SideMenu
@@ -98,8 +94,8 @@ export default class categoriesScreen extends Component {
 					menu={
 						<LeftMenu
 							navigation={this.props.navigation}
-							allProducts={this.props.navigation.state.params.allProducts}
-							requester={this.state.requester}
+							allServices={allServices}
+							customer={customer}
 						/>
 					}>
 					<HelpView style={screenStyle.container}>
@@ -134,23 +130,9 @@ export default class categoriesScreen extends Component {
 						</View>
 						<CategoriesList
 							categories={this.state.categories}
-							requesterID={this.state.requester.requesterID}
-							allProducts={this.props.navigation.state.params.allProducts}
+							customerID={customer.customerID}
+							allServices={allServices}
 							navigation={this.props.navigation}
-						/>
-						<HelpAlert
-							isVisible={this.state.incompleteProfile}
-							onPress={() => {
-								this.setState({ incompleteProfile: false });
-								this.props.navigation.push('EditRequesterProfileScreen', {
-									requester: this.state.requester,
-									allProducts: this.props.navigation.state.params.allProducts,
-									isEditing: true
-								});
-							}}
-							title={strings.FinishCreatingYourProfile}
-							closeOnTouchOutside={false}
-							message={strings.FinishCreatingYourProfileMessage}
 						/>
 					</HelpView>
 				</SideMenu>

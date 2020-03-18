@@ -221,7 +221,7 @@ export default class launchScreen extends Component {
           isVisible={this.state.businessVersionMessageVisible}
           onPress={() => {
             firebase.auth().signOut();
-            FirebaseFunctions.fcm.unsubscribeFromTopic('p-' + this.state.providerID);
+            FirebaseFunctions.fcm.unsubscribeFromTopic('b-' + this.state.providerID);
             if (Platform.OS === 'ios') {
               //Links to the new business app for ios & logs this user out
               Linking.openURL('itms-apps://itunes.apple.com/app/apple-store/id1490767192?mt=8');

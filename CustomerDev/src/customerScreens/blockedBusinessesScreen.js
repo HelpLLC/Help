@@ -150,7 +150,7 @@ export default class blockedBusinessesScreen extends Component {
 									error,
 									userID: {
 										screen: 'Blocked Businesses Screen',
-										userID: 'r-' + requesterID
+										userID: 'c-' + requesterID
 									}
 								});
 							}

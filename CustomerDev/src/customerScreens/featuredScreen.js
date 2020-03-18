@@ -211,7 +211,7 @@ export default class featuredScreen extends Component {
 										error,
 										userID: {
 											screen: 'Featured Screen',
-											userID: 'r-' + customer.customerID
+											userID: 'c-' + customer.customerID
 										}
 									});
 								}
@@ -230,7 +230,7 @@ export default class featuredScreen extends Component {
 									error,
 									userID: {
 										screen: 'Featured Screen',
-										userID: 'r-' + customer.customerID
+										userID: 'c-' + customer.customerID
 									}
 								});
 							}
