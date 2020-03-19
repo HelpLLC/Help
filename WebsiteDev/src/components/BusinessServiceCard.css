@@ -1,42 +1,43 @@
 .container {
-  float: initial;
-  display: inline-flex;
-  height: 175px;
-  width: initial;
-  margin-left: 200px;
-  margin-right: 200px;
-  margin-top: 50px;
+	float: initial;
+	display: inline-flex;
+	height: 175px;
+	width: initial;
+	margin-left: 200px;
+	margin-right: 200px;
+	margin-top: 50px;
 }
 
 .body {
-  margin: 10px;
+	margin: 10px;
 }
 
 .body2 {
-  margin: 10px;
+	margin: 10px;
 }
 
 .body3 {
-  margin: 10px;
+	margin: 10px;
 }
 
 .body4 {
-  margin: 10px;
+	margin: 10px;
 }
 
 .body5 {
-  margin: 10px;
+	margin: 10px;
 }
 
 .header {
-  font-size: 20px;
-  font-weight: bold;
-  margin-top: -5px;
+	font-size: 20px;
+  background-color: unset;
+  border-color: white;
+	font-weight: bold;
 }
 
 img {
-  border-top: initial;
-  display: inline-block;
-  height: 120px;
-  margin-top: 0px;
+	border-top: initial;
+	display: inline-block;
+	height: 120px;
+	margin-top: 0px;
 }
