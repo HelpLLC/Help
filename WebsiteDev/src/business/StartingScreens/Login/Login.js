@@ -9,15 +9,16 @@ export default function Login() {
 	const [password, setPassword] = React.useState('');
 
 	const login = async () => {
-		await FirebaseFunctions.logIn(email,password);
-	}
+		const businessID = await FirebaseFunctions.logIn(email, password);
+		console.log(businessID);
+	};
 
 	return (
 		<div>
 			<section>
-				<EditText className='input' labelText='Email' widthPercent={600} onChange={setEmail}/>
+				<EditText className='input' labelText='Email' widthPercent={600} onChange={setEmail} />
 				<EditText labelText='Password' widthPercent={600} onChange={setPassword} />
-				<HelpButton label='Login' onClick={login}/>
+				<HelpButton label='Login' onClick={login} />
 			</section>
 		</div>
 	);
