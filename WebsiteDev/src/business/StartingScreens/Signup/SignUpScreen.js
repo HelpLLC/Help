@@ -65,7 +65,7 @@ export default function Signup(props) {
          <TitleComponent text={'Sign Up'} isCentered={true} />
          <TitleComponent text={'Business Scheduling'} marginLeft={titleMarginLeft} isCentered={false} fontSize={schedulingTitleSize} />
          <div className="Signup">
-            <EditText labelText={'Business Email'} multiline={false} widthPercent={editTextWidth} />
+            <EditText labelText={'Business Email'} multiline={false} widthPercent={editTextWidth} onChange={setEmail} value={email}/>
             <DayText text={'Monday'} marginLeft={dayMarginLeft} marginTop={dayMarginTop} />
             <TimePicker widthPercent={timeWidth} marginTop={timeMarginTop} marginLeft={mondayMarginLeft}/>
             <h1 style={mystyle}>{"to"}</h1>

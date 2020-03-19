@@ -13,7 +13,7 @@ import classNames from "classnames";
  class EditText extends Component {
     
 render() {
-   const { labelText, multiline, classes } = this.props;
+   const { labelText, multiline, classes, onChange, value } = this.props;
    const theme = createMuiTheme({
       palette: {
         primary: {
@@ -48,6 +48,8 @@ render() {
                   },
                }}
                size="normal"
+               onChange={this.props.onChange}
+               value={this.props.value}
             />
          </ThemeProvider>
     </div>
