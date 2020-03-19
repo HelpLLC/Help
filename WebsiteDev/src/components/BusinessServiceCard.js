@@ -10,6 +10,7 @@ import "../components/BusinessServiceCard.css";
 import { Divider } from "@material-ui/core";
 import image from "../images/download.jpg";
 import fontStyles from "../config/fontStyles.js";
+import { FaArrowDown } from "react-icons/fa";
 
 class BusinessServiceCard extends Component {
   render() {
@@ -24,6 +25,7 @@ class BusinessServiceCard extends Component {
         <CardContent style={fontStyles.mainTextStyleBlack}>
           <Typography class="header">Rating</Typography>
           <Divider varient="middle" />
+          <FaArrowDown />
           <Typography>5 Stars</Typography>
           <Typography>252 Reviews</Typography>
         </CardContent>
