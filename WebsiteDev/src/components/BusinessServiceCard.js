@@ -2,18 +2,17 @@ import React, { Component } from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import './BusinessServiceCard.css';
+import "./BusinessServiceCard.css";
 import { Divider } from "@material-ui/core";
 import image from "../images/download.jpg";
 import fontStyles from "../config/fontStyles.js";
-import { FaArrowDown } from "react-icons/fa";
 
 class BusinessServiceCard extends Component {
   render() {
     return (
       <Card class="container">
         <CardContent style={fontStyles.mainTextStyleBlack}>
-          <Typography class="header">House cleaning</Typography>
+          <Typography class="house">House cleaning</Typography>
           <Divider varient="middle" />
           <img src={image} />
         </CardContent>
@@ -21,13 +20,12 @@ class BusinessServiceCard extends Component {
         <CardContent style={fontStyles.mainTextStyleBlack}>
           <Typography class="header">Rating</Typography>
           <Divider varient="middle" />
-          <FaArrowDown />
           <Typography>5 Stars</Typography>
           <Typography>252 Reviews</Typography>
         </CardContent>
         <Divider orientation="vertical" flexItem />
         <CardContent class="body2" style={fontStyles.mainTextStyleBlack}>
-          <Typography class="header">Price</Typography>
+          <Typography class="price">Price</Typography>
           <Divider varient="middle" />
           <Typography>$120 per 4 hours</Typography>
         </CardContent>
@@ -42,13 +40,13 @@ class BusinessServiceCard extends Component {
         </CardContent>
         <Divider orientation="vertical" flexItem />
         <CardContent class="body4" style={fontStyles.mainTextStyleBlack}>
-          <Typography class="header">Requests</Typography>
+          <Typography class="requests">Requests</Typography>
           <Divider varient="middle" />
           <Typography>137 requests in the past month</Typography>
         </CardContent>
         <Divider orientation="vertical" flexItem />
         <CardContent class="body5" style={fontStyles.mainTextStyleBlack}>
-          <Typography class="header">Days offered</Typography>
+          <Typography class="days">Days offered</Typography>
           <Divider varient="middle" />
           <Typography>M/T/F</Typography>
         </CardContent>
