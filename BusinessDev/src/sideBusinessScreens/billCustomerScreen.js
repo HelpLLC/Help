@@ -8,10 +8,12 @@ import { screenHeight, screenWidth } from 'config/dimensions';
 import strings from 'config/strings';
 import screenStyle from 'config/styles/screenStyle';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import HelpAlert from '../components/HelpAlert';
 import colors from 'config/colors';
 import { Icon } from 'react-native-elements';
 import RoundBlueButton from '../components/RoundBlueButton';
 import TopBanner from '../components/TopBanner';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 
 //Declares and exports the class
 export default class billCustomerScreen extends Component {
@@ -25,7 +27,9 @@ export default class billCustomerScreen extends Component {
 		priceText: '',
 		billedAmount: '',
 		units: '',
-		isLoading: false
+		isLoading: false,
+		fieldsError: false,
+		requestCompleted: false
 	};
 
 	//Sets the initial state
@@ -47,6 +51,26 @@ export default class billCustomerScreen extends Component {
 			price: request.price,
 			priceText: request.priceText
 		});
+	}
+
+	//Completes the request based on whether it is cash or card, and the price type
+	async completeRequest() {
+		const { requestID, cash, card, billedAmount, units, price } = this.state;
+		this.setState({ isLoading: true });
+		if (cash === true) {
+			if (billedAmount === '') {
+				this.setState({ fieldsError: true, isLoading: false });
+				return;
+			}
+
+			await FirebaseFunctions.call('completeRequest', {
+				cash: true,
+				requestID,
+				billedAmount
+			});
+
+			this.setState({ requestCompleted: true, isLoading: false });
+		}
 	}
 
 	//renders the class
@@ -112,10 +136,29 @@ export default class billCustomerScreen extends Component {
 							textStyle={fontStyles.mainTextStyleWhite}
 							onPress={() => {
 								//Completes the service
+								this.completeRequest();
 							}}
+							isLoading={this.state.isLoading}
 							disabled={this.state.isLoading}
 						/>
 					</View>
+					<HelpAlert
+						isVisible={this.state.fieldsError}
+						onPress={() => {
+							this.setState({ fieldsError: false });
+						}}
+						title={strings.Whoops}
+						message={strings.PleaseFillOutAllFields}
+					/>
+					<HelpAlert
+						isVisible={this.state.requestCompleted}
+						onPress={() => {
+							this.setState({ requestCompleted: false });
+							this.props.navigation.push('BusinessScreens', { businessID: request.businessID });
+						}}
+						title={strings.RequestCompleted}
+						message={strings.RequestHasBeenCompleted}
+					/>
 				</HelpView>
 			);
 		} else {
@@ -178,9 +221,27 @@ export default class billCustomerScreen extends Component {
 								onPress={() => {
 									//Completes the service
 								}}
+								isLoading={this.state.isLoading}
 								disabled={this.state.isLoading}
 							/>
 						</View>
+						<HelpAlert
+							isVisible={this.state.fieldsError}
+							onPress={() => {
+								this.setState({ fieldsError: false });
+							}}
+							title={strings.Whoops}
+							message={strings.PleaseFillOutAllFields}
+						/>
+						<HelpAlert
+							isVisible={this.state.requestCompleted}
+							onPress={() => {
+								this.setState({ requestCompleted: false });
+								this.props.navigation.push('BusinessScreens', { businessID: request.businessID });
+							}}
+							title={strings.RequestCompleted}
+							message={strings.RequestHasBeenCompleted}
+						/>
 					</HelpView>
 				);
 			} else {
@@ -250,9 +311,27 @@ export default class billCustomerScreen extends Component {
 								onPress={() => {
 									//Completes the service
 								}}
+								isLoading={this.state.isLoading}
 								disabled={this.state.isLoading}
 							/>
 						</View>
+						<HelpAlert
+							isVisible={this.state.fieldsError}
+							onPress={() => {
+								this.setState({ fieldsError: false });
+							}}
+							title={strings.Whoops}
+							message={strings.PleaseFillOutAllFields}
+						/>
+						<HelpAlert
+							isVisible={this.state.requestCompleted}
+							onPress={() => {
+								this.setState({ requestCompleted: false });
+								this.props.navigation.push('BusinessScreens', { businessID: request.businessID });
+							}}
+							title={strings.RequestCompleted}
+							message={strings.RequestHasBeenCompleted}
+						/>
 					</HelpView>
 				);
 			}

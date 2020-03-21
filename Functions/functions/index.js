@@ -797,73 +797,83 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 });
 
 //Method taks in a requestID and completes that request in the database by giving it the status "complete", and addding it
-//to the completed requests SubCollection in the customer and the business. It will also add the requestID to the isReviewDue
-//array for customers
+//to the completed requests SubCollection in the customer and the business. It will also add the billing accordingly to the
+//customer's side (unless the service was marked as cash). It will also mark the request as awaiting review from the customer
 exports.completeRequest = functions.https.onCall(async (input, context) => {
-	const { requestID } = input;
+	let { cash, requestID, billedAmount } = input;
 
-	//Marks the status in the requests collection
-	await requests.doc(requestID).update({ status: 'complete' });
-	const request = (await requests.doc(requestID).get()).data();
+	billedAmount = parseFloat(billedAmount);
 
-	//Moves the request from currentRequests to the subcollection in the customer document
-	await customers
-		.doc(request.customerID)
-		.collection('CompletedRequests')
-		.doc(requestID)
-		.set({
-			date: request.date,
-			requestID,
-			serviceID: request.serviceID,
-			serviceTitle: request.serviceTitle,
-			time: request.time
+	//If the service is purchased through cash, then the request will simply be marked as complete.
+	if (cash === true) {
+		//Marks the status in the requests collection
+		await requests.doc(requestID).update({ billedAmount, status: 'COMPLETE' });
+		const request = (await requests.doc(requestID).get()).data();
+
+		//Moves the request from currentRequests to the subcollection in the customer document and adds the requestID to
+		//the customer's isReviewDue array
+		await customers
+			.doc(request.customerID)
+			.collection('CompletedRequests')
+			.doc(requestID)
+			.set({
+				date: request.date,
+				requestID,
+				serviceID: request.serviceID,
+				serviceTitle: request.serviceTitle,
+				time: request.time,
+				billedAmount
+			});
+		let customer = (await customers.doc(request.customerID).get()).data();
+		const indexOfCustomerRequest = customer.currentRequests.findIndex(
+			(element) => element.requestID === requestID
+		);
+		customer.currentRequests.splice(indexOfCustomerRequest, 1);
+		await customers.doc(request.customerID).update({
+			currentRequests: customer.currentRequests,
+			isReviewDue: admin.firestore.FieldValue.arrayUnion(requestID)
 		});
-	let customer = (await customers.doc(request.customerID).get()).data();
-	const indexOfCustomerRequest = customer.currentRequests.findIndex(
-		(element) => element.requestID === requestID
-	);
-	customer.currentRequests.splice(indexOfCustomerRequest, 1);
-	await customers.doc(request.customerID).update({
-		currentRequests: customer.currentRequests,
-		isReviewDue: admin.firestore.FieldValue.arrayUnion(requestID)
-	});
 
-	//Moves the request from currentRequests to the subcollection in the service document
-	await services
-		.doc(request.serviceID)
-		.collection('CompletedRequests')
-		.doc(requestID)
-		.set({
-			customerID: request.customerID,
-			customerName: request.customerName,
-			date: request.date,
-			requestID,
-			time: request.time
+		//Moves the request from currentRequests to the subcollection in the service document
+		await services
+			.doc(request.serviceID)
+			.collection('CompletedRequests')
+			.doc(requestID)
+			.set({
+				customerID: request.customerID,
+				customerName: request.customerName,
+				date: request.date,
+				requestID,
+				time: request.time,
+				billedAmount
+			});
+		let service = (await services.doc(request.serviceID).get()).data();
+		const indexOfServiceRequest = service.currentRequests.findIndex(
+			(element) => element.requestID === requestID
+		);
+		service.currentRequests.splice(indexOfServiceRequest, 1);
+		await services.doc(request.serviceID).update({
+			currentRequests: service.currentRequests
 		});
-	let service = (await services.doc(request.serviceID).get()).data();
-	const indexOfServiceRequest = service.currentRequests.findIndex(
-		(element) => element.requestID === requestID
-	);
-	service.currentRequests.splice(indexOfServiceRequest, 1);
-	await services.doc(request.serviceID).update({
-		currentRequests: service.currentRequests
-	});
 
-	//Decrements the numRequests for the service and updates current requests in the business document
-	let business = (await businesses.doc(service.businessID).get()).data();
-	const indexOfService = business.services.findIndex(
-		(element) => element.serviceID === service.serviceID
-	);
-	business.services[indexOfService].numCurrentRequests =
-		business.services[indexOfService].numCurrentRequests - 1;
-	const indexOfRequest = business.currentRequests.findIndex(
-		(element) => element.requestID === requestID
-	);
-	business.currentRequests.splice(indexOfRequest, 1);
-	await businesses.doc(service.businessID).update({
-		services: business.services,
-		currentRequests: business.currentRequests
-	});
+		//Decrements the numRequests for the service and updates current requests in the business document
+		let business = (await businesses.doc(service.businessID).get()).data();
+		const indexOfService = business.services.findIndex(
+			(element) => element.serviceID === service.serviceID
+		);
+		business.services[indexOfService].numCurrentRequests =
+			business.services[indexOfService].numCurrentRequests - 1;
+		const indexOfRequest = business.currentRequests.findIndex(
+			(element) => element.requestID === requestID
+		);
+		business.currentRequests.splice(indexOfRequest, 1);
+		await businesses.doc(service.businessID).update({
+			services: business.services,
+			currentRequests: business.currentRequests
+		});
+	} else {
+		//This means the service is through a card payment, through which billing will be correctly set up
+	}
 
 	return 0;
 });
