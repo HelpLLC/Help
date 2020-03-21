@@ -68,7 +68,7 @@ export default class businessScheduleScreen extends Component {
 			this.setState({
 				dateString,
 				availableTimes: this.setAvailableTimes(dateObject),
-				selectedDate: dateObject,
+				selectedDate: dateObject.toLocaleDateString('en-US'),
 				selectedTime: time
 			});
 		} else {
@@ -89,7 +89,7 @@ export default class businessScheduleScreen extends Component {
 			this.setState({
 				dateString,
 				availableTimes: this.setAvailableTimes(date),
-				selectedDate: new Date()
+				selectedDate: new Date().toLocaleDateString('en-US')
 			});
 		}
 		this.setState({
@@ -224,14 +224,18 @@ export default class businessScheduleScreen extends Component {
 				serviceDuration: service.serviceDuration,
 				questions: answers,
 				time: selectedTime
-			})
+			});
 		} else {
 			await FirebaseFunctions.call('requestService', {
 				assignedTo: '',
 				businessID: business.businessID,
 				customerID: customer.customerID,
+				cash: service.cash,
+				card: service.card,
 				date: selectedDate,
 				questions: answers,
+				price: service.price,
+				priceText: service.priceText,
 				review: '',
 				serviceTitle: service.serviceTitle,
 				customerName: customer.name,

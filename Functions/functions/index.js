@@ -84,7 +84,6 @@ const sendEmail = async (recepient, subject, text) => {
 //Method will take in a service ID and a customer ID and a requestID and a businessID and then delete that customer's request
 //from the service's current requests.
 const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
-	
 	//Updates the request collection
 	await requests.doc(requestID).delete();
 
@@ -93,7 +92,9 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 	const indexOfService = business.services.findIndex((element) => element.serviceID === serviceID);
 	business.services[indexOfService].numCurrentRequests =
 		business.services[indexOfService].numCurrentRequests - 1;
-	let indexOfRequest = business.currentRequests.findIndex((element) => element.requestID === requestID);
+	let indexOfRequest = business.currentRequests.findIndex(
+		(element) => element.requestID === requestID
+	);
 	business.currentRequests.splice(indexOfRequest, 1);
 	await businesses.doc(businessID).update({
 		services: business.services,
@@ -613,8 +614,12 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		assignedTo,
 		businessID,
 		customerID,
+		cash,
+		card,
 		date,
 		questions,
+		price,
+		priceText,
 		review,
 		serviceTitle,
 		customerName,
@@ -630,7 +635,11 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		assignedTo,
 		businessID,
 		customerID,
+		cash,
+		card,
 		date,
+		price,
+		priceText,
 		questions,
 		review,
 		serviceTitle,
