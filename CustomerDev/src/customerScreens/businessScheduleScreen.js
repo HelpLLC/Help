@@ -23,6 +23,7 @@ export default class businessScheduleScreen extends Component {
 	state = {
 		isLoading: false,
 		isScreenLoading: true,
+		isDayLoading: false,
 		availableTimes: '',
 		answers: '',
 		service: '',
@@ -67,10 +68,12 @@ export default class businessScheduleScreen extends Component {
 			const dateString = year + '-' + month + '-' + day;
 			this.setState({
 				dateString,
-				availableTimes: this.setAvailableTimes(dateObject),
+				isDayLoading: true,
 				selectedDate: dateObject.toLocaleDateString('en-US'),
 				selectedTime: time
 			});
+			const availableTimes = await this.setAvailableTimes(dateObject);
+			this.setState({ availableTimes, isDayLoading: false });
 		} else {
 			//Sets the initial selected date
 			const date = new Date();
@@ -88,9 +91,12 @@ export default class businessScheduleScreen extends Component {
 
 			this.setState({
 				dateString,
-				availableTimes: this.setAvailableTimes(date),
+				isDayLoading: true,
 				selectedDate: new Date().toLocaleDateString('en-US')
 			});
+
+			const availableTimes = await this.setAvailableTimes(date);
+			this.setState({ availableTimes, isDayLoading: false });
 		}
 		this.setState({
 			isScreenLoading: false
@@ -115,7 +121,7 @@ export default class businessScheduleScreen extends Component {
 
 	//Sets the array of available times based on the business's schedule, service duration, and amount of requests the business
 	//can handle at a time. Takes in a specific date as a parameter
-	setAvailableTimes(dateObject) {
+	async setAvailableTimes(dateObject) {
 		const dayOfTheWeek = [
 			'sunday',
 			'monday',
@@ -155,15 +161,29 @@ export default class businessScheduleScreen extends Component {
 			fromTime = fromTime + minutesInterval;
 		}
 
-		//Filters for requests the business already has
-		const { currentRequests } = business;
+		//Filters for requests the business already has on the selected day (formats the date correctly to fetch the day from firestore)
+		let year = dateObject.getFullYear();
+		let month = dateObject.getMonth() + 1;
+		let day = dateObject.getDate();
+		if (month < 10) {
+			month = '0' + month;
+		}
+		if (day < 10) {
+			day = '0' + day;
+		}
+		const dateString = year + '-' + month + '-' + day;
+		const currentRequests = await FirebaseFunctions.call('getBusinessCurrentRequestsByDay', {
+			day: dateString,
+			businessID: business.businessID
+		});
 		let filteredTimes = [];
-		if (currentRequests.length === 0) {
+		if (Object.keys(currentRequests).length === 0) {
 			filteredTimes = times;
 		} else {
 			for (let i = 0; i < times.length; i++) {
-				for (const request of currentRequests) {
+				for (const requestID of Object.keys(currentRequests)) {
 					let time = times[i];
+					request = currentRequests[requestID];
 					if (date === request.date) {
 						//Tests if it interferes with existing request
 						const beginExistingRequestTime = this.convertToMinutes(request.time);
@@ -177,8 +197,7 @@ export default class businessScheduleScreen extends Component {
 							(endNewRequestTime < beginExistingRequestTime &&
 								beginNewRequestTime < beginExistingRequestTime) ||
 							(endExistingRequestTime < beginNewRequestTime &&
-								beginExistingRequestTime < beginNewRequestTime) ||
-							(this.state.isEditing === true && time === this.state.request.time)
+								beginExistingRequestTime < beginNewRequestTime)
 						) {
 							filteredTimes.push(time);
 						}
@@ -188,7 +207,6 @@ export default class businessScheduleScreen extends Component {
 				}
 			}
 		}
-
 		return filteredTimes;
 	}
 
@@ -315,7 +333,8 @@ export default class businessScheduleScreen extends Component {
 						}}
 						current={this.state.selectedDate}
 						minDate={this.state.isEditing === true ? null : new Date()}
-						onDayPress={(newDate) => {
+						onDayPress={async (newDate) => {
+							this.setState({ isDayLoading: true });
 							const dateObject = new Date();
 							dateObject.setFullYear(newDate.year);
 							dateObject.setMonth(newDate.month - 1);
@@ -323,81 +342,96 @@ export default class businessScheduleScreen extends Component {
 							this.setState({
 								selectedDate: dateObject.toLocaleDateString('en-US'),
 								dateString: newDate.dateString,
-								selectedTime: '',
-								availableTimes: this.setAvailableTimes(dateObject)
+								selectedTime: ''
+							});
+							const availableTimes = await this.setAvailableTimes(dateObject);
+							this.setState({
+								availableTimes,
+								isDayLoading: false
 							});
 						}}
 					/>
 				</View>
 				<View style={{ width: screenWidth, flex: 1 }}>
-					<FlatList
-						showsHorizontalScrollIndicator={false}
-						showsVerticalScrollIndicator={false}
-						numColumns={2}
-						data={availableTimes}
-						extraData={this.state}
-						keyExtractor={(item) => item}
-						showsVerticalScrollIndicator={false}
-						ListEmptyComponent={
-							selectedDate === '' ? (
-								<View />
-							) : (
+					{this.state.isDayLoading === true ? (
+						<View
+							style={{
+								justifyContent: 'center',
+								alignItems: 'center',
+								marginTop: screenHeight * 0.1
+							}}>
+							<LoadingSpinner isVisible={true} />
+						</View>
+					) : (
+						<FlatList
+							showsHorizontalScrollIndicator={false}
+							showsVerticalScrollIndicator={false}
+							numColumns={2}
+							data={availableTimes}
+							extraData={this.state}
+							keyExtractor={(item) => item}
+							showsVerticalScrollIndicator={false}
+							ListEmptyComponent={
+								selectedDate === '' ? (
+									<View />
+								) : (
+									<View
+										style={{
+											marginVertical: screenHeight * 0.05,
+											marginHorizontal: screenWidth * 0.025
+										}}>
+										<Text style={[fontStyles.bigTextStyleBlack, { textAlign: 'center' }]}>
+											{strings.NoAvailableTimes}
+										</Text>
+									</View>
+								)
+							}
+							ListFooterComponent={
+								<View style={{ marginVertical: screenHeight * 0.05 }}>
+									<RoundBlueButton
+										title={strings.Request}
+										style={roundBlueButtonStyle.MediumSizeButton}
+										textStyle={fontStyles.bigTextStyleWhite}
+										isLoading={this.state.isLoading}
+										onPress={() => {
+											if (selectedDate === '' || selectedTime === '') {
+												this.setState({ fieldsError: true });
+											} else {
+												this.setState({ requestSummaryVisible: true });
+											}
+										}}
+									/>
+								</View>
+							}
+							renderItem={({ item, index }) => (
 								<View
 									style={{
-										marginVertical: screenHeight * 0.05,
-										marginHorizontal: screenWidth * 0.025
+										marginLeft: screenWidth * 0.1,
+										marginTop: screenHeight * 0.025
 									}}>
-									<Text style={[fontStyles.bigTextStyleBlack, { textAlign: 'center' }]}>
-										{strings.NoAvailableTimes}
-									</Text>
+									<RoundBlueButton
+										title={item}
+										//Tests if this button is selected, if it is, then the border color will
+										//be blue
+										style={[
+											roundBlueButtonStyle.AccountTypeButton,
+											{
+												//Width increased for longer text
+												width: screenWidth * 0.35,
+												borderColor: selectedTime === item ? colors.lightBlue : colors.white
+											}
+										]}
+										textStyle={fontStyles.mainTextStyleBlue}
+										//Method selects the business button and deselects the other
+										onPress={() => {
+											this.setState({ selectedTime: item });
+										}}
+										disabled={this.state.isLoading}
+									/>
 								</View>
-							)
-						}
-						ListFooterComponent={
-							<View style={{ marginVertical: screenHeight * 0.05 }}>
-								<RoundBlueButton
-									title={strings.Request}
-									style={roundBlueButtonStyle.MediumSizeButton}
-									textStyle={fontStyles.bigTextStyleWhite}
-									isLoading={this.state.isLoading}
-									onPress={() => {
-										if (selectedDate === '' || selectedTime === '') {
-											this.setState({ fieldsError: true });
-										} else {
-											this.setState({ requestSummaryVisible: true });
-										}
-									}}
-								/>
-							</View>
-						}
-						renderItem={({ item, index }) => (
-							<View
-								style={{
-									marginLeft: screenWidth * 0.1,
-									marginTop: screenHeight * 0.025
-								}}>
-								<RoundBlueButton
-									title={item}
-									//Tests if this button is selected, if it is, then the border color will
-									//be blue
-									style={[
-										roundBlueButtonStyle.AccountTypeButton,
-										{
-											//Width increased for longer text
-											width: screenWidth * 0.35,
-											borderColor: selectedTime === item ? colors.lightBlue : colors.white
-										}
-									]}
-									textStyle={fontStyles.mainTextStyleBlue}
-									//Method selects the business button and deselects the other
-									onPress={() => {
-										this.setState({ selectedTime: item });
-									}}
-									disabled={this.state.isLoading}
-								/>
-							</View>
-						)}
-					/>
+							)}
+						/>
+					)}
 				</View>
 				<HelpAlert
 					isVisible={isErrorVisible}
