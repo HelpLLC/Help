@@ -140,14 +140,6 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 		currentRequests: customer.currentRequests
 	});
 
-	//Updates the service document
-	const service = (await services.doc(serviceID).get()).data();
-	indexOfRequest = service.currentRequests.findIndex((element) => element.requestID === requestID);
-	service.currentRequests.splice(indexOfRequest, 1);
-	await services.doc(serviceID).update({
-		currentRequests: service.currentRequests
-	});
-
 	//Notifies the business that the request has been deleted.
 	sendNotification(
 		'b-' + service.businessID,
@@ -509,7 +501,6 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 		businessName,
 		category,
 		coordinates,
-		currentRequests,
 		displayedReviews,
 		serviceDuration,
 		simultaneousRequests,
@@ -622,12 +613,6 @@ exports.deleteService = functions.https.onCall(async (input, context) => {
 	await businesses.doc(businessID).update({
 		serviceIDs: admin.firestore.FieldValue.arrayRemove(serviceID)
 	});
-
-	//Deletes all current requests for the service & notifies the customers
-	const service = await (await services.doc(serviceID).get()).data();
-	for (const request of service.currentRequests) {
-		await deleteRequest(serviceID, request.customerID, request.requestID, request.businessID);
-	}
 
 	return 0;
 });
@@ -837,21 +822,6 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 		time
 	});
 
-	//updates the request within the service
-	let service = (await services.doc(serviceID).get()).data();
-	const indexOfServiceRequest = service.currentRequests.findIndex(
-		(element) => element.requestID === requestID
-	);
-	service.currentRequests[indexOfServiceRequest] = {
-		customerID,
-		customerName,
-		date,
-		requestID,
-		status,
-		time
-	};
-	await services.doc(serviceID).update({ currentRequests: service.currentRequests });
-
 	//updates the request within the customer
 	let customer = (await customers.doc(customerID).get()).data();
 	const indexOfCustomerRequest = customer.currentRequests.findIndex(
@@ -961,14 +931,6 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 				time: request.time,
 				billedAmount
 			});
-		let service = (await services.doc(request.serviceID).get()).data();
-		const indexOfServiceRequest = service.currentRequests.findIndex(
-			(element) => element.requestID === requestID
-		);
-		service.currentRequests.splice(indexOfServiceRequest, 1);
-		await services.doc(request.serviceID).update({
-			currentRequests: service.currentRequests
-		});
 
 		//Decrements the numRequests for the service and updates current requests in the business document
 		let business = (await businesses.doc(service.businessID).get()).data();
