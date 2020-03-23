@@ -424,6 +424,8 @@ exports.addCustomerToDatabase = functions.https.onCall(async (input, context) =>
 	const {
 		address,
 		blockedBusinesses,
+		country,
+		state,
 		coordinates,
 		currentRequests,
 		customerID,
@@ -437,6 +439,8 @@ exports.addCustomerToDatabase = functions.https.onCall(async (input, context) =>
 	await customers.doc(customerID).set({
 		address,
 		blockedBusinesses,
+		country,
+		state,
 		coordinates,
 		currentRequests,
 		city,
@@ -453,12 +457,24 @@ exports.addCustomerToDatabase = functions.https.onCall(async (input, context) =>
 //method will take in new versions of customer inputs and will update them in firestore. Updated the customer document along
 //with any customer information that is in any other documents
 exports.updateCustomerInformation = functions.https.onCall(async (input, context) => {
-	const { address, coordinates, customerID, city, name, phoneNumber, currentRequests } = input;
+	const {
+		address,
+		coordinates,
+		customerID,
+		city,
+		name,
+		phoneNumber,
+		currentRequests,
+		state,
+		country
+	} = input;
 
 	await customers.doc(customerID).update({
 		address,
 		coordinates,
 		customerID,
+		country,
+		state,
 		city,
 		name,
 		phoneNumber
@@ -504,6 +520,12 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		phoneNumber,
 		isVerified
 	});
+
+	//Adds analytics documents
+	const analytics = businesses.doc(businessID).collection('Analytics');
+	await analytics.doc('CustomerLocations').set({ Cities: {}, States: {}, Countries: {} });
+	await analytics.doc('Revenue').create({});
+	await analytics.doc('TopServices').create({});
 
 	sendEmail(
 		'helpcocontact@gmail.com',
