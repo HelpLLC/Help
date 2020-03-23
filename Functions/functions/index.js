@@ -272,11 +272,11 @@ exports.getBusinessAnalyticsByBusinessID = functions.https.onCall(async (input, 
 	const { businessID } = input;
 	const analyticsRef = businesses.doc(businessID).collection('Analytics');
 	const Revenue = await analyticsRef.doc('Revenue').get();
-	const CustomerLocations = await analyticsRef.doc('CustomerLocations').get();
 	const TopServices = await analyticsRef.doc('TopServices').get();
+	const CustomerLocations = await analyticsRef.doc('CustomerLocations').get();
 
 	//Resolves all of the promises asynchronosly.
-	const analyticsDocs = [Revenue.data(), CustomerLocations.data(), TopServices.data()];
+	const analyticsDocs = [Revenue.data(), TopServices.data(), CustomerLocations.data()];
 	//const analyticsData = analyticsDocs.map((doc) => doc.data());
 	return analyticsDocs;
 });

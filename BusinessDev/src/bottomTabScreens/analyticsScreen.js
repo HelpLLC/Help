@@ -12,6 +12,7 @@ import { screenWidth, screenHeight } from 'config/dimensions';
 import strings from 'config/strings';
 import { View, Text, ScrollView } from 'react-native';
 import { BarChart, Grid, LineChart, YAxis, XAxis } from 'react-native-svg-charts';
+import * as scale from 'd3-scale';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 //Creates and exports the class
@@ -36,8 +37,8 @@ export default class analyticsScreen extends Component {
 			businessID
 		});
 		const revenueData = analyticsData[0];
-		const customerLocationData = analyticsData[1];
-		const topServicesData = analyticsData[2];
+		const topServicesData = analyticsData[1];
+		const customerLocationData = analyticsData[2];
 		this.setState({
 			revenueData,
 			businessID,
@@ -46,6 +47,10 @@ export default class analyticsScreen extends Component {
 			isScreenLoading: false
 		});
 	}
+
+	/*
+	
+										*/
 
 	//Generates the chart data for the revenue graph and returns it based on the current state of the picker
 	generateRevenueChartData() {
@@ -102,6 +107,44 @@ export default class analyticsScreen extends Component {
 		return { chartData, xAxis };
 	}
 
+	//Generates the chart data for the top services graph and returns it based on the current state of the picker
+	generateTopServicesChartData() {
+		const { topServicesBy, topServicesData } = this.state;
+
+		const chartData = [];
+		const xAxis = [];
+
+		let services = Object.keys(topServicesData);
+
+		if (topServicesBy === strings.ByTotalRequests) {
+			services.sort((a, b) => {
+				return topServicesData[b].totalRequests - topServicesData[a].totalRequests;
+			});
+			for (let i = 0; i < services.length && i < 3; i++) {
+				chartData.push(topServicesData[services[i]].totalRequests);
+				xAxis.push(topServicesData[services[i]].serviceTitle);
+			}
+		} else if (topServicesBy === strings.ByTotalRevenue) {
+			services.sort((a, b) => {
+				return topServicesData[b].totalRevenue - topServicesData[a].totalRevenue;
+			});
+			for (let i = 0; i < services.length && i < 3; i++) {
+				chartData.push(topServicesData[services[i]].totalRevenue);
+				xAxis.push(topServicesData[services[i]].serviceTitle);
+			}
+		} else if (topServicesBy === strings.ByTotalViews) {
+			services.sort((a, b) => {
+				return topServicesData[b].totalViews - topServicesData[a].totalViews;
+			});
+			for (let i = 0; i < services.length && i < 3; i++) {
+				chartData.push(topServicesData[services[i]].totalViews);
+				xAxis.push(topServicesData[services[i]].serviceTitle);
+			}
+		}
+
+		return { chartData, xAxis };
+	}
+
 	//Takes an arrray of numbers and returns the average
 	getAverage(arrayNum) {
 		if (arrayNum.length === 0) {
@@ -127,6 +170,8 @@ export default class analyticsScreen extends Component {
 			);
 		}
 		const revenueChart = this.generateRevenueChartData();
+		const topServicesChart = this.generateTopServicesChartData();
+
 		return (
 			//View that dismisses the keyboard when clicked anywhere else
 			<View style={screenStyle.container}>
@@ -205,7 +250,7 @@ export default class analyticsScreen extends Component {
 									style={{
 										paddingHorizontal: screenWidth * 0.02,
 										height: screenHeight * 0.3,
-										width: screenWidth * 0.8,
+										width: screenWidth * 0.9,
 										alignItems: 'center',
 										justifyContent: 'center'
 									}}>
@@ -262,6 +307,119 @@ export default class analyticsScreen extends Component {
 							justifyContent: 'center',
 							alignItems: 'center',
 							marginVertical: screenHeight * 0.025
+						}}>
+						<Text style={fontStyles.bigTextStyleBlue}>{strings.TopServices}</Text>
+						<View
+							style={{
+								marginRight: screenWidth * 0.05,
+								marginVertical: screenHeight * 0.015,
+								alignSelf: 'flex-end',
+								borderColor: colors.lightBlue,
+								borderWidth: 3,
+								borderRadius: 20,
+								paddingHorizontal: screenWidth * 0.01,
+								backgroundColor: colors.white
+							}}>
+							<RNPickerSelect
+								onValueChange={(value) => this.setState({ topServicesBy: value })}
+								items={[
+									{ label: strings.ByTotalRequests, value: strings.ByTotalRequests },
+									{ label: strings.ByTotalRevenue, value: strings.ByTotalRevenue },
+									{ label: strings.ByTotalViews, value: strings.ByTotalViews }
+								]}
+								value={topServicesBy}
+								style={{
+									iconContainer: {
+										top: screenHeight * 0.015
+									},
+									inputIOS: [
+										fontStyles.smallTextStyleBlue,
+										{
+											width: screenWidth * 0.415,
+											height: screenHeight * 0.05
+										}
+									],
+									inputAndroid: [
+										fontStyles.smallTextStyleBlue,
+										{
+											width: screenWidth * 0.415,
+											height: screenHeight * 0.05
+										}
+									]
+								}}
+								Icon={() => (
+									<Icon type='font-awesome' name='arrow-down' color={colors.lightBlue} size={20} />
+								)}
+							/>
+						</View>
+						<View
+							style={{
+								borderWidth: 3,
+								borderColor: colors.lightBlue,
+								paddingHorizontal: screenWidth * 0.025,
+								paddingVertical: screenHeight * 0.01,
+								height: screenHeight * 0.38,
+								borderRadius: 15
+							}}>
+							{topServicesChart.chartData.length === 0 ? (
+								<View
+									style={{
+										paddingHorizontal: screenWidth * 0.02,
+										height: screenHeight * 0.3,
+										width: screenWidth * 0.9,
+										alignItems: 'center',
+										justifyContent: 'center'
+									}}>
+									<Text style={fontStyles.mainTextStyleBlue}>{strings.NoDataYet}</Text>
+								</View>
+							) : (
+								<View>
+									<View
+										style={{
+											flexDirection: 'row',
+											marginBottom: screenHeight * 0.01
+										}}>
+										<YAxis
+											data={topServicesChart.chartData}
+											contentInset={{ top: screenHeight * 0.022, bottom: screenHeight * 0.022 }}
+											svg={{ ...fontStyles.subTextStyleNoColor, fill: colors.lightBlue }}
+											min={0}
+											numberOfTicks={3}
+											formatLabel={(value) => value}
+										/>
+										<BarChart
+											style={{
+												height: screenHeight * 0.3,
+												width: screenWidth * 0.8,
+												paddingHorizontal: screenWidth * 0.02
+											}}
+											gridMin={0}
+											data={topServicesChart.chartData}
+											numberOfTicks={8}
+											svg={{ fill: colors.lightBlue }}
+											contentInset={{ top: screenHeight * 0.022, bottom: screenHeight * 0.022 }}>
+											<Grid />
+										</BarChart>
+									</View>
+									<XAxis
+										data={topServicesChart.chartData}
+										contentInset={{
+											left: screenWidth * 0.03,
+											right: screenWidth * -0.03
+										}}
+										scale={scale.scaleBand}
+										svg={{ ...fontStyles.subTextStyleNoColor, fill: colors.lightBlue }}
+										formatLabel={(value, index) => topServicesChart.xAxis[index]}
+									/>
+								</View>
+							)}
+						</View>
+					</View>
+					<View
+						style={{
+							justifyContent: 'center',
+							alignItems: 'center',
+							marginVertical: screenHeight * 0.015
 						}}>
 						<Text style={fontStyles.bigTextStyleBlue}>{strings.CustomerLocations}</Text>
 						<View
@@ -321,95 +479,7 @@ export default class analyticsScreen extends Component {
 									width: screenWidth * 0.8,
 									paddingHorizontal: screenWidth * 0.02
 								}}
-								data={[
-									50,
-									10,
-									40,
-									95,
-									-4,
-									-24,
-									null,
-									85,
-									undefined,
-									0,
-									35,
-									53,
-									-53,
-									24,
-									50,
-									-20,
-									-80
-								]}
-								svg={{ fill: colors.lightBlue }}
-								contentInset={{ top: screenHeight * 0.022, bottom: screenHeight * 0.022 }}>
-								<Grid />
-							</BarChart>
-						</View>
-					</View>
-					<View
-						style={{
-							justifyContent: 'center',
-							alignItems: 'center',
-							marginVertical: screenHeight * 0.025
-						}}>
-						<Text style={fontStyles.bigTextStyleBlue}>{strings.TopServices}</Text>
-						<View
-							style={{
-								marginRight: screenWidth * 0.05,
-								marginVertical: screenHeight * 0.015,
-								alignSelf: 'flex-end',
-								borderColor: colors.lightBlue,
-								borderWidth: 3,
-								borderRadius: 20,
-								paddingHorizontal: screenWidth * 0.01,
-								backgroundColor: colors.white
-							}}>
-							<RNPickerSelect
-								onValueChange={(value) => this.setState({ topServicesBy: value })}
-								items={[
-									{ label: strings.ByTotalRequests, value: strings.ByTotalRequests },
-									{ label: strings.ByTotalRevenue, value: strings.ByTotalRevenue },
-									{ label: strings.ByTotalViews, value: strings.ByTotalViews }
-								]}
-								value={topServicesBy}
-								style={{
-									iconContainer: {
-										top: screenHeight * 0.015
-									},
-									inputIOS: [
-										fontStyles.smallTextStyleBlue,
-										{
-											width: screenWidth * 0.415,
-											height: screenHeight * 0.05
-										}
-									],
-									inputAndroid: [
-										fontStyles.smallTextStyleBlue,
-										{
-											width: screenWidth * 0.415,
-											height: screenHeight * 0.05
-										}
-									]
-								}}
-								Icon={() => (
-									<Icon type='font-awesome' name='arrow-down' color={colors.lightBlue} size={20} />
-								)}
-							/>
-						</View>
-						<View
-							style={{
-								borderWidth: 3,
-								borderColor: colors.lightBlue,
-								paddingHorizontal: screenWidth * 0.025,
-								paddingVertical: screenHeight * 0.01,
-								borderRadius: 15
-							}}>
-							<BarChart
-								style={{
-									height: screenHeight * 0.3,
-									width: screenWidth * 0.8,
-									paddingHorizontal: screenWidth * 0.02
-								}}
+								numberOfTicks={8}
 								data={[
 									50,
 									10,
