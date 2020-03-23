@@ -240,7 +240,7 @@ export default class businessScheduleScreen extends Component {
 				serviceID: request.serviceID,
 				date: selectedDate,
 				serviceDuration: service.serviceDuration,
-				questions: answers,
+				questions: answers ? answers : [],
 				time: selectedTime
 			});
 		} else {
@@ -251,7 +251,7 @@ export default class businessScheduleScreen extends Component {
 				cash: service.cash,
 				card: service.card,
 				date: selectedDate,
-				questions: answers,
+				questions: answers ? answers : [],
 				price: service.price,
 				priceText: service.priceText,
 				review: '',

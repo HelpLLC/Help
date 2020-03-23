@@ -604,7 +604,6 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 		businessName,
 		category,
 		coordinates,
-		currentRequests,
 		displayedReviews,
 		serviceDuration,
 		priceText,
@@ -632,6 +631,21 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 			priceText
 		})
 	});
+
+	//Adds the service to analytics
+	await businesses
+		.doc(businessID)
+		.collection('Analytics')
+		.doc('TopServices')
+		.update({
+			[serviceID]: {
+				serviceTitle,
+				serviceID,
+				totalViews: 0,
+				totalRequests: 0,
+				totalRevenue: 0
+			}
+		});
 
 	return serviceID;
 });
@@ -674,10 +688,19 @@ exports.updateServiceInformation = functions.https.onCall(async (input, context)
 		priceText,
 		serviceDescription
 	};
-
 	await businesses.doc(businessID).update({
 		services: business.services
 	});
+
+	//Updates the service title in analytics
+	const fieldName = serviceID + '.serviceTitle';
+	await businesses
+		.doc(businessID)
+		.collection('Analytics')
+		.doc('TopServices')
+		.update({
+			[fieldName]: serviceTitle
+		});
 
 	return 0;
 });
@@ -809,6 +832,16 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 	await businesses.doc(businessID).update({
 		services: business.services
 	});
+
+	//Updates the analytics for the business
+	const fieldName = serviceID + '.totalRequests';
+	await businesses
+		.doc(businessID)
+		.collection('Analytics')
+		.doc('TopServices')
+		.update({
+			[fieldName]: admin.firestore.FieldValue.increment(1)
+		});
 
 	//Converts the date to YYYY-MM-DD format and adds the current request to the business's schedule subcollection
 	const dateObject = new Date(date);
@@ -1038,7 +1071,16 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 				[year + '-' + month]: admin.firestore.FieldValue.increment(billedAmount)
 			});
 
-		await business
+		//Updates the service analytics for this service
+		const fieldName = request.serviceID + '.totalRevenue';
+		await businessDoc
+			.collection('Analytics')
+			.doc('TopServices')
+			.update({
+				[fieldName]: admin.firestore.FieldValue.increment(billedAmount)
+			});
+
+		await businessDoc
 			.collection('Schedule')
 			.doc(dateString)
 			.update({
@@ -1070,6 +1112,21 @@ exports.deleteRequest = functions.https.onCall(async (input, context) => {
 	const { serviceID, customerID, requestID, businessID } = input;
 	const deleted = await deleteRequest(serviceID, customerID, requestID, businessID);
 	return deleted;
+});
+
+//This function will record within a service's analytics that the service has been viewed by a user. It will
+//take in a businessID and a serviceID so it can update the document accordingly.
+exports.viewService = functions.https.onCall(async (input, context) => {
+	const { serviceID, businessID } = input;
+	const fieldName = serviceID + '.totalViews';
+	await businesses
+		.doc(businessID)
+		.collection('Analytics')
+		.doc('TopServices')
+		.update({
+			[fieldName]: admin.firestore.FieldValue.increment(1)
+		});
+	return 0;
 });
 
 //--------------------------------- Review Functions ---------------------------------
