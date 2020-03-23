@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Header from './Header';
 import TitleComponent from '../components/TitleComponent';
 
 export default class Credits extends Component {
