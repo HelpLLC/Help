@@ -145,6 +145,44 @@ export default class analyticsScreen extends Component {
 		return { chartData, xAxis };
 	}
 
+	//Generates the chart data for the customer locations graph and returns it based on the current state of the picker
+	generateCustomerLocationsChartData() {
+		const { customerLocationsBy, customerLocationData } = this.state;
+
+		const chartData = [];
+		const xAxis = [];
+
+		if (customerLocationsBy === strings.ByCity) {
+			const { Cities } = customerLocationData;
+			let cityKeys = Object.keys(Cities);
+			cityKeys.sort((a, b) => Cities[b] - Cities[a]);
+			for (let i = 0; i < cityKeys.length && i < 3; i++) {
+				chartData.push(Cities[cityKeys[i]]);
+				xAxis.push(cityKeys[i]);
+			}
+		} else if (customerLocationsBy === strings.ByZipCode) {
+			const { ZipCodes } = customerLocationData;
+			let zipCodeKeys = Object.keys(ZipCodes);
+			zipCodeKeys.sort((a, b) => ZipCodes[b] - ZipCodes[a]);
+			for (let i = 0; i < zipCodeKeys.length && i < 3; i++) {
+				chartData.push(ZipCodes[zipCodeKeys[i]]);
+				xAxis.push(zipCodeKeys[i]);
+			}
+		} else if (customerLocationsBy === strings.ByState) {
+			const { States } = customerLocationData;
+			let stateKeys = Object.keys(States);
+			stateKeys.sort((a, b) => States[b] - States[a]);
+			for (let i = 0; i < stateKeys.length && i < 3; i++) {
+				chartData.push(States[stateKeys[i]]);
+				xAxis.push(stateKeys[i]);
+			}
+		}
+
+		console.log(chartData);
+		console.log(xAxis);
+		return { chartData, xAxis };
+	}
+
 	//Takes an arrray of numbers and returns the average
 	getAverage(arrayNum) {
 		if (arrayNum.length === 0) {
@@ -169,8 +207,11 @@ export default class analyticsScreen extends Component {
 				</View>
 			);
 		}
+
+		//Fetches all the chart data before rendering
 		const revenueChart = this.generateRevenueChartData();
 		const topServicesChart = this.generateTopServicesChartData();
+		const customerLocationData = this.generateCustomerLocationsChartData();
 
 		return (
 			//View that dismisses the keyboard when clicked anywhere else
@@ -471,38 +512,61 @@ export default class analyticsScreen extends Component {
 								borderColor: colors.lightBlue,
 								paddingHorizontal: screenWidth * 0.025,
 								paddingVertical: screenHeight * 0.01,
+								height: screenHeight * 0.38,
 								borderRadius: 15
 							}}>
-							<BarChart
-								style={{
-									height: screenHeight * 0.3,
-									width: screenWidth * 0.8,
-									paddingHorizontal: screenWidth * 0.02
-								}}
-								numberOfTicks={8}
-								data={[
-									50,
-									10,
-									40,
-									95,
-									-4,
-									-24,
-									null,
-									85,
-									undefined,
-									0,
-									35,
-									53,
-									-53,
-									24,
-									50,
-									-20,
-									-80
-								]}
-								svg={{ fill: colors.lightBlue }}
-								contentInset={{ top: screenHeight * 0.022, bottom: screenHeight * 0.022 }}>
-								<Grid />
-							</BarChart>
+							{customerLocationData.chartData.length === 0 ? (
+								<View
+									style={{
+										paddingHorizontal: screenWidth * 0.02,
+										height: screenHeight * 0.3,
+										width: screenWidth * 0.9,
+										alignItems: 'center',
+										justifyContent: 'center'
+									}}>
+									<Text style={fontStyles.mainTextStyleBlue}>{strings.NoDataYet}</Text>
+								</View>
+							) : (
+								<View>
+									<View
+										style={{
+											flexDirection: 'row',
+											marginBottom: screenHeight * 0.01
+										}}>
+										<YAxis
+											data={customerLocationData.chartData}
+											contentInset={{ top: screenHeight * 0.022, bottom: screenHeight * 0.022 }}
+											svg={{ ...fontStyles.subTextStyleNoColor, fill: colors.lightBlue }}
+											min={0}
+											numberOfTicks={3}
+											formatLabel={(value) => value}
+										/>
+										<BarChart
+											style={{
+												height: screenHeight * 0.3,
+												width: screenWidth * 0.8,
+												paddingHorizontal: screenWidth * 0.02
+											}}
+											gridMin={0}
+											data={customerLocationData.chartData}
+											numberOfTicks={8}
+											svg={{ fill: colors.lightBlue }}
+											contentInset={{ top: screenHeight * 0.022, bottom: screenHeight * 0.022 }}>
+											<Grid />
+										</BarChart>
+									</View>
+									<XAxis
+										data={customerLocationData.chartData}
+										contentInset={{
+											left: screenWidth * 0.03,
+											right: screenWidth * -0.03
+										}}
+										scale={scale.scaleBand}
+										svg={{ ...fontStyles.subTextStyleNoColor, fill: colors.lightBlue }}
+										formatLabel={(value, index) => customerLocationData.xAxis[index]}
+									/>
+								</View>
+							)}
 						</View>
 					</View>
 				</ScrollView>
