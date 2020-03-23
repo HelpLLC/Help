@@ -11,6 +11,22 @@ export default {
 	Schedule: 'Schedule',
 	Settings: 'Settings',
 
+	//------------------- Analytics Screen -------------------
+	Revenue: 'Revenue',
+	CustomerLocations: 'Customer Locations',
+	TopServices: 'Top Services',
+	ByCity: 'By City',
+	ByState: 'By State',
+	ByZipCode: 'By Zip Code',
+	ByMonth: 'By Month',
+	ByYear: 'By Year',
+	ByTotalRequests: 'By Total Requests',
+	ByTotalRevenue: 'By Total Revenue',
+	ByTotalViews: 'By Total Views',
+	AverageMonthlyRevenue: 'Average Monthly Revenue: $',
+	AverageYearlyRevenue: 'Average Yearly Revenue: $',
+	NoDataYet: 'No Data Yet',
+
 	//-------------------  Splash Screen -------------------
 	GetStarted: 'Get Started',
 	HaveAnAccountQuestion: 'Have an account?',

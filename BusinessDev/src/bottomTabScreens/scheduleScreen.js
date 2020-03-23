@@ -125,7 +125,6 @@ export default class scheduleScreen extends Component {
 		let mostUpcomingDay = await FirebaseFunctions.call('getUpcomingRequestByBusinessID', {
 			businessID
 		});
-		console.log(mostUpcomingDay);
 		let formattedDateString = '';
 		let initialDate = '';
 		if (mostUpcomingDay === -1) {
@@ -133,8 +132,10 @@ export default class scheduleScreen extends Component {
 			initialDate = new Date();
 		} else {
 			const date = mostUpcomingDay[Object.keys(mostUpcomingDay)[0]].date;
-			formattedDateString = this.convertDateFormat(new Date(date));
-			initialDate = new Date(date);
+			const dateObject = new Date(date);
+			formattedDateString = this.convertDateFormat(dateObject);
+			console.log(formattedDateString);
+			initialDate = dateObject;
 		}
 		const getDayItems = await this.getDayItems(formattedDateString);
 		this.setState({

@@ -150,6 +150,74 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 	return 0;
 };
 
+exports.rawData = functions.https.onCall(async (input, context) => {
+	const businessAnalytics = businesses.doc('zjCzqSiCpNQELwU3ETtGBANz7hY2').collection('Analytics');
+	const customerLocations = businessAnalytics.doc('CustomerLocations').set({
+		Cities: {
+			'Bothell, WA': 24,
+			'Redmond, WA': 15,
+			'Woodinville, WA': 49
+		},
+		States: {
+			CA: 2,
+			WA: 68,
+			OR: 15
+		},
+		ZipCodes: {
+			'98011': 13,
+			'98052': 24,
+			'98072': 39
+		}
+	});
+	const revenue = businessAnalytics.doc('Revenue').set({
+		'2019-01': 1343,
+		'2019-02': 875,
+		'2019-03': 1023,
+		'2019-04': 1789,
+		'2019-05': 1343,
+		'2019-06': 875,
+		'2019-07': 1023,
+		'2019-08': 1789,
+		'2019-09': 1343,
+		'2019-10': 875,
+		'2019-11': 1023,
+		'2019-12': 1789,
+		'2020-01': 1343,
+		'2020-02': 875,
+		'2020-03': 1023,
+		'2020-04': 1789,
+		averageMonthlyRevenue: 1257.5,
+		averageYearlyRevenue: 1390,
+		totalMonths: 16,
+		totalYears: 1
+	});
+	const topServices = businessAnalytics.doc('TopServices').set({
+		SERVICE1: {
+			serviceID: 'SERVICE1',
+			serviceTitle: 'Lawn Mowing',
+			totalRequests: 139,
+			totalViews: 221,
+			totalRevenue: 2783
+		},
+		SERVICE2: {
+			serviceID: 'SERVICE2',
+			serviceTitle: 'Leaf Raking',
+			totalRequests: 121,
+			totalViews: 206,
+			totalRevenue: 1975
+		},
+		SERVICE3: {
+			serviceID: 'SERVICE3',
+			serviceTitle: 'Pressure Washing',
+			totalRequests: 189,
+			totalViews: 252,
+			totalRevenue: 3296
+		}
+	});
+	await Promise.all([customerLocations, revenue, topServices]);
+	return 0;
+});
+
 //--------------------------------- "Document-Object" Getters ---------------------------------
 
 //Method returns an array with all businesses
@@ -196,6 +264,21 @@ exports.getBusinessByID = functions.https.onCall(async (input, context) => {
 	} else {
 		return -1;
 	}
+});
+
+//This method is going to return an array of the documents which are the analytics for this specific business. Each piece of
+//data analytic will be in its own seperate document
+exports.getBusinessAnalyticsByBusinessID = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+	const analyticsRef = businesses.doc(businessID).collection('Analytics');
+	const Revenue = await analyticsRef.doc('Revenue').get();
+	const CustomerLocations = await analyticsRef.doc('CustomerLocations').get();
+	const TopServices = await analyticsRef.doc('TopServices').get();
+
+	//Resolves all of the promises asynchronosly.
+	const analyticsDocs = [Revenue.data(), CustomerLocations.data(), TopServices.data()];
+	//const analyticsData = analyticsDocs.map((doc) => doc.data());
+	return analyticsDocs;
 });
 
 //Method fetches a customer by ID & returns the customer as an object. If the customer does not exist, returns -1
@@ -706,18 +789,6 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 	//Adds the ID to the request document
 	newRequestDoc.update({ requestID });
 
-	//Adds a reference to the request to the service's array of currentRequests
-	await services.doc(serviceID).update({
-		currentRequests: admin.firestore.FieldValue.arrayUnion({
-			customerID,
-			customerName,
-			date,
-			requestID,
-			status,
-			time
-		})
-	});
-
 	//Adds a reference to the request to the customer's array of currentRequests
 	await customers.doc(customerID).update({
 		currentRequests: admin.firestore.FieldValue.arrayUnion({
@@ -933,13 +1004,14 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 			});
 
 		//Decrements the numRequests for the service and updates current requests in the business document
-		let business = (await businesses.doc(service.businessID).get()).data();
+		let businessDoc = businesses.doc(request.businessID);
+		let business = (await businessDoc.get()).data();
 		const indexOfService = business.services.findIndex(
-			(element) => element.serviceID === service.serviceID
+			(element) => element.serviceID === request.serviceID
 		);
 		business.services[indexOfService].numCurrentRequests =
 			business.services[indexOfService].numCurrentRequests - 1;
-		await businesses.doc(service.businessID).update({
+		await businessDoc.update({
 			services: business.services
 		});
 
@@ -956,8 +1028,17 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 			day = '0' + day;
 		}
 		const dateString = year + '-' + month + '-' + day;
-		await businesses
-			.doc(service.businessID)
+
+		//Updates the revenue analytics for this business
+		await businessDoc
+			.collection('Analytics')
+			.doc('Revenue')
+			.update({
+				[year]: admin.firestore.FieldValue.increment(billedAmount),
+				[year + '-' + month]: admin.firestore.FieldValue.increment(billedAmount)
+			});
+
+		await business
 			.collection('Schedule')
 			.doc(dateString)
 			.update({
@@ -965,15 +1046,13 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 			});
 		//Tests if this document should be deleted all together
 		const scheduleDoc = (
-			await businesses
-				.doc(service.businessID)
+			await businessDoc
 				.collection('Schedule')
 				.doc(dateString)
 				.get()
 		).data();
 		if (Object.keys(scheduleDoc).length === 1) {
-			businesses
-				.doc(service.businessID)
+			await businessDoc
 				.collection('Schedule')
 				.doc(dateString)
 				.delete();

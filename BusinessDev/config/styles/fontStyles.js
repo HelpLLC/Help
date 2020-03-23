@@ -15,6 +15,7 @@ if (pixelRatio < 3) {
 }
 
 const bigFontSize = baseFontSize * 1.2;
+const smallTextFontSize = baseFontSize * 0.6;
 const subTextFontSize = baseFontSize * 0.9;
 const subTitleFontSize = baseFontSize * 2.2;
 const bigTitleFontSize = baseFontSize * 4.4;
@@ -81,6 +82,13 @@ export default StyleSheet.create({
 		fontFamily: font,
 		fontSize: baseFontSize,
 		color: colors.red
+	},
+
+	//The style for all small text that is blue
+	smallTextStyleBlue: {
+		fontFamily: smallTextFontSize,
+		fontFamily: font,
+		color: colors.lightBlue
 	},
 
 	//The style for all non-main text that is black
