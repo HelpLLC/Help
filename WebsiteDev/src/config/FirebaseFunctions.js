@@ -18,11 +18,15 @@ export default class FirebaseFunctions {
 	static analytics = firebase.analytics();
 	static functions = firebase.functions();
 	static storage = firebase.storage();
+	static fcm = firebase.messaging();
+
+	static async call(functionName, parameters) {
+		const functionReturn = await this.functions.httpsCallable(functionName)(parameters);
+		return functionReturn.data;
+	  }
 
 	//Logs the user in and subscribes to the notification service associated with his/her account
 	static async logIn(email, password) {
-		console.log(email);
-		console.log(password);
 		const account = await firebase.auth().signInWithEmailAndPassword(email, password);
 		//Tests whether this is a business or a customer & based on that, subscribes to the correct channel
 		const { uid } = account.user;

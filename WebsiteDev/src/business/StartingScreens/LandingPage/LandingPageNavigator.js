@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import './LandingPage.css';
-import Login from '../Login/Login';
 import SignUpScreen from '../Signup/SignUpScreen';
 import fontStyles from '../../../config/fontStyles';
 import LandingPage from './LandingPage';
+import LoginRegister from '../Login/LoginRegister'
 
 export default function LandingPageNavigator() {
 	return (
@@ -35,7 +35,7 @@ export default function LandingPageNavigator() {
 					<LandingPage />
 				</Route>
 				<Route path='/login'>
-					<Login />
+					<LoginRegister />
 				</Route>
 				<Route path='/signUp'>
 					<SignUpScreen />

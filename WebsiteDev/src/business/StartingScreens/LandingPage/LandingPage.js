@@ -1,7 +1,6 @@
 import React, { Component, Image } from "react";
 import "./LandingPage.css";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
-import Login from "../Login/Login.js";
 import "../../BusinessScreens/Header/Header.css";
 
 export default function LandingPage() {
