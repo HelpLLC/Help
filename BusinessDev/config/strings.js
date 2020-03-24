@@ -17,7 +17,7 @@ export default {
 	TopServices: 'Top Services',
 	ByCity: 'By City',
 	ByState: 'By State',
-	ByZipCode: 'By Zip Code',
+	ByCountry: 'By Country',
 	ByMonth: 'By Month',
 	ByYear: 'By Year',
 	ByTotalRequests: 'By Total Requests',

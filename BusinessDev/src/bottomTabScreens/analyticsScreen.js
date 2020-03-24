@@ -151,7 +151,6 @@ export default class analyticsScreen extends Component {
 
 		const chartData = [];
 		const xAxis = [];
-
 		if (customerLocationsBy === strings.ByCity) {
 			const { Cities } = customerLocationData;
 			let cityKeys = Object.keys(Cities);
@@ -160,13 +159,13 @@ export default class analyticsScreen extends Component {
 				chartData.push(Cities[cityKeys[i]]);
 				xAxis.push(cityKeys[i]);
 			}
-		} else if (customerLocationsBy === strings.ByZipCode) {
-			const { ZipCodes } = customerLocationData;
-			let zipCodeKeys = Object.keys(ZipCodes);
-			zipCodeKeys.sort((a, b) => ZipCodes[b] - ZipCodes[a]);
-			for (let i = 0; i < zipCodeKeys.length && i < 3; i++) {
-				chartData.push(ZipCodes[zipCodeKeys[i]]);
-				xAxis.push(zipCodeKeys[i]);
+		} else if (customerLocationsBy === strings.ByCountry) {
+			const { Countries } = customerLocationData;
+			let countryKeys = Object.keys(Countries);
+			countryKeys.sort((a, b) => Countries[b] - Countries[a]);
+			for (let i = 0; i < countryKeys.length && i < 3; i++) {
+				chartData.push(Countries[countryKeys[i]]);
+				xAxis.push(countryKeys[i]);
 			}
 		} else if (customerLocationsBy === strings.ByState) {
 			const { States } = customerLocationData;
@@ -177,9 +176,6 @@ export default class analyticsScreen extends Component {
 				xAxis.push(stateKeys[i]);
 			}
 		}
-
-		console.log(chartData);
-		console.log(xAxis);
 		return { chartData, xAxis };
 	}
 
@@ -478,8 +474,8 @@ export default class analyticsScreen extends Component {
 								onValueChange={(value) => this.setState({ customerLocationsBy: value })}
 								items={[
 									{ label: strings.ByCity, value: strings.ByCity },
-									{ label: strings.ByZipCode, value: strings.ByZipCode },
-									{ label: strings.ByState, value: strings.ByState }
+									{ label: strings.ByState, value: strings.ByState },
+									{ label: strings.ByCountry, value: strings.ByCountry }
 								]}
 								value={customerLocationsBy}
 								style={{

@@ -795,6 +795,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		assignedTo,
 		businessID,
 		customerID,
+		customerLocation,
 		cash,
 		card,
 		date,
@@ -817,6 +818,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		businessID,
 		customerID,
 		cash,
+		customerLocation,
 		card,
 		date,
 		price,
@@ -934,6 +936,7 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 		customerID,
 		businessID,
 		date,
+		customerLocation,
 		serviceDuration,
 		questions,
 		time,
@@ -945,6 +948,7 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 	await requests.doc(requestID).update({
 		date,
 		questions,
+		customerLocation,
 		time
 	});
 
@@ -1100,6 +1104,19 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 			.doc('TopServices')
 			.update({
 				[fieldName]: admin.firestore.FieldValue.increment(billedAmount)
+			});
+
+		//Updates the customer analytics for this service
+		const cityFieldName = 'Cities.' + request.customerLocation.city;
+		const stateFieldName = 'States.' + request.customerLocation.state;
+		const countryFieldName = 'Countries.' + request.customerLocation.country;
+		await businessDoc
+			.collection('Analytics')
+			.doc('CustomerLocations')
+			.update({
+				[cityFieldName]: admin.firestore.FieldValue.increment(1),
+				[stateFieldName]: admin.firestore.FieldValue.increment(1),
+				[countryFieldName]: admin.firestore.FieldValue.increment(1)
 			});
 
 		await businessDoc

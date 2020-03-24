@@ -234,6 +234,11 @@ export default class businessScheduleScreen extends Component {
 				requestID: request.requestID,
 				status: request.status,
 				customerID: request.customerID,
+				customerLocation: {
+					city: customer.city,
+					state: customer.state,
+					country: customer.country
+				},
 				businessID: request.businessID,
 				serviceTitle: service.serviceTitle,
 				customerName: customer.name,
@@ -247,6 +252,11 @@ export default class businessScheduleScreen extends Component {
 			await FirebaseFunctions.call('requestService', {
 				assignedTo: '',
 				businessID: business.businessID,
+				customerLocation: {
+					city: customer.city,
+					state: customer.state,
+					country: customer.country
+				},
 				customerID: customer.customerID,
 				cash: service.cash,
 				card: service.card,
