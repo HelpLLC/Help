@@ -46,7 +46,7 @@ class serviceCurrentRequestsScreen extends Component {
 			return (
 				<HelpView style={screenStyle.container}>
 					<TopBanner
-						title={strings.ServiceHistory}
+						title={strings.CurrentRequests}
 						leftIconName='angle-left'
 						leftOnPress={() => this.props.navigation.goBack()}
 					/>
@@ -60,7 +60,7 @@ class serviceCurrentRequestsScreen extends Component {
 		return (
 			<View style={screenStyle.container}>
 				<TopBanner
-					title={strings.ServiceHistory}
+					title={strings.CurrentRequests}
 					leftIconName='angle-left'
 					leftOnPress={() => this.props.navigation.goBack()}
 				/>

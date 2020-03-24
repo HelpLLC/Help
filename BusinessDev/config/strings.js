@@ -305,6 +305,7 @@ export default {
 
 	//------------------- Business Side Current Requests Screen -------------------
 	NoCurrentRequestsForThisService: 'No Current Requests For This Service',
+	CurrentRequests: 'Current Requests',
 
 	//------------------- Featured Screen -------------------
 	OfferedBy: 'Offered by',
