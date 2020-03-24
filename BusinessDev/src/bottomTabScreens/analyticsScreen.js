@@ -48,10 +48,6 @@ export default class analyticsScreen extends Component {
 		});
 	}
 
-	/*
-	
-										*/
-
 	//Generates the chart data for the revenue graph and returns it based on the current state of the picker
 	generateRevenueChartData() {
 		const { revenueBy, revenueData } = this.state;
