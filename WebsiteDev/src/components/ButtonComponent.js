@@ -23,12 +23,12 @@ const mystyle = {
 class ButtonComponent extends Component {
 render() {
 
-  const { text } = this.props;
+  const { text, onClick } = this.props;
 
   return (
      
     <div className="Signup">
-        <CustomizedButton>
+        <CustomizedButton onClick={this.props.onClick}>
           <h1 style={mystyle}>{this.props.text}</h1>
         </CustomizedButton>
         
