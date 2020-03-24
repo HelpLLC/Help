@@ -135,8 +135,9 @@ export default {
 	Questions: 'Questions',
 	Edit: 'Edit',
 
-	//------------------- Product History Screen -------------------
+	//------------------- Service History Screen -------------------
 	CompletedOn: 'Completed On',
+	DollarSign: '$',
 
 	//------------------- Business Side Customer Request Screen -------------------
 	CustomerRequest: 'Customer Request',
@@ -190,6 +191,14 @@ export default {
 	RequestHasBeenCancelled: 'Your request has been cancelled',
 	AreYouSureCancelRequest: 'Are you sure you want to cancel your request for this service?',
 	OrderAgain: 'Order Again',
+	BilledAmount: 'Billed Amount',
+	Date: 'Date',
+	Time: 'Time',
+	PaymentType: 'Payment Type',
+	Price: 'Price',
+	RequestID: 'Request ID',
+	Cash: 'Cash',
+	Card: 'Card',
 
 	//----------------------- Requester Side Menu -----------------------------------
 

@@ -36,9 +36,12 @@ export default class serviceRequestedScreen extends Component {
 		FirebaseFunctions.setCurrentScreen('ServiceRequestedScreen', 'serviceRequestedScreen');
 
 		//Fetches the request object
-		const { requestID, service, customer } = this.props.navigation.state.params;
+		const { requestID, customer } = this.props.navigation.state.params;
 		const request = await FirebaseFunctions.call('getRequestByID', {
 			requestID
+		});
+		const service = await FirebaseFunctions.call('getServiceByID', {
+			serviceID: request.serviceID
 		});
 		const image = await FirebaseFunctions.call('getServiceImageByID', {
 			serviceID: request.serviceID
@@ -75,6 +78,7 @@ export default class serviceRequestedScreen extends Component {
 				</HelpView>
 			);
 		}
+		console.log(request);
 		return (
 			<HelpView style={screenStyle.container}>
 				<TopBanner
@@ -124,27 +128,17 @@ export default class serviceRequestedScreen extends Component {
 							justifyContent: 'center',
 							alignItems: 'center'
 						}}>
-						<Text style={fontStyles.mainTextStyleBlack}>
-							{strings.ScheduledOn} {request.date} {strings.at} {request.time}
-						</Text>
-					</View>
-					{request.status === 'COMPLETED' ? (
-						<View
-							style={{
-								width: screenWidth * 0.9,
-								marginTop: screenHeight * 0.02,
-								alignSelf: 'center',
-								justifyContent: 'center',
-								alignItems: 'center'
-							}}>
+						{request.status === 'COMPLETE' ? (
 							<Text style={fontStyles.mainTextStyleBlack}>
-								{strings.CompletedOn} {request.dateCompleted}
+								{strings.CompletedOn} {request.date}
 							</Text>
-						</View>
-					) : (
-						<View></View>
-					)}
-					{request.questions ? (
+						) : (
+							<Text style={fontStyles.mainTextStyleBlack}>
+								{strings.ScheduledOn} {request.date} {strings.at} {request.time}
+							</Text>
+						)}
+					</View>
+					{request.questions.length > 0 ? (
 						<View
 							style={{
 								marginTop: screenHeight * 0.025,
@@ -191,6 +185,80 @@ export default class serviceRequestedScreen extends Component {
 							</View>
 						)}
 					/>
+					<View
+						style={{
+							justifyContent: 'center',
+							alignItems: 'center',
+							marginTop: screenHeight * 0.025
+						}}>
+						{request.status === 'COMPLETE' ? (
+							<View
+								style={{
+									flexDirection: 'row',
+									justifyContent: 'space-between',
+									width: screenWidth * 0.9,
+									marginBottom: screenHeight * 0.015
+								}}>
+								<Text style={fontStyles.mainTextStyleBlack}>{strings.BilledAmount}</Text>
+								<Text style={fontStyles.mainTextStyleBlack}>
+									{strings.DollarSign + request.billedAmount}
+								</Text>
+							</View>
+						) : (
+							<View
+								style={{
+									flexDirection: 'row',
+									justifyContent: 'space-between',
+									width: screenWidth * 0.9,
+									marginBottom: screenHeight * 0.015
+								}}>
+								<Text style={fontStyles.mainTextStyleBlack}>{strings.Price}</Text>
+								<Text style={fontStyles.mainTextStyleBlack}>{request.priceText}</Text>
+							</View>
+						)}
+						<View
+							style={{
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+								width: screenWidth * 0.9,
+								marginBottom: screenHeight * 0.015
+							}}>
+							<Text style={fontStyles.mainTextStyleBlack}>{strings.Date}</Text>
+							<Text style={fontStyles.mainTextStyleBlack}>{request.date}</Text>
+						</View>
+						<View
+							style={{
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+								width: screenWidth * 0.9,
+								marginBottom: screenHeight * 0.015
+							}}>
+							<Text style={fontStyles.mainTextStyleBlack}>{strings.Time}</Text>
+							<Text style={fontStyles.mainTextStyleBlack}>{request.time}</Text>
+						</View>
+						<View
+							style={{
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+								width: screenWidth * 0.9,
+								marginBottom: screenHeight * 0.015
+							}}>
+							<Text style={fontStyles.mainTextStyleBlack}>{strings.PaymentType}</Text>
+							<Text style={fontStyles.mainTextStyleBlack}>
+								{request.cash === true ? strings.Cash : strings.Card}
+							</Text>
+						</View>
+						<View
+							style={{
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+								width: screenWidth * 0.9,
+								marginBottom: screenHeight * 0.015
+							}}>
+							<Text style={fontStyles.mainTextStyleBlack}>{strings.RequestID}</Text>
+							<Text style={fontStyles.smallTextStyleBlack}>{request.requestID}</Text>
+						</View>
+					</View>
 					{this.state.isLoading === true ? (
 						<View
 							style={{
@@ -200,7 +268,7 @@ export default class serviceRequestedScreen extends Component {
 							}}>
 							<LoadingSpinner isVisible={true} />
 						</View>
-					) : completed === true ? (
+					) : request.status === 'COMPLETE' ? (
 						<View
 							style={{
 								marginTop: screenHeight * 0.025,
