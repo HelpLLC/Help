@@ -81,11 +81,20 @@ export default class analyticsScreen extends Component {
 				chartData.push(revenueData[month]);
 			}
 
-			for (let i = months.length - 2; i >= 0; i -= Math.floor(months.length / 3) + 1) {
-				const month = months[i];
-				const monthString = monthStrings[parseInt(month.substring(month.indexOf('-') + 1)) - 1];
-				const yearString = month.substring(0, month.indexOf('-'));
-				xAxis.push(monthString + ' ' + yearString);
+			if (months.length > 4) {
+				for (let i = months.length - 2; i >= 0; i -= Math.floor(months.length / 3) + 1) {
+					const month = months[i];
+					const monthString = monthStrings[parseInt(month.substring(month.indexOf('-') + 1)) - 1];
+					const yearString = month.substring(0, month.indexOf('-'));
+					xAxis.push(monthString + ' ' + yearString);
+				}
+			} else {
+				for (let i = months.length - 1; i >= 0 && xAxis.length < 3; i--) {
+					const month = months[i];
+					const monthString = monthStrings[parseInt(month.substring(month.indexOf('-') + 1)) - 1];
+					const yearString = month.substring(0, month.indexOf('-'));
+					xAxis.push(monthString + ' ' + yearString);
+				}
 			}
 		} else if (revenueBy === strings.ByYear) {
 			months = months.filter((value) => !value.includes('-'));
@@ -94,10 +103,16 @@ export default class analyticsScreen extends Component {
 				chartData.push(revenueData[month]);
 			}
 
-			for (let i = months.length - 2; i >= 0; i -= Math.floor(months.length / 3) + 1) {
-				const month = months[i];
-				const yearString = month.substring(0, month.indexOf('-'));
-				xAxis.push(yearString);
+			if (months.length > 4) {
+				for (let i = months.length - 2; i >= 0; i -= Math.floor(months.length / 3) + 1) {
+					const month = months[i];
+					xAxis.push(month);
+				}
+			} else {
+				for (let i = months.length - 1; i >= 0 && xAxis.length < 3; i--) {
+					const month = months[i];
+					xAxis.push(month);
+				}
 			}
 		}
 		return { chartData, xAxis };
@@ -216,8 +231,12 @@ export default class analyticsScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							width: screenWidth,
-							marginTop: screenHeight * 0.025
+							alignSelf: 'center',
+							marginTop: screenHeight * 0.015,
+							borderBottomColor: colors.gray,
+							borderBottomWidth: 2,
+							paddingBottom: screenHeight * 0.025,
+							width: screenWidth * 0.95
 						}}>
 						<Text style={fontStyles.bigTextStyleBlue}>{strings.Revenue}</Text>
 						<View
@@ -268,6 +287,7 @@ export default class analyticsScreen extends Component {
 								borderColor: colors.lightBlue,
 								borderRadius: 15,
 								height: screenHeight * 0.38,
+								width: screenWidth * 0.95,
 								paddingHorizontal: screenWidth * 0.025,
 								paddingVertical: screenHeight * 0.01
 							}}>
@@ -283,7 +303,6 @@ export default class analyticsScreen extends Component {
 									style={{
 										paddingHorizontal: screenWidth * 0.02,
 										height: screenHeight * 0.3,
-										width: screenWidth * 0.9,
 										alignItems: 'center',
 										justifyContent: 'center'
 									}}>
@@ -308,7 +327,7 @@ export default class analyticsScreen extends Component {
 											style={{
 												paddingHorizontal: screenWidth * 0.02,
 												height: screenHeight * 0.3,
-												width: screenWidth * 0.8
+												width: screenWidth * 0.7
 											}}
 											data={revenueChart.chartData}
 											numberOfTicks={8}
@@ -339,7 +358,12 @@ export default class analyticsScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginVertical: screenHeight * 0.025
+							alignSelf: 'center',
+							marginTop: screenHeight * 0.015,
+							borderBottomColor: colors.gray,
+							borderBottomWidth: 2,
+							paddingBottom: screenHeight * 0.025,
+							width: screenWidth * 0.95
 						}}>
 						<Text style={fontStyles.bigTextStyleBlue}>{strings.TopServices}</Text>
 						<View
@@ -390,6 +414,7 @@ export default class analyticsScreen extends Component {
 								borderWidth: 3,
 								borderColor: colors.lightBlue,
 								paddingHorizontal: screenWidth * 0.025,
+								width: screenWidth * 0.95,
 								paddingVertical: screenHeight * 0.01,
 								height: screenHeight * 0.38,
 								borderRadius: 15
@@ -399,7 +424,6 @@ export default class analyticsScreen extends Component {
 									style={{
 										paddingHorizontal: screenWidth * 0.02,
 										height: screenHeight * 0.3,
-										width: screenWidth * 0.9,
 										alignItems: 'center',
 										justifyContent: 'center'
 									}}>
@@ -423,7 +447,7 @@ export default class analyticsScreen extends Component {
 										<BarChart
 											style={{
 												height: screenHeight * 0.3,
-												width: screenWidth * 0.8,
+												width: screenWidth * 0.7,
 												paddingHorizontal: screenWidth * 0.02
 											}}
 											gridMin={0}
@@ -452,7 +476,14 @@ export default class analyticsScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginVertical: screenHeight * 0.015
+							alignSelf: 'center',
+							width: screenWidth,
+							marginTop: screenHeight * 0.015,
+							borderBottomColor: colors.gray,
+							borderBottomWidth: 2,
+							paddingBottom: screenHeight * 0.025,
+							marginBottom: screenHeight * 0.025,
+							width: screenWidth * 0.95
 						}}>
 						<Text style={fontStyles.bigTextStyleBlue}>{strings.CustomerLocations}</Text>
 						<View
@@ -505,6 +536,7 @@ export default class analyticsScreen extends Component {
 								paddingHorizontal: screenWidth * 0.025,
 								paddingVertical: screenHeight * 0.01,
 								height: screenHeight * 0.38,
+								width: screenWidth * 0.95,
 								borderRadius: 15
 							}}>
 							{customerLocationData.chartData.length === 0 ? (
@@ -512,7 +544,6 @@ export default class analyticsScreen extends Component {
 									style={{
 										paddingHorizontal: screenWidth * 0.02,
 										height: screenHeight * 0.3,
-										width: screenWidth * 0.9,
 										alignItems: 'center',
 										justifyContent: 'center'
 									}}>
@@ -536,7 +567,7 @@ export default class analyticsScreen extends Component {
 										<BarChart
 											style={{
 												height: screenHeight * 0.3,
-												width: screenWidth * 0.8,
+												width: screenWidth * 0.7,
 												paddingHorizontal: screenWidth * 0.02
 											}}
 											gridMin={0}
