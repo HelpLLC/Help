@@ -277,8 +277,9 @@ export default {
 
 	//------------------- Product History Screen -------------------
 	ServiceHistory: 'Service History',
-	NoHistoryForThisProductYet: 'No history for this product yet',
-	CompletedOn: 'Completed On',
+	NoHistoryForThisServiceYet: 'No history for this service yet',
+	CompletedOn: 'Completed on',
+	BilledColon: 'Billed: $',
 
 	//------------------- Business Side Customer Request Screen -------------------
 	CustomerRequest: 'Customer Request',
@@ -297,6 +298,11 @@ export default {
 	RequestHasBeenCompleted: 'The request has been completed.',
 	CompleteRequest: 'Complete Request',
 	AreYouSureCompleteRequest: 'Are you sure you want to complete this request?',
+	BilledAmount: 'Billed Amount',
+	Date: 'Date',
+	Time: 'Time',
+	PaymentType: 'Payment Type',
+	RequestID: 'Request ID',
 
 	//------------------- Featured Screen -------------------
 	OfferedBy: 'Offered by',

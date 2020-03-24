@@ -127,6 +127,7 @@ class serviceScreen extends Component {
 							<TouchableOpacity
 								onPress={() => {
 									this.props.navigation.push('ServiceHistoryScreen', {
+										serviceID,
 										service
 									});
 								}}
