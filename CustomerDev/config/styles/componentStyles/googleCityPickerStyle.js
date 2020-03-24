@@ -17,7 +17,7 @@ export default {
 		justifyContent: 'center',
 		alignSelf: 'center',
 		backgroundColor: colors.white,
-		width: screenWidth * 0.6
+		width: screenWidth * 0.8
 	},
 	//The style that contains the results of the entered text
 	listView: {
@@ -26,7 +26,7 @@ export default {
 		marginTop: screenHeight * 0.01,
 		borderRadius: 20,
 		borderWidth: 3,
-		width: screenWidth * 0.6,
+		width: screenWidth * 0.8,
 		backgroundColor: colors.white
 	},
 	//The style that renders the "powered by Google" image

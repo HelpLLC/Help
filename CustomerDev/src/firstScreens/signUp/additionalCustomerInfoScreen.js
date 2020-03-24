@@ -47,9 +47,11 @@ class additionalCustomerInfoScreen extends Component {
 			});
 			this.setState({
 				name: customer.name,
+				address: customer.address,
+				state: customer.state,
+				country: customer.country,
 				city: customer.city,
 				coordinates: customer.coordinates,
-				address: customer.address,
 				phoneNumber: customer.phoneNumber,
 				customer: customer,
 				isEditing: true,
@@ -72,6 +74,8 @@ class additionalCustomerInfoScreen extends Component {
 		isScreenLoading: true,
 		name: '',
 		city: '',
+		state: '',
+		country: '',
 		coordinates: '',
 		imageSource: '',
 		isLoading: false,
@@ -91,7 +95,7 @@ class additionalCustomerInfoScreen extends Component {
 	//exists or is a new one
 	async addCustomerInfo() {
 		Keyboard.dismiss();
-		const { phoneNumber, name, city, coordinates, address, customer } = this.state;
+		const { phoneNumber, name, city, coordinates, address, country, state } = this.state;
 		//Tests for empty fields
 		if (phoneNumber === '' || name === '' || city === '' || coordinates === '') {
 			//Displays empty field error
@@ -109,6 +113,9 @@ class additionalCustomerInfoScreen extends Component {
 						coordinates,
 						customerID: customer.customerID,
 						city,
+						address,
+						state,
+						country,
 						name,
 						phoneNumber,
 						currentRequests: customer.currentRequests
@@ -160,6 +167,8 @@ class additionalCustomerInfoScreen extends Component {
 					await FirebaseFunctions.call('addCustomerToDatabase', {
 						address,
 						city,
+						state,
+						country,
 						blockedBusinesses: [],
 						coordinates,
 						currentRequests: [],
@@ -335,54 +344,26 @@ class additionalCustomerInfoScreen extends Component {
 					style={{
 						justifyContent: 'flex-end',
 						alignItems: 'flex-start',
-						width: screenWidth * 0.6,
+						width: screenWidth * 0.8,
 						alignSelf: 'center',
 						marginVertical: screenHeight * 0.02
 					}}>
 					<Text style={fontStyles.bigTextStyleBlack}>{strings.StreetAddress}</Text>
 				</View>
-
-				<View style={{ justifyContent: 'center' }}>
-					<OneLineRoundedBoxInput
-						placeholder={strings.EnterYourAddress}
-						onChangeText={(input) => {
-							this.setState({ address: input });
-						}}
-						value={this.state.address}
-						password={false}
-					/>
-				</View>
 				<View
 					style={{
-						justifyContent: 'flex-end',
-						alignItems: 'flex-start',
-						width: screenWidth * 0.6,
-						alignSelf: 'center',
-						marginVertical: screenHeight * 0.02
-					}}>
-					<TouchableOpacity
-						onPress={() => {
-							this.setState({ locationInfoVisible: true });
-						}}
-						style={{ flexDirection: 'row', alignItems: 'center' }}>
-						<Text style={fontStyles.bigTextStyleBlack}>{strings.City}</Text>
-						<View style={{ width: screenWidth * 0.01 }}></View>
-						<Icon name={'info-circle'} type='font-awesome' size={25} color={colors.lightBlue} />
-					</TouchableOpacity>
-				</View>
-				<View
-					style={{
-						height:
-							this.state.isEditing === true
-								? screenHeight * 0.25
-								: screenHeight * 0.275
+						height: this.state.isEditing === true ? screenHeight * 0.25 : screenHeight * 0.275
 					}}>
 					<GoogleCityPicker
-						initialText={this.state.city}
-						onPress={(locationName, long, lat) => {
+						initialText={this.state.address}
+						returnType={'address'}
+						onPress={(address, city, state, country, lat, lng) => {
 							this.setState({
-								city: locationName,
-								coordinates: { long, lat }
+								address,
+								state,
+								country,
+								city,
+								coordinates: { lng, lat }
 							});
 						}}
 					/>

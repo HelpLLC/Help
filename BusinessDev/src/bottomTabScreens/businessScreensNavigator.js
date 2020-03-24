@@ -9,7 +9,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import homeScreen from './homeScreen';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
- 
+
 import { screenWidth, screenHeight } from 'config/dimensions';
 import { Icon } from 'react-native-elements';
 import React from 'react';
@@ -17,30 +17,6 @@ import colors from 'config/colors';
 
 //will configure the routes of each screen title to go to the correct screen when clicked on.
 const routeConfig = {
-	//Route connecting to the analytics screen
-	AnalyticsScreen: {
-		//connects the object with the help screen component
-		screen: analyticsScreen,
-		//sets up what the tab will be titled
-		navigationOptions: ({ navigation }) => ({
-			tabBarIcon: ({ tintColor, focused }) => (
-				<Icon name='chart-line' size={40} type='material-community' color={tintColor} />
-			)
-		})
-	},
-
-	//Route connecting to the payments screen
-	PaymentsScreen: {
-		//connects the object with the help screen component
-		screen: paymentsScreen,
-		//sets up what the tab will be titled
-		navigationOptions: ({ navigation }) => ({
-			tabBarIcon: ({ tintColor, focused }) => (
-				<Icon name='dollar' size={40} type='font-awesome' color={tintColor} />
-			)
-		})
-	},
-
 	//Route connecting to the home screen
 	HomeScreen: {
 		//connects the object with the help screen component
@@ -62,6 +38,30 @@ const routeConfig = {
 		navigationOptions: ({ navigation }) => ({
 			tabBarIcon: ({ tintColor, focused }) => (
 				<Icon name='table' size={40} type='font-awesome' color={tintColor} />
+			)
+		})
+	},
+	
+	//Route connecting to the analytics screen
+	AnalyticsScreen: {
+		//connects the object with the help screen component
+		screen: analyticsScreen,
+		//sets up what the tab will be titled
+		navigationOptions: ({ navigation }) => ({
+			tabBarIcon: ({ tintColor, focused }) => (
+				<Icon name='chart-line' size={40} type='material-community' color={tintColor} />
+			)
+		})
+	},
+
+	//Route connecting to the payments screen
+	PaymentsScreen: {
+		//connects the object with the help screen component
+		screen: paymentsScreen,
+		//sets up what the tab will be titled
+		navigationOptions: ({ navigation }) => ({
+			tabBarIcon: ({ tintColor, focused }) => (
+				<Icon name='dollar' size={40} type='font-awesome' color={tintColor} />
 			)
 		})
 	},
@@ -97,7 +97,7 @@ const navigatorConfig = {
 		//This styles the tabBar itself; the color, height, etc.
 		style: {
 			backgroundColor: colors.white,
-			height: screenHeight * 0.1,
+			height: screenHeight * 0.1
 		},
 		showLabel: false,
 		showIcon: true

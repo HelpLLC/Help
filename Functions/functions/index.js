@@ -84,7 +84,7 @@ const sendEmail = async (recepient, subject, text) => {
 //Method will take in a service ID and a customer ID and a requestID and a businessID and then delete that customer's request
 //from the service's current requests.
 const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
-	
+	let request = (await requests.doc(requestID).get()).data();
 	//Updates the request collection
 	await requests.doc(requestID).delete();
 
@@ -93,12 +93,44 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 	const indexOfService = business.services.findIndex((element) => element.serviceID === serviceID);
 	business.services[indexOfService].numCurrentRequests =
 		business.services[indexOfService].numCurrentRequests - 1;
-	let indexOfRequest = business.currentRequests.findIndex((element) => element.requestID === requestID);
-	business.currentRequests.splice(indexOfRequest, 1);
 	await businesses.doc(businessID).update({
-		services: business.services,
-		currentRequests: business.currentRequests
+		services: business.services
 	});
+
+	//Fetches the date from the business and formats it in a way so scheduling could be deleted within business as well
+	date = new Date(request.date);
+	let year = date.getFullYear();
+	let month = date.getMonth() + 1;
+	let day = date.getDate();
+	if (month < 10) {
+		month = '0' + month;
+	}
+	if (day < 10) {
+		day = '0' + day;
+	}
+	const dateString = year + '-' + month + '-' + day;
+	await businesses
+		.doc(businessID)
+		.collection('Schedule')
+		.doc(dateString)
+		.update({
+			[requestID]: admin.firestore.FieldValue.delete()
+		});
+	//Tests if this document should be deleted all together
+	const scheduleDoc = (
+		await businesses
+			.doc(businessID)
+			.collection('Schedule')
+			.doc(dateString)
+			.get()
+	).data();
+	if (Object.keys(scheduleDoc).length === 1) {
+		businesses
+			.doc(businessID)
+			.collection('Schedule')
+			.doc(dateString)
+			.delete();
+	}
 
 	//Updates the customer document
 	const customer = (await customers.doc(customerID).get()).data();
@@ -106,14 +138,6 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 	customer.currentRequests.splice(indexOfRequest, 1);
 	await customers.doc(customerID).update({
 		currentRequests: customer.currentRequests
-	});
-
-	//Updates the service document
-	const service = (await services.doc(serviceID).get()).data();
-	indexOfRequest = service.currentRequests.findIndex((element) => element.requestID === requestID);
-	service.currentRequests.splice(indexOfRequest, 1);
-	await services.doc(serviceID).update({
-		currentRequests: service.currentRequests
 	});
 
 	//Notifies the business that the request has been deleted.
@@ -174,6 +198,21 @@ exports.getBusinessByID = functions.https.onCall(async (input, context) => {
 	}
 });
 
+//This method is going to return an array of the documents which are the analytics for this specific business. Each piece of
+//data analytic will be in its own seperate document
+exports.getBusinessAnalyticsByBusinessID = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+	const analyticsRef = businesses.doc(businessID).collection('Analytics');
+	const Revenue = await analyticsRef.doc('Revenue').get();
+	const TopServices = await analyticsRef.doc('TopServices').get();
+	const CustomerLocations = await analyticsRef.doc('CustomerLocations').get();
+
+	//Resolves all of the promises asynchronosly.
+	const analyticsDocs = [Revenue.data(), TopServices.data(), CustomerLocations.data()];
+	//const analyticsData = analyticsDocs.map((doc) => doc.data());
+	return analyticsDocs;
+});
+
 //Method fetches a customer by ID & returns the customer as an object. If the customer does not exist, returns -1
 exports.getCustomerByID = functions.https.onCall(async (input, context) => {
 	const { customerID } = input;
@@ -210,6 +249,45 @@ exports.getRequestByID = functions.https.onCall(async (input, context) => {
 		return doc.data();
 	} else {
 		return -1;
+	}
+});
+
+//This function will return the document for a specific day on a business schedule. If that document, doesn't exist,
+//then an empty object will be returned. Accepts a day in YYYY-MM-DD format, along with a businessID
+exports.getBusinessCurrentRequestsByDay = functions.https.onCall(async (input, context) => {
+	const { businessID, day } = input;
+
+	const doc = await businesses
+		.doc(businessID)
+		.collection('Schedule')
+		.doc(day)
+		.get();
+	if (doc.exists === true) {
+		const data = await doc.data();
+		delete data.dateString;
+		return data;
+	} else {
+		return {};
+	}
+});
+
+//This method will get the most upcoming request for a spefici date from their request subcollection. If there are no requests,
+//then -1 will be returned
+exports.getUpcomingRequestByBusinessID = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+
+	const query = await businesses
+		.doc(businessID)
+		.collection('Schedule')
+		.orderBy('dateString')
+		.limit(1);
+
+	const docs = (await query.get()).docs;
+	if (docs.length === 0) {
+		return -1;
+	} else {
+		const doc = await docs[0].data();
+		return doc;
 	}
 });
 
@@ -278,6 +356,8 @@ exports.addCustomerToDatabase = functions.https.onCall(async (input, context) =>
 	const {
 		address,
 		blockedBusinesses,
+		country,
+		state,
 		coordinates,
 		currentRequests,
 		customerID,
@@ -291,6 +371,8 @@ exports.addCustomerToDatabase = functions.https.onCall(async (input, context) =>
 	await customers.doc(customerID).set({
 		address,
 		blockedBusinesses,
+		country,
+		state,
 		coordinates,
 		currentRequests,
 		city,
@@ -307,12 +389,24 @@ exports.addCustomerToDatabase = functions.https.onCall(async (input, context) =>
 //method will take in new versions of customer inputs and will update them in firestore. Updated the customer document along
 //with any customer information that is in any other documents
 exports.updateCustomerInformation = functions.https.onCall(async (input, context) => {
-	const { address, coordinates, customerID, city, name, phoneNumber, currentRequests } = input;
+	const {
+		address,
+		coordinates,
+		customerID,
+		city,
+		name,
+		phoneNumber,
+		currentRequests,
+		state,
+		country
+	} = input;
 
 	await customers.doc(customerID).update({
 		address,
 		coordinates,
 		customerID,
+		country,
+		state,
 		city,
 		name,
 		phoneNumber
@@ -336,7 +430,6 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		businessName,
 		businessDescription,
 		businessHours,
-		currentRequests,
 		coordinates,
 		email,
 		location,
@@ -350,7 +443,6 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		businessName,
 		businessDescription,
 		businessHours,
-		currentRequests,
 		coordinates,
 		businessID,
 		email,
@@ -360,6 +452,12 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		phoneNumber,
 		isVerified
 	});
+
+	//Adds analytics documents
+	const analytics = businesses.doc(businessID).collection('Analytics');
+	await analytics.doc('CustomerLocations').set({ Cities: {}, States: {}, Countries: {} });
+	await analytics.doc('Revenue').create({});
+	await analytics.doc('TopServices').create({});
 
 	sendEmail(
 		'helpcocontact@gmail.com',
@@ -440,7 +538,6 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 		businessName,
 		category,
 		coordinates,
-		currentRequests,
 		displayedReviews,
 		serviceDuration,
 		simultaneousRequests,
@@ -461,7 +558,6 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 		businessName,
 		category,
 		coordinates,
-		currentRequests,
 		displayedReviews,
 		serviceDuration,
 		priceText,
@@ -489,6 +585,21 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 			priceText
 		})
 	});
+
+	//Adds the service to analytics
+	await businesses
+		.doc(businessID)
+		.collection('Analytics')
+		.doc('TopServices')
+		.update({
+			[serviceID]: {
+				serviceTitle,
+				serviceID,
+				totalViews: 0,
+				totalRequests: 0,
+				totalRevenue: 0
+			}
+		});
 
 	return serviceID;
 });
@@ -531,10 +642,19 @@ exports.updateServiceInformation = functions.https.onCall(async (input, context)
 		priceText,
 		serviceDescription
 	};
-
 	await businesses.doc(businessID).update({
 		services: business.services
 	});
+
+	//Updates the service title in analytics
+	const fieldName = serviceID + '.serviceTitle';
+	await businesses
+		.doc(businessID)
+		.collection('Analytics')
+		.doc('TopServices')
+		.update({
+			[fieldName]: serviceTitle
+		});
 
 	return 0;
 });
@@ -553,12 +673,6 @@ exports.deleteService = functions.https.onCall(async (input, context) => {
 	await businesses.doc(businessID).update({
 		serviceIDs: admin.firestore.FieldValue.arrayRemove(serviceID)
 	});
-
-	//Deletes all current requests for the service & notifies the customers
-	const service = await (await services.doc(serviceID).get()).data();
-	for (const request of service.currentRequests) {
-		await deleteRequest(serviceID, request.customerID, request.requestID, request.businessID);
-	}
 
 	return 0;
 });
@@ -609,12 +723,17 @@ exports.getProfilePictureByID = functions.https.onCall(async (input, context) =>
 //Method will take in a request object, which may contain a schedule, answers to questions, or both.
 //It will add this request object to the right locations.
 exports.requestService = functions.https.onCall(async (input, context) => {
-	const {
+	let {
 		assignedTo,
 		businessID,
 		customerID,
+		customerLocation,
+		cash,
+		card,
 		date,
 		questions,
+		price,
+		priceText,
 		review,
 		serviceTitle,
 		customerName,
@@ -630,7 +749,12 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		assignedTo,
 		businessID,
 		customerID,
+		cash,
+		customerLocation,
+		card,
 		date,
+		price,
+		priceText,
 		questions,
 		review,
 		serviceTitle,
@@ -643,18 +767,6 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 	const requestID = newRequestDoc.id;
 	//Adds the ID to the request document
 	newRequestDoc.update({ requestID });
-
-	//Adds a reference to the request to the service's array of currentRequests
-	await services.doc(serviceID).update({
-		currentRequests: admin.firestore.FieldValue.arrayUnion({
-			customerID,
-			customerName,
-			date,
-			requestID,
-			status,
-			time
-		})
-	});
 
 	//Adds a reference to the request to the customer's array of currentRequests
 	await customers.doc(customerID).update({
@@ -674,17 +786,61 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 	business.services[indexOfService].numCurrentRequests =
 		business.services[indexOfService].numCurrentRequests + 1;
 	await businesses.doc(businessID).update({
-		services: business.services,
-		currentRequests: admin.firestore.FieldValue.arrayUnion({
-			date,
-			time,
-			requestID,
-			serviceDuration,
-			serviceTitle,
-			serviceID,
-			customerName
-		})
+		services: business.services
 	});
+
+	//Updates the analytics for the business
+	const fieldName = serviceID + '.totalRequests';
+	await businesses
+		.doc(businessID)
+		.collection('Analytics')
+		.doc('TopServices')
+		.update({
+			[fieldName]: admin.firestore.FieldValue.increment(1)
+		});
+
+	//Converts the date to YYYY-MM-DD format and adds the current request to the business's schedule subcollection
+	const dateObject = new Date(date);
+	let year = dateObject.getFullYear();
+	let month = dateObject.getMonth() + 1;
+	let day = dateObject.getDate();
+	if (month < 10) {
+		month = '0' + month;
+	}
+	if (day < 10) {
+		day = '0' + day;
+	}
+	const dateString = year + '-' + month + '-' + day;
+	const dateDoc = await businesses
+		.doc(businessID)
+		.collection('Schedule')
+		.doc(dateString);
+	if ((await dateDoc.get()).exists === true) {
+		await dateDoc.update({
+			[requestID]: {
+				date,
+				time,
+				requestID,
+				serviceDuration,
+				serviceTitle,
+				serviceID,
+				customerName
+			}
+		});
+	} else {
+		await dateDoc.set({
+			dateString,
+			[requestID]: {
+				date,
+				time,
+				requestID,
+				serviceDuration,
+				serviceTitle,
+				serviceID,
+				customerName
+			}
+		});
+	}
 
 	sendNotification('b-' + businessID, 'New Request', 'You have a new request for ' + serviceTitle);
 
@@ -707,11 +863,12 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 //Method is going to edit a request by it's ID as well as update any fields necessary in the current requests arrays
 //of the customer and the service.
 exports.updateCustomerRequest = functions.https.onCall(async (input, context) => {
-	const {
+	let {
 		requestID,
 		customerID,
 		businessID,
 		date,
+		customerLocation,
 		serviceDuration,
 		questions,
 		time,
@@ -723,23 +880,9 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 	await requests.doc(requestID).update({
 		date,
 		questions,
+		customerLocation,
 		time
 	});
-
-	//updates the request within the service
-	let service = (await services.doc(serviceID).get()).data();
-	const indexOfServiceRequest = service.currentRequests.findIndex(
-		(element) => element.requestID === requestID
-	);
-	service.currentRequests[indexOfServiceRequest] = {
-		customerID,
-		customerName,
-		date,
-		requestID,
-		status,
-		time
-	};
-	await services.doc(serviceID).update({ currentRequests: service.currentRequests });
 
 	//updates the request within the customer
 	let customer = (await customers.doc(customerID).get()).data();
@@ -756,21 +899,33 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 	};
 	await customers.doc(customerID).update({ currentRequests: customer.currentRequests });
 
-	//updates the request within the business
-	let business = (await businesses.doc(businessID).get()).data();
-	const indexOfBusinessRequest = business.currentRequests.findIndex(
-		(element) => element.requestID === requestID
-	);
-	business.currentRequests[indexOfBusinessRequest] = {
-		date,
-		time,
-		requestID,
-		serviceDuration,
-		serviceTitle,
-		serviceID,
-		customerName
-	};
-	await businesses.doc(businessID).update({ currentRequests: business.currentRequests });
+	//updates the request within the business and fetches correct date format to do so
+	const dateObject = new Date(date);
+	let year = dateObject.getFullYear();
+	let month = dateObject.getMonth() + 1;
+	let day = dateObject.getDate();
+	if (month < 10) {
+		month = '0' + month;
+	}
+	if (day < 10) {
+		day = '0' + day;
+	}
+	const dateString = year + '-' + month + '-' + day;
+	await businesses
+		.doc(businessID)
+		.collection('Schedule')
+		.doc(dateString)
+		.update({
+			[requestID]: {
+				date,
+				time,
+				requestID,
+				serviceDuration,
+				serviceTitle,
+				serviceID,
+				customerName
+			}
+		});
 
 	//Sends notifications to the customer and the business
 	sendNotification(
@@ -788,73 +943,136 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 });
 
 //Method taks in a requestID and completes that request in the database by giving it the status "complete", and addding it
-//to the completed requests SubCollection in the customer and the business. It will also add the requestID to the isReviewDue
-//array for customers
+//to the completed requests SubCollection in the customer and the business. It will also add the billing accordingly to the
+//customer's side (unless the service was marked as cash). It will also mark the request as awaiting review from the customer
 exports.completeRequest = functions.https.onCall(async (input, context) => {
-	const { requestID } = input;
+	let { cash, requestID, billedAmount } = input;
 
-	//Marks the status in the requests collection
-	await requests.doc(requestID).update({ status: 'complete' });
-	const request = (await requests.doc(requestID).get()).data();
+	billedAmount = parseFloat(billedAmount);
 
-	//Moves the request from currentRequests to the subcollection in the customer document
-	await customers
-		.doc(request.customerID)
-		.collection('CompletedRequests')
-		.doc(requestID)
-		.set({
-			date: request.date,
-			requestID,
-			serviceID: request.serviceID,
-			serviceTitle: request.serviceTitle,
-			time: request.time
+	//If the service is purchased through cash, then the request will simply be marked as complete.
+	if (cash === true) {
+		//Marks the status in the requests collection
+		await requests.doc(requestID).update({ billedAmount, status: 'COMPLETE' });
+		const request = (await requests.doc(requestID).get()).data();
+
+		//Moves the request from currentRequests to the subcollection in the customer document and adds the requestID to
+		//the customer's isReviewDue array
+		await customers
+			.doc(request.customerID)
+			.collection('CompletedRequests')
+			.doc(requestID)
+			.set({
+				date: request.date,
+				requestID,
+				serviceID: request.serviceID,
+				serviceTitle: request.serviceTitle,
+				time: request.time,
+				billedAmount
+			});
+		let customer = (await customers.doc(request.customerID).get()).data();
+		const indexOfCustomerRequest = customer.currentRequests.findIndex(
+			(element) => element.requestID === requestID
+		);
+		customer.currentRequests.splice(indexOfCustomerRequest, 1);
+		await customers.doc(request.customerID).update({
+			currentRequests: customer.currentRequests,
+			isReviewDue: admin.firestore.FieldValue.arrayUnion(requestID)
 		});
-	let customer = (await customers.doc(request.customerID).get()).data();
-	const indexOfCustomerRequest = customer.currentRequests.findIndex(
-		(element) => element.requestID === requestID
-	);
-	customer.currentRequests.splice(indexOfCustomerRequest, 1);
-	await customers.doc(request.customerID).update({
-		currentRequests: customer.currentRequests,
-		isReviewDue: admin.firestore.FieldValue.arrayUnion(requestID)
-	});
 
-	//Moves the request from currentRequests to the subcollection in the service document
-	await services
-		.doc(request.serviceID)
-		.collection('CompletedRequests')
-		.doc(requestID)
-		.set({
-			customerID: request.customerID,
-			customerName: request.customerName,
-			date: request.date,
-			requestID,
-			time: request.time
+		//Moves the request from currentRequests to the subcollection in the service document
+		await services
+			.doc(request.serviceID)
+			.collection('CompletedRequests')
+			.doc(requestID)
+			.set({
+				customerID: request.customerID,
+				customerName: request.customerName,
+				date: request.date,
+				requestID,
+				time: request.time,
+				billedAmount
+			});
+
+		//Decrements the numRequests for the service and updates current requests in the business document
+		let businessDoc = businesses.doc(request.businessID);
+		let business = (await businessDoc.get()).data();
+		const indexOfService = business.services.findIndex(
+			(element) => element.serviceID === request.serviceID
+		);
+		business.services[indexOfService].numCurrentRequests =
+			business.services[indexOfService].numCurrentRequests - 1;
+		await businessDoc.update({
+			services: business.services
 		});
-	let service = (await services.doc(request.serviceID).get()).data();
-	const indexOfServiceRequest = service.currentRequests.findIndex(
-		(element) => element.requestID === requestID
-	);
-	service.currentRequests.splice(indexOfServiceRequest, 1);
-	await services.doc(request.serviceID).update({
-		currentRequests: service.currentRequests
-	});
 
-	//Decrements the numRequests for the service and updates current requests in the business document
-	let business = (await businesses.doc(service.businessID).get()).data();
-	const indexOfService = business.services.findIndex(
-		(element) => element.serviceID === service.serviceID
-	);
-	business.services[indexOfService].numCurrentRequests =
-		business.services[indexOfService].numCurrentRequests - 1;
-	const indexOfRequest = business.currentRequests.findIndex(
-		(element) => element.requestID === requestID
-	);
-	business.currentRequests.splice(indexOfRequest, 1);
-	await businesses.doc(service.businessID).update({
-		services: business.services,
-		currentRequests: business.currentRequests
-	});
+		//Gets the correct format of the date string and removes the current request from the business schedule
+		let date = request.date;
+		date = new Date(date);
+		let year = date.getFullYear();
+		let month = date.getMonth() + 1;
+		let day = date.getDate();
+		if (month < 10) {
+			month = '0' + month;
+		}
+		if (day < 10) {
+			day = '0' + day;
+		}
+		const dateString = year + '-' + month + '-' + day;
+
+		//Updates the revenue analytics for this business
+		await businessDoc
+			.collection('Analytics')
+			.doc('Revenue')
+			.update({
+				[year]: admin.firestore.FieldValue.increment(billedAmount),
+				[year + '-' + month]: admin.firestore.FieldValue.increment(billedAmount)
+			});
+
+		//Updates the service analytics for this service
+		const fieldName = request.serviceID + '.totalRevenue';
+		await businessDoc
+			.collection('Analytics')
+			.doc('TopServices')
+			.update({
+				[fieldName]: admin.firestore.FieldValue.increment(billedAmount)
+			});
+
+		//Updates the customer analytics for this service
+		const cityFieldName = 'Cities.' + request.customerLocation.city;
+		const stateFieldName = 'States.' + request.customerLocation.state;
+		const countryFieldName = 'Countries.' + request.customerLocation.country;
+		await businessDoc
+			.collection('Analytics')
+			.doc('CustomerLocations')
+			.update({
+				[cityFieldName]: admin.firestore.FieldValue.increment(1),
+				[stateFieldName]: admin.firestore.FieldValue.increment(1),
+				[countryFieldName]: admin.firestore.FieldValue.increment(1)
+			});
+
+		await businessDoc
+			.collection('Schedule')
+			.doc(dateString)
+			.update({
+				[requestID]: admin.firestore.FieldValue.delete()
+			});
+		//Tests if this document should be deleted all together
+		const scheduleDoc = (
+			await businessDoc
+				.collection('Schedule')
+				.doc(dateString)
+				.get()
+		).data();
+		if (Object.keys(scheduleDoc).length === 1) {
+			await businessDoc
+				.collection('Schedule')
+				.doc(dateString)
+				.delete();
+		}
+	} else {
+		//This means the service is through a card payment, through which billing will be correctly set up
+	}
 
 	return 0;
 });
@@ -865,6 +1083,21 @@ exports.deleteRequest = functions.https.onCall(async (input, context) => {
 	const { serviceID, customerID, requestID, businessID } = input;
 	const deleted = await deleteRequest(serviceID, customerID, requestID, businessID);
 	return deleted;
+});
+
+//This function will record within a service's analytics that the service has been viewed by a user. It will
+//take in a businessID and a serviceID so it can update the document accordingly.
+exports.viewService = functions.https.onCall(async (input, context) => {
+	const { serviceID, businessID } = input;
+	const fieldName = serviceID + '.totalViews';
+	await businesses
+		.doc(businessID)
+		.collection('Analytics')
+		.doc('TopServices')
+		.update({
+			[fieldName]: admin.firestore.FieldValue.increment(1)
+		});
+	return 0;
 });
 
 //--------------------------------- Review Functions ---------------------------------
