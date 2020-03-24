@@ -40,8 +40,6 @@ export default class customerRequestScreen extends Component {
 		isDeleteRequestVisible: false,
 		isErrorVisible: false,
 		requestDeleted: false,
-		requestCompleted: false,
-		isCompleteRequestVisible: false,
 		image: ''
 	};
 	//Renders the view
@@ -53,9 +51,7 @@ export default class customerRequestScreen extends Component {
 			image,
 			isDeleteRequestVisible,
 			isErrorVisible,
-			requestDeleted,
-			requestCompleted,
-			isCompleteRequestVisible
+			requestDeleted
 		} = this.state;
 		if (isScreenLoading === true) {
 			return (
@@ -215,8 +211,8 @@ export default class customerRequestScreen extends Component {
 								style={roundBlueButtonStyle.SmallSizeButton}
 								textStyle={fontStyles.mainTextStyleWhite}
 								onPress={() => {
-									this.setState({
-										isCompleteRequestVisible: true
+									this.props.navigation.push('BillCustomerScreen', {
+										request: request
 									});
 								}}
 								disabled={this.state.isLoading}
@@ -263,41 +259,6 @@ export default class customerRequestScreen extends Component {
 						this.setState({ isDeleteRequestVisible: false });
 					}}
 				/>
-				<OptionPicker
-					isVisible={isCompleteRequestVisible}
-					title={strings.CompleteRequest}
-					message={strings.AreYouSureCompleteRequest}
-					confirmText={strings.Complete}
-					cancelText={strings.Cancel}
-					clickOutside={true}
-					confirmOnPress={async () => {
-						this.setState({ isCompleteRequestVisible: false });
-						//This method will complete a specific request based on the passed in requester ID
-						this.setState({ isLoading: true });
-						try {
-							await FirebaseFunctions.call('completeRequest', { requestID: request.requestID });
-							//Updates the state of the screen to remove the request from
-							//the screen & add it to the history
-							this.setState({
-								requestCompleted: true,
-								isLoading: false
-							});
-						} catch (error) {
-							this.setState({ isLoading: false, isErrorVisible: true });
-							FirebaseFunctions.call('logIssue', {
-								error,
-								userID: {
-									screen: 'BusinessCustomerRequestScreen',
-									userID: 'b-' + request.serviceID,
-									serviceID: request.serviceID
-								}
-							});
-						}
-					}}
-					cancelOnPress={() => {
-						this.setState({ isCompleteRequestVisible: false });
-					}}
-				/>
 				<HelpAlert
 					isVisible={requestDeleted}
 					onPress={() => {
@@ -310,19 +271,6 @@ export default class customerRequestScreen extends Component {
 					}}
 					title={strings.RequestDeleted}
 					message={strings.RequestHasBeenDeleted}
-				/>
-				<HelpAlert
-					isVisible={requestCompleted}
-					onPress={() => {
-						this.setState({ requestCompleted: false });
-						//Updates the state of the screen to remove the request from
-						//the screen
-						this.props.navigation.push('BusinessScreens', {
-							businessID: request.serviceID
-						});
-					}}
-					title={strings.RequestCompleted}
-					message={strings.RequestHasBeenCompleted}
 				/>
 				<HelpAlert
 					isVisible={isErrorVisible}

@@ -11,6 +11,22 @@ export default {
 	Schedule: 'Schedule',
 	Settings: 'Settings',
 
+	//------------------- Analytics Screen -------------------
+	Revenue: 'Revenue',
+	CustomerLocations: 'Customer Locations',
+	TopServices: 'Top Services',
+	ByCity: 'By City',
+	ByState: 'By State',
+	ByCountry: 'By Country',
+	ByMonth: 'By Month',
+	ByYear: 'By Year',
+	ByTotalRequests: 'By Total Requests',
+	ByTotalRevenue: 'By Total Revenue',
+	ByTotalViews: 'By Total Views',
+	AverageMonthlyRevenue: 'Average Monthly Revenue: $',
+	AverageYearlyRevenue: 'Average Yearly Revenue: $',
+	NoDataYet: 'No Data Yet',
+
 	//-------------------  Splash Screen -------------------
 	GetStarted: 'Get Started',
 	HaveAnAccountQuestion: 'Have an account?',
@@ -207,8 +223,7 @@ export default {
 	EmptyQuestion: 'Please fill out all empty questions before adding another one or clicking next',
 
 	//------------------- Service Additional Info Screen -------------------
-	ServiceDuration:
-		'Approximately how long is will it take to complete one request for this service?',
+	ServiceDuration: 'Approximately how long will it take to complete one request for this service?',
 	Hours: 'Hours',
 	AmountOfServicesAtATime: 'How many requests can you do at a time?',
 	Requests: 'Requests',
@@ -218,6 +233,21 @@ export default {
 	HowWillCustomersPay: 'How will customers pay for this service?',
 	Cash: 'Cash',
 	CreditDebitCard: 'Credit/Debit Card',
+
+	//------------------- Bill Customer Screen -------------------
+	Billing: 'Billing',
+	HowMuchWasTheCustomerChargedForTheService: 'How much was the customer charged for the service?',
+	ExampleBilledAmount: '0.00',
+	PleaseConfirmThatThisIsThePriceTheCustomerShouldBeChargedForThisService:
+		'Please confirm that this is the price the customer should be charged for this service.',
+	ThePriceForThisServiceWas: 'The price for this service was ',
+	PleaseEnterAmountUnitsSoPriceCanBeCalculated:
+		'Please enter the amount of units there were for this request so the final price can be calculated.',
+	Zero: '0',
+	PleaseEnterAmountOf: 'Please enter the amount of ',
+	ThereWereForThisRequestSoThatTheFinalPriceCanBeCalculated:
+		' there were for this request so that the final price can be calculated.',
+	ParanthesesS: '(s)',
 
 	//------------------- Edit Company Profile Screen -------------------
 	EditCompany: 'Edit Company',
