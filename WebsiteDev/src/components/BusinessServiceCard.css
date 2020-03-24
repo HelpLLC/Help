@@ -30,8 +30,10 @@
 
 .header {
   font-size: 20px;
+  background-color: unset;
+  border-color: white;
   font-weight: bold;
-  margin-top: -5px;
+  margin: -5px;
 }
 
 img {
@@ -39,4 +41,36 @@ img {
   display: inline-block;
   height: 120px;
   margin-top: 0px;
+}
+
+.price {
+  font-size: 20px;
+  background-color: unset;
+  border-color: white;
+  font-weight: bold;
+  margin-top: -50px;
+}
+
+.requests {
+  font-size: 20px;
+  background-color: unset;
+  border-color: white;
+  font-weight: bold;
+  margin-top: -50px;
+}
+
+.days {
+  font-size: 20px;
+  background-color: unset;
+  border-color: white;
+  font-weight: bold;
+  margin-top: -75px;
+}
+
+.house {
+  font-size: 20px;
+  background-color: unset;
+  border-color: white;
+  font-weight: bold;
+  margin-top: 20px;
 }

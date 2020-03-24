@@ -5,6 +5,10 @@ import SignUpScreen from '../Signup/SignUpScreen';
 import fontStyles from '../../../config/fontStyles';
 import LandingPage from './LandingPage';
 import LoginRegister from '../Login/LoginRegister'
+import Dashboard from '../../../business/BusinessScreens/Dashboard/Dashboard';
+import PrivacyPolicy from '../../PrivacyPolicy.js';
+import Credits from '../../Credits.js';
+import TermsAndConditions from '../../TermsAndConditions.js';
 
 export default function LandingPageNavigator() {
 	return (
@@ -39,6 +43,18 @@ export default function LandingPageNavigator() {
 				</Route>
 				<Route path='/signUp'>
 					<SignUpScreen />
+				</Route>
+				<Route path='/dashboard'>
+					<Dashboard />
+				</Route>
+				<Route path='/privacypolicy'>
+					<PrivacyPolicy />
+				</Route>
+				<Route path='/terms'>
+					<TermsAndConditions />
+				</Route>
+				<Route path='/credits'>
+					<Credits />
 				</Route>
 			</Switch>
 		</BrowserRouter>

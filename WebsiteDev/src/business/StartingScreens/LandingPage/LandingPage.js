@@ -55,6 +55,12 @@ export default function LandingPage() {
 
         <div class="copyright">
           &copy;2020- <strong>Help</strong>
+          <br />
+          <a href="/privacypolicy">Privacy Policy</a>
+          <br />
+          <a href="/terms">Terms and Conditions</a>
+          <br />
+          <a href="/credits">Credits</a>
         </div>
       </section>
   );
