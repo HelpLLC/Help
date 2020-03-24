@@ -47,7 +47,7 @@ render() {
                   marginTop: '5px'
                   },
                }}
-               size="normal"
+               size= {this.props.size == null? "normal" : this.props.size}
             />
          </ThemeProvider>
     </div>
@@ -57,7 +57,8 @@ propTypes = {
    labelText: PropTypes.string.isRequired,
    multiline: PropTypes.bool.isRequired,
    widthPercent: PropTypes.string.isRequired,
-   type: PropTypes.string
+   type: PropTypes.string,
+   size: PropTypes.string
  };
 }
 
