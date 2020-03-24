@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import './LandingPage.css';
-import Login from '../Login/Login';
 import SignUpScreen from '../Signup/SignUpScreen';
 import fontStyles from '../../../config/fontStyles';
 import LandingPage from './LandingPage';
+import LoginRegister from '../Login/LoginRegister'
 import Dashboard from '../../../business/BusinessScreens/Dashboard/Dashboard';
 import PrivacyPolicy from '../../PrivacyPolicy.js';
 import Credits from '../../Credits.js';
@@ -39,7 +39,7 @@ export default function LandingPageNavigator() {
 					<LandingPage />
 				</Route>
 				<Route path='/login'>
-					<Login />
+					<LoginRegister />
 				</Route>
 				<Route path='/signUp'>
 					<SignUpScreen />
