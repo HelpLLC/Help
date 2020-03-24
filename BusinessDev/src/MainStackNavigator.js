@@ -19,6 +19,7 @@ import PrivacyScreen from './settingsScreens/privacyScreen';
 import ReportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';
 import BusinessScreensNavigator from './bottomTabScreens/businessScreensNavigator';
 import CreditsScreen from './settingsScreens/creditsScreen';
+import ServiceCurrentRequestsScreen from './sideBusinessScreens/serviceCurrentRequestsScreen';
 import CreateQuestionsScreen from './sideBusinessScreens/createQuestionsScreen';
 import CreateScheduleScreen from './firstScreens/signUp/createScheduleScreen';
 import { fadeIn, fromRight } from 'react-navigation-transitions';
@@ -123,8 +124,14 @@ const routeConfig = {
 		screen: CreateQuestionsScreen
 	},
 
+	//Takes you to where businesses edit additional service information
 	ServiceAdditionalInformationScreen: {
 		screen: ServiceAdditionalInformationScreen
+	},
+
+	//Takes you to the screen where businesses see current requests for a specific service
+	ServiceCurrentRequestsScreen: {
+		screen: ServiceCurrentRequestsScreen
 	},
 
 	//The route going to the screen for a specific request

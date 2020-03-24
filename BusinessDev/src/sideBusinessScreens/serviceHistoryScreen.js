@@ -62,11 +62,20 @@ class serviceHistoryScreen extends Component {
 					leftOnPress={() => this.props.navigation.goBack()}
 				/>
 				<FlatList
+					data={completedRequests}
+					keyExtractor={(item, index) => {
+						return item.requesterID + index.toString();
+					}}
 					ListEmptyComponent={
-						<View style={{ flex: 0.35, justifyContent: 'center', alignItems: 'center' }}>
+						<View
+							style={{
+								marginTop: screenHeight * 0.15,
+								justifyContent: 'center',
+								alignItems: 'center'
+							}}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.NoHistoryForThisServiceYet}</Text>
 						</View>
-				}
+					}
 					ListHeaderComponent={
 						<View>
 							<View
@@ -95,10 +104,6 @@ class serviceHistoryScreen extends Component {
 							</View>
 						</View>
 					}
-					data={completedRequests}
-					keyExtractor={(item, index) => {
-						return item.requesterID + index.toString();
-					}}
 					renderItem={({ item, index }) => (
 						<View style={{ marginBottom: screenHeight * 0.025 }}>
 							<ServiceCard

@@ -258,13 +258,10 @@ export default {
 	//------------------- Service Screen -------------------
 	Service: 'Service',
 	EditService: 'Edit Service',
-	NoCurrentRequests: 'No Current Requests',
-	at: 'at',
 	Cancel: 'Cancel',
-	RequestedOn: 'Requested On',
-	CurrentRequests: 'Current Requests',
+	ViewRequests: 'View Requests',
 
-	//------------------- Edit Product Screen -------------------
+	//------------------- Edit Service Screen -------------------
 	EditTitle: 'Edit Title',
 	EditDescription: 'Edit Description',
 	EditPrice: 'Edit Price',
@@ -285,6 +282,7 @@ export default {
 	CustomerRequest: 'Customer Request',
 	Delete: 'Delete',
 	Message: 'Message',
+	RequestedOn: 'Requested On',
 	Complete: 'Complete',
 	CustomerAnswers: 'Customer Answers',
 	ScheduledOn: 'Scheduled on',
@@ -302,7 +300,11 @@ export default {
 	Date: 'Date',
 	Time: 'Time',
 	PaymentType: 'Payment Type',
+	Price: 'Price',
 	RequestID: 'Request ID',
+
+	//------------------- Business Side Current Requests Screen -------------------
+	NoCurrentRequestsForThisService: 'No Current Requests For This Service',
 
 	//------------------- Featured Screen -------------------
 	OfferedBy: 'Offered by',

@@ -68,6 +68,7 @@ export default class customerRequestScreen extends Component {
 				</HelpView>
 			);
 		}
+		console.log(request);
 		return (
 			<View style={screenStyle.container}>
 				<TopBanner
@@ -132,6 +133,8 @@ export default class customerRequestScreen extends Component {
 									style={{
 										marginTop: screenHeight * 0.025,
 										borderBottomColor: colors.lightBlue,
+										width: screenWidth * 0.9,
+										alignSelf: 'center',
 										borderBottomWidth: 1,
 										paddingBottom: screenWidth * 0.01
 									}}>
@@ -185,50 +188,38 @@ export default class customerRequestScreen extends Component {
 									}}>
 									<LoadingSpinner isVisible={true} />
 								</View>
-							) : request.status !== 'COMPLETE' ? (
+							) : (
 								<View
 									style={{
-										marginTop: screenHeight * 0.025,
-										flexDirection: 'row',
-										justifyContent: 'space-evenly'
+										justifyContent: 'center',
+										alignItems: 'center',
+										marginTop: screenHeight * 0.025
 									}}>
-									<RoundBlueButton
-										title={strings.Delete}
-										style={roundBlueButtonStyle.SmallSizeButton}
-										textStyle={fontStyles.mainTextStyleWhite}
-										onPress={() => {
-											this.setState({
-												isDeleteRequestVisible: true
-											});
-										}}
-										disabled={this.state.isLoading}
-									/>
-									<RoundBlueButton
-										title={strings.Complete}
-										style={roundBlueButtonStyle.SmallSizeButton}
-										textStyle={fontStyles.mainTextStyleWhite}
-										onPress={() => {
-											this.props.navigation.push('BillCustomerScreen', {
-												request: request
-											});
-										}}
-										disabled={this.state.isLoading}
-									/>
-								</View>
-							) : (
-								<View style={{ justifyContent: 'center', alignItems: 'center' }}>
-									<View
-										style={{
-											flexDirection: 'row',
-											justifyContent: 'space-between',
-											width: screenWidth * 0.9,
-											marginBottom: screenHeight * 0.015
-										}}>
-										<Text style={fontStyles.mainTextStyleBlack}>{strings.BilledAmount}</Text>
-										<Text style={fontStyles.mainTextStyleBlack}>
-											{strings.DollarSign + request.billedAmount}
-										</Text>
-									</View>
+									{request.status === 'COMPLETE' ? (
+										<View
+											style={{
+												flexDirection: 'row',
+												justifyContent: 'space-between',
+												width: screenWidth * 0.9,
+												marginBottom: screenHeight * 0.015
+											}}>
+											<Text style={fontStyles.mainTextStyleBlack}>{strings.BilledAmount}</Text>
+											<Text style={fontStyles.mainTextStyleBlack}>
+												{strings.DollarSign + request.billedAmount}
+											</Text>
+										</View>
+									) : (
+										<View
+											style={{
+												flexDirection: 'row',
+												justifyContent: 'space-between',
+												width: screenWidth * 0.9,
+												marginBottom: screenHeight * 0.015
+											}}>
+											<Text style={fontStyles.mainTextStyleBlack}>{strings.Price}</Text>
+											<Text style={fontStyles.mainTextStyleBlack}>{request.priceText}</Text>
+										</View>
+									)}
 									<View
 										style={{
 											flexDirection: 'row',
@@ -271,6 +262,40 @@ export default class customerRequestScreen extends Component {
 										<Text style={fontStyles.mainTextStyleBlack}>{strings.RequestID}</Text>
 										<Text style={fontStyles.smallTextStyleBlack}>{request.requestID}</Text>
 									</View>
+									{request.status !== 'COMPLETE' ? (
+										<View
+											style={{
+												marginTop: screenHeight * 0.025,
+												width: screenWidth,
+												flexDirection: 'row',
+												justifyContent: 'space-evenly'
+											}}>
+											<RoundBlueButton
+												title={strings.Delete}
+												style={roundBlueButtonStyle.SmallSizeButton}
+												textStyle={fontStyles.mainTextStyleWhite}
+												onPress={() => {
+													this.setState({
+														isDeleteRequestVisible: true
+													});
+												}}
+												disabled={this.state.isLoading}
+											/>
+											<RoundBlueButton
+												title={strings.Complete}
+												style={roundBlueButtonStyle.SmallSizeButton}
+												textStyle={fontStyles.mainTextStyleWhite}
+												onPress={() => {
+													this.props.navigation.push('BillCustomerScreen', {
+														request: request
+													});
+												}}
+												disabled={this.state.isLoading}
+											/>
+										</View>
+									) : (
+										<View></View>
+									)}
 								</View>
 							)}
 							<OptionPicker
