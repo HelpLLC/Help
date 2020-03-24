@@ -43,7 +43,7 @@ export function Login() {
               }}
             />
           </div>
-          <p>Forgot Password?</p>
+          <p>Forgot Password?  </p>
         </div>
       </div>
       <div className="footer">

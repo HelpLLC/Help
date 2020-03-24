@@ -1,6 +1,6 @@
 import React from "react";
 import "./LoginRegister.scss";
-import { Login, Register } from "./index.jsx";
+import { Login, Register } from "./LoginRegisterStyler.js";
 
 export default class LoginRegister extends React.Component {
   constructor(props) {
