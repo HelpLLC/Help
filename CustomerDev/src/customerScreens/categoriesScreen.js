@@ -23,7 +23,7 @@ export default class categoriesScreen extends Component {
 		categories: null,
 		customer: '',
 		isOpen: false,
-		search: '',
+		search: ''
 	};
 
 	async componentDidMount() {
@@ -74,13 +74,35 @@ export default class categoriesScreen extends Component {
 
 	render() {
 		if (this.state.isLoading === true) {
+			const { customer, allServices } = this.props.navigation.state.params;
 			return (
-				<HelpView style={screenStyle.container}>
-					<TopBanner title={strings.Categories} />
-					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-						<LoadingSpinner isVisible={true} />
-					</View>
-				</HelpView>
+				<SideMenu
+					onChange={(isOpen) => {
+						this.setState({ isOpen });
+					}}
+					isOpen={this.state.isOpen}
+					menu={
+						<LeftMenu
+							navigation={this.props.navigation}
+							allServices={allServices}
+							customer={customer}
+						/>
+					}>
+					<HelpView style={screenStyle.container}>
+						<TopBanner
+							leftIconName='navicon'
+							leftOnPress={() => {
+								FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_categories');
+								this.setState({ isOpen: true });
+							}}
+							size={30}
+							title={strings.Categories}
+						/>
+						<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+							<LoadingSpinner isVisible={true} />
+						</View>
+					</HelpView>
+				</SideMenu>
 			);
 		} else {
 			const { search, customer, allServices } = this.state;
@@ -98,7 +120,7 @@ export default class categoriesScreen extends Component {
 							customer={customer}
 						/>
 					}>
-					<HelpView style={screenStyle.container}>
+					<View style={screenStyle.container}>
 						<TopBanner
 							leftIconName='navicon'
 							leftOnPress={() => {
@@ -134,7 +156,7 @@ export default class categoriesScreen extends Component {
 							allServices={allServices}
 							navigation={this.props.navigation}
 						/>
-					</HelpView>
+					</View>
 				</SideMenu>
 			);
 		}

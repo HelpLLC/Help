@@ -82,57 +82,61 @@ export default class blockedBusinessesScreen extends Component {
 
 		//If the screen has loaded, renders the main view
 		return (
-			<HelpView style={screenStyle.container}>
+			<View style={screenStyle.container}>
 				<TopBanner
 					title={strings.Blocked}
 					leftIconName='angle-left'
 					leftOnPress={() => this.props.navigation.goBack()}
 				/>
-				<ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
-					<FlatList
-						data={blockedBusinesses}
-						extraData={this.state}
-						keyExtractor={(item, index) => {
-							return item.businessID;
-						}}
-						renderItem={({ item, index }) => (
-							<View
-								style={{
-									height: screenHeight * 0.07,
-									marginTop: screenHeight * 0.01,
-									flexDirection: 'row',
-									justifyContent: 'space-between',
-									alignSelf: 'center',
-									alignItems: 'center',
-									width: screenWidth * 0.95,
-									borderBottomColor: colors.lightBlue,
-									borderBottomWidth: 1
-								}}>
-								<Text style={fontStyles.mainTextStyleBlack}>{item.businessName}</Text>
-								<RoundBlueButton
-									title={strings.Unblock}
-									style={roundBlueButtonStyle.SmallSizeButton}
-									textStyle={fontStyles.bigTextStyleWhite}
-									onPress={() => {
-										this.setState({
-											companyClicked: item,
-											isUnblockCompanyVisible: true
-										});
-									}}
-									disabled={isLoading}
-								/>
-							</View>
-						)}
-					/>
-					<OptionPicker
-						isVisible={isUnblockCompanyVisible}
-						title={strings.UnblockBusiness}
-						message={strings.AreYouSureYouWantToUnblock + companyClicked.businessName + '?'}
-						confirmText={strings.Yes}
-						cancelText={strings.Cancel}
-						clickOutside={true}
-						confirmOnPress={async () => {
-							//try {
+				<FlatList
+					data={blockedBusinesses}
+					extraData={this.state}
+					keyExtractor={(item, index) => {
+						return item.businessID;
+					}}
+					ListEmptyComponent={
+						<View style={{ height: screenHeight * 0.7, justifyContent: 'center', alignItems: 'center' }}>
+							<Text style={fontStyles.bigTextStyleBlack}>{strings.NoBusinessesBlocked}</Text>
+						</View>
+					}
+					renderItem={({ item, index }) => (
+						<View
+							style={{
+								height: screenHeight * 0.07,
+								marginTop: screenHeight * 0.01,
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+								alignSelf: 'center',
+								alignItems: 'center',
+								width: screenWidth * 0.95,
+								borderBottomColor: colors.lightBlue,
+								borderBottomWidth: 1
+							}}>
+							<Text style={fontStyles.mainTextStyleBlack}>{item.businessName}</Text>
+							<RoundBlueButton
+								title={strings.Unblock}
+								style={roundBlueButtonStyle.SmallSizeButton}
+								textStyle={fontStyles.bigTextStyleWhite}
+								onPress={() => {
+									this.setState({
+										companyClicked: item,
+										isUnblockCompanyVisible: true
+									});
+								}}
+								disabled={isLoading}
+							/>
+						</View>
+					)}
+				/>
+				<OptionPicker
+					isVisible={isUnblockCompanyVisible}
+					title={strings.UnblockBusiness}
+					message={strings.AreYouSureYouWantToUnblock + companyClicked.businessName + '?'}
+					confirmText={strings.Yes}
+					cancelText={strings.Cancel}
+					clickOutside={true}
+					confirmOnPress={async () => {
+						try {
 							this.setState({ isLoading: true, isUnblockCompanyVisible: false });
 							await FirebaseFunctions.call('unblockCompany', {
 								customerID: customer.customerID,
@@ -147,54 +151,53 @@ export default class blockedBusinessesScreen extends Component {
 								isLoading: false,
 								customer: newCustomer
 							});
-							/*	} catch (error) {
-								this.setState({ isLoading: false, isErrorVisible: true });
-								FirebaseFunctions.call('logIssue', {
-									error,
-									userID: {
-										screen: 'Blocked Businesses Screen',
-										userID: 'c-' + customer.customerID
-									}
-								});
-							}*/
-						}}
-						cancelOnPress={() => {
-							this.setState({ isUnblockCompanyVisible: false, isLoading: false });
-						}}
-					/>
-					<View
-						style={{
-							justifyContent: 'center',
-							alignItems: 'center',
-							marginTop: screenHeight * 0.05,
-							width: screenWidth
-						}}>
-						<LoadingSpinner isVisible={isLoading} />
-					</View>
-					<HelpAlert
-						isVisible={isErrorVisible}
-						onPress={() => {
-							this.setState({ isErrorVisible: false });
-						}}
-						title={strings.Whoops}
-						message={strings.SomethingWentWrong}
-					/>
-					<HelpAlert
-						isVisible={isCompanyHasBeenUnblockedVisible}
-						onPress={() => {
-							this.setState({
-								isCompanyHasBeenUnblockedVisible: false
+						} catch (error) {
+							this.setState({ isLoading: false, isErrorVisible: true });
+							FirebaseFunctions.call('logIssue', {
+								error,
+								userID: {
+									screen: 'Blocked Businesses Screen',
+									userID: 'c-' + customer.customerID
+								}
 							});
-							this.props.navigation.push('FeaturedScreen', {
-								customer: this.state.customer,
-								allServices: this.state.allServices
-							});
-						}}
-						title={strings.Success}
-						message={companyClicked.businessName + ' ' + strings.HasBeenUnblocked}
-					/>
-				</ScrollView>
-			</HelpView>
+						}
+					}}
+					cancelOnPress={() => {
+						this.setState({ isUnblockCompanyVisible: false, isLoading: false });
+					}}
+				/>
+				<View
+					style={{
+						justifyContent: 'center',
+						alignItems: 'center',
+						marginTop: screenHeight * 0.05,
+						width: screenWidth
+					}}>
+					<LoadingSpinner isVisible={isLoading} />
+				</View>
+				<HelpAlert
+					isVisible={isErrorVisible}
+					onPress={() => {
+						this.setState({ isErrorVisible: false });
+					}}
+					title={strings.Whoops}
+					message={strings.SomethingWentWrong}
+				/>
+				<HelpAlert
+					isVisible={isCompanyHasBeenUnblockedVisible}
+					onPress={() => {
+						this.setState({
+							isCompanyHasBeenUnblockedVisible: false
+						});
+						this.props.navigation.push('FeaturedScreen', {
+							customer: this.state.customer,
+							allServices: this.state.allServices
+						});
+					}}
+					title={strings.Success}
+					message={companyClicked.businessName + ' ' + strings.HasBeenUnblocked}
+				/>
+			</View>
 		);
 	}
 }

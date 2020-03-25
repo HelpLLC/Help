@@ -124,7 +124,7 @@ export default class additionalInformationScreen extends Component {
 			);
 		}
 		return (
-			<View style={screenStyle.container}>
+			<HelpView style={screenStyle.container}>
 				<TopBanner
 					title={this.state.editing === true ? strings.EditCompany : strings.CreateProfile}
 					leftIconName='angle-left'
@@ -236,7 +236,7 @@ export default class additionalInformationScreen extends Component {
 					title={strings.Location}
 					message={strings.WhyWeUseLocation}
 				/>
-			</View>
+			</HelpView>
 		);
 	}
 }

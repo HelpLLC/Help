@@ -102,7 +102,7 @@ class categoryScreen extends Component {
 		}
 
 		return (
-			<HelpView style={screenStyle.container}>
+			<View style={screenStyle.container}>
 				{/* Header */}
 				<TopBanner
 					title={categoryName}
@@ -126,7 +126,7 @@ class categoryScreen extends Component {
 					navigation={this.props.navigation}
 					services={displayedServices}
 				/>
-			</HelpView>
+			</View>
 		);
 	}
 }

@@ -61,6 +61,7 @@ export default {
 	//------------------- Blocked Businesses Screen -------------------
 	Blocked: 'Blocked',
 	Unblock: 'Unblock',
+	NoBusinessesBlocked: 'No Businesses Blocked',
 	UnblockBusiness: 'Unblock Business',
 	AreYouSureYouWantToUnblock: 'Are you sure you want to unblock ',
 	HasBeenUnblocked: 'has been unblocked.',
@@ -290,7 +291,8 @@ export default {
 	Restart: 'Restart',
 	AppWillRestart: 'Help will now restart to install the update.',
 	NewBusinessApp: 'Help for Businesses',
-	NewBusinessAppMessage: 'Businesses on Help now use a seperate app to manage their business. Go download it now!',
+	NewBusinessAppMessage:
+		'Businesses on Help now use a seperate app to manage their business. Go download it now!',
 	UnderMaintenance: 'Under Maintenance',
 	AppIsUnderMaintenance: 'Help is currently under scheduled maintenance. It should be back up soon.'
 };
