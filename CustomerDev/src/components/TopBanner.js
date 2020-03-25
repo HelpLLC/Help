@@ -1,6 +1,6 @@
 //Component represents a top banner that will have three components within it,
 //an icon, a title, and another icon that will all be equally seperated
-import React, { Component } from 'React';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Text, View, TouchableOpacity, Dimensions } from 'react-native';
 import colors from 'config/colors';
