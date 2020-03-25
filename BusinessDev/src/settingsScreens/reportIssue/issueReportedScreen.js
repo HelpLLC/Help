@@ -20,7 +20,7 @@ export default class issueReportedScreen extends Component {
 		this.timeoutHandle = setTimeout(() => {
 			//Transitions back to the screen
 			this.props.navigation.push('ReportIssueScreen', {
-				user: this.props.navigation.state.params.user
+				businessID: this.props.navigation.state.params.businessID
 			});
 			//Makes sure the screen only stays on for three seconds
 		}, 3350);

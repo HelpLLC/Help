@@ -1,7 +1,7 @@
 //This screen will represent the landing screen for any given business. It will contain the
 //business's profile and will be the landing screen for the user when they login.
 import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';

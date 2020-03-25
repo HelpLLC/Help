@@ -153,6 +153,8 @@ export default class analyticsScreen extends Component {
 			}
 		}
 
+		console.log(xAxis);
+
 		return { chartData, xAxis };
 	}
 

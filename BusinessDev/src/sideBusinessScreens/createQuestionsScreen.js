@@ -5,6 +5,7 @@ import TopBanner from '../components/TopBanner';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
 import RoundBlueButton from '../components/RoundBlueButton';
+import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view'; 
 import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
@@ -13,6 +14,7 @@ import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Icon } from 'react-native-elements';
 import HelpAlert from '../components/HelpAlert';
+import screenStyle from '../../config/styles/screenStyle';
 
 class createQuestionsScreen extends Component {
 	state = {
@@ -188,193 +190,201 @@ class createQuestionsScreen extends Component {
 			);
 		}
 		return (
-			<HelpView>
+			<View style={screenStyle.container}>
 				<TopBanner
 					title={strings.CustomerInfo}
 					leftIconName='angle-left'
 					leftOnPress={() => this.props.navigation.goBack()}
 				/>
-				<ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
-					<View
-						style={{
-							justifyContent: 'flex-start',
-							alignItems: 'center',
-							marginHorizontal: screenWidth * 0.025,
-							marginVertical: screenHeight * 0.025
-						}}>
-						<Text style={fontStyles.mainTextStyleBlack}>{strings.InfoFromCustomersQuestion}</Text>
-					</View>
-					<View style={{ marginTop: screenHeight * 0.01 }}>
-						<FlatList
-							showsHorizontalScrollIndicator={false}
-							showsVerticalScrollIndicator={false}
-							data={this.state.defaultQuestions}
-							extraData={this.state}
-							horizontal={true}
-							keyExtractor={(item) => item.name}
-							showsVerticalScrollIndicator={false}
-							renderItem={({ item, index }) => (
+				<View style={{ marginTop: screenHeight * 0.01 }}>
+					<KeyboardAwareFlatList
+						showsHorizontalScrollIndicator={false}
+						showsVerticalScrollIndicator={false}
+						ListHeaderComponent={
+							<View>
 								<View
 									style={{
-										flex: 1,
+										justifyContent: 'flex-start',
 										alignItems: 'center',
-										marginLeft: screenWidth * 0.025
+										marginHorizontal: screenWidth * 0.025,
+										marginVertical: screenHeight * 0.025
+									}}>
+									<Text style={fontStyles.mainTextStyleBlack}>
+										{strings.InfoFromCustomersQuestion}
+									</Text>
+								</View>
+								<View
+									style={{
+										borderBottomColor: colors.lightBlue,
+										width: screenWidth,
+										alignSelf: 'center',
+										borderBottomWidth: 1
+									}}>
+									<View
+										style={{
+											marginVertical: screenHeight * 0.025,
+											marginLeft: screenWidth * 0.025
+										}}>
+										<Text style={fontStyles.bigTextStyleBlack}>{strings.CustomQuestions}</Text>
+									</View>
+									<FlatList
+										showsHorizontalScrollIndicator={false}
+										showsVerticalScrollIndicator={false}
+										data={this.state.defaultQuestions}
+										extraData={this.state}
+										horizontal={true}
+										keyExtractor={(item) => item.name}
+										showsVerticalScrollIndicator={false}
+										renderItem={({ item, index }) => (
+											<View
+												style={{
+													alignItems: 'center',
+													marginHorizontal: screenWidth * 0.0125,
+													marginBottom: screenHeight * 0.025
+												}}>
+												<RoundBlueButton
+													title={item.name}
+													//Tests if this button is selected, if it is, then the border color will
+													//be blue
+													style={[
+														roundBlueButtonStyle.AccountTypeButton,
+														{
+															//Width increased for longer text
+															width: screenWidth * 0.39,
+															borderColor:
+																item.isSelected === true ? colors.lightBlue : colors.white
+														}
+													]}
+													textStyle={fontStyles.mainTextStyleBlue}
+													//Method selects the business button and deselects the other
+													onPress={() => {
+														let { defaultQuestions } = this.state;
+														defaultQuestions[index].isSelected = !defaultQuestions[index]
+															.isSelected;
+														if (defaultQuestions[index].isSelected === true) {
+															//Removes all spaces from the event
+															const event = ('default_questions_' + item.name).replace(' ', '');
+															FirebaseFunctions.analytics.logEvent(event);
+														}
+														this.setState({
+															defaultQuestions
+														});
+													}}
+													disabled={this.state.isLoading}
+												/>
+											</View>
+										)}
+									/>
+								</View>
+							</View>
+						}
+						renderItem={({ item, index }) => (
+							<View style={{ marginLeft: screenWidth * 0.03 }}>
+								<View style={{ marginTop: screenHeight * 0.02 }}>
+									<Text style={fontStyles.subTextStyleBlack}>
+										{strings.Question + ' ' + (index + 1)}
+									</Text>
+								</View>
+								<View
+									style={{
+										marginTop: screenHeight * 0.01,
+										flexDirection: 'row',
+										justifyContent: 'space-evenly'
+									}}>
+									<MultiLineRoundedBoxInput
+										width={screenWidth * 0.8}
+										height={screenHeight * 0.075}
+										placeholder={strings.AskQuestionsForCustomers}
+										onChangeText={(input) => {
+											questions[index] = input;
+											this.setState({
+												questions
+											});
+										}}
+										value={item}
+										maxLength={300}
+									/>
+									<TouchableOpacity
+										onPress={() => {
+											questions.splice(index, 1);
+											this.setState({
+												questions
+											});
+										}}
+										style={{
+											width: screenWidth * 0.1,
+											height: screenWidth * 0.1,
+											borderRadius: screenWidth * 0.5,
+											marginLeft: screenWidth * 0.02,
+											backgroundColor: colors.red,
+											justifyContent: 'center',
+											alignItems: 'center',
+											alignSelf: 'center'
+										}}>
+										<Icon
+											style={{
+												width: screenWidth * 0.1,
+												height: screenWidth * 0.1
+											}}
+											name='delete'
+											color={colors.white}
+										/>
+									</TouchableOpacity>
+								</View>
+							</View>
+						)}
+						ListFooterComponent={
+							<View style={{ marginBottom: screenHeight * 0.2 }}>
+								<TouchableOpacity
+									onPress={() => {
+										questions.push('');
+										this.setState({
+											questions
+										});
+									}}
+									disabled={this.state.isLoading}
+									style={{
+										marginTop: screenHeight * 0.02,
+										justifyContent: 'center',
+										alignItems: 'center',
+										alignSelf: 'center',
+										width: screenWidth * 0.39,
+										height: screenHeight * 0.0878
+									}}>
+									<Text style={fontStyles.bigTextStyleBlue}>{strings.AddQuestion}</Text>
+								</TouchableOpacity>
+								<View
+									style={{
+										marginTop: screenHeight * 0.03
 									}}>
 									<RoundBlueButton
-										title={item.name}
-										//Tests if this button is selected, if it is, then the border color will
-										//be blue
-										style={[
-											roundBlueButtonStyle.AccountTypeButton,
-											{
-												//Width increased for longer text
-												width: screenWidth * 0.39,
-												borderColor: item.isSelected === true ? colors.lightBlue : colors.white
-											}
-										]}
-										textStyle={fontStyles.mainTextStyleBlue}
-										//Method selects the business button and deselects the other
-										onPress={() => {
-											let { defaultQuestions } = this.state;
-											defaultQuestions[index].isSelected = !defaultQuestions[index].isSelected;
-											if (defaultQuestions[index].isSelected === true) {
-												//Removes all spaces from the event
-												const event = ('default_questions_' + item.name).replace(' ', '');
-												FirebaseFunctions.analytics.logEvent(event);
-											}
-											this.setState({
-												defaultQuestions
-											});
+										title={strings.Next}
+										style={roundBlueButtonStyle.MediumSizeButton}
+										textStyle={fontStyles.bigTextStyleWhite}
+										onPress={async () => {
+											await this.goToAddtionalInfoScreen();
 										}}
 										disabled={this.state.isLoading}
 									/>
 								</View>
-							)}
-						/>
-						<View
-							style={{
-								marginTop: screenHeight * 0.02,
-								borderTopColor: colors.lightBlue,
-								width: screenWidth * 0.95,
-								alignSelf: 'center',
-								borderTopWidth: 1
-							}}>
-							<View
-								style={{
-									marginTop: screenHeight * 0.025
-								}}>
-								<Text style={fontStyles.bigTextStyleBlack}>{strings.CustomQuestions}</Text>
+								<HelpAlert
+									isVisible={this.state.emptyQuestionError}
+									onPress={() => {
+										this.setState({ emptyQuestionError: false });
+									}}
+									title={strings.Whoops}
+									message={strings.EmptyQuestion}
+								/>
 							</View>
-							<FlatList
-								showsHorizontalScrollIndicator={false}
-								showsVerticalScrollIndicator={false}
-								data={questions}
-								numColumns={1}
-								keyExtractor={(item, index) => index + ''}
-								extraData={this.state}
-								showsVerticalScrollIndicator={false}
-								renderItem={({ item, index }) => (
-									<View style={{ marginLeft: screenWidth * 0.03 }}>
-										<View style={{ marginTop: screenHeight * 0.02 }}>
-											<Text style={fontStyles.subTextStyleBlack}>
-												{strings.Question + ' ' + (index + 1)}
-											</Text>
-										</View>
-										<View
-											style={{
-												marginTop: screenHeight * 0.01,
-												flexDirection: 'row',
-												justifyContent: 'space-evenly'
-											}}>
-											<MultiLineRoundedBoxInput
-												width={screenWidth * 0.8}
-												height={screenHeight * 0.075}
-												placeholder={strings.AskQuestionsForCustomers}
-												onChangeText={(input) => {
-													questions[index] = input;
-													this.setState({
-														questions
-													});
-												}}
-												value={item}
-												maxLength={300}
-											/>
-											<TouchableOpacity
-												onPress={() => {
-													questions.splice(index, 1);
-													this.setState({
-														questions
-													});
-												}}
-												style={{
-													width: screenWidth * 0.1,
-													height: screenWidth * 0.1,
-													borderRadius: screenWidth * 0.5,
-													marginLeft: screenWidth * 0.02,
-													backgroundColor: colors.red,
-													justifyContent: 'center',
-													alignItems: 'center',
-													alignSelf: 'center'
-												}}>
-												<Icon
-													style={{
-														width: screenWidth * 0.1,
-														height: screenWidth * 0.1
-													}}
-													name='delete'
-													color={colors.white}
-												/>
-											</TouchableOpacity>
-										</View>
-									</View>
-								)}
-							/>
-							<TouchableOpacity
-								onPress={() => {
-									questions.push('');
-									this.setState({
-										questions
-									});
-								}}
-								disabled={this.state.isLoading}
-								style={{
-									marginTop: screenHeight * 0.02,
-									justifyContent: 'center',
-									alignItems: 'center',
-									alignSelf: 'center',
-									width: screenWidth * 0.39,
-									height: screenHeight * 0.0878
-								}}>
-								<Text style={fontStyles.bigTextStyleBlue}>{strings.AddQuestion}</Text>
-							</TouchableOpacity>
-						</View>
-					</View>
-					<View
-						style={{
-							justifyContent: 'flex-end',
-							alignContent: 'flex-end',
-							marginTop: screenHeight * 0.03
-						}}>
-						<RoundBlueButton
-							title={strings.Next}
-							style={roundBlueButtonStyle.MediumSizeButton}
-							textStyle={fontStyles.bigTextStyleWhite}
-							onPress={async () => {
-								await this.goToAddtionalInfoScreen();
-							}}
-							disabled={this.state.isLoading}
-						/>
-					</View>
-					<HelpAlert
-						isVisible={this.state.emptyQuestionError}
-						onPress={() => {
-							this.setState({ emptyQuestionError: false });
-						}}
-						title={strings.Whoops}
-						message={strings.EmptyQuestion}
+						}
+						data={questions}
+						numColumns={1}
+						keyExtractor={(item, index) => index + ''}
+						extraData={this.state}
+						showsVerticalScrollIndicator={false}
 					/>
-				</ScrollView>
-			</HelpView>
+				</View>
+			</View>
 		);
 	}
 }

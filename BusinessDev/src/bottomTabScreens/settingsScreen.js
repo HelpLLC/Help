@@ -1,5 +1,5 @@
 //This screen is the settings screen that will availalbe from both providers and requesters' home
-//screens. It will contain multiple options the user can choose from that will take them to seperate
+//screens. It will contain multiple options the businessID can choose from that will take them to seperate
 //screens using a StackNavigator
 import React, { Component } from 'react';
 import { View, Linking } from 'react-native';
@@ -30,24 +30,12 @@ class settingsScreen extends Component {
 		const angleRightIcon = (
 			<Icon name={'angle-right'} type='font-awesome' color={colors.lightBlue} />
 		);
-		//Retrieves the current user from the params
-
-		user = this.props.navigation.state.params.providerID;
-		uid = this.props.navigation.state.params.providerID;
-
-		//This is going to contain the main UI because we only display the left menu if it is a requester
-		const mainUI = (
+		//Retrieves the current businessID from the params
+		const { businessID } = this.props.navigation.state.params;
+		return (
 			<HelpView style={screenStyle.container}>
 				<View>
-					{this.props.navigation.state.params.providerID ? (
-						<TopBanner title={strings.Settings} />
-					) : (
-						<TopBanner
-							size={30}
-							title={strings.Settings}
-						/>
-					)}
-
+					<TopBanner size={30} title={strings.Settings} />
 					<View style={{ flex: 0.1 }}></View>
 					<View style={{ flex: 2 }}>
 						<View style={{ flex: 1 }}>
@@ -59,7 +47,7 @@ class settingsScreen extends Component {
 								//Pressing this leads to the report an issue screen
 								onPress={() =>
 									this.props.navigation.push('ReportIssueScreen', {
-										user
+										businessID
 									})
 								}
 							/>
@@ -123,7 +111,7 @@ class settingsScreen extends Component {
 								mainTextStyle={fontStyles.mainTextStyleRed}
 								//To-Do: Needs to call a logout function
 								onPress={async () => {
-									await FirebaseFunctions.logOut(uid);
+									await FirebaseFunctions.logOut(businessID);
 									this.props.navigation.push('SplashScreen');
 								}}
 							/>
@@ -133,8 +121,6 @@ class settingsScreen extends Component {
 				</View>
 			</HelpView>
 		);
-
-		return <View style={{ flex: 1 }}>{mainUI}</View>;
 	}
 }
 

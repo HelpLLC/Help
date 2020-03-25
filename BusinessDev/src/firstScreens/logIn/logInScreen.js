@@ -2,7 +2,7 @@
 //created. Since there will be no payments or anything secure in the mvp, then users will only
 //log in with their phone numbers. And that will be what is linked with their accoun
 import React, { Component } from 'react';
-import { View, Text, Keyboard, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, Keyboard, TouchableOpacity } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
