@@ -348,6 +348,25 @@ exports.getCompletedRequestsByServiceID = functions.https.onCall(async (input, c
 	return arrayOfData;
 });
 
+//Method is going to fetch current requests for specific service based on the serviceID that is passed into
+//the function. It will do this using firebase SDK where function
+exports.getCurrentRequestsByServiceID = functions.https.onCall(async (input, context) => {
+	const { serviceID } = input;
+	let finalDocs = [];
+
+	//Fetches all the currently requested service given all the possible different statuses
+	const allRequestsForThisService = requests.where('serviceID', '==', serviceID);
+	const awaitingRequests = await allRequestsForThisService.where('status', '==', 'AWAITING').get();
+	const inProgressRequests = await allRequestsForThisService
+		.where('status', '==', 'IN_PROGRESS')
+		.get();
+
+	finalDocs = awaitingRequests.docs.concat(inProgressRequests.docs);
+	finalDocs = finalDocs.map((doc) => doc.data());
+
+	return finalDocs;
+});
+
 //--------------------------------- Creating Functions ---------------------------------
 
 //Method will take in a new customer ID and then will add that customer to the firestore
