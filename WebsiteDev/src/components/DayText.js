@@ -7,7 +7,6 @@ render() {
   const { text } = this.props;
   const mystyle = {
    color: "#00B0F0",
-   backgroundColor: "#fff",
    fontFamily: "Arial Rounded MT Bold",
    marginLeft: this.props.marginLeft,
    marginTop: this.props.marginTop,

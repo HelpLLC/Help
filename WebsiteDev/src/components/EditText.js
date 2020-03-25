@@ -41,11 +41,9 @@ class EditText extends Component {
 								marginTop: '5px'
 							}
 						}}
-						size='normal'
-						onChange={(event) => {
-							this.props.onChange(event.target.value);
-						}}
+						onChange={this.props.onChange}
 						value={this.props.value}
+						size= {this.props.size == null? "normal" : this.props.size}
 					/>
 				</ThemeProvider>
 			</div>
@@ -55,7 +53,8 @@ class EditText extends Component {
 		labelText: PropTypes.string.isRequired,
 		multiline: PropTypes.bool.isRequired,
 		widthPercent: PropTypes.string.isRequired,
-		type: PropTypes.string
+		type: PropTypes.string,
+		size: PropTypes.string
 	};
 }
 

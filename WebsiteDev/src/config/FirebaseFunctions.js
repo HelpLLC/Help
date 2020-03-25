@@ -41,4 +41,15 @@ export default class FirebaseFunctions {
 		}
 		return business.businessID;
 	}
+	// This method emails the user a link to go ahead and reset their password if they have forgotten their password
+  // Used in Login.js
+  // @param email: the email that the link needs to be sent to
+  static async forgotPassword(emailAddress) {
+	// If successful, return 1 or else return -1
+	firebase.auth().sendPasswordResetEmail(emailAddress).then(function() {
+		return 1;
+	}).catch(function(error) {
+		return -1;
+	});
+ }
 }
