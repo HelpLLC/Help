@@ -84,7 +84,6 @@ class categoryScreen extends Component {
 		//Fetches the correct params
 		const { categoryName } = this.props.navigation.state.params;
 		const { displayedServices, search, customer } = this.state;
-		console.log(displayedServices);
 		//If loading it shows loading spinner
 		if (this.state.isLoading === true) {
 			return (

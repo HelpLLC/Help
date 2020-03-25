@@ -56,7 +56,6 @@ class serviceCurrentRequestsScreen extends Component {
 				</HelpView>
 			);
 		}
-		console.log(currentRequests);
 		return (
 			<View style={screenStyle.container}>
 				<TopBanner

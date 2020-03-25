@@ -42,7 +42,6 @@ export default class blockedBusinessesScreen extends Component {
 			const business = await FirebaseFunctions.call('getBusinessByID', { businessID });
 			blocked.push(business);
 		}
-		console.log(blocked);
 		this.setState({
 			allServices,
 			isScreenLoading: false,
