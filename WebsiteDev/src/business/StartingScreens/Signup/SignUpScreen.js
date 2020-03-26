@@ -181,7 +181,9 @@ export default function Signup(props) {
           labelText={"Business Email"}
           multiline={false}
           widthPercent={editTextWidth}
-          onChange={setEmail}
+          onChange={(event) => {
+                  setEmail(event.target.value);
+                }}
           value={email}
         />
         <DayText
