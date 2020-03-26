@@ -25,11 +25,6 @@ class homeScreen extends Component {
 		incompleteProfile: false
 	};
 
-	//Fetches the data associated with this screen
-	async fetchDatabaseData() {
-		return 0;
-	}
-
 	//This will fetch the data about this business from firestore
 	async componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('HomeScreen', 'homeScreen');
@@ -50,6 +45,7 @@ class homeScreen extends Component {
 			if (business.services.length === 0) {
 				image = await FirebaseFunctions.call('getCategoryImageByID', { ID: 'lawn-mower.png' });
 			}
+
 			this.setState({ image, business, isLoading: false });
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });

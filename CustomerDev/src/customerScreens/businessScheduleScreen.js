@@ -316,52 +316,12 @@ export default class businessScheduleScreen extends Component {
 			);
 		}
 		return (
-			<HelpView style={screenStyle.container}>
+			<View style={screenStyle.container}>
 				<TopBanner
 					title={strings.Schedule}
 					leftIconName='angle-left'
 					leftOnPress={() => this.props.navigation.goBack()}
 				/>
-				<View>
-					<Calendar
-						style={{ width: screenWidth }}
-						theme={{
-							selectedDayBackgroundColor: colors.lightBlue,
-							selectedDayTextColor: colors.white,
-							todayTextColor: colors.black,
-							dayTextColor: colors.black,
-							arrowColor: colors.lightBlue,
-							monthTextColor: colors.black,
-							textDayFontFamily: fontStyles.mainTextStyleBlack.fontFamily,
-							textMonthFontFamily: fontStyles.mainTextStyleBlack.fontFamily,
-							textDayHeaderFontFamily: fontStyles.mainTextStyleBlack.fontFamily,
-							textDayFontSize: fontStyles.subTextStyleBlack.fontSize,
-							textMonthFontSize: fontStyles.bigTextStyleBlack.fontSize
-						}}
-						markedDates={{
-							[this.state.dateString]: { selected: true }
-						}}
-						current={this.state.selectedDate}
-						minDate={this.state.isEditing === true ? null : new Date()}
-						onDayPress={async (newDate) => {
-							this.setState({ isDayLoading: true });
-							const dateObject = new Date();
-							dateObject.setFullYear(newDate.year);
-							dateObject.setMonth(newDate.month - 1);
-							dateObject.setDate(newDate.day);
-							this.setState({
-								selectedDate: dateObject.toLocaleDateString('en-US'),
-								dateString: newDate.dateString,
-								selectedTime: ''
-							});
-							const availableTimes = await this.setAvailableTimes(dateObject);
-							this.setState({
-								availableTimes,
-								isDayLoading: false
-							});
-						}}
-					/>
-				</View>
 				<View style={{ width: screenWidth, flex: 1 }}>
 					{this.state.isDayLoading === true ? (
 						<View
@@ -381,6 +341,48 @@ export default class businessScheduleScreen extends Component {
 							extraData={this.state}
 							keyExtractor={(item) => item}
 							showsVerticalScrollIndicator={false}
+							ListHeaderComponent={
+								<View>
+									<Calendar
+										style={{ width: screenWidth }}
+										theme={{
+											selectedDayBackgroundColor: colors.lightBlue,
+											selectedDayTextColor: colors.white,
+											todayTextColor: colors.black,
+											dayTextColor: colors.black,
+											arrowColor: colors.lightBlue,
+											monthTextColor: colors.black,
+											textDayFontFamily: fontStyles.mainTextStyleBlack.fontFamily,
+											textMonthFontFamily: fontStyles.mainTextStyleBlack.fontFamily,
+											textDayHeaderFontFamily: fontStyles.mainTextStyleBlack.fontFamily,
+											textDayFontSize: fontStyles.subTextStyleBlack.fontSize,
+											textMonthFontSize: fontStyles.bigTextStyleBlack.fontSize
+										}}
+										markedDates={{
+											[this.state.dateString]: { selected: true }
+										}}
+										current={this.state.selectedDate}
+										minDate={this.state.isEditing === true ? null : new Date()}
+										onDayPress={async (newDate) => {
+											this.setState({ isDayLoading: true });
+											const dateObject = new Date();
+											dateObject.setFullYear(newDate.year);
+											dateObject.setMonth(newDate.month - 1);
+											dateObject.setDate(newDate.day);
+											this.setState({
+												selectedDate: dateObject.toLocaleDateString('en-US'),
+												dateString: newDate.dateString,
+												selectedTime: ''
+											});
+											const availableTimes = await this.setAvailableTimes(dateObject);
+											this.setState({
+												availableTimes,
+												isDayLoading: false
+											});
+										}}
+									/>
+								</View>
+							}
 							ListEmptyComponent={
 								selectedDate === '' ? (
 									<View />
@@ -516,7 +518,7 @@ export default class businessScheduleScreen extends Component {
 						this.setState({ requestSummaryVisible: false });
 					}}
 				/>
-			</HelpView>
+			</View>
 		);
 	}
 }
