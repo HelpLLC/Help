@@ -1,7 +1,7 @@
 //This screen will represent the landing screen for any given business. It will contain the
 //business's profile and will be the landing screen for the user when they login.
 import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -25,11 +25,6 @@ class homeScreen extends Component {
 		incompleteProfile: false
 	};
 
-	//Fetches the data associated with this screen
-	async fetchDatabaseData() {
-		return 0;
-	}
-
 	//This will fetch the data about this business from firestore
 	async componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('HomeScreen', 'homeScreen');
@@ -50,6 +45,7 @@ class homeScreen extends Component {
 			if (business.services.length === 0) {
 				image = await FirebaseFunctions.call('getCategoryImageByID', { ID: 'lawn-mower.png' });
 			}
+
 			this.setState({ image, business, isLoading: false });
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });

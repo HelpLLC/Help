@@ -123,7 +123,7 @@ export default class featuredScreen extends Component {
 						customer={customer}
 					/>
 				}>
-				<HelpView style={screenStyle.container}>
+				<View style={screenStyle.container}>
 					<TopBanner
 						leftIconName='navicon'
 						leftOnPress={() => {
@@ -229,7 +229,7 @@ export default class featuredScreen extends Component {
 						title={strings.Whoops}
 						message={strings.PleaseGiveAStarRatingAlongWithReview}
 					/>
-				</HelpView>
+				</View>
 			</SideMenu>
 		);
 	}

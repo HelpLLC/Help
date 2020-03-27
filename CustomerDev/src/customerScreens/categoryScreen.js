@@ -84,7 +84,6 @@ class categoryScreen extends Component {
 		//Fetches the correct params
 		const { categoryName } = this.props.navigation.state.params;
 		const { displayedServices, search, customer } = this.state;
-		console.log(displayedServices);
 		//If loading it shows loading spinner
 		if (this.state.isLoading === true) {
 			return (
@@ -102,7 +101,7 @@ class categoryScreen extends Component {
 		}
 
 		return (
-			<HelpView style={screenStyle.container}>
+			<View style={screenStyle.container}>
 				{/* Header */}
 				<TopBanner
 					title={categoryName}
@@ -126,7 +125,7 @@ class categoryScreen extends Component {
 					navigation={this.props.navigation}
 					services={displayedServices}
 				/>
-			</HelpView>
+			</View>
 		);
 	}
 }

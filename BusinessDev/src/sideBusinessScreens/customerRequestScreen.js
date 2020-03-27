@@ -26,7 +26,6 @@ export default class customerRequestScreen extends Component {
 		const { requestID } = this.props.navigation.state.params;
 		const request = await FirebaseFunctions.call('getRequestByID', { requestID });
 
-		console.log(request);
 		const image = await FirebaseFunctions.call('getProfilePictureByID', {
 			customerID: request.customerID
 		});
@@ -68,7 +67,6 @@ export default class customerRequestScreen extends Component {
 				</HelpView>
 			);
 		}
-		console.log(request);
 		return (
 			<View style={screenStyle.container}>
 				<TopBanner
