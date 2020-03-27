@@ -1,11 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import './LandingPage.css';
-import SignUpScreen from '../Signup/SignUpScreen';
 import fontStyles from '../../../config/fontStyles';
 import strings from '../../../config/strings';
 import LandingPage from './LandingPage';
-import LoginRegister from '../Login/LoginRegister';
+import LoginRegister from '../Authentication/LoginRegister';
 import Dashboard from '../../../business/BusinessScreens/Dashboard/Dashboard';
 import { SocialIcon } from 'react-social-icons';
 import PrivacyPolicy from '../../PrivacyPolicy.js';
@@ -92,10 +91,10 @@ export default function LandingPageNavigator() {
 					</div>
 				</Route>
 				<Route path='/login'>
-					<LoginRegister />
+					<LoginRegister login={true} />
 				</Route>
 				<Route path='/signUp'>
-					<SignUpScreen />
+					<LoginRegister login={false} />
 				</Route>
 				<Route path='/dashboard'>
 					<Dashboard />
