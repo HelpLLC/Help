@@ -11,7 +11,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import ButtonComponent from '../../../components/ButtonComponent';
 
 export function Login() {
 	const [email, setEmail] = React.useState('');
@@ -103,7 +102,7 @@ export function Login() {
 				</button>
 
 				<br />
-				<HelpButton
+				<HelpButton fullWidth={false}
 					label='Forgot Password'
 					onClick={() => {
 						handleClickOpen();
@@ -130,8 +129,8 @@ export function Login() {
 					/>
 				</DialogContent>
 				<DialogActions>
-					<HelpButton onClick={handleClose} label='Cancel' />
-					<HelpButton onClick={submit} label='Email Me' />
+					<HelpButton fullWidth={false} onClick={handleClose} label='Cancel' />
+					<HelpButton fullWidth={false} onClick={submit} label='Email Me' />
 				</DialogActions>
 			</Dialog>
 
@@ -144,7 +143,7 @@ export function Login() {
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<HelpButton onClick={handleEmailSentClose} label='Ok' />
+					<HelpButton fullWidth={false} onClick={handleEmailSentClose} label='Ok' />
 				</DialogActions>
 			</Dialog>
 
@@ -157,8 +156,8 @@ export function Login() {
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<HelpButton onClick={handleErrorClose} label='Close' />
-					<HelpButton
+					<HelpButton fullWidth={false} onClick={handleErrorClose} label='Close' />
+					<HelpButton fullWidth={false}
 						onClick={(event) => (window.location.href = '/signUp')}
 						label='Go to Sign Up'
 					/>

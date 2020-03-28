@@ -132,6 +132,13 @@ export default {
     color: colors.lightBlue
   },
 
+  //The style for all big black title texts
+  bigTitleStyleBlack: {
+    fontFamily: font,
+    fontSize: bigTitleFontSize,
+    color: colors.black
+  },
+
   //The style for all big white title texts
   bigTitleStyleWhite: {
     fontFamily: font,
@@ -144,5 +151,18 @@ export default {
     fontFamily: font,
     fontSize: subTitleFontSize,
     color: colors.white
+  },
+
+  bigSubTitleStyleBlack: {
+    fontFamily: font,
+    fontSize: subTitleFontSize,
+    color: colors.black
+  },
+
+  //The style for all big sub blue title texts
+  bigSubTitleStyleBlue: {
+    fontFamily: font,
+    fontSize: subTitleFontSize,
+    color: colors.lightBlue
   }
 };

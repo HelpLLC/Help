@@ -8,6 +8,94 @@
 	flex: 1;
 }
 
+/*Landing Page Styles*/
+.landingPageContainer {
+	width: 100vw;
+	background-color: #f3f3f3;
+	display: flex;
+	flex-direction: column;
+}
+.topMessage {
+	white-space: nowrap;
+	margin-top: 1vh;
+	margin-bottom: 3vh;
+	display: flex;
+	justify-content: center;
+}
+.featureSectionGray {
+	background-color: #DCDCDC;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+.featureSectionLightGray {
+	background-color: #f3f3f3;
+}
+.featureSectionLeft {
+	display: flex;
+	margin-top: 2.5vh;
+	margin-bottom: 2.5vh;
+	width: 30vw;
+	flex-direction: column;
+	align-self: flex-start;
+	margin-left: 5vw;
+	line-height: 2.5;
+}
+.featureSectionRight {
+	display: flex;
+	margin-top: 2.5vh;
+	width: 30vw;
+	margin-bottom: 2.5vh;
+	flex-direction: column;
+	margin-right: 5vw;
+	line-height: 2.5;
+}
+.featureTitleMessage {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.featureTitle {
+	white-space: nowrap;
+	display: flex;
+	margin-right: 2vw;
+}
+.startSellingToday {
+	margin-bottom: 5vh;
+	margin-top: 5vh;
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	margin-left: 2vw;
+}
+.startSellingLeftSection {
+	width: 40vw;
+	display: flex;
+	flex-direction: column;
+}
+.startSellingMessage {
+	margin-top: 1vh;
+	margin-bottom: 1vh;
+}
+.helpLogo {
+	width: 60vw;
+	display: flex;
+	font-size: 12vw !important;
+	justify-content: center;
+	align-self: center;
+	align-items: center;
+}
+.signUpButton {
+	margin-top: 2vh;
+	margin-bottom: 2vh;
+	width: 10vw;
+	align-self: center;
+}
+.percentageText {
+	margin-top: 1vh;
+	text-align: center;
+}
+
 /*Header Styles*/
 .header {
 	width: 100vw;
@@ -39,7 +127,7 @@
 .footer {
 	width: 100vw;
 	height: 20vh;
-	background-color: #f3f3f3;
+	background-color: 		#DCDCDC;
 	display: flex;
 	align-items: center;
 	justify-self: end;

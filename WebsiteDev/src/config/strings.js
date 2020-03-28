@@ -14,5 +14,28 @@ export default {
 	PrivacyPolicy: 'Privacy Policy',
 	TermsAndConditions: 'Terms & Conditions',
 	Credits: 'Credits',
-	Copyright: '2020- Help'
+	Copyright: '2020- Help',
+
+	//------------------------------ Landing Page ------------------------------
+	Help: 'Help',
+	EnhanceYourBusiness: 'Enhance Your Business',
+	ConnectWithCustomers: 'Connect with Customers',
+	ConnectWithCustomersMessage:
+		'Allow customers to browse and request your services through a website or an app.',
+	SmartScheduling: 'Smart Scheduling',
+	SmartSchedulingMessage:
+		'Automate your schedule by having customers schedule a time that works for them, and works for you.',
+	AdvancedAnalytics: 'Advanced Analytics',
+	AdvancedAnalyticsMessage:
+		'Analyze your business over time and make data-driven decisions based on things like Monthly Revenue, Top Services, and Customer Locations.',
+	CentralizedPayments: 'Centralized Payments',
+	CentralizedPaymentsMessage:
+		'Allow customers to pay through the secure Help platform however they want, and accept it all in one place.',
+	EmployeeManagement: 'Employee Management',
+	EmployeeManagementMessage:
+		"If you are a business owner, manage how your employees complete requests through Help's employee management features.",
+	StartSellingToday: 'Start Selling Today',
+	StartSellingTodayMessage:
+		'Connect with your customers and take your business to the next level today.',
+	PercentageMessage: '5% per successful transaction'
 };
