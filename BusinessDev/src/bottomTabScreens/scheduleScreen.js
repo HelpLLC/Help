@@ -25,7 +25,7 @@ export default class scheduleScreen extends Component {
 		selectedDate: '',
 		business: '',
 		dateString: '',
-		items: '',
+		items: {},
 		markedDates: ''
 	};
 
@@ -60,86 +60,91 @@ export default class scheduleScreen extends Component {
 		return hours * 60 + minutes;
 	}
 
-	//Declares the screen name in Firebase and fetches necessary data
-	async componentDidMount() {
-		FirebaseFunctions.setCurrentScreen('ScheduleScreen', 'scheduleScreen');
-		try {
-			//If navigated from launch screen or the log in screen, won't "double fetch" the business object because it'll have
-			//already been fetched
-			const { businessID, businessFetched } = this.props.navigation.state.params;
-			let business = '';
-			if (businessFetched === true) {
-				business = this.props.navigation.state.params.business;
-			} else {
-				business = await FirebaseFunctions.call('getBusinessByID', { businessID });
-			}
+	//This method is going to return the data based on the day selected so the business can see their requests on that day
+	async getDayItems(day) {
+		//Constructs the items based on the business's current requests
+		//The format is { '2020-03-22': [{ name: 'Event 1' }, { name: 'Event 2' }] }
+		let items = {};
+		let markedDates = {};
 
-			//Constructs the items based on the business's current requests
-			//The format is { '2020-03-22': [{ name: 'Event 1' }, { name: 'Event 2' }] }
-			let items = {};
-			let markedDates = {};
-			const { currentRequests } = business;
-			currentRequests.sort((a, b) => {
-				return new Date(a.date) - new Date(b.date);
-			});
-			for (const request of currentRequests) {
-				let { customerName, date, serviceID, serviceTitle, time, requestID } = request;
-				const image = await FirebaseFunctions.call('getServiceImageByID', { serviceID: serviceID });
-				//Converts the date to the correct date
-				date = new Date(date);
-				date = this.convertDateFormat(date);
-				if (items[date]) {
-					const array = items[date];
-					array.push({
+		//Fetches the array of requests for that day
+		let currentRequests = await FirebaseFunctions.call('getBusinessCurrentRequestsByDay', {
+			day,
+			businessID: this.props.navigation.state.params.businessID
+		});
+		currentRequests = Object.keys(currentRequests).map((requestID) => currentRequests[requestID]);
+		currentRequests.sort((a, b) => {
+			return new Date(a.date) - new Date(b.date);
+		});
+		for (const request of currentRequests) {
+			let { customerName, date, serviceID, serviceTitle, time, requestID } = request;
+			const image = await FirebaseFunctions.call('getServiceImageByID', { serviceID: serviceID });
+			if (items[day]) {
+				const array = items[day];
+				array.push({
+					customerName,
+					serviceID,
+					image,
+					serviceTitle,
+					time,
+					requestID
+				});
+				array.sort((a, b) => {
+					return this.convertToMinutes(a.time) - this.convertToMinutes(b.time);
+				});
+				items[day] = array;
+			} else {
+				items[day] = [
+					{
 						customerName,
-						serviceID,
 						image,
+						serviceID,
 						serviceTitle,
 						time,
 						requestID
-					});
-					array.sort((a, b) => {
-						return this.convertToMinutes(a.time) - this.convertToMinutes(b.time);
-					});
-					items[date] = array;
-				} else {
-					items[date] = [
-						{
-							customerName,
-							image,
-							serviceID,
-							serviceTitle,
-							time,
-							requestID
-						}
-					];
-				}
-				markedDates[date] = { marked: true };
+					}
+				];
 			}
-			let initialDate = '';
-			if (currentRequests.length === 0) {
-				initialDate = new Date();
-			} else {
-				initialDate = new Date(currentRequests[0].date);
-			}
-			this.setState({
-				business,
-				selectedDate: initialDate,
-				dateString: this.convertDateFormat(initialDate),
-				isLoading: false,
-				items,
-				markedDates
-			});
-		} catch (error) {
-			this.setState({ isLoading: false, isErrorVisible: true });
-			FirebaseFunctions.call('logIssue', {
-				error,
-				userID: {
-					screen: 'ScheduleScreen',
-					userID: 'b-' + this.props.navigation.state.params.businessID
-				}
-			});
+			markedDates[day] = { marked: true };
 		}
+		return { markedDates, items };
+	}
+
+	//Declares the screen name in Firebase and fetches necessary data
+	async componentDidMount() {
+		FirebaseFunctions.setCurrentScreen('ScheduleScreen', 'scheduleScreen');
+		//If navigated from launch screen or the log in screen, won't "double fetch" the business object because it'll have
+		//already been fetched
+		const { businessID, businessFetched } = this.props.navigation.state.params;
+		let business = '';
+		if (businessFetched === true) {
+			business = this.props.navigation.state.params.business;
+		} else {
+			business = await FirebaseFunctions.call('getBusinessByID', { businessID });
+		}
+		let mostUpcomingDay = await FirebaseFunctions.call('getUpcomingRequestByBusinessID', {
+			businessID
+		});
+		let formattedDateString = '';
+		let initialDate = '';
+		if (mostUpcomingDay === -1) {
+			formattedDateString = this.convertDateFormat(new Date());
+			initialDate = new Date();
+		} else {
+			const date = mostUpcomingDay[Object.keys(mostUpcomingDay)[0]].date;
+			const dateObject = new Date(date);
+			formattedDateString = this.convertDateFormat(dateObject);
+			initialDate = dateObject;
+		}
+		const getDayItems = await this.getDayItems(formattedDateString);
+		this.setState({
+			business,
+			selectedDate: initialDate,
+			dateString: formattedDateString,
+			isLoading: false,
+			markedDates: getDayItems.markedDates,
+			items: getDayItems.items
+		});
 	}
 
 	render() {
@@ -195,40 +200,38 @@ export default class scheduleScreen extends Component {
 						refreshing={false}
 						//When there is nothing on that day
 						renderEmptyData={() => {
-							return <View></View>;
+							return <View style={{ justifyContent: 'center', alignItems: 'center' }}></View>;
 						}}
 						//How each item is rendered in the agenda
-						renderItem={(item, firstItemInDay) => {
-							return (
-								<View
-									style={
-										firstItemInDay
-											? {
-													marginTop: screenHeight * 0.025,
-													width: screenWidth * 0.7,
-													borderTopColor: colors.gray,
-													borderTopWidth: 1.5
-											  }
-											: {}
-									}>
-									<RequestCard
-										onPress={() => {
-											//Goes to the screen for the specific request
-											this.props.navigation.push('CustomerRequestScreen', {
-												requestID: item.requestID
-											});
-										}}
-										image={item.image}
-										serviceTitle={item.serviceTitle}
-										time={item.time}
-										customerName={item.customerName}
-									/>
-								</View>
-							);
-						}}
+						renderItem={(item, firstItemInDay) => (
+							<View
+								style={
+									firstItemInDay
+										? {
+												marginTop: screenHeight * 0.025,
+												width: screenWidth * 0.7,
+												borderTopColor: colors.gray,
+												borderTopWidth: 1.5
+										  }
+										: {}
+								}>
+								<RequestCard
+									onPress={() => {
+										//Goes to the screen for the specific request
+										this.props.navigation.push('CustomerRequestScreen', {
+											requestID: item.requestID
+										});
+									}}
+									image={item.image}
+									serviceTitle={item.serviceTitle}
+									time={item.time}
+									customerName={item.customerName}
+								/>
+							</View>
+						)}
 						selected={selectedDate}
 						minDate={new Date()}
-						onDayPress={(newDate) => {
+						onDayPress={async (newDate) => {
 							const dateObject = new Date();
 							dateObject.setFullYear(newDate.year);
 							dateObject.setMonth(newDate.month - 1);
@@ -237,6 +240,8 @@ export default class scheduleScreen extends Component {
 								selectedDate: dateObject.toLocaleDateString(),
 								dateString: newDate.dateString
 							});
+							const getDayItems = await this.getDayItems(newDate.dateString);
+							this.setState({ markedDates: getDayItems.markedDates, items: getDayItems.items });
 						}}
 					/>
 				</View>

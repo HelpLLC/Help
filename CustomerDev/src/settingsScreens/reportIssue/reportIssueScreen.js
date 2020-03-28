@@ -27,15 +27,15 @@ class reportIssueScreen extends Component {
 	//with the User. It will take in a parameter of the entered user input
 	reportIssue() {
 		Keyboard.dismiss();
-		const { user } = this.props.navigation.state.params;
+		const { customerID } = this.props.navigation.state.params;
 		const { userInput } = this.state;
 		if (userInput.trim() === '') {
 			this.setState({ fieldsError: true });
 		} else {
 			try {
-				FirebaseFunctions.call('reportIssue', { user, issue: this.state.userInput });
+				FirebaseFunctions.call('reportIssue', { userID: customerID, issue: this.state.userInput });
 				this.props.navigation.push('IssueReportedScreen', {
-					user: this.props.navigation.state.params.user
+					customerID
 				});
 			} catch (error) {
 				this.setState({ isLoading: false, isErrorVisible: true });
@@ -43,7 +43,7 @@ class reportIssueScreen extends Component {
 					error,
 					userID: {
 						screen: 'ReportIssueScreen',
-						userID: 'c-' + user.requesterID
+						userID: 'c-' + customerID
 					}
 				});
 			}

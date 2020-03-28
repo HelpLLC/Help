@@ -33,126 +33,119 @@ class settingsScreen extends Component {
 			<Icon name={'angle-right'} type='font-awesome' color={colors.lightBlue} />
 		);
 		//Retrieves the current user from the params
-		let user = this.props.navigation.state.params.customer;
-
-		//This is going to contain the main UI because we only display the left menu if it is a customer
-		const mainUI = (
-			<HelpView style={screenStyle.container}>
-				<View>
-					<TopBanner
-						leftIconName='navicon'
-						leftOnPress={() => {
-							FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_settings');
-							this.setState({ isOpen: true });
-						}}
-						size={30}
-						title={strings.Settings}
-					/>
-					<View style={{ flex: 0.1 }}></View>
-					<View style={{ flex: 2 }}>
-						<View style={{ flex: 1 }}>
-							<WhiteCard
-								style={whiteCardStyle.whiteCardStyle}
-								text={strings.ReportAnIssue}
-								mainTextStyle={fontStyles.mainTextStyleBlack}
-								comp={angleRightIcon}
-								//Pressing this leads to the report an issue screen
-								onPress={() =>
-									this.props.navigation.push('ReportIssueScreen', {
-										user
-									})
-								}
-							/>
-						</View>
-						<View style={{ flex: 1 }}>
-							<WhiteCard
-								style={whiteCardStyle.whiteCardStyle}
-								text={strings.Notifications}
-								mainTextStyle={fontStyles.mainTextStyleBlack}
-								comp={angleRightIcon}
-								//Pressing this leads to the about screen page
-								onPress={() => {
-									Linking.openURL('app-settings:');
-								}}
-							/>
-						</View>
-						<View style={{ flex: 1 }}>
-							<WhiteCard
-								style={whiteCardStyle.whiteCardStyle}
-								text={strings.About}
-								mainTextStyle={fontStyles.mainTextStyleBlack}
-								comp={angleRightIcon}
-								//Pressing this leads to the about screen page
-								onPress={() => this.props.navigation.push('AboutScreen')}
-							/>
-						</View>
-						<View style={{ flex: 1 }}>
-							<WhiteCard
-								style={whiteCardStyle.whiteCardStyle}
-								text={strings.Privacy}
-								mainTextStyle={fontStyles.mainTextStyleBlack}
-								comp={angleRightIcon}
-								//Pressing this leads to the about screen page
-								onPress={() => this.props.navigation.push('PrivacyScreen')}
-							/>
-						</View>
-						<View style={{ flex: 1 }}>
-							<WhiteCard
-								style={whiteCardStyle.whiteCardStyle}
-								text={strings.TermsAndConditions}
-								mainTextStyle={fontStyles.mainTextStyleBlack}
-								comp={angleRightIcon}
-								//Pressing this leads to the about screen page
-								onPress={() => this.props.navigation.push('TermsAndConditionsScreen')}
-							/>
-						</View>
-						<View style={{ flex: 1 }}>
-							<WhiteCard
-								style={whiteCardStyle.whiteCardStyle}
-								text={strings.Credits}
-								mainTextStyle={fontStyles.mainTextStyleBlack}
-								comp={angleRightIcon}
-								//Pressing this leads to the about screen page
-								onPress={() => this.props.navigation.push('CreditsScreen')}
-							/>
-						</View>
-						<View style={{ flex: 1 }}>
-							<WhiteCard
-								style={whiteCardStyle.whiteCardStyle}
-								text={strings.BlockedBusinesses}
-								mainTextStyle={fontStyles.mainTextStyleBlack}
-								comp={angleRightIcon}
-								//Pressing this leads to the blocked users screen
-								onPress={() =>
-									this.props.navigation.push('BlockedBusinessesScreen', {
-										customer: user
-									})
-								}
-							/>
-						</View>
-						<View style={{ flex: 3 }}></View>
-					</View>
-				</View>
-			</HelpView>
-		);
+		let { customer, allServices } = this.props.navigation.state.params;
 
 		return (
-			<View style={{ flex: 1 }}>
-				<SideMenu
-					onChange={(isOpen) => {
-						this.setState({ isOpen });
-					}}
-					isOpen={this.state.isOpen}
-					menu={
-						<LeftMenu
-							navigation={this.props.navigation}
-							allServices={this.props.navigation.state.params.allServices}
-							customer={this.props.navigation.state.params.customer}
+			<SideMenu
+				onChange={(isOpen) => {
+					this.setState({ isOpen });
+				}}
+				isOpen={this.state.isOpen}
+				menu={
+					<LeftMenu
+						navigation={this.props.navigation}
+						allServices={allServices}
+						customer={customer}
+					/>
+				}>
+				<HelpView style={screenStyle.container}>
+					<View>
+						<TopBanner
+							leftIconName='navicon'
+							leftOnPress={() => {
+								FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_settings');
+								this.setState({ isOpen: true });
+							}}
+							size={30}
+							title={strings.Settings}
 						/>
-					}>
-					{mainUI}
-				</SideMenu>
-			</View>
+						<View style={{ flex: 0.1 }}></View>
+						<View style={{ flex: 2 }}>
+							<View style={{ flex: 1 }}>
+								<WhiteCard
+									style={whiteCardStyle.whiteCardStyle}
+									text={strings.ReportAnIssue}
+									mainTextStyle={fontStyles.mainTextStyleBlack}
+									comp={angleRightIcon}
+									//Pressing this leads to the report an issue screen
+									onPress={() =>
+										this.props.navigation.push('ReportIssueScreen', {
+											customerID: customer.customerID
+										})
+									}
+								/>
+							</View>
+							<View style={{ flex: 1 }}>
+								<WhiteCard
+									style={whiteCardStyle.whiteCardStyle}
+									text={strings.Notifications}
+									mainTextStyle={fontStyles.mainTextStyleBlack}
+									comp={angleRightIcon}
+									//Pressing this leads to the about screen page
+									onPress={() => {
+										Linking.openURL('app-settings:');
+									}}
+								/>
+							</View>
+							<View style={{ flex: 1 }}>
+								<WhiteCard
+									style={whiteCardStyle.whiteCardStyle}
+									text={strings.About}
+									mainTextStyle={fontStyles.mainTextStyleBlack}
+									comp={angleRightIcon}
+									//Pressing this leads to the about screen page
+									onPress={() => this.props.navigation.push('AboutScreen')}
+								/>
+							</View>
+							<View style={{ flex: 1 }}>
+								<WhiteCard
+									style={whiteCardStyle.whiteCardStyle}
+									text={strings.Privacy}
+									mainTextStyle={fontStyles.mainTextStyleBlack}
+									comp={angleRightIcon}
+									//Pressing this leads to the about screen page
+									onPress={() => this.props.navigation.push('PrivacyScreen')}
+								/>
+							</View>
+							<View style={{ flex: 1 }}>
+								<WhiteCard
+									style={whiteCardStyle.whiteCardStyle}
+									text={strings.TermsAndConditions}
+									mainTextStyle={fontStyles.mainTextStyleBlack}
+									comp={angleRightIcon}
+									//Pressing this leads to the about screen page
+									onPress={() => this.props.navigation.push('TermsAndConditionsScreen')}
+								/>
+							</View>
+							<View style={{ flex: 1 }}>
+								<WhiteCard
+									style={whiteCardStyle.whiteCardStyle}
+									text={strings.Credits}
+									mainTextStyle={fontStyles.mainTextStyleBlack}
+									comp={angleRightIcon}
+									//Pressing this leads to the about screen page
+									onPress={() => this.props.navigation.push('CreditsScreen')}
+								/>
+							</View>
+							<View style={{ flex: 1 }}>
+								<WhiteCard
+									style={whiteCardStyle.whiteCardStyle}
+									text={strings.BlockedBusinesses}
+									mainTextStyle={fontStyles.mainTextStyleBlack}
+									comp={angleRightIcon}
+									//Pressing this leads to the blocked users screen
+									onPress={() =>
+										this.props.navigation.push('BlockedBusinessesScreen', {
+											customer
+										})
+									}
+								/>
+							</View>
+							<View style={{ flex: 3 }}></View>
+						</View>
+					</View>
+				</HelpView>
+			</SideMenu>
 		);
 	}
 }

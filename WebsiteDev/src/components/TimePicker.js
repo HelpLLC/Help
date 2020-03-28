@@ -23,7 +23,6 @@ render() {
 
    const mystyle = {
       color: "#00B0F0",
-      backgroundColor: "#fff",
       fontFamily: "Arial Rounded MT Bold",
       marginLeft: this.props.marginLeft,
       fontSize: 14,
@@ -38,6 +37,8 @@ render() {
                mode='12h'
                // style={mystyle}
                style ={mystyle}
+               onChange={this.props.onChange}
+               value={this.props.value}
             />
          </ThemeProvider>
     </div>

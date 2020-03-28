@@ -10,6 +10,7 @@ import LogInScreen from './firstScreens/logIn/logInScreen';
 import EmailPasswordScreen from './firstScreens/signUp/emailPasswordScreen';
 import AccountNotVerifiedScreen from './firstScreens/logIn/accountNotVerifiedScreen';
 import CustomerRequestScreen from './sideBusinessScreens/customerRequestScreen';
+import BillCustomerScreen from './sideBusinessScreens/billCustomerScreen';
 import ServiceHistoryScreen from './sideBusinessScreens/serviceHistoryScreen';
 import ForgotPasswordScreen from './firstScreens/logIn/forgotPasswordScreen';
 import { screenWidth, screenHeight } from 'config/dimensions';
@@ -18,6 +19,7 @@ import PrivacyScreen from './settingsScreens/privacyScreen';
 import ReportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';
 import BusinessScreensNavigator from './bottomTabScreens/businessScreensNavigator';
 import CreditsScreen from './settingsScreens/creditsScreen';
+import ServiceCurrentRequestsScreen from './sideBusinessScreens/serviceCurrentRequestsScreen';
 import CreateQuestionsScreen from './sideBusinessScreens/createQuestionsScreen';
 import CreateScheduleScreen from './firstScreens/signUp/createScheduleScreen';
 import { fadeIn, fromRight } from 'react-navigation-transitions';
@@ -122,13 +124,24 @@ const routeConfig = {
 		screen: CreateQuestionsScreen
 	},
 
+	//Takes you to where businesses edit additional service information
 	ServiceAdditionalInformationScreen: {
 		screen: ServiceAdditionalInformationScreen
+	},
+
+	//Takes you to the screen where businesses see current requests for a specific service
+	ServiceCurrentRequestsScreen: {
+		screen: ServiceCurrentRequestsScreen
 	},
 
 	//The route going to the screen for a specific request
 	CustomerRequestScreen: {
 		screen: CustomerRequestScreen
+	},
+
+	//The route going to the bill customer screen
+	BillCustomerScreen: {
+		screen: BillCustomerScreen
 	},
 
 	//The route going to the product screen

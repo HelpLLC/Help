@@ -58,6 +58,11 @@ class serviceScreen extends Component {
 		FirebaseFunctions.setCurrentScreen('CustomerServiceScreen', 'serviceScreen');
 		const { serviceID, customerID, businessID } = this.props.navigation.state.params;
 		try {
+			//Records that the customer viewed the service
+			await FirebaseFunctions.call('viewService', {
+				serviceID,
+				businessID
+			});
 			const customer = await FirebaseFunctions.call('getCustomerByID', { customerID });
 			const business = await FirebaseFunctions.call('getBusinessByID', { businessID });
 			const service = await FirebaseFunctions.call('getServiceByID', { serviceID });
@@ -423,7 +428,6 @@ class serviceScreen extends Component {
 												//This take the user to the screen to view their request for this service
 												this.props.navigation.push('ServiceRequestedScreen', {
 													requestID: this.state.requestID,
-													service,
 													customer
 												});
 											}}

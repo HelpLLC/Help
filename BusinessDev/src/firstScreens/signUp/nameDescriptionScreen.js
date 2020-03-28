@@ -141,7 +141,6 @@ class nameDescriptionScreen extends Component {
 					}}>
 					<Text style={fontStyles.bigTextStyleBlack}>{strings.BusinessName}</Text>
 				</View>
-
 				<View style={{ alignSelf: 'center', justifyContent: 'center' }}>
 					<OneLineRoundedBoxInput
 						placeholder={strings.EnterCompanyNameDotDotDot}
@@ -151,7 +150,6 @@ class nameDescriptionScreen extends Component {
 						maxLength={20}
 					/>
 				</View>
-
 				<View
 					style={{
 						alignSelf: 'flex-start',

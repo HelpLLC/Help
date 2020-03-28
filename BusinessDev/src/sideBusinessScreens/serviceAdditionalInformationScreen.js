@@ -87,7 +87,6 @@ class serviceAdditionalInformationScreen extends Component {
 				businessName: business.businessName,
 				category: 'Cleaning',
 				coordinates: business.coordinates,
-				currentRequests: [],
 				displayedReviews: [],
 				serviceDuration,
 				simultaneousRequests,

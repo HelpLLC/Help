@@ -48,7 +48,7 @@ class NarrowServiceCardList extends Component {
 						services.length === 1 ? <View style={{ width: screenWidth * 0.03 }} /> : <View></View>}
 						<NarrowServiceCard
 							serviceTitle={item.serviceTitle}
-							price={this.props.dateSelected ? item.dateSelected : item.priceText}
+							price={this.props.date ? item.date : item.priceText}
 							imageFunction={async () => {
 								//Passes in the function to retrieve the image of this product
 								return await FirebaseFunctions.call('getServiceImageByID', {

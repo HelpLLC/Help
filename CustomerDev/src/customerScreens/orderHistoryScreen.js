@@ -1,4 +1,4 @@
-//This screen will display all of the services that the requester has ordered. At the top, the "inProgress" services will show up.
+//This screen will display all of the services that the customer has ordered. At the top, the "inProgress" services will show up.
 //Underneath them, the services that have already been completed will show up. The inProgress services will show up as NarrowServiceCards,
 //while the previously completed services will show up as ServiceCards. This screen has access to the SideMenu
 import React, { Component } from 'react';
@@ -8,7 +8,8 @@ import LeftMenu from './LeftMenu';
 import SideMenu from 'react-native-side-menu';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import strings from 'config/strings';
-import { View, Text, Dimensions, ScrollView } from 'react-native';
+import { View, Text, FlatList, ScrollView } from 'react-native';
+import NarrowServiceCard from '../components/NarrowServiceCard';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import fontStyles from 'config/styles/fontStyles';
@@ -23,71 +24,40 @@ export default class orderHistoryScreen extends Component {
 	state = {
 		isOpen: false,
 		isLoading: true,
-		requester: '',
-		serviceObjectsInProgress: '',
-		serviceObjectsCompleted: '',
+		customer: '',
 		isErrorVisible: false,
+		currentRequests: '',
+		completedRequests: '',
 		incompleteProfile: false
 	};
 
 	//Adds the screen analytics and loads everything into the screen
 	async componentDidMount() {
-		FirebaseFunctions.setCurrentScreen(
-			'RequesterOrderHistoryScreen',
-			'requesterOrderHistoryScreen'
-		);
+		FirebaseFunctions.setCurrentScreen('CustomerOrderHistoryScreen', 'customerOrderHistoryScreen');
 
-		//Fetches the most up to date version of the requester
-		const customerID = this.props.navigation.state.params.requester.requesterID;
-		const requester = await FirebaseFunctions.call('getCustomerByID', {
-			customerID: customerID
+		//Fetches the most up to date version of the customer
+		const { customerID } = this.props.navigation.state.params.customer;
+		const customer = await FirebaseFunctions.call('getCustomerByID', {
+			customerID
 		});
-		//Tests to see if the requester's account has been fully completed (used for pre-2.0 users)
-		if (!FirebaseFunctions.call('isRequesterUpToDate', { requesterObject: requester })) {
-			this.setState({
-				incompleteProfile: true,
-				isLoading: false
-			});
-		} else {
-			//Fetches both the in progress services & the completed services in order to show them on the screen
-			const inProgress = await FirebaseFunctions.call('getInProgressRequestsByRequesterID', {
-				requesterID
-			});
-			const completed = await FirebaseFunctions.call('getCompletedRequestsByRequesterID', {
-				requesterID
-			});
-			let serviceObjectsInProgress = [];
-			let serviceObjectsCompleted = [];
-			for (const requestInProgess of inProgress) {
-				const service = await FirebaseFunctions.call('getServiceByID', {
-					serviceID: requestInProgess.serviceID
-				});
-				serviceObjectsInProgress.push({
-					...service,
-					...requestInProgess
-				});
-			}
-			for (const requestCompleted of completed) {
-				const service = await FirebaseFunctions.call('getServiceByID', {
-					serviceID: requestCompleted.serviceID
-				});
-				serviceObjectsCompleted.push({
-					...service,
-					...requestCompleted
-				});
-			}
-			this.setState({
-				requester,
-				serviceObjectsCompleted,
-				serviceObjectsInProgress,
-				isLoading: false
-			});
-		}
+
+		//Fetches the current requests and completed requests
+		const completedRequests = await FirebaseFunctions.call('getCompletedRequestsByCustomerID', {
+			customerID
+		});
+		const currentRequests = customer.currentRequests;
+
+		this.setState({
+			customer,
+			currentRequests,
+			completedRequests,
+			isLoading: false
+		});
 	}
 
 	//Renders the screen based on the isLoading part of the state
 	render() {
-		const { isLoading, requester, serviceObjectsCompleted, serviceObjectsInProgress } = this.state;
+		let { isLoading, customer, completedRequests, currentRequests } = this.state;
 		if (isLoading === true) {
 			return (
 				<HelpView style={screenStyle.container}>
@@ -107,11 +77,11 @@ export default class orderHistoryScreen extends Component {
 					menu={
 						<LeftMenu
 							navigation={this.props.navigation}
-							allProducts={this.props.navigation.state.params.allProducts}
-							requester={requester}
+							allServices={this.props.navigation.state.params.allServices}
+							customer={customer}
 						/>
 					}>
-					<HelpView style={screenStyle.container}>
+					<View style={screenStyle.container}>
 						<TopBanner
 							leftIconName='navicon'
 							leftOnPress={() => {
@@ -120,8 +90,8 @@ export default class orderHistoryScreen extends Component {
 							size={30}
 							title={strings.OrderHistory}
 						/>
-						{//Displays a message if the requester has not yet requested anything
-						serviceObjectsCompleted.length === 0 && serviceObjectsInProgress.length === 0 ? (
+						{//Displays a message if the customer has not yet requested anything
+						completedRequests.length === 0 && currentRequests.length === 0 ? (
 							<View
 								style={{
 									flex: 1,
@@ -132,100 +102,117 @@ export default class orderHistoryScreen extends Component {
 								<Text style={fontStyles.bigTextStyleBlack}>{strings.NoRequestsYet}</Text>
 							</View>
 						) : (
-							<ScrollView
-								style={{ flex: 1 }}
-								showsHorizontalScrollIndicator={false}
-								showsVerticalScrollIndicator={false}>
-								{//Displays the in progress products if there are any in NarrowServiceCards
-								serviceObjectsInProgress.length > 0 ? (
-									<View>
-										<View
-											style={{
-												width: screenWidth * 0.9,
-												height: screenHeight * 0.06,
-												justifyContent: 'center',
-												alignSelf: 'center',
-												borderBottomColor: colors.lightBlue,
-												borderBottomWidth: 1
-											}}>
-											<Text style={fontStyles.bigTextStyleBlue}>
-												{strings.InProgress + ' (' + serviceObjectsInProgress.length + ')'}
-											</Text>
+							<View>
+								<FlatList
+									showsHorizontalScrollIndicator={false}
+									showsVerticalScrollIndicator={false}
+									data={currentRequests}
+									numColumns={2}
+									maxToRenderPerBatch={2}
+									initialNumToRender={2}
+									windowSize={3}
+									keyExtractor={(item, index) => item.serviceID + index.toString()}
+									showsVerticalScrollIndicator={false}
+									ListHeaderComponent={
+										currentRequests.length > 0 ? (
+											<View>
+												<View
+													style={{
+														width: screenWidth * 0.9,
+														height: screenHeight * 0.06,
+														justifyContent: 'center',
+														alignSelf: 'center',
+														borderBottomColor: colors.lightBlue,
+														borderBottomWidth: 1
+													}}>
+													<Text style={fontStyles.bigTextStyleBlue}>
+														{strings.InProgress + ' (' + currentRequests.length + ')'}
+													</Text>
+												</View>
+											</View>
+										) : (
+											<View></View>
+										)
+									}
+									renderItem={({ item, index }) => (
+										<View style={{ flexDirection: 'row' }}>
+											{//Adds a space before the first service if there is only one service because it otherwise has justify
+											//content of flex start
+											currentRequests.length === 1 ? (
+												<View style={{ width: screenWidth * 0.03 }} />
+											) : (
+												<View></View>
+											)}
+											<NarrowServiceCard
+												serviceTitle={item.serviceTitle}
+												price={item.date}
+												imageFunction={async () => {
+													//Passes in the function to retrieve the image of this product
+													return await FirebaseFunctions.call('getServiceImageByID', {
+														serviceID: item.serviceID
+													});
+												}}
+												numCurrentRequests={0}
+												//Passes all of the necessary props to the actual screen that contains
+												//more information about the service
+												onPress={() => {
+													//This take the user to the screen to view their request for this service
+													this.props.navigation.push('ServiceRequestedScreen', {
+														requestID: item.requestID,
+														customer
+													});
+												}}
+											/>
+											{//Adds a space in between each column
+											index % 2 === 0 && currentRequests.length > 1 ? (
+												<View style={{ width: screenWidth * 0.03 }} />
+											) : (
+												<View></View>
+											)}
 										</View>
-										<NarrowServiceCardList
-											requesterID={requester.requesterID}
-											navigation={this.props.navigation}
-											services={serviceObjectsInProgress}
-											dateSelected={true}
-											onPress={(service) => {
-												this.props.navigation.push('RequesterServiceRequestedScreen', {
-													product: service,
-													requesterID: requester.requesterID,
-													requestID: service.requestID,
-													completed: false
-												});
-											}}
-										/>
-									</View>
-								) : (
-									<View></View>
-								)}
-								{//Displays the completed products if there are any in ServiceCards
-								serviceObjectsCompleted.length > 0 ? (
-									<View>
-										<View
-											style={{
-												width: screenWidth * 0.9,
-												height: screenHeight * 0.06,
-												justifyContent: 'center',
-												alignSelf: 'center',
-												borderBottomColor: colors.black,
-												borderBottomWidth: 1
-											}}>
-											<Text style={fontStyles.bigTextStyleBlack}>{strings.Completed}</Text>
-										</View>
-										<ServiceCardList
-											services={serviceObjectsCompleted}
-											onPress={(service) => {
-												//This take the user to the screen to view their request for this service
-												this.props.navigation.push('RequesterServiceRequestedScreen', {
-													product: service,
-													requesterID: requester.requesterID,
-													requestID: service.requestID,
-													completed: true
-												});
-											}}
-											currentRequests={false}
-										/>
-									</View>
-								) : (
-									<View></View>
-								)}
-								<HelpAlert
-									isVisible={this.state.isErrorVisible}
-									onPress={() => {
-										this.setState({ isErrorVisible: false });
-									}}
-									title={strings.Whoops}
-									message={strings.SomethingWentWrong}
+									)}
+									ListFooterComponent={
+										completedRequests.length > 0 ? (
+											<View style={{ marginBottom: screenHeight * 0.1 }}>
+												<View
+													style={{
+														width: screenWidth * 0.9,
+														height: screenHeight * 0.06,
+														justifyContent: 'center',
+														alignSelf: 'center',
+														borderBottomColor: colors.black,
+														borderBottomWidth: 1
+													}}>
+													<Text style={fontStyles.bigTextStyleBlack}>{strings.Completed}</Text>
+												</View>
+												<ServiceCardList
+													services={completedRequests}
+													onPress={(request) => {
+														//This take the user to the screen to view their request for this service
+														this.props.navigation.push('ServiceRequestedScreen', {
+															requestID: request.requestID,
+															customer
+														});
+													}}
+													currentRequests={false}
+												/>
+											</View>
+										) : (
+											<View></View>
+										)
+									}
 								/>
-							</ScrollView>
+							</View>
 						)}
 						<HelpAlert
-							isVisible={this.state.incompleteProfile}
+							isVisible={this.state.isErrorVisible}
 							onPress={() => {
-								this.setState({ incompleteProfile: false });
-								this.props.navigation.push('EditRequesterProfileScreen', {
-									requester: requester,
-									allProducts: this.props.navigation.state.params.allProducts,
-									isEditing: true
-								});
+								this.setState({ isErrorVisible: false });
 							}}
-							title={strings.FinishCreatingYourProfile}
-							message={strings.FinishCreatingYourProfileMessage}
-							closeOnTouchOutside={false}
+							title={strings.Whoops}
+							message={strings.SomethingWentWrong}
 						/>
-					</HelpView>
+					</View>
 				</SideMenu>
 			);
 		}

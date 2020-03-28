@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import colors from 'config/colors';
 
 class GoogleCityPicker extends Component {
-
 	//If there is a prop passed in as initial text to display in the text input, this function will do that
 	componentDidMount() {
 		if (this.props.initialText) {
@@ -34,11 +33,14 @@ class GoogleCityPicker extends Component {
 				fetchDetails={true}
 				onPress={(data, details) => {
 					//Fetches the name of the selected city along with the longitude and latitude
-					const locationName = data.description;
+					const address = data.description;
+					const city = data.terms[data.terms.length - 3].value;
+					const state = data.terms[data.terms.length - 2].value;
+					const country = data.terms[data.terms.length - 1].value;
 					const { lat, lng } = details.geometry.location;
 
 					//Passes those into the props function
-					onPress(locationName, lat, lng);
+					onPress(address, city, state, country, lat, lng);
 				}}
 				query={{
 					key: 'AIzaSyCJ39Pp39vFJOy6pbA0NLdjhzXIqSEAzFs',
@@ -50,7 +52,7 @@ class GoogleCityPicker extends Component {
 					textInputContainer: googleCityPickerStyle.textInputContainer,
 					listView: googleCityPickerStyle.listView,
 					row: googleCityPickerStyle.row,
-					textInput: {color: colors.black},
+					textInput: { color: colors.black },
 					powered: googleCityPickerStyle.powered
 				}}
 				filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
