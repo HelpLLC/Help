@@ -9,6 +9,7 @@ import Dashboard from '../../../business/BusinessScreens/Dashboard/Dashboard';
 import PrivacyPolicy from '../../PrivacyPolicy.js';
 import Credits from '../../Credits.js';
 import TermsAndConditions from '../../TermsAndConditions.js';
+import Analytics from '../../BusinessScreens/Analytics/Analytics';
 
 export default function LandingPageNavigator() {
 	return (
@@ -55,6 +56,9 @@ export default function LandingPageNavigator() {
 				</Route>
 				<Route path='/credits'>
 					<Credits />
+				</Route>
+				<Route path='/analytics'>
+					<Analytics />
 				</Route>
 			</Switch>
 		</BrowserRouter>
