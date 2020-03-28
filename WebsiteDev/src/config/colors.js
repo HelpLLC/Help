@@ -8,5 +8,5 @@ export default {
     black: '#000000',
     red: '#DF1919',
     gray: '#808080',
-    blue: '#a0c3ff'
+    columbiaBlue: '#a0c3ff'
 };

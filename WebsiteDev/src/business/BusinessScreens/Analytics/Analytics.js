@@ -203,7 +203,7 @@ export default class Analytics extends Component {
 					options={{
 						noDataPattern: {
 							backgroundColor: colors.lightBlue,
-							color: colors.blue
+							color: colors.columbiaBlue
 						},
 						colorAxis: { minValue: 5, colors: [colors.white, colors.lightBlue] },
 						calendar: {
