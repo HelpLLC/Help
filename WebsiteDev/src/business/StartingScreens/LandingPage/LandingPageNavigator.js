@@ -127,9 +127,6 @@ export default function LandingPageNavigator() {
 						{footer}
 					</div>
 				</Route>
-				<Route path='/analytics'>
-					<Analytics />
-				</Route>
 			</Switch>
 		</BrowserRouter>
 	);
