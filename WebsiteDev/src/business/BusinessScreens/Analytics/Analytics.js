@@ -8,7 +8,7 @@ import { Chart } from 'react-google-charts';
 export default class Analytics extends Component {
 	render() {
 		return (
-			<div className='Analytics'>
+			<div className='container'>
 				<TitleComponent />
 				<TitleComponent text={'Analytics'} isCentered={true} textColor={colors.lightBlue} />
 				<TitleComponent
