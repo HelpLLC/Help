@@ -1,7 +1,7 @@
-/* Container */
-.container {
-	margin-left: auto;
-	margin-right: auto;
-	height: 1000px;
-	background-color: #FFFFFF;
+.Analytics {
+	width: inherit;
+	height: inherit;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
