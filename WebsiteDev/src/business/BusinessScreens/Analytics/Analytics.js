@@ -18,7 +18,6 @@ export default class Analytics extends Component {
 				/>
 				<Chart
 					width={'auto'}
-					height={'75%'}
 					chartType='Line'
 					loader={<div>Loading Chart</div>}
 					data={[
@@ -37,6 +36,7 @@ export default class Analytics extends Component {
 						['December', 78000]
 					]}
 					options={{
+						height: 350,
 						hAxis: {
 							title: 'Month'
 						},
@@ -54,7 +54,6 @@ export default class Analytics extends Component {
 				/>
 				<Chart
 					width={'auto'}
-					height={'75%'}
 					chartType='LineChart'
 					loader={<div>Loading Chart</div>}
 					data={[
@@ -73,6 +72,7 @@ export default class Analytics extends Component {
 						['December', 78000]
 					]}
 					options={{
+						height: 350,
 						fontFamily: 'Arial',
 						fontSize: 14,
 						chart: {
@@ -90,7 +90,6 @@ export default class Analytics extends Component {
 						series: {
 							0: { lineWidth: 3 }
 						},
-						backgroundColor: colors.lightGray,
 					}}
 				/>
 
@@ -125,7 +124,6 @@ export default class Analytics extends Component {
 				<Chart
 					chartType='ColumnChart'
 					width='auto'
-					height={'75%'}
 					data={[
 						['Service', 'Orders'],
 						['Home Cleaning', 300],
@@ -135,6 +133,7 @@ export default class Analytics extends Component {
 						['Tiling', 200]
 					]}
 					options={{
+						height: 350,
 						hAxis: {
 							title: 'Services',
 							textStyle: fontStyles.subTextStyleBlue,
@@ -144,14 +143,12 @@ export default class Analytics extends Component {
 							textStyle: fontStyles.subTextStyleBlue,
 						},
 						colors: [colors.lightBlue],
-						backgroundColor: colors.lightGray
 					}}
 				/>
 
 				<TitleComponent text={'Best Days'} isCentered={true} textColor={colors.lightBlue} />
 				<Chart
 					width={'auto'}
-					height={'75%'}
 					chartType='Calendar'
 					loader={<div>Loading Chart</div>}
 					data={[
@@ -201,6 +198,7 @@ export default class Analytics extends Component {
 						[new Date(2020, 9, 19), 9]
 					]}
 					options={{
+						height: 300,
 						noDataPattern: {
 							backgroundColor: colors.lightBlue,
 							color: colors.columbiaBlue
