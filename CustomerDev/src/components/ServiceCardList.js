@@ -3,14 +3,16 @@ import React, { Component } from 'react';
 import { View, Dimensions, FlatList } from 'react-native';
 import ServiceCard from './ServiceCard';
 import PropTypes from 'prop-types';
-import { screenWidth, screenHeight } from 'config/dimensions';
+import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
+import { screenWidth, screenHeight } from 'config/dimensions';
 
 //Defines the class
 class ServiceCardList extends Component {
 	render() {
 		//Fetches the array of services from the props
 		const { services } = this.props;
+
 		return (
 			<FlatList
 				contentContainerStyle={{
@@ -31,14 +33,16 @@ class ServiceCardList extends Component {
 						}}>
 						<ServiceCard
 							serviceTitle={item.serviceTitle}
-							serviceDescription={item.serviceDescription}
-							price={this.props.dateCompleted ? item.dateRequested : item.pricing}
+							serviceDescription={strings.CompletedOn + ' ' + item.date}
+							price={strings.DollarSign + item.billedAmount}
 							imageFunction={async () => {
 								//Passes in the function to retrieve the image of this product
-								return await FirebaseFunctions.call('getProductImageByID', { ID: item.serviceID });
+								return await FirebaseFunctions.call('getServiceImageByID', {
+									serviceID: item.serviceID
+								});
 							}}
 							numCurrentRequests={
-								this.props.currentRequests === false ? 0 : item.requests.currentRequests.length
+								this.props.currentRequests === false ? 0 : item.numCurrentRequests
 							}
 							onPress={() => {
 								this.props.onPress(item);

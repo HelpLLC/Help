@@ -139,7 +139,7 @@ export default {
 	Ok: 'Ok',
 	Location: 'Location',
 	WhyWeUseLocation:
-		'We collect locations from users to show customers the business that are nearest to them. We never share customer locations without their consent. Our intent is to provide the best customer experience.',
+		'We collect locations from users to show customers the businesses that are nearest to them. We never share customer locations without their consent. Our intent is to provide the best customer experience.',
 
 	//------------------- Provider Business Screen -------------------
 	EditCompanyProfile: 'Edit Company Profile',
@@ -258,13 +258,10 @@ export default {
 	//------------------- Service Screen -------------------
 	Service: 'Service',
 	EditService: 'Edit Service',
-	NoCurrentRequests: 'No Current Requests',
-	at: 'at',
 	Cancel: 'Cancel',
-	RequestedOn: 'Requested On',
-	CurrentRequests: 'Current Requests',
+	ViewRequests: 'View Requests',
 
-	//------------------- Edit Product Screen -------------------
+	//------------------- Edit Service Screen -------------------
 	EditTitle: 'Edit Title',
 	EditDescription: 'Edit Description',
 	EditPrice: 'Edit Price',
@@ -277,13 +274,15 @@ export default {
 
 	//------------------- Product History Screen -------------------
 	ServiceHistory: 'Service History',
-	NoHistoryForThisProductYet: 'No history for this product yet',
-	CompletedOn: 'Completed On',
+	NoHistoryForThisServiceYet: 'No history for this service yet',
+	CompletedOn: 'Completed on',
+	BilledColon: 'Billed: $',
 
 	//------------------- Business Side Customer Request Screen -------------------
 	CustomerRequest: 'Customer Request',
 	Delete: 'Delete',
 	Message: 'Message',
+	RequestedOn: 'Requested On',
 	Complete: 'Complete',
 	CustomerAnswers: 'Customer Answers',
 	ScheduledOn: 'Scheduled on',
@@ -297,6 +296,16 @@ export default {
 	RequestHasBeenCompleted: 'The request has been completed.',
 	CompleteRequest: 'Complete Request',
 	AreYouSureCompleteRequest: 'Are you sure you want to complete this request?',
+	BilledAmount: 'Billed Amount',
+	Date: 'Date',
+	Time: 'Time',
+	PaymentType: 'Payment Type',
+	Price: 'Price',
+	RequestID: 'Request ID',
+
+	//------------------- Business Side Current Requests Screen -------------------
+	NoCurrentRequestsForThisService: 'No Current Requests For This Service',
+	CurrentRequests: 'Current Requests',
 
 	//------------------- Featured Screen -------------------
 	OfferedBy: 'Offered by',
@@ -379,7 +388,7 @@ export default {
 	RequestUpdated: 'Request Updated',
 
 	//------------------- Documents -----------------
-	PrivacyPolicy: 'PrivacyPolicy',
+	PrivacyPolicy: 'Privacy Policy',
 
 	//------------------- Search Bar -------------------
 	WhatAreYouLookingForQuestion: 'What are you looking for?',

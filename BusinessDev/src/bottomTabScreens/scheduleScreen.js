@@ -134,7 +134,6 @@ export default class scheduleScreen extends Component {
 			const date = mostUpcomingDay[Object.keys(mostUpcomingDay)[0]].date;
 			const dateObject = new Date(date);
 			formattedDateString = this.convertDateFormat(dateObject);
-			console.log(formattedDateString);
 			initialDate = dateObject;
 		}
 		const getDayItems = await this.getDayItems(formattedDateString);

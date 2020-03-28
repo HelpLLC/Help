@@ -428,7 +428,6 @@ class serviceScreen extends Component {
 												//This take the user to the screen to view their request for this service
 												this.props.navigation.push('ServiceRequestedScreen', {
 													requestID: this.state.requestID,
-													service,
 													customer
 												});
 											}}

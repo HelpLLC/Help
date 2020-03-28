@@ -1,6 +1,7 @@
 //this screen will represent the screen where customers answer the questions which have been determined by the business
 import React, { Component } from 'react';
-import { View, Text, Dimensions, FlatList, ScrollView } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
+import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import HelpView from '../components/HelpView';
 import TopBanner from '../components/TopBanner';
 import strings from '../../config/strings';
@@ -12,6 +13,7 @@ import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
 import HelpAlert from '../components/HelpAlert';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
+import screenStyle from '../../config/styles/screenStyle';
 
 class serviceQuestionsScreen extends Component {
 	state = {
@@ -69,7 +71,7 @@ class serviceQuestionsScreen extends Component {
 		}
 
 		//If the program has reached this stage of the clause, that means the request is good to go
-		//Goes to the next step of the process which is scheduling. If it is editing an existing request, 
+		//Goes to the next step of the process which is scheduling. If it is editing an existing request,
 		//then the request will also be passed
 		this.props.navigation.push('BusinessScheduleScreen', {
 			answers,
@@ -98,7 +100,7 @@ class serviceQuestionsScreen extends Component {
 			);
 		}
 		return (
-			<HelpView>
+			<View style={screenStyle.container}>
 				<TopBanner
 					title={strings.Request}
 					leftIconName='angle-left'
@@ -106,63 +108,62 @@ class serviceQuestionsScreen extends Component {
 						this.props.navigation.goBack();
 					}}
 				/>
-				<ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
-					<FlatList
-						showsHorizontalScrollIndicator={false}
-						showsVerticalScrollIndicator={false}
-						data={questions}
-						numColumns={1}
-						keyExtractor={(item) => item}
-						extraData={this.state}
-						showsVerticalScrollIndicator={false}
-						renderItem={({ item, index }) => (
+				<KeyboardAwareFlatList
+					showsHorizontalScrollIndicator={false}
+					showsVerticalScrollIndicator={false}
+					data={questions}
+					numColumns={1}
+					keyExtractor={(item) => item}
+					extraData={this.state}
+					showsVerticalScrollIndicator={false}
+					renderItem={({ item, index }) => (
+						<View
+							style={{
+								marginTop: screenHeight * 0.05,
+								alignItems: 'flex-start',
+								flexDirection: 'column'
+							}}>
 							<View
 								style={{
-									marginLeft: screenWidth * 0.1,
-									marginTop: screenHeight * 0.05,
-									alignItems: 'flex-start',
-									flexDirection: 'column'
+									marginBottom: screenHeight * 0.025
 								}}>
-								<View
-									style={{
-										marginBottom: screenHeight * 0.025
-									}}>
-									<Text style={fontStyles.mainTextStyleBlack}>{item}</Text>
-								</View>
-								<View>
-									<MultiLineRoundedBoxInput
-										width={screenWidth * 0.8}
-										height={screenHeight * 0.08}
-										placeholder={strings.AnswerHereDotDotDot}
-										onChangeText={(input) => {
-											answers[index] = {
-												question: item,
-												answer: input
-											};
-											this.setState({
-												answers
-											});
-										}}
-										value={answers[index].answer}
-										maxLength={350}
-									/>
-								</View>
+								<Text style={fontStyles.mainTextStyleBlack}>{item}</Text>
 							</View>
-						)}
-					/>
-					<View style={{ marginVertical: screenHeight * 0.05 }}>
-						<RoundBlueButton
-							title={strings.Next}
-							style={roundBlueButtonStyle.MediumSizeButton}
-							textStyle={fontStyles.bigTextStyleWhite}
-							isLoading={this.state.isLoading}
-							onPress={() => {
-								//Passes the correct parameters to the scheduling screen
-								this.goToSchedulingScreen();
-							}}
-						/>
-					</View>
-				</ScrollView>
+							<View>
+								<MultiLineRoundedBoxInput
+									width={screenWidth * 0.8}
+									height={screenHeight * 0.08}
+									placeholder={strings.AnswerHereDotDotDot}
+									onChangeText={(input) => {
+										answers[index] = {
+											question: item,
+											answer: input
+										};
+										this.setState({
+											answers
+										});
+									}}
+									value={answers[index].answer}
+									maxLength={350}
+								/>
+							</View>
+						</View>
+					)}
+					ListFooterComponent={
+						<View style={{ marginTop: screenHeight * 0.05, marginTop: screenHeight * 0.1 }}>
+							<RoundBlueButton
+								title={strings.Next}
+								style={roundBlueButtonStyle.MediumSizeButton}
+								textStyle={fontStyles.bigTextStyleWhite}
+								isLoading={this.state.isLoading}
+								onPress={() => {
+									//Passes the correct parameters to the scheduling screen
+									this.goToSchedulingScreen();
+								}}
+							/>
+						</View>
+					}
+				/>
 				<HelpAlert
 					isVisible={this.state.isFillOutAllFieldsVisible}
 					onPress={() => {
@@ -179,7 +180,7 @@ class serviceQuestionsScreen extends Component {
 					title={strings.Whoops}
 					message={strings.SomethingWentWrong}
 				/>
-			</HelpView>
+			</View>
 		);
 	}
 }

@@ -39,7 +39,9 @@ class aboutScreen extends Component {
 							alignItems: 'center',
 							alignSelf: 'center'
 						}}>
-						<Text style={fontStyles.bigTextStyleBlack}>{strings.MarketingMessage}</Text>
+						<Text style={[{ textAlign: 'center' }, fontStyles.bigTextStyleBlack]}>
+							{strings.MarketingMessage}
+						</Text>
 					</View>
 					<View style={{ flexDirection: 'column', flex: 3 }}>
 						<WhiteCard

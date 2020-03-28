@@ -18,7 +18,6 @@ export default class FirebaseFunctions {
 	static analytics = firebase.analytics();
 	static functions = firebase.functions();
 	static storage = firebase.storage();
-	static fcm = firebase.messaging();
 
 	static async call(functionName, parameters) {
 		const functionReturn = await this.functions.httpsCallable(functionName)(parameters);

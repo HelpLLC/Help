@@ -65,13 +65,13 @@ export default function CreateProductScreen() {
         </h2>
         <Card class="container">
           <CardContent class="content">
-            <HelpButton label="Phone Number" />
+            <HelpButton fullWidth={false} label="Phone Number" />
           </CardContent>
           <CardContent class="content">
-            <HelpButton label="Email" />
+            <HelpButton fullWidth={false} label="Email" />
           </CardContent>
           <CardContent class="content">
-            <HelpButton label="Address" />
+            <HelpButton fullWidth={false} label="Address" />
           </CardContent>
         </Card>
         <section className="section">
@@ -144,13 +144,13 @@ export default function CreateProductScreen() {
         <h2 className="heading">How will you accept payments?</h2>
         <Card class="container">
           <CardContent class="content">
-            <HelpButton label="Credit/Debit Card" />
+            <HelpButton fullWidth={false} label="Credit/Debit Card" />
           </CardContent>
           <CardContent class="content">
-            <HelpButton label="Cash" />
+            <HelpButton fullWidth={false} label="Cash" />
           </CardContent>
           <CardContent class="content">
-            <HelpButton label="Other" />
+            <HelpButton fullWidth={false} label="Other" />
           </CardContent>
         </Card>
       </section>
@@ -158,7 +158,7 @@ export default function CreateProductScreen() {
         <p>
           You're all set <FaThumbsUp />
         </p>
-        <HelpButton label="Create" />
+        <HelpButton fullWidth={false} label="Create" />
       </section>
     </section>
   );

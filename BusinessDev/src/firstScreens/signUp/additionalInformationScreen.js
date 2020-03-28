@@ -8,16 +8,8 @@ import strings from 'config/strings';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import screenStyle from 'config/styles/screenStyle';
-import {
-	Text,
-	View,
-	Dimensions,
-	Keyboard,
-	TouchableOpacity,
-	TouchableWithoutFeedback
-} from 'react-native';
+import { Text, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import firebase from 'react-native-firebase';
 import fontStyles from 'config/styles/fontStyles';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import RoundBlueButton from '../../components/RoundBlueButton';

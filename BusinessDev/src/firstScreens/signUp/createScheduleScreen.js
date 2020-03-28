@@ -269,7 +269,7 @@ export default class createScheduleScreen extends Component {
 					style={{
 						borderWidth: 3,
 						borderColor: colors.lightBlue,
-						width: screenWidth * 0.2,
+						width: screenWidth * 0.25,
 						height: screenHeight * 0.055,
 						borderRadius: 20,
 						justifyContent: 'center',
@@ -309,7 +309,7 @@ export default class createScheduleScreen extends Component {
 					style={{
 						borderWidth: 3,
 						borderColor: colors.lightBlue,
-						width: screenWidth * 0.2,
+						width: screenWidth * 0.25,
 						height: screenHeight * 0.055,
 						borderRadius: 20,
 						justifyContent: 'center',

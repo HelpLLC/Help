@@ -95,7 +95,7 @@ class companyProfileScreen extends Component {
 			const { business, customer } = this.props.navigation.state.params;
 			const { search, displayedServices } = this.state;
 			return (
-				<HelpView style={screenStyle.container}>
+				<View style={screenStyle.container}>
 					<TopBanner
 						title={business.businessName}
 						leftIconName='angle-left'
@@ -125,7 +125,7 @@ class companyProfileScreen extends Component {
 						title={strings.Whoops}
 						message={strings.SomethingWentWrong}
 					/>
-				</HelpView>
+				</View>
 			);
 		}
 	}
