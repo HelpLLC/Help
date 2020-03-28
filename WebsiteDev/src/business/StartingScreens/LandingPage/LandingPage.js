@@ -1,6 +1,7 @@
 import React from 'react';
 import './LandingPage.css';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import LoginRegister from '../Authentication/LoginRegister';
 import strings from '../../../config/strings';
 import fontStyles from '../../../config/fontStyles';
 import HelpButton from '../../../components/HelpButton';
@@ -44,7 +45,9 @@ export default function LandingPage() {
 						<div>{strings.StartSellingTodayMessage}</div>
 					</div>
 					<div className={'signUpButton'}>
-						<HelpButton fullWidth={true} label={strings.SignUp} onClick={() => {}} />
+						<Link style={{ textDecoration: 'none' }} to='/login'>
+							<HelpButton fullWidth={true} label={strings.SignUp} onClick={() => {}} />
+						</Link>
 						<div className={'percentageText'} style={fontStyles.subTextStyleBlack}>
 							{strings.PercentageMessage}
 						</div>
@@ -54,6 +57,13 @@ export default function LandingPage() {
 					{strings.Help}
 				</div>
 			</div>
+			<BrowserRouter>
+				<Switch>
+					<Route path='/login'>
+						<LoginRegister login={true} />
+					</Route>
+				</Switch>
+			</BrowserRouter>
 		</div>
 	);
 }
