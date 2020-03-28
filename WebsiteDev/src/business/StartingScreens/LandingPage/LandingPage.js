@@ -12,12 +12,10 @@ export default function LandingPage() {
 		return (
 			<div className={leftRight === 'right' ? 'featureSectionGray' : 'featureSectionLightGray'}>
 				<div className={leftRight === 'right' ? 'featureSectionRight' : 'featureSectionLeft'}>
-					<div className={'featureTitleMessage'}>
-						<div className={'featureTitle'} style={fontStyles.bigSubTitleStyleBlue}>
-							{title}
-						</div>
-						<div style={fontStyles.bigTextStyleBlack}>{message}</div>
+					<div className={'featureTitle'} style={fontStyles.bigSubTitleStyleBlue}>
+						{title}
 					</div>
+					<div style={fontStyles.bigTextStyleBlack}>{message}</div>
 				</div>
 			</div>
 		);

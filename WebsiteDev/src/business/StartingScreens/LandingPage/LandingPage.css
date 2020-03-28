@@ -23,7 +23,7 @@
 	justify-content: center;
 }
 .featureSectionGray {
-	background-color: #DCDCDC;
+	background-color: #dcdcdc;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-end;
@@ -44,21 +44,15 @@
 .featureSectionRight {
 	display: flex;
 	margin-top: 2.5vh;
-	width: 30vw;
+	text-align: right;
+	width: 35vw;
 	margin-bottom: 2.5vh;
 	flex-direction: column;
-	margin-right: 5vw;
+	margin-right: 2vw;
 	line-height: 2.5;
-}
-.featureTitleMessage {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
 }
 .featureTitle {
 	white-space: nowrap;
-	display: flex;
-	margin-right: 2vw;
 }
 .startSellingToday {
 	margin-bottom: 5vh;
@@ -127,7 +121,7 @@
 .footer {
 	width: 100vw;
 	height: 20vh;
-	background-color: 		#DCDCDC;
+	background-color: #dcdcdc;
 	display: flex;
 	align-items: center;
 	justify-self: end;
