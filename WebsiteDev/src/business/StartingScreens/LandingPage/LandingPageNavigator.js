@@ -10,7 +10,6 @@ import { SocialIcon } from 'react-social-icons';
 import PrivacyPolicy from '../../PrivacyPolicy.js';
 import Credits from '../../Credits.js';
 import TermsAndConditions from '../../TermsAndConditions.js';
-import Analytics from '../../BusinessScreens/Analytics/Analytics';
 
 export default function LandingPageNavigator() {
 	//The header containing the title, log in, and sign up buttons

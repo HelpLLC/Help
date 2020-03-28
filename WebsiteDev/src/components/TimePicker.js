@@ -35,6 +35,7 @@ render() {
        <ThemeProvider theme={theme}>
             <TimeInput
                mode='12h'
+               // style={mystyle}
                style ={mystyle}
                onChange={this.props.onChange}
                value={this.props.value}
