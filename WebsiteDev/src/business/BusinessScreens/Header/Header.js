@@ -4,7 +4,6 @@ import './Header.css';
 import Dashboard from '../Dashboard/Dashboard';
 import Analytics from '../Analytics/Analytics';
 import Payments from '../Payments/Payments';
-import SignUpScreen from '../../StartingScreens/Signup/SignUpScreen';
 
 export default class Header extends Component {
 	render() {
@@ -24,9 +23,6 @@ export default class Header extends Component {
 								<li>
 									<Link to={'/payments'}>Payments</Link>
 								</li>
-								<li>
-									<Link to={'/SignUpScreen'}>Business Sign Up</Link>
-								</li>
 							</ul>
 						</nav>
 					</header>
@@ -40,9 +36,6 @@ export default class Header extends Component {
 					</Route>
 					<Route path='/payments'>
 						<Payments />
-					</Route>
-					<Route path='/SignUpScreen'>
-						<SignUpScreen />
 					</Route>
 				</Switch>
 			</BrowserRouter>
