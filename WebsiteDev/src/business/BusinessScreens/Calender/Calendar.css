@@ -1,0 +1,11 @@
+.class1 {
+  font-family: "Arial Rounded MT Bold";
+}
+
+.class2 {
+  font-family: "Arial Rounded MT Bold";
+  margin: 10px;
+  background-color: #00b0f0;
+  border-color: #00b0f0;
+  border-width: 5px;
+}
