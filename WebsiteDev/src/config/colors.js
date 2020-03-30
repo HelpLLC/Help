@@ -7,5 +7,6 @@ export default {
     midToneGray: '#DCDCDC',
     black: '#000000',
     red: '#DF1919',
-    gray: '#808080'
+    gray: '#808080',
+    columbiaBlue: '#a0c3ff'
 };

@@ -2,6 +2,6 @@
 .container {
 	margin-left: auto;
 	margin-right: auto;
-	height: 1000px;
+	height: fit-content;
 	background-color: #FFFFFF;
 }
