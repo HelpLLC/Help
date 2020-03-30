@@ -19,6 +19,10 @@ const mailTransport = nodemailer.createTransport({
 	}
 });
 
+//Sets up Stripe for payments
+const stripe = require('stripe')(functions.config().stripe.token);
+const currency = functions.config().stripe.currency || 'USD';
+
 //--------------------------------- Global Variables ---------------------------------
 
 const database = admin.firestore();

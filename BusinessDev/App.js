@@ -7,7 +7,6 @@ import codePush from 'react-native-code-push';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import firebase from 'react-native-firebase';
-import FirebaseFunctions from './config/FirebaseFunctions';
 
 //Launches the app with the persisted store
 class App extends Component {

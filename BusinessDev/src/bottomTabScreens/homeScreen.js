@@ -28,7 +28,6 @@ class homeScreen extends Component {
 	//This will fetch the data about this business from firestore
 	async componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('HomeScreen', 'homeScreen');
-
 		try {
 			//If navigated from launch screen or the log in screen, won't "double fetch" the business object because it'll have
 			//already been fetched
