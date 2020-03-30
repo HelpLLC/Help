@@ -5,11 +5,17 @@ import MainStackNavigator from './src/MainStackNavigator';
 import { YellowBox } from 'react-native';
 import codePush from 'react-native-code-push';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { screenWidth, screenHeight } from 'config/dimensions';
-import firebase from 'react-native-firebase';
+import stripe from 'tipsi-stripe';
 
 //Launches the app with the persisted store
 class App extends Component {
+	//Initializes stripe for payments
+	componentDidMount() {
+		stripe.setOptions({
+			publishableKey: 'pk_test_RP4GxbKwMWbM3NN5XMo3qzKz00lEiD2Fe1'
+		});
+	}
+
 	render() {
 		Icon.loadFont();
 		//Ignores a specific warning
