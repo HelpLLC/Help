@@ -11,6 +11,8 @@ import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import RoundBlueButton from '../../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import OptionPicker from '../../components/OptionPicker';
+import HelpAlert from '../../components/HelpAlert';
 
 //declares and exports the class
 export default class paymentInformationScreen extends Component {
@@ -34,14 +36,16 @@ export default class paymentInformationScreen extends Component {
 				name: 'incomplete',
 				postalCode: 'incomplete'
 			}
-		}
+		},
+		saveCardInfoVisible: false,
+		fieldsError: false
 	};
 
 	//Saves the credit card information
-	saveInfo() {
-		const { form } = this.state;
-		console.log(form);
-	}
+	saveInfo() {}
+
+	//Requests the service
+	requestService() {}
 
 	//Renders the screen
 	render() {
@@ -65,6 +69,10 @@ export default class paymentInformationScreen extends Component {
 					}}>
 					<Text style={[{ textAlign: 'center' }, fontStyles.mainTextStyleBlack]}>
 						{strings.ChargingMessage}
+					</Text>
+					<View style={{ height: screenHeight * 0.01 }} />
+					<Text style={[{ textAlign: 'center' }, fontStyles.subTextStyleBlack]}>
+						{strings.NotSharedWithBusiness}
 					</Text>
 				</View>
 				<View style={{ marginTop: screenHeight * 0.035, height: screenHeight * 0.35 }}>
@@ -101,11 +109,38 @@ export default class paymentInformationScreen extends Component {
 						textStyle={fontStyles.bigTextStyleWhite}
 						style={roundBlueButtonStyle.MediumSizeButton}
 						onPress={() => {
-							//Saves the card information
-							this.saveInfo();
+							console.log(this.state.form);
+							this.setState({
+								fieldsError: !this.state.form.valid,
+								saveCardInfoVisible: this.state.form.valid
+							});
 						}}
 					/>
 				</View>
+				<OptionPicker
+					isVisible={this.state.saveCardInfoVisible}
+					title={strings.SavePaymentInfo}
+					message={strings.SavePaymentInfoMessage}
+					confirmText={strings.Yes}
+					cancelText={strings.No}
+					clickOutside={false}
+					confirmOnPress={() => {
+						this.setState({ saveCardInfoVisible: false, isLoading: true });
+						this.saveInfo();
+					}}
+					cancelOnPress={() => {
+						this.setState({ saveCardInfoVisible: false, isLoading: true });
+						this.requestService();
+					}}
+				/>
+				<HelpAlert
+					isVisible={this.state.fieldsError}
+					onPress={() => {
+						this.setState({ fieldsError: false });
+					}}
+					title={strings.Whoops}
+					message={strings.PleaseMakeSureAllFieldsAreValid}
+				/>
 			</HelpView>
 		);
 	}
