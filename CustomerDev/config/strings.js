@@ -60,6 +60,8 @@ export default {
 
 	//------------------- Payment Info Screen -------------------
 	PaymentInfo: 'Payment Info',
+	ChargingMessage:
+		'You will only get charged after you approve that the service is complete and that the amount billed by the business is correct.',
 
 	//------------------- Blocked Businesses Screen -------------------
 	Blocked: 'Blocked',

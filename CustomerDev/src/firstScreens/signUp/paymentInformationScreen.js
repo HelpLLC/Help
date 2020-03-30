@@ -55,7 +55,19 @@ export default class paymentInformationScreen extends Component {
 						this.props.navigation.goBack();
 					}}
 				/>
-				<View style={{ marginTop: screenHeight * 0.05, height: screenHeight * 0.35 }}>
+				<View
+					style={{
+						marginTop: screenHeight * 0.025,
+						alignSelf: 'center',
+						justifyContent: 'center',
+						alignItems: 'center',
+						width: screenWidth * 0.9
+					}}>
+					<Text style={[{ textAlign: 'center' }, fontStyles.mainTextStyleBlack]}>
+						{strings.ChargingMessage}
+					</Text>
+				</View>
+				<View style={{ marginTop: screenHeight * 0.035, height: screenHeight * 0.35 }}>
 					<CreditCardInput
 						brand={'visa'}
 						fontFamily={fontStyles.subTextStyleBlack}
@@ -82,7 +94,7 @@ export default class paymentInformationScreen extends Component {
 					style={{
 						justifyContent: 'center',
 						alignItems: 'center',
-						marginTop: screenHeight * 0.2
+						marginTop: screenHeight * 0.15
 					}}>
 					<RoundBlueButton
 						title={strings.Save}
