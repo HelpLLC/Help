@@ -58,6 +58,9 @@ export default {
 	PleaseEnterName: 'Please enter your name...',
 	MyProfile: 'My Profile',
 
+	//------------------- Payment Info Screen -------------------
+	PaymentInfo: 'Payment Info',
+
 	//------------------- Blocked Businesses Screen -------------------
 	Blocked: 'Blocked',
 	Unblock: 'Unblock',

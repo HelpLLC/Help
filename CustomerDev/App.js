@@ -5,6 +5,7 @@ import MainStackNavigator from './src/MainStackNavigator';
 import { YellowBox } from 'react-native';
 import codePush from 'react-native-code-push';
 import stripe from 'tipsi-stripe';
+import PaymentInfromationScreen from './src/firstScreens/signUp/paymentInformationScreen'
 
 //Launches the app with the persisted store
 class App extends Component {
@@ -22,7 +23,7 @@ class App extends Component {
 			'componentWillMount',
 			'componentWillReceiveProps'
 		]);
-		return <MainStackNavigator />;
+		return <PaymentInfromationScreen />;
 	}
 }
 
