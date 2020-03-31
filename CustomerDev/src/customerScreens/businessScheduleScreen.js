@@ -37,7 +37,6 @@ export default class businessScheduleScreen extends Component {
 		fieldsError: false,
 		requestSummaryVisible: false,
 		isErrorVisible: false,
-		isRequestSavedSucess: false,
 		isRequestSucess: false
 	};
 
@@ -176,12 +175,19 @@ export default class businessScheduleScreen extends Component {
 			day: dateString,
 			businessID: business.businessID
 		});
+		let currentRequestIDs = Object.keys(currentRequests);
+		console.log(currentRequestIDs);
+		if (currentRequestIDs.includes(this.state.request.requestID)) {
+			console.log(1);
+			currentRequestIDs.splice(currentRequestIDs.indexOf(this.state.request.requestID), 1);
+		}
+		console.log(currentRequestIDs);
 		let filteredTimes = [];
-		if (Object.keys(currentRequests).length === 0) {
+		if (currentRequestIDs.length === 0) {
 			filteredTimes = times;
 		} else {
 			for (let i = 0; i < times.length; i++) {
-				for (const requestID of Object.keys(currentRequests)) {
+				for (const requestID of currentRequestIDs) {
 					let time = times[i];
 					request = currentRequests[requestID];
 					if (date === request.date) {
@@ -258,8 +264,8 @@ export default class businessScheduleScreen extends Component {
 					country: customer.country
 				},
 				customerID: customer.customerID,
-				cash: service.cash,
-				card: service.card,
+				cash: true,
+				card: false,
 				date: selectedDate,
 				questions: answers ? answers : [],
 				price: service.price,
@@ -270,7 +276,7 @@ export default class businessScheduleScreen extends Component {
 				serviceDuration: service.serviceDuration,
 				serviceID: service.serviceID,
 				requestedOn: new Date().toLocaleDateString('en-US'),
-				status: 'AWAITING',
+				status: 'REQUESTED',
 				time: selectedTime
 			});
 		}
@@ -296,7 +302,6 @@ export default class businessScheduleScreen extends Component {
 			selectedTime,
 			isScreenLoading,
 			isErrorVisible,
-			isRequestSavedSucess,
 			requestSummaryVisible,
 			isRequestSucess,
 			allServices
@@ -383,38 +388,6 @@ export default class businessScheduleScreen extends Component {
 									/>
 								</View>
 							}
-							ListEmptyComponent={
-								selectedDate === '' ? (
-									<View />
-								) : (
-									<View
-										style={{
-											marginVertical: screenHeight * 0.05,
-											marginHorizontal: screenWidth * 0.025
-										}}>
-										<Text style={[fontStyles.bigTextStyleBlack, { textAlign: 'center' }]}>
-											{strings.NoAvailableTimes}
-										</Text>
-									</View>
-								)
-							}
-							ListFooterComponent={
-								<View style={{ marginVertical: screenHeight * 0.05 }}>
-									<RoundBlueButton
-										title={strings.Request}
-										style={roundBlueButtonStyle.MediumSizeButton}
-										textStyle={fontStyles.bigTextStyleWhite}
-										isLoading={this.state.isLoading}
-										onPress={() => {
-											if (selectedDate === '' || selectedTime === '') {
-												this.setState({ fieldsError: true });
-											} else {
-												this.setState({ requestSummaryVisible: true });
-											}
-										}}
-									/>
-								</View>
-							}
 							renderItem={({ item, index }) => (
 								<View
 									style={{
@@ -442,6 +415,38 @@ export default class businessScheduleScreen extends Component {
 									/>
 								</View>
 							)}
+							ListFooterComponent={
+								<View style={{ marginVertical: screenHeight * 0.05 }}>
+									<RoundBlueButton
+										title={strings.Request}
+										style={roundBlueButtonStyle.MediumSizeButton}
+										textStyle={fontStyles.bigTextStyleWhite}
+										isLoading={this.state.isLoading}
+										onPress={() => {
+											if (selectedDate === '' || selectedTime === '') {
+												this.setState({ fieldsError: true });
+											} else {
+												this.setState({ requestSummaryVisible: true });
+											}
+										}}
+									/>
+								</View>
+							}
+							ListEmptyComponent={
+								selectedDate === '' ? (
+									<View />
+								) : (
+									<View
+										style={{
+											marginVertical: screenHeight * 0.05,
+											marginHorizontal: screenWidth * 0.025
+										}}>
+										<Text style={[fontStyles.bigTextStyleBlack, { textAlign: 'center' }]}>
+											{strings.NoAvailableTimes}
+										</Text>
+									</View>
+								)
+							}
 						/>
 					)}
 				</View>
@@ -473,18 +478,6 @@ export default class businessScheduleScreen extends Component {
 					title={strings.Whoops}
 					message={strings.PleaseFillOutAllFields}
 				/>
-				<HelpAlert
-					isVisible={isRequestSavedSucess}
-					onPress={() => {
-						this.setState({ isRequestSavedSucess: false });
-						this.props.navigation.push('FeaturedScreen', {
-							customer: customer,
-							allServices: allServices
-						});
-					}}
-					title={strings.Success}
-					message={strings.TheServiceRequestHasBeenSaved}
-				/>
 				<OptionPicker
 					isVisible={requestSummaryVisible}
 					title={strings.RequestSummary}
@@ -509,9 +502,15 @@ export default class businessScheduleScreen extends Component {
 					}
 					confirmText={strings.Request}
 					confirmOnPress={() => {
-						//Requests the service
-						this.requestService();
-						this.setState({ requestSummaryVisible: false });
+						//Requests the service if it is a cash service. If it need a card on file, then it navigates
+						//to the next screen which is payment information
+						if (service.card === true) {
+							this.setState({ requestSummaryVisible: false });
+							this.props.navigation.push('PaymentInformationScreen', {});
+						} else {
+							this.setState({ requestSummaryVisible: false });
+							this.requestService();
+						}
 					}}
 					cancelText={strings.Cancel}
 					cancelOnPress={() => {

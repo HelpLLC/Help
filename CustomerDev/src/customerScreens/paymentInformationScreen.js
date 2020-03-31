@@ -1,18 +1,19 @@
 //This is the screen where customers are going to enter their card information or just skip this information for later.
 import React, { Component } from 'react';
-import HelpView from '../../components/HelpView';
+import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import { CreditCardInput } from 'react-native-credit-card-input';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import { screenWidth, screenHeight } from 'config/dimensions';
-import TopBanner from '../../components/TopBanner';
+import FirebaseFunctions from 'config/FirebaseFunctions';
+import TopBanner from '../components/TopBanner';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
-import RoundBlueButton from '../../components/RoundBlueButton';
+import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import OptionPicker from '../../components/OptionPicker';
-import HelpAlert from '../../components/HelpAlert';
+import OptionPicker from '../components/OptionPicker';
+import HelpAlert from '../components/HelpAlert';
 
 //declares and exports the class
 export default class paymentInformationScreen extends Component {
@@ -38,6 +39,8 @@ export default class paymentInformationScreen extends Component {
 			}
 		},
 		saveCardInfoVisible: false,
+		isLoading: false,
+		isRequestSucess: false,
 		fieldsError: false
 	};
 
@@ -45,7 +48,64 @@ export default class paymentInformationScreen extends Component {
 	saveInfo() {}
 
 	//Requests the service
-	requestService() {}
+	async requestService() {
+		//Uploads the request to firebase
+		if (isEditing === true) {
+			await FirebaseFunctions.call('updateCustomerRequest', {
+				requestID: request.requestID,
+				status: request.status,
+				customerID: request.customerID,
+				customerLocation: {
+					city: customer.city,
+					state: customer.state,
+					country: customer.country
+				},
+				businessID: request.businessID,
+				serviceTitle: service.serviceTitle,
+				customerName: customer.name,
+				serviceID: request.serviceID,
+				date: selectedDate,
+				serviceDuration: service.serviceDuration,
+				questions: answers ? answers : [],
+				time: selectedTime
+			});
+		} else {
+			await FirebaseFunctions.call('requestService', {
+				assignedTo: '',
+				businessID: business.businessID,
+				customerLocation: {
+					city: customer.city,
+					state: customer.state,
+					country: customer.country
+				},
+				customerID: customer.customerID,
+				cash: false,
+				card: true,
+				date: selectedDate,
+				questions: answers ? answers : [],
+				price: service.price,
+				priceText: service.priceText,
+				review: '',
+				serviceTitle: service.serviceTitle,
+				customerName: customer.name,
+				serviceDuration: service.serviceDuration,
+				serviceID: service.serviceID,
+				requestedOn: new Date().toLocaleDateString('en-US'),
+				status: 'REQUESTED',
+				time: selectedTime
+			});
+		}
+		const allServices = await FirebaseFunctions.call('getAllServices', {});
+		const updatedCustomer = await FirebaseFunctions.call('getCustomerByID', {
+			customerID: customer.customerID
+		});
+		this.setState({
+			isLoading: false,
+			isRequestSucess: true,
+			customer: updatedCustomer,
+			allServices
+		});
+	}
 
 	//Renders the screen
 	render() {
@@ -106,10 +166,11 @@ export default class paymentInformationScreen extends Component {
 					}}>
 					<RoundBlueButton
 						title={strings.Save}
+						isLoading={this.state.isLoading}
+						disabled={this.state.isLoading}
 						textStyle={fontStyles.bigTextStyleWhite}
 						style={roundBlueButtonStyle.MediumSizeButton}
 						onPress={() => {
-							console.log(this.state.form);
 							this.setState({
 								fieldsError: !this.state.form.valid,
 								saveCardInfoVisible: this.state.form.valid
@@ -132,6 +193,18 @@ export default class paymentInformationScreen extends Component {
 						this.setState({ saveCardInfoVisible: false, isLoading: true });
 						this.requestService();
 					}}
+				/>
+				<HelpAlert
+					isVisible={this.state.isRequestSucess}
+					onPress={() => {
+						this.setState({ isRequestSucess: false });
+						this.props.navigation.push('FeaturedScreen', {
+							customer: customer,
+							allServices: allServices
+						});
+					}}
+					title={strings.Success}
+					message={strings.TheServiceHasBeenRequested}
 				/>
 				<HelpAlert
 					isVisible={this.state.fieldsError}

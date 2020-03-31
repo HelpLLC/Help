@@ -432,14 +432,14 @@ exports.getCurrentRequestsByServiceID = functions.https.onCall(async (input, con
 
 		//Fetches all the currently requested service given all the possible different statuses
 		const allRequestsForThisService = requests.where('serviceID', '==', serviceID);
-		const awaitingRequests = await transaction.get(
-			allRequestsForThisService.where('status', '==', 'AWAITING')
+		const requestedRequests = await transaction.get(
+			allRequestsForThisService.where('status', '==', 'REQUESTED')
 		);
 		const inProgressRequests = await transaction.get(
 			allRequestsForThisService.where('status', '==', 'IN_PROGRESS')
 		);
 
-		finalDocs = awaitingRequests.docs.concat(inProgressRequests.docs);
+		finalDocs = requestedRequests.docs.concat(inProgressRequests.docs);
 		finalDocs = finalDocs.map((doc) => doc.data());
 
 		return finalDocs;

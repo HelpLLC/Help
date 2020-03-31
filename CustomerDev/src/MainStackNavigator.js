@@ -24,6 +24,7 @@ import AdditionalCustomerInfoScreen from './firstScreens/signUp/additionalCustom
 import BusinessScheduleScreen from './customerScreens/businessScheduleScreen';
 import ServiceQuestionsScreen from './customerScreens/serviceQuestionsScreen';
 import BlockedBusinessesScreen from './settingsScreens/blockedBusinessesScreen';
+import PaymentInformationScreen from './customerScreens/paymentInformationScreen';
 import ServiceRequestedScreen from './customerScreens/serviceRequestedScreen';
 
 //The route config for all of the screens
@@ -108,6 +109,12 @@ const routeConfig = {
 	ServiceQuestionsScreen: {
 		screen: ServiceQuestionsScreen
 	},
+
+	//The route going to the payment information screen
+	PaymentInformationScreen: {
+		screen: PaymentInformationScreen
+	},
+
 	//Route leading to the screen that displays a specific category
 	CategoryScreen: {
 		screen: CategoryScreen
