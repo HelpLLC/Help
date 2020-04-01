@@ -59,15 +59,10 @@ export default {
 	MyProfile: 'My Profile',
 
 	//------------------- Payment Info Screen -------------------
-	PaymentInfo: 'Payment Info',
-	ChargingMessage:
-		'You will only get charged after you approve that the service is complete and that the amount billed by the business is correct.',
-	NotSharedWithBusiness: 'Your information will not be shared with the business.',
 	SavePaymentInfo: 'Save Payment Information',
 	No: 'No',
 	SavePaymentInfoMessage:
 		'Would you like Help to save your payment information for future purchases? Your information will not be visible to businesses.',
-	PleaseMakeSureAllFieldsAreValid: 'Please make sure all fields are filled out and are valid.',
 
 	//------------------- Blocked Businesses Screen -------------------
 	Blocked: 'Blocked',

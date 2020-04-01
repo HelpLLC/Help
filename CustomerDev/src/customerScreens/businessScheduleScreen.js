@@ -16,6 +16,10 @@ import OptionPicker from '../components/OptionPicker';
 import LoadingSpinner from '../components/LoadingSpinner';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import HelpAlert from '../components/HelpAlert';
+import stripe from 'tipsi-stripe';
+stripe.setOptions({
+	publishableKey: 'pk_test_RP4GxbKwMWbM3NN5XMo3qzKz00lEiD2Fe1'
+});
 
 //Renders the actual class
 export default class businessScheduleScreen extends Component {
@@ -37,7 +41,10 @@ export default class businessScheduleScreen extends Component {
 		fieldsError: false,
 		requestSummaryVisible: false,
 		isErrorVisible: false,
-		isRequestSucess: false
+		isRequestSucess: false,
+		saveCardVisible: false,
+		shouldSaveCard: '',
+		paymentToken: ''
 	};
 
 	//Sets the initial fields and fetches the correct business schedule for that date
@@ -100,6 +107,28 @@ export default class businessScheduleScreen extends Component {
 		this.setState({
 			isScreenLoading: false
 		});
+	}
+
+	//This method is going to record the payment method for this user and store in stripe
+	async acceptCardPayment() {
+		try {
+			const token = await stripe.paymentRequestWithCardForm({
+				requiredBillingAddressFields: 'full',
+				theme: {
+					accentColor: colors.lightBlue,
+					errorColor: colors.red
+				}
+			});
+
+			this.setState({
+				paymentToken: token,
+				saveCardVisible: true
+			});
+		} catch (error) {
+			if (error.message !== 'Cancelled by user') {
+				FirebaseFunctions.call('logIssue', { error, userID: 'BusinessScheduleScreen' });
+			}
+		}
 	}
 
 	//This method converts a specific time like 9:00 AM into how many minutes have passed since 12 AM. Returns a number
@@ -176,12 +205,9 @@ export default class businessScheduleScreen extends Component {
 			businessID: business.businessID
 		});
 		let currentRequestIDs = Object.keys(currentRequests);
-		console.log(currentRequestIDs);
-		if (currentRequestIDs.includes(this.state.request.requestID)) {
-			console.log(1);
+		if (this.state.request && currentRequestIDs.includes(this.state.request.requestID)) {
 			currentRequestIDs.splice(currentRequestIDs.indexOf(this.state.request.requestID), 1);
 		}
-		console.log(currentRequestIDs);
 		let filteredTimes = [];
 		if (currentRequestIDs.length === 0) {
 			filteredTimes = times;
@@ -245,6 +271,7 @@ export default class businessScheduleScreen extends Component {
 					state: customer.state,
 					country: customer.country
 				},
+				paymentInformation: '',
 				businessID: request.businessID,
 				serviceTitle: service.serviceTitle,
 				customerName: customer.name,
@@ -263,6 +290,7 @@ export default class businessScheduleScreen extends Component {
 					state: customer.state,
 					country: customer.country
 				},
+				paymentInformation: '',
 				customerID: customer.customerID,
 				cash: true,
 				card: false,
@@ -426,7 +454,11 @@ export default class businessScheduleScreen extends Component {
 											if (selectedDate === '' || selectedTime === '') {
 												this.setState({ fieldsError: true });
 											} else {
-												this.setState({ requestSummaryVisible: true });
+												if (service.card === true) {
+													this.acceptCardPayment();
+												} else {
+													this.setState({ paymentToken: '', requestSummaryVisible: true });
+												}
 											}
 										}}
 									/>
@@ -479,6 +511,28 @@ export default class businessScheduleScreen extends Component {
 					message={strings.PleaseFillOutAllFields}
 				/>
 				<OptionPicker
+					isVisible={this.state.saveCardVisible}
+					title={strings.SavePaymentInfo}
+					message={strings.SavePaymentInfoMessage}
+					confirmText={strings.Yes}
+					cancelText={strings.No}
+					clickOutside={false}
+					confirmOnPress={() => {
+						this.setState({
+							saveCardVisible: false,
+							requestSummaryVisible: true,
+							shouldSaveCard: true
+						});
+					}}
+					cancelOnPress={() => {
+						this.setState({
+							saveCardVisible: false,
+							requestSummaryVisible: true,
+							shouldSaveCard: false
+						});
+					}}
+				/>
+				<OptionPicker
 					isVisible={requestSummaryVisible}
 					title={strings.RequestSummary}
 					clickOutside={false}
@@ -502,15 +556,9 @@ export default class businessScheduleScreen extends Component {
 					}
 					confirmText={strings.Request}
 					confirmOnPress={() => {
-						//Requests the service if it is a cash service. If it need a card on file, then it navigates
-						//to the next screen which is payment information
-						if (service.card === true) {
-							this.setState({ requestSummaryVisible: false });
-							this.props.navigation.push('PaymentInformationScreen', {});
-						} else {
-							this.setState({ requestSummaryVisible: false });
-							this.requestService();
-						}
+						//Requests the service if it is a cash service.
+						this.setState({ requestSummaryVisible: false });
+						this.requestService();
 					}}
 					cancelText={strings.Cancel}
 					cancelOnPress={() => {

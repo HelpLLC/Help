@@ -2,6 +2,18 @@
 //application. The point of this class is to reduce code clutter throughout the application. The class
 //will connect with the firebase firestore in order to retrieve the necessary data.
 import firebase from 'react-native-firebase';
+const firebaseConfig = {
+	apiKey: 'AIzaSyDOgt8k63g6SUWvrP-dvu4LEUIbGAwsWDc',
+	authDomain: 'help-technologies-e4e1c.firebaseapp.com',
+	databaseURL: 'https://help-technologies-e4e1c.firebaseio.com',
+	projectId: 'help-technologies-e4e1c',
+	storageBucket: 'help-technologies-e4e1c.appspot.com',
+	messagingSenderId: '127668734841',
+	appId: '1:127668734841:web:2e9114165d61025d653da8',
+	measurementId: 'G-DPVW5284H2'
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 //All methods should be labeled static. There will also be static variable that reference the collections
 //in the cloud firestore
 export default class FirebaseFunctions {
