@@ -1,4 +1,4 @@
-.container {
+.cardcontainer {
   float: initial;
   display: inline-flex;
   height: 175px;
@@ -6,71 +6,68 @@
   margin-left: 200px;
   margin-right: 200px;
   margin-top: 50px;
+  background-color: white;
 }
-
-.body {
+.body1 {
   margin: 10px;
 }
-
 .body2 {
   margin: 10px;
 }
-
 .body3 {
   margin: 10px;
 }
-
 .body4 {
   margin: 10px;
 }
-
 .body5 {
   margin: 10px;
 }
-
-.header {
-  font-size: 20px;
-  background-color: unset;
-  border-color: white;
-  font-weight: bold;
-  margin: -5px;
-}
-
 img {
   border-top: initial;
   display: inline-block;
   height: 120px;
   margin-top: 0px;
 }
-
 .price {
   font-size: 20px;
   background-color: unset;
   border-color: white;
   font-weight: bold;
-  margin-top: -50px;
+  margin-top: -10px;
 }
-
 .requests {
   font-size: 20px;
   background-color: unset;
   border-color: white;
   font-weight: bold;
-  margin-top: -50px;
+  margin-top: -10px;
 }
-
 .days {
   font-size: 20px;
   background-color: unset;
   border-color: white;
   font-weight: bold;
-  margin-top: -75px;
+  margin-top: -10px;
 }
-
 .house {
   font-size: 20px;
   background-color: unset;
   border-color: white;
   font-weight: bold;
-  margin-top: 20px;
+  margin-top: -10px;
+}
+.rating {
+  font-size: 20px;
+  background-color: unset;
+  border-color: white;
+  font-weight: bold;
+  margin-top: -10px;
+}
+.description {
+  font-size: 20px;
+  background-color: unset;
+  border-color: white;
+  font-weight: bold;
+  margin-top: -10px;
 }
