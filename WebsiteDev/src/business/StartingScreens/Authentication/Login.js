@@ -23,7 +23,7 @@ export function Login(props) {
 		if(businessID){
 			 setLoggedIn(true)
 			 console.log(props)
-			history.push('/dashboard')
+			history.push({pathname: '/dashboard/:businessID', state:{businessID:businessID}})
 		}
 	};
 

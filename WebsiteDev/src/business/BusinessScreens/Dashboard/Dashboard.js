@@ -4,15 +4,19 @@ import Header from "../Header/Header";
 import "../Header/Header.css";
 import FirebaseFunctions from "../../../config/FirebaseFunctions";
 import BusinessServiceCard from "../../../components/BusinessServiceCard";
+import {useLocation} from 'react-router-dom'
 
 export default function Dashboard(props) {
   const [business, setBusiness] = React.useState();
   const [services, setServices] = React.useState();
   const [loaded, setLoaded] = React.useState(false);
   const [image, setImage] = React.useState("");
+  const location = useLocation();
+
 
   const componentDidMount = async () => {
-    const businessID = "zjCzqSiCpNQELwU3ETtGBANz7hY2";
+    console.log()
+    const businessID = location.state.businessID;
     const business = await FirebaseFunctions.call("getBusinessByID", {
       businessID
     });
