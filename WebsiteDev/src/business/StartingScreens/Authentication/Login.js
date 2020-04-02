@@ -9,14 +9,22 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import { useHistory} from 'react-router-dom'
 
-export function Login() {
+export function Login(props) {
 	const [email, setEmail] = React.useState('');
 	const [password, setPassword] = React.useState('');
+	const [loggedIn, setLoggedIn] = React.useState(false)
+	let history = useHistory();
 
 	const login = async () => {
 		const businessID = await FirebaseFunctions.logIn(email, password);
 		console.log(businessID);
+		if(businessID){
+			 setLoggedIn(true)
+			 console.log(props)
+			history.push('/dashboard')
+		}
 	};
 
 	function submit() {
@@ -59,7 +67,7 @@ export function Login() {
 	const handleErrorClose = () => {
 		setErrorOpen(false);
 	};
-
+	
 	return (
 		<div>
 			<div className='base-container'>
