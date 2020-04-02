@@ -15,11 +15,12 @@ export default class Analytics extends Component {
 		revenueData: '',
 		customerLocationData: '',
 		topServicesData: '',
-		myRevenue: [[]],
-		myServices: [[]],
-		myLocations: [[]]
+		revenueChart: [[]],
+		servicesChart: [[]],
+		locationsChart: [[]]
 	};
 
+	// Once the elements are rendered, retrieve analytics data from firebasse and differentiate them
 	async componentDidMount() {
 		// const { businessID } = 'zjCzqSiCpNQELwU3ETtGBANz7hY2';
 		const analyticsData = await FirebaseFunctions.call('getBusinessAnalyticsByBusinessID', {
@@ -35,12 +36,9 @@ export default class Analytics extends Component {
 			isScreenLoading: false
 		});
 
-		const revenueChart = await this.generateRevenueChartData();
-		this.setState({ myRevenue: revenueChart });
-		const servicesChart = await this.generateTopServicesChartData();
-		this.setState({ myServices: servicesChart });
-		const locationsChart = await this.generateTopLocationsChartData();
-		this.setState({ myLocations: locationsChart });
+		this.setState({ revenueChart: await this.generateRevenueChartData() });
+		this.setState({ servicesChart: await this.generateTopServicesChartData() });
+		this.setState({ locationsChart: await this.generateTopLocationsChartData() });
 	}
 
 	//Generates the chart data for the revenue graph
@@ -62,6 +60,7 @@ export default class Analytics extends Component {
 			'Dec'
 		];
 
+		// Only get the months out of the data
 		let months = Object.keys(revenueData);
 		months.sort();
 		months.reverse();
@@ -69,27 +68,20 @@ export default class Analytics extends Component {
 		months = months.filter((value) => value.includes('-'));
 		months = months.filter((value, index) => index <= 11);
 
+		// Store the revenue in an array and inverse it to match the order of the months
 		var data = [];
-		for (let i = months.length - 1; i >= 0; i--) {
+		for (let i = months.length; i >= 0; i--) {
 			const month = months[i];
 			data.push(parseInt(revenueData[month]));
 		}
-		console.log(data);
+		data.reverse();
 
-		if (months.length > 4) {
-			for (let i = months.length - 2; i >= 0; i--) {
-				const month = months[i];
-				const monthString = monthStrings[parseInt(month.substring(month.indexOf('-') + 1)) - 1];
-				const yearString = month.substring(0, month.indexOf('-'));
-				chartData.push(new Array(monthString + ' ' + yearString, data[i]));
-			}
-		} else {
-			for (let i = months.length - 1; i >= 0 && chartData.length < 3; i--) {
-				const month = months[i];
-				const monthString = monthStrings[parseInt(month.substring(month.indexOf('-') + 1)) - 1];
-				const yearString = month.substring(0, month.indexOf('-'));
-				chartData.push(new Array(monthString + ' ' + yearString, data[i]));
-			}
+		// Combine the date and revenue into one 2d array
+		for (let i = months.length - 1; i >= 0; i--) {
+			const month = months[i];
+			const monthString = monthStrings[parseInt(month.substring(month.indexOf('-') + 1)) - 1];
+			const yearString = month.substring(0, month.indexOf('-'));
+			chartData.push(new Array(monthString + ' ' + yearString, data[i]));
 		}
 
 		return { chartData };
@@ -99,8 +91,10 @@ export default class Analytics extends Component {
 	async generateTopServicesChartData() {
 		const { topServicesBy, topServicesData } = this.state;
 
+		// Get the services' data from firebase
 		let services = Object.keys(topServicesData);
 
+		// Set up a 2d array with the axes' titles
 		let chartData = [['Services', 'Orders']];
 
 		// Ordered by total number of requests
@@ -123,7 +117,10 @@ export default class Analytics extends Component {
 	async generateTopLocationsChartData() {
 		const { customerLocationsBy, customerLocationData } = this.state;
 
+		// Set up a 2d array with the axes' titles
 		let chartData = [['Services', 'Orders']];
+
+		// Get the cities, order them by the number of orders, and add them to a 2d array
 		const { Cities } = customerLocationData;
 		let cityKeys = Object.keys(Cities);
 		cityKeys.sort((a, b) => Cities[b] - Cities[a]);
@@ -140,9 +137,9 @@ export default class Analytics extends Component {
 			customerLocationsBy,
 			topServicesBy,
 			isScreenLoading,
-			myRevenue,
-			myServices,
-			myLocations
+			revenueChart,
+			servicesChart,
+			locationsChart
 		} = this.state;
 		if (isScreenLoading === true) {
 			return (
@@ -172,7 +169,7 @@ export default class Analytics extends Component {
 					chartType='Line'
 					style={{ marginRight: '1%', marginLeft: '5%' }}
 					loader={<div>Loading Chart</div>}
-					data={myRevenue.chartData}
+					data={revenueChart.chartData}
 					options={{
 						height: 350,
 						hAxis: {
@@ -194,7 +191,7 @@ export default class Analytics extends Component {
 					width={'auto'}
 					chartType='LineChart'
 					loader={<div>Loading Chart</div>}
-					data={myRevenue.chartData}
+					data={revenueChart.chartData}
 					options={{
 						height: 350,
 						fontFamily: 'Arial',
@@ -227,7 +224,7 @@ export default class Analytics extends Component {
 					style={{ marginRight: '1%', marginLeft: '5%' }}
 					chartType='Bar'
 					loader={<div>Loading Chart</div>}
-					data={myServices.chartData}
+					data={servicesChart.chartData}
 					options={{
 						colors: [colors.lightBlue]
 					}}
@@ -241,7 +238,7 @@ export default class Analytics extends Component {
 				<Chart
 					chartType='ColumnChart'
 					width='auto'
-					data={myServices.chartData}
+					data={servicesChart.chartData}
 					options={{
 						height: 350,
 						hAxis: {
@@ -267,7 +264,7 @@ export default class Analytics extends Component {
 					style={{ marginRight: '1%', marginLeft: '5%' }}
 					chartType='Bar'
 					loader={<div>Loading Chart</div>}
-					data={myLocations.chartData}
+					data={locationsChart.chartData}
 					options={{
 						colors: [colors.lightBlue]
 					}}
@@ -281,7 +278,7 @@ export default class Analytics extends Component {
 				<Chart
 					chartType='ColumnChart'
 					width='auto'
-					data={myLocations.chartData}
+					data={locationsChart.chartData}
 					options={{
 						height: 350,
 						hAxis: {
