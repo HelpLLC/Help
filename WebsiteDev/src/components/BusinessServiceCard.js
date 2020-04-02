@@ -7,53 +7,49 @@ import { Divider } from "@material-ui/core";
 import image from "../images/download.jpg";
 import fontStyles from "../config/fontStyles.js";
 
-class BusinessServiceCard extends Component {
-  render() {
-    return (
-      <Card class="container">
-        <CardContent style={fontStyles.mainTextStyleBlack}>
-          <Typography class="house">House cleaning</Typography>
-          <Divider varient="middle" />
-          <img src={image} />
-        </CardContent>
-        <Divider orientation="vertical" flexItem />
-        <CardContent style={fontStyles.mainTextStyleBlack}>
-          <Typography class="header">Rating</Typography>
-          <Divider varient="middle" />
-          <Typography>5 Stars</Typography>
-          <Typography>252 Reviews</Typography>
-        </CardContent>
-        <Divider orientation="vertical" flexItem />
-        <CardContent class="body2" style={fontStyles.mainTextStyleBlack}>
-          <Typography class="price">Price</Typography>
-          <Divider varient="middle" />
-          <Typography>$120 per 4 hours</Typography>
-        </CardContent>
-        <Divider orientation="vertical" flexItem />
-        <CardContent class="body3" style={fontStyles.mainTextStyleBlack}>
-          <Typography class="header">Description</Typography>
-          <Divider varient="middle" />
-          <Typography>
-            We offer the best house cleaning in the <br /> Northwest. Anything
-            from carpet cleaning...
-          </Typography>
-        </CardContent>
-        <Divider orientation="vertical" flexItem />
-        <CardContent class="body4" style={fontStyles.mainTextStyleBlack}>
-          <Typography class="requests">Requests</Typography>
-          <Divider varient="middle" />
-          <Typography>137 requests in the past month</Typography>
-        </CardContent>
-        <Divider orientation="vertical" flexItem />
-        <CardContent class="body5" style={fontStyles.mainTextStyleBlack}>
-          <Typography class="days">Days offered</Typography>
-          <Divider varient="middle" />
-          <Typography>M/T/F</Typography>
-        </CardContent>
-        <Divider orientation="vertical" flexItem />
-      </Card>
-    );
-  }
+function BusinessServiceCard(props) {
+  const [loaded, setLoaded] = React.useState();
+
+  const { title, image, totalReviews, averageRating, priceText, serviceDescription, numCurrentRequests} = props;
+
+  return (
+    <Card class="cardcontainer">
+      <CardContent style={fontStyles.mainTextStyleBlack}>
+        <Typography class="house">{title}</Typography>
+        <Divider varient="middle" />
+        <img src={image} />
+      </CardContent>
+      <Divider orientation="vertical" flexItem />
+      <CardContent class="body1" style={fontStyles.mainTextStyleBlack}>
+        <Typography class="rating">Rating</Typography>
+        <Divider varient="middle" />
+        <Typography>{averageRating} stars</Typography>
+        <Typography>{totalReviews} reviews</Typography>
+      </CardContent>
+      <Divider orientation="vertical" flexItem />
+      <CardContent class="body2" style={fontStyles.mainTextStyleBlack}>
+        <Typography class="price">Price</Typography>
+        <Divider varient="middle" />
+  <Typography>{priceText}</Typography>
+      </CardContent>
+      <Divider orientation="vertical" flexItem />
+      <CardContent class="body3" style={fontStyles.mainTextStyleBlack}>
+        <Typography class="description">Description</Typography>
+        <Divider varient="middle" />
+        <Typography>
+         {serviceDescription}
+        </Typography>
+      </CardContent>
+      <Divider orientation="vertical" flexItem />
+      <CardContent class="body4" style={fontStyles.mainTextStyleBlack}>
+        <Typography class="requests">Requests</Typography>
+        <Divider varient="middle" />
+        <Typography>{numCurrentRequests} upcoming requests</Typography>
+      </CardContent>
+    
+      <Divider orientation="vertical" flexItem />
+    </Card>
+  );
 }
 
 export default BusinessServiceCard;
