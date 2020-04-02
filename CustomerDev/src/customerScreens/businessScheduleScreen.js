@@ -109,28 +109,6 @@ export default class businessScheduleScreen extends Component {
 		});
 	}
 
-	//This method is going to record the payment method for this user and store in stripe
-	async acceptCardPayment() {
-		try {
-			const token = await stripe.paymentRequestWithCardForm({
-				requiredBillingAddressFields: 'full',
-				theme: {
-					accentColor: colors.lightBlue,
-					errorColor: colors.red
-				}
-			});
-
-			this.setState({
-				paymentToken: token,
-				saveCardVisible: true
-			});
-		} catch (error) {
-			if (error.message !== 'Cancelled by user') {
-				FirebaseFunctions.call('logIssue', { error, userID: 'BusinessScheduleScreen' });
-			}
-		}
-	}
-
 	//This method converts a specific time like 9:00 AM into how many minutes have passed since 12 AM. Returns a number
 	convertToMinutes(time) {
 		let hours = parseInt(time.substring(0, time.indexOf(':')));
@@ -242,6 +220,31 @@ export default class businessScheduleScreen extends Component {
 		return filteredTimes;
 	}
 
+	//This method is going to record the payment method for this user and store in stripe
+	async acceptCardPayment() {
+		try {
+			const token = await stripe.paymentRequestWithCardForm({
+				requiredBillingAddressFields: 'full',
+				theme: {
+					accentColor: colors.lightBlue,
+					errorColor: colors.red
+				}
+			});
+			//Waits a quarter of a second to make a natural pop up appear
+			this.timeoutHandle = setTimeout(() => {
+				this.setState({
+					paymentInformation: strings.CardEndingIn + token.card.last4,
+					paymentToken: token.tokenId,
+					saveCardVisible: true
+				});
+			}, 500);
+		} catch (error) {
+			if (error.message !== 'Cancelled by user') {
+				FirebaseFunctions.call('logIssue', { error, userID: 'BusinessScheduleScreen' });
+			}
+		}
+	}
+
 	//Requests the service by checking if all fields have been filled out correctly
 	async requestService() {
 		this.setState({
@@ -249,7 +252,7 @@ export default class businessScheduleScreen extends Component {
 		});
 
 		//Fetches all the required fields
-		const {
+		let {
 			business,
 			customer,
 			selectedDate,
@@ -257,9 +260,19 @@ export default class businessScheduleScreen extends Component {
 			service,
 			selectedTime,
 			isEditing,
-			request
+			request,
+			shouldSaveCard,
+			paymentInformation,
+			paymentToken
 		} = this.state;
 
+		//If the card payment information needs to be attatched to a customer, the function handles that logic as well
+		if (shouldSaveCard === true) {
+			paymentToken = await FirebaseFunctions.call('createStripeCustomerPaymentInformtion', {
+				customerID: customer.customerID,
+				paymentInformation: paymentToken
+			});
+		}
 		//Uploads the request to firebase
 		if (isEditing === true) {
 			await FirebaseFunctions.call('updateCustomerRequest', {
@@ -271,7 +284,7 @@ export default class businessScheduleScreen extends Component {
 					state: customer.state,
 					country: customer.country
 				},
-				paymentInformation: '',
+				paymentInformation: paymentToken,
 				businessID: request.businessID,
 				serviceTitle: service.serviceTitle,
 				customerName: customer.name,
@@ -290,10 +303,10 @@ export default class businessScheduleScreen extends Component {
 					state: customer.state,
 					country: customer.country
 				},
-				paymentInformation: '',
+				paymentInformation: paymentToken,
 				customerID: customer.customerID,
-				cash: true,
-				card: false,
+				cash: service.cash,
+				card: service.card,
 				date: selectedDate,
 				questions: answers ? answers : [],
 				price: service.price,
@@ -308,6 +321,7 @@ export default class businessScheduleScreen extends Component {
 				time: selectedTime
 			});
 		}
+
 		const allServices = await FirebaseFunctions.call('getAllServices', {});
 		const updatedCustomer = await FirebaseFunctions.call('getCustomerByID', {
 			customerID: customer.customerID
@@ -330,6 +344,8 @@ export default class businessScheduleScreen extends Component {
 			selectedTime,
 			isScreenLoading,
 			isErrorVisible,
+			paymentToken,
+			paymentInformation,
 			requestSummaryVisible,
 			isRequestSucess,
 			allServices
@@ -454,10 +470,22 @@ export default class businessScheduleScreen extends Component {
 											if (selectedDate === '' || selectedTime === '') {
 												this.setState({ fieldsError: true });
 											} else {
-												if (service.card === true) {
+												if (service.card === true && customer.paymentInformation === '') {
 													this.acceptCardPayment();
 												} else {
-													this.setState({ paymentToken: '', requestSummaryVisible: true });
+													if (service.cash === true) {
+														this.setState({ paymentToken: '', paymentInformation: strings.Cash });
+													} else if (customer.paymentInformation !== '') {
+														this.setState({
+															paymentToken: {
+																sourceID: customer.paymentInformation.id,
+																stripeCustomerID: customer.paymentInformation.customer
+															},
+															paymentInformation:
+																strings.CardEndingIn + customer.paymentInformation.last4
+														});
+													}
+													this.setState({ requestSummaryVisible: true });
 												}
 											}
 										}}
@@ -552,6 +580,9 @@ export default class businessScheduleScreen extends Component {
 						'\n\n' +
 						strings.ScheduleTimeColon +
 						selectedTime +
+						'\n\n' +
+						strings.PaidWithColon +
+						paymentInformation +
 						'\n\n'
 					}
 					confirmText={strings.Request}
