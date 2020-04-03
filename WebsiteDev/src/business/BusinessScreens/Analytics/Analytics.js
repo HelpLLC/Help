@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import './Analytics.css';
 import TitleComponent from '../../../components/TitleComponent';
 import colors from '../../../config/colors';
@@ -6,44 +6,48 @@ import fontStyles from '../../../config/fontStyles';
 import { Chart } from 'react-google-charts';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 
-export default class Analytics extends Component {
-	state = {
-		isScreenLoading: true,
-		revenueBy: 'By Month',
-		customerLocationsBy: 'By City',
-		topServicesBy: 'By Total Requests',
-		revenueData: '',
-		customerLocationData: '',
-		topServicesData: '',
-		revenueChart: [[]],
-		servicesChart: [[]],
-		locationsChart: [[]]
-	};
+export default function Analytics(props) {
+	const [isScreenLoading, setIsScreenLoading] = React.useState(true);
+	const [revenueBy, setRevenueBy] = React.useState();
+	const [customerLocationsBy, setCustomerLocationsBy] = React.useState();
+	const [topServicesBy, setTopServicesBy] = React.useState();
+	const [revenueData, setRevenueData] = React.useState();
+	const [customerLocationData, setCustomerLocationData] = React.useState();
+	const [topServicesData, setTopServicesData] = React.useState();
+	const [revenueChart, setRevenueChart] = React.useState([[]]);
+	const [servicesChart, setServicesChart] = React.useState([[]]);
+	const [locationsChart, setLocationsChart] = React.useState([[]]);
 
 	// Once the elements are rendered, retrieve analytics data from firebasse and differentiate them
-	async componentDidMount() {
+	const componentDidMount = async () => {
 		// const { businessID } = 'zjCzqSiCpNQELwU3ETtGBANz7hY2';
 		const analyticsData = await FirebaseFunctions.call('getBusinessAnalyticsByBusinessID', {
 			businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2'
 		});
-		const revenueData = analyticsData[0];
-		const topServicesData = analyticsData[1];
-		const customerLocationData = analyticsData[2];
-		this.setState({
-			revenueData,
-			customerLocationData,
-			topServicesData,
-			isScreenLoading: false
-		});
+		const revenueDataConst = analyticsData[0];
+		const topServicesDataConst = analyticsData[1];
+		const customerLocationDataConst = analyticsData[2];
 
-		this.setState({ revenueChart: await this.generateRevenueChartData() });
-		this.setState({ servicesChart: await this.generateTopServicesChartData() });
-		this.setState({ locationsChart: await this.generateTopLocationsChartData() });
-	}
+		setRevenueData(revenueDataConst);
+		setTopServicesData(topServicesDataConst);
+		setCustomerLocationData(customerLocationDataConst);
+
+		// ensures all data is loaded, then format the data for the chart
+		if (
+			revenueData !== undefined &&
+			topServicesData !== undefined &&
+			customerLocationData !== undefined
+		) {
+			setRevenueChart(await generateRevenueChartData());
+			setServicesChart(await generateTopServicesChartData());
+			setLocationsChart(await generateTopLocationsChartData());
+			setIsScreenLoading(false);
+		}
+	};
 
 	//Generates the chart data for the revenue graph
-	async generateRevenueChartData() {
-		const { revenueBy, revenueData } = this.state;
+	const generateRevenueChartData = async () => {
+		// const { revenueBy, revenueData } = this.state;
 
 		const monthStrings = [
 			'Jan',
@@ -85,11 +89,11 @@ export default class Analytics extends Component {
 		}
 
 		return { chartData };
-	}
+	};
 
 	//Generates the chart data for the services graph
-	async generateTopServicesChartData() {
-		const { topServicesBy, topServicesData } = this.state;
+	const generateTopServicesChartData = async () => {
+		// const { topServicesBy, topServicesData } = this.state;
 
 		// Get the services' data from firebase
 		let services = Object.keys(topServicesData);
@@ -111,11 +115,11 @@ export default class Analytics extends Component {
 		}
 
 		return { chartData };
-	}
+	};
 
 	//Generates the chart data for the customer locations graph
-	async generateTopLocationsChartData() {
-		const { customerLocationsBy, customerLocationData } = this.state;
+	const generateTopLocationsChartData = async () => {
+		// const { customerLocationsBy, customerLocationData } = this.state;
 
 		// Set up a 2d array with the axes' titles
 		let chartData = [['Services', 'Orders']];
@@ -129,32 +133,22 @@ export default class Analytics extends Component {
 		}
 
 		return { chartData };
-	}
+	};
 
-	render() {
-		const {
-			revenueBy,
-			customerLocationsBy,
-			topServicesBy,
-			isScreenLoading,
-			revenueChart,
-			servicesChart,
-			locationsChart
-		} = this.state;
-		if (isScreenLoading === true) {
-			return (
-				<div className='container'>
-					<TitleComponent />
-					<TitleComponent text={'Analytics'} isCentered={true} textColor={colors.lightBlue} />
-					<TitleComponent
-						text={'Screen loading...'}
-						isCentered={true}
-						textColor={colors.lightBlue}
-					/>
-				</div>
-			);
-		}
-
+	if (isScreenLoading === true) {
+		componentDidMount();
+		return (
+			<div className='container'>
+				<TitleComponent />
+				<TitleComponent text={'Analytics'} isCentered={true} textColor={colors.lightBlue} />
+				<TitleComponent
+					text={'Monthly Revenue in 2020 (MATERIAL UI)'}
+					isCentered={true}
+					textColor={colors.lightBlue}
+				/>
+			</div>
+		);
+	} else {
 		return (
 			<div className='container'>
 				<TitleComponent />
