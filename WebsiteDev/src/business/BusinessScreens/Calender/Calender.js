@@ -6,12 +6,12 @@ import "./Calendar.css";
 export default class Analytics extends Component {
   render() {
     return (
-      <section>
+      <div>
         <h1>Calender</h1>
         <div>
           <Calendar className="class1" tileClassName="class2" />
         </div>
-      </section>
+      </div>
     );
   }
 }
