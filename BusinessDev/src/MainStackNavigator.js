@@ -25,6 +25,7 @@ import CreateScheduleScreen from './firstScreens/signUp/createScheduleScreen';
 import { fadeIn, fromRight } from 'react-navigation-transitions';
 import { createAppContainer } from 'react-navigation';
 import TermsAndConditionsScreen from './settingsScreens/termsAndConditionsScreen';
+import CreatePaymentMethodScreen from './sideBusinessScreens/createPaymentMethodScreen';
 import ServiceAdditionalInformationScreen from './sideBusinessScreens/serviceAdditionalInformationScreen';
 import { createStackNavigator } from 'react-navigation-stack';
 
@@ -127,6 +128,10 @@ const routeConfig = {
 	//Takes you to where businesses edit additional service information
 	ServiceAdditionalInformationScreen: {
 		screen: ServiceAdditionalInformationScreen
+	},
+
+	CreatePaymentMethodScreen: {
+		screen: CreatePaymentMethodScreen
 	},
 
 	//Takes you to the screen where businesses see current requests for a specific service

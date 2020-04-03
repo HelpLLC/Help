@@ -30,6 +30,20 @@ export default {
 	//------------------- Payments Screen -------------------
 	AcceptCardPaymentsWithHelp: 'Accept Card Payments with Help',
 
+	//------------------- Create Payment Method Screen -------------------
+	AddPayments: 'Add Payments',
+	AndThe: 'and the',
+	StripeServicesAgreement: 'Stripe Services Agreement',
+	StripeConnectedAccountAgreement: 'Stripe Connected Account Agreement',
+	Add: 'Add',
+	PleaseAcceptAgreements: 'Please accept the Stripe Agreements.',
+	WhereDoYouWantToAcceptPaymentsQuestion: 'Where do you want to accept payments?',
+	BankAccount: 'Bank Account',
+	DebitCard: 'Debit Card',
+	PleaseSelectAWayToAcceptPayments: 'Please select a way to accept payments.',
+	InvalidCardType: 'Invalid Card Type',
+	InvalidCardTypeMessage: 'You can only accept payments through US Debit Cards and Bank Accounts.',
+
 	//-------------------  Splash Screen -------------------
 	GetStarted: 'Get Started',
 	HaveAnAccountQuestion: 'Have an account?',
@@ -237,7 +251,8 @@ export default {
 	Cash: 'Cash',
 	CreditDebitCard: 'Credit/Debit Card',
 	SetUpPayment: 'Set Up Payments',
-	PaymentsMustBeSetupBeforeAcceptingCardPayments: 'Payments must be set up before accepting card transactions.',
+	PaymentsMustBeSetupBeforeAcceptingCardPayments:
+		'Payments must be set up before accepting card transactions.',
 
 	//------------------- Bill Customer Screen -------------------
 	Billing: 'Billing',
@@ -416,5 +431,6 @@ export default {
 	Restart: 'Restart',
 	AppWillRestart: 'Help will now restart to install the update.',
 	UnderMaintenance: 'Under Maintenance',
-	AppIsUnderMaintenance: 'Help is currently under scheduled maintenance. It should be back up soon.'
+	AppIsUnderMaintenance:
+		'Help is currently under scheduled maintenance. It should be back up soon.',
 };

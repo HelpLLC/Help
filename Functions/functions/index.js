@@ -4,7 +4,7 @@ var serviceAccount = require('./serviceAccountKey.json');
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
 	databaseURL: 'https://help-technologies-e4e1c.firebaseio.com',
-	storageBucket: 'help-technologies-e4e1c.appspot.com'
+	storageBucket: 'help-technologies-e4e1c.appspot.com',
 });
 //Configures email for automated emails
 const nodemailer = require('nodemailer');
@@ -12,11 +12,11 @@ const mailTransport = nodemailer.createTransport({
 	service: 'gmail',
 	auth: {
 		user: 'helpcocontact@gmail.com',
-		pass: 'techBusiness123'
+		pass: 'techBusiness123',
 	},
 	tls: {
-		rejectUnauthorized: false
-	}
+		rejectUnauthorized: false,
+	},
 });
 
 //Sets up Stripe for payments
@@ -46,7 +46,9 @@ const getAllServices = async () => {
 
 		//Removes the example from product from the array along with products that have been deleted
 		const newArray = array.filter((element) => {
-			return element.serviceTitle !== '' && !(element.isDeleted && element.isDeleted === true);
+			return (
+				element.serviceTitle !== '' && !(element.isDeleted && element.isDeleted === true)
+			);
 		});
 
 		//Sorts the array by highest average rating
@@ -66,8 +68,8 @@ const sendNotification = async (topic, title, body) => {
 	await fcm.sendToTopic(topic, {
 		notification: {
 			title,
-			body
-		}
+			body,
+		},
 	});
 	return 0;
 };
@@ -79,7 +81,7 @@ const sendEmail = async (recepient, subject, text) => {
 		from: 'Help <helpcocontact@gmail.com>',
 		to: recepient,
 		subject,
-		text
+		text,
 	};
 
 	await mailTransport.sendMail(mailOptions);
@@ -101,7 +103,7 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 		business.services[indexOfService].numCurrentRequests =
 			business.services[indexOfService].numCurrentRequests - 1;
 		await transaction.update(businesses.doc(businessID), {
-			services: business.services
+			services: business.services,
 		});
 
 		//Fetches the date from the business and formats it in a way so scheduling could be deleted within business as well
@@ -117,12 +119,9 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 		}
 		const dateString = year + '-' + month + '-' + day;
 		await transaction.update(
-			businesses
-				.doc(businessID)
-				.collection('Schedule')
-				.doc(dateString),
+			businesses.doc(businessID).collection('Schedule').doc(dateString),
 			{
-				[requestID]: admin.firestore.FieldValue.delete()
+				[requestID]: admin.firestore.FieldValue.delete(),
 			}
 		);
 
@@ -132,7 +131,7 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 		);
 		customer.currentRequests.splice(indexOfRequest, 1);
 		await transaction.update(customers.doc(customerID), {
-			currentRequests: customer.currentRequests
+			currentRequests: customer.currentRequests,
 		});
 
 		//Notifies the business that the request has been deleted.
@@ -158,19 +157,11 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 		const dateString = year + '-' + month + '-' + day;
 		//Tests if this document should be deleted all together
 		const scheduleDoc = (
-			await transaction.get(
-				businesses
-					.doc(businessID)
-					.collection('Schedule')
-					.doc(dateString)
-			)
+			await transaction.get(businesses.doc(businessID).collection('Schedule').doc(dateString))
 		).data();
 		if (Object.keys(scheduleDoc).length === 1) {
 			await transaction.delete(
-				businesses
-					.doc(businessID)
-					.collection('Schedule')
-					.doc(dateString)
+				businesses.doc(businessID).collection('Schedule').doc(dateString)
 			);
 		}
 		await transaction.delete(requests.doc(requestID));
@@ -311,10 +302,7 @@ exports.getBusinessCurrentRequestsByDay = functions.https.onCall(async (input, c
 
 	const doc = await database.runTransaction(async (transaction) => {
 		const doc = await transaction.get(
-			businesses
-				.doc(businessID)
-				.collection('Schedule')
-				.doc(day)
+			businesses.doc(businessID).collection('Schedule').doc(day)
 		);
 		if (doc.exists === true) {
 			const data = await doc.data();
@@ -466,7 +454,7 @@ exports.addCustomerToDatabase = functions.https.onCall(async (input, context) =>
 		email,
 		name,
 		phoneNumber,
-		isReviewDue
+		isReviewDue,
 	} = input;
 
 	const batch = database.batch();
@@ -484,7 +472,7 @@ exports.addCustomerToDatabase = functions.https.onCall(async (input, context) =>
 		email,
 		name,
 		phoneNumber,
-		isReviewDue
+		isReviewDue,
 	});
 
 	await batch.commit();
@@ -505,7 +493,7 @@ exports.updateCustomerInformation = functions.https.onCall(async (input, context
 		paymentInformation,
 		currentRequests,
 		state,
-		country
+		country,
 	} = input;
 
 	const batch = database.batch();
@@ -519,7 +507,7 @@ exports.updateCustomerInformation = functions.https.onCall(async (input, context
 		state,
 		city,
 		name,
-		phoneNumber
+		phoneNumber,
 	});
 
 	for (const request of currentRequests) {
@@ -549,7 +537,7 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		businessID,
 		isPaymentSetup,
 		phoneNumber,
-		isVerified
+		isVerified,
 	} = input;
 
 	const batch = database.batch();
@@ -566,7 +554,7 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		services,
 		website,
 		phoneNumber,
-		isVerified
+		isVerified,
 	});
 
 	//Adds analytics documents
@@ -627,7 +615,7 @@ exports.updateBusinessInformation = functions.https.onCall(async (input, context
 		website,
 		phoneNumber,
 		businessID,
-		business
+		business,
 	} = input;
 
 	const batch = database.batch();
@@ -639,7 +627,7 @@ exports.updateBusinessInformation = functions.https.onCall(async (input, context
 		coordinates,
 		location,
 		website,
-		phoneNumber
+		phoneNumber,
 	});
 
 	for (const service of business.services) {
@@ -670,7 +658,7 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 		serviceTitle,
 		totalReviews,
 		cash,
-		card
+		card,
 	} = input;
 
 	//Adds the service to the collection
@@ -690,7 +678,7 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 		serviceTitle,
 		card,
 		cash,
-		totalReviews
+		totalReviews,
 	});
 
 	const batch = database.batch();
@@ -708,26 +696,20 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 			totalReviews,
 			averageRating,
 			serviceTitle,
-			priceText
-		})
+			priceText,
+		}),
 	});
 
 	//Adds the service to analytics
-	batch.update(
-		businesses
-			.doc(businessID)
-			.collection('Analytics')
-			.doc('TopServices'),
-		{
-			[serviceID]: {
-				serviceTitle,
-				serviceID,
-				totalViews: 0,
-				totalRequests: 0,
-				totalRevenue: 0
-			}
-		}
-	);
+	batch.update(businesses.doc(businessID).collection('Analytics').doc('TopServices'), {
+		[serviceID]: {
+			serviceTitle,
+			serviceID,
+			totalViews: 0,
+			totalRequests: 0,
+			totalRevenue: 0,
+		},
+	});
 
 	await batch.commit();
 
@@ -748,7 +730,7 @@ exports.updateServiceInformation = functions.https.onCall(async (input, context)
 		serviceID,
 		businessID,
 		card,
-		cash
+		cash,
 	} = input;
 
 	const batch = database.batch();
@@ -762,7 +744,7 @@ exports.updateServiceInformation = functions.https.onCall(async (input, context)
 		serviceDescription,
 		card,
 		cash,
-		serviceTitle
+		serviceTitle,
 	});
 
 	await batch.commit();
@@ -777,21 +759,18 @@ exports.updateServiceInformation = functions.https.onCall(async (input, context)
 			...business.services[indexOfService],
 			serviceTitle,
 			priceText,
-			serviceDescription
+			serviceDescription,
 		};
 		await transaction.update(businesses.doc(businessID), {
-			services: business.services
+			services: business.services,
 		});
 
 		//Updates the service title in analytics
 		const fieldName = serviceID + '.serviceTitle';
 		await transaction.update(
-			businesses
-				.doc(businessID)
-				.collection('Analytics')
-				.doc('TopServices'),
+			businesses.doc(businessID).collection('Analytics').doc('TopServices'),
 			{
-				[fieldName]: serviceTitle
+				[fieldName]: serviceTitle,
 			}
 		);
 
@@ -812,11 +791,11 @@ exports.deleteService = functions.https.onCall(async (input, context) => {
 	const batch = database.batch();
 
 	batch.update(services.doc(serviceID), {
-		isDeleted: true
+		isDeleted: true,
 	});
 
 	batch.update(businesses.doc(businessID), {
-		serviceIDs: admin.firestore.FieldValue.arrayRemove(serviceID)
+		serviceIDs: admin.firestore.FieldValue.arrayRemove(serviceID),
 	});
 
 	await batch.commit();
@@ -827,7 +806,7 @@ exports.deleteService = functions.https.onCall(async (input, context) => {
 //--------------------------------- Payment Functions ---------------------------------
 
 //This function will create a stripe customer and attach a payment method to that customer. It will then return
-//the information for that specific stripe customer
+//the information for that specific stripe customer in the form of an object containing the IDs
 exports.createStripeCustomerPaymentInformtion = functions.https.onCall(async (input, context) => {
 	const { paymentInformation, customerID } = input;
 
@@ -838,13 +817,13 @@ exports.createStripeCustomerPaymentInformtion = functions.https.onCall(async (in
 		email: customerObject.email,
 		name: customerObject.name,
 		metadata: {
-			firestoreDocumentID: customerID
-		}
+			firestoreDocumentID: customerID,
+		},
 	});
 
 	//Creates the credit card information and connects it with the customer in stripe
 	await stripe.customers.createSource(stripeCustomer.id, {
-		source: paymentInformation
+		source: paymentInformation,
 	});
 
 	const stripeCustomerObject = await stripe.customers.retrieve(stripeCustomer.id);
@@ -854,11 +833,51 @@ exports.createStripeCustomerPaymentInformtion = functions.https.onCall(async (in
 	//Writes this payment information to the customer's document for future references
 	await customers.doc(customerID).update({
 		stripeCustomerID: stripeCustomer.id,
-		paymentInformation: source
+		paymentInformation: source,
 	});
 
 	return { sourceID: source.id, stripeCustomerID: stripeCustomer.id };
+});
 
+//This function is going to take in a set of required information and create a Custom Account with Stripe Connect
+//for businesses. It will return the account information
+exports.createStripeConnectAccountForBusiness = functions.https.onCall(async (input, context) => {
+	const { businessID, tos_acceptance, paymentToken, paymentInformation } = input;
+
+	try {
+		const business = (await businesses.doc(businessID).get()).data();
+
+		const connectAccount = await stripe.accounts.create({
+			type: 'custom',
+			country: 'US',
+			email: business.email,
+			business_type: 'company',
+			requested_capabilities: ['card_payments', 'transfers'],
+			metadata: {
+				firestoreDocumentID: businessID,
+			},
+			tos_acceptance,
+			external_account: paymentToken,
+		});
+
+		await businesses.doc(businessID).update({
+			isPaymentSetup: true,
+			stripeBusinessID: connectAccount.id,
+			paymentInformation: connectAccount.external_accounts.data[0],
+		});
+
+		return {
+			stripeID: connectAccount.id,
+			sourceID: connectAccount.external_accounts.data[0].id,
+		};
+	} catch (error) {
+		//Handles the case that the user enters in a non-valid card for Stripe Connect (a credit card for example)
+		if (error.code === 'invalid_card_type') {
+			return 'invalid_card_type';
+		} else {
+			return -1;
+		}
+	}
 });
 
 //--------------------------------- Image Functions ---------------------------------
@@ -926,7 +945,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		requestedOn,
 		serviceID,
 		status,
-		time
+		time,
 	} = input;
 
 	const batch = database.batch();
@@ -950,7 +969,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		requestedOn,
 		serviceID,
 		status,
-		time
+		time,
 	});
 
 	const requestID = newRequestDoc.id;
@@ -965,8 +984,8 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 			serviceID,
 			serviceTitle,
 			status,
-			time
-		})
+			time,
+		}),
 	});
 
 	await batch.commit();
@@ -984,10 +1003,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 			day = '0' + day;
 		}
 		const dateString = year + '-' + month + '-' + day;
-		const dateDocPath = businesses
-			.doc(businessID)
-			.collection('Schedule')
-			.doc(dateString);
+		const dateDocPath = businesses.doc(businessID).collection('Schedule').doc(dateString);
 		const dateDoc = await transaction.get(dateDocPath);
 		//Increments the numRequests for the service. Also adds scheduling information for the business
 		let business = (await transaction.get(businesses.doc(businessID))).data();
@@ -997,18 +1013,15 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		business.services[indexOfService].numCurrentRequests =
 			business.services[indexOfService].numCurrentRequests + 1;
 		await transaction.update(businesses.doc(businessID), {
-			services: business.services
+			services: business.services,
 		});
 
 		//Updates the analytics for the business
 		const fieldName = serviceID + '.totalRequests';
 		await transaction.update(
-			businesses
-				.doc(businessID)
-				.collection('Analytics')
-				.doc('TopServices'),
+			businesses.doc(businessID).collection('Analytics').doc('TopServices'),
 			{
-				[fieldName]: admin.firestore.FieldValue.increment(1)
+				[fieldName]: admin.firestore.FieldValue.increment(1),
 			}
 		);
 
@@ -1021,8 +1034,8 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 					serviceDuration,
 					serviceTitle,
 					serviceID,
-					customerName
-				}
+					customerName,
+				},
 			});
 		} else {
 			await transaction.set(dateDocPath, {
@@ -1034,15 +1047,19 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 					serviceDuration,
 					serviceTitle,
 					serviceID,
-					customerName
-				}
+					customerName,
+				},
 			});
 		}
 
 		return 0;
 	});
 
-	sendNotification('b-' + businessID, 'New Request', 'You have a new request for ' + serviceTitle);
+	sendNotification(
+		'b-' + businessID,
+		'New Request',
+		'You have a new request for ' + serviceTitle
+	);
 
 	//Emails help team that there has been a new requeset
 	sendEmail(
@@ -1075,7 +1092,7 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 		serviceTitle,
 		status,
 		serviceID,
-		customerName
+		customerName,
 	} = input;
 
 	const result = await database.runTransaction(async (transaction) => {
@@ -1090,17 +1107,17 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 			serviceID,
 			serviceTitle,
 			status,
-			time
+			time,
 		};
 		await transaction.update(customers.doc(customerID), {
-			currentRequests: customer.currentRequests
+			currentRequests: customer.currentRequests,
 		});
 
 		await transaction.update(requests.doc(requestID), {
 			date,
 			questions,
 			customerLocation,
-			time
+			time,
 		});
 
 		//updates the request within the business and fetches correct date format to do so
@@ -1116,10 +1133,7 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 		}
 		const dateString = year + '-' + month + '-' + day;
 		await transaction.update(
-			businesses
-				.doc(businessID)
-				.collection('Schedule')
-				.doc(dateString),
+			businesses.doc(businessID).collection('Schedule').doc(dateString),
 			{
 				[requestID]: {
 					date,
@@ -1128,8 +1142,8 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 					serviceDuration,
 					serviceTitle,
 					serviceID,
-					customerName
-				}
+					customerName,
+				},
 			}
 		);
 	});
@@ -1174,17 +1188,14 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 			//Moves the request from currentRequests to the subcollection in the customer document and adds the requestID to
 			//the customer's isReviewDue array
 			await transaction.set(
-				customers
-					.doc(request.customerID)
-					.collection('CompletedRequests')
-					.doc(requestID),
+				customers.doc(request.customerID).collection('CompletedRequests').doc(requestID),
 				{
 					date: request.date,
 					requestID,
 					serviceID: request.serviceID,
 					serviceTitle: request.serviceTitle,
 					time: request.time,
-					billedAmount
+					billedAmount,
 				}
 			);
 			const indexOfCustomerRequest = customer.currentRequests.findIndex(
@@ -1193,22 +1204,19 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 			customer.currentRequests.splice(indexOfCustomerRequest, 1);
 			await transaction.update(customers.doc(request.customerID), {
 				currentRequests: customer.currentRequests,
-				isReviewDue: admin.firestore.FieldValue.arrayUnion(requestID)
+				isReviewDue: admin.firestore.FieldValue.arrayUnion(requestID),
 			});
 
 			//Moves the request from currentRequests to the subcollection in the service document
 			await transaction.set(
-				services
-					.doc(request.serviceID)
-					.collection('CompletedRequests')
-					.doc(requestID),
+				services.doc(request.serviceID).collection('CompletedRequests').doc(requestID),
 				{
 					customerID: request.customerID,
 					customerName: request.customerName,
 					date: request.date,
 					requestID,
 					time: request.time,
-					billedAmount
+					billedAmount,
 				}
 			);
 
@@ -1219,7 +1227,7 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 			business.services[indexOfService].numCurrentRequests =
 				business.services[indexOfService].numCurrentRequests - 1;
 			await transaction.update(businessDoc, {
-				services: business.services
+				services: business.services,
 			});
 
 			//Gets the correct format of the date string and removes the current request from the business schedule
@@ -1239,13 +1247,13 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 			//Updates the revenue analytics for this business
 			await transaction.update(businessDoc.collection('Analytics').doc('Revenue'), {
 				[year]: admin.firestore.FieldValue.increment(billedAmount),
-				[year + '-' + month]: admin.firestore.FieldValue.increment(billedAmount)
+				[year + '-' + month]: admin.firestore.FieldValue.increment(billedAmount),
 			});
 
 			//Updates the service analytics for this service
 			const fieldName = request.serviceID + '.totalRevenue';
 			await transaction.update(businessDoc.collection('Analytics').doc('TopServices'), {
-				[fieldName]: admin.firestore.FieldValue.increment(billedAmount)
+				[fieldName]: admin.firestore.FieldValue.increment(billedAmount),
 			});
 
 			//Updates the customer analytics for this service
@@ -1255,11 +1263,11 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 			await transaction.update(businessDoc.collection('Analytics').doc('CustomerLocations'), {
 				[cityFieldName]: admin.firestore.FieldValue.increment(1),
 				[stateFieldName]: admin.firestore.FieldValue.increment(1),
-				[countryFieldName]: admin.firestore.FieldValue.increment(1)
+				[countryFieldName]: admin.firestore.FieldValue.increment(1),
 			});
 
 			await transaction.update(businessDoc.collection('Schedule').doc(dateString), {
-				[requestID]: admin.firestore.FieldValue.delete()
+				[requestID]: admin.firestore.FieldValue.delete(),
 			});
 		});
 		await database.runTransaction(async (transaction) => {
@@ -1309,15 +1317,9 @@ exports.viewService = functions.https.onCall(async (input, context) => {
 
 	const batch = database.batch();
 	const fieldName = serviceID + '.totalViews';
-	batch.update(
-		businesses
-			.doc(businessID)
-			.collection('Analytics')
-			.doc('TopServices'),
-		{
-			[fieldName]: admin.firestore.FieldValue.increment(1)
-		}
-	);
+	batch.update(businesses.doc(businessID).collection('Analytics').doc('TopServices'), {
+		[fieldName]: admin.firestore.FieldValue.increment(1),
+	});
 
 	await batch.commit();
 	return 0;
@@ -1335,20 +1337,14 @@ exports.reviewService = functions.https.onCall(async (input, context) => {
 		const service = (await transaction.get(products.doc(serviceID))).data();
 
 		//Adds the review to the service subcollection
-		await transaction.set(
-			services
-				.doc(serviceID)
-				.collection('Reviews')
-				.doc(requestID),
-			{
-				comment,
-				customerID,
-				customerName,
-				requestID,
-				reviewDate,
-				stars
-			}
-		);
+		await transaction.set(services.doc(serviceID).collection('Reviews').doc(requestID), {
+			comment,
+			customerID,
+			customerName,
+			requestID,
+			reviewDate,
+			stars,
+		});
 
 		//Calculates the new average rating for the service
 		const a = service.averageRating * service.totalReviews;
@@ -1357,7 +1353,7 @@ exports.reviewService = functions.https.onCall(async (input, context) => {
 		const newRating = b / c;
 		await transaction.update(services.doc(serviceID), {
 			averageRating: newRating,
-			totalReviews: service.totalReviews + 1
+			totalReviews: service.totalReviews + 1,
 		});
 
 		//Adds the review to the request document itself
@@ -1368,13 +1364,13 @@ exports.reviewService = functions.https.onCall(async (input, context) => {
 				customerName,
 				requestID,
 				reviewDate,
-				stars
-			}
+				stars,
+			},
 		});
 
 		//Removes the requestID from the customer's isReviewDue field
 		await transaction.update(customers.doc(customerID), {
-			isReviewDue: admin.firestore.FieldValue.arrayRemove(requestID)
+			isReviewDue: admin.firestore.FieldValue.arrayRemove(requestID),
 		});
 	});
 
@@ -1388,7 +1384,7 @@ exports.skipReview = functions.https.onCall(async (input, context) => {
 
 	const batch = database.batch();
 	batch.update(customers.doc(customerID), {
-		isReviewDue: admin.firestore.FieldValue.arrayRemove(requestID)
+		isReviewDue: admin.firestore.FieldValue.arrayRemove(requestID),
 	});
 
 	await batch.commit();
@@ -1405,7 +1401,7 @@ exports.blockBusiness = functions.https.onCall(async (input, context) => {
 
 	const batch = database.batch();
 	batch.update(customers.doc(customerID), {
-		blockedBusinesses: admin.firestore.FieldValue.arrayUnion(businessID)
+		blockedBusinesses: admin.firestore.FieldValue.arrayUnion(businessID),
 	});
 	await batch.commit();
 	return 0;
@@ -1418,7 +1414,7 @@ exports.unblockCompany = functions.https.onCall(async (input, context) => {
 
 	const batch = database.batch();
 	batch.update(customers.doc(customerID), {
-		blockedBusinesses: admin.firestore.FieldValue.arrayRemove(businessID)
+		blockedBusinesses: admin.firestore.FieldValue.arrayRemove(businessID),
 	});
 	await batch.commit();
 	return 0;
@@ -1493,8 +1489,9 @@ exports.businessGoodToGo = functions.firestore
 			await admin.messaging().sendToTopic(topic, {
 				notification: {
 					title: 'Your good to go',
-					body: "You're account has been verified and accepted. Create your first product now!"
-				}
+					body:
+						"You're account has been verified and accepted. Create your first product now!",
+				},
 			});
 		}
 
@@ -1573,6 +1570,6 @@ exports.logIssue = functions.https.onCall(async (input, context) => {
 	issues.add({
 		userID,
 		appError: true,
-		...error
+		...error,
 	});
 });

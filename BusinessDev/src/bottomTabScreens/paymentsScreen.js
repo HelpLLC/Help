@@ -107,18 +107,22 @@ export default class paymentsScreen extends Component {
 						}}>
 						<Icon type='font-awesome' name='credit-card' color={colors.lightBlue} size={250} />
 					</View>
-					<View style={{ 
-						justifyContent: 'flex-end',
-						alignItems: 'center',
-						alignSelf: 'center',
-						marginTop: screenHeight * 0.15,
-					}}>
+					<View
+						style={{
+							justifyContent: 'flex-end',
+							alignItems: 'center',
+							alignSelf: 'center',
+							marginTop: screenHeight * 0.15,
+						}}>
 						<RoundBlueButton
 							title={strings.GetStarted}
 							style={roundBlueButtonStyle.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={() => {
 								//Starts the Stripe Payments process
+								this.props.navigation.push('CreatePaymentMethodScreen', {
+									businessID,
+								});
 							}}
 						/>
 					</View>
