@@ -547,6 +547,7 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		services,
 		website,
 		businessID,
+		isPaymentSetup,
 		phoneNumber,
 		isVerified
 	} = input;
@@ -559,6 +560,7 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		businessHours,
 		coordinates,
 		businessID,
+		isPaymentSetup,
 		email,
 		location,
 		services,
@@ -703,6 +705,8 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 			serviceID,
 			category,
 			serviceDescription,
+			totalReviews,
+			averageRating,
 			serviceTitle,
 			priceText
 		})
