@@ -3,21 +3,27 @@
 import React, { Component } from 'react';
 import MainStackNavigator from './src/MainStackNavigator';
 import { YellowBox } from 'react-native';
-import FirebaseFunctions from 'config/FirebaseFunctions';
-import { screenWidth, screenHeight } from 'config/dimensions';
 import codePush from 'react-native-code-push';
+import stripe from 'tipsi-stripe';
 
 //Launches the app with the persisted store
 class App extends Component {
-  render() {
-    //Ignores a specific warning
-    YellowBox.ignoreWarnings([
-      'ViewPagerAndroid',
-      'componentWillMount',
-      'componentWillReceiveProps'
-    ]);
-    return <MainStackNavigator />;
-  }
+	//Initializes stripe for payments
+	componentDidMount() {
+		stripe.setOptions({
+			publishableKey: 'pk_test_RP4GxbKwMWbM3NN5XMo3qzKz00lEiD2Fe1'
+		});
+	}
+
+	render() {
+		//Ignores a specific warning
+		YellowBox.ignoreWarnings([
+			'ViewPagerAndroid',
+			'componentWillMount',
+			'componentWillReceiveProps'
+		]);
+		return <MainStackNavigator />;
+	}
 }
 
 let codePushOptions = { checkFrequency: codePush.CheckFrequency.MANUAL };

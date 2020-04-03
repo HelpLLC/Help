@@ -19,6 +19,10 @@ const mailTransport = nodemailer.createTransport({
 	}
 });
 
+//Sets up Stripe for payments
+const stripe = require('stripe')(functions.config().stripe.token);
+const currency = functions.config().stripe.currency || 'USD';
+
 //--------------------------------- Global Variables ---------------------------------
 
 const database = admin.firestore();
@@ -428,14 +432,14 @@ exports.getCurrentRequestsByServiceID = functions.https.onCall(async (input, con
 
 		//Fetches all the currently requested service given all the possible different statuses
 		const allRequestsForThisService = requests.where('serviceID', '==', serviceID);
-		const awaitingRequests = await transaction.get(
-			allRequestsForThisService.where('status', '==', 'AWAITING')
+		const requestedRequests = await transaction.get(
+			allRequestsForThisService.where('status', '==', 'REQUESTED')
 		);
 		const inProgressRequests = await transaction.get(
 			allRequestsForThisService.where('status', '==', 'IN_PROGRESS')
 		);
 
-		finalDocs = awaitingRequests.docs.concat(inProgressRequests.docs);
+		finalDocs = requestedRequests.docs.concat(inProgressRequests.docs);
 		finalDocs = finalDocs.map((doc) => doc.data());
 
 		return finalDocs;
@@ -456,6 +460,7 @@ exports.addCustomerToDatabase = functions.https.onCall(async (input, context) =>
 		state,
 		coordinates,
 		currentRequests,
+		paymentInformation,
 		customerID,
 		city,
 		email,
@@ -471,6 +476,7 @@ exports.addCustomerToDatabase = functions.https.onCall(async (input, context) =>
 		blockedBusinesses,
 		country,
 		state,
+		paymentInformation,
 		coordinates,
 		currentRequests,
 		city,
@@ -496,6 +502,7 @@ exports.updateCustomerInformation = functions.https.onCall(async (input, context
 		city,
 		name,
 		phoneNumber,
+		paymentInformation,
 		currentRequests,
 		state,
 		country
@@ -506,6 +513,7 @@ exports.updateCustomerInformation = functions.https.onCall(async (input, context
 	batch.update(customers.doc(customerID), {
 		address,
 		coordinates,
+		paymentInformation,
 		customerID,
 		country,
 		state,
@@ -812,6 +820,43 @@ exports.deleteService = functions.https.onCall(async (input, context) => {
 	return 0;
 });
 
+//--------------------------------- Payment Functions ---------------------------------
+
+//This function will create a stripe customer and attach a payment method to that customer. It will then return
+//the information for that specific stripe customer
+exports.createStripeCustomerPaymentInformtion = functions.https.onCall(async (input, context) => {
+	const { paymentInformation, customerID } = input;
+
+	const customerObject = (await customers.doc(customerID).get()).data();
+
+	//Creates the stripe customer
+	const stripeCustomer = await stripe.customers.create({
+		email: customerObject.email,
+		name: customerObject.name,
+		metadata: {
+			firestoreDocumentID: customerID
+		}
+	});
+
+	//Creates the credit card information and connects it with the customer in stripe
+	await stripe.customers.createSource(stripeCustomer.id, {
+		source: paymentInformation
+	});
+
+	const stripeCustomerObject = await stripe.customers.retrieve(stripeCustomer.id);
+
+	const source = stripeCustomerObject.sources.data[0];
+
+	//Writes this payment information to the customer's document for future references
+	await customers.doc(customerID).update({
+		stripeCustomerID: stripeCustomer.id,
+		paymentInformation: source
+	});
+
+	return { sourceID: source.id, stripeCustomerID: stripeCustomer.id };
+
+});
+
 //--------------------------------- Image Functions ---------------------------------
 
 //Method will take in an ID of a category image and download it from Firebase Storage, storing its URI.
@@ -863,6 +908,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		businessID,
 		customerID,
 		customerLocation,
+		paymentInformation,
 		cash,
 		card,
 		date,
@@ -888,6 +934,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		customerID,
 		cash,
 		customerLocation,
+		paymentInformation,
 		card,
 		date,
 		price,

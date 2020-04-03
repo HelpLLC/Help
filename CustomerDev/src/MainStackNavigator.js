@@ -108,6 +108,7 @@ const routeConfig = {
 	ServiceQuestionsScreen: {
 		screen: ServiceQuestionsScreen
 	},
+
 	//Route leading to the screen that displays a specific category
 	CategoryScreen: {
 		screen: CategoryScreen

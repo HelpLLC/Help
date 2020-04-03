@@ -16,6 +16,10 @@ import OptionPicker from '../components/OptionPicker';
 import LoadingSpinner from '../components/LoadingSpinner';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import HelpAlert from '../components/HelpAlert';
+import stripe from 'tipsi-stripe';
+stripe.setOptions({
+	publishableKey: 'pk_test_RP4GxbKwMWbM3NN5XMo3qzKz00lEiD2Fe1'
+});
 
 //Renders the actual class
 export default class businessScheduleScreen extends Component {
@@ -37,8 +41,10 @@ export default class businessScheduleScreen extends Component {
 		fieldsError: false,
 		requestSummaryVisible: false,
 		isErrorVisible: false,
-		isRequestSavedSucess: false,
-		isRequestSucess: false
+		isRequestSucess: false,
+		saveCardVisible: false,
+		shouldSaveCard: '',
+		paymentToken: ''
 	};
 
 	//Sets the initial fields and fetches the correct business schedule for that date
@@ -176,12 +182,16 @@ export default class businessScheduleScreen extends Component {
 			day: dateString,
 			businessID: business.businessID
 		});
+		let currentRequestIDs = Object.keys(currentRequests);
+		if (this.state.request && currentRequestIDs.includes(this.state.request.requestID)) {
+			currentRequestIDs.splice(currentRequestIDs.indexOf(this.state.request.requestID), 1);
+		}
 		let filteredTimes = [];
-		if (Object.keys(currentRequests).length === 0) {
+		if (currentRequestIDs.length === 0) {
 			filteredTimes = times;
 		} else {
 			for (let i = 0; i < times.length; i++) {
-				for (const requestID of Object.keys(currentRequests)) {
+				for (const requestID of currentRequestIDs) {
 					let time = times[i];
 					request = currentRequests[requestID];
 					if (date === request.date) {
@@ -210,6 +220,31 @@ export default class businessScheduleScreen extends Component {
 		return filteredTimes;
 	}
 
+	//This method is going to record the payment method for this user and store in stripe
+	async acceptCardPayment() {
+		try {
+			const token = await stripe.paymentRequestWithCardForm({
+				requiredBillingAddressFields: 'full',
+				theme: {
+					accentColor: colors.lightBlue,
+					errorColor: colors.red
+				}
+			});
+			//Waits a quarter of a second to make a natural pop up appear
+			this.timeoutHandle = setTimeout(() => {
+				this.setState({
+					paymentInformation: strings.CardEndingIn + token.card.last4,
+					paymentToken: token.tokenId,
+					saveCardVisible: true
+				});
+			}, 500);
+		} catch (error) {
+			if (error.message !== 'Cancelled by user') {
+				FirebaseFunctions.call('logIssue', { error, userID: 'BusinessScheduleScreen' });
+			}
+		}
+	}
+
 	//Requests the service by checking if all fields have been filled out correctly
 	async requestService() {
 		this.setState({
@@ -217,7 +252,7 @@ export default class businessScheduleScreen extends Component {
 		});
 
 		//Fetches all the required fields
-		const {
+		let {
 			business,
 			customer,
 			selectedDate,
@@ -225,9 +260,19 @@ export default class businessScheduleScreen extends Component {
 			service,
 			selectedTime,
 			isEditing,
-			request
+			request,
+			shouldSaveCard,
+			paymentInformation,
+			paymentToken
 		} = this.state;
 
+		//If the card payment information needs to be attatched to a customer, the function handles that logic as well
+		if (shouldSaveCard === true) {
+			paymentToken = await FirebaseFunctions.call('createStripeCustomerPaymentInformtion', {
+				customerID: customer.customerID,
+				paymentInformation: paymentToken
+			});
+		}
 		//Uploads the request to firebase
 		if (isEditing === true) {
 			await FirebaseFunctions.call('updateCustomerRequest', {
@@ -239,6 +284,7 @@ export default class businessScheduleScreen extends Component {
 					state: customer.state,
 					country: customer.country
 				},
+				paymentInformation: paymentToken,
 				businessID: request.businessID,
 				serviceTitle: service.serviceTitle,
 				customerName: customer.name,
@@ -257,6 +303,7 @@ export default class businessScheduleScreen extends Component {
 					state: customer.state,
 					country: customer.country
 				},
+				paymentInformation: paymentToken,
 				customerID: customer.customerID,
 				cash: service.cash,
 				card: service.card,
@@ -270,10 +317,11 @@ export default class businessScheduleScreen extends Component {
 				serviceDuration: service.serviceDuration,
 				serviceID: service.serviceID,
 				requestedOn: new Date().toLocaleDateString('en-US'),
-				status: 'AWAITING',
+				status: 'REQUESTED',
 				time: selectedTime
 			});
 		}
+
 		const allServices = await FirebaseFunctions.call('getAllServices', {});
 		const updatedCustomer = await FirebaseFunctions.call('getCustomerByID', {
 			customerID: customer.customerID
@@ -296,7 +344,8 @@ export default class businessScheduleScreen extends Component {
 			selectedTime,
 			isScreenLoading,
 			isErrorVisible,
-			isRequestSavedSucess,
+			paymentToken,
+			paymentInformation,
 			requestSummaryVisible,
 			isRequestSucess,
 			allServices
@@ -383,38 +432,6 @@ export default class businessScheduleScreen extends Component {
 									/>
 								</View>
 							}
-							ListEmptyComponent={
-								selectedDate === '' ? (
-									<View />
-								) : (
-									<View
-										style={{
-											marginVertical: screenHeight * 0.05,
-											marginHorizontal: screenWidth * 0.025
-										}}>
-										<Text style={[fontStyles.bigTextStyleBlack, { textAlign: 'center' }]}>
-											{strings.NoAvailableTimes}
-										</Text>
-									</View>
-								)
-							}
-							ListFooterComponent={
-								<View style={{ marginVertical: screenHeight * 0.05 }}>
-									<RoundBlueButton
-										title={strings.Request}
-										style={roundBlueButtonStyle.MediumSizeButton}
-										textStyle={fontStyles.bigTextStyleWhite}
-										isLoading={this.state.isLoading}
-										onPress={() => {
-											if (selectedDate === '' || selectedTime === '') {
-												this.setState({ fieldsError: true });
-											} else {
-												this.setState({ requestSummaryVisible: true });
-											}
-										}}
-									/>
-								</View>
-							}
 							renderItem={({ item, index }) => (
 								<View
 									style={{
@@ -442,6 +459,54 @@ export default class businessScheduleScreen extends Component {
 									/>
 								</View>
 							)}
+							ListFooterComponent={
+								<View style={{ marginVertical: screenHeight * 0.05 }}>
+									<RoundBlueButton
+										title={strings.Request}
+										style={roundBlueButtonStyle.MediumSizeButton}
+										textStyle={fontStyles.bigTextStyleWhite}
+										isLoading={this.state.isLoading}
+										onPress={() => {
+											if (selectedDate === '' || selectedTime === '') {
+												this.setState({ fieldsError: true });
+											} else {
+												if (service.card === true && customer.paymentInformation === '') {
+													this.acceptCardPayment();
+												} else {
+													if (service.cash === true) {
+														this.setState({ paymentToken: '', paymentInformation: strings.Cash });
+													} else if (customer.paymentInformation !== '') {
+														this.setState({
+															paymentToken: {
+																sourceID: customer.paymentInformation.id,
+																stripeCustomerID: customer.paymentInformation.customer
+															},
+															paymentInformation:
+																strings.CardEndingIn + customer.paymentInformation.last4
+														});
+													}
+													this.setState({ requestSummaryVisible: true });
+												}
+											}
+										}}
+									/>
+								</View>
+							}
+							ListEmptyComponent={
+								selectedDate === '' ? (
+									<View />
+								) : (
+									<View
+										style={{
+											marginVertical: screenHeight * 0.05,
+											marginHorizontal: screenWidth * 0.025
+										}}>
+										<Text style={[fontStyles.bigTextStyleBlack, { textAlign: 'center' }]}>
+											{strings.NoAvailableTimes}
+										</Text>
+									</View>
+								)
+							}
 						/>
 					)}
 				</View>
@@ -473,17 +538,27 @@ export default class businessScheduleScreen extends Component {
 					title={strings.Whoops}
 					message={strings.PleaseFillOutAllFields}
 				/>
-				<HelpAlert
-					isVisible={isRequestSavedSucess}
-					onPress={() => {
-						this.setState({ isRequestSavedSucess: false });
-						this.props.navigation.push('FeaturedScreen', {
-							customer: customer,
-							allServices: allServices
+				<OptionPicker
+					isVisible={this.state.saveCardVisible}
+					title={strings.SavePaymentInfo}
+					message={strings.SavePaymentInfoMessage}
+					confirmText={strings.Yes}
+					cancelText={strings.No}
+					clickOutside={false}
+					confirmOnPress={() => {
+						this.setState({
+							saveCardVisible: false,
+							requestSummaryVisible: true,
+							shouldSaveCard: true
 						});
 					}}
-					title={strings.Success}
-					message={strings.TheServiceRequestHasBeenSaved}
+					cancelOnPress={() => {
+						this.setState({
+							saveCardVisible: false,
+							requestSummaryVisible: true,
+							shouldSaveCard: false
+						});
+					}}
 				/>
 				<OptionPicker
 					isVisible={requestSummaryVisible}
@@ -505,13 +580,16 @@ export default class businessScheduleScreen extends Component {
 						'\n\n' +
 						strings.ScheduleTimeColon +
 						selectedTime +
+						'\n\n' +
+						strings.PaidWithColon +
+						paymentInformation +
 						'\n\n'
 					}
 					confirmText={strings.Request}
 					confirmOnPress={() => {
-						//Requests the service
-						this.requestService();
+						//Requests the service if it is a cash service.
 						this.setState({ requestSummaryVisible: false });
+						this.requestService();
 					}}
 					cancelText={strings.Cancel}
 					cancelOnPress={() => {

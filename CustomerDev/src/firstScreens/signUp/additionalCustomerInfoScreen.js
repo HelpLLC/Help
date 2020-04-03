@@ -169,6 +169,7 @@ class additionalCustomerInfoScreen extends Component {
 						city,
 						state,
 						country,
+						paymentInformation: '',
 						blockedBusinesses: [],
 						coordinates,
 						currentRequests: [],
