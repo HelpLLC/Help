@@ -27,6 +27,9 @@ export default {
 	AverageYearlyRevenue: 'Average Yearly Revenue: $',
 	NoDataYet: 'No Data Yet',
 
+	//------------------- Payments Screen -------------------
+	AcceptCardPaymentsWithHelp: 'Accept Card Payments with Help',
+
 	//-------------------  Splash Screen -------------------
 	GetStarted: 'Get Started',
 	HaveAnAccountQuestion: 'Have an account?',
@@ -233,6 +236,8 @@ export default {
 	HowWillCustomersPay: 'How will customers pay for this service?',
 	Cash: 'Cash',
 	CreditDebitCard: 'Credit/Debit Card',
+	SetUpPayment: 'Set Up Payments',
+	PaymentsMustBeSetupBeforeAcceptingCardPayments: 'Payments must be set up before accepting card transactions.',
 
 	//------------------- Bill Customer Screen -------------------
 	Billing: 'Billing',
