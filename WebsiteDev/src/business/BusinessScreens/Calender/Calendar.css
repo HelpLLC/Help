@@ -4,8 +4,9 @@
 
 .class2 {
   font-family: "Arial Rounded MT Bold";
-  margin: 10px;
-  background-color: #00b0f0;
+  margin: 0px;
+  height: 75px;
+  background-color: white;
   border-color: #00b0f0;
-  border-width: 5px;
+  border-width: -5px;
 }
