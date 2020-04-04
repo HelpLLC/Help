@@ -43,6 +43,15 @@ export default {
 	PleaseSelectAWayToAcceptPayments: 'Please select a way to accept payments.',
 	InvalidCardType: 'Invalid Card Type',
 	InvalidCardTypeMessage: 'You can only accept payments through US Debit Cards and Bank Accounts.',
+	AccountNumber: 'Account Number',
+	RoutingNumber: 'Routing Number',
+	AccountType: 'Account Type',
+	AccountHolderName: 'Account Holder Name',
+	EnterTheAccountHolderNameDotDotDot: 'Enter the account holder name...',
+	EnterTheRoutingNumberDotDotDot: 'Enter the routing number...',
+	EnterTheAccountNumberDotDotDot: 'Enter the account number...',
+	Company: 'Company',
+	Individual: 'Individual',
 
 	//-------------------  Splash Screen -------------------
 	GetStarted: 'Get Started',
