@@ -23,7 +23,7 @@ export default class paymentsScreen extends Component {
 		isErrorVisible: false,
 		business: '',
 		businessID: '',
-		isPaymentSetup: '',
+		paymentSetupStatus: '',
 	};
 
 	//Declares the screen name in Firebase
@@ -41,7 +41,7 @@ export default class paymentsScreen extends Component {
 			}
 			this.setState({
 				businessID: business.businessID,
-				isPaymentSetup: business.isPaymentSetup,
+				paymentSetupStatus: business.paymentSetupStatus,
 				business,
 				isScreenLoading: false,
 			});
@@ -58,7 +58,7 @@ export default class paymentsScreen extends Component {
 	}
 
 	render() {
-		const { isScreenLoading, isErrorVisible, business, businessID, isPaymentSetup } = this.state;
+		const { isScreenLoading, isErrorVisible, business, businessID, paymentSetupStatus } = this.state;
 
 		//If the screen is loading, the  loading spinner will appear. If the business has not yet set up payments, that
 		//UI will appear. If none of that is true, the business's payments will be displayed
@@ -79,7 +79,7 @@ export default class paymentsScreen extends Component {
 					/>
 				</HelpView>
 			);
-		} else if (isPaymentSetup === false) {
+		} else if (paymentSetupStatus === 'FALSE') {
 			return (
 				//View that dismisses the keyboard when clicked anywhere else
 				<HelpView style={screenStyle.container}>

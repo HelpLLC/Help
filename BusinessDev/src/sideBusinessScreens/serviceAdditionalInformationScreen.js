@@ -292,7 +292,7 @@ class serviceAdditionalInformationScreen extends Component {
 							onPress={() => {
 								//If Stripe connect has not been setup yet, then a popup appear. If it has, then it just selects
 								//the payment method
-								if (this.state.business.isPaymentSetup === true) {
+								if (this.state.business.paymentSetupStatus === 'TRUE') {
 									this.setState({ cash: false, card: true });
 								} else {
 									this.setState({

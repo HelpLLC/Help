@@ -11,6 +11,14 @@ export default {
 	Schedule: 'Schedule',
 	Settings: 'Settings',
 
+	//------------------- Home Screen -------------------
+	PaymentVerification: 'Payment Verification',
+	PaymentVerificationMessage:
+		'Help needs some additional information from you in order to accept card payments from customers.',
+	OnboardingSucessMessage:
+		"Give Stripe some time to verify your details, and we'll notify you once you are able to accept card payments from customers.",
+	PaymentsVerifiedSuccss: 'You can now accept card payments from customers!',
+
 	//------------------- Analytics Screen -------------------
 	Revenue: 'Revenue',
 	CustomerLocations: 'Customer Locations',
@@ -42,7 +50,8 @@ export default {
 	DebitCard: 'Debit Card',
 	PleaseSelectAWayToAcceptPayments: 'Please select a way to accept payments.',
 	InvalidCardType: 'Invalid Card Type',
-	InvalidCardTypeMessage: 'You can only accept payments through US Debit Cards and Bank Accounts.',
+	InvalidCardTypeMessage:
+		'You can only accept payments through US Debit Cards and Bank Accounts.',
 	AccountNumber: 'Account Number',
 	RoutingNumber: 'Routing Number',
 	AccountType: 'Account Type',
@@ -51,7 +60,14 @@ export default {
 	EnterTheRoutingNumberDotDotDot: 'Enter the routing number...',
 	EnterTheAccountNumberDotDotDot: 'Enter the account number...',
 	Company: 'Company',
+	BusinessWebsite: 'Business Website',
+	EnterYourBusinessNameDotDotDot: 'Enter your legal business name...',
+	EnterYourBusinessWebsiteDotDotDot: 'Enter your business website...',
+	EnterYourEINDotDotDot: 'Enter your EIN...',
+	EIN: 'Employer Identification Number (EIN)',
 	Individual: 'Individual',
+	EnterStripeInfo: 'Enter Stripe Info',
+	EnterStripeInfoMessage: 'Fill out all necessary fields required by Stripe in order to process card payments.',
 
 	//-------------------  Splash Screen -------------------
 	GetStarted: 'Get Started',
@@ -155,7 +171,8 @@ export default {
 	PleaseEnterADescriptionWithAtLeast150Characters:
 		'Please enter a description with at least 150 characters',
 	PleaseChooseAValidImage: 'Please choose a valid image',
-	CompanyNameTakenPleaseChooseAnotherName: 'This company name is taken, please choose another one',
+	CompanyNameTakenPleaseChooseAnotherName:
+		'This company name is taken, please choose another one',
 
 	//------------------- Additional Provider Info Screen -------------------
 	Website: 'Website',
@@ -249,7 +266,8 @@ export default {
 	EmptyQuestion: 'Please fill out all empty questions before adding another one or clicking next',
 
 	//------------------- Service Additional Info Screen -------------------
-	ServiceDuration: 'Approximately how long will it take to complete one request for this service?',
+	ServiceDuration:
+		'Approximately how long will it take to complete one request for this service?',
 	Hours: 'Hours',
 	AmountOfServicesAtATime: 'How many requests can you do at a time?',
 	Requests: 'Requests',

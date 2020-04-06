@@ -44,6 +44,7 @@ export default class createPaymentMethodScreen extends Component {
 		debitCardSelected: false,
 		fieldsError: false,
 		invalidCardTypeVisible: false,
+		enterStripeInfoVisible: false,
 		bankInformation: {
 			accountNumber: '',
 			countryCode: 'us',
@@ -97,6 +98,7 @@ export default class createPaymentMethodScreen extends Component {
 				}
 				paymentInfoToken = await stripe.createTokenWithBankAccount(bankInformation);
 			}
+
 			//Constructs the token acceptance object for Stripe to know the user has accepted their agreement
 			const dateAccepted = Math.floor(Date.now() / 1000);
 			const IPAddress = (await NetInfo.fetch()).details.ipAddress;
@@ -123,6 +125,9 @@ export default class createPaymentMethodScreen extends Component {
 					paymentInfoToken: '',
 					paymentInformation: '',
 				});
+			} else {
+				Linking.openURL(connectAccount.accountLinks.url);
+				this.setState({ enterStripeInfoVisible: true });
 			}
 		}
 		this.setState({ isLoading: false });
@@ -135,6 +140,7 @@ export default class createPaymentMethodScreen extends Component {
 			isScreenLoading,
 			isChecked,
 			debitCardSelected,
+			enterStripeInfoVisible,
 			bankAccountSelected,
 			isLoading,
 			paymentInfoToken,
@@ -479,7 +485,7 @@ export default class createPaymentMethodScreen extends Component {
 						</View>
 						<View style={{ marginBottom: screenHeight * 0.05 }}>
 							<RoundBlueButton
-								title={strings.Add}
+								title={strings.Next}
 								disabled={isLoading}
 								isLoading={isLoading}
 								style={roundBlueButtonStyle.MediumSizeButton}
@@ -520,6 +526,17 @@ export default class createPaymentMethodScreen extends Component {
 							}}
 							title={strings.Whoops}
 							message={strings.PleaseFillOutAllFields}
+						/>
+						<HelpAlert
+							isVisible={enterStripeInfoVisible}
+							onPress={() => {
+								this.setState({ enterStripeInfoVisible: false });
+								this.props.navigation.push('BusinessScreens', {
+									businessID,
+								});
+							}}
+							title={strings.EnterStripeInfo}
+							message={strings.EnterStripeInfoMessage}
 						/>
 					</View>
 				</KeyboardAwareScrollView>

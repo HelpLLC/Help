@@ -535,7 +535,7 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		services,
 		website,
 		businessID,
-		isPaymentSetup,
+		paymentSetupStatus,
 		phoneNumber,
 		isVerified,
 	} = input;
@@ -548,7 +548,7 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		businessHours,
 		coordinates,
 		businessID,
-		isPaymentSetup,
+		paymentSetupStatus,
 		email,
 		location,
 		services,
@@ -840,9 +840,10 @@ exports.createStripeCustomerPaymentInformtion = functions.https.onCall(async (in
 });
 
 //This function is going to take in a set of required information and create a Custom Account with Stripe Connect
-//for businesses. It will return the account information
+//for businesses. It will return the account information. It will take in links that  stripe will redirect to
+//once the OnBoarding process is complete
 exports.createStripeConnectAccountForBusiness = functions.https.onCall(async (input, context) => {
-	const { businessID, tos_acceptance, paymentToken, paymentInformation } = input;
+	const { businessID, tos_acceptance, paymentToken } = input;
 
 	try {
 		const business = (await businesses.doc(businessID).get()).data();
@@ -852,7 +853,7 @@ exports.createStripeConnectAccountForBusiness = functions.https.onCall(async (in
 			country: 'US',
 			email: business.email,
 			business_type: 'company',
-			requested_capabilities: ['card_payments', 'transfers'],
+			requested_capabilities: ['transfers'],
 			metadata: {
 				firestoreDocumentID: businessID,
 			},
@@ -860,13 +861,22 @@ exports.createStripeConnectAccountForBusiness = functions.https.onCall(async (in
 			external_account: paymentToken,
 		});
 
+		const accountLinks = await stripe.accountLinks.create({
+			account: connectAccount.id,
+			failure_url: 'https://google.com', //Replace this with website payments once that is coded
+			success_url: 'https://google.com', //Replace this with website payments once that is  coded
+			type: 'custom_account_verification',
+			collect: 'eventually_due',
+		});
+
 		await businesses.doc(businessID).update({
-			isPaymentSetup: true,
+			paymentSetupStatus: 'PENDING',
 			stripeBusinessID: connectAccount.id,
 			paymentInformation: connectAccount.external_accounts.data[0],
 		});
 
 		return {
+			accountLinks,
 			stripeID: connectAccount.id,
 			sourceID: connectAccount.external_accounts.data[0].id,
 		};
@@ -875,9 +885,41 @@ exports.createStripeConnectAccountForBusiness = functions.https.onCall(async (in
 		if (error.code === 'invalid_card_type') {
 			return 'invalid_card_type';
 		} else {
-			return -1;
+			throw error;
 		}
 	}
+});
+
+//Checks if a Stripe Connect account needs to be updated with any information. If it does, the function
+//will return the URL to update it. If it doesn't the function will return false
+exports.checkStripeOnboardingByStripeID = functions.https.onCall(async (input, context) => {
+	const { stripeID } = input;
+	const stripeAccount = await stripe.accounts.retrieve(stripeID);
+
+	if (stripeAccount.requirements && stripeAccount.requirements.eventually_due.length === 0) {
+		return {
+			value: false,
+			verification: stripeAccount.requirements.pending_verification,
+		};
+	} else {
+		const accountLinks = await stripe.accountLinks.create({
+			account: stripeID,
+			failure_url: 'https://google.com', //Replace this with website payments once that is coded
+			success_url: 'https://google.com', //Replace this with website payments once that is  coded
+			type: 'custom_account_verification',
+			collect: 'eventually_due',
+		});
+		return accountLinks.url;
+	}
+});
+
+//The method updates the business's payment status to ready to go so they can now accept payments
+exports.updateBusinessPaymentStatus = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+
+	await businesses.doc(businessID).update({
+		paymentSetupStatus: 'TRUE',
+	});
 });
 
 //--------------------------------- Image Functions ---------------------------------
