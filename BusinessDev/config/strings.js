@@ -67,7 +67,8 @@ export default {
 	EIN: 'Employer Identification Number (EIN)',
 	Individual: 'Individual',
 	EnterStripeInfo: 'Enter Stripe Info',
-	EnterStripeInfoMessage: 'Fill out all necessary fields required by Stripe in order to process card payments.',
+	EnterStripeInfoMessage:
+		'Fill out all necessary fields required by Stripe in order to process card payments.',
 
 	//-------------------  Splash Screen -------------------
 	GetStarted: 'Get Started',
@@ -193,7 +194,7 @@ export default {
 	FinishCreatingYourProfileMessage:
 		"Your business doesn't have all the info customers need! Go complete your profile.",
 
-	//------------------- Create Product Screen -------------------
+	//------------------- Create Service Screen -------------------
 	CreateService: 'Create Service',
 	ServiceTitle: 'Service Title',
 	GiveItATitleDotDotDot: 'Give it a title...',
@@ -219,6 +220,9 @@ export default {
 	DeleteService: 'Delete Service',
 	AreYouSureDeleteService:
 		'Are you sure you want to delete this service? This action cannot be undone.',
+	TheServiceHasInProgressRequests:
+		'The service currently has requests that are in progress. Please complete those requests before deleting the service.',
+	TheServiceHasBeenDeleted: 'The service has been deleted.',
 
 	//------------------- Requester Schedule Screen -------------------
 	Schedule: 'Schedule',
@@ -380,7 +384,7 @@ export default {
 	ReadMore: 'Read More',
 	ReadLess: 'Read Less',
 	CustomerReviews: 'Customer Reviews',
-	ServiceDeleted: 'The business no longer sells this service',
+	ServiceDeleted: 'The business no longer sells this service.',
 	CompanyBlocked: 'Company Blocked',
 	CompanyHasBeenBlocked: 'The company has been blocked',
 	ViewRequest: 'View Request',

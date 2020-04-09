@@ -140,6 +140,13 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 			'Request Cancelled',
 			customer.name + ' ' + 'has cancelled their request for' + ' ' + request.serviceTitle
 		);
+
+		//Notifies the customer that the request has been deleted.
+		sendNotification(
+			'b-' + request.customerID,
+			'Request Cancelled',
+			'Your request for ' + request.serviceTitle + ' has been cancelled by the business.'
+		);
 	});
 
 	await database.runTransaction(async (transaction) => {
@@ -784,23 +791,125 @@ exports.updateServiceInformation = functions.https.onCall(async (input, context)
 //a "isDeleted" field of true to make sure it does not appear for customers. It will still remain in the database
 //so it can be referenced to in a customer's order history and/or reviews. Additionally, it is going to remove
 //all exisitng requests that are in this service & send customers notifications saying the service has been
-//deleted
+//deleted.
 exports.deleteService = functions.https.onCall(async (input, context) => {
 	const { serviceID, businessID } = input;
 
-	const batch = database.batch();
+	const result = await database.runTransaction(async (transaction) => {
+		const allInProgressForThisService = await transaction.get(
+			requests.where('serviceID', '==', serviceID).where('status', '==', 'IN_PROGRESS')
+		);
 
-	batch.update(services.doc(serviceID), {
-		isDeleted: true,
+		//If there are any in progress requests for this service, then this function will not delete the service and will
+		//tell the business to complete the service first.
+		if (allInProgressForThisService.docs.length > 0) {
+			return 'IN_PROGRESS_REQUESTS';
+		} else {
+			const business = (await transaction.get(businesses.doc(businessID))).data();
+			//Fetches the necessary data
+			const allRequestedForThisService = (
+				await transaction.get(
+					requests.where('serviceID', '==', serviceID).where('status', '==', 'REQUESTED')
+				)
+			).docs;
+			let arrayOfCustomers = [];
+			let promises = allRequestedForThisService.map((request) => {
+				const customerID = request.data().customerID;
+				return transaction.get(customers.doc(customerID));
+			});
+			arrayOfCustomers = await Promise.all(promises);
+
+			console.log(1);
+
+			//Removes each request from the business's schedule
+			promises = allRequestedForThisService.map((requestDoc) => {
+				const request = requestDoc.data();
+				date = new Date(request.date);
+				let year = date.getFullYear();
+				let month = date.getMonth() + 1;
+				let day = date.getDate();
+				if (month < 10) {
+					month = '0' + month;
+				}
+				if (day < 10) {
+					day = '0' + day;
+				}
+				const dateString = year + '-' + month + '-' + day;
+				return transaction.update(
+					businesses.doc(businessID).collection('Schedule').doc(dateString),
+					{
+						[request.requestID]: admin.firestore.FieldValue.delete(),
+					}
+				);
+			});
+			await Promise.all(promises);
+
+			console.log(2);
+
+			promises = arrayOfCustomers.map((customerDoc) => {
+				const customer = customerDoc.data();
+				//Updates the customer document
+				indexOfRequest = customer.currentRequests.findIndex(
+					(element) => element.serviceID === serviceID
+				);
+				//Notifies the business that the request has been deleted.
+				sendNotification(
+					'b-' + businessID,
+					'Request Cancelled',
+					customer.name +
+						' ' +
+						'has cancelled their request for' +
+						' ' +
+						customer.currentRequests[indexOfRequest].serviceTitle
+				);
+
+				//Notifies the customer that the request has been deleted.
+				sendNotification(
+					'c-' + customer.name,
+					'Request Cancelled',
+					'Your request for ' +
+						customer.currentRequests[indexOfRequest].serviceTitle +
+						' has been cancelled by the business.'
+				);
+
+				customer.currentRequests.splice(indexOfRequest, 1);
+				return transaction.update(customers.doc(customer.customerID), {
+					currentRequests: customer.currentRequests,
+				});
+			});
+			await Promise.all(promises);
+
+			console.log(3);
+
+			//Deletes the request docments themselves
+			promises = allRequestedForThisService.map((request) => {
+				return transaction.delete(requests.doc(request.data().requestID));
+			});
+			await Promise.all(promises);
+
+			console.log(4);
+
+			//Updates the service to indicate that it is deleted (simply archives it)
+			await transaction.update(services.doc(serviceID), {
+				isDeleted: true,
+			});
+
+			console.log(5);
+
+			//Finds the index of the service in the business's document removes it from that array of their services
+			const indexOfService = business.services.findIndex(
+				(eachService) => eachService.serviceID === serviceID
+			);
+			business.services.splice(indexOfService, 1);
+			await transaction.update(businesses.doc(businessID), { services: business.services });
+
+			console.log(6);
+
+			return 0;
+		}
 	});
 
-	batch.update(businesses.doc(businessID), {
-		serviceIDs: admin.firestore.FieldValue.arrayRemove(serviceID),
-	});
-
-	await batch.commit();
-
-	return 0;
+	return result;
 });
 
 //--------------------------------- Payment Functions ---------------------------------
