@@ -361,15 +361,13 @@ exports.getCategoryObjects = functions.https.onCall(async (input, context) => {
 	return result;
 });
 
-//This method will take in all the unblocked services for a customer and then return
-//all the services associated with a certain category which will be passed in as a second
-//parameter
+//This method will return all the services associated with a certain category which will be passed in as a parameter
 exports.getServicesByCategory = functions.https.onCall(async (input, context) => {
-	const { allServices, categoryName } = input;
+	const { categoryName } = input;
 	//creates the new array
-	const filteredServices = allServices.filter((element) => {
-		return element.category === categoryName;
-	});
+	const allFilteredDocs = await services.where('category', '==', categoryName).get();
+	let filteredServices = allFilteredDocs.docs.map((doc) => doc.data());
+	filteredServices = filteredServices.filter((service) => service.serviceTitle !== '');
 
 	return filteredServices;
 });
@@ -819,8 +817,6 @@ exports.deleteService = functions.https.onCall(async (input, context) => {
 			});
 			arrayOfCustomers = await Promise.all(promises);
 
-			console.log(1);
-
 			//Removes each request from the business's schedule
 			promises = allRequestedForThisService.map((requestDoc) => {
 				const request = requestDoc.data();
@@ -843,8 +839,6 @@ exports.deleteService = functions.https.onCall(async (input, context) => {
 				);
 			});
 			await Promise.all(promises);
-
-			console.log(2);
 
 			promises = arrayOfCustomers.map((customerDoc) => {
 				const customer = customerDoc.data();
@@ -879,22 +873,16 @@ exports.deleteService = functions.https.onCall(async (input, context) => {
 			});
 			await Promise.all(promises);
 
-			console.log(3);
-
 			//Deletes the request docments themselves
 			promises = allRequestedForThisService.map((request) => {
 				return transaction.delete(requests.doc(request.data().requestID));
 			});
 			await Promise.all(promises);
 
-			console.log(4);
-
 			//Updates the service to indicate that it is deleted (simply archives it)
 			await transaction.update(services.doc(serviceID), {
 				isDeleted: true,
 			});
-
-			console.log(5);
 
 			//Finds the index of the service in the business's document removes it from that array of their services
 			const indexOfService = business.services.findIndex(
@@ -902,8 +890,6 @@ exports.deleteService = functions.https.onCall(async (input, context) => {
 			);
 			business.services.splice(indexOfService, 1);
 			await transaction.update(businesses.doc(businessID), { services: business.services });
-
-			console.log(6);
 
 			return 0;
 		}
