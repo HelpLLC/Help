@@ -24,28 +24,22 @@ export default function Analytics(props) {
 	const [servicesChart, setServicesChart] = React.useState([[]]);
 	const [locationsChart, setLocationsChart] = React.useState([[]]);
 
-	const revenueChange = async (event) => {
-		setIsScreenLoading(true);
+	function revenueChange (event) {
 		setRevenueBy(event.target.value);
-		setRevenueChart(await generateRevenueChartData());
-		setIsScreenLoading(false);
+		setRevenueChart(generateRevenueChartData());
 	};
-	const servicesChange = async (event) => {
-		setIsScreenLoading(true);
+	function servicesChange (event) {
 		setTopServicesBy(event.target.value);
-		setServicesChart(await generateTopServicesChartData());
-		setIsScreenLoading(false);
+		setServicesChart(generateTopServicesChartData());
 	};
-	const locationsChange = async (event) => {
-		setIsScreenLoading(true);
+	function locationsChange (event) {
 		setCustomerLocationsBy(event.target.value);
-		setLocationsChart(await generateTopLocationsChartData());
-		setIsScreenLoading(false);
+		setLocationsChart(generateTopLocationsChartData());
 	};
 
 	// Once the elements are rendered, retrieve analytics data from firebasse and differentiate them
-	const componentDidMount = async () => {
-		// const { businessID } = 'zjCzqSiCpNQELwU3ETtGBANz7hY2';
+	async function componentDidMount() {
+		// Replace this with fetched businessID instead of the hardcoded one
 		const analyticsData = await FirebaseFunctions.call('getBusinessAnalyticsByBusinessID', {
 			businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2',
 		});
@@ -59,19 +53,19 @@ export default function Analytics(props) {
 
 		// ensures all data is loaded, then format the data for the chart
 		if (revenueData !== undefined) {
-			setRevenueChart(await generateRevenueChartData());
+			setRevenueChart(generateRevenueChartData());
 		}
 		if (topServicesData !== undefined) {
-			setServicesChart(await generateTopServicesChartData());
+			setServicesChart(generateTopServicesChartData());
 		}
 		if (customerLocationData !== undefined) {
-			setLocationsChart(await generateTopLocationsChartData());
+			setLocationsChart(generateTopLocationsChartData());
 		}
 		setIsScreenLoading(false);
 	};
 
 	//Generates the chart data for the revenue graph
-	const generateRevenueChartData = async () => {
+	function generateRevenueChartData() {
 		const monthStrings = [
 			'Jan',
 			'Feb',
@@ -125,9 +119,7 @@ export default function Analytics(props) {
 	};
 
 	//Generates the chart data for the services graph
-	const generateTopServicesChartData = async () => {
-		// const { topServicesBy, topServicesData } = this.state;
-
+	function generateTopServicesChartData() {
 		// Get the services' data from firebase
 		let services = Object.keys(topServicesData);
 		services = services.filter((value) => !(value === ''));
@@ -184,9 +176,7 @@ export default function Analytics(props) {
 	};
 
 	//Generates the chart data for the customer locations graph
-	const generateTopLocationsChartData = async () => {
-		// const { customerLocationsBy, customerLocationData } = this.state;
-
+	function generateTopLocationsChartData() {
 		// Set up a 2d array with the axes' titles
 		let chartData = [['Cities', 'Requests']];
 
@@ -239,6 +229,7 @@ export default function Analytics(props) {
 				<div className='row'>
 					<TitleComponent text={'Monthly Revenue'} isCentered={true} textColor={colors.lightBlue} />
 
+					<div className='right'>
 					<FormControl variant='outlined'>
 						<InputLabel>Sort By</InputLabel>
 						<Select native value={revenueBy} onChange={revenueChange} label='Sort By'>
@@ -246,6 +237,7 @@ export default function Analytics(props) {
 							<option value={'Year'}>Year</option>
 						</Select>
 					</FormControl>
+					</div>
 				</div>
 
 				<Chart
@@ -270,6 +262,7 @@ export default function Analytics(props) {
 				<div className='row'>
 					<TitleComponent text={'Top Services'} isCentered={true} textColor={colors.lightBlue} />
 
+					<div className='right'>
 					<FormControl variant='outlined'>
 						<InputLabel>Sort By</InputLabel>
 						<Select native value={topServicesBy} onChange={servicesChange} label='Sort By'>
@@ -278,6 +271,7 @@ export default function Analytics(props) {
 							<option value={'Views'}>Views</option>
 						</Select>
 					</FormControl>
+					</div>
 				</div>
 				<Chart
 					width={'auto'}
@@ -294,6 +288,7 @@ export default function Analytics(props) {
 				<div className='row'>
 					<TitleComponent text={'Top Locations'} isCentered={true} textColor={colors.lightBlue} />
 
+					<div className='right'>
 					<FormControl variant='outlined'>
 						<InputLabel>Sort By</InputLabel>
 						<Select native value={customerLocationsBy} onChange={locationsChange} label='Sort By'>
@@ -302,6 +297,7 @@ export default function Analytics(props) {
 							<option value={'Country'}>Country</option>
 						</Select>
 					</FormControl>
+					</div>
 				</div>
 				<Chart
 					width={'auto'}
@@ -394,7 +390,7 @@ export default function Analytics(props) {
 								strokeWidth: 2,
 							},
 							underMonthSpace: 15,
-							underYearSpace: 5, // Bottom padding for the year labels.
+							underYearSpace: 5,
 							yearLabel: fontStyles.bigTitleStyleBlue,
 						},
 					}}
