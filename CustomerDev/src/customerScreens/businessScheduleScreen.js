@@ -43,6 +43,7 @@ export default class businessScheduleScreen extends Component {
 		isErrorVisible: false,
 		isRequestSucess: false,
 		saveCardVisible: false,
+		isPayWithCardVisible: false,
 		shouldSaveCard: '',
 		paymentToken: ''
 	};
@@ -346,6 +347,7 @@ export default class businessScheduleScreen extends Component {
 			isErrorVisible,
 			paymentToken,
 			paymentInformation,
+			isPayWithCardVisible,
 			requestSummaryVisible,
 			isRequestSucess,
 			allServices
@@ -471,7 +473,7 @@ export default class businessScheduleScreen extends Component {
 												this.setState({ fieldsError: true });
 											} else {
 												if (service.card === true && customer.paymentInformation === '') {
-													this.acceptCardPayment();
+													this.setState({ isPayWithCardVisible: true })
 												} else {
 													if (service.cash === true) {
 														this.setState({ paymentToken: '', paymentInformation: strings.Cash });
@@ -517,6 +519,15 @@ export default class businessScheduleScreen extends Component {
 					}}
 					title={strings.Whoops}
 					message={strings.SomethingWentWrong}
+				/>
+				<HelpAlert
+					isVisible={isPayWithCardVisible}
+					onPress={() => {
+						this.setState({ isPayWithCardVisible: false });
+						this.acceptCardPayment();
+					}}
+					title={strings.EnterPaymentInformation}
+					message={strings.EnterPaymentMessage}
 				/>
 				<HelpAlert
 					isVisible={isRequestSucess}

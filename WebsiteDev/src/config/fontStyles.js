@@ -10,6 +10,7 @@ let baseFontSize = 20;
 
 const bigFontSize = baseFontSize * 1.2;
 const subTextFontSize = baseFontSize * 0.9;
+const miniTextFontSize = baseFontSize * 0.6;
 const subTitleFontSize = baseFontSize * 2.2;
 const bigTitleFontSize = baseFontSize * 4.4;
 
@@ -164,5 +165,12 @@ export default {
     fontFamily: font,
     fontSize: subTitleFontSize,
     color: colors.lightBlue
-  }
+  },
+
+  //The style for all non-main text that is blue
+  miniTextStyleBlue: {
+    fontFamily: font,
+    fontSize: miniTextFontSize,
+    color: colors.lightBlue
+  },
 };

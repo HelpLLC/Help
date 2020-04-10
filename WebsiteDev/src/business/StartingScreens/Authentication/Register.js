@@ -95,6 +95,7 @@ export function Register() {
 				businessHours,
 				currentRequests: [],
 				email,
+				paymentSetupStatus: 'FALSE',
 				location,
 				services: [],
 				website,

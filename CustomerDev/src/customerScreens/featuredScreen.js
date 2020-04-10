@@ -30,7 +30,7 @@ export default class featuredScreen extends Component {
 		displayedServices: '',
 		reviewError: false,
 		isReviewDueName: '',
-		isReviewDueID: ''
+		isReviewDueID: '',
 	};
 
 	//Filters the services by ones that the user has blocked, and also returns only the services that are being offered within 50 miles
@@ -46,17 +46,24 @@ export default class featuredScreen extends Component {
 		);
 
 		if (customer.isReviewDue.length > 0) {
+			const requestID = customer.isReviewDue[0];
+			const request = await FirebaseFunctions.call('getRequestByID', { requestID });
 			this.setState({
 				isReviewDue: true,
-				requestID: customer.isReviewDue[0]
+				request,
+				allServices,
+				customer,
+				displayedServices: allServices,
+				isLoading: false,
+			});
+		} else {
+			this.setState({
+				allServices,
+				customer,
+				displayedServices: allServices,
+				isLoading: false,
 			});
 		}
-		this.setState({
-			allServices,
-			customer,
-			displayedServices: allServices,
-			isLoading: false
-		});
 	}
 
 	//Function searches through the array of services and displays the results by changing the state
@@ -82,7 +89,7 @@ export default class featuredScreen extends Component {
 		//Otherwise, the results will be displayed
 		if (newServices.length === 0 || text.length === 0) {
 			this.setState({
-				displayedServices: allServices
+				displayedServices: allServices,
 			});
 		} else {
 			this.setState({ displayedServices: newServices });
@@ -152,7 +159,7 @@ export default class featuredScreen extends Component {
 							borderBottomColor: colors.lightBlue,
 							borderWidth: 0.5,
 							justifyContent: 'center',
-							alignItems: 'flex-start'
+							alignItems: 'flex-start',
 						}}>
 						<Text style={fontStyles.bigTextStyleBlue}>{strings.FeaturedServices}</Text>
 					</View>
@@ -165,12 +172,12 @@ export default class featuredScreen extends Component {
 						isVisible={this.state.isReviewDue}
 						onFinishRating={(stars) => this.setState({ stars })}
 						title={strings.LeaveAReview}
-						message={this.state.isReviewDueName}
+						message={this.state.request ? this.state.request.serviceTitle : ''}
 						confirmText={strings.Submit}
 						cancelText={strings.Skip}
 						imageFunction={async () => {
 							return await FirebaseFunctions.call('getServiceImageByID', {
-								serviceID: this.state.isReviewDueID
+								serviceID: this.state.request.serviceID,
 							});
 						}}
 						clickOutside={true}
@@ -180,24 +187,30 @@ export default class featuredScreen extends Component {
 						confirmOnPress={async () => {
 							//If a comment is inputted, then the user must also give a star rating. But users
 							//can give a star rating without a comment
-							if (this.state.comment.trim().length > 0 && this.state.stars === 0) {
+							if (
+								(this.state.comment.trim().length > 0 && this.state.stars === 0) ||
+								this.state.stars === 0
+							) {
 								this.setState({ reviewError: true, isReviewDue: false });
 							} else {
 								try {
-									FirebaseFunctions.call('submitReview', {
-										serviceID: this.state.isReviewDueID,
-										customerID: customer.customerID,
+									const { request } = this.state;
+									FirebaseFunctions.call('reviewService', {
+										serviceID: request.serviceID,
+										customerID: request.customerID,
+										customerName: request.customerName,
 										stars: this.state.stars,
+										reviewDate: new Date().toLocaleDateString('en-US'),
 										comment: this.state.comment,
-										requestID: this.state.requestID
+										requestID: request.requestID,
 									});
 								} catch (error) {
 									FirebaseFunctions.call('logIssue', {
 										error,
 										userID: {
 											screen: 'Featured Screen',
-											userID: 'c-' + customer.customerID
-										}
+											userID: 'c-' + customer.customerID,
+										},
 									});
 								}
 								this.setState({ isReviewDue: false });
@@ -206,17 +219,18 @@ export default class featuredScreen extends Component {
 						cancelOnPress={() => {
 							this.setState({ isReviewDue: false });
 							try {
+								const { request } = this.state;
 								FirebaseFunctions.call('skipReview', {
-									requestID: this.state.requestID,
-									customerID: customer.customer
+									requestID: request.requestID,
+									customerID: request.customerID,
 								});
 							} catch (error) {
 								FirebaseFunctions.call('logIssue', {
 									error,
 									userID: {
 										screen: 'Featured Screen',
-										userID: 'c-' + customer.customerID
-									}
+										userID: 'c-' + this.state.customer.customerID,
+									},
 								});
 							}
 						}}
