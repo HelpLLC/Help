@@ -21,7 +21,9 @@ class serviceAdditionalInformationScreen extends Component {
 		fieldsError: false,
 		isLoading: false,
 		cash: false,
-		card: false
+		card: false,
+		setUpPaymentVisible: false,
+		business: ''
 	};
 	componentDidMount() {
 		if (this.props.navigation.state.params.editing === true) {
@@ -29,7 +31,7 @@ class serviceAdditionalInformationScreen extends Component {
 				'EditServiceAddtionalInformationScreen',
 				'serviceAdditionalInformationScreen'
 			);
-			const { service, serviceID } = this.props.navigation.state.params;
+			const { service, serviceID, business } = this.props.navigation.state.params;
 			const { simultaneousRequests, serviceDuration, card, cash } = service;
 			this.setState({
 				service,
@@ -38,14 +40,16 @@ class serviceAdditionalInformationScreen extends Component {
 				serviceDuration,
 				cash,
 				card,
-				editing: true
+				editing: true,
+				business
 			});
 		} else {
+			const { business } = this.props.navigation.state.params;
 			FirebaseFunctions.setCurrentScreen(
 				'CreateServiceAddtionalInformationScreen',
 				'serviceAdditionalInformationScreen'
 			);
-			this.setState({ serviceDuration: '', simultaneousRequests: '', editing: false });
+			this.setState({ serviceDuration: '', simultaneousRequests: '', editing: false, business });
 		}
 		this.setState({ isScreenLoading: false });
 	}
@@ -59,8 +63,7 @@ class serviceAdditionalInformationScreen extends Component {
 			simultaneousRequests === '' ||
 			simultaneousRequests === '0' ||
 			serviceDuration === '0' ||
-			(card === false &&
-			cash === false)
+			(card === false && cash === false)
 		) {
 			this.setState({ isLoading: false, fieldsError: true });
 		} else {
@@ -263,14 +266,14 @@ class serviceAdditionalInformationScreen extends Component {
 							textStyle={fontStyles.mainTextStyleBlue}
 							//Method selects the cash button and deselects the card
 							onPress={() => {
-								this.setState({ cash: true, card: false })
+								this.setState({ cash: true, card: false });
 							}}
 							disabled={this.state.isLoading}
 						/>
 					</View>
 					<View
 						style={{
-							marginTop: screenHeight * 0.025
+							marginTop: screenHeight * 0.025,
 						}}>
 						<RoundBlueButton
 							title={strings.CreditDebitCard}
@@ -287,7 +290,15 @@ class serviceAdditionalInformationScreen extends Component {
 							textStyle={fontStyles.mainTextStyleBlue}
 							//Method selects the card button and deselects the cash
 							onPress={() => {
-								this.setState({ cash: false, card: true })
+								//If Stripe connect has not been setup yet, then a popup appear. If it has, then it just selects
+								//the payment method
+								if (this.state.business.paymentSetupStatus === 'TRUE') {
+									this.setState({ cash: false, card: true });
+								} else {
+									this.setState({
+										setUpPaymentVisible: true
+									});
+								}
 							}}
 							disabled={this.state.isLoading}
 						/>
@@ -325,6 +336,14 @@ class serviceAdditionalInformationScreen extends Component {
 					}}
 					title={strings.Whoops}
 					message={strings.PleaseFillOutAllFields}
+				/>
+				<HelpAlert
+					isVisible={this.state.setUpPaymentVisible}
+					onPress={() => {
+						this.setState({ setUpPaymentVisible: false });
+					}}
+					title={strings.SetUpPayment}
+					message={strings.PaymentsMustBeSetupBeforeAcceptingCardPayments}
 				/>
 			</HelpView>
 		);

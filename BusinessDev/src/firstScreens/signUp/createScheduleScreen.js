@@ -176,6 +176,7 @@ export default class createScheduleScreen extends Component {
 					businessDescription: businessInfo,
 					businessHours,
 					coordinates,
+					paymentSetupStatus: 'FALSE',
 					email,
 					location,
 					services: [],

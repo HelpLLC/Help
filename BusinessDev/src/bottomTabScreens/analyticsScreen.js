@@ -447,7 +447,7 @@ export default class analyticsScreen extends Component {
 										<BarChart
 											style={{
 												height: screenHeight * 0.3,
-												width: screenWidth * 0.7,
+												width: screenWidth * 0.8,
 												paddingHorizontal: screenWidth * 0.02
 											}}
 											gridMin={0}
@@ -567,7 +567,7 @@ export default class analyticsScreen extends Component {
 										<BarChart
 											style={{
 												height: screenHeight * 0.3,
-												width: screenWidth * 0.7,
+												width: screenWidth * 0.8,
 												paddingHorizontal: screenWidth * 0.02
 											}}
 											gridMin={0}
