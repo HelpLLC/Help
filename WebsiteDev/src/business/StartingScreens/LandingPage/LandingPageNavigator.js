@@ -10,6 +10,7 @@ import { SocialIcon } from 'react-social-icons';
 import PrivacyPolicy from '../../PrivacyPolicy.js';
 import Credits from '../../Credits.js';
 import TermsAndConditions from '../../TermsAndConditions.js';
+import CreateProductScreen from '../../BusinessScreens/CreateProduct/CreateProductScreen'
 
 export default function LandingPageNavigator() {
 	//The header containing the title, log in, and sign up buttons
@@ -98,6 +99,9 @@ export default function LandingPageNavigator() {
 				</Route>
 				<Route path='/dashboard'>
 					<Dashboard />
+				</Route>
+				<Route path='/createproduct'>
+					<CreateProductScreen/>
 				</Route>
 				<Route path='/privacypolicy'>
 					<div className={'bodyOuter'}>

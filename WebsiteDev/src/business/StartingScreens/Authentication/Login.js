@@ -20,10 +20,10 @@ export function Login(props) {
 	const login = async () => {
 		const businessID = await FirebaseFunctions.logIn(email, password);
 		console.log(businessID);
-		if (businessID) {
-			setLoggedIn(true);
-			console.log(props);
-			history.push({ pathname: '/dashboard/:businessID', state: { businessID: businessID } });
+		if(businessID){
+			 setLoggedIn(true)
+			 console.log(props)
+			history.push({pathname: '/dashboard', state:{businessID:businessID}})
 		}
 	};
 
