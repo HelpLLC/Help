@@ -5,12 +5,18 @@ import colors from '../../../config/colors';
 import fontStyles from '../../../config/fontStyles';
 import { Chart } from 'react-google-charts';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
+import { makeStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import NativeSelect from '@material-ui/core/NativeSelect';
 
 export default function Analytics(props) {
 	const [isScreenLoading, setIsScreenLoading] = React.useState(true);
-	const [revenueBy, setRevenueBy] = React.useState();
-	const [customerLocationsBy, setCustomerLocationsBy] = React.useState();
-	const [topServicesBy, setTopServicesBy] = React.useState();
+	const [revenueBy, setRevenueBy] = React.useState('Month');
+	const [customerLocationsBy, setCustomerLocationsBy] = React.useState('City');
+	const [topServicesBy, setTopServicesBy] = React.useState('Revenue');
 	const [revenueData, setRevenueData] = React.useState();
 	const [customerLocationData, setCustomerLocationData] = React.useState();
 	const [topServicesData, setTopServicesData] = React.useState();
@@ -18,11 +24,30 @@ export default function Analytics(props) {
 	const [servicesChart, setServicesChart] = React.useState([[]]);
 	const [locationsChart, setLocationsChart] = React.useState([[]]);
 
+	const revenueChange = async (event) => {
+		setIsScreenLoading(true);
+		setRevenueBy(event.target.value);
+		setRevenueChart(await generateRevenueChartData());
+		setIsScreenLoading(false);
+	};
+	const servicesChange = async (event) => {
+		setIsScreenLoading(true);
+		setTopServicesBy(event.target.value);
+		setServicesChart(await generateTopServicesChartData());
+		setIsScreenLoading(false);
+	};
+	const locationsChange = async (event) => {
+		setIsScreenLoading(true);
+		setCustomerLocationsBy(event.target.value);
+		setLocationsChart(await generateTopLocationsChartData());
+		setIsScreenLoading(false);
+	};
+
 	// Once the elements are rendered, retrieve analytics data from firebasse and differentiate them
 	const componentDidMount = async () => {
 		// const { businessID } = 'zjCzqSiCpNQELwU3ETtGBANz7hY2';
 		const analyticsData = await FirebaseFunctions.call('getBusinessAnalyticsByBusinessID', {
-			businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2'
+			businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2',
 		});
 		const revenueDataConst = analyticsData[0];
 		const topServicesDataConst = analyticsData[1];
@@ -33,22 +58,20 @@ export default function Analytics(props) {
 		setCustomerLocationData(customerLocationDataConst);
 
 		// ensures all data is loaded, then format the data for the chart
-		if (
-			revenueData !== undefined &&
-			topServicesData !== undefined &&
-			customerLocationData !== undefined
-		) {
+		if (revenueData !== undefined) {
 			setRevenueChart(await generateRevenueChartData());
-			setServicesChart(await generateTopServicesChartData());
-			setLocationsChart(await generateTopLocationsChartData());
-			setIsScreenLoading(false);
 		}
+		if (topServicesData !== undefined) {
+			setServicesChart(await generateTopServicesChartData());
+		}
+		if (customerLocationData !== undefined) {
+			setLocationsChart(await generateTopLocationsChartData());
+		}
+		setIsScreenLoading(false);
 	};
 
 	//Generates the chart data for the revenue graph
 	const generateRevenueChartData = async () => {
-		// const { revenueBy, revenueData } = this.state;
-
 		const monthStrings = [
 			'Jan',
 			'Feb',
@@ -61,7 +84,7 @@ export default function Analytics(props) {
 			'Sep',
 			'Oct',
 			'Nov',
-			'Dec'
+			'Dec',
 		];
 
 		// Only get the months out of the data
@@ -69,7 +92,11 @@ export default function Analytics(props) {
 		months.sort();
 		months.reverse();
 		let chartData = [['Month', 'Revenue ($)']];
-		months = months.filter((value) => value.includes('-'));
+		if (revenueBy === 'Month') {
+			months = months.filter((value) => value.includes('-'));
+		} else {
+			months = months.filter((value) => !value.includes('-'));
+		}
 		months = months.filter((value, index) => index <= 11);
 
 		// Store the revenue in an array and inverse it to match the order of the months
@@ -83,11 +110,17 @@ export default function Analytics(props) {
 		// Combine the date and revenue into one 2d array
 		for (let i = months.length - 1; i >= 0; i--) {
 			const month = months[i];
-			const monthString = monthStrings[parseInt(month.substring(month.indexOf('-') + 1)) - 1];
-			const yearString = month.substring(0, month.indexOf('-'));
-			chartData.push(new Array(monthString + ' ' + yearString, data[i]));
-		}
+			if (revenueBy === 'Month') {
+				const xAxisValue =
+					monthStrings[parseInt(month.substring(month.indexOf('-') + 1)) - 1] +
+					' ' +
+					month.substring(0, month.indexOf('-'));
 
+				chartData.push(new Array(xAxisValue, data[i]));
+			} else {
+				chartData.push(new Array(month, data[i]));
+			}
+		}
 		return { chartData };
 	};
 
@@ -97,23 +130,56 @@ export default function Analytics(props) {
 
 		// Get the services' data from firebase
 		let services = Object.keys(topServicesData);
+		services = services.filter((value) => !(value === ''));
 
 		// Set up a 2d array with the axes' titles
-		let chartData = [['Services', 'Orders']];
+		let chartData = [['Services', 'Requests']];
 
-		// Ordered by total number of requests
-		services.sort((a, b) => {
-			return topServicesData[b].totalRequests - topServicesData[a].totalRequests;
-		});
-		for (let i = 0; i < services.length && i < 3; i++) {
-			chartData.push(
-				new Array(
-					topServicesData[services[i]].serviceTitle,
-					topServicesData[services[i]].totalRequests
-				)
-			);
+		if (topServicesBy === 'Revenue') {
+			chartData = [['Services', 'Revenue ($)']];
+			services.sort((a, b) => {
+				return topServicesData[b].totalRevenue - topServicesData[a].totalRevenue;
+			});
+			for (let i = 0; i < services.length; i++) {
+				if (topServicesData[services[i]].totalRevenue > 100) {
+					chartData.push(
+						new Array(
+							topServicesData[services[i]].serviceTitle,
+							topServicesData[services[i]].totalRevenue
+						)
+					);
+				}
+			}
+		} else if (topServicesBy === 'Requests') {
+			services.sort((a, b) => {
+				return topServicesData[b].totalRequests - topServicesData[a].totalRequests;
+			});
+			for (let i = 0; i < services.length; i++) {
+				if (topServicesData[services[i]].totalRequests > 10) {
+					chartData.push(
+						new Array(
+							topServicesData[services[i]].serviceTitle,
+							topServicesData[services[i]].totalRequests
+						)
+					);
+				}
+			}
+		} else if (topServicesBy === 'Views') {
+			chartData = [['Services', 'Views']];
+			services.sort((a, b) => {
+				return topServicesData[b].totalViews - topServicesData[a].totalViews;
+			});
+			for (let i = 0; i < services.length; i++) {
+				if (topServicesData[services[i]].totalViews > 25) {
+					chartData.push(
+						new Array(
+							topServicesData[services[i]].serviceTitle,
+							topServicesData[services[i]].totalViews
+						)
+					);
+				}
+			}
 		}
-
 		return { chartData };
 	};
 
@@ -122,16 +188,39 @@ export default function Analytics(props) {
 		// const { customerLocationsBy, customerLocationData } = this.state;
 
 		// Set up a 2d array with the axes' titles
-		let chartData = [['Services', 'Orders']];
+		let chartData = [['Cities', 'Requests']];
 
-		// Get the cities, order them by the number of orders, and add them to a 2d array
-		const { Cities } = customerLocationData;
-		let cityKeys = Object.keys(Cities);
-		cityKeys.sort((a, b) => Cities[b] - Cities[a]);
-		for (let i = 0; i < cityKeys.length && i < 3; i++) {
-			chartData.push(new Array(cityKeys[i], Cities[cityKeys[i]]));
+		if (customerLocationsBy === 'City') {
+			// Get the cities, order them by the number of orders, and add them to a 2d array
+			const { Cities } = customerLocationData;
+			let cityKeys = Object.keys(Cities);
+			cityKeys.sort((a, b) => Cities[b] - Cities[a]);
+			for (let i = 0; i < cityKeys.length; i++) {
+				if (Cities[cityKeys[i]] > 10) {
+					chartData.push(new Array(cityKeys[i], Cities[cityKeys[i]]));
+				}
+			}
+		} else if (customerLocationsBy === 'State') {
+			chartData = [['States', 'Requests']];
+			const { States } = customerLocationData;
+			let stateKeys = Object.keys(States);
+			stateKeys.sort((a, b) => States[b] - States[a]);
+			for (let i = 0; i < stateKeys.length; i++) {
+				if (States[stateKeys[i]] > 10) {
+					chartData.push(new Array(stateKeys[i], States[stateKeys[i]]));
+				}
+			}
+		} else if (customerLocationsBy === 'Country') {
+			chartData = [['Countries', 'Requests']];
+			const { Countries } = customerLocationData;
+			let countryKeys = Object.keys(Countries);
+			countryKeys.sort((a, b) => Countries[b] - Countries[a]);
+			for (let i = 0; i < countryKeys.length; i++) {
+				if (Countries[countryKeys[i]] > 10) {
+					chartData.push(new Array(countryKeys[i], Countries[countryKeys[i]]));
+				}
+			}
 		}
-
 		return { chartData };
 	};
 
@@ -139,25 +228,26 @@ export default function Analytics(props) {
 		componentDidMount();
 		return (
 			<div className='container'>
-				<TitleComponent />
 				<TitleComponent text={'Analytics'} isCentered={true} textColor={colors.lightBlue} />
-				<TitleComponent
-					text={'Monthly Revenue in 2020 (MATERIAL UI)'}
-					isCentered={true}
-					textColor={colors.lightBlue}
-				/>
+				<TitleComponent text={'Monthly Revenue'} isCentered={true} textColor={colors.lightBlue} />
 			</div>
 		);
 	} else {
 		return (
 			<div className='container'>
-				<TitleComponent />
 				<TitleComponent text={'Analytics'} isCentered={true} textColor={colors.lightBlue} />
-				<TitleComponent
-					text={'Monthly Revenue in 2020 (MATERIAL UI)'}
-					isCentered={true}
-					textColor={colors.lightBlue}
-				/>
+				<div className='row'>
+					<TitleComponent text={'Monthly Revenue'} isCentered={true} textColor={colors.lightBlue} />
+
+					<FormControl variant='outlined'>
+						<InputLabel>Sort By</InputLabel>
+						<Select native value={revenueBy} onChange={revenueChange} label='Sort By'>
+							<option value={'Month'}>Month</option>
+							<option value={'Year'}>Year</option>
+						</Select>
+					</FormControl>
+				</div>
+
 				<Chart
 					width={'auto'}
 					chartType='Line'
@@ -165,53 +255,30 @@ export default function Analytics(props) {
 					loader={<div>Loading Chart</div>}
 					data={revenueChart.chartData}
 					options={{
-						height: 350,
-						hAxis: {
-							title: 'Month'
-						},
-						vAxis: {
-							title: 'Revenue ($)'
-						},
-						legend: 'none',
-						colors: [colors.lightBlue]
-					}}
-				/>
-				<TitleComponent
-					text={'Monthly Revenue in 2020 (Normal)'}
-					isCentered={true}
-					textColor={colors.lightBlue}
-				/>
-				<Chart
-					width={'auto'}
-					chartType='LineChart'
-					loader={<div>Loading Chart</div>}
-					data={revenueChart.chartData}
-					options={{
-						height: 350,
-						fontFamily: 'Arial',
-						chart: {
-							title: 'Monthly Revenue in 2020'
-						},
+						height: '100%',
 						hAxis: {
 							title: 'Month',
-							textStyle: fontStyles.miniTextStyleBlue
 						},
 						vAxis: {
 							title: 'Revenue ($)',
-							textStyle: fontStyles.miniTextStyleBlue
 						},
+						legend: 'none',
 						colors: [colors.lightBlue],
-						series: {
-							0: { lineWidth: 3 }
-						}
 					}}
 				/>
 
-				<TitleComponent
-					text={'Top Services (Material UI)'}
-					isCentered={true}
-					textColor={colors.lightBlue}
-				/>
+				<div className='row'>
+					<TitleComponent text={'Top Services'} isCentered={true} textColor={colors.lightBlue} />
+
+					<FormControl variant='outlined'>
+						<InputLabel>Sort By</InputLabel>
+						<Select native value={topServicesBy} onChange={servicesChange} label='Sort By'>
+							<option value={'Revenue'}>Revenue</option>
+							<option value={'Requests'}>Requests</option>
+							<option value={'Views'}>Views</option>
+						</Select>
+					</FormControl>
+				</div>
 				<Chart
 					width={'auto'}
 					height={'75%'}
@@ -220,38 +287,22 @@ export default function Analytics(props) {
 					loader={<div>Loading Chart</div>}
 					data={servicesChart.chartData}
 					options={{
-						colors: [colors.lightBlue]
+						colors: [colors.lightBlue],
 					}}
 				/>
 
-				<TitleComponent
-					text={'Top Services (Normal)'}
-					isCentered={true}
-					textColor={colors.lightBlue}
-				/>
-				<Chart
-					chartType='ColumnChart'
-					width='auto'
-					data={servicesChart.chartData}
-					options={{
-						height: 350,
-						hAxis: {
-							title: 'Services',
-							textStyle: fontStyles.subTextStyleBlue
-						},
-						vAxis: {
-							title: 'Orders',
-							textStyle: fontStyles.subTextStyleBlue
-						},
-						colors: [colors.lightBlue]
-					}}
-				/>
+				<div className='row'>
+					<TitleComponent text={'Top Locations'} isCentered={true} textColor={colors.lightBlue} />
 
-				<TitleComponent
-					text={'Top Locations (Material UI)'}
-					isCentered={true}
-					textColor={colors.lightBlue}
-				/>
+					<FormControl variant='outlined'>
+						<InputLabel>Sort By</InputLabel>
+						<Select native value={customerLocationsBy} onChange={locationsChange} label='Sort By'>
+							<option value={'City'}>City</option>
+							<option value={'State'}>State</option>
+							<option value={'Country'}>Country</option>
+						</Select>
+					</FormControl>
+				</div>
 				<Chart
 					width={'auto'}
 					height={'75%'}
@@ -260,30 +311,7 @@ export default function Analytics(props) {
 					loader={<div>Loading Chart</div>}
 					data={locationsChart.chartData}
 					options={{
-						colors: [colors.lightBlue]
-					}}
-				/>
-
-				<TitleComponent
-					text={'Top Locations (Normal)'}
-					isCentered={true}
-					textColor={colors.lightBlue}
-				/>
-				<Chart
-					chartType='ColumnChart'
-					width='auto'
-					data={locationsChart.chartData}
-					options={{
-						height: 350,
-						hAxis: {
-							title: 'Services',
-							textStyle: fontStyles.subTextStyleBlue
-						},
-						vAxis: {
-							title: 'Orders',
-							textStyle: fontStyles.subTextStyleBlue
-						},
-						colors: [colors.lightBlue]
+						colors: [colors.lightBlue],
 					}}
 				/>
 
@@ -295,7 +323,7 @@ export default function Analytics(props) {
 					data={[
 						[
 							{ type: 'date', id: 'Date' },
-							{ type: 'number', id: 'Won/Loss' }
+							{ type: 'number', id: 'Customers' },
 						],
 						[new Date(2020, 0, 4), 6],
 						[new Date(2020, 0, 5), 5],
@@ -336,13 +364,13 @@ export default function Analytics(props) {
 						[new Date(2020, 9, 15), 5],
 						[new Date(2020, 9, 16), 10],
 						[new Date(2020, 9, 17), 9],
-						[new Date(2020, 9, 19), 9]
+						[new Date(2020, 9, 19), 9],
 					]}
 					options={{
 						height: 300,
 						noDataPattern: {
 							backgroundColor: colors.lightBlue,
-							color: colors.columbiaBlue
+							color: colors.columbiaBlue,
 						},
 						colorAxis: { minValue: 5, colors: [colors.white, colors.lightBlue] },
 						calendar: {
@@ -350,12 +378,12 @@ export default function Analytics(props) {
 							cellColor: {
 								stroke: colors.lightBlue,
 								strokeOpacity: 0.5,
-								strokeWidth: 2
+								strokeWidth: 2,
 							},
 							focusedCellColor: {
 								stroke: colors.lightBlue,
 								strokeOpacity: 1,
-								strokeWidth: 4
+								strokeWidth: 4,
 							},
 							dayOfWeekLabel: fontStyles.mainTextStyleBlue,
 							dayOfWeekRightSpace: 10,
@@ -363,12 +391,12 @@ export default function Analytics(props) {
 							monthOutlineColor: {
 								stroke: '#000',
 								strokeOpacity: 0.8,
-								strokeWidth: 2
+								strokeWidth: 2,
 							},
 							underMonthSpace: 15,
 							underYearSpace: 5, // Bottom padding for the year labels.
-							yearLabel: fontStyles.bigTitleStyleBlue
-						}
+							yearLabel: fontStyles.bigTitleStyleBlue,
+						},
 					}}
 				/>
 			</div>
