@@ -24,21 +24,21 @@ export default function Analytics(props) {
 	const [servicesChart, setServicesChart] = React.useState([[]]);
 	const [locationsChart, setLocationsChart] = React.useState([[]]);
 
-	function revenueChange (event) {
+	const revenueChange = (event) => {
 		setRevenueBy(event.target.value);
 		setRevenueChart(generateRevenueChartData());
 	};
-	function servicesChange (event) {
+	const servicesChange = (event) => {
 		setTopServicesBy(event.target.value);
 		setServicesChart(generateTopServicesChartData());
 	};
-	function locationsChange (event) {
+	const locationsChange = (event) => {
 		setCustomerLocationsBy(event.target.value);
 		setLocationsChart(generateTopLocationsChartData());
 	};
 
 	// Once the elements are rendered, retrieve analytics data from firebasse and differentiate them
-	async function componentDidMount() {
+	const componentDidMount = async () => {
 		// Replace this with fetched businessID instead of the hardcoded one
 		const analyticsData = await FirebaseFunctions.call('getBusinessAnalyticsByBusinessID', {
 			businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2',
@@ -65,7 +65,7 @@ export default function Analytics(props) {
 	};
 
 	//Generates the chart data for the revenue graph
-	function generateRevenueChartData() {
+	const generateRevenueChartData = () => {
 		const monthStrings = [
 			'Jan',
 			'Feb',
@@ -119,7 +119,7 @@ export default function Analytics(props) {
 	};
 
 	//Generates the chart data for the services graph
-	function generateTopServicesChartData() {
+	const generateTopServicesChartData = () => {
 		// Get the services' data from firebase
 		let services = Object.keys(topServicesData);
 		services = services.filter((value) => !(value === ''));
@@ -176,7 +176,7 @@ export default function Analytics(props) {
 	};
 
 	//Generates the chart data for the customer locations graph
-	function generateTopLocationsChartData() {
+	const generateTopLocationsChartData = () => {
 		// Set up a 2d array with the axes' titles
 		let chartData = [['Cities', 'Requests']];
 
@@ -219,7 +219,11 @@ export default function Analytics(props) {
 		return (
 			<div className='container'>
 				<TitleComponent text={'Analytics'} isCentered={true} textColor={colors.lightBlue} />
-				<TitleComponent text={'Monthly Revenue'} isCentered={true} textColor={colors.lightBlue} />
+				<TitleComponent
+					text={'Monthly Revenue'}
+					isCentered={true}
+					textColor={colors.lightBlue}
+				/>
 			</div>
 		);
 	} else {
@@ -227,16 +231,24 @@ export default function Analytics(props) {
 			<div className='container'>
 				<TitleComponent text={'Analytics'} isCentered={true} textColor={colors.lightBlue} />
 				<div className='row'>
-					<TitleComponent text={'Monthly Revenue'} isCentered={true} textColor={colors.lightBlue} />
+					<TitleComponent
+						text={'Monthly Revenue'}
+						isCentered={true}
+						textColor={colors.lightBlue}
+					/>
 
 					<div className='right'>
-					<FormControl variant='outlined'>
-						<InputLabel>Sort By</InputLabel>
-						<Select native value={revenueBy} onChange={revenueChange} label='Sort By'>
-							<option value={'Month'}>Month</option>
-							<option value={'Year'}>Year</option>
-						</Select>
-					</FormControl>
+						<FormControl variant='outlined'>
+							<InputLabel>Sort By</InputLabel>
+							<Select
+								native
+								value={revenueBy}
+								onChange={revenueChange}
+								label='Sort By'>
+								<option value={'Month'}>Month</option>
+								<option value={'Year'}>Year</option>
+							</Select>
+						</FormControl>
 					</div>
 				</div>
 
@@ -260,17 +272,25 @@ export default function Analytics(props) {
 				/>
 
 				<div className='row'>
-					<TitleComponent text={'Top Services'} isCentered={true} textColor={colors.lightBlue} />
+					<TitleComponent
+						text={'Top Services'}
+						isCentered={true}
+						textColor={colors.lightBlue}
+					/>
 
 					<div className='right'>
-					<FormControl variant='outlined'>
-						<InputLabel>Sort By</InputLabel>
-						<Select native value={topServicesBy} onChange={servicesChange} label='Sort By'>
-							<option value={'Revenue'}>Revenue</option>
-							<option value={'Requests'}>Requests</option>
-							<option value={'Views'}>Views</option>
-						</Select>
-					</FormControl>
+						<FormControl variant='outlined'>
+							<InputLabel>Sort By</InputLabel>
+							<Select
+								native
+								value={topServicesBy}
+								onChange={servicesChange}
+								label='Sort By'>
+								<option value={'Revenue'}>Revenue</option>
+								<option value={'Requests'}>Requests</option>
+								<option value={'Views'}>Views</option>
+							</Select>
+						</FormControl>
 					</div>
 				</div>
 				<Chart
@@ -286,17 +306,25 @@ export default function Analytics(props) {
 				/>
 
 				<div className='row'>
-					<TitleComponent text={'Top Locations'} isCentered={true} textColor={colors.lightBlue} />
+					<TitleComponent
+						text={'Top Locations'}
+						isCentered={true}
+						textColor={colors.lightBlue}
+					/>
 
 					<div className='right'>
-					<FormControl variant='outlined'>
-						<InputLabel>Sort By</InputLabel>
-						<Select native value={customerLocationsBy} onChange={locationsChange} label='Sort By'>
-							<option value={'City'}>City</option>
-							<option value={'State'}>State</option>
-							<option value={'Country'}>Country</option>
-						</Select>
-					</FormControl>
+						<FormControl variant='outlined'>
+							<InputLabel>Sort By</InputLabel>
+							<Select
+								native
+								value={customerLocationsBy}
+								onChange={locationsChange}
+								label='Sort By'>
+								<option value={'City'}>City</option>
+								<option value={'State'}>State</option>
+								<option value={'Country'}>Country</option>
+							</Select>
+						</FormControl>
 					</div>
 				</div>
 				<Chart

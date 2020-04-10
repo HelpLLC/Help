@@ -9,12 +9,12 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import { useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
 
 export function Login(props) {
 	const [email, setEmail] = React.useState('');
 	const [password, setPassword] = React.useState('');
-	const [loggedIn, setLoggedIn] = React.useState(false)
+	const [loggedIn, setLoggedIn] = React.useState(false);
 	let history = useHistory();
 
 	const login = async () => {
@@ -27,16 +27,15 @@ export function Login(props) {
 		}
 	};
 
-	function submit() {
-		FirebaseFunctions.forgotPassword(email)
-			.then(function() {
-				handleEmailSentOpen();
-			})
-			.catch(function(error) {
-				handleErrorOpen();
-			});
+	const submit = async () => {
+		try {
+			await FirebaseFunctions.forgotPassword(email);
+			handleEmailSentOpen();
+		} catch (error) {
+			handleErrorOpen();
+		}
 		setOpen(false);
-	}
+	};
 
 	const [open, setOpen] = React.useState(false);
 
@@ -67,7 +66,7 @@ export function Login(props) {
 	const handleErrorClose = () => {
 		setErrorOpen(false);
 	};
-	
+
 	return (
 		<div>
 			<div className='base-container'>
@@ -108,7 +107,8 @@ export function Login(props) {
 				</button>
 
 				<br />
-				<HelpButton fullWidth={false}
+				<HelpButton
+					fullWidth={false}
 					label='Forgot Password'
 					onClick={() => {
 						handleClickOpen();
@@ -120,8 +120,8 @@ export function Login(props) {
 				<TitleComponent text={'Forgot Password?'} isCentered={true} textColor='#00B0F0' />
 				<DialogContent>
 					<DialogContentText>
-						Please enter your email here and we will send you an email with a link to reset your
-						password.
+						Please enter your email here and we will send you an email with a link to
+						reset your password.
 					</DialogContentText>
 					<EditText
 						labelText={'Email'}
@@ -140,12 +140,16 @@ export function Login(props) {
 				</DialogActions>
 			</Dialog>
 
-			<Dialog open={emailSentOpen} onClose={handleEmailSentClose} aria-labelledby='email-sent'>
+			<Dialog
+				open={emailSentOpen}
+				onClose={handleEmailSentClose}
+				aria-labelledby='email-sent'>
 				<TitleComponent text={'Email Sent!'} isCentered={true} textColor='#00B0F0' />
 				<DialogContent>
 					<DialogContentText>
-						If a user with this email exists, then the email has been sent. Please go to your inbox
-						for the link to reset your password. If you do not see it, check the spam folder.
+						If a user with this email exists, then the email has been sent. Please go to
+						your inbox for the link to reset your password. If you do not see it, check
+						the spam folder.
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
@@ -154,16 +158,21 @@ export function Login(props) {
 			</Dialog>
 
 			<Dialog open={errorOpen} onClose={handleErrorClose} aria-labelledby='error-dialog'>
-				<TitleComponent text={'Error Sending Email'} isCentered={true} textColor='#00B0F0' />
+				<TitleComponent
+					text={'Error Sending Email'}
+					isCentered={true}
+					textColor='#00B0F0'
+				/>
 				<DialogContent>
 					<DialogContentText>
-						There was an error sending the email. Please make sure a user with this email exists,
-						and try again.
+						There was an error sending the email. Please make sure a user with this
+						email exists, and try again.
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
 					<HelpButton fullWidth={false} onClick={handleErrorClose} label='Close' />
-					<HelpButton fullWidth={false}
+					<HelpButton
+						fullWidth={false}
 						onClick={(event) => (window.location.href = '/signUp')}
 						label='Go to Sign Up'
 					/>
