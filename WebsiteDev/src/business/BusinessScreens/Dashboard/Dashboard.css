@@ -16,3 +16,9 @@
 .servicecardlistcontainer {
 	width: 100vw;
 }
+.createproductlink {
+	display: flex;
+	align-items: center;
+	margin-left: 82vw;
+	margin-top: 1vh;
+}
