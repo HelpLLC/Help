@@ -1411,10 +1411,6 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 			//Tests if this document should be deleted all together
 			const request = (await transaction.get(requests.doc(requestID))).data();
 			let businessDoc = businesses.doc(request.businessID);
-			const scheduleDoc = (
-				await transaction.get(businessDoc.collection('Schedule').doc(dateString))
-			).data();
-
 			let date = request.date;
 			date = new Date(date);
 			let year = date.getFullYear();
@@ -1427,7 +1423,9 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 				day = '0' + day;
 			}
 			const dateString = year + '-' + month + '-' + day;
-
+			const scheduleDoc = (
+				await transaction.get(businessDoc.collection('Schedule').doc(dateString))
+			).data();
 			if (Object.keys(scheduleDoc).length === 1) {
 				await transaction.delete(businessDoc.collection('Schedule').doc(dateString));
 			}
@@ -1471,7 +1469,7 @@ exports.reviewService = functions.https.onCall(async (input, context) => {
 	const { serviceID, comment, customerID, customerName, requestID, reviewDate, stars } = input;
 
 	const result = await database.runTransaction(async (transaction) => {
-		const service = (await transaction.get(products.doc(serviceID))).data();
+		const service = (await transaction.get(services.doc(serviceID))).data();
 
 		//Adds the review to the service subcollection
 		await transaction.set(services.doc(serviceID).collection('Reviews').doc(requestID), {
@@ -1490,7 +1488,7 @@ exports.reviewService = functions.https.onCall(async (input, context) => {
 		const newRating = b / c;
 		await transaction.update(services.doc(serviceID), {
 			averageRating: newRating,
-			totalReviews: service.totalReviews + 1,
+			totalReviews: admin.firestore.FieldValue.increment(1),
 		});
 
 		//Adds the review to the request document itself
@@ -1523,6 +1521,8 @@ exports.skipReview = functions.https.onCall(async (input, context) => {
 	batch.update(customers.doc(customerID), {
 		isReviewDue: admin.firestore.FieldValue.arrayRemove(requestID),
 	});
+
+	batch.update(requests.doc(requestID), { review: 'SKIPPED' });
 
 	await batch.commit();
 	return 0;
