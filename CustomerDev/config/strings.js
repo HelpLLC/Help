@@ -65,6 +65,9 @@ export default {
 		'Would you like Help to save your payment information for future purchases? Your information will not be visible to businesses.',
 	CardEndingIn: 'Card ending in ',
 	PaidWithColon: 'Paid with: ',
+	EnterPaymentInformation: 'Enter Payment Information',
+	EnterPaymentMessage:
+		'Please enter your payment information. Note: You will not be charged until the request has been completed and you approve the amount.',
 
 	//------------------- Blocked Businesses Screen -------------------
 	Blocked: 'Blocked',

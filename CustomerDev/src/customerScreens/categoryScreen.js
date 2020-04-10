@@ -29,7 +29,6 @@ class categoryScreen extends Component {
 		const customer = await FirebaseFunctions.call('getCustomerByID', { customerID });
 		//Gets services from categories
 		let services = await FirebaseFunctions.call('getServicesByCategory', {
-			allServices,
 			categoryName
 		});
 		services = services.filter(

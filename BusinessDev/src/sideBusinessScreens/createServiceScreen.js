@@ -32,8 +32,9 @@ class createServiceScreen extends Component {
 		isErrorVisible: false,
 		fieldsError: false,
 		serviceDescriptionError: false,
+		serviceHasInProgress: false,
 		serviceDeleted: false,
-		isShowing: false
+		isShowing: false,
 	};
 
 	//This componentWil lMount method will decide, based on the params that are passed in, whether
@@ -56,7 +57,7 @@ class createServiceScreen extends Component {
 				imageError: false,
 				priceType: service.price.priceType,
 				businessID,
-				business
+				business,
 			});
 
 			//Sets the correct price type
@@ -64,12 +65,12 @@ class createServiceScreen extends Component {
 				this.setState({
 					pricePerNumber: service.price.price + '',
 					pricePerText: service.price.per,
-					isScreenLoading: false
+					isScreenLoading: false,
 				});
 			} else {
 				this.setState({
 					priceFixed: service.price.priceFixed + '',
-					isScreenLoading: false
+					isScreenLoading: false,
 				});
 			}
 		} else {
@@ -87,7 +88,7 @@ class createServiceScreen extends Component {
 				priceType: 'fixed',
 				pricePerNumber: '',
 				pricePerText: '',
-				priceFixed: ''
+				priceFixed: '',
 			});
 		}
 	}
@@ -109,7 +110,7 @@ class createServiceScreen extends Component {
 			response,
 			imageSource,
 			businessID,
-			business
+			business,
 		} = this.state;
 
 		//Makes sure all the  fields are valid
@@ -130,7 +131,7 @@ class createServiceScreen extends Component {
 
 			//Creates the price object
 			const price = {
-				priceType
+				priceType,
 			};
 			if (priceType === 'per') {
 				price.price = parseFloat(this.state.pricePerNumber);
@@ -150,7 +151,7 @@ class createServiceScreen extends Component {
 					business,
 					response,
 					serviceID: this.state.serviceID,
-					service: this.state.service
+					service: this.state.service,
 				});
 			} else {
 				this.props.navigation.push('CreateQuestionsScreen', {
@@ -160,7 +161,7 @@ class createServiceScreen extends Component {
 					serviceDescription,
 					price,
 					business,
-					response
+					response,
 				});
 			}
 		}
@@ -195,15 +196,17 @@ class createServiceScreen extends Component {
 							flexDirection: 'row',
 							justifyContent: 'space-between',
 							width: screenWidth - 40,
-							alignItems: 'center'
+							alignItems: 'center',
 						}}>
 						<View style={{ flexDirection: 'column' }}>
 							<View
 								style={{
 									justifyContent: 'flex-end',
-									marginVertical: screenHeight * 0.02
+									marginVertical: screenHeight * 0.02,
 								}}>
-								<Text style={fontStyles.bigTextStyleBlack}>{strings.ServiceTitle}</Text>
+								<Text style={fontStyles.bigTextStyleBlack}>
+									{strings.ServiceTitle}
+								</Text>
 							</View>
 							<View style={{ justifyContent: 'center' }}>
 								<OneLineRoundedBoxInput
@@ -220,7 +223,7 @@ class createServiceScreen extends Component {
 						<View
 							style={{
 								flexDirection: 'column',
-								alignItems: 'center'
+								alignItems: 'center',
 							}}>
 							<TouchableOpacity
 								onPress={() => {
@@ -230,7 +233,7 @@ class createServiceScreen extends Component {
 								style={{
 									justifyContent: 'center',
 									alignItems: 'center',
-									marginTop: screenHeight * 0.02
+									marginTop: screenHeight * 0.02,
 								}}>
 								<View style={{ justifyContent: 'flex-start' }}>
 									<BoxShadow
@@ -242,7 +245,7 @@ class createServiceScreen extends Component {
 											radius: (screenWidth * 0.25) / 2,
 											opacity: 0.2,
 											x: 0,
-											y: 5
+											y: 5,
 										}}>
 										<FastImage
 											source={this.state.imageSource}
@@ -251,7 +254,7 @@ class createServiceScreen extends Component {
 												height: screenWidth * 0.25,
 												borderColor: colors.lightBlue,
 												borderWidth: (screenWidth * 0.25) / 17,
-												borderRadius: (screenWidth * 0.25) / 2
+												borderRadius: (screenWidth * 0.25) / 2,
 											}}
 										/>
 									</BoxShadow>
@@ -259,9 +262,11 @@ class createServiceScreen extends Component {
 								<View
 									style={{
 										justifyContent: 'flex-end',
-										marginTop: screenHeight * 0.02
+										marginTop: screenHeight * 0.02,
 									}}>
-									<Text style={fontStyles.mainTextStyleBlue}>{strings.EditImage}</Text>
+									<Text style={fontStyles.mainTextStyleBlue}>
+										{strings.EditImage}
+									</Text>
 								</View>
 							</TouchableOpacity>
 						</View>
@@ -269,9 +274,11 @@ class createServiceScreen extends Component {
 					<View style={{ marginTop: screenHeight * 0.05 }}>
 						<View
 							style={{
-								marginVertical: screenHeight * 0.02
+								marginVertical: screenHeight * 0.02,
 							}}>
-							<Text style={fontStyles.bigTextStyleBlack}>{strings.ServiceDescription}</Text>
+							<Text style={fontStyles.bigTextStyleBlack}>
+								{strings.ServiceDescription}
+							</Text>
 						</View>
 						<MultiLineRoundedBoxInput
 							width={screenWidth - 40}
@@ -285,7 +292,7 @@ class createServiceScreen extends Component {
 					<View
 						style={{
 							justifyContent: 'flex-end',
-							marginVertical: screenHeight * 0.02
+							marginVertical: screenHeight * 0.02,
 						}}>
 						<View style={{ justifyContent: 'flex-end' }}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.Pricing}</Text>
@@ -295,7 +302,7 @@ class createServiceScreen extends Component {
 								flexDirection: 'row',
 								justifyContent: 'space-between',
 								alignItems: 'center',
-								marginVertical: screenHeight * 0.02
+								marginVertical: screenHeight * 0.02,
 							}}>
 							<View
 								style={{
@@ -303,29 +310,29 @@ class createServiceScreen extends Component {
 									borderColor: colors.lightBlue,
 									backgroundColor: colors.white,
 									borderRadius: 20,
-									paddingHorizontal: screenWidth * 0.01
+									paddingHorizontal: screenWidth * 0.01,
 								}}>
 								<RNPickerSelect
 									onValueChange={(value) => this.setState({ priceType: value })}
 									items={[
 										{ label: strings.Fixed, value: 'fixed' },
-										{ label: strings.Per, value: 'per' }
+										{ label: strings.Per, value: 'per' },
 									]}
 									value={this.state.priceType}
 									style={{
 										iconContainer: {
-											top: screenHeight * 0.015
+											top: screenHeight * 0.015,
 										},
 										inputIOS: {
 											width: screenWidth * 0.2,
 											height: screenHeight * 0.05,
-											color: colors.black
+											color: colors.black,
 										},
 										inputAndroid: {
 											width: screenWidth * 0.2,
 											height: screenHeight * 0.05,
-											color: colors.black
-										}
+											color: colors.black,
+										},
 									}}
 									Icon={() => (
 										<Icon
@@ -343,13 +350,17 @@ class createServiceScreen extends Component {
 										style={{
 											flexDirection: 'row',
 											justifyContent: 'flex-start',
-											alignItems: 'center'
+											alignItems: 'center',
 										}}>
-										<Text style={fontStyles.bigTextStyleBlack}>{strings.DollarSign}</Text>
+										<Text style={fontStyles.bigTextStyleBlack}>
+											{strings.DollarSign}
+										</Text>
 										<View style={{ width: screenWidth * 0.01 }} />
 										<OneLineRoundedBoxInput
 											placeholder={''}
-											onChangeText={(input) => this.setState({ pricePerNumber: input })}
+											onChangeText={(input) =>
+												this.setState({ pricePerNumber: input })
+											}
 											value={this.state.pricePerNumber}
 											password={false}
 											keyboardType={'numeric'}
@@ -360,19 +371,23 @@ class createServiceScreen extends Component {
 									<View
 										style={{
 											justifyContent: 'center',
-											alignItems: 'center'
+											alignItems: 'center',
 										}}>
-										<Text style={fontStyles.bigTextStyleBlack}>{strings.per}</Text>
+										<Text style={fontStyles.bigTextStyleBlack}>
+											{strings.per}
+										</Text>
 									</View>
 									<View style={{ width: screenWidth * 0.02 }} />
 									<View
 										style={{
 											alignItems: 'flex-start',
-											justifyContent: 'center'
+											justifyContent: 'center',
 										}}>
 										<OneLineRoundedBoxInput
 											placeholder={strings.Hour}
-											onChangeText={(input) => this.setState({ pricePerText: input })}
+											onChangeText={(input) =>
+												this.setState({ pricePerText: input })
+											}
 											value={this.state.pricePerText}
 											password={false}
 											width={screenWidth * 0.2}
@@ -385,13 +400,17 @@ class createServiceScreen extends Component {
 										style={{
 											flexDirection: 'row',
 											justifyContent: 'flex-start',
-											alignItems: 'center'
+											alignItems: 'center',
 										}}>
-										<Text style={fontStyles.bigTextStyleBlack}>{strings.DollarSign}</Text>
+										<Text style={fontStyles.bigTextStyleBlack}>
+											{strings.DollarSign}
+										</Text>
 										<View style={{ width: screenWidth * 0.01 }} />
 										<OneLineRoundedBoxInput
 											placeholder={''}
-											onChangeText={(input) => this.setState({ priceFixed: input })}
+											onChangeText={(input) =>
+												this.setState({ priceFixed: input })
+											}
 											value={this.state.priceFixed}
 											password={false}
 											keyboardType={'numeric'}
@@ -405,13 +424,17 @@ class createServiceScreen extends Component {
 										style={{
 											flexDirection: 'row',
 											justifyContent: 'flex-start',
-											alignItems: 'center'
+											alignItems: 'center',
 										}}>
-										<Text style={fontStyles.bigTextStyleBlack}>{strings.DollarSign}</Text>
+										<Text style={fontStyles.bigTextStyleBlack}>
+											{strings.DollarSign}
+										</Text>
 										<View style={{ width: screenWidth * 0.01 }} />
 										<OneLineRoundedBoxInput
 											placeholder={strings.Min}
-											onChangeText={(input) => this.setState({ priceMin: input })}
+											onChangeText={(input) =>
+												this.setState({ priceMin: input })
+											}
 											value={this.state.priceMin}
 											password={false}
 											keyboardType={'numeric'}
@@ -422,21 +445,27 @@ class createServiceScreen extends Component {
 									<View
 										style={{
 											justifyContent: 'center',
-											alignItems: 'center'
+											alignItems: 'center',
 										}}>
-										<Text style={fontStyles.bigTextStyleBlack}>{strings.to}</Text>
+										<Text style={fontStyles.bigTextStyleBlack}>
+											{strings.to}
+										</Text>
 									</View>
 									<View style={{ width: screenWidth * 0.02 }} />
 									<View
 										style={{
 											flexDirection: 'row',
-											alignItems: 'center'
+											alignItems: 'center',
 										}}>
-										<Text style={fontStyles.bigTextStyleBlack}>{strings.DollarSign}</Text>
+										<Text style={fontStyles.bigTextStyleBlack}>
+											{strings.DollarSign}
+										</Text>
 										<View style={{ width: screenWidth * 0.01 }} />
 										<OneLineRoundedBoxInput
 											placeholder={strings.Max}
-											onChangeText={(input) => this.setState({ priceMax: input })}
+											onChangeText={(input) =>
+												this.setState({ priceMax: input })
+											}
 											value={this.state.priceMax}
 											password={false}
 											keyboardType={'numeric'}
@@ -452,12 +481,12 @@ class createServiceScreen extends Component {
 							<View style={{ justifyContent: 'center', alignItems: 'center' }}>
 								<LoadingSpinner isVisible={true} />
 							</View>
-						) : this.state.isEditing === true ? (
+						) : this.state.editing === true ? (
 							<View
 								style={{
 									flexDirection: 'row',
 									justifyContent: 'space-evenly',
-									alignItems: 'center'
+									alignItems: 'center',
 								}}>
 								<RoundBlueButton
 									title={strings.Delete}
@@ -503,15 +532,23 @@ class createServiceScreen extends Component {
 					message={strings.SomethingWentWrong}
 				/>
 				<HelpAlert
+					isVisible={this.state.serviceHasInProgress}
+					onPress={() => {
+						this.setState({ serviceHasInProgress: false });
+					}}
+					title={strings.Whoops}
+					message={strings.TheServiceHasInProgressRequests}
+				/>
+				<HelpAlert
 					isVisible={this.state.serviceDeleted}
 					onPress={() => {
 						this.setState({ serviceDeleted: false });
 						this.props.navigation.push('BusinessScreens', {
-							businessID
+							businessID: this.state.businessID,
 						});
 					}}
 					title={strings.Success}
-					message={strings.ServiceDeleted}
+					message={strings.TheServiceHasBeenDeleted}
 				/>
 				<HelpAlert
 					isVisible={this.state.fieldsError}
@@ -547,17 +584,25 @@ class createServiceScreen extends Component {
 					confirmOnPress={async () => {
 						this.setState({ isLoading: true, isDeleteServiceVisible: false });
 						try {
-							await FirebaseFunctions.call('deleteService', { serviceID, businessID });
-							this.setState({ isLoading: false, serviceDeleted: true });
+							console.log(this.state);
+							const result = await FirebaseFunctions.call('deleteService', {
+								serviceID: this.state.serviceID,
+								businessID: this.state.businessID,
+							});
+							if (result === 'IN_PROGRESS_REQUESTS') {
+								this.setState({ isLoading: false, serviceHasInProgress: true });
+							} else {
+								this.setState({ isLoading: false, serviceDeleted: true });
+							}
 						} catch (error) {
 							this.setState({ isLoading: false, isErrorVisible: true });
 							FirebaseFunctions.call('logIssue', {
 								error,
 								userID: {
 									screen: 'CreateServiceScreen',
-									userID: 'b-' + businessID,
-									businessID
-								}
+									userID: 'b-' + this.state.businessID,
+									businessID: this.state.businessID,
+								},
 							});
 						}
 					}}
@@ -579,7 +624,7 @@ class createServiceScreen extends Component {
 								//Sets the source of the image if one has been selected
 								this.setState({
 									imageSource: source,
-									response
+									response,
 								});
 							}
 						}
