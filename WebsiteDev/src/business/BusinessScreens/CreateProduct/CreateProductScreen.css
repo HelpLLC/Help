@@ -1,4 +1,4 @@
-.container {
+.createproductcontainer {
   float: initial;
   display: inline-flex;
   height: 175px;
@@ -6,41 +6,42 @@
   margin-left: 200px;
   margin-right: 200px;
   margin-top: 50px;
+  flex-direction: column;
 }
 
-.priceinput {
+.createproductpriceinput {
   display: inline-flex;
 }
 
-.secondpriceinput {
+.createproductsecondpriceinput {
   margin-right: 50px;
 }
 
-.content {
+.createproductcontent {
   margin-inline-end: 150px;
 }
 
-.sscontent {
+.createproductsscontent {
   margin: 75px;
 }
 
-.section {
+.createproductsection {
   margin-left: 620px;
 }
 
-.header {
+.createproductproductheader {
   text-align: center;
   background-color: lightblue;
   margin-top: -1px;
 }
 
-.footer {
+.createproductfooter {
   text-align: center;
   font-size: 30px;
   margin-top: 50px;
 }
 
-.heading {
+.createproductheading {
   text-align: center;
   margin-bottom: -35px;
 }
@@ -49,14 +50,27 @@
   width: 100px;
 }
 
-.icondiv {
+.createproducticondiv {
   display: inline-flex;
 }
 
-.paragraphs {
+.createproductparagraphs {
   margin: 20px;
 }
 
-.edittexts {
+.createproductedittexts {
   vertical-align: middle;
+}
+
+.productbuttoncontainer{
+  margin-left: 1vw;
+}
+
+.buttonlistcontainer{
+  display: flex;
+  flex-direction: row;
+}
+
+.textmorespace{
+  margin-top: 4vh;
 }

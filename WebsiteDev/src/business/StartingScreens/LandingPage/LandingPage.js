@@ -55,13 +55,6 @@ export default function LandingPage() {
 					{strings.Help}
 				</div>
 			</div>
-			<BrowserRouter>
-				<Switch>
-					<Route path='/login'>
-						<LoginRegister login={true} />
-					</Route>
-				</Switch>
-			</BrowserRouter>
 		</div>
 	);
 }
