@@ -1021,7 +1021,7 @@ exports.updateBusinessPaymentStatus = functions.https.onCall(async (input, conte
 //It will take in a billed amount, charge it to the customer, and move it to the Stripe Connect balance. It will
 //record this transaction as a field in the request document
 exports.chargeCustomerForRequest = functions.https.onCall(async (input, context) => {
-	const { businessID, customerID, requestID, billedAmount, serviceID } = input;
+	const { businessID, customerID, requestID, billedAmount, serviceID, isCardSaved } = input;
 
 	try {
 		const promises = await Promise.all([
@@ -1031,22 +1031,37 @@ exports.chargeCustomerForRequest = functions.https.onCall(async (input, context)
 		const business = promises[0].data();
 		const customer = promises[1].data();
 
-		const { stripeCustomerID } = customer;
 		const { stripeBusinessID } = business;
+		const stripeCustomerID = isCardSaved === true ? customer.stripeCustomerID : isCardSaved;
 
 		//Calculates the charge amount along with the fee. Stripe accepts parameters as cents
 		const chargedAmountToCustomer = billedAmount * 100; //This is how much the customer will be charged
 		const feePaidByBusiness = (billedAmount * 0.05 + 0.3) * 100; //This is how much comes to us from the business. The "0.05 + 0.3" means 5% + 30 cents, which is the amount we will edit
 
-		const charge = await stripe.charges.create({
-			amount: chargedAmountToCustomer,
-			application_fee_amount: feePaidByBusiness,
-			currency: 'usd',
-			customer: stripeCustomerID,
-			transfer_data: {
-				destination: stripeBusinessID,
-			},
-		});
+		//If this is a one-time payment, then it charges the token which will be saved in the "isCardSaved param". If this
+		//is a saved customer card, then it charges the customer object
+		let charge = '';
+		if (isCardSaved === true) {
+			charge = await stripe.charges.create({
+				amount: chargedAmountToCustomer,
+				application_fee_amount: feePaidByBusiness,
+				currency: 'usd',
+				customer: stripeCustomerID,
+				transfer_data: {
+					destination: stripeBusinessID,
+				},
+			});
+		} else {
+			charge = await stripe.charges.create({
+				amount: chargedAmountToCustomer,
+				application_fee_amount: feePaidByBusiness,
+				currency: 'usd',
+				source: isCardSaved,
+				transfer_data: {
+					destination: stripeBusinessID,
+				},
+			});
+		}
 
 		//Updates the request document with information about the completed request. Also updates the CompletedRequest
 		//subcollection documents within the service and the customer just in case it needs to be referenced.
