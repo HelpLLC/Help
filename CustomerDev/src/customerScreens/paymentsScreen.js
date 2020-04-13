@@ -12,6 +12,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import colors from 'config/colors';
 import LeftMenu from './LeftMenu';
+import HelpAlert from '../components/HelpAlert';
 import strings from 'config/strings';
 import { screenHeight, screenWidth } from 'config/dimensions';
 import fontStyles from 'config/styles/fontStyles';
@@ -26,9 +27,29 @@ export default class paymentsScreen extends Component {
 		isLoading: false,
 		isOpen: false,
 		hasPaymentMethod: '',
+		isDeletePaymentMethodVisible: false,
 		customer: this.props.navigation.state.params.customer,
 		allServices: this.props.navigation.state.params.allServices,
 	};
+
+	//This function is going to delete the payment method using Cloud Functions, then will adjust the state of the screen
+	//accordingly to display the "No Payment Method" state.
+	async deletePaymentMethod() {
+		this.setState({ isScreenLoading: true });
+		const { customerID } = this.state.customer;
+		await FirebaseFunctions.call('deleteCustomerPaymentInformation', {
+			customerID,
+		});
+		const updatedCustomerDocument = await FirebaseFunctions.call('getCustomerByID', {
+			customerID,
+		});
+
+		this.setState({
+			isScreenLoading: false,
+			customer: updatedCustomerDocument,
+			hasPaymentMethod: false,
+		});
+	}
 
 	//The componentDidMount method will detect whether the customer already has a payment method
 	//or not and sets the initial state based on that. Also fetches the correct customer objects, etc.
@@ -45,8 +66,14 @@ export default class paymentsScreen extends Component {
 
 	//The render method for this screen
 	render() {
-		let { isScreenLoading, customer, allServices, isOpen, hasPaymentMethod } = this.state;
-		hasPaymentMethod = false;
+		const {
+			isScreenLoading,
+			customer,
+			allServices,
+			isOpen,
+			hasPaymentMethod,
+			isDeletePaymentMethodVisible,
+		} = this.state;
 
 		if (isScreenLoading === true) {
 			return (
@@ -184,7 +211,9 @@ export default class paymentsScreen extends Component {
 								title={strings.Delete}
 								style={roundBlueButtonStyle.MediumSizeButtonRed}
 								textStyle={fontStyles.bigTextStyleWhite}
-								onPress={() => {}}
+								onPress={() => {
+									this.setState({ isDeletePaymentMethodVisible: true });
+								}}
 								disabled={this.state.isLoading}
 							/>
 
@@ -196,6 +225,17 @@ export default class paymentsScreen extends Component {
 								disabled={this.state.isLoading}
 							/>
 						</View>
+						<HelpAlert
+							isVisible={isDeletePaymentMethodVisible}
+							onPress={() => {
+								this.setState({
+									isDeletePaymentMethodVisible: false,
+								});
+								this.deletePaymentMethod();
+							}}
+							title={strings.DeletePaymentMethod}
+							message={strings.AreYouSureYouWantToDeletePaymentMethod}
+						/>
 					</HelpView>
 				</SideMenu>
 			);
@@ -263,9 +303,7 @@ export default class paymentsScreen extends Component {
 									title={strings.Add}
 									style={roundBlueButtonStyle.MediumSizeButton}
 									textStyle={fontStyles.bigTextStyleWhite}
-									onPress={() => {
-										
-									}}
+									onPress={() => {}}
 								/>
 							</View>
 						</HelpView>

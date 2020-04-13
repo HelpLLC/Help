@@ -934,6 +934,29 @@ exports.createStripeCustomerPaymentInformtion = functions.https.onCall(async (in
 	return { sourceID: source.id, stripeCustomerID: stripeCustomer.id };
 });
 
+//This function is going to take in a customerID and is going to delete their payment information from
+//the database, as well as delete their stripe account from Stripe
+exports.deleteCustomerPaymentInformation = functions.https.onCall(async (input, context) => {
+	try {
+		const { customerID } = input;
+		const customer = (await customers.doc(customerID).get()).data();
+
+		//Deletes the stripe information in the Stripe API
+		const { stripeCustomerID } = customer;
+		await stripe.customers.del(stripeCustomerID);
+
+		//Removes the payment information from firestore
+		await customers.doc(customerID).update({
+			paymentInformation: '',
+			stripeCustomerID: admin.firestore.FieldValue.delete(),
+		});
+
+		return 0;
+	} catch (error) {
+		return -1;
+	}
+});
+
 //This function is going to take in a set of required information and create a Custom Account with Stripe Connect
 //for businesses. It will return the account information. It will take in links that  stripe will redirect to
 //once the OnBoarding process is complete

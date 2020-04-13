@@ -68,6 +68,8 @@ export default {
 	Address: 'Address',
 	AddAPaymentMethodWithHelp: 'Add a payment method with Help',
 	Add: 'Add',
+	DeletePaymentMethod: 'Delete Payment Method',
+	AreYouSureYouWantToDeletePaymentMethod: 'Are you sure you want to delete your payment method? This cannot be undone.',
 
 	//------------------- Payment Info Screen -------------------
 	SavePaymentInfo: 'Save Payment Information',
