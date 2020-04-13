@@ -25,6 +25,7 @@ import BusinessScheduleScreen from './customerScreens/businessScheduleScreen';
 import ServiceQuestionsScreen from './customerScreens/serviceQuestionsScreen';
 import BlockedBusinessesScreen from './settingsScreens/blockedBusinessesScreen';
 import ServiceRequestedScreen from './customerScreens/serviceRequestedScreen';
+import PaymentsScreen from './customerScreens/paymentsScreen';
 
 //The route config for all of the screens
 const routeConfig = {
@@ -93,6 +94,11 @@ const routeConfig = {
 	//Route to screen with list of all categories
 	CategoriesScreen: {
 		screen: CategoriesScreen
+	},
+
+	//The route that leads to the screen that has the customer's payment methods
+	PaymentsScreen: {
+		screen: PaymentsScreen
 	},
 
 	//Route leading to the screen with the array of blocked businesses

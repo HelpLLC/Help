@@ -58,6 +58,17 @@ export default {
 	PleaseEnterName: 'Please enter your name...',
 	MyProfile: 'My Profile',
 
+	//------------------- Payment Methods Screen -------------------
+	Payments: 'Payments',
+	NameOnCard: 'Name on Card',
+	CardNumber: 'Card Number',
+	Asterisks: ' ************',
+	ExpDate: 'Exp. Date',
+	Delete: 'Delete',
+	Address: 'Address',
+	AddAPaymentMethodWithHelp: 'Add a payment method with Help',
+	Add: 'Add',
+
 	//------------------- Payment Info Screen -------------------
 	SavePaymentInfo: 'Save Payment Information',
 	No: 'No',
@@ -305,5 +316,6 @@ export default {
 	NewBusinessAppMessage:
 		'Businesses on Help now use a seperate app to manage their business. Go download it now!',
 	UnderMaintenance: 'Under Maintenance',
-	AppIsUnderMaintenance: 'Help is currently under scheduled maintenance. It should be back up soon.'
+	AppIsUnderMaintenance:
+		'Help is currently under scheduled maintenance. It should be back up soon.',
 };

@@ -81,7 +81,6 @@ export default class paymentsScreen extends Component {
 			);
 		} else if (paymentSetupStatus === 'FALSE') {
 			return (
-				//View that dismisses the keyboard when clicked anywhere else
 				<HelpView style={screenStyle.container}>
 					<View>
 						<TopBanner size={30} title={strings.Payments} />

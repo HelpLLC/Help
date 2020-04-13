@@ -14,6 +14,7 @@ if (pixelRatio < 3) {
 }
 
 const bigFontSize = baseFontSize * 1.2;
+const smallTextFontSize = baseFontSize * 0.6;
 const subTextFontSize = baseFontSize * 0.9;
 const bigTitleFontSize = baseFontSize * 4.4;
 
@@ -108,6 +109,13 @@ export default StyleSheet.create({
         fontFamily: font,
         fontSize: subTextFontSize,
         color: colors.white
+    },
+
+    //The style for all small text that is black
+    smallTextStyleBlack: {
+        fontFamily: font,
+        fontSize: smallTextFontSize,
+        color: colors.black
     },
 
     //The style for the tab label at the bottom of the screens
