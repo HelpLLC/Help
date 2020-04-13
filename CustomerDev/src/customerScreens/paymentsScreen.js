@@ -69,9 +69,45 @@ export default class paymentsScreen extends Component {
 					error,
 					userID: 'CustomerPaymentMethodsScreen',
 				});
-			} else {
-				this.setState({ isScreenLoading: false });
 			}
+			this.setState({ isScreenLoading: false });
+		}
+	}
+
+	//This method is going to edit existing card information associated with a customer. It will not create a new
+	//stripe customer, but rather just edit the exising one. It will also manage the state for the screen after that
+	async editCardInformation() {
+		try {
+			const token = await stripe.paymentRequestWithCardForm({
+				requiredBillingAddressFields: 'full',
+				theme: {
+					accentColor: colors.lightBlue,
+					errorColor: colors.red,
+				},
+			});
+            this.setState({ isScreenLoading: true });
+			const { customer } = this.state;
+			const { customerID } = customer;
+			console.log(await FirebaseFunctions.call('updateStripeCustomerPaymentInformtion', {
+				paymentInformation: token.tokenId,
+				customerID,
+			}));
+			const updatedCustomerDocument = await FirebaseFunctions.call('getCustomerByID', {
+				customerID,
+			});
+			this.setState({
+				isScreenLoading: false,
+				customer: updatedCustomerDocument,
+				hasPaymentMethod: true,
+			});
+		} catch (error) {
+			if (error.message !== 'Cancelled by user') {
+				FirebaseFunctions.call('logIssue', {
+					error,
+					userID: 'CustomerPaymentMethodsScreen',
+				});
+			}
+			this.setState({ isScreenLoading: false });
 		}
 	}
 
@@ -211,7 +247,7 @@ export default class paymentsScreen extends Component {
 								marginBottom: screenHeight * 0.015,
 							}}>
 							<Text style={fontStyles.mainTextStyleBlack}>{strings.CardNumber}</Text>
-							<Text style={fontStyles.subTextStyleBlack}>
+							<Text style={fontStyles.smallTextStyleBlack}>
 								{paymentInformation.brand}
 								{strings.Asterisks}
 								{paymentInformation.last4}
@@ -265,7 +301,9 @@ export default class paymentsScreen extends Component {
 								title={strings.Edit}
 								style={roundBlueButtonStyle.MediumSizeButton}
 								textStyle={fontStyles.bigTextStyleWhite}
-								onPress={async () => {}}
+								onPress={() => {
+									this.editCardInformation()
+								}}
 								disabled={this.state.isLoading}
 							/>
 						</View>

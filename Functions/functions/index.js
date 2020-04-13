@@ -934,6 +934,29 @@ exports.createStripeCustomerPaymentInformtion = functions.https.onCall(async (in
 	return { sourceID: source.id, stripeCustomerID: stripeCustomer.id };
 });
 
+//This function takes in an existing stripe customer and updates their payment information both in firebase
+//and in the Stripe API
+exports.updateStripeCustomerPaymentInformtion = functions.https.onCall(async (input, context) => {
+	try {
+		const { paymentInformation, customerID } = input;
+
+		const stripeCustomerID = (await customers.doc(customerID).get()).data().stripeCustomerID;
+
+		const newCustomer = await stripe.customers.update(stripeCustomerID, {
+			source: paymentInformation,
+		});
+
+		const source = newCustomer.sources.data[0];
+
+		//Writes this payment information to the customer's document for future references
+		await customers.doc(customerID).update({
+			paymentInformation: source,
+		});
+	} catch (error) {
+		return -1;
+	}
+});
+
 //This function is going to take in a customerID and is going to delete their payment information from
 //the database, as well as delete their stripe account from Stripe
 exports.deleteCustomerPaymentInformation = functions.https.onCall(async (input, context) => {
