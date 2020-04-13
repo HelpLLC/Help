@@ -70,6 +70,7 @@ export default {
 	Add: 'Add',
 	DeletePaymentMethod: 'Delete Payment Method',
 	AreYouSureYouWantToDeletePaymentMethod: 'Are you sure you want to delete your payment method? This cannot be undone.',
+	YourInformationWillNotBeSharedWithBusinesses: 'Your information will not be shared with businesses.',
 
 	//------------------- Payment Info Screen -------------------
 	SavePaymentInfo: 'Save Payment Information',

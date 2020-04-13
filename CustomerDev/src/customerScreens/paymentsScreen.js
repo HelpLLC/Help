@@ -13,10 +13,15 @@ import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonS
 import colors from 'config/colors';
 import LeftMenu from './LeftMenu';
 import HelpAlert from '../components/HelpAlert';
+import OptionPicker from '../components/OptionPicker';
 import strings from 'config/strings';
 import { screenHeight, screenWidth } from 'config/dimensions';
 import fontStyles from 'config/styles/fontStyles';
 import SideMenu from 'react-native-side-menu';
+import stripe from 'tipsi-stripe';
+stripe.setOptions({
+	publishableKey: 'pk_test_RP4GxbKwMWbM3NN5XMo3qzKz00lEiD2Fe1',
+});
 
 //Exports the class component
 export default class paymentsScreen extends Component {
@@ -29,8 +34,46 @@ export default class paymentsScreen extends Component {
 		hasPaymentMethod: '',
 		isDeletePaymentMethodVisible: false,
 		customer: this.props.navigation.state.params.customer,
+		paymentToken: '',
 		allServices: this.props.navigation.state.params.allServices,
 	};
+
+	//This method is going to record the payment method for this user and store in stripe. Also adjusts the state
+	//of the screen
+	async saveCardInformation() {
+		try {
+			const token = await stripe.paymentRequestWithCardForm({
+				requiredBillingAddressFields: 'full',
+				theme: {
+					accentColor: colors.lightBlue,
+					errorColor: colors.red,
+				},
+			});
+			this.setState({ isScreenLoading: true });
+			const { customerID } = this.state.customer;
+			await FirebaseFunctions.call('createStripeCustomerPaymentInformtion', {
+				paymentInformation: token.tokenId,
+				customerID,
+			});
+			const updatedCustomerDocument = await FirebaseFunctions.call('getCustomerByID', {
+				customerID,
+			});
+			this.setState({
+				isScreenLoading: false,
+				customer: updatedCustomerDocument,
+				hasPaymentMethod: true,
+			});
+		} catch (error) {
+			if (error.message !== 'Cancelled by user') {
+				FirebaseFunctions.call('logIssue', {
+					error,
+					userID: 'CustomerPaymentMethodsScreen',
+				});
+			} else {
+				this.setState({ isScreenLoading: false });
+			}
+		}
+	}
 
 	//This function is going to delete the payment method using Cloud Functions, then will adjust the state of the screen
 	//accordingly to display the "No Payment Method" state.
@@ -73,6 +116,7 @@ export default class paymentsScreen extends Component {
 			isOpen,
 			hasPaymentMethod,
 			isDeletePaymentMethodVisible,
+			isLoading,
 		} = this.state;
 
 		if (isScreenLoading === true) {
@@ -225,16 +269,22 @@ export default class paymentsScreen extends Component {
 								disabled={this.state.isLoading}
 							/>
 						</View>
-						<HelpAlert
+						<OptionPicker
 							isVisible={isDeletePaymentMethodVisible}
-							onPress={() => {
+							title={strings.DeletePaymentMethod}
+							message={strings.AreYouSureYouWantToDeletePaymentMethod}
+							confirmText={strings.Yes}
+							cancelText={strings.Cancel}
+							clickOutside={true}
+							confirmOnPress={async () => {
 								this.setState({
 									isDeletePaymentMethodVisible: false,
 								});
 								this.deletePaymentMethod();
 							}}
-							title={strings.DeletePaymentMethod}
-							message={strings.AreYouSureYouWantToDeletePaymentMethod}
+							cancelOnPress={() => {
+								this.setState({ isDeletePaymentMethodVisible: false });
+							}}
 						/>
 					</HelpView>
 				</SideMenu>
@@ -284,6 +334,19 @@ export default class paymentsScreen extends Component {
 									alignItems: 'center',
 									alignSelf: 'center',
 									marginTop: screenHeight * 0.025,
+									width: screenWidth * 0.9,
+								}}>
+								<Text
+									style={[fontStyles.subTextStyleBlack, { textAlign: 'center' }]}>
+									{strings.YourInformationWillNotBeSharedWithBusinesses}
+								</Text>
+							</View>
+							<View
+								style={{
+									justifyContent: 'center',
+									alignItems: 'center',
+									alignSelf: 'center',
+									marginTop: screenHeight * 0.025,
 								}}>
 								<Icon
 									type='font-awesome'
@@ -303,7 +366,10 @@ export default class paymentsScreen extends Component {
 									title={strings.Add}
 									style={roundBlueButtonStyle.MediumSizeButton}
 									textStyle={fontStyles.bigTextStyleWhite}
-									onPress={() => {}}
+									isLoading={isLoading}
+									onPress={() => {
+										this.saveCardInformation();
+									}}
 								/>
 							</View>
 						</HelpView>
