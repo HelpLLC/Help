@@ -1032,6 +1032,34 @@ exports.createStripeConnectAccountForBusiness = functions.https.onCall(async (in
 	}
 });
 
+//This function is going to update a business's payment information for their Stripe connect account that they've already
+//created. They don't need to reonboard or anything
+exports.updateStripeConnectAccountPayment = functions.https.onCall(async (input, context) => {
+	const { businessID, paymentToken } = input;
+
+	try {
+		const business = (await businesses.doc(businessID).get()).data();
+		//Updates the card in stripe
+		const connectAccount = await stripe.accounts.update(business.stripeBusinessID, {
+			external_account: paymentToken,
+		});
+
+		//updates the firestore payment information
+		await businesses.doc(businessID).update({
+			paymentInformation: connectAccount.external_accounts.data[0],
+		});
+
+		return 0;
+	} catch (error) {
+		//Handles the case that the user enters in a non-valid card for Stripe Connect (a credit card for example)
+		if (error.code === 'invalid_card_type') {
+			return 'invalid_card_type';
+		} else {
+			return -1;
+		}
+	}
+});
+
 //This method is going to close a business stripe account, delete their payment information, and delete the payment
 //information from Firestore. The method is also going to change all of the business's current products to a cash
 //product if they currently accept cards. If the business wants to reopen their account with Stripe, they will

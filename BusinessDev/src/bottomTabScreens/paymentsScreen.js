@@ -132,6 +132,7 @@ export default class paymentsScreen extends Component {
 								//Starts the Stripe Payments process
 								this.props.navigation.push('CreatePaymentMethodScreen', {
 									businessID,
+									isEditing: false
 								});
 							}}
 						/>
@@ -140,6 +141,7 @@ export default class paymentsScreen extends Component {
 			);
 		} else {
 			const { paymentInformation } = business;
+			console.log(paymentInformation);
 			return (
 				//View that dismisses the keyboard when clicked anywhere else
 				<HelpView style={screenStyle.container}>
@@ -172,7 +174,9 @@ export default class paymentsScreen extends Component {
 						</View>
 						<View style={{ marginLeft: screenWidth * 0.15 }}>
 							<Text style={fontStyles.mainTextStyleBlue}>
-								{paymentInformation.account_holder_name}
+								{paymentInformation.object === 'bank_account'
+									? paymentInformation.account_holder_name
+									: paymentInformation.name}
 							</Text>
 						</View>
 						<View style={{ marginLeft: screenWidth * 0.15 }}>

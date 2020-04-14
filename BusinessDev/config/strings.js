@@ -43,6 +43,8 @@ export default {
 	DeletePaymentMethod: 'Delete Payment Method',
 	AccountName: 'Account Name',
 	Bank: 'Bank',
+	ExpDate: 'Exp. Date',
+	CardNumber: 'Card Number',
 	AreYouSureYouWantToDeletePaymentMethod:
 		'Are you sure you want to delete your payment method? This cannot be undone.',
 

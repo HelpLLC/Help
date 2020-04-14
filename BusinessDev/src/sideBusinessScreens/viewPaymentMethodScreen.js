@@ -85,11 +85,10 @@ export default class viewPaymentMethodScreen extends Component {
 			return (
 				<HelpView style={screenStyle.container}>
 					<TopBanner
-						leftIconName='navicon'
+						leftIconName='angle-left'
 						leftOnPress={() => {
-							this.setState({ isOpen: true });
+							this.props.navigation.goBack();
 						}}
-						size={30}
 						title={strings.Payments}
 					/>
 					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -102,15 +101,13 @@ export default class viewPaymentMethodScreen extends Component {
 		//or edit it
 		else {
 			const { paymentInformation } = business;
-			console.log(paymentInformation);
 			return (
 				<HelpView style={screenStyle.container}>
 					<TopBanner
-						leftIconName='navicon'
+						leftIconName='angle-left'
 						leftOnPress={() => {
-							this.setState({ isOpen: true });
+							this.props.navigation.goBack();
 						}}
-						size={30}
 						title={strings.Payments}
 					/>
 					<View
@@ -158,7 +155,27 @@ export default class viewPaymentMethodScreen extends Component {
 							)}
 						</View>
 					) : (
-						<View />
+						<View>
+							{this.renderRowOfInfo(strings.Name, paymentInformation.name, true)}
+							{this.renderRowOfInfo(
+								strings.CardNumber,
+								paymentInformation.brand +
+									' ' +
+									strings.Asterisks +
+									paymentInformation.last4,
+								false
+							)}
+							{this.renderRowOfInfo(
+								strings.ExpDate,
+								paymentInformation.exp_month + '/' + paymentInformation.exp_year,
+								true
+							)}
+							{this.renderRowOfInfo(
+								strings.Address,
+								paymentInformation.address_line1,
+								true
+							)}
+						</View>
 					)}
 					<View
 						style={{
@@ -182,7 +199,13 @@ export default class viewPaymentMethodScreen extends Component {
 							title={strings.Edit}
 							style={roundBlueButtonStyle.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
-							onPress={() => {}}
+							onPress={() => {
+								//Starts the Stripe Payments process
+								this.props.navigation.push('CreatePaymentMethodScreen', {
+									businessID: business.businessID,
+									isEditing: true
+								});
+							}}
 							disabled={this.state.isLoading}
 						/>
 					</View>
