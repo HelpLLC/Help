@@ -10,81 +10,76 @@ import fontStyles from 'config/styles/fontStyles';
 import PropTypes from 'prop-types';
 import strings from 'config/strings';
 
-//The component class
-class RequestCard extends Component {
-	//Renders the component
-	render() {
-		//The props for the RequestCard.
-		const { serviceTitle, time, onPress, customerName, image } = this.props;
-		//Returns the rendered component
-		return (
-			<TouchableOpacity
-				onPress={() => onPress()}
-				style={{
-					width: screenWidth * 0.7,
-					height: screenHeight * 0.135,
-					marginBottom: screenHeight * 0.01,
-					alignItems: 'center',
-					justifyContent: 'center'
-				}}>
-				<View style={requestCardStyle.style}>
-					<View style={{ flexDirection: 'row' }}>
-						<View>
-							<View
-								style={{
-									marginLeft: screenWidth * 0.025,
-									marginTop: screenHeight * 0.01
-								}}>
-								<Text style={fontStyles.mainTextStyleBlack}>{time}</Text>
-							</View>
-							<View
-								style={{
-									marginLeft: screenWidth * 0.025,
-									marginTop: screenHeight * 0.01
-								}}>
-								<Text style={fontStyles.subTextStyleBlack}>{serviceTitle}</Text>
-							</View>
-							<View
-								style={{
-									marginLeft: screenWidth * 0.025,
-									marginTop: screenHeight * 0.01
-								}}>
-								<Text style={fontStyles.subTextStyleBlack}>
-									{strings.RequestedBy} {customerName}
-								</Text>
-							</View>
+//The component function
+export default function RequestCard(props) {
+	//The props for the RequestCard.
+	const { serviceTitle, time, onPress, customerName, image } = props;
+
+	//These are the propTypes for the component
+	RequestCard.propTypes = {
+		serviceTitle: PropTypes.string.isRequired,
+		time: PropTypes.string.isRequired,
+		customerName: PropTypes.string.isRequired,
+		onPress: PropTypes.func.isRequired,
+		image: PropTypes.object.isRequired,
+	};
+
+	//Returns the rendered component
+	return (
+		<TouchableOpacity
+			onPress={() => onPress()}
+			style={{
+				width: screenWidth * 0.7,
+				height: screenHeight * 0.135,
+				marginBottom: screenHeight * 0.01,
+				alignItems: 'center',
+				justifyContent: 'center',
+			}}>
+			<View style={requestCardStyle.style}>
+				<View style={{ flexDirection: 'row' }}>
+					<View>
+						<View
+							style={{
+								marginLeft: screenWidth * 0.025,
+								marginTop: screenHeight * 0.01,
+							}}>
+							<Text style={fontStyles.mainTextStyleBlack}>{time}</Text>
 						</View>
 						<View
 							style={{
-								alignItems: 'flex-end',
-								flex: 1,
-								marginRight: screenWidth * 0.025,
-								marginTop: screenHeight * 0.01
+								marginLeft: screenWidth * 0.025,
+								marginTop: screenHeight * 0.01,
 							}}>
-							<FastImage
-								style={{
-									width: screenHeight * 0.07,
-									height: screenHeight * 0.07,
-									borderRadius: screenHeight * 0.035
-								}}
-								source={image}
-							/>
+							<Text style={fontStyles.subTextStyleBlack}>{serviceTitle}</Text>
+						</View>
+						<View
+							style={{
+								marginLeft: screenWidth * 0.025,
+								marginTop: screenHeight * 0.01,
+							}}>
+							<Text style={fontStyles.subTextStyleBlack}>
+								{strings.RequestedBy} {customerName}
+							</Text>
 						</View>
 					</View>
+					<View
+						style={{
+							alignItems: 'flex-end',
+							flex: 1,
+							marginRight: screenWidth * 0.025,
+							marginTop: screenHeight * 0.01,
+						}}>
+						<FastImage
+							style={{
+								width: screenHeight * 0.07,
+								height: screenHeight * 0.07,
+								borderRadius: screenHeight * 0.035,
+							}}
+							source={image}
+						/>
+					</View>
 				</View>
-			</TouchableOpacity>
-		);
-	}
+			</View>
+		</TouchableOpacity>
+	);
 }
-
-//These are the propTypes for the component
-RequestCard.propTypes = {
-	serviceTitle: PropTypes.string.isRequired,
-	time: PropTypes.string.isRequired,
-	customerName: PropTypes.string.isRequired,
-	onPress: PropTypes.func.isRequired,
-	image: PropTypes.object.isRequired
-};
-
-//exports the module
-export default RequestCard;

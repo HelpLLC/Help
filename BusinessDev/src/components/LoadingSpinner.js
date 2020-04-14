@@ -7,27 +7,23 @@ import { screenWidth, screenHeight } from 'config/dimensions';
 import PropTypes from 'prop-types';
 
 //The class that will render the spinner
-class LoadingSpinner extends Component {
-	render() {
-		const { isVisible, color } = this.props;
-		return (
-			<View>
-				<Spinner
-					isVisible={isVisible}
-					size={60}
-					type={'ThreeBounce'}
-					color={color ? color : colors.lightBlue}
-				/>
-			</View>
-		);
-	}
+export default function LoadingSpinner(props) {
+	const { isVisible, color } = props;
+
+	//Making sure that the correct prop type (boolean) is passed in
+	//An optional colors prop will also be passed in
+	LoadingSpinner.propTypes = {
+		isVisible: PropTypes.bool.isRequired,
+		color: PropTypes.string,
+	};
+	return (
+		<View>
+			<Spinner
+				isVisible={isVisible}
+				size={60}
+				type={'ThreeBounce'}
+				color={color ? color : colors.lightBlue}
+			/>
+		</View>
+	);
 }
-
-//Making sure that the correct prop type (boolean) is passed in
-//An optional colors prop will also be passed in
-LoadingSpinner.propTypes = {
-	isVisible: PropTypes.bool.isRequired,
-	color: PropTypes.string
-};
-
-export default LoadingSpinner;
