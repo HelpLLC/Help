@@ -316,7 +316,7 @@ exports.getBusinessCurrentRequestsByDay = functions.https.onCall(async (input, c
 			delete data.dateString;
 			return data;
 		} else {
-			return {};
+			return [];
 		}
 	});
 
@@ -952,6 +952,7 @@ exports.updateStripeCustomerPaymentInformtion = functions.https.onCall(async (in
 		await customers.doc(customerID).update({
 			paymentInformation: source,
 		});
+		return 0;
 	} catch (error) {
 		return -1;
 	}
@@ -1028,6 +1029,54 @@ exports.createStripeConnectAccountForBusiness = functions.https.onCall(async (in
 		} else {
 			throw error;
 		}
+	}
+});
+
+//This method is going to close a business stripe account, delete their payment information, and delete the payment
+//information from Firestore. The method is also going to change all of the business's current products to a cash
+//product if they currently accept cards. If the business wants to reopen their account with Stripe, they will
+//have to go through the onboarding process again. If there are any current requests for any of the services that
+//are card, it changes them to cash requests.
+exports.deleteBusinessPaymentInformation = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+
+	//Updates the business's document and the changes the services to only accept cash. If the business
+	//has anu current card requests. This entire function will return an error
+	const result = await database.runTransaction(async (transaction) => {
+		//Fetches the documents needed
+		const business = (await transaction.get(businesses.doc(businessID))).data();
+		const currentRequestsWithCard = await transaction.get(
+			requests.where('businessID', '==', businessID).where('card', '==', true)
+		);
+
+		if (currentRequestsWithCard.docs.length > 0) {
+			return -1;
+		}
+
+		//Changes all of the business's services to cash payments
+		/* eslint-disable no-await-in-loop */
+		for (const service of business.services) {
+			await transaction.update(services.doc(service.serviceID), {
+				cash: true,
+				card: false,
+			});
+		}
+
+		await transaction.update(businesses.doc(businessID), {
+			paymentInformation: '',
+			paymentSetupStatus: 'FALSE',
+			stripeBusinessID: admin.firestore.FieldValue.delete(),
+		});
+
+		return business;
+	});
+
+	//Only deletes the stripe account if the previous part of the function succeeded.
+	if (result !== -1) {
+		await stripe.accounts.del(result.stripeBusinessID);
+		return 0;
+	} else {
+		return -1;
 	}
 });
 

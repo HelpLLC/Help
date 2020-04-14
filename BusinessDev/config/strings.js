@@ -38,6 +38,14 @@ export default {
 	//------------------- Payments Screen -------------------
 	AcceptCardPaymentsWithHelp: 'Accept Card Payments with Help',
 
+	//------------------- View Payment Method Screen -------------------
+	Asterisks: '********',
+	DeletePaymentMethod: 'Delete Payment Method',
+	AccountName: 'Account Name',
+	Bank: 'Bank',
+	AreYouSureYouWantToDeletePaymentMethod:
+		'Are you sure you want to delete your payment method? This cannot be undone.',
+
 	//------------------- Create Payment Method Screen -------------------
 	AddPayments: 'Add Payments',
 	AndThe: 'and the',
