@@ -141,7 +141,6 @@ export default class paymentsScreen extends Component {
 			);
 		} else {
 			const { paymentInformation } = business;
-			console.log(paymentInformation);
 			return (
 				//View that dismisses the keyboard when clicked anywhere else
 				<HelpView style={screenStyle.container}>

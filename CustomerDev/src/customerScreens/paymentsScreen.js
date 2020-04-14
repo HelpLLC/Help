@@ -85,13 +85,13 @@ export default class paymentsScreen extends Component {
 					errorColor: colors.red,
 				},
 			});
-            this.setState({ isScreenLoading: true });
+			this.setState({ isScreenLoading: true });
 			const { customer } = this.state;
 			const { customerID } = customer;
-			console.log(await FirebaseFunctions.call('updateStripeCustomerPaymentInformtion', {
+			await FirebaseFunctions.call('updateStripeCustomerPaymentInformtion', {
 				paymentInformation: token.tokenId,
 				customerID,
-			}));
+			});
 			const updatedCustomerDocument = await FirebaseFunctions.call('getCustomerByID', {
 				customerID,
 			});
@@ -302,7 +302,7 @@ export default class paymentsScreen extends Component {
 								style={roundBlueButtonStyle.MediumSizeButton}
 								textStyle={fontStyles.bigTextStyleWhite}
 								onPress={() => {
-									this.editCardInformation()
+									this.editCardInformation();
 								}}
 								disabled={this.state.isLoading}
 							/>
