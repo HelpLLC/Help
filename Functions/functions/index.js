@@ -177,6 +177,20 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 	return 0;
 };
 
+//--------------------------------- Miscellaneous Functions ---------------------------------
+
+//Method send to a recpeint from the company email. Accepts a text, subject, and a recepient
+exports.sendEmail = functions.https.onCall(async (input, context) => {
+	const { recepient, subject, text } = input;
+
+	try {
+		await sendEmail(recepient, subject, text);
+		return 0;
+	} catch (error) {
+		return -1;
+	}
+});
+
 //--------------------------------- "Document-Object" Getters ---------------------------------
 
 //Method returns an array with all businesses
