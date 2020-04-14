@@ -172,7 +172,7 @@ export default class featuredScreen extends Component {
 						isVisible={this.state.isReviewDue}
 						onFinishRating={(stars) => this.setState({ stars })}
 						title={strings.LeaveAReview}
-						message={this.state.request.serviceTitle}
+						message={this.state.request ? this.state.request.serviceTitle : ''}
 						confirmText={strings.Submit}
 						cancelText={strings.Skip}
 						imageFunction={async () => {
