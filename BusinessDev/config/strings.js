@@ -392,7 +392,7 @@ export default {
 	//------------------- Requester Answer Questions Screen -------------------
 	AnswerHereDotDotDot: 'Answer here...',
 	PleaseFillOutAllQuestions: 'Please fill out all of the questions.',
-	TheServiceHasBeenRequested: 'The service has been requested',
+	TheServiceHasBeenRequested: 'The service has been requested.',
 
 	//------------------- Requester Order History Screen -------------------
 	OrderHistory: 'Order History',

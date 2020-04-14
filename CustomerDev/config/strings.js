@@ -58,6 +58,20 @@ export default {
 	PleaseEnterName: 'Please enter your name...',
 	MyProfile: 'My Profile',
 
+	//------------------- Payment Methods Screen -------------------
+	Payments: 'Payments',
+	NameOnCard: 'Name on Card',
+	CardNumber: 'Card Number',
+	Asterisks: ' ************',
+	ExpDate: 'Exp. Date',
+	Delete: 'Delete',
+	Address: 'Address',
+	AddAPaymentMethodWithHelp: 'Add a payment method with Help',
+	Add: 'Add',
+	DeletePaymentMethod: 'Delete Payment Method',
+	AreYouSureYouWantToDeletePaymentMethod: 'Are you sure you want to delete your payment method? This cannot be undone.',
+	YourInformationWillNotBeSharedWithBusinesses: 'Your information will not be shared with businesses.',
+
 	//------------------- Payment Info Screen -------------------
 	SavePaymentInfo: 'Save Payment Information',
 	No: 'No',
@@ -191,7 +205,7 @@ export default {
 	//------------------- Requester Answer Questions Screen -------------------
 	AnswerHereDotDotDot: 'Answer here...',
 	PleaseFillOutAllQuestions: 'Please fill out all of the questions.',
-	TheServiceHasBeenRequested: 'The service has been requested',
+	TheServiceHasBeenRequested: 'The service has been requested.',
 
 	//------------------- Requester Order History Screen -------------------
 	OrderHistory: 'Order History',
@@ -305,5 +319,6 @@ export default {
 	NewBusinessAppMessage:
 		'Businesses on Help now use a seperate app to manage their business. Go download it now!',
 	UnderMaintenance: 'Under Maintenance',
-	AppIsUnderMaintenance: 'Help is currently under scheduled maintenance. It should be back up soon.'
+	AppIsUnderMaintenance:
+		'Help is currently under scheduled maintenance. It should be back up soon.',
 };

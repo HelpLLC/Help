@@ -934,6 +934,52 @@ exports.createStripeCustomerPaymentInformtion = functions.https.onCall(async (in
 	return { sourceID: source.id, stripeCustomerID: stripeCustomer.id };
 });
 
+//This function takes in an existing stripe customer and updates their payment information both in firebase
+//and in the Stripe API
+exports.updateStripeCustomerPaymentInformtion = functions.https.onCall(async (input, context) => {
+	try {
+		const { paymentInformation, customerID } = input;
+
+		const stripeCustomerID = (await customers.doc(customerID).get()).data().stripeCustomerID;
+
+		const newCustomer = await stripe.customers.update(stripeCustomerID, {
+			source: paymentInformation,
+		});
+
+		const source = newCustomer.sources.data[0];
+
+		//Writes this payment information to the customer's document for future references
+		await customers.doc(customerID).update({
+			paymentInformation: source,
+		});
+	} catch (error) {
+		return -1;
+	}
+});
+
+//This function is going to take in a customerID and is going to delete their payment information from
+//the database, as well as delete their stripe account from Stripe
+exports.deleteCustomerPaymentInformation = functions.https.onCall(async (input, context) => {
+	try {
+		const { customerID } = input;
+		const customer = (await customers.doc(customerID).get()).data();
+
+		//Deletes the stripe information in the Stripe API
+		const { stripeCustomerID } = customer;
+		await stripe.customers.del(stripeCustomerID);
+
+		//Removes the payment information from firestore
+		await customers.doc(customerID).update({
+			paymentInformation: '',
+			stripeCustomerID: admin.firestore.FieldValue.delete(),
+		});
+
+		return 0;
+	} catch (error) {
+		return -1;
+	}
+});
+
 //This function is going to take in a set of required information and create a Custom Account with Stripe Connect
 //for businesses. It will return the account information. It will take in links that  stripe will redirect to
 //once the OnBoarding process is complete
@@ -1015,6 +1061,82 @@ exports.updateBusinessPaymentStatus = functions.https.onCall(async (input, conte
 	await businesses.doc(businessID).update({
 		paymentSetupStatus: 'TRUE',
 	});
+});
+
+//This method will charge a specific amount to a specific customer and move it to a Stripe Connect account
+//It will take in a billed amount, charge it to the customer, and move it to the Stripe Connect balance. It will
+//record this transaction as a field in the request document
+exports.chargeCustomerForRequest = functions.https.onCall(async (input, context) => {
+	const { businessID, customerID, requestID, billedAmount, serviceID, isCardSaved } = input;
+
+	try {
+		const promises = await Promise.all([
+			businesses.doc(businessID).get(),
+			customers.doc(customerID).get(),
+		]);
+		const business = promises[0].data();
+		const customer = promises[1].data();
+
+		const { stripeBusinessID } = business;
+		const stripeCustomerID = isCardSaved === true ? customer.stripeCustomerID : isCardSaved;
+
+		//Calculates the charge amount along with the fee. Stripe accepts parameters as cents
+		const chargedAmountToCustomer = billedAmount * 100; //This is how much the customer will be charged
+		const feePaidByBusiness = (billedAmount * 0.05 + 0.3) * 100; //This is how much comes to us from the business. The "0.05 + 0.3" means 5% + 30 cents, which is the amount we will edit
+
+		//If this is a one-time payment, then it charges the token which will be saved in the "isCardSaved param". If this
+		//is a saved customer card, then it charges the customer object
+		let charge = '';
+		if (isCardSaved === true) {
+			charge = await stripe.charges.create({
+				amount: chargedAmountToCustomer,
+				application_fee_amount: feePaidByBusiness,
+				currency: 'usd',
+				customer: stripeCustomerID,
+				transfer_data: {
+					destination: stripeBusinessID,
+				},
+			});
+		} else {
+			charge = await stripe.charges.create({
+				amount: chargedAmountToCustomer,
+				application_fee_amount: feePaidByBusiness,
+				currency: 'usd',
+				source: isCardSaved,
+				transfer_data: {
+					destination: stripeBusinessID,
+				},
+			});
+		}
+
+		//Updates the request document with information about the completed request. Also updates the CompletedRequest
+		//subcollection documents within the service and the customer just in case it needs to be referenced.
+		const { id, payment_method, receipt_url } = charge;
+		const paymentInformation = {
+			chargedAmountToCustomer: billedAmount,
+			feePaidByBusiness: feePaidByBusiness / 100,
+			amountPaidToHelp: (feePaidByBusiness / 100 - (billedAmount * 0.029 + 0.3)).toFixed(2), //This should be adjusted based on the Stripe Connect costs
+			stripeCustomerID,
+			stripeBusinessID,
+			chargeID: id,
+			paymentMethodID: payment_method,
+			receiptURL: receipt_url,
+		};
+
+		const batch = database.batch();
+		batch.update(requests.doc(requestID), { paymentInformation });
+		batch.update(customers.doc(customerID).collection('CompletedRequests').doc(requestID), {
+			paymentInformation,
+		});
+		batch.update(services.doc(serviceID).collection('CompletedRequests').doc(requestID), {
+			paymentInformation,
+		});
+		await batch.commit();
+
+		return 0;
+	} catch (error) {
+		return -1;
+	}
 });
 
 //--------------------------------- Image Functions ---------------------------------
