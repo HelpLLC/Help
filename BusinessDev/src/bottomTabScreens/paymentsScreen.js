@@ -12,7 +12,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import RoundBlueButton from '../components/RoundBlueButton';
 import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
 import colors from 'config/colors';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import fontStyles from 'config/styles/fontStyles';
 
@@ -58,7 +58,13 @@ export default class paymentsScreen extends Component {
 	}
 
 	render() {
-		const { isScreenLoading, isErrorVisible, business, businessID, paymentSetupStatus } = this.state;
+		const {
+			isScreenLoading,
+			isErrorVisible,
+			business,
+			businessID,
+			paymentSetupStatus,
+		} = this.state;
 
 		//If the screen is loading, the  loading spinner will appear. If the business has not yet set up payments, that
 		//UI will appear. If none of that is true, the business's payments will be displayed
@@ -104,7 +110,12 @@ export default class paymentsScreen extends Component {
 							alignSelf: 'center',
 							marginTop: screenHeight * 0.025,
 						}}>
-						<Icon type='font-awesome' name='credit-card' color={colors.lightBlue} size={250} />
+						<Icon
+							type='font-awesome'
+							name='credit-card'
+							color={colors.lightBlue}
+							size={250}
+						/>
 					</View>
 					<View
 						style={{
@@ -121,6 +132,7 @@ export default class paymentsScreen extends Component {
 								//Starts the Stripe Payments process
 								this.props.navigation.push('CreatePaymentMethodScreen', {
 									businessID,
+									isEditing: false
 								});
 							}}
 						/>
@@ -128,12 +140,53 @@ export default class paymentsScreen extends Component {
 				</HelpView>
 			);
 		} else {
+			const { paymentInformation } = business;
 			return (
 				//View that dismisses the keyboard when clicked anywhere else
 				<HelpView style={screenStyle.container}>
-					<View>
-						<TopBanner size={30} title={strings.Payments} />
-					</View>
+					<TopBanner size={30} title={strings.Payments} />
+					<TouchableOpacity
+						onPress={() => {
+							this.props.navigation.push('ViewPaymentMethodScreen', { business });
+						}}
+						style={{
+							flexDirection: 'row',
+							alignItems: 'center',
+							justifyContent: 'flex-start',
+							paddingBottom: screenHeight * 0.025,
+							paddingTop: screenHeight * 0.05,
+							width: screenWidth,
+							marginLeft: screenWidth * 0.1,
+							marginBottom: screenHeight * 0.05,
+						}}>
+						<View>
+							<Icon
+								type='font-awesome'
+								name={
+									paymentInformation.object === 'bank_account'
+										? 'university'
+										: 'credit-card'
+								}
+								color={colors.lightBlue}
+								size={80}
+							/>
+						</View>
+						<View style={{ marginLeft: screenWidth * 0.15 }}>
+							<Text style={fontStyles.mainTextStyleBlue}>
+								{paymentInformation.object === 'bank_account'
+									? paymentInformation.account_holder_name
+									: paymentInformation.name}
+							</Text>
+						</View>
+						<View style={{ marginLeft: screenWidth * 0.15 }}>
+							<Icon
+								name={'angle-right'}
+								type={'font-awesome'}
+								color={colors.lightBlue}
+								size={40}
+							/>
+						</View>
+					</TouchableOpacity>
 				</HelpView>
 			);
 		}

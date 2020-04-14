@@ -29,6 +29,7 @@ import TermsAndConditionsScreen from './settingsScreens/termsAndConditionsScreen
 import CreatePaymentMethodScreen from './sideBusinessScreens/createPaymentMethodScreen';
 import ServiceAdditionalInformationScreen from './sideBusinessScreens/serviceAdditionalInformationScreen';
 import { createStackNavigator } from 'react-navigation-stack';
+import ViewPaymentMethodScreen from './sideBusinessScreens/viewPaymentMethodScreen';
 
 //The route config for all of the screens
 const routeConfig = {
@@ -120,6 +121,10 @@ const routeConfig = {
 	//The route going to the create product screen
 	CreateServiceScreen: {
 		screen: CreateServiceScreen,
+	},
+
+	ViewPaymentMethodScreen: {
+		screen: ViewPaymentMethodScreen
 	},
 
 	//Route leading to where businesses create their questions

@@ -584,7 +584,6 @@ class createServiceScreen extends Component {
 					confirmOnPress={async () => {
 						this.setState({ isLoading: true, isDeleteServiceVisible: false });
 						try {
-							console.log(this.state);
 							const result = await FirebaseFunctions.call('deleteService', {
 								serviceID: this.state.serviceID,
 								businessID: this.state.businessID,
