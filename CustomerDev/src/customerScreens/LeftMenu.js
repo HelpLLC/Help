@@ -94,6 +94,19 @@ class LeftMenu extends Component {
 							renderBorder={true}
 						/>
 						<LeftMenuCard
+							text={strings.Payments}
+							textColor={colors.lightBlue}
+							onPress={() => {
+								//Categories leads to the categories screen
+								FirebaseFunctions.analytics.logEvent('payments_card_clicks');
+								this.props.navigation.push('PaymentsScreen', {
+									customer: this.props.customer,
+									allServices: this.props.allServices,
+								});
+							}}
+							renderBorder={true}
+						/>
+						<LeftMenuCard
 							text={strings.OrderHistory}
 							textColor={colors.lightBlue}
 							onPress={() => {

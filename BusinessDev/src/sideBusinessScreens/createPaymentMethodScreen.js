@@ -38,6 +38,7 @@ export default class createPaymentMethodScreen extends Component {
 		businessID: '',
 		isScreenLoading: true,
 		isChecked: false,
+		isEditing: '',
 		isCheckedErrorVisible: false,
 		paymentInfoToken: '',
 		bankAccountSelected: false,
@@ -63,8 +64,8 @@ export default class createPaymentMethodScreen extends Component {
 			'CreatePaymentMethodScreen',
 			'createPaymentMethodScreen'
 		);
-		const { businessID } = this.props.navigation.state.params;
-		this.setState({ isScreenLoading: false, businessID });
+		const { businessID, isEditing } = this.props.navigation.state.params;
+		this.setState({ isScreenLoading: false, businessID, isEditing });
 	}
 
 	//Starts the process for creating a Stripe Connected Account
@@ -112,7 +113,6 @@ export default class createPaymentMethodScreen extends Component {
 				{
 					businessID,
 					tos_acceptance,
-					paymentInformation: paymentInfoToken,
 					paymentToken: paymentInfoToken.tokenId,
 				}
 			);
@@ -133,6 +133,58 @@ export default class createPaymentMethodScreen extends Component {
 		this.setState({ isLoading: false });
 	}
 
+	//Edits an exising business's default source if this screen is for editing
+	async updateStripeConnectedAccount() {
+		this.setState({ isLoading: true });
+		let {
+			businessID,
+			paymentInfoToken,
+			bankAccountSelected,
+			debitCardSelected,
+			bankInformation,
+		} = this.state;
+
+		//Makes sure a payment field has been filled out
+		if (bankAccountSelected === false && debitCardSelected === false) {
+			this.setState({ paymentMethodErrorVisible: true });
+		} else {
+			//If bank account is selected, creates the token associated with the bank account using Tipsi-Stripe
+			if (bankAccountSelected === true) {
+				//Double checks that all input has been filled out
+				for (const key of Object.keys(bankInformation)) {
+					if (bankInformation[key] === '') {
+						this.setState({ fieldsError: true, isLoading: false });
+						return;
+					}
+				}
+				paymentInfoToken = await stripe.createTokenWithBankAccount(bankInformation);
+			}
+
+			const connectAccount = await FirebaseFunctions.call(
+				'updateStripeConnectAccountPayment',
+				{
+					businessID,
+					paymentToken: paymentInfoToken.tokenId,
+				}
+			);
+
+			//Handles the case  if the card is invalid
+			if (connectAccount === 'invalid_card_type') {
+				this.setState({
+					debitCardSelected: false,
+					invalidCardTypeVisible: true,
+					paymentInfoToken: '',
+					paymentInformation: '',
+				});
+			} else {
+				this.props.navigation.push('BusinessScreens', {
+					businessID,
+				});
+			}
+		}
+		this.setState({ isLoading: false });
+	}
+
 	//Renders the actual screen
 	render() {
 		const {
@@ -145,6 +197,7 @@ export default class createPaymentMethodScreen extends Component {
 			isLoading,
 			paymentInfoToken,
 			isCheckedErrorVisible,
+			isEditing,
 			invalidCardTypeVisible,
 			bankInformation,
 			paymentMethodErrorVisible,
@@ -433,55 +486,63 @@ export default class createPaymentMethodScreen extends Component {
 								</View>
 							</View>
 						) : (
-							<View></View>
+							<View />
 						)}
 						<View>
-							<View
-								style={{
-									marginVertical: screenHeight * 0.05,
-									justifyContent: 'flex-start',
-									alignItems: 'center',
-									flexDirection: 'column',
-								}}>
-								<CheckBox
-									onClick={() => {
-										this.setState({ isChecked: !isChecked });
-									}}
-									isChecked={isChecked}
-									checkedCheckBoxColor={colors.lightBlue}
-									checkBoxColor={colors.lightBlue}
-								/>
-								<Text style={fontStyles.mainTextStyleBlack}>
-									{strings.IAcceptThe}
-								</Text>
-								<TouchableOpacity
-									onPress={() => {
-										//Opens the stripe agreements
-										Linking.openURL('https://stripe.com/legal');
+							{isEditing === false ? (
+								<View
+									style={{
+										marginVertical: screenHeight * 0.05,
+										justifyContent: 'flex-start',
+										alignItems: 'center',
+										flexDirection: 'column',
 									}}>
-									<Text
-										style={[
-											fontStyles.mainTextStyleBlue,
-											{ flexWrap: 'wrap' },
-										]}>
-										{strings.StripeServicesAgreement}
+									<CheckBox
+										onClick={() => {
+											this.setState({ isChecked: !isChecked });
+										}}
+										isChecked={isChecked}
+										checkedCheckBoxColor={colors.lightBlue}
+										checkBoxColor={colors.lightBlue}
+									/>
+									<Text style={fontStyles.mainTextStyleBlack}>
+										{strings.IAcceptThe}
 									</Text>
-								</TouchableOpacity>
-								<Text style={fontStyles.mainTextStyleBlack}>{strings.AndThe}</Text>
-								<TouchableOpacity
-									onPress={() => {
-										//Opens the stripe agreements
-										Linking.openURL('https://stripe.com/connect-account/legal');
-									}}>
-									<Text
-										style={[
-											fontStyles.mainTextStyleBlue,
-											{ flexWrap: 'wrap' },
-										]}>
-										{strings.StripeConnectedAccountAgreement}
+									<TouchableOpacity
+										onPress={() => {
+											//Opens the stripe agreements
+											Linking.openURL('https://stripe.com/legal');
+										}}>
+										<Text
+											style={[
+												fontStyles.mainTextStyleBlue,
+												{ flexWrap: 'wrap' },
+											]}>
+											{strings.StripeServicesAgreement}
+										</Text>
+									</TouchableOpacity>
+									<Text style={fontStyles.mainTextStyleBlack}>
+										{strings.AndThe}
 									</Text>
-								</TouchableOpacity>
-							</View>
+									<TouchableOpacity
+										onPress={() => {
+											//Opens the stripe agreements
+											Linking.openURL(
+												'https://stripe.com/connect-account/legal'
+											);
+										}}>
+										<Text
+											style={[
+												fontStyles.mainTextStyleBlue,
+												{ flexWrap: 'wrap' },
+											]}>
+											{strings.StripeConnectedAccountAgreement}
+										</Text>
+									</TouchableOpacity>
+								</View>
+							) : (
+								<View style={{ height: screenHeight * 0.05 }} />
+							)}
 						</View>
 						<View style={{ marginBottom: screenHeight * 0.05 }}>
 							<RoundBlueButton
@@ -491,7 +552,11 @@ export default class createPaymentMethodScreen extends Component {
 								style={roundBlueButtonStyle.MediumSizeButton}
 								textStyle={fontStyles.bigTextStyleWhite}
 								onPress={() => {
-									this.createStripeConnectedAccount();
+									if (isEditing === true) {
+										this.updateStripeConnectedAccount();
+									} else {
+										this.createStripeConnectedAccount();
+									}
 								}}
 							/>
 						</View>

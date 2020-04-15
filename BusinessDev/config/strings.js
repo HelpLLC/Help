@@ -38,6 +38,16 @@ export default {
 	//------------------- Payments Screen -------------------
 	AcceptCardPaymentsWithHelp: 'Accept Card Payments with Help',
 
+	//------------------- View Payment Method Screen -------------------
+	Asterisks: '********',
+	DeletePaymentMethod: 'Delete Payment Method',
+	AccountName: 'Account Name',
+	Bank: 'Bank',
+	ExpDate: 'Exp. Date',
+	CardNumber: 'Card Number',
+	AreYouSureYouWantToDeletePaymentMethod:
+		'Are you sure you want to delete your payment method? This cannot be undone.',
+
 	//------------------- Create Payment Method Screen -------------------
 	AddPayments: 'Add Payments',
 	AndThe: 'and the',
@@ -392,7 +402,7 @@ export default {
 	//------------------- Requester Answer Questions Screen -------------------
 	AnswerHereDotDotDot: 'Answer here...',
 	PleaseFillOutAllQuestions: 'Please fill out all of the questions.',
-	TheServiceHasBeenRequested: 'The service has been requested',
+	TheServiceHasBeenRequested: 'The service has been requested.',
 
 	//------------------- Requester Order History Screen -------------------
 	OrderHistory: 'Order History',
