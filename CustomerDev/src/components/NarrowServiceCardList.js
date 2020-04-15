@@ -8,28 +8,26 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 import { screenWidth, screenHeight } from 'config/dimensions';
 
 //Defines the class
-class NarrowServiceCardList extends Component {
+export default function NarrowServiceCardList(props) {
 	//This function goes to a screen of a specific service based on its index within the services array
-	goToServiceScreen(index) {
+	function goToServiceScreen(index) {
 		//If an exclusive onPress function is called, that will be called instead
-		if (this.props.onPress) {
-			const { services } = this.props;
-			this.props.onPress(services[index]);
+		if (props.onPress) {
+			const { services } = props;
+			props.onPress(services[index]);
 		} else {
-			const { services, customerID } = this.props;
-			this.props.navigation.push('ServiceScreen', {
+			const { services, customerID } = props;
+			props.navigation.push('ServiceScreen', {
 				serviceID: services[index].serviceID,
 				customerID,
 				businessID: services[index].businessID
 					? services[index].businessID
-					: this.props.navigation.state.params.business.businessID
+					: props.navigation.state.params.business.businessID
 			});
 		}
 	}
-
-	render() {
 		//Fetches the array of services from the props along with the customer object that is signed in
-		const { services } = this.props;
+		const { services } = props;
 		return (
 			<FlatList
 				showsHorizontalScrollIndicator={false}
@@ -48,7 +46,7 @@ class NarrowServiceCardList extends Component {
 						services.length === 1 ? <View style={{ width: screenWidth * 0.03 }} /> : <View></View>}
 						<NarrowServiceCard
 							serviceTitle={item.serviceTitle}
-							price={this.props.date ? item.date : item.priceText}
+							price={props.date ? item.date : item.priceText}
 							imageFunction={async () => {
 								//Passes in the function to retrieve the image of this product
 								return await FirebaseFunctions.call('getServiceImageByID', {
@@ -61,7 +59,7 @@ class NarrowServiceCardList extends Component {
 							//Passes all of the necessary props to the actual screen that contains
 							//more information about the service
 							onPress={() => {
-								this.goToServiceScreen(index);
+								goToServiceScreen(index);
 							}}
 						/>
 						{//Adds a space in between each column
@@ -75,17 +73,3 @@ class NarrowServiceCardList extends Component {
 			/>
 		);
 	}
-}
-
-//Sets the PropTypes for this component. There will be and it is required. "services" which will be of type array & customer object
-//who will be the one requesting the services.  It will also take in an optional boolean to display the date customer of a product
-//instead of a price (used in OrderHistoryScreen)
-NarrowServiceCardList.propTypes = {
-	services: PropTypes.array.isRequired,
-	customerID: PropTypes.string.isRequired,
-	dateRequested: PropTypes.bool,
-	onPress: PropTypes.func
-};
-
-//Exports the module
-export default NarrowServiceCardList;

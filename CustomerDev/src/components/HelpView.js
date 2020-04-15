@@ -14,9 +14,10 @@ const HelpViewHOC = (Comp) => {
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 			<KeyboardAwareScrollView
 				resetScrollToCoords={{ x: 0, y: 0 }}
-				scrollEnabled={false}
+				scrollEnabled={true}
 				contentContainerStyle={screenStyle.container}
 				extraScrollHeight={5}
+				enableOnAndroid={true}
 				showsVerticalScrollIndicator={false}
 				showsHorizontalScrollIndicator={false}>
 				<View>
