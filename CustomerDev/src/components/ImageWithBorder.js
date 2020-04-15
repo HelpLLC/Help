@@ -15,13 +15,17 @@ export default function ImageWithBorder(props) {
 	const [isImageLoading, setIsImageLoading] = useState(true);
 	const [image, setImage] = useState({ uri: images.blankWhite });
 
-	//Loads the image (async)
-	useEffect(async () => {
+	loadImage = async () => {
 		const { imageFunction } = this.props;
 		const url = await imageFunction();
 		setIsImageLoading(false);
 		setImage(url);
-	});
+	};
+
+	//Loads the image (async)
+	useEffect(() => {
+		loadImage();
+	}, []);
 
 	//Making sure that the correct prop types are required. Numbers for the width and height
 	//Not specifying ImageSource because it could either be a number or an object. But it has to be required

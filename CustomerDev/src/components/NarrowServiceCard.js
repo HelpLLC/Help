@@ -30,7 +30,7 @@ export default function NarrowServiceCardFunction(props) {
 	//Loads the image
 	useEffect(() => {
 		loadImage();
-	});
+	}, []);
 
 	//These are the propTypes for the topBanner component. It defines whether they are required or not
 	//and what their types should be

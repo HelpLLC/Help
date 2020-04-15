@@ -14,7 +14,7 @@ export default function GoogleCityPicker(props) {
 		if (props.initialText) {
 			this.locationRef.setAddressText(props.initialText);
 		}
-	});
+	}, []);
 	//This component will only take one prop. The onPress method determining what will happen with  the received data
 	const { onPress } = props;
 

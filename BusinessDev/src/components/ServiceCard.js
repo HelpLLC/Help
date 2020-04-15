@@ -22,13 +22,17 @@ export default function ServiceCard(props) {
 	const [isImageLoading, setIsImageLoading] = useState(true);
 	const [image, setImage] = useState('');
 
-	//Loads the image (async)
-	useEffect(async () => {
+	loadImage = async () => {
 		const { imageFunction } = this.props;
 		const url = await imageFunction();
 		setIsImageLoading(false);
 		setImage(url);
-	});
+	};
+
+	//Loads the image (async)
+	useEffect(() => {
+		loadImage();
+	}, []);
 
 	//These are the propTypes for the topBanner component. It defines whether they are required or not
 	//and what their types should be
@@ -44,7 +48,14 @@ export default function ServiceCard(props) {
 	//The props for the ServiceCard. It will take in a service title, a description, a price, and an
 	//image to display, along with an onPress method. An additional prop is also how many current
 	//requests this product currently has. This prop should only be used by the provider screens
-	const { serviceTitle, serviceDescription, price, onPress, numCurrentRequests, offeredBy } = props;
+	const {
+		serviceTitle,
+		serviceDescription,
+		price,
+		onPress,
+		numCurrentRequests,
+		offeredBy,
+	} = props;
 
 	//Returns the rendered component
 	return (
@@ -71,7 +82,12 @@ export default function ServiceCard(props) {
 					<View style={serviceCardStyle.style}>
 						<View style={{ flex: 1 }}>
 							{isImageLoading === true ? (
-								<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+								<View
+									style={{
+										flex: 1,
+										alignItems: 'center',
+										justifyContent: 'center',
+									}}>
 									<LoadingSpinner isVisible={true} />
 								</View>
 							) : (
@@ -102,7 +118,9 @@ export default function ServiceCard(props) {
 								</Text>
 							) : (
 								<View flexDirection='column'>
-									<Text style={fontStyles.subTextStyleGray}>{strings.OfferedBy}</Text>
+									<Text style={fontStyles.subTextStyleGray}>
+										{strings.OfferedBy}
+									</Text>
 									<Text style={fontStyles.subTextStyleGray}>{offeredBy}</Text>
 								</View>
 							)}

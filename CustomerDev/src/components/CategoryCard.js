@@ -26,14 +26,18 @@ export default function CategoryCard(props) {
 		onPress: PropTypes.func.isRequired,
 	};
 
-	//Loads the image (async)
-	useEffect(async () => {
+	loadImage = async () => {
 		const { imageFunction } = props;
 		const url = await imageFunction();
 
 		setIsImageLoading(false);
 		setImage(url);
-	});
+	};
+
+	//Loads the image (async)
+	useEffect(() => {
+		loadImage();
+	}, []);
 
 	//The props for the CategoryCard. It will take in a category title, an
 	//image to display, and an onPress method.
@@ -64,7 +68,12 @@ export default function CategoryCard(props) {
 					<View style={categoryCardStyle.style}>
 						<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 							{isImageLoading === true ? (
-								<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+								<View
+									style={{
+										flex: 1,
+										alignItems: 'center',
+										justifyContent: 'center',
+									}}>
 									<LoadingSpinner isVisible={true} />
 								</View>
 							) : (

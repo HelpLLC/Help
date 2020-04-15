@@ -28,7 +28,7 @@ export default function ServiceCard(props) {
 		const url = await imageFunction();
 		setIsImageLoading(false);
 		setImage(url);
-	});
+	}, []);
 
 	//These are the propTypes for the topBanner component. It defines whether they are required or not
 	//and what their types should be
