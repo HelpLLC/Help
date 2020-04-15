@@ -54,6 +54,7 @@ target 'HelpBusiness' do
 end
 
 target 'HelpBusiness-tvOS' do
+  project 'HelpBusiness'
   # Pods for HelpBusiness-tvOS
 
   target 'HelpBusiness-tvOSTests' do
