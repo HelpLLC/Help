@@ -25,7 +25,7 @@ export default function CategoryCard(props) {
 		onPress: PropTypes.func.isRequired,
 	};
 
-	loadImage = async () => {
+	const loadImage = async () => {
 		const { imageFunction } = props;
 		const url = await imageFunction();
 
@@ -35,7 +35,7 @@ export default function CategoryCard(props) {
 
 	//Loads the image (async)
 	useEffect(() => {
-		loadImage();
+		loadImage()
 	}, []);
 
 	//The props for the CategoryCard. It will take in a category title, an

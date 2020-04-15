@@ -15,7 +15,7 @@ export default function ImageWithBorder(props) {
 	const [isImageLoading, setIsImageLoading] = useState(true);
 	const [image, setImage] = useState({ uri: images.blankWhite });
 
-	loadImage = async () => {
+	const loadImage = async () => {
 		const { imageFunction } = props;
 		const url = await imageFunction();
 		setIsImageLoading(false);

@@ -83,7 +83,7 @@ export default function CategoriesList(props) {
 						//Passes all of the necessary props to the actual screen that contains
 						//more information about the service
 						onPress={async () => {
-							await this.goToCategoryScreen(item.categoryName);
+							await goToCategoryScreen(item.categoryName);
 						}}
 					/>
 					{

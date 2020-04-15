@@ -23,7 +23,7 @@ export default function ServiceCard(props) {
 
 	//Loads the image (async)
 	useEffect(async () => {
-		const { imageFunction } = this.props;
+		const { imageFunction } = props;
 		const url = await imageFunction();
 		setIsImageLoading(false);
 		setImage(url);

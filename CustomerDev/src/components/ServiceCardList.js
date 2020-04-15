@@ -42,7 +42,7 @@ export default function ServiceCardList(props) {
 					<ServiceCard
 						serviceTitle={item.serviceTitle}
 						serviceDescription={item.serviceDescription}
-						price={this.props.dateCompleted ? item.dateRequested : item.priceText}
+						price={props.dateCompleted ? item.dateRequested : item.priceText}
 						imageFunction={async () => {
 							//Passes in the function to retrieve the image of this product
 							return await FirebaseFunctions.call('getServiceImageByID', {
@@ -50,10 +50,10 @@ export default function ServiceCardList(props) {
 							});
 						}}
 						numCurrentRequests={
-							this.props.currentRequests === false ? 0 : item.numCurrentRequests
+							props.currentRequests === false ? 0 : item.numCurrentRequests
 						}
 						onPress={() => {
-							this.props.onPress(item);
+							props.onPress(item);
 						}}
 					/>
 				</View>

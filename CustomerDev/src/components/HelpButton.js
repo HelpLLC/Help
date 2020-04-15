@@ -22,7 +22,6 @@ export default function HelpButton(props) {
 	//is a title for the button and a style along with an onPress function for what the button
 	//should do when clicked. Will also take an optional isLoading to show if the screen is loading so the button
 	//doesn't display
-	// const { title, onPress, style, textStyle, disabled, isLoading } = this.props;
 	return (
 		//If button is loading, LoadingSpinner will appear
 		<View style={{ alignItems: 'center' }}>

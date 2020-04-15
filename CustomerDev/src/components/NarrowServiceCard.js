@@ -19,7 +19,7 @@ export default function NarrowServiceCardFunction(props) {
 	const [image, setImage] = useState('');
 
 	// useEffect can't return a promise so this async function returns it, which is called in useEffect
-	loadImage = async () => {
+	const loadImage = async () => {
 		const { imageFunction } = props;
 		const url = await imageFunction();
 		setImage(url);
