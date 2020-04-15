@@ -7,11 +7,11 @@ import fontStyles from 'config/styles/fontStyles';
 import { screenHeight, screenWidth } from 'config/dimensions';
 import strings from 'config/strings';
 import screenStyle from 'config/styles/screenStyle';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import helpButtonStyle from 'config/styles/helpButtonStyle';
 import HelpAlert from '../components/HelpAlert';
 import colors from 'config/colors';
 import { Icon } from 'react-native-elements';
-import RoundBlueButton from '../components/RoundBlueButton';
+import HelpButton from '../components/HelpButton';
 import TopBanner from '../components/TopBanner';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 
@@ -130,9 +130,9 @@ export default class billCustomerScreen extends Component {
 							justifyContent: 'center',
 							marginTop: screenHeight * 0.175
 						}}>
-						<RoundBlueButton
+						<HelpButton
 							title={strings.Complete}
-							style={roundBlueButtonStyle.MediumSizeButton}
+							style={helpButtonStyle.MediumSizeButton}
 							textStyle={fontStyles.mainTextStyleWhite}
 							onPress={() => {
 								//Completes the service
@@ -214,9 +214,9 @@ export default class billCustomerScreen extends Component {
 								justifyContent: 'center',
 								marginTop: screenHeight * 0.175
 							}}>
-							<RoundBlueButton
+							<HelpButton
 								title={strings.Complete}
-								style={roundBlueButtonStyle.MediumSizeButton}
+								style={helpButtonStyle.MediumSizeButton}
 								textStyle={fontStyles.mainTextStyleWhite}
 								onPress={() => {
 									//Completes the service
@@ -304,9 +304,9 @@ export default class billCustomerScreen extends Component {
 								justifyContent: 'center',
 								marginTop: screenHeight * 0.175
 							}}>
-							<RoundBlueButton
+							<HelpButton
 								title={strings.Complete}
-								style={roundBlueButtonStyle.MediumSizeButton}
+								style={helpButtonStyle.MediumSizeButton}
 								textStyle={fontStyles.mainTextStyleWhite}
 								onPress={() => {
 									//Completes the service

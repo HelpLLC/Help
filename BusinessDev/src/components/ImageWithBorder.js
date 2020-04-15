@@ -1,6 +1,6 @@
 //This component will represent the image with the thick blue border that will appear when viewing a
 //specific product. It will also have a small shadow to give it a floating effect
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BoxShadow } from 'react-native-shadow';
 import { View } from 'react-native';
 import colors from 'config/colors';
@@ -16,7 +16,7 @@ export default function ImageWithBorder(props) {
 	const [image, setImage] = useState({ uri: images.blankWhite });
 
 	loadImage = async () => {
-		const { imageFunction } = this.props;
+		const { imageFunction } = props;
 		const url = await imageFunction();
 		setIsImageLoading(false);
 		setImage(url);

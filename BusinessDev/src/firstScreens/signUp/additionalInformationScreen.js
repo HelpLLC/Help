@@ -11,8 +11,8 @@ import screenStyle from 'config/styles/screenStyle';
 import { Text, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import fontStyles from 'config/styles/fontStyles';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import RoundBlueButton from '../../components/RoundBlueButton';
+import helpButtonStyle from 'config/styles/helpButtonStyle';
+import HelpButton from '../../components/HelpButton';
 import GoogleCityPicker from '../../components/GoogleCityPicker';
 import HelpAlert from '../../components/HelpAlert';
 import { Icon } from 'react-native-elements';
@@ -209,9 +209,9 @@ export default class additionalInformationScreen extends Component {
 							justifyContent: 'flex-end',
 							alignSelf: 'center'
 						}}>
-						<RoundBlueButton
+						<HelpButton
 							title={strings.Next}
-							style={roundBlueButtonStyle.MediumSizeButton}
+							style={helpButtonStyle.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
 							isLoading={this.state.isLoading}
 							onPress={() => {

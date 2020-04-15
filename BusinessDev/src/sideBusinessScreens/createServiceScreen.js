@@ -3,9 +3,9 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity, Keyboard } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
-import RoundBlueButton from '../components/RoundBlueButton';
+import HelpButton from '../components/HelpButton';
 import RNPickerSelect from 'react-native-picker-select';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import helpButtonStyle from 'config/styles/helpButtonStyle';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import { BoxShadow } from 'react-native-shadow';
@@ -488,9 +488,9 @@ class createServiceScreen extends Component {
 									justifyContent: 'space-evenly',
 									alignItems: 'center',
 								}}>
-								<RoundBlueButton
+								<HelpButton
 									title={strings.Delete}
-									style={roundBlueButtonStyle.MediumSizeButtonRed}
+									style={helpButtonStyle.MediumSizeButtonRed}
 									textStyle={fontStyles.bigTextStyleWhite}
 									onPress={() => {
 										this.setState({ isDeleteServiceVisible: true });
@@ -498,9 +498,9 @@ class createServiceScreen extends Component {
 									disabled={this.state.isLoading}
 								/>
 
-								<RoundBlueButton
+								<HelpButton
 									title={strings.Next}
-									style={roundBlueButtonStyle.MediumSizeButton}
+									style={helpButtonStyle.MediumSizeButton}
 									textStyle={fontStyles.bigTextStyleWhite}
 									onPress={async () => {
 										await this.goToQuestionsScreen();
@@ -510,9 +510,9 @@ class createServiceScreen extends Component {
 							</View>
 						) : (
 							<View style={{ alignItems: 'center', justifyContent: 'center' }}>
-								<RoundBlueButton
+								<HelpButton
 									title={strings.Next}
-									style={roundBlueButtonStyle.MediumSizeButton}
+									style={helpButtonStyle.MediumSizeButton}
 									textStyle={fontStyles.bigTextStyleWhite}
 									onPress={async () => {
 										await this.goToQuestionsScreen();

@@ -9,7 +9,7 @@ import {
 	TouchableWithoutFeedback,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import RoundBlueButton from '../components/RoundBlueButton';
+import HelpButton from '../components/HelpButton';
 import screenStyle from 'config/styles/screenStyle';
 import colors from 'config/colors';
 import { Icon } from 'react-native-elements';
@@ -17,7 +17,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import TopBanner from '../components/TopBanner';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import helpButtonStyle from 'config/styles/helpButtonStyle';
 import HelpView from '../components/HelpView';
 import HelpAlert from '../components/HelpAlert';
 import NetInfo from '@react-native-community/netinfo';
@@ -255,12 +255,12 @@ export default class createPaymentMethodScreen extends Component {
 								width: screenWidth,
 								marginTop: screenHeight * 0.025,
 							}}>
-							<RoundBlueButton
+							<HelpButton
 								title={strings.BankAccount}
 								//Tests if this button is selected, if it is, then the border color will
 								//be blue
 								style={[
-									roundBlueButtonStyle.AccountTypeButton,
+									helpButtonStyle.AccountTypeButton,
 									{
 										//Width increased for longer text
 										width: screenWidth * 0.39,
@@ -280,12 +280,12 @@ export default class createPaymentMethodScreen extends Component {
 								}}
 								disabled={isLoading}
 							/>
-							<RoundBlueButton
+							<HelpButton
 								title={strings.DebitCard}
 								//Tests if this button is selected, if it is, then the border color will
 								//be blue
 								style={[
-									roundBlueButtonStyle.AccountTypeButton,
+									helpButtonStyle.AccountTypeButton,
 									{
 										//Width increased for longer text
 										width: screenWidth * 0.39,
@@ -545,11 +545,11 @@ export default class createPaymentMethodScreen extends Component {
 							)}
 						</View>
 						<View style={{ marginBottom: screenHeight * 0.05 }}>
-							<RoundBlueButton
+							<HelpButton
 								title={strings.Next}
 								disabled={isLoading}
 								isLoading={isLoading}
-								style={roundBlueButtonStyle.MediumSizeButton}
+								style={helpButtonStyle.MediumSizeButton}
 								textStyle={fontStyles.bigTextStyleWhite}
 								onPress={() => {
 									if (isEditing === true) {

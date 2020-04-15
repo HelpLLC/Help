@@ -3,13 +3,13 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
-import RoundBlueButton from '../components/RoundBlueButton';
+import HelpButton from '../components/HelpButton';
 import HelpView from '../components/HelpView';
 import TopBanner from '../components/TopBanner';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import helpButtonStyle from 'config/styles/helpButtonStyle';
 import colors from 'config/colors';
 import OptionPicker from '../components/OptionPicker';
 import strings from 'config/strings';
@@ -185,9 +185,9 @@ export default class viewPaymentMethodScreen extends Component {
 							justifyContent: 'space-evenly',
 							alignItems: 'center',
 						}}>
-						<RoundBlueButton
+						<HelpButton
 							title={strings.Delete}
-							style={roundBlueButtonStyle.MediumSizeButtonRed}
+							style={helpButtonStyle.MediumSizeButtonRed}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={() => {
 								this.setState({ isDeletePaymentMethodVisible: true });
@@ -195,9 +195,9 @@ export default class viewPaymentMethodScreen extends Component {
 							disabled={this.state.isLoading}
 						/>
 
-						<RoundBlueButton
+						<HelpButton
 							title={strings.Edit}
-							style={roundBlueButtonStyle.MediumSizeButton}
+							style={helpButtonStyle.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={() => {
 								//Starts the Stripe Payments process

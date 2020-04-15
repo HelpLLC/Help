@@ -4,11 +4,11 @@ import HelpView from '../components/HelpView';
 import TopBanner from '../components/TopBanner';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
-import RoundBlueButton from '../components/RoundBlueButton';
+import HelpButton from '../components/HelpButton';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view'; 
 import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import helpButtonStyle from 'config/styles/helpButtonStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -242,12 +242,12 @@ class createQuestionsScreen extends Component {
 													marginHorizontal: screenWidth * 0.0125,
 													marginBottom: screenHeight * 0.025
 												}}>
-												<RoundBlueButton
+												<HelpButton
 													title={item.name}
 													//Tests if this button is selected, if it is, then the border color will
 													//be blue
 													style={[
-														roundBlueButtonStyle.AccountTypeButton,
+														helpButtonStyle.AccountTypeButton,
 														{
 															//Width increased for longer text
 															width: screenWidth * 0.39,
@@ -357,9 +357,9 @@ class createQuestionsScreen extends Component {
 									style={{
 										marginTop: screenHeight * 0.03
 									}}>
-									<RoundBlueButton
+									<HelpButton
 										title={strings.Next}
-										style={roundBlueButtonStyle.MediumSizeButton}
+										style={helpButtonStyle.MediumSizeButton}
 										textStyle={fontStyles.bigTextStyleWhite}
 										onPress={async () => {
 											await this.goToAddtionalInfoScreen();

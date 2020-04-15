@@ -3,9 +3,8 @@
 //products and if they click on them, they'll be able to see the products & edit them as well as
 //see other kinds of information. From the requester, clicking on the service would allow them to view
 //the service and request it if they need it.
-import React, { Component, useState, useEffect } from 'react';
-import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
-import serviceCardStyle from 'config/styles/componentStyles/serviceCardStyle';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import PropTypes from 'prop-types';
@@ -23,7 +22,7 @@ export default function ServiceCard(props) {
 	const [image, setImage] = useState('');
 
 	loadImage = async () => {
-		const { imageFunction } = this.props;
+		const { imageFunction } = props;
 		const url = await imageFunction();
 		setIsImageLoading(false);
 		setImage(url);
@@ -79,7 +78,16 @@ export default function ServiceCard(props) {
 						x: 0,
 						y: 5,
 					}}>
-					<View style={serviceCardStyle.style}>
+					<View
+						style={{
+							width: screenWidth - 40,
+							height: screenHeight * 0.21961933,
+							flexDirection: 'row',
+							backgroundColor: colors.white,
+							borderColor: colors.lightBlue,
+							borderWidth: 6,
+							borderRadius: screenHeight * 0.0439238653,
+						}}>
 						<View style={{ flex: 1 }}>
 							{isImageLoading === true ? (
 								<View
