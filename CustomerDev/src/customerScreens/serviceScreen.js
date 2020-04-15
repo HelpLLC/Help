@@ -9,7 +9,7 @@ import {
 	Text,
 	ScrollView,
 	Linking,
-	FlatList
+	FlatList,
 } from 'react-native';
 import HelpView from '../components/HelpView';
 import strings from 'config/strings';
@@ -23,7 +23,6 @@ import FirebaseFunctions from '../../config/FirebaseFunctions';
 import HelpAlert from '../components/HelpAlert';
 import OptionPicker from '../components/OptionPicker';
 import screenStyle from 'config/styles/screenStyle';
-import images from '../../config/images/images';
 import FastImage from 'react-native-fast-image';
 import TopBanner from '../components/TopBanner';
 import ViewMoreText from 'react-native-view-more-text';
@@ -47,10 +46,10 @@ class serviceScreen extends Component {
 		customer: '',
 		reviews: '',
 		isCancelRequestVisible: false,
-		image: images.BlankWhite,
+		image: '',
 		isBusinessReportedVisible: false,
 		isBlockBusinessVisible: false,
-		isBusinessBlockedVisible: false
+		isBusinessBlockedVisible: false,
 	};
 
 	//This will fetch the data about this business and the service from firestore
@@ -61,12 +60,14 @@ class serviceScreen extends Component {
 			//Records that the customer viewed the service
 			await FirebaseFunctions.call('viewService', {
 				serviceID,
-				businessID
+				businessID,
 			});
 			const customer = await FirebaseFunctions.call('getCustomerByID', { customerID });
 			const business = await FirebaseFunctions.call('getBusinessByID', { businessID });
 			const service = await FirebaseFunctions.call('getServiceByID', { serviceID });
-			const url = await FirebaseFunctions.call('getServiceImageByID', { serviceID: serviceID });
+			const url = await FirebaseFunctions.call('getServiceImageByID', {
+				serviceID: serviceID,
+			});
 
 			const isRequested = customer.currentRequests.find(
 				(element) => element.serviceID === serviceID
@@ -83,7 +84,7 @@ class serviceScreen extends Component {
 					service,
 					image: url,
 					requestID: isRequested.requestID,
-					reviews: service.displayedReviews
+					reviews: service.displayedReviews,
 				});
 			} else {
 				this.setState({
@@ -95,7 +96,7 @@ class serviceScreen extends Component {
 					isRequested: false,
 					service,
 					image: url,
-					reviews: service.displayedReviews
+					reviews: service.displayedReviews,
 				});
 			}
 		} catch (error) {
@@ -105,8 +106,8 @@ class serviceScreen extends Component {
 				userID: {
 					screen: 'CustomerServiceScreen',
 					userID: 'c-' + customerID,
-					serviceID
-				}
+					serviceID,
+				},
 			});
 		}
 		this.setState({ isLoading: false });
@@ -115,7 +116,7 @@ class serviceScreen extends Component {
 	callNumber(phoneNumber) {
 		const args = {
 			number: phoneNumber, // String value with the number to call
-			prompt: true // Optional boolean property. Determines if the user should be prompt prior to the call
+			prompt: true, // Optional boolean property. Determines if the user should be prompt prior to the call
 		};
 		const { customer } = this.state;
 		try {
@@ -127,8 +128,8 @@ class serviceScreen extends Component {
 				userID: {
 					screen: 'ServiceScreen',
 					userID: 'c-' + customer.customerID,
-					serviceID: serviceID
-				}
+					serviceID: serviceID,
+				},
 			});
 		}
 	}
@@ -139,7 +140,7 @@ class serviceScreen extends Component {
 		try {
 			email(to, {
 				// Optional additional arguments
-				subject: 'Your Service on Help ' + this.state.service.serviceTitle
+				subject: 'Your Service on Help ' + this.state.service.serviceTitle,
 			});
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
@@ -148,8 +149,8 @@ class serviceScreen extends Component {
 				userID: {
 					screen: 'ServiceScreen',
 					userID: 'c-' + customer.customerID,
-					serviceID: service.serviceID
-				}
+					serviceID: service.serviceID,
+				},
 			});
 		}
 	}
@@ -161,20 +162,20 @@ class serviceScreen extends Component {
 		this.setState({ isLoading: true });
 		await FirebaseFunctions.call('blockBusiness', {
 			customerID: customer.customerID,
-			businessID: business.businessID
+			businessID: business.businessID,
 		});
 
 		//Navigates back to the request screen
 		try {
 			const newCustomerObject = await FirebaseFunctions.call('getCustomerByID', {
-				customerID: customer.customerID
+				customerID: customer.customerID,
 			});
 			const allServices = await FirebaseFunctions.call('getAllServices', {});
 			this.setState({
 				isLoading: false,
 				isBusinessBlockedVisible: true,
 				allServices,
-				newCustomerObject
+				newCustomerObject,
 			});
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
@@ -185,7 +186,7 @@ class serviceScreen extends Component {
 		const { business, customer } = this.state;
 		FirebaseFunctions.call('reportIssue', {
 			userID: customer.customerID,
-			issue: 'Report against business #' + business.businessID
+			issue: 'Report against business #' + business.businessID,
 		});
 		this.setState({ isBusinessReportedVisible: true });
 	}
@@ -199,7 +200,7 @@ class serviceScreen extends Component {
 			customer,
 			business,
 			businessID,
-			customerID
+			customerID,
 		} = this.state;
 		if (isLoading === true) {
 			return (
@@ -228,21 +229,23 @@ class serviceScreen extends Component {
 								style={{
 									flexDirection: 'column',
 									marginTop: screenHeight * 0.02,
-									width: screenWidth
+									width: screenWidth,
 								}}>
 								<View
 									style={{
 										flexDirection: 'row',
 										justifyContent: 'space-between',
-										width: screenWidth
+										width: screenWidth,
 									}}>
 									<View
 										style={{
 											justifyContent: 'flex-start',
 											marginLeft: screenWidth * 0.05,
-											flexDirection: 'column'
+											flexDirection: 'column',
 										}}>
-										<Text style={fontStyles.bigTextStyleBlack}>{service.serviceTitle}</Text>
+										<Text style={fontStyles.bigTextStyleBlack}>
+											{service.serviceTitle}
+										</Text>
 									</View>
 								</View>
 								<View
@@ -250,7 +253,7 @@ class serviceScreen extends Component {
 										marginLeft: screenWidth * 0.04,
 										alignItems: 'center',
 										justifyContent: 'space-between',
-										flexDirection: 'row'
+										flexDirection: 'row',
 									}}>
 									<View style={{ flexDirection: 'row' }}>
 										<AirbnbRating
@@ -260,11 +263,14 @@ class serviceScreen extends Component {
 											defaultRating={service.averageRating}
 											showRating={false}
 										/>
-										<Text style={fontStyles.subTextStyleBlack}> ({service.totalReviews})</Text>
+										<Text style={fontStyles.subTextStyleBlack}>
+											{' '}
+											({service.totalReviews})
+										</Text>
 									</View>
 									<View
 										style={{
-											marginRight: screenWidth * 0.05
+											marginRight: screenWidth * 0.05,
 										}}>
 										<TouchableOpacity onPress={() => this.ActionSheet.show()}>
 											<Icon
@@ -279,19 +285,23 @@ class serviceScreen extends Component {
 								<View
 									style={{
 										justifyContent: 'flex-start',
-										marginLeft: screenWidth * 0.05
+										marginLeft: screenWidth * 0.05,
 									}}>
 									<View>
-										<Text style={fontStyles.subTextStyleGray}>{strings.OfferedBy}</Text>
+										<Text style={fontStyles.subTextStyleGray}>
+											{strings.OfferedBy}
+										</Text>
 									</View>
 									<TouchableOpacity
 										onPress={() => {
 											this.props.navigation.push('BusinessProfileScreen', {
 												business,
-												customer
+												customer,
 											});
 										}}>
-										<Text style={fontStyles.bigTextStyleBlue}>{business.businessName}</Text>
+										<Text style={fontStyles.bigTextStyleBlue}>
+											{business.businessName}
+										</Text>
 									</TouchableOpacity>
 								</View>
 							</View>
@@ -303,25 +313,25 @@ class serviceScreen extends Component {
 									borderTopWidth: 4,
 									width: screenWidth,
 									height: 258,
-									marginVertical: screenHeight * 0.02
+									marginVertical: screenHeight * 0.02,
 								}}>
 								<FastImage
 									style={{
 										width: screenWidth,
-										height: 250
+										height: 250,
 									}}
 									source={this.state.image}
 								/>
 							</View>
 							<View
 								style={{
-									marginVertical: screenHeight * 0.03
+									marginVertical: screenHeight * 0.03,
 								}}>
 								<View
 									style={{
 										justifyContent: 'center',
 										width: screenWidth * 0.92,
-										marginLeft: screenWidth * 0.04
+										marginLeft: screenWidth * 0.04,
 									}}>
 									<ViewMoreText
 										numberOfLines={3}
@@ -331,9 +341,11 @@ class serviceScreen extends Component {
 													onPress={onPress}
 													style={{
 														width: screenWidth * 0.3,
-														height: screenHeight * 0.1
+														height: screenHeight * 0.1,
 													}}>
-													<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadMore}</Text>
+													<Text style={fontStyles.mainTextStyleBlue}>
+														{strings.ReadMore}
+													</Text>
 												</TouchableOpacity>
 											);
 										}}
@@ -343,97 +355,120 @@ class serviceScreen extends Component {
 													onPress={onPress}
 													style={{
 														width: screenWidth * 0.3,
-														height: screenHeight * 0.1
+														height: screenHeight * 0.1,
 													}}>
-													<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadLess}</Text>
+													<Text style={fontStyles.mainTextStyleBlue}>
+														{strings.ReadLess}
+													</Text>
 												</TouchableOpacity>
 											);
 										}}
 										textStyle={{ textAlign: 'left' }}>
-										<Text style={fontStyles.subTextStyleBlack}>{service.serviceDescription}</Text>
+										<Text style={fontStyles.subTextStyleBlack}>
+											{service.serviceDescription}
+										</Text>
 									</ViewMoreText>
 								</View>
 								<View
 									style={{
 										justifyContent: 'center',
 										alignItems: 'center',
-										marginBottom: screenHeight * 0.04
+										marginBottom: screenHeight * 0.04,
 									}}>
-									<Text style={fontStyles.bigTextStyleBlack}>{service.priceText}</Text>
+									<Text style={fontStyles.bigTextStyleBlack}>
+										{service.priceText}
+									</Text>
 								</View>
 
-								{//First tests if the service has been removed by the business (in this case, the service
-								//is probably being accessed from order history). If the service still exists, it will test
-								//if the service has been requested or not
-								this.state.service.isDeleted && this.state.service.isDeleted === true ? (
-									<View
-										style={{
-											justifyContent: 'center',
-											alignItems: 'center',
-											marginTop: screenHeight * 0.05,
-											width: screenWidth * 0.95
-										}}>
-										<Text style={fontStyles.bigTextStyleBlack}>{strings.ServiceDeleted}</Text>
-									</View>
-								) : isRequested === false ? (
-									<View
-										style={{
-											flex: 1,
-											justifyContent: 'center',
-											alignItems: 'center',
-											marginTop: screenHeight * 0.05
-										}}>
-										<HelpButton
-											title={strings.Request}
-											style={helpButtonStyles.MediumSizeButton}
-											textStyle={fontStyles.bigTextStyleWhite}
-											onPress={() => {
-												const { service, customer } = this.state;
-												//If the service has questions associated with it, then it will
-												//go to the questions screen. If it only has a schedule associated
-												//with it, it will go to the scheduling screen.
-												if (service.questions.length > 0) {
-													this.props.navigation.push('ServiceQuestionsScreen', {
-														service,
-														customer,
-														isEditing: false
-													});
-												}
-												//All services would require scheduling, so it goes to the
-												//scheduling screen no matter what
-												else {
-													//Navigates to the scheduling screen
-													this.props.navigation.push('BusinessScheduleScreen', {
-														service,
-														customer,
-														isEditing: false
-													});
-												}
-											}}
-										/>
-									</View>
-								) : (
-									<View
-										style={{
-											flex: 1,
-											justifyContent: 'center',
-											alignItems: 'center',
-											marginTop: screenHeight * 0.05
-										}}>
-										<HelpButton
-											title={strings.ViewRequest}
-											style={[helpButtonStyles.MediumSizeButton, { width: screenWidth * 0.45 }]}
-											textStyle={fontStyles.bigTextStyleWhite}
-											onPress={() => {
-												//This take the user to the screen to view their request for this service
-												this.props.navigation.push('ServiceRequestedScreen', {
-													requestID: this.state.requestID,
-													customer
-												});
-											}}
-										/>
-									</View>
-								)}
+								{
+									//First tests if the service has been removed by the business (in this case, the service
+									//is probably being accessed from order history). If the service still exists, it will test
+									//if the service has been requested or not
+									this.state.service.isDeleted &&
+									this.state.service.isDeleted === true ? (
+										<View
+											style={{
+												justifyContent: 'center',
+												alignItems: 'center',
+												marginTop: screenHeight * 0.05,
+												width: screenWidth * 0.95,
+											}}>
+											<Text style={fontStyles.bigTextStyleBlack}>
+												{strings.ServiceDeleted}
+											</Text>
+										</View>
+									) : isRequested === false ? (
+										<View
+											style={{
+												flex: 1,
+												justifyContent: 'center',
+												alignItems: 'center',
+												marginTop: screenHeight * 0.05,
+											}}>
+											<HelpButton
+												title={strings.Request}
+												style={helpButtonStyles.MediumSizeButton}
+												textStyle={fontStyles.bigTextStyleWhite}
+												onPress={() => {
+													const { service, customer } = this.state;
+													//If the service has questions associated with it, then it will
+													//go to the questions screen. If it only has a schedule associated
+													//with it, it will go to the scheduling screen.
+													if (service.questions.length > 0) {
+														this.props.navigation.push(
+															'ServiceQuestionsScreen',
+															{
+																service,
+																customer,
+																isEditing: false,
+															}
+														);
+													}
+													//All services would require scheduling, so it goes to the
+													//scheduling screen no matter what
+													else {
+														//Navigates to the scheduling screen
+														this.props.navigation.push(
+															'BusinessScheduleScreen',
+															{
+																service,
+																customer,
+																isEditing: false,
+															}
+														);
+													}
+												}}
+											/>
+										</View>
+									) : (
+										<View
+											style={{
+												flex: 1,
+												justifyContent: 'center',
+												alignItems: 'center',
+												marginTop: screenHeight * 0.05,
+											}}>
+											<HelpButton
+												title={strings.ViewRequest}
+												style={[
+													helpButtonStyles.MediumSizeButton,
+													{ width: screenWidth * 0.45 },
+												]}
+												textStyle={fontStyles.bigTextStyleWhite}
+												onPress={() => {
+													//This take the user to the screen to view their request for this service
+													this.props.navigation.push(
+														'ServiceRequestedScreen',
+														{
+															requestID: this.state.requestID,
+															customer,
+														}
+													);
+												}}
+											/>
+										</View>
+									)
+								}
 							</View>
 							<View
 								style={{
@@ -443,7 +478,7 @@ class serviceScreen extends Component {
 									alignSelf: 'center',
 									borderBottomWidth: 0.5,
 									borderBottomColor: colors.gray,
-									width: screenWidth * 0.9
+									width: screenWidth * 0.9,
 								}}>
 								<View
 									style={{
@@ -452,32 +487,39 @@ class serviceScreen extends Component {
 										justifyContent: 'space-between',
 										alignSelf: 'center',
 										borderTopWidth: 0.5,
-										borderTopColor: colors.gray
+										borderTopColor: colors.gray,
 									}}>
 									<View
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-start',
 											marginTop: screenHeight * 0.01,
-											marginBottom: screenHeight * 0.01
+											marginBottom: screenHeight * 0.01,
 										}}>
-										<Text style={fontStyles.mainTextStyleBlack}>{strings.BusinessName}</Text>
+										<Text style={fontStyles.mainTextStyleBlack}>
+											{strings.BusinessName}
+										</Text>
 									</View>
 									<View
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-end',
 											marginBottom: screenHeight * 0.01,
-											alignItems: 'flex-end'
+											alignItems: 'flex-end',
 										}}>
 										<TouchableOpacity
 											onPress={() => {
-												this.props.navigation.push('BusinessProfileScreen', {
-													business,
-													customer
-												});
+												this.props.navigation.push(
+													'BusinessProfileScreen',
+													{
+														business,
+														customer,
+													}
+												);
 											}}>
-											<Text style={fontStyles.mainTextStyleBlue}>{business.businessName}</Text>
+											<Text style={fontStyles.mainTextStyleBlue}>
+												{business.businessName}
+											</Text>
 										</TouchableOpacity>
 									</View>
 								</View>
@@ -488,29 +530,33 @@ class serviceScreen extends Component {
 										justifyContent: 'space-between',
 										alignSelf: 'center',
 										borderTopWidth: 0.5,
-										borderTopColor: colors.gray
+										borderTopColor: colors.gray,
 									}}>
 									<View
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-start',
 											marginTop: screenHeight * 0.01,
-											marginBottom: screenHeight * 0.01
+											marginBottom: screenHeight * 0.01,
 										}}>
-										<Text style={fontStyles.mainTextStyleBlack}>{strings.PhoneNumber}</Text>
+										<Text style={fontStyles.mainTextStyleBlack}>
+											{strings.PhoneNumber}
+										</Text>
 									</View>
 									<View
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-end',
 											marginBottom: screenHeight * 0.01,
-											alignItems: 'flex-end'
+											alignItems: 'flex-end',
 										}}>
 										<TouchableOpacity
 											onPress={() => {
 												this.callNumber(business.phoneNumber);
 											}}>
-											<Text style={fontStyles.mainTextStyleBlue}>{business.phoneNumber}</Text>
+											<Text style={fontStyles.mainTextStyleBlue}>
+												{business.phoneNumber}
+											</Text>
 										</TouchableOpacity>
 									</View>
 								</View>
@@ -521,23 +567,25 @@ class serviceScreen extends Component {
 										justifyContent: 'space-between',
 										alignSelf: 'center',
 										borderTopWidth: 0.5,
-										borderTopColor: colors.gray
+										borderTopColor: colors.gray,
 									}}>
 									<View
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-start',
 											marginTop: screenHeight * 0.01,
-											marginBottom: screenHeight * 0.01
+											marginBottom: screenHeight * 0.01,
 										}}>
-										<Text style={fontStyles.mainTextStyleBlack}>{strings.Email}</Text>
+										<Text style={fontStyles.mainTextStyleBlack}>
+											{strings.Email}
+										</Text>
 									</View>
 									<View
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-end',
 											marginBottom: screenHeight * 0.01,
-											alignItems: 'flex-end'
+											alignItems: 'flex-end',
 										}}>
 										<TouchableOpacity
 											onPress={() => {
@@ -545,7 +593,8 @@ class serviceScreen extends Component {
 											}}>
 											<Text style={fontStyles.mainTextStyleBlue}>
 												{business.email.length > 14
-													? business.email.substring(0, 13) + strings.DotDotDot
+													? business.email.substring(0, 13) +
+													  strings.DotDotDot
 													: business.email}
 											</Text>
 										</TouchableOpacity>
@@ -558,24 +607,28 @@ class serviceScreen extends Component {
 										justifyContent: 'space-between',
 										alignSelf: 'center',
 										borderTopWidth: 0.5,
-										borderTopColor: colors.gray
+										borderTopColor: colors.gray,
 									}}>
 									<View
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-start',
 											marginTop: screenHeight * 0.01,
-											marginBottom: screenHeight * 0.01
+											marginBottom: screenHeight * 0.01,
 										}}>
-										<Text style={fontStyles.mainTextStyleBlack}>{strings.City}</Text>
+										<Text style={fontStyles.mainTextStyleBlack}>
+											{strings.City}
+										</Text>
 									</View>
 									<View
 										style={{
 											flexDirection: 'column',
 											justifyContent: 'flex-end',
-											marginBottom: screenHeight * 0.01
+											marginBottom: screenHeight * 0.01,
 										}}>
-										<Text style={fontStyles.mainTextStyleBlack}>{business.location}</Text>
+										<Text style={fontStyles.mainTextStyleBlack}>
+											{business.location}
+										</Text>
 									</View>
 								</View>
 								{business.website && business.website.length > 0 ? (
@@ -586,44 +639,50 @@ class serviceScreen extends Component {
 											justifyContent: 'space-between',
 											alignSelf: 'center',
 											borderTopWidth: 0.5,
-											borderTopColor: colors.gray
+											borderTopColor: colors.gray,
 										}}>
 										<View
 											style={{
 												flexDirection: 'column',
 												justifyContent: 'flex-start',
 												marginTop: screenHeight * 0.01,
-												marginBottom: screenHeight * 0.01
+												marginBottom: screenHeight * 0.01,
 											}}>
-											<Text style={fontStyles.mainTextStyleBlack}>{strings.Website}</Text>
+											<Text style={fontStyles.mainTextStyleBlack}>
+												{strings.Website}
+											</Text>
 										</View>
 										<View
 											style={{
 												flexDirection: 'column',
 												justifyContent: 'flex-end',
 												marginBottom: screenHeight * 0.01,
-												alignItems: 'flex-end'
+												alignItems: 'flex-end',
 											}}>
 											<TouchableOpacity
 												onPress={() => {
 													try {
-														Linking.openURL('https://' + business.website);
+														Linking.openURL(
+															'https://' + business.website
+														);
 													} catch (error) {
 														this.setState({
 															isLoading: false,
-															isErrorVisible: true
+															isErrorVisible: true,
 														});
 														FirebaseFunctions.call('logIssue', {
 															error,
 															userID: {
 																screen: 'ServiceScreen',
 																userID: 'c-' + customer.customerID,
-																serviceID: service.serviceID
-															}
+																serviceID: service.serviceID,
+															},
 														});
 													}
 												}}>
-												<Text style={fontStyles.mainTextStyleBlue}>{business.website}</Text>
+												<Text style={fontStyles.mainTextStyleBlue}>
+													{business.website}
+												</Text>
 											</TouchableOpacity>
 										</View>
 									</View>
@@ -637,25 +696,29 @@ class serviceScreen extends Component {
 									justifyContent: 'center',
 									alignItems: 'center',
 									marginTop: screenHeight * 0.02,
-									marginHorizontal: screenWidth * 0.05
+									marginHorizontal: screenWidth * 0.05,
 								}}>
-								<Text style={fontStyles.subTextStyleBlack}>{business.businessDescription}</Text>
+								<Text style={fontStyles.subTextStyleBlack}>
+									{business.businessDescription}
+								</Text>
 							</View>
 							<View
 								style={{
 									flexDirection: 'column',
 									justifyContent: 'center',
 									alignItems: 'center',
-									marginTop: screenHeight * 0.02
+									marginTop: screenHeight * 0.02,
 								}}>
 								<TouchableOpacity
 									onPress={() => {
 										this.props.navigation.push('BusinessProfileScreen', {
 											business,
-											customer
+											customer,
 										});
 									}}>
-									<Text style={fontStyles.mainTextStyleBlue}>{strings.MoreByThisBusiness}</Text>
+									<Text style={fontStyles.mainTextStyleBlue}>
+										{strings.MoreByThisBusiness}
+									</Text>
 								</TouchableOpacity>
 							</View>
 							<View style={{ height: screenHeight * 0.05 }}></View>
@@ -666,9 +729,11 @@ class serviceScreen extends Component {
 											alignItems: 'flex-start',
 											alignSelf: 'center',
 											width: screenWidth * 0.9,
-											marginBottom: screenHeight * 0.05
+											marginBottom: screenHeight * 0.05,
 										}}>
-										<Text style={fontStyles.mainTextStyleBlack}>{strings.CustomerReviews}</Text>
+										<Text style={fontStyles.mainTextStyleBlack}>
+											{strings.CustomerReviews}
+										</Text>
 									</View>
 									<FlatList
 										showsHorizontalScrollIndicator={false}
@@ -719,7 +784,7 @@ class serviceScreen extends Component {
 							this.setState({ isBusinessBlockedVisible: false });
 							this.props.navigation.push('FeaturedScreen', {
 								customer: this.state.newCustomerObject,
-								allServices: this.state.allServices
+								allServices: this.state.allServices,
 							});
 						}}
 						title={strings.BusinessBlocked}
@@ -731,7 +796,7 @@ class serviceScreen extends Component {
 						options={[strings.Report, strings.Block, strings.Cancel]}
 						cancelButtonIndex={3}
 						styles={{
-							titleText: fontStyles.subTextStyleBlue
+							titleText: fontStyles.subTextStyleBlue,
 						}}
 						destructiveButtonIndex={3}
 						onPress={(index) => {
@@ -745,7 +810,9 @@ class serviceScreen extends Component {
 					<OptionPicker
 						isVisible={this.state.isBlockBusinessVisible}
 						title={strings.Block}
-						message={strings.AreYouSureYouWantToBlock + ' ' + business.businessName + '?'}
+						message={
+							strings.AreYouSureYouWantToBlock + ' ' + business.businessName + '?'
+						}
 						confirmText={strings.Yes}
 						cancelText={strings.Cancel}
 						clickOutside={true}

@@ -7,13 +7,12 @@ import colors from 'config/colors';
 import PropTypes from 'prop-types';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import LoadingSpinner from './LoadingSpinner';
-import images from 'config/images/images';
 import FastImage from 'react-native-fast-image';
 
 export default function ImageWithBorder(props) {
 	//Starts out the loading state as true until the image is downloaded from the database
 	const [isImageLoading, setIsImageLoading] = useState(true);
-	const [image, setImage] = useState({ uri: images.blankWhite });
+	const [image, setImage] = useState();
 
 	const loadImage = async () => {
 		const { imageFunction } = props;
