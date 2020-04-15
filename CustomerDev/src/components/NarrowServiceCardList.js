@@ -10,7 +10,7 @@ import { screenWidth, screenHeight } from 'config/dimensions';
 //Defines the class
 export default function NarrowServiceCardList(props) {
 	//This function goes to a screen of a specific service based on its index within the services array
-	function goToServiceScreen(index) {
+	goToServiceScreen = (index) => {
 		//If an exclusive onPress function is called, that will be called instead
 		if (props.onPress) {
 			const { services } = props;
@@ -22,54 +22,62 @@ export default function NarrowServiceCardList(props) {
 				customerID,
 				businessID: services[index].businessID
 					? services[index].businessID
-					: props.navigation.state.params.business.businessID
+					: props.navigation.state.params.business.businessID,
 			});
 		}
-	}
-		//Fetches the array of services from the props along with the customer object that is signed in
-		const { services } = props;
-		return (
-			<FlatList
-				showsHorizontalScrollIndicator={false}
-				showsVerticalScrollIndicator={false}
-				data={services}
-				numColumns={2}
-				maxToRenderPerBatch={2}
-				initialNumToRender={2}
-				windowSize={3}
-				keyExtractor={(item, index) => item.serviceID + index.toString()}
-				showsVerticalScrollIndicator={false}
-				renderItem={({ item, index }) => (
-					<View style={{ flexDirection: 'row' }}>
-						{//Adds a space before the first service if there is only one service because it otherwise has justify
+	};
+	//Fetches the array of services from the props along with the customer object that is signed in
+	const { services } = props;
+	return (
+		<FlatList
+			showsHorizontalScrollIndicator={false}
+			showsVerticalScrollIndicator={false}
+			data={services}
+			numColumns={2}
+			maxToRenderPerBatch={2}
+			initialNumToRender={2}
+			windowSize={3}
+			keyExtractor={(item, index) => item.serviceID + index.toString()}
+			showsVerticalScrollIndicator={false}
+			renderItem={({ item, index }) => (
+				<View style={{ flexDirection: 'row' }}>
+					{
+						//Adds a space before the first service if there is only one service because it otherwise has justify
 						//content of flex start
-						services.length === 1 ? <View style={{ width: screenWidth * 0.03 }} /> : <View></View>}
-						<NarrowServiceCard
-							serviceTitle={item.serviceTitle}
-							price={props.date ? item.date : item.priceText}
-							imageFunction={async () => {
-								//Passes in the function to retrieve the image of this product
-								return await FirebaseFunctions.call('getServiceImageByID', {
-									serviceID: item.serviceID
-								});
-							}}
-							totalReviews={item.totalReviews}
-							averageRating={item.averageRating}
-							numCurrentRequests={0}
-							//Passes all of the necessary props to the actual screen that contains
-							//more information about the service
-							onPress={() => {
-								goToServiceScreen(index);
-							}}
-						/>
-						{//Adds a space in between each column
+						services.length === 1 ? (
+							<View style={{ width: screenWidth * 0.03 }} />
+						) : (
+							<View></View>
+						)
+					}
+					<NarrowServiceCard
+						serviceTitle={item.serviceTitle}
+						price={props.date ? item.date : item.priceText}
+						imageFunction={async () => {
+							//Passes in the function to retrieve the image of this product
+							return await FirebaseFunctions.call('getServiceImageByID', {
+								serviceID: item.serviceID,
+							});
+						}}
+						totalReviews={item.totalReviews}
+						averageRating={item.averageRating}
+						numCurrentRequests={0}
+						//Passes all of the necessary props to the actual screen that contains
+						//more information about the service
+						onPress={() => {
+							goToServiceScreen(index);
+						}}
+					/>
+					{
+						//Adds a space in between each column
 						index % 2 === 0 && services.length > 1 ? (
 							<View style={{ width: screenWidth * 0.03 }} />
 						) : (
 							<View></View>
-						)}
-					</View>
-				)}
-			/>
-		);
-	}
+						)
+					}
+				</View>
+			)}
+		/>
+	);
+}

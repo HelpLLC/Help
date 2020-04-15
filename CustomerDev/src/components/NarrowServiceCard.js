@@ -20,12 +20,12 @@ export default function NarrowServiceCardFunction(props) {
 	const [image, setImage] = useState('');
 
 	// useEffect can't return a promise so this async function returns it, which is called in useEffect
-	async function loadImage() {
+	loadImage = async () => {
 		const { imageFunction } = props;
 		const url = await imageFunction();
 		setImage(url);
 		setIsImageLoading(false);
-	}
+	};
 
 	//Loads the image
 	useEffect(() => {
@@ -74,7 +74,12 @@ export default function NarrowServiceCardFunction(props) {
 					<View style={narrowServiceCardStyle.style}>
 						<View style={{ flex: 1 }}>
 							{isImageLoading === true ? (
-								<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+								<View
+									style={{
+										flex: 1,
+										alignItems: 'center',
+										justifyContent: 'center',
+									}}>
 									<LoadingSpinner isVisible={true} />
 								</View>
 							) : (
@@ -119,7 +124,10 @@ export default function NarrowServiceCardFunction(props) {
 										defaultRating={averageRating}
 										showRating={false}
 									/>
-									<Text style={fontStyles.subTextStyleBlack}> ({totalReviews})</Text>
+									<Text style={fontStyles.subTextStyleBlack}>
+										{' '}
+										({totalReviews})
+									</Text>
 								</View>
 							) : (
 								<View></View>

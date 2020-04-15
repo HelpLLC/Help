@@ -28,7 +28,7 @@ export default function ChatCard(props) {
 	//Returns the string that represents when the message was sent. Needs to be changed to replicated
 	//If it was sent today, it shows the time. If it was sent within a week, it says the day. Otherwise,
 	//shows the date
-	function getTimeTextString(timeText) {
+	getTimeTextString = (timeText) => {
 		let dateSent = new Date(timeText);
 		let today = new Date();
 		//If same day
@@ -47,7 +47,7 @@ export default function ChatCard(props) {
 		} else {
 			return dateSent.getMonth() + '/' + dateSent.getDate();
 		}
-	}
+	};
 
 	const timeTextToString = getTimeTextString(timeText);
 	return (
@@ -66,7 +66,9 @@ export default function ChatCard(props) {
 						}}>
 						<Text style={fontStyles.mainTextStyleBlack}>{username}</Text>
 						<Text style={fontStyles.subTextStyleGray}>
-							{previewText.length > 25 ? previewText.substring(0, 24).trim() + '...' : previewText}
+							{previewText.length > 25
+								? previewText.substring(0, 24).trim() + '...'
+								: previewText}
 						</Text>
 					</View>
 					<View
