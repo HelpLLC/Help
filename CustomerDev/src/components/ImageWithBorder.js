@@ -17,6 +17,7 @@ class ImageWithBorder extends Component {
 		image: { uri: images.blankWhite }
 	};
 
+
 	//Loads the image (async)
 	async componentDidMount() {
 		const { imageFunction } = this.props;

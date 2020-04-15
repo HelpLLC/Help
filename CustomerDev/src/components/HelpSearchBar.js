@@ -8,47 +8,41 @@ import colors from 'config/colors';
 import helpSearchBarStyle from 'config/styles/componentStyles/helpSearchBarStyle';
 import { screenWidth, screenHeight } from 'config/dimensions';
 
-class HelpSearchBar extends Component {
-	render() {
-		const { onChangeText, value, placeholderText, onSubmitEditing } = this.props;
-		return (
-			<View
-				style={{
-					marginTop: screenHeight * 0.02,
-					marginBottom: screenHeight * 0.01,
-					width: screenWidth * 0.96
-				}}>
-				{/*  Where we display search */}
-				<SearchBar
-					placeholder={placeholderText}
-					onChangeText={(value) => {
-						onChangeText(value);
-					}}
-					onSubmitEditing={() => {
-						onSubmitEditing()
-					}}
-					returnKeyType={'search'}
-					value={value}
-					inputStyle={{
-						color: colors.black
-					}}
-					searchIcon={<Icon name={'search'} type='font-awesome' size={30} color={colors.black} />}
-					containerStyle={helpSearchBarStyle.containerStyle}
-					inputContainerStyle={helpSearchBarStyle.inputContainerStyle}
-				/>
-			</View>
-		);
-	}
+export default function HelpSearchBar(props) {
+	//Determines the props for this component. For the HelpSearchBar, the components will be the value of the searched input, and
+	//a function with what to do when that searched input changes. Another prop is the placeholder text displaying what the search bar's
+	//purpose is
+	HelpSearchBar.propTypes = {
+		onChangeText: PropTypes.func.isRequired,
+		value: PropTypes.string.isRequired,
+		placeholderText: PropTypes.string.isRequired,
+	};
+	const { onChangeText, value, placeholderText, onSubmitEditing } = props;
+	return (
+		<View
+			style={{
+				marginTop: screenHeight * 0.02,
+				marginBottom: screenHeight * 0.01,
+				width: screenWidth * 0.96,
+			}}>
+			{/*  Where we display search */}
+			<SearchBar
+				placeholder={placeholderText}
+				onChangeText={(value) => {
+					onChangeText(value);
+				}}
+				onSubmitEditing={() => {
+					onSubmitEditing();
+				}}
+				returnKeyType={'search'}
+				value={value}
+				inputStyle={{
+					color: colors.black,
+				}}
+				searchIcon={<Icon name={'search'} type='font-awesome' size={30} color={colors.black} />}
+				containerStyle={helpSearchBarStyle.containerStyle}
+				inputContainerStyle={helpSearchBarStyle.inputContainerStyle}
+			/>
+		</View>
+	);
 }
-
-//Determines the props for this component. For the HelpSearchBar, the components will be the value of the searched input, and
-//a function with what to do when that searched input changes. Another prop is the placeholder text displaying what the search bar's
-//purpose is
-HelpSearchBar.propTypes = {
-	onChangeText: PropTypes.func.isRequired,
-	value: PropTypes.string.isRequired,
-	placeholderText: PropTypes.string.isRequired
-};
-
-//Exports the module
-export default HelpSearchBar;
