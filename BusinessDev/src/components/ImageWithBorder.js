@@ -33,7 +33,7 @@ export default function ImageWithBorder(props) {
 
 	//Fetches the height and width which will be passed in as props, along with of course the actual
 	//image
-	const { width, height } = this.props;
+	const { width, height } = props;
 
 	return (
 		<BoxShadow
