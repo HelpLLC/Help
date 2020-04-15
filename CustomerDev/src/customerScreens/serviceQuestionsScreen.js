@@ -5,8 +5,8 @@ import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import HelpView from '../components/HelpView';
 import TopBanner from '../components/TopBanner';
 import strings from '../../config/strings';
-import RoundBlueButton from '../components/RoundBlueButton';
-import roundBlueButtonStyle from '../../config/styles/componentStyles/roundBlueButtonStyle';
+import HelpButton from '../components/HelpButton';
+import helpButtonStyles from '../../config/styles/helpButtonStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import fontStyles from '../../config/styles/fontStyles';
 import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
@@ -151,9 +151,9 @@ class serviceQuestionsScreen extends Component {
 					)}
 					ListFooterComponent={
 						<View style={{ marginTop: screenHeight * 0.05, marginTop: screenHeight * 0.1 }}>
-							<RoundBlueButton
+							<HelpButton
 								title={strings.Next}
-								style={roundBlueButtonStyle.MediumSizeButton}
+								style={helpButtonStyles.MediumSizeButton}
 								textStyle={fontStyles.bigTextStyleWhite}
 								isLoading={this.state.isLoading}
 								onPress={() => {

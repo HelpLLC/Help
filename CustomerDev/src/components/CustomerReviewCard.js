@@ -1,10 +1,10 @@
 //This component will represent a customer review card which will be present when a requester is viewing a service
 //It will show the star rating, the name of the person who reviewed the product, along with the comment they
 //left about the product
-import React, { Component } from 'react';
-import { View, Text, Dimensions } from 'react-native';
-import { Rating, AirbnbRating } from 'react-native-ratings';
-import PropTypes, { string } from 'prop-types';
+import React from 'react';
+import { View, Text } from 'react-native';
+import { AirbnbRating } from 'react-native-ratings';
+import PropTypes from 'prop-types';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import ViewMoreText from 'react-native-view-more-text';
 import ImageWithBorder from './ImageWithBorder';
@@ -53,7 +53,9 @@ export default function CustomerReviewCard(props) {
 					height={screenHeight * 0.06}
 					imageFunction={async () => {
 						//Passes in the function to retrieve the image of this requester
-						return await FirebaseFunctions.call('getProfilePictureByID', { ID: customerID });
+						return await FirebaseFunctions.call('getProfilePictureByID', {
+							ID: customerID,
+						});
 					}}
 				/>
 				<View style={{ width: screenWidth * 0.05 }}></View>

@@ -15,8 +15,8 @@ import HelpView from '../components/HelpView';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
-import RoundBlueButton from '../components/RoundBlueButton';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import HelpButton from '../components/HelpButton';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
@@ -383,9 +383,9 @@ class serviceScreen extends Component {
 											alignItems: 'center',
 											marginTop: screenHeight * 0.05
 										}}>
-										<RoundBlueButton
+										<HelpButton
 											title={strings.Request}
-											style={roundBlueButtonStyle.MediumSizeButton}
+											style={helpButtonStyles.MediumSizeButton}
 											textStyle={fontStyles.bigTextStyleWhite}
 											onPress={() => {
 												const { service, customer } = this.state;
@@ -420,9 +420,9 @@ class serviceScreen extends Component {
 											alignItems: 'center',
 											marginTop: screenHeight * 0.05
 										}}>
-										<RoundBlueButton
+										<HelpButton
 											title={strings.ViewRequest}
-											style={[roundBlueButtonStyle.MediumSizeButton, { width: screenWidth * 0.45 }]}
+											style={[helpButtonStyles.MediumSizeButton, { width: screenWidth * 0.45 }]}
 											textStyle={fontStyles.bigTextStyleWhite}
 											onPress={() => {
 												//This take the user to the screen to view their request for this service

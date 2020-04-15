@@ -26,6 +26,13 @@ export default function NarrowServiceCardList(props) {
 			});
 		}
 	};
+
+	//These are the propTypes for the NarrowServiceCard component. It defines whether they are required or not
+	//and what their types should be
+	NarrowServiceCardList.propTypes = {
+		services: PropTypes.array.isRequired,
+	};
+
 	//Fetches the array of services from the props along with the customer object that is signed in
 	const { services } = props;
 	return (

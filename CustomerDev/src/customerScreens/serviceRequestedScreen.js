@@ -13,8 +13,8 @@ import FastImage from 'react-native-fast-image';
 import LoadingSpinner from '../components/LoadingSpinner';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import RoundBlueButton from '../components/RoundBlueButton';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import HelpButton from '../components/HelpButton';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpAlert from '../components/HelpAlert';
 
@@ -278,9 +278,9 @@ export default class serviceRequestedScreen extends Component {
 										flexDirection: 'row',
 										justifyContent: 'space-evenly'
 									}}>
-									<RoundBlueButton
+									<HelpButton
 										title={strings.OrderAgain}
-										style={roundBlueButtonStyle.MediumSizeButton}
+										style={helpButtonStyles.MediumSizeButton}
 										textStyle={fontStyles.bigTextStyleWhite}
 										onPress={() => {
 											this.props.navigation.push('RequesterServiceScreen', {
@@ -299,9 +299,9 @@ export default class serviceRequestedScreen extends Component {
 										flexDirection: 'row',
 										justifyContent: 'space-evenly'
 									}}>
-									<RoundBlueButton
+									<HelpButton
 										title={strings.Cancel}
-										style={roundBlueButtonStyle.SmallSizeButton}
+										style={helpButtonStyles.SmallSizeButton}
 										textStyle={fontStyles.mainTextStyleWhite}
 										onPress={() => {
 											this.setState({
@@ -310,9 +310,9 @@ export default class serviceRequestedScreen extends Component {
 										}}
 										disabled={this.state.isLoading}
 									/>
-									<RoundBlueButton
+									<HelpButton
 										title={strings.Edit}
-										style={roundBlueButtonStyle.SmallSizeButton}
+										style={helpButtonStyles.SmallSizeButton}
 										textStyle={fontStyles.mainTextStyleWhite}
 										onPress={() => {
 											//If the product has questions associated with it, then it will

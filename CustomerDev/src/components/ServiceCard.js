@@ -3,9 +3,8 @@
 //products and if they click on them, they'll be able to see the products & edit them as well as
 //see other kinds of information. From the requester, clicking on the service would allow them to view
 //the service and request it if they need it.
-import React, { Component, useState, useEffect } from 'react';
-import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
-import serviceCardStyle from 'config/styles/componentStyles/serviceCardStyle';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import PropTypes from 'prop-types';
@@ -44,7 +43,14 @@ export default function ServiceCard(props) {
 	//The props for the ServiceCard. It will take in a service title, a description, a price, and an
 	//image to display, along with an onPress method. An additional prop is also how many current
 	//requests this product currently has. This prop should only be used by the provider screens
-	const { serviceTitle, serviceDescription, price, onPress, numCurrentRequests, offeredBy } = props;
+	const {
+		serviceTitle,
+		serviceDescription,
+		price,
+		onPress,
+		numCurrentRequests,
+		offeredBy,
+	} = props;
 
 	//Returns the rendered component
 	return (
@@ -68,10 +74,24 @@ export default function ServiceCard(props) {
 						x: 0,
 						y: 5,
 					}}>
-					<View style={serviceCardStyle.style}>
+					<View
+						style={{
+							width: screenWidth - 40,
+							height: screenHeight * 0.21961933,
+							flexDirection: 'row',
+							backgroundColor: colors.white,
+							borderColor: colors.lightBlue,
+							borderWidth: 6,
+							borderRadius: screenHeight * 0.0439238653,
+						}}>
 						<View style={{ flex: 1 }}>
 							{isImageLoading === true ? (
-								<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+								<View
+									style={{
+										flex: 1,
+										alignItems: 'center',
+										justifyContent: 'center',
+									}}>
 									<LoadingSpinner isVisible={true} />
 								</View>
 							) : (
@@ -102,7 +122,9 @@ export default function ServiceCard(props) {
 								</Text>
 							) : (
 								<View flexDirection='column'>
-									<Text style={fontStyles.subTextStyleGray}>{strings.OfferedBy}</Text>
+									<Text style={fontStyles.subTextStyleGray}>
+										{strings.OfferedBy}
+									</Text>
 									<Text style={fontStyles.subTextStyleGray}>{offeredBy}</Text>
 								</View>
 							)}

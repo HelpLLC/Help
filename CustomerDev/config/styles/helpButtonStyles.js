@@ -1,5 +1,5 @@
 //This will be the style for the round blue button component
-import colors from '../../colors';
+import colors from '../colors';
  
 import { screenWidth, screenHeight } from 'config/dimensions';
 

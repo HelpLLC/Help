@@ -1,7 +1,7 @@
 //This component will represest a single lined text input that will have a bottom border
 //color and a placeholder
-import React, { Component } from 'react';
-import { View, TextInput, Dimensions } from 'react-native';
+import React from 'react';
+import { View, TextInput } from 'react-native';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
 import PropTypes from 'prop-types';

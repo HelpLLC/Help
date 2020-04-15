@@ -1,7 +1,7 @@
 //This component will represent the default pop up that will appear when the user needs to make a decision
 //The component will ask a question, and there will be a confirm button and a cancel button, which custom
 //texts passed in as props. Based on the clicked option, a function is called, also passed in as a prop
-import React, { Component } from 'react';
+import React from 'react';
 import { Modal, View } from 'react-native';
 import PropTypes from 'prop-types';
 import AwesomeAlert from 'react-native-awesome-alerts';

@@ -1,14 +1,13 @@
 //This component will represent the card which which will display a service as the narrow card.
 //The card will only be accessible from requester side. Cicking on the service would allow them to view
 //the service and request it if they need it.
-import React, { Component, useState, useEffect } from 'react';
-import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
-import narrowServiceCardStyle from 'config/styles/componentStyles/narrowServiceCardStyle';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { AirbnbRating } from 'react-native-ratings';
 import PropTypes from 'prop-types';
 import LoadingSpinner from './LoadingSpinner';
 import { BoxShadow } from 'react-native-shadow';
@@ -32,7 +31,7 @@ export default function NarrowServiceCardFunction(props) {
 		loadImage();
 	}, []);
 
-	//These are the propTypes for the topBanner component. It defines whether they are required or not
+	//These are the propTypes for the NarrowServiceCard component. It defines whether they are required or not
 	//and what their types should be
 	NarrowServiceCardFunction.propTypes = {
 		serviceTitle: PropTypes.string.isRequired,
@@ -71,7 +70,16 @@ export default function NarrowServiceCardFunction(props) {
 						x: 0,
 						y: 10,
 					}}>
-					<View style={narrowServiceCardStyle.style}>
+					<View
+						style={{
+							width: screenWidth * 0.45,
+							height: screenHeight * 0.3,
+							flexDirection: 'column',
+							backgroundColor: colors.white,
+							borderColor: colors.lightBlue,
+							borderWidth: 3.5,
+							borderRadius: screenHeight * 0.0439238653,
+						}}>
 						<View style={{ flex: 1 }}>
 							{isImageLoading === true ? (
 								<View

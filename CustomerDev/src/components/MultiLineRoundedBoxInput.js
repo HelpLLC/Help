@@ -1,7 +1,7 @@
 //This component will represent the TextInput that will be rounded and allow users to type
 //multiple lines within it.
-import React, { Component } from 'react';
-import { View, TextInput, Dimensions } from 'react-native';
+import React from 'react';
+import { View, TextInput } from 'react-native';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
 import PropTypes from 'prop-types';
@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 //contain a height & width for how big the textInput will be along with some functions to
 //retrieve the input, and a max length that can be entered
 export default function MultiLineRoundedBoxInput(props) {
-	
 	//These are the proptypes for the MultiLineRoundedBoxInput component, showing which are required and
 	//which are not
 	MultiLineRoundedBoxInput.propTypes = {

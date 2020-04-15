@@ -4,9 +4,9 @@ import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity, Keyboard, Platform } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import FastImage from 'react-native-fast-image';
-import RoundBlueButton from '../../components/RoundBlueButton';
+import HelpButton from '../../components/HelpButton';
 import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import HelpView from '../../components/HelpView';
@@ -21,7 +21,7 @@ import { Icon } from 'react-native-elements';
 import { BoxShadow } from 'react-native-shadow';
 import ImagePicker from '../../components/ImagePicker';
 import TopBanner from '../../components/TopBanner';
-import LeftMenu from '../../customerScreens/LeftMenu';
+import LeftMenu from '../../leftMenuScreens/LeftMenu';
 import SideMenu from 'react-native-side-menu';
 
 class additionalCustomerInfoScreen extends Component {
@@ -375,10 +375,10 @@ class additionalCustomerInfoScreen extends Component {
 						justifyContent: 'flex-end',
 						alignSelf: 'center'
 					}}>
-					<RoundBlueButton
+					<HelpButton
 						isLoading={this.state.isLoading}
 						title={this.state.customer ? strings.Done : strings.SignUp}
-						style={roundBlueButtonStyle.MediumSizeButton}
+						style={helpButtonStyles.MediumSizeButton}
 						textStyle={fontStyles.bigTextStyleWhite}
 						onPress={() => {
 							this.addCustomerInfo();

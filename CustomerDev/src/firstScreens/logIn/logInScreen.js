@@ -5,8 +5,8 @@ import React, { Component } from 'react';
 import { View, Text, Keyboard, TouchableOpacity, Dimensions } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import RoundBlueButton from '../../components/RoundBlueButton';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
+import HelpButton from '../../components/HelpButton';
 import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
@@ -170,9 +170,9 @@ class logInScreen extends Component {
 					</TouchableOpacity>
 				</View>
 				<View style={{ flex: 1.5, alignItems: 'center', justifyContent: 'center' }}>
-					<RoundBlueButton
+					<HelpButton
 						title={strings.LogIn}
-						style={roundBlueButtonStyle.MediumSizeButton}
+						style={helpButtonStyles.MediumSizeButton}
 						textStyle={fontStyles.bigTextStyleWhite}
 						isLoading={this.state.isLoading}
 						//Method logs the person in based on what is entered into the text

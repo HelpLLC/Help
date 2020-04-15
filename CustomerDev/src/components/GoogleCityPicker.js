@@ -1,10 +1,9 @@
 //This component will represent the city picker that will allow users to search for a city anywhere in the world and will return
 //that location.
-import React, { Component, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import strings from 'config/strings';
 import { screenWidth, screenHeight } from 'config/dimensions';
-import googleCityPickerStyle from 'config/styles/componentStyles/googleCityPickerStyle';
 import PropTypes from 'prop-types';
 import colors from 'config/colors';
 
@@ -52,11 +51,36 @@ export default function GoogleCityPicker(props) {
 			}}
 			styles={{
 				container: null,
-				textInputContainer: googleCityPickerStyle.textInputContainer,
-				listView: googleCityPickerStyle.listView,
-				row: googleCityPickerStyle.row,
+				//The style for the container itself
+				textInputContainer: {
+					borderWidth: 3,
+					borderColor: colors.lightBlue,
+					borderTopWidth: 3,
+					paddingBottom: 43.55, //Has to be exact amouunt due to wonky component styles
+					borderBottomWidth: 3,
+					borderTopColor: colors.lightBlue,
+					borderBottomColor: colors.lightBlue,
+					borderRadius: 20,
+					justifyContent: 'center',
+					alignSelf: 'center',
+					backgroundColor: colors.white,
+					width: screenWidth * 0.8,
+				},
+				//The style that contains the results of the entered text
+				listView: {
+					height: screenHeight * 0.2,
+					borderColor: colors.lightBlue,
+					marginTop: screenHeight * 0.01,
+					borderRadius: 20,
+					borderWidth: 3,
+					width: screenWidth * 0.8,
+					backgroundColor: colors.white,
+				},
+				//The style that renders each row that has a city
+				row: { borderBottomColor: colors.lightGray, borderBottomWidth: 1 },
 				textInput: { color: colors.black },
-				powered: googleCityPickerStyle.powered,
+				//The style that renders the "powered by Google" image
+				powered: { height: 0, width: 0 },
 			}}
 			filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
 		/>
