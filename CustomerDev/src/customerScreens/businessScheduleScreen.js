@@ -9,9 +9,9 @@ import strings from 'config/strings';
 import colors from 'config/colors';
 import { Calendar } from 'react-native-calendars';
 import fontStyles from '../../config/styles/fontStyles';
-import RoundBlueButton from '../components/RoundBlueButton';
+import HelpButton from '../components/HelpButton';
 import { screenWidth, screenHeight } from 'config/dimensions';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import OptionPicker from '../components/OptionPicker';
 import LoadingSpinner from '../components/LoadingSpinner';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -440,12 +440,12 @@ export default class businessScheduleScreen extends Component {
 										marginLeft: screenWidth * 0.1,
 										marginTop: screenHeight * 0.025
 									}}>
-									<RoundBlueButton
+									<HelpButton
 										title={item}
 										//Tests if this button is selected, if it is, then the border color will
 										//be blue
 										style={[
-											roundBlueButtonStyle.AccountTypeButton,
+											helpButtonStyles.AccountTypeButton,
 											{
 												//Width increased for longer text
 												width: screenWidth * 0.35,
@@ -463,9 +463,9 @@ export default class businessScheduleScreen extends Component {
 							)}
 							ListFooterComponent={
 								<View style={{ marginVertical: screenHeight * 0.05 }}>
-									<RoundBlueButton
+									<HelpButton
 										title={strings.Request}
-										style={roundBlueButtonStyle.MediumSizeButton}
+										style={helpButtonStyles.MediumSizeButton}
 										textStyle={fontStyles.bigTextStyleWhite}
 										isLoading={this.state.isLoading}
 										onPress={() => {

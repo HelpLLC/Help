@@ -3,9 +3,9 @@
 import React, { Component } from 'react';
 import { View, Text, Keyboard, Dimensions } from 'react-native';
 import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
-import RoundBlueButton from '../../components/RoundBlueButton';
+import HelpButton from '../../components/HelpButton';
 import HelpAlert from '../../components/HelpAlert';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
@@ -97,9 +97,9 @@ class reportIssueScreen extends Component {
 					<View style={{ justifyContent: 'center', alignItems: 'center' }}>
 						<View style={{ flex: 0.025 }}></View>
 						<View style={{ flex: 1 }}>
-							<RoundBlueButton
+							<HelpButton
 								title={strings.Report}
-								style={roundBlueButtonStyle.MediumSizeButton}
+								style={helpButtonStyles.MediumSizeButton}
 								textStyle={fontStyles.reportIssueButtonTextStyle}
 								onPress={() => {
 									this.reportIssue();

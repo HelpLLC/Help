@@ -3,15 +3,14 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity, Keyboard } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
-import RoundBlueButton from '../components/RoundBlueButton';
+import HelpButton from '../components/HelpButton';
 import RNPickerSelect from 'react-native-picker-select';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import { BoxShadow } from 'react-native-shadow';
 import HelpView from '../components/HelpView';
 import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
-import images from 'config/images/images';
 import ImagePicker from '../components/ImagePicker';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
@@ -81,7 +80,7 @@ class createServiceScreen extends Component {
 				serviceDescription: '',
 				business: this.props.navigation.state.params.business,
 				businessID: this.props.navigation.state.params.businessID,
-				imageSource: images.BlankWhite,
+				imageSource: '',
 				isScreenLoading: false,
 				editing: false,
 				imageError: false,
@@ -124,7 +123,7 @@ class createServiceScreen extends Component {
 			this.setState({ fieldsError: true });
 		} else if (serviceDescription.trim().length < 150) {
 			this.setState({ serviceDescriptionError: true });
-		} else if (imageSource === images.BlankWhite) {
+		} else if (imageSource === '') {
 			this.setState({ imageError: true });
 		} else {
 			this.setState({ isLoading: true });
@@ -247,16 +246,29 @@ class createServiceScreen extends Component {
 											x: 0,
 											y: 5,
 										}}>
-										<FastImage
-											source={this.state.imageSource}
-											style={{
-												width: screenWidth * 0.25,
-												height: screenWidth * 0.25,
-												borderColor: colors.lightBlue,
-												borderWidth: (screenWidth * 0.25) / 17,
-												borderRadius: (screenWidth * 0.25) / 2,
-											}}
-										/>
+										{this.state.imageSource === '' ? (
+											<View
+												style={{
+													width: screenWidth * 0.25,
+													height: screenWidth * 0.25,
+													borderColor: colors.lightBlue,
+													borderWidth: (screenWidth * 0.25) / 17,
+													borderRadius: (screenWidth * 0.25) / 2,
+													backgroundColor: colors.white,
+												}}
+											/>
+										) : (
+											<FastImage
+												source={this.state.imageSource}
+												style={{
+													width: screenWidth * 0.25,
+													height: screenWidth * 0.25,
+													borderColor: colors.lightBlue,
+													borderWidth: (screenWidth * 0.25) / 17,
+													borderRadius: (screenWidth * 0.25) / 2,
+												}}
+											/>
+										)}
 									</BoxShadow>
 								</View>
 								<View
@@ -488,9 +500,9 @@ class createServiceScreen extends Component {
 									justifyContent: 'space-evenly',
 									alignItems: 'center',
 								}}>
-								<RoundBlueButton
+								<HelpButton
 									title={strings.Delete}
-									style={roundBlueButtonStyle.MediumSizeButtonRed}
+									style={helpButtonStyles.MediumSizeButtonRed}
 									textStyle={fontStyles.bigTextStyleWhite}
 									onPress={() => {
 										this.setState({ isDeleteServiceVisible: true });
@@ -498,9 +510,9 @@ class createServiceScreen extends Component {
 									disabled={this.state.isLoading}
 								/>
 
-								<RoundBlueButton
+								<HelpButton
 									title={strings.Next}
-									style={roundBlueButtonStyle.MediumSizeButton}
+									style={helpButtonStyles.MediumSizeButton}
 									textStyle={fontStyles.bigTextStyleWhite}
 									onPress={async () => {
 										await this.goToQuestionsScreen();
@@ -510,9 +522,9 @@ class createServiceScreen extends Component {
 							</View>
 						) : (
 							<View style={{ alignItems: 'center', justifyContent: 'center' }}>
-								<RoundBlueButton
+								<HelpButton
 									title={strings.Next}
-									style={roundBlueButtonStyle.MediumSizeButton}
+									style={helpButtonStyles.MediumSizeButton}
 									textStyle={fontStyles.bigTextStyleWhite}
 									onPress={async () => {
 										await this.goToQuestionsScreen();

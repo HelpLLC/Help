@@ -1,11 +1,10 @@
 //This component will represent the preview card where a chat with another user will be displayed.
 //It will show the username of the person you are chatting with along with a preview of the most recent
 //message. It will also have some compoenent on the right to indicate an onPress method
-import React, { Component } from 'react';
-import { View, TouchableOpacity, Text, Dimensions } from 'react-native';
+import React from 'react';
+import { View, TouchableOpacity, Text } from 'react-native';
 import strings from 'config/strings';
 import { screenWidth, screenHeight } from 'config/dimensions';
-import chatCardStyle from 'config/styles/componentStyles/chatCardStyle';
 import PropTypes from 'prop-types';
 import fontStyles from 'config/styles/fontStyles';
 import colors from '../../config/colors';
@@ -28,7 +27,7 @@ export default function ChatCard(props) {
 	//Returns the string that represents when the message was sent. Needs to be changed to replicated
 	//If it was sent today, it shows the time. If it was sent within a week, it says the day. Otherwise,
 	//shows the date
-	function getTimeTextString(timeText) {
+	getTimeTextString = (timeText) => {
 		let dateSent = new Date(timeText);
 		let today = new Date();
 		//If same day
@@ -47,7 +46,7 @@ export default function ChatCard(props) {
 		} else {
 			return dateSent.getMonth() + '/' + dateSent.getDate();
 		}
-	}
+	};
 
 	const timeTextToString = getTimeTextString(timeText);
 	return (
@@ -58,7 +57,20 @@ export default function ChatCard(props) {
 					backgroundColor: colors.white,
 					alignItems: 'center',
 				}}>
-				<View style={chatCardStyle.style}>
+				<View
+					style={{
+						width: screenWidth * 0.9,
+						backgroundColor: colors.white,
+						flexDirection: 'row',
+						height: screenHeight * 0.12,
+						alignItems: 'center',
+						justifyContent: 'space-between',
+						borderColor: colors.lightGray,
+						borderBottomWidth: 0,
+						borderRightWidth: 0,
+						borderLeftWidth: 0,
+						borderTopWidth: 1,
+					}}>
 					<View
 						style={{
 							flexDirection: 'column',
@@ -66,7 +78,9 @@ export default function ChatCard(props) {
 						}}>
 						<Text style={fontStyles.mainTextStyleBlack}>{username}</Text>
 						<Text style={fontStyles.subTextStyleGray}>
-							{previewText.length > 25 ? previewText.substring(0, 24).trim() + '...' : previewText}
+							{previewText.length > 25
+								? previewText.substring(0, 24).trim() + '...'
+								: previewText}
 						</Text>
 					</View>
 					<View

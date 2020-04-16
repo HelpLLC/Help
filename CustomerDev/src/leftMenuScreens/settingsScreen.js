@@ -4,7 +4,6 @@
 import React, { Component } from 'react';
 import { View, Linking } from 'react-native';
 import TopBanner from '../components/TopBanner';
-import whiteCardStyle from '../../config/styles/componentStyles/whiteCardStyle';
 import fontStyles from 'config/styles/fontStyles';
 import WhiteCard from '../components/WhiteCard';
 import { Icon } from 'react-native-elements';
@@ -14,12 +13,12 @@ import screenStyle from 'config/styles/screenStyle';
 import HelpView from '../components/HelpView';
 import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import LeftMenu from '../customerScreens/LeftMenu';
+import LeftMenu from './LeftMenu';
 import SideMenu from 'react-native-side-menu';
 
 class settingsScreen extends Component {
 	state = {
-		isOpen: false
+		isOpen: false,
 	};
 
 	componentDidMount() {
@@ -53,7 +52,9 @@ class settingsScreen extends Component {
 						<TopBanner
 							leftIconName='navicon'
 							leftOnPress={() => {
-								FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_settings');
+								FirebaseFunctions.analytics.logEvent(
+									'sidemenu_opened_from_settings'
+								);
 								this.setState({ isOpen: true });
 							}}
 							size={30}
@@ -63,21 +64,19 @@ class settingsScreen extends Component {
 						<View style={{ flex: 2 }}>
 							<View style={{ flex: 1 }}>
 								<WhiteCard
-									style={whiteCardStyle.whiteCardStyle}
 									text={strings.ReportAnIssue}
 									mainTextStyle={fontStyles.mainTextStyleBlack}
 									comp={angleRightIcon}
 									//Pressing this leads to the report an issue screen
 									onPress={() =>
 										this.props.navigation.push('ReportIssueScreen', {
-											customerID: customer.customerID
+											customerID: customer.customerID,
 										})
 									}
 								/>
 							</View>
 							<View style={{ flex: 1 }}>
 								<WhiteCard
-									style={whiteCardStyle.whiteCardStyle}
 									text={strings.Notifications}
 									mainTextStyle={fontStyles.mainTextStyleBlack}
 									comp={angleRightIcon}
@@ -89,7 +88,6 @@ class settingsScreen extends Component {
 							</View>
 							<View style={{ flex: 1 }}>
 								<WhiteCard
-									style={whiteCardStyle.whiteCardStyle}
 									text={strings.About}
 									mainTextStyle={fontStyles.mainTextStyleBlack}
 									comp={angleRightIcon}
@@ -99,7 +97,6 @@ class settingsScreen extends Component {
 							</View>
 							<View style={{ flex: 1 }}>
 								<WhiteCard
-									style={whiteCardStyle.whiteCardStyle}
 									text={strings.Privacy}
 									mainTextStyle={fontStyles.mainTextStyleBlack}
 									comp={angleRightIcon}
@@ -109,17 +106,17 @@ class settingsScreen extends Component {
 							</View>
 							<View style={{ flex: 1 }}>
 								<WhiteCard
-									style={whiteCardStyle.whiteCardStyle}
 									text={strings.TermsAndConditions}
 									mainTextStyle={fontStyles.mainTextStyleBlack}
 									comp={angleRightIcon}
 									//Pressing this leads to the about screen page
-									onPress={() => this.props.navigation.push('TermsAndConditionsScreen')}
+									onPress={() =>
+										this.props.navigation.push('TermsAndConditionsScreen')
+									}
 								/>
 							</View>
 							<View style={{ flex: 1 }}>
 								<WhiteCard
-									style={whiteCardStyle.whiteCardStyle}
 									text={strings.Credits}
 									mainTextStyle={fontStyles.mainTextStyleBlack}
 									comp={angleRightIcon}
@@ -129,14 +126,13 @@ class settingsScreen extends Component {
 							</View>
 							<View style={{ flex: 1 }}>
 								<WhiteCard
-									style={whiteCardStyle.whiteCardStyle}
 									text={strings.BlockedBusinesses}
 									mainTextStyle={fontStyles.mainTextStyleBlack}
 									comp={angleRightIcon}
 									//Pressing this leads to the blocked users screen
 									onPress={() =>
 										this.props.navigation.push('BlockedBusinessesScreen', {
-											customer
+											customer,
 										})
 									}
 								/>

@@ -4,7 +4,6 @@
 import React, { Component } from 'react';
 import { View, Linking } from 'react-native';
 import TopBanner from '../components/TopBanner';
-import whiteCardStyle from '../../config/styles/componentStyles/whiteCardStyle';
 import fontStyles from 'config/styles/fontStyles';
 import WhiteCard from '../components/WhiteCard';
 import { Icon } from 'react-native-elements';
@@ -40,7 +39,7 @@ class settingsScreen extends Component {
 					<View style={{ flex: 2 }}>
 						<View style={{ flex: 1 }}>
 							<WhiteCard
-								style={whiteCardStyle.whiteCardStyle}
+								 
 								text={strings.ReportAnIssue}
 								mainTextStyle={fontStyles.mainTextStyleBlack}
 								comp={angleRightIcon}
@@ -54,7 +53,7 @@ class settingsScreen extends Component {
 						</View>
 						<View style={{ flex: 1 }}>
 							<WhiteCard
-								style={whiteCardStyle.whiteCardStyle}
+								 
 								text={strings.Notifications}
 								mainTextStyle={fontStyles.mainTextStyleBlack}
 								comp={angleRightIcon}
@@ -66,7 +65,7 @@ class settingsScreen extends Component {
 						</View>
 						<View style={{ flex: 1 }}>
 							<WhiteCard
-								style={whiteCardStyle.whiteCardStyle}
+								 
 								text={strings.About}
 								mainTextStyle={fontStyles.mainTextStyleBlack}
 								comp={angleRightIcon}
@@ -76,7 +75,7 @@ class settingsScreen extends Component {
 						</View>
 						<View style={{ flex: 1 }}>
 							<WhiteCard
-								style={whiteCardStyle.whiteCardStyle}
+								 
 								text={strings.Privacy}
 								mainTextStyle={fontStyles.mainTextStyleBlack}
 								comp={angleRightIcon}
@@ -86,7 +85,7 @@ class settingsScreen extends Component {
 						</View>
 						<View style={{ flex: 1 }}>
 							<WhiteCard
-								style={whiteCardStyle.whiteCardStyle}
+								 
 								text={strings.TermsAndConditions}
 								mainTextStyle={fontStyles.mainTextStyleBlack}
 								comp={angleRightIcon}
@@ -96,7 +95,7 @@ class settingsScreen extends Component {
 						</View>
 						<View style={{ flex: 1 }}>
 							<WhiteCard
-								style={whiteCardStyle.whiteCardStyle}
+								 
 								text={strings.Credits}
 								mainTextStyle={fontStyles.mainTextStyleBlack}
 								comp={angleRightIcon}
@@ -106,7 +105,7 @@ class settingsScreen extends Component {
 						</View>
 						<View style={{ flex: 1 }}>
 							<WhiteCard
-								style={whiteCardStyle.whiteCardStyle}
+								 
 								text={strings.LogOut}
 								mainTextStyle={fontStyles.mainTextStyleRed}
 								//To-Do: Needs to call a logout function

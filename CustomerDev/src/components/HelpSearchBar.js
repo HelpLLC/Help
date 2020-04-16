@@ -1,11 +1,10 @@
 //This component will represent the search bar that will appear in CategoryScreen, CategoriesScreen, and FeaturedScreen & will allow
 //the user to filter through an array of products according to what screen the search bar is being displayed from
-import React, { Component } from 'react';
-import { View, Dimensions } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 import { SearchBar, Icon } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import colors from 'config/colors';
-import helpSearchBarStyle from 'config/styles/componentStyles/helpSearchBarStyle';
 import { screenWidth, screenHeight } from 'config/dimensions';
 
 export default function HelpSearchBar(props) {
@@ -39,9 +38,16 @@ export default function HelpSearchBar(props) {
 				inputStyle={{
 					color: colors.black,
 				}}
-				searchIcon={<Icon name={'search'} type='font-awesome' size={30} color={colors.black} />}
-				containerStyle={helpSearchBarStyle.containerStyle}
-				inputContainerStyle={helpSearchBarStyle.inputContainerStyle}
+				searchIcon={
+					<Icon name={'search'} type='font-awesome' size={30} color={colors.black} />
+				}
+				containerStyle={{
+					backgroundColor: colors.lightBlue,
+					borderRadius: 30,
+					borderBottomColor: colors.lightBlue,
+					borderTopColor: colors.lightBlue,
+				}}
+				inputContainerStyle={{ backgroundColor: colors.white, borderRadius: 20 }}
 			/>
 		</View>
 	);

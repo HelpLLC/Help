@@ -1,5 +1,5 @@
 //This component will be the default loading spinner that should be user throughout the entire app
-import React, { Component } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import Spinner from 'react-native-spinkit';
 import colors from 'config/colors';

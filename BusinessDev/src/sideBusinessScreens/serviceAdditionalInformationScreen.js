@@ -4,9 +4,9 @@ import HelpView from '../components/HelpView';
 import TopBanner from '../components/TopBanner';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
-import RoundBlueButton from '../components/RoundBlueButton';
+import HelpButton from '../components/HelpButton';
 import colors from 'config/colors';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -251,12 +251,12 @@ class serviceAdditionalInformationScreen extends Component {
 						style={{
 							marginTop: screenHeight * 0.025
 						}}>
-						<RoundBlueButton
+						<HelpButton
 							title={strings.Cash}
 							//Tests if this button is selected, if it is, then the border color will
 							//be blue
 							style={[
-								roundBlueButtonStyle.AccountTypeButton,
+								helpButtonStyles.AccountTypeButton,
 								{
 									//Width increased for longer text
 									width: screenWidth * 0.75,
@@ -275,12 +275,12 @@ class serviceAdditionalInformationScreen extends Component {
 						style={{
 							marginTop: screenHeight * 0.025,
 						}}>
-						<RoundBlueButton
+						<HelpButton
 							title={strings.CreditDebitCard}
 							//Tests if this button is selected, if it is, then the border color will
 							//be blue
 							style={[
-								roundBlueButtonStyle.AccountTypeButton,
+								helpButtonStyles.AccountTypeButton,
 								{
 									//Width increased for longer text
 									width: screenWidth * 0.75,
@@ -310,9 +310,9 @@ class serviceAdditionalInformationScreen extends Component {
 						alignContent: 'flex-end',
 						marginTop: screenHeight * 0.05
 					}}>
-					<RoundBlueButton
+					<HelpButton
 						title={this.state.editing === true ? strings.Done : strings.Create}
-						style={roundBlueButtonStyle.MediumSizeButton}
+						style={helpButtonStyles.MediumSizeButton}
 						textStyle={fontStyles.bigTextStyleWhite}
 						onPress={async () => {
 							await this.finishService();

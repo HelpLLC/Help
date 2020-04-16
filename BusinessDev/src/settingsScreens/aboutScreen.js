@@ -7,7 +7,6 @@ import fontStyles from 'config/styles/fontStyles';
 import WhiteCard from '../components/WhiteCard';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import strings from 'config/strings';
-import whiteCardStyle from '../../config/styles/componentStyles/whiteCardStyle';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -37,7 +36,7 @@ class aboutScreen extends Component {
 							width: screenWidth * 0.9,
 							flexDirection: 'row',
 							alignItems: 'center',
-							alignSelf: 'center'
+							alignSelf: 'center',
 						}}>
 						<Text style={[{ textAlign: 'center' }, fontStyles.bigTextStyleBlack]}>
 							{strings.MarketingMessage}
@@ -45,14 +44,14 @@ class aboutScreen extends Component {
 					</View>
 					<View style={{ flexDirection: 'column', flex: 3 }}>
 						<WhiteCard
-							style={whiteCardStyle.whiteCardStyle}
 							text={strings.PublishedBy}
 							mainTextStyle={fontStyles.subTextStyleBlack}
-							comp={<Text style={fontStyles.subTextStyleBlack}>{strings.HelpLLC}</Text>}
+							comp={
+								<Text style={fontStyles.subTextStyleBlack}>{strings.HelpLLC}</Text>
+							}
 							onPress={() => {}}
 						/>
 						<WhiteCard
-							style={whiteCardStyle.whiteCardStyle}
 							text={strings.Contact}
 							mainTextStyle={fontStyles.subTextStyleBlack}
 							comp={

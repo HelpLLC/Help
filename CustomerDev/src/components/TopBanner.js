@@ -1,12 +1,11 @@
 //Component represents a top banner that will have three components within it,
 //an icon, a title, and another icon that will all be equally seperated
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, TouchableOpacity, Dimensions } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import colors from 'config/colors';
 import { Icon } from 'react-native-elements';
 import { screenWidth, screenHeight } from 'config/dimensions';
-import topBannerStyle from 'config/styles/componentStyles/topBannerStyle';
 import fontStyles from 'config/styles/fontStyles';
 
 export default function TopBanner(props) {
@@ -27,7 +26,15 @@ export default function TopBanner(props) {
 	return (
 		<View style={{ flexDirection: 'column' }}>
 			<View style={{ height: 5, backgroundColor: colors.white }} />
-			<View style={topBannerStyle.style}>
+			<View
+				style={{
+					height: screenHeight * 0.12,
+					flexDirection: 'row',
+					width: screenWidth,
+					justifyContent: 'space-between',
+					alignItems: 'center',
+					backgroundColor: colors.white,
+				}}>
 				<View style={{ flex: 0.2 }} />
 				<TouchableOpacity
 					style={{

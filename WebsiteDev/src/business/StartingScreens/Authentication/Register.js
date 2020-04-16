@@ -116,9 +116,6 @@ export function Register() {
 		time = time.toTimeString();
 		let hours = time.substring(0, 2);
 		let minutes = time.substring(3, 5);
-		console.log(time);
-		console.log(hours);
-		console.log(minutes);
 		let intHours = parseInt(hours);
 		let ampm = '';
 		if (intHours > 12) {

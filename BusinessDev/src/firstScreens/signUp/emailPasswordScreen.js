@@ -7,8 +7,8 @@ import strings from 'config/strings';
 import CheckBox from 'react-native-check-box';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import RoundBlueButton from '../../components/RoundBlueButton';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
+import HelpButton from '../../components/HelpButton';
 import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
@@ -215,10 +215,10 @@ class emailPasswordScreen extends Component {
 							justifyContent: 'flex-end',
 							alignSelf: 'center'
 						}}>
-						<RoundBlueButton
+						<HelpButton
 							title={strings.Next}
 							isLoading={this.state.isLoading}
-							style={roundBlueButtonStyle.MediumSizeButton}
+							style={helpButtonStyles.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={() => {
 								this.signUp();

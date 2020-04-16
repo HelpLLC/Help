@@ -1,9 +1,8 @@
 //This component will represent the card which which will display a category.
 //The card will only be accessible from requester side. Cicking on the category would allow them to view
 //the category and view services that are part of this category.
-import React, { Component, useState, useEffect } from 'react';
-import { View, Text, Dimensions, TouchableOpacity } from 'react-native';
-import categoryCardStyle from 'config/styles/componentStyles/categoryCardStyle';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import colors from 'config/colors';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import fontStyles from 'config/styles/fontStyles';
@@ -26,14 +25,18 @@ export default function CategoryCard(props) {
 		onPress: PropTypes.func.isRequired,
 	};
 
-	//Loads the image (async)
-	useEffect(async () => {
+	const loadImage = async () => {
 		const { imageFunction } = props;
 		const url = await imageFunction();
 
 		setIsImageLoading(false);
 		setImage(url);
-	});
+	};
+
+	//Loads the image (async)
+	useEffect(() => {
+		loadImage()
+	}, []);
 
 	//The props for the CategoryCard. It will take in a category title, an
 	//image to display, and an onPress method.
@@ -61,10 +64,24 @@ export default function CategoryCard(props) {
 						x: 0,
 						y: 10,
 					}}>
-					<View style={categoryCardStyle.style}>
+					<View
+						style={{
+							width: screenWidth * 0.45,
+							height: screenHeight * 0.275,
+							flexDirection: 'column',
+							backgroundColor: colors.white,
+							borderColor: colors.lightBlue,
+							borderWidth: 6,
+							borderRadius: screenHeight * 0.0439238653,
+						}}>
 						<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 							{isImageLoading === true ? (
-								<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+								<View
+									style={{
+										flex: 1,
+										alignItems: 'center',
+										justifyContent: 'center',
+									}}>
 									<LoadingSpinner isVisible={true} />
 								</View>
 							) : (

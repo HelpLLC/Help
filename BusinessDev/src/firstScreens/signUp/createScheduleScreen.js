@@ -3,8 +3,8 @@
 import React, { Component } from 'react';
 import TopBanner from '../../components/TopBanner';
 import strings from 'config/strings';
-import RoundBlueButton from '../../components/RoundBlueButton';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import HelpButton from '../../components/HelpButton';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import HelpView from '../../components/HelpView';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { screenWidth, screenHeight } from 'config/dimensions';
@@ -562,10 +562,10 @@ export default class createScheduleScreen extends Component {
 							flexDirection: 'row',
 							alignItems: 'flex-end'
 						}}>
-						<RoundBlueButton
+						<HelpButton
 							title={this.state.editing ? strings.Done : strings.SignUp}
 							isLoading={this.state.isLoading}
-							style={roundBlueButtonStyle.MediumSizeButton}
+							style={helpButtonStyles.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={async () => {
 								//Creates the product

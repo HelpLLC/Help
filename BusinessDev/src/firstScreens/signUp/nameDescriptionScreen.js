@@ -6,8 +6,8 @@ import { View, Text, Keyboard, Dimensions } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import RoundBlueButton from '../../components/RoundBlueButton';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
+import HelpButton from '../../components/HelpButton';
 import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { screenWidth, screenHeight } from 'config/dimensions';
@@ -176,10 +176,10 @@ class nameDescriptionScreen extends Component {
 						justifyContent: 'flex-end',
 						alignSelf: 'center'
 					}}>
-					<RoundBlueButton
+					<HelpButton
 						title={strings.Next}
 						isLoading={this.state.isLoading}
-						style={roundBlueButtonStyle.MediumSizeButton}
+						style={helpButtonStyles.MediumSizeButton}
 						textStyle={fontStyles.bigTextStyleWhite}
 						onPress={() => {
 							this.goToAddtionalInfoScreen();

@@ -13,8 +13,8 @@ import { screenWidth, screenHeight } from 'config/dimensions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import RoundBlueButton from '../components/RoundBlueButton';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import HelpButton from '../components/HelpButton';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import HelpAlert from '../components/HelpAlert';
 
 //Creates the class and exports it
@@ -268,9 +268,9 @@ export default class customerRequestScreen extends Component {
 												flexDirection: 'row',
 												justifyContent: 'space-evenly'
 											}}>
-											<RoundBlueButton
+											<HelpButton
 												title={strings.Delete}
-												style={roundBlueButtonStyle.SmallSizeButton}
+												style={helpButtonStyles.SmallSizeButton}
 												textStyle={fontStyles.mainTextStyleWhite}
 												onPress={() => {
 													this.setState({
@@ -279,9 +279,9 @@ export default class customerRequestScreen extends Component {
 												}}
 												disabled={this.state.isLoading}
 											/>
-											<RoundBlueButton
+											<HelpButton
 												title={strings.Complete}
-												style={roundBlueButtonStyle.SmallSizeButton}
+												style={helpButtonStyles.SmallSizeButton}
 												textStyle={fontStyles.mainTextStyleWhite}
 												onPress={() => {
 													this.props.navigation.push('BillCustomerScreen', {

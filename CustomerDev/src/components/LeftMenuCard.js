@@ -1,9 +1,9 @@
 //This component will represent each Touchable Text in the Left Menu accessed by the hamburger Icon.
-import React, { Component } from 'react';
+import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
-import leftMenuCardStyle from 'config/styles/componentStyles/leftMenuCardStyle';
 import { screenWidth, screenHeight } from 'config/dimensions';
+import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
 
 export default function LeftMenuCard(props) {
@@ -22,8 +22,22 @@ export default function LeftMenuCard(props) {
 		<TouchableOpacity
 			style={
 				renderBorder === true
-					? leftMenuCardStyle.mainStyleWithBorderBottom
-					: leftMenuCardStyle.mainStyle
+					? {
+							height: screenHeight * 0.075,
+							width: screenWidth * 0.55,
+							marginRight: screenWidth * 0.07,
+							justifyContent: 'center',
+							alignItems: 'flex-start',
+							borderBottomWidth: 1,
+							borderBottomColor: colors.black,
+					  }
+					: {
+							height: screenHeight * 0.075,
+							width: screenWidth * 0.55,
+							marginRight: screenWidth * 0.07,
+							justifyContent: 'center',
+							alignItems: 'flex-start',
+					  }
 			}
 			onPress={() => {
 				onPress();

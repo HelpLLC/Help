@@ -1,7 +1,7 @@
 //This component will render a 2 column list of categories consisting of CategoryCards. The only prop it will take is the array of
 //categories. Then it just uses that to render the 2 column list.
-import React, { Component, useState } from 'react';
-import { View, Dimensions, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { View, FlatList } from 'react-native';
 import CategoryCard from './CategoryCard';
 import PropTypes from 'prop-types';
 import { screenWidth, screenHeight } from 'config/dimensions';
@@ -65,19 +65,25 @@ export default function CategoriesList(props) {
 					{
 						//Adds a space before the first service if there is only one service because it otherwise has justify
 						//content of flex start
-						categories.length === 1 ? <View style={{ width: screenWidth * 0.03 }} /> : <View></View>
+						categories.length === 1 ? (
+							<View style={{ width: screenWidth * 0.03 }} />
+						) : (
+							<View></View>
+						)
 					}
 					<CategoryCard
 						categoryTitle={item.categoryName}
 						imageFunction={async () => {
 							//Passes in the function to retrieve the image of this category
-							return await FirebaseFunctions.call('getCategoryImageByID', { ID: item.imageName });
+							return await FirebaseFunctions.call('getCategoryImageByID', {
+								ID: item.imageName,
+							});
 						}}
 						numCurrentRequests={0}
 						//Passes all of the necessary props to the actual screen that contains
 						//more information about the service
 						onPress={async () => {
-							await this.goToCategoryScreen(item.categoryName);
+							await goToCategoryScreen(item.categoryName);
 						}}
 					/>
 					{

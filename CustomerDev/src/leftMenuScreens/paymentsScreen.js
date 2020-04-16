@@ -3,13 +3,13 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
-import RoundBlueButton from '../components/RoundBlueButton';
+import HelpButton from '../components/HelpButton';
 import HelpView from '../components/HelpView';
 import TopBanner from '../components/TopBanner';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import colors from 'config/colors';
 import LeftMenu from './LeftMenu';
 import HelpAlert from '../components/HelpAlert';
@@ -287,9 +287,9 @@ export default class paymentsScreen extends Component {
 								justifyContent: 'space-evenly',
 								alignItems: 'center',
 							}}>
-							<RoundBlueButton
+							<HelpButton
 								title={strings.Delete}
-								style={roundBlueButtonStyle.MediumSizeButtonRed}
+								style={helpButtonStyles.MediumSizeButtonRed}
 								textStyle={fontStyles.bigTextStyleWhite}
 								onPress={() => {
 									this.setState({ isDeletePaymentMethodVisible: true });
@@ -297,9 +297,9 @@ export default class paymentsScreen extends Component {
 								disabled={this.state.isLoading}
 							/>
 
-							<RoundBlueButton
+							<HelpButton
 								title={strings.Edit}
-								style={roundBlueButtonStyle.MediumSizeButton}
+								style={helpButtonStyles.MediumSizeButton}
 								textStyle={fontStyles.bigTextStyleWhite}
 								onPress={() => {
 									this.editCardInformation();
@@ -400,9 +400,9 @@ export default class paymentsScreen extends Component {
 									alignSelf: 'center',
 									marginTop: screenHeight * 0.15,
 								}}>
-								<RoundBlueButton
+								<HelpButton
 									title={strings.Add}
-									style={roundBlueButtonStyle.MediumSizeButton}
+									style={helpButtonStyles.MediumSizeButton}
 									textStyle={fontStyles.bigTextStyleWhite}
 									isLoading={isLoading}
 									onPress={() => {

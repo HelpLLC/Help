@@ -6,9 +6,9 @@ import strings from 'config/strings';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import FastImage from 'react-native-fast-image';
-import RoundBlueButton from '../components/RoundBlueButton';
+import HelpButton from '../components/HelpButton';
 import TopBanner from '../components/TopBanner';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
@@ -143,10 +143,10 @@ class homeScreen extends Component {
 						</View>
 
 						<View style={{}}>
-							<RoundBlueButton
+							<HelpButton
 								title={strings.PlusSign}
 								textStyle={fontStyles.bigTextStyleWhite}
-								style={roundBlueButtonStyle.BusinessScreenPlusButton}
+								style={helpButtonStyles.BusinessScreenPlusButton}
 								onPress={() => {
 									this.props.navigation.push('CreateServiceScreen', {
 										businessID: business.businessID,
@@ -200,9 +200,9 @@ class homeScreen extends Component {
 						/>
 					</View>
 					<View style={{ flex: 1, justifyContent: 'center' }}>
-						<RoundBlueButton
+						<HelpButton
 							title={strings.Create}
-							style={roundBlueButtonStyle.MediumSizeButton}
+							style={helpButtonStyles.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={() => {
 								this.props.navigation.push('CreateServiceScreen', {

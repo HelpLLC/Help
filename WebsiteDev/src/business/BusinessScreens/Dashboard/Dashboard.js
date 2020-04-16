@@ -17,17 +17,13 @@ export default function Dashboard(props) {
   const location = useLocation();
 
   const componentDidMount = async () => {
-    console.log();
     const businessID = location.state.businessID;
     const business = await FirebaseFunctions.call("getBusinessByID", {
       businessID,
     });
-    console.log(business);
-    console.log(business.services);
     setBusiness(business);
     setServices(business.services);
     setLoaded(true);
-    console.log("done");
   };
 
   if (loaded === false) {
@@ -63,7 +59,9 @@ export default function Dashboard(props) {
               ))
             : null}
           <div class="createproductlink">
-            <Link to="/createproduct">Add Service</Link>
+            <Link to={{ pathname: "/createproduct", state: { business: business } }}>
+              Add Service
+            </Link>
           </div>
         </div>
       }

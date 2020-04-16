@@ -32,8 +32,8 @@ export default class LoginRegister extends React.Component {
 			<div className='App'>
 				<div className='login'>
 					<div className='container' ref={(ref) => (this.container = ref)}>
-						{isLogginActive && <Login containerRef={(ref) => (this.current = ref)} />}
-						{!isLogginActive && <Register containerRef={(ref) => (this.current = ref)} />}
+						{!isLogginActive && <Login containerRef={(ref) => (this.current = ref)} />}
+						{isLogginActive && <Register containerRef={(ref) => (this.current = ref)} />}
 					</div>
 					<RightSide
 						current={current}

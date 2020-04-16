@@ -1,6 +1,6 @@
 //This component will take in an array of services and render them in a list of ServiceCards that will be one column wide.
-import React, { Component } from 'react';
-import { View, Dimensions, FlatList } from 'react-native';
+import React from 'react';
+import { View, FlatList } from 'react-native';
 import ServiceCard from './ServiceCard';
 import PropTypes from 'prop-types';
 import FirebaseFunctions from 'config/FirebaseFunctions';
@@ -42,16 +42,18 @@ export default function ServiceCardList(props) {
 					<ServiceCard
 						serviceTitle={item.serviceTitle}
 						serviceDescription={item.serviceDescription}
-						price={this.props.dateCompleted ? item.dateRequested : item.priceText}
+						price={props.dateCompleted ? item.dateRequested : item.priceText}
 						imageFunction={async () => {
 							//Passes in the function to retrieve the image of this product
 							return await FirebaseFunctions.call('getServiceImageByID', {
 								serviceID: item.serviceID,
 							});
 						}}
-						numCurrentRequests={this.props.currentRequests === false ? 0 : item.numCurrentRequests}
+						numCurrentRequests={
+							props.currentRequests === false ? 0 : item.numCurrentRequests
+						}
 						onPress={() => {
-							this.props.onPress(item);
+							props.onPress(item);
 						}}
 					/>
 				</View>

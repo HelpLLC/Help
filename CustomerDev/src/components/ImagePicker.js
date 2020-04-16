@@ -1,7 +1,7 @@
 //This class will render the react-natvie-image-crop-picker component. It will take in a width &
 //and a height as props in order to know what dimensions crop the picker. It will also take in an isShowing
 //to determine whether to show the prop or not.
-import React, { Component } from 'react';
+import React from 'react';
 import strings from 'config/strings';
 import ActionSheet from 'react-native-actionsheet';
 import { screenWidth, screenHeight } from 'config/dimensions';
@@ -22,7 +22,11 @@ export default function ImagePicker(props) {
 		<ActionSheet
 			ref={(o) => (this.ActionSheet = o)}
 			title={strings.SelectPhoto}
-			options={[strings.TakePhotoDotDotDot, strings.ChooseFromLibraryDotDotDot, strings.Cancel]}
+			options={[
+				strings.TakePhotoDotDotDot,
+				strings.ChooseFromLibraryDotDotDot,
+				strings.Cancel,
+			]}
 			cancelButtonIndex={2}
 			styles={{
 				titleText: fontStyles.subTextStyleBlue,

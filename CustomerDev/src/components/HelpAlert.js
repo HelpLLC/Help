@@ -1,8 +1,7 @@
 //This component will be the one that appears when an alert needs to be made for the user
-import React, { Component } from 'react';
+import React from 'react';
 import { Modal, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { screenWidth, screenHeight } from 'config/dimensions';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import strings from 'config/strings';
 import colors from 'config/colors';
@@ -16,8 +15,8 @@ export default function HelpAlert(props) {
 		onPress: PropTypes.func.isRequired,
 		title: PropTypes.string.isRequired,
 		message: PropTypes.string.isRequired,
-	}; 
-	
+	};
+
 	const { isVisible, onPress, title, message } = props;
 	return (
 		<View>
