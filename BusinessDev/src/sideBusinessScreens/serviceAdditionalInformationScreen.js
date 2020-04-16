@@ -6,7 +6,7 @@ import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
 import HelpButton from '../components/HelpButton';
 import colors from 'config/colors';
-import helpButtonStyle from 'config/styles/helpButtonStyle';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -256,7 +256,7 @@ class serviceAdditionalInformationScreen extends Component {
 							//Tests if this button is selected, if it is, then the border color will
 							//be blue
 							style={[
-								helpButtonStyle.AccountTypeButton,
+								helpButtonStyles.AccountTypeButton,
 								{
 									//Width increased for longer text
 									width: screenWidth * 0.75,
@@ -280,7 +280,7 @@ class serviceAdditionalInformationScreen extends Component {
 							//Tests if this button is selected, if it is, then the border color will
 							//be blue
 							style={[
-								helpButtonStyle.AccountTypeButton,
+								helpButtonStyles.AccountTypeButton,
 								{
 									//Width increased for longer text
 									width: screenWidth * 0.75,
@@ -312,7 +312,7 @@ class serviceAdditionalInformationScreen extends Component {
 					}}>
 					<HelpButton
 						title={this.state.editing === true ? strings.Done : strings.Create}
-						style={helpButtonStyle.MediumSizeButton}
+						style={helpButtonStyles.MediumSizeButton}
 						textStyle={fontStyles.bigTextStyleWhite}
 						onPress={async () => {
 							await this.finishService();

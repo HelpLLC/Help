@@ -17,7 +17,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import TopBanner from '../components/TopBanner';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
-import helpButtonStyle from 'config/styles/helpButtonStyle';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import HelpView from '../components/HelpView';
 import HelpAlert from '../components/HelpAlert';
 import NetInfo from '@react-native-community/netinfo';
@@ -260,7 +260,7 @@ export default class createPaymentMethodScreen extends Component {
 								//Tests if this button is selected, if it is, then the border color will
 								//be blue
 								style={[
-									helpButtonStyle.AccountTypeButton,
+									helpButtonStyles.AccountTypeButton,
 									{
 										//Width increased for longer text
 										width: screenWidth * 0.39,
@@ -285,7 +285,7 @@ export default class createPaymentMethodScreen extends Component {
 								//Tests if this button is selected, if it is, then the border color will
 								//be blue
 								style={[
-									helpButtonStyle.AccountTypeButton,
+									helpButtonStyles.AccountTypeButton,
 									{
 										//Width increased for longer text
 										width: screenWidth * 0.39,
@@ -549,7 +549,7 @@ export default class createPaymentMethodScreen extends Component {
 								title={strings.Next}
 								disabled={isLoading}
 								isLoading={isLoading}
-								style={helpButtonStyle.MediumSizeButton}
+								style={helpButtonStyles.MediumSizeButton}
 								textStyle={fontStyles.bigTextStyleWhite}
 								onPress={() => {
 									if (isEditing === true) {

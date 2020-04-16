@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import HelpButton from '../components/HelpButton';
-import helpButtonStyle from 'config/styles/helpButtonStyle';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
@@ -22,7 +22,7 @@ class splashScreen extends Component {
 					<View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
 						<HelpButton
 							title={strings.GetStarted}
-							style={helpButtonStyle.MediumSizeButton}
+							style={helpButtonStyles.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={() => {
 								this.props.navigation.push('EmailPasswordScreen');
@@ -33,7 +33,7 @@ class splashScreen extends Component {
 					<View style={{ flexDirection: 'row', flex: 2.5, justifyContent: 'center' }}>
 						<HelpButton
 							title={strings.LogIn}
-							style={helpButtonStyle.MediumSizeButton}
+							style={helpButtonStyles.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={() => {
 								this.props.navigation.push('LogInScreen');

@@ -9,7 +9,7 @@ import TopBanner from '../components/TopBanner';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
-import helpButtonStyle from 'config/styles/helpButtonStyle';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import colors from 'config/colors';
 import OptionPicker from '../components/OptionPicker';
 import strings from 'config/strings';
@@ -187,7 +187,7 @@ export default class viewPaymentMethodScreen extends Component {
 						}}>
 						<HelpButton
 							title={strings.Delete}
-							style={helpButtonStyle.MediumSizeButtonRed}
+							style={helpButtonStyles.MediumSizeButtonRed}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={() => {
 								this.setState({ isDeletePaymentMethodVisible: true });
@@ -197,7 +197,7 @@ export default class viewPaymentMethodScreen extends Component {
 
 						<HelpButton
 							title={strings.Edit}
-							style={helpButtonStyle.MediumSizeButton}
+							style={helpButtonStyles.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={() => {
 								//Starts the Stripe Payments process

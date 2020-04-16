@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { View, Text, Dimensions } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
-import helpButtonStyle from 'config/styles/helpButtonStyle';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpButton from '../../components/HelpButton';
 import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
@@ -72,7 +72,7 @@ class forgotPasswordScreen extends Component {
           }}>
           <HelpButton
             title={strings.EmailMe}
-            style={helpButtonStyle.MediumSizeButton}
+            style={helpButtonStyles.MediumSizeButton}
             textStyle={fontStyles.bigTextStyleWhite}
             isLoading={this.state.isLoading}
             onPress={async () => {

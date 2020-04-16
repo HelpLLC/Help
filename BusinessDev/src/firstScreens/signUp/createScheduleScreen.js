@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import TopBanner from '../../components/TopBanner';
 import strings from 'config/strings';
 import HelpButton from '../../components/HelpButton';
-import helpButtonStyle from 'config/styles/helpButtonStyle';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import HelpView from '../../components/HelpView';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { screenWidth, screenHeight } from 'config/dimensions';
@@ -565,7 +565,7 @@ export default class createScheduleScreen extends Component {
 						<HelpButton
 							title={this.state.editing ? strings.Done : strings.SignUp}
 							isLoading={this.state.isLoading}
-							style={helpButtonStyle.MediumSizeButton}
+							style={helpButtonStyles.MediumSizeButton}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={async () => {
 								//Creates the product

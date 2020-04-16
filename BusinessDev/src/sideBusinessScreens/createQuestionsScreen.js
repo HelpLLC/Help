@@ -8,7 +8,7 @@ import HelpButton from '../components/HelpButton';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view'; 
 import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
-import helpButtonStyle from 'config/styles/helpButtonStyle';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -247,7 +247,7 @@ class createQuestionsScreen extends Component {
 													//Tests if this button is selected, if it is, then the border color will
 													//be blue
 													style={[
-														helpButtonStyle.AccountTypeButton,
+														helpButtonStyles.AccountTypeButton,
 														{
 															//Width increased for longer text
 															width: screenWidth * 0.39,
@@ -359,7 +359,7 @@ class createQuestionsScreen extends Component {
 									}}>
 									<HelpButton
 										title={strings.Next}
-										style={helpButtonStyle.MediumSizeButton}
+										style={helpButtonStyles.MediumSizeButton}
 										textStyle={fontStyles.bigTextStyleWhite}
 										onPress={async () => {
 											await this.goToAddtionalInfoScreen();

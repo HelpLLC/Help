@@ -5,7 +5,7 @@ import { View, Text, Dimensions, TouchableOpacity, Keyboard } from 'react-native
 import fontStyles from 'config/styles/fontStyles';
 import HelpButton from '../components/HelpButton';
 import RNPickerSelect from 'react-native-picker-select';
-import helpButtonStyle from 'config/styles/helpButtonStyle';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
 import { BoxShadow } from 'react-native-shadow';
@@ -502,7 +502,7 @@ class createServiceScreen extends Component {
 								}}>
 								<HelpButton
 									title={strings.Delete}
-									style={helpButtonStyle.MediumSizeButtonRed}
+									style={helpButtonStyles.MediumSizeButtonRed}
 									textStyle={fontStyles.bigTextStyleWhite}
 									onPress={() => {
 										this.setState({ isDeleteServiceVisible: true });
@@ -512,7 +512,7 @@ class createServiceScreen extends Component {
 
 								<HelpButton
 									title={strings.Next}
-									style={helpButtonStyle.MediumSizeButton}
+									style={helpButtonStyles.MediumSizeButton}
 									textStyle={fontStyles.bigTextStyleWhite}
 									onPress={async () => {
 										await this.goToQuestionsScreen();
@@ -524,7 +524,7 @@ class createServiceScreen extends Component {
 							<View style={{ alignItems: 'center', justifyContent: 'center' }}>
 								<HelpButton
 									title={strings.Next}
-									style={helpButtonStyle.MediumSizeButton}
+									style={helpButtonStyles.MediumSizeButton}
 									textStyle={fontStyles.bigTextStyleWhite}
 									onPress={async () => {
 										await this.goToQuestionsScreen();

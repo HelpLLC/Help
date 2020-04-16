@@ -14,7 +14,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import HelpButton from '../components/HelpButton';
-import helpButtonStyle from 'config/styles/helpButtonStyle';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import HelpAlert from '../components/HelpAlert';
 
 //Creates the class and exports it
@@ -270,7 +270,7 @@ export default class customerRequestScreen extends Component {
 											}}>
 											<HelpButton
 												title={strings.Delete}
-												style={helpButtonStyle.SmallSizeButton}
+												style={helpButtonStyles.SmallSizeButton}
 												textStyle={fontStyles.mainTextStyleWhite}
 												onPress={() => {
 													this.setState({
@@ -281,7 +281,7 @@ export default class customerRequestScreen extends Component {
 											/>
 											<HelpButton
 												title={strings.Complete}
-												style={helpButtonStyle.SmallSizeButton}
+												style={helpButtonStyles.SmallSizeButton}
 												textStyle={fontStyles.mainTextStyleWhite}
 												onPress={() => {
 													this.props.navigation.push('BillCustomerScreen', {

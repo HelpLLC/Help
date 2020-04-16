@@ -7,7 +7,7 @@ import fontStyles from 'config/styles/fontStyles';
 import { screenHeight, screenWidth } from 'config/dimensions';
 import strings from 'config/strings';
 import screenStyle from 'config/styles/screenStyle';
-import helpButtonStyle from 'config/styles/helpButtonStyle';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import HelpAlert from '../components/HelpAlert';
 import colors from 'config/colors';
 import { Icon } from 'react-native-elements';
@@ -132,7 +132,7 @@ export default class billCustomerScreen extends Component {
 						}}>
 						<HelpButton
 							title={strings.Complete}
-							style={helpButtonStyle.MediumSizeButton}
+							style={helpButtonStyles.MediumSizeButton}
 							textStyle={fontStyles.mainTextStyleWhite}
 							onPress={() => {
 								//Completes the service
@@ -216,7 +216,7 @@ export default class billCustomerScreen extends Component {
 							}}>
 							<HelpButton
 								title={strings.Complete}
-								style={helpButtonStyle.MediumSizeButton}
+								style={helpButtonStyles.MediumSizeButton}
 								textStyle={fontStyles.mainTextStyleWhite}
 								onPress={() => {
 									//Completes the service
@@ -306,7 +306,7 @@ export default class billCustomerScreen extends Component {
 							}}>
 							<HelpButton
 								title={strings.Complete}
-								style={helpButtonStyle.MediumSizeButton}
+								style={helpButtonStyles.MediumSizeButton}
 								textStyle={fontStyles.mainTextStyleWhite}
 								onPress={() => {
 									//Completes the service

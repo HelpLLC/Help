@@ -14,7 +14,7 @@ import HelpAlert from '../components/HelpAlert';
 import HelpView from '../components/HelpView';
 import FastImage from 'react-native-fast-image';
 import HelpButton from '../components/HelpButton';
-import helpButtonStyle from 'config/styles/helpButtonStyle';
+import helpButtonStyles from 'config/styles/helpButtonStyles';
 import TopBanner from '../components/TopBanner';
 
 import ViewMoreText from 'react-native-view-more-text';
@@ -164,7 +164,7 @@ class serviceScreen extends Component {
 						}}>
 						<HelpButton
 							title={strings.ViewRequests}
-							style={[helpButtonStyle.MediumSizeButton, { width: screenWidth * 0.525 }]}
+							style={[helpButtonStyles.MediumSizeButton, { width: screenWidth * 0.525 }]}
 							textStyle={fontStyles.bigTextStyleWhite}
 							onPress={() => {
 								//Goes to the current requests screen for this specific service
