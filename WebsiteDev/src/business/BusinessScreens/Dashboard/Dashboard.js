@@ -63,7 +63,11 @@ export default function Dashboard(props) {
               ))
             : null}
           <div class="createproductlink">
-            <Link to="/createproduct">Add Service</Link>
+            <Link
+              to={{ pathname: "/createproduct", state: { business: business } }}
+            >
+              Add Service
+            </Link>
           </div>
         </div>
       }
