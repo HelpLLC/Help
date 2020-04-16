@@ -1,25 +1,18 @@
 //This object contains all of the strings used throughout the entire application.
 //Each new defined string must be defined and accessed through this object
 export default {
-	//------------------- Default Error Message ----------------
 	SomethingWentWrong: 'Something went wrong, please try again later',
-
-	//------------------- Tab Bar Navigators -------------------
 	Analytics: 'Analytics',
 	Payments: 'Payments',
 	Home: 'Home',
 	Schedule: 'Schedule',
 	Settings: 'Settings',
-
-	//------------------- Home Screen -------------------
 	PaymentVerification: 'Payment Verification',
 	PaymentVerificationMessage:
 		'Help needs some additional information from you in order to accept card payments from customers.',
 	OnboardingSucessMessage:
 		"Give Stripe some time to verify your details, and we'll notify you once you are able to accept card payments from customers.",
 	PaymentsVerifiedSuccss: 'You can now accept card payments from customers!',
-
-	//------------------- Analytics Screen -------------------
 	Revenue: 'Revenue',
 	CustomerLocations: 'Customer Locations',
 	TopServices: 'Top Services',
@@ -34,11 +27,7 @@ export default {
 	AverageMonthlyRevenue: 'Average Monthly Revenue: $',
 	AverageYearlyRevenue: 'Average Yearly Revenue: $',
 	NoDataYet: 'No Data Yet',
-
-	//------------------- Payments Screen -------------------
 	AcceptCardPaymentsWithHelp: 'Accept Card Payments with Help',
-
-	//------------------- View Payment Method Screen -------------------
 	Asterisks: '********',
 	DeletePaymentMethod: 'Delete Payment Method',
 	AccountName: 'Account Name',
@@ -47,8 +36,6 @@ export default {
 	CardNumber: 'Card Number',
 	AreYouSureYouWantToDeletePaymentMethod:
 		'Are you sure you want to delete your payment method? This cannot be undone.',
-
-	//------------------- Create Payment Method Screen -------------------
 	AddPayments: 'Add Payments',
 	AndThe: 'and the',
 	StripeServicesAgreement: 'Stripe Services Agreement',
@@ -79,37 +66,25 @@ export default {
 	EnterStripeInfo: 'Enter Stripe Info',
 	EnterStripeInfoMessage:
 		'Fill out all necessary fields required by Stripe in order to process card payments.',
-
-	//-------------------  Splash Screen -------------------
 	GetStarted: 'Get Started',
 	HaveAnAccountQuestion: 'Have an account?',
 	LogIn: 'Log In',
 	EYB: 'EYB',
 	Help: 'Help',
-
-	//------------------- Log In Screen -------------------
 	EnterYourEmail: 'Enter your email...',
 	EnterYourPassword: 'Enter your password...',
 	IncorrectInfo: 'Incorrect email/password',
 	ForgotPassword: 'Forgot Password?',
 	ForgotPasswordNoQuestionMark: 'Forgot Password',
-
-	//------------------- Forgot Password Screen -------------------
 	ChooseANewPassword: 'Choose a new password...',
 	ResetPassword: 'Reset Password',
 	EmailMe: 'Email Me!',
 	LinkHasBeenEmailed:
 		"If a user with this email exists, a link to reset your password has been sent. Please check your spam/junk folders if you don't see the email.",
-
-	//------------------- Create Profile Screen -------------------
 	CreateProfile: 'Create Profile',
-
-	//------------------- Account Not Verified Screen -------------------
 	AccountNotVerified:
 		"Your business has been submitted to the Help staff! Give us up to 24 hours to review your information and then you'll be good to go!",
 	Verification: 'Verification',
-
-	//------------------- Sign Up Screen -------------------
 	SignUp: 'Sign Up',
 	Email: 'Email',
 	PhoneNumber: 'Phone Number',
@@ -134,22 +109,16 @@ export default {
 	InvalidPhoneNumberError: 'Please enter a valid 10 digit phone number',
 	BusinessSignUp: 'Business Sign Up',
 	Next: 'Next',
-
-	//------------------- Business Sign Up Screen -------------------
 	City: 'City',
 	Name: 'Name',
 	EnterCityDotDotDot: 'Enter city...',
 	PleaseEnterName: 'Please enter your name...',
 	MyProfile: 'My Profile',
-
-	//------------------- Blocked Businesses Screen -------------------
 	Blocked: 'Blocked',
 	Unblock: 'Unblock',
 	UnblockCompany: 'Unblock Company',
 	AreYouSureYouWantToUnblock: 'Are you sure you want to unblock ',
 	HasBeenUnblocked: 'has been unblocked.',
-
-	//------------------- Settings Screen -------------------
 	History: 'History',
 	Privacy: 'Privacy',
 	ReportAnIssue: 'Report an Issue',
@@ -158,22 +127,16 @@ export default {
 	Credits: 'Credits',
 	BlockedBusinesses: 'Blocked Businesses',
 	LogOut: 'Log Out',
-
-	//------------------- About Screen -------------------
 	MarketingMessage: 'Connecting people with service producing businesses',
 	PublishedBy: 'Published By',
 	HelpLLC: 'Help LLC',
 	Contact: 'Contact',
 	ContactEmail: 'helpcocontact@gmail.com',
-
-	//------------------- Report Issue Screen -------------------
 	WhatSeemsToBeTheProblemQuestion: 'What seems to be the problem?',
 	DescribeYourIssueHereDotDotDot: 'Describe your issue here...',
 	Report: 'Report',
 	ThankYouForReporting: 'Thank you for reporting the problem',
 	WellFixItRightAway: "We'll fix it right away",
-
-	//------------------- Create Provider Profile Screen -------------------
 	BusinessName: 'Business Name',
 	EnterCompanyNameDotDotDot: 'Enter a company name...',
 	BusinessDescription: 'Business Description',
@@ -184,8 +147,6 @@ export default {
 	PleaseChooseAValidImage: 'Please choose a valid image',
 	CompanyNameTakenPleaseChooseAnotherName:
 		'This company name is taken, please choose another one',
-
-	//------------------- Additional Provider Info Screen -------------------
 	Website: 'Website',
 	LocationYouServe: 'Location You Serve',
 	EnterLocation: 'Enter a location...',
@@ -194,8 +155,6 @@ export default {
 	Location: 'Location',
 	WhyWeUseLocation:
 		'We collect locations from users to show customers the businesses that are nearest to them. We never share customer locations without their consent. Our intent is to provide the best customer experience.',
-
-	//------------------- Provider Business Screen -------------------
 	EditCompanyProfile: 'Edit Company Profile',
 	PlusSign: '+',
 	CreateYourFirstProductNowExclamation: 'Create your first product now!',
@@ -203,8 +162,6 @@ export default {
 	FinishCreatingYourProfile: 'Finish Creating Your Profile',
 	FinishCreatingYourProfileMessage:
 		"Your business doesn't have all the info customers need! Go complete your profile.",
-
-	//------------------- Create Service Screen -------------------
 	CreateService: 'Create Service',
 	ServiceTitle: 'Service Title',
 	GiveItATitleDotDotDot: 'Give it a title...',
@@ -233,8 +190,6 @@ export default {
 	TheServiceHasInProgressRequests:
 		'The service currently has requests that are in progress. Please complete those requests before deleting the service.',
 	TheServiceHasBeenDeleted: 'The service has been deleted.',
-
-	//------------------- Requester Schedule Screen -------------------
 	Schedule: 'Schedule',
 	PickADate: 'Pick a Date',
 	PickATime: 'Pick a Time',
@@ -252,8 +207,6 @@ export default {
 	TheServiceRequestHasBeenSaved: 'Your request has been saved',
 	PleaseSelectADayForYourService: 'Please select a day for your service.',
 	RequestedBy: 'Requested By',
-
-	//------------------- Create Schedule Screen -------------------
 	BusinessHours: 'Business Hours',
 	ToTimeMustBeAfterFromTime: "The 'To' time needs to be after the 'from' time.",
 	Monday: 'Mon',
@@ -265,8 +218,6 @@ export default {
 	Sunday: 'Sun',
 	BusinessUpdated: 'Business Updated',
 	BusinessUpdatedMessage: 'Your business information has been updated.',
-
-	//------------------- Create Questions Screen -------------------
 	InfoFromCustomersQuestion:
 		'What information do you need from customers to complete this services?',
 	CustomQuestions: 'Custom Questions',
@@ -278,8 +229,6 @@ export default {
 	WhatIsYourAddressQuestion: 'What is your address?',
 	WhatIsYourPhoneNumberQuestion: 'What is your phone number?',
 	EmptyQuestion: 'Please fill out all empty questions before adding another one or clicking next',
-
-	//------------------- Service Additional Info Screen -------------------
 	ServiceDuration:
 		'Approximately how long will it take to complete one request for this service?',
 	Hours: 'Hours',
@@ -294,8 +243,6 @@ export default {
 	SetUpPayment: 'Set Up Payments',
 	PaymentsMustBeSetupBeforeAcceptingCardPayments:
 		'Payments must be set up before accepting card transactions.',
-
-	//------------------- Bill Customer Screen -------------------
 	Billing: 'Billing',
 	HowMuchWasTheCustomerChargedForTheService: 'How much was the customer charged for the service?',
 	ExampleBilledAmount: '0.00',
@@ -309,37 +256,24 @@ export default {
 	ThereWereForThisRequestSoThatTheFinalPriceCanBeCalculated:
 		' there were for this request so that the final price can be calculated.',
 	ParanthesesS: '(s)',
-
-	//------------------- Edit Company Profile Screen -------------------
 	EditCompany: 'Edit Company',
 	EditName: 'Edit Name',
 	EditDescription: 'Edit Description',
 	Done: 'Done',
-
-	//------------------- Service Screen -------------------
 	Service: 'Service',
 	EditService: 'Edit Service',
 	Cancel: 'Cancel',
 	ViewRequests: 'View Requests',
-
-	//------------------- Edit Service Screen -------------------
 	EditTitle: 'Edit Title',
 	EditDescription: 'Edit Description',
 	EditPrice: 'Edit Price',
-
-	//------------------- Add Questions Screen--------------------
-
 	CustomerInfo: 'Customer Info',
 	Questions: 'Questions',
 	Edit: 'Edit',
-
-	//------------------- Product History Screen -------------------
 	ServiceHistory: 'Service History',
 	NoHistoryForThisServiceYet: 'No history for this service yet',
 	CompletedOn: 'Completed on',
 	BilledColon: 'Billed: $',
-
-	//------------------- Business Side Customer Request Screen -------------------
 	CustomerRequest: 'Customer Request',
 	Delete: 'Delete',
 	Message: 'Message',
@@ -363,12 +297,8 @@ export default {
 	PaymentType: 'Payment Type',
 	Price: 'Price',
 	RequestID: 'Request ID',
-
-	//------------------- Business Side Current Requests Screen -------------------
 	NoCurrentRequestsForThisService: 'No Current Requests For This Service',
 	CurrentRequests: 'Current Requests',
-
-	//------------------- Featured Screen -------------------
 	OfferedBy: 'Offered by',
 	NoCurrentServices: 'There are no current services available to request. Check back soon!',
 	Featured: 'Featured',
@@ -379,11 +309,7 @@ export default {
 	Skip: 'Skip',
 	LeaveAReviewDotDotDot: 'Leave a review...',
 	PleaseGiveAStarRatingAlongWithReview: 'Please give a star rating along with your review.',
-
-	//------------------- Categories Screen -------------------
 	FeaturedCategories: 'Featured Categories',
-
-	//------------------- Requester Service Screen -------------------
 	ServiceRequested: 'Service Requested',
 	CancelRequest: 'Cancel Request',
 	RequestService: 'Request Service',
@@ -398,45 +324,30 @@ export default {
 	CompanyBlocked: 'Company Blocked',
 	CompanyHasBeenBlocked: 'The company has been blocked',
 	ViewRequest: 'View Request',
-
-	//------------------- Requester Answer Questions Screen -------------------
 	AnswerHereDotDotDot: 'Answer here...',
 	PleaseFillOutAllQuestions: 'Please fill out all of the questions.',
 	TheServiceHasBeenRequested: 'The service has been requested.',
-
-	//------------------- Requester Order History Screen -------------------
 	OrderHistory: 'Order History',
 	InProgress: 'In Progress',
 	Completed: 'Completed',
 	NoRequestsYet: "You haven't requested anything yet! Go check out our services by going to Home",
-
-	//------------------- Requester Requested Service Screen -------------------
 	RequestHasBeenCancelled: 'Your request has been cancelled',
 	AreYouSureCancelRequest: 'Are you sure you want to cancel your request for this service?',
 	OrderAgain: 'Order Again',
-
-	//----------------------- Requester Side Menu -----------------------------------
-
 	Home: 'Home',
 	Chats: 'Chats',
 	Settings: 'Settings',
 	LogOut: 'Log Out',
 	Credits: 'Credits',
 	Categories: 'Categories',
-
-	//------------------- Requester Side Company Profile Screen -------------------
 	CompanyProfile: 'Company Profile',
 	Block: 'Block',
 	CompanyReported: 'Company Reported',
 	AreYouSureYouWantToBlock: 'Are you sure your want to block',
 	CompanyHasBeenReported:
 		'This company has been reported. Help staff will take a look. Thank you for your patience.',
-
-	//------------------- Chats Screen -------------------
 	NoMessagesYet: 'No messages yet',
 	Today: 'Today',
-
-	//------------------- Notifications -------------------
 	NewRequest: 'New Request',
 	YouHaveNewRequestFor: 'You have a new request for ',
 	YourRequestFor: 'Your request for',
@@ -447,21 +358,13 @@ export default {
 	HasCancelledTheirRequestFor: 'has cancelled their request for',
 	HasUpdatedTheirRequestFor: 'has updated their request for',
 	RequestUpdated: 'Request Updated',
-
-	//------------------- Documents -----------------
 	PrivacyPolicy: 'Privacy Policy',
-
-	//------------------- Search Bar -------------------
 	WhatAreYouLookingForQuestion: 'What are you looking for?',
 	SearchIn: 'Search in',
 	SearchCategoriesDotDotDot: 'Search categories...',
-
-	//------------------- Image Picker -------------------
 	SelectPhoto: 'Select a Photo',
 	TakePhotoDotDotDot: 'Take Photo...',
 	ChooseFromLibraryDotDotDot: 'Choose from Library...',
-
-	//------------------- Miscellaneous -----------------
 	Whoops: 'Whoops',
 	DotDotDot: '...',
 	Success: 'Success',
