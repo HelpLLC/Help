@@ -1,6 +1,5 @@
 //This is where all of the strings will be for the website
 export default {
-	//------------------------------ Landing Page Navigator ------------------------------
 	HelpForBusiness: 'Help for Business',
 	LogIn: 'Log In',
 	SignUp: 'Sign Up',
@@ -15,8 +14,6 @@ export default {
 	TermsAndConditions: 'Terms & Conditions',
 	Credits: 'Credits',
 	Copyright: '2020- Help',
-
-	//------------------------------ Landing Page ------------------------------
 	Help: 'Help',
 	EnhanceYourBusiness: 'Enhance Your Business',
 	ConnectWithCustomers: 'Connect with Customers',
@@ -37,5 +34,13 @@ export default {
 	StartSellingToday: 'Start Selling Today',
 	StartSellingTodayMessage:
 		'Connect with your customers and take your business to the next level today.',
-	PercentageMessage: '5% per successful transaction'
+	PercentageMessage: '5% per successful transaction',
+	per: 'per',
+	fixed: 'fixed',
+	Email: 'Email',
+	PhoneNumber: 'Phone Number',
+	Address: 'Address',
+	WhatIsYourEmailAddressQuestion: 'What is your email address?',
+	WhatIsYourAddressQuestion: 'What is your address?',
+	WhatIsYourPhoneNumberQuestion: 'What is your phone number?',
 };

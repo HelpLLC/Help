@@ -21,6 +21,18 @@ export default function ServiceCard(props) {
 	const [isImageLoading, setIsImageLoading] = useState(true);
 	const [image, setImage] = useState('');
 
+	//The props for the ServiceCard. It will take in a service title, a description, a price, and an
+	//image to display, along with an onPress method. An additional prop is also how many current
+	//requests this product currently has. This prop should only be used by the provider screens
+	const {
+		serviceTitle,
+		serviceDescription,
+		price,
+		onPress,
+		numCurrentRequests,
+		offeredBy,
+	} = props;
+
 	loadImage = async () => {
 		const { imageFunction } = props;
 		const url = await imageFunction();
@@ -43,18 +55,6 @@ export default function ServiceCard(props) {
 		imageFunction: PropTypes.func.isRequired,
 		onPress: PropTypes.func.isRequired,
 	};
-
-	//The props for the ServiceCard. It will take in a service title, a description, a price, and an
-	//image to display, along with an onPress method. An additional prop is also how many current
-	//requests this product currently has. This prop should only be used by the provider screens
-	const {
-		serviceTitle,
-		serviceDescription,
-		price,
-		onPress,
-		numCurrentRequests,
-		offeredBy,
-	} = props;
 
 	//Returns the rendered component
 	return (
