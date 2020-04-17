@@ -31,7 +31,6 @@ function BusinessServiceCard(props) {
 		loadImage();
 	}, []);
 
-	console.log(loadedImage);
 	return (
 		<Card class='cardcontainer'>
 			<CardContent style={fontStyles.mainTextStyleBlack}>

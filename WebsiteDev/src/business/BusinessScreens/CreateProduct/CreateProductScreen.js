@@ -128,7 +128,6 @@ export default function CreateProductScreen() {
 			history.push({ pathname: '/dashboard', state: { businessID: business.businessID } });
 		} else {
 			//Display an error to the user to fill out all fields
-			console.log(-1);
 		}
 	};
 

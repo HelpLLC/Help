@@ -30,34 +30,37 @@ export default function ServiceCardList(props) {
 			}}
 			showsHorizontalScrollIndicator={false}
 			data={services}
+			extraData={true}
 			keyExtractor={(item, index) => item.serviceID + index.toString()}
 			showsVerticalScrollIndicator={false}
-			renderItem={({ item, index }) => (
-				<View
-					key={index}
-					style={{
-						flexDirection: 'row',
-						height: screenHeight * 0.33,
-					}}>
-					<ServiceCard
-						serviceTitle={item.serviceTitle}
-						serviceDescription={item.serviceDescription}
-						price={props.dateCompleted ? item.dateRequested : item.priceText}
-						imageFunction={async () => {
-							//Passes in the function to retrieve the image of this product
-							return await FirebaseFunctions.call('getServiceImageByID', {
-								serviceID: item.serviceID,
-							});
-						}}
-						numCurrentRequests={
-							props.currentRequests === false ? 0 : item.numCurrentRequests
-						}
-						onPress={() => {
-							props.onPress(item);
-						}}
-					/>
-				</View>
-			)}
+			renderItem={({ item, index }) => {
+				return (
+					<View
+						key={index}
+						style={{
+							flexDirection: 'row',
+							height: screenHeight * 0.33,
+						}}>
+						<ServiceCard
+							serviceTitle={item.serviceTitle}
+							serviceDescription={item.serviceDescription}
+							price={props.dateCompleted ? item.dateRequested : item.priceText}
+							imageFunction={async () => {
+								//Passes in the function to retrieve the image of this product
+								return await FirebaseFunctions.call('getServiceImageByID', {
+									serviceID: item.serviceID,
+								});
+							}}
+							numCurrentRequests={
+								props.currentRequests === false ? 0 : item.numCurrentRequests
+							}
+							onPress={() => {
+								props.onPress(item);
+							}}
+						/>
+					</View>
+				);
+			}}
 		/>
 	);
 }
