@@ -1,212 +1,168 @@
 import React, { useState, useEffect } from 'react';
 import HelpButton from '../../../components/HelpButton';
-import EditText from '../../../components/EditText';
-import Typography from '@material-ui/core/Typography';
-import './CreateProductScreen.css';
-import { FaThumbsUp } from 'react-icons/fa';
-import { FaTrash } from 'react-icons/fa';
-import { MdAddCircle } from 'react-icons/md';
-import { FlatList, View } from 'react-native-web';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import { useLocation } from 'react-router-dom';
+import strings from '../../../config/strings';
+import { useLocation, useHistory } from 'react-router-dom';
+import FirebaseFunctions from '../../../config/FirebaseFunctions';
+import ImageUploader from 'react-images-upload';
+import Resizer from 'react-image-file-resizer';
+import { View } from 'react-native-web';
 
 export default function CreateProductScreen() {
+	//Declares the state
 	const location = useLocation();
-	const [serviceName, setServiceName] = useState('');
-	const [serviceDescription, setServiceDescription] = useState('');
-	const [servicePrice, setServicePrice] = useState('');
-	const [servicePriceType, setServicePriceType] = useState('');
-	const [phoneNumber, setPhoneNumber] = useState(false);
-	const [email, setEmail] = useState(false);
-	const [requestHours, setRequestHours] = useState(0);
-	const [creditCard, setCreditCard] = useState(false);
-	const [cash, setCash] = useState(false);
+	const history = useHistory();
 	const [business, setBusiness] = useState(location.state.business);
-	const [loaded, setLoaded] = useState(true);
-	const [address, setAddress] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
+	const [image, setImage] = useState('');
+	const [serviceDuration, setServiceDuration] = useState('');
+	const [simultaneousRequests, setSimultaneousRequests] = useState('');
+	const [priceType, setPriceType] = useState('fixed');
+	const [priceNumber, setPriceNumber] = useState('');
+	const [pricePerText, setPricePerText] = useState('');
 	const [questions, setQuestions] = useState([]);
+	const [defaultQuestions, setDefaultQuestions] = useState([
+		{
+			name: strings.Email,
+			isSelected: questions.includes(strings.WhatIsYourEmailAddressQuestion) ? true : false,
+			question: strings.WhatIsYourEmailAddressQuestion,
+		},
+		{
+			name: strings.PhoneNumber,
+			isSelected: questions.includes(strings.WhatIsYourPhoneNumberQuestion) ? true : false,
+			question: strings.WhatIsYourPhoneNumberQuestion,
+		},
+		{
+			name: strings.Address,
+			isSelected: questions.includes(strings.WhatIsYourAddressQuestion) ? true : false,
+			question: strings.WhatIsYourAddressQuestion,
+		},
+	]);
+	const [serviceDescription, setServiceDescription] = useState('');
+	const [cash, setCash] = useState(false);
+	const [card, setCard] = useState(false);
+	const [serviceTitle, setServiceTitle] = useState('');
+
+	//The useEffect method that renders when the page is loaded
+	useEffect(() => {
+		setServiceDuration(1);
+		setSimultaneousRequests(1);
+		setPriceNumber(10);
+		setQuestions(['What is your address']);
+		setServiceDescription(
+			'Example Description Example Description Example Description Example Description Example Description Example Description Example Description Example Description Example Description Example Description Example Description Example Description Example Description Example Description '
+		);
+		setCash(true);
+		setServiceTitle('Example Title');
+	}, []);
 
 	//This function goes and creates the product in Firebase, then fetches the correct updates business object,
 	//and navigates back to the Dashboard screen
-	const createProduct = async () => {};
-	return (
-		<div>
-			<h2 className='createproductheading'>Create Service</h2>
-			<div class='createproductcontainer'>
-				<div>
-					<h3>Service Information</h3>
-				</div>
-				<div>
-					<Typography>Service Name</Typography>
-					<EditText
-						class='createproductinput'
-						type='name'
-						labelText={'Enter title here'}
-						widthPercent={200}
-						onChange={setServiceName}
-						value={serviceName}
-					/>
-				</div>
-				<div>
-					<Typography>Service Description</Typography>
-					<EditText
-						className='createproductinput'
-						labelText={'Give a little description for your customers to see...'}
-						widthPercent={300}
-						onChange={setServiceDescription}
-						value={serviceDescription}
-					/>
-				</div>
+	const createProduct = async () => {
+		//Tests that all fields have been filled out
+		if (
+			image !== '' &&
+			serviceDuration !== '' &&
+			serviceDuration > 0 &&
+			simultaneousRequests !== '' &&
+			simultaneousRequests > 0 &&
+			priceNumber !== '' &&
+			priceNumber > 0 &&
+			serviceDescription.trim() !== '' &&
+			(cash === true || card === true) &&
+			serviceTitle.trim() !== '' &&
+			!(priceType === 'per' && pricePerText === '')
+		) {
+			//Double checks there are no empty questions
+			for (const question of questions) {
+				if (question.trim() === '') {
+					//Displays some kind of error
+					return;
+				}
+			}
+			//Adds a pricing field
+			let priceText =
+				priceType === 'per'
+					? '$' + priceNumber + ' ' + strings.per + ' ' + pricePerText
+					: '$' + priceNumber;
+			let price =
+				priceType === 'per'
+					? {
+							priceType: 'per',
+							pricePer: pricePerText,
+							price: priceNumber,
+					  }
+					: {
+							priceType: 'fixed',
+							priceFixed: priceNumber,
+					  };
+			//Adds the default questions to the questions array
+			const finalQuestions = questions;
+			for (const question of defaultQuestions) {
+				if (question.isSelected === true) {
+					finalQuestions.push(question.question);
+				}
+			}
+			//Creates the product in firebase
+			const serviceID = await FirebaseFunctions.call('addServiceToDatabase', {
+				averageRating: 0,
+				businessID: business.businessID,
+				businessName: business.businessName,
+				category: 'Cleaning',
+				coordinates: business.coordinates,
+				displayedReviews: [],
+				serviceDuration,
+				simultaneousRequests,
+				price,
+				priceText,
+				questions: finalQuestions,
+				serviceDescription,
+				cash,
+				card,
+				serviceTitle,
+				totalReviews: 0,
+			});
 
-				<div>
-					<Typography class='createproducttitles'>Price</Typography>
-					<div className='buttonlistcontainer'>
-						<DropdownButton id='createproductdropdown-basic-button' title='rate'>
-							<Dropdown.Item>per</Dropdown.Item>
-							<Dropdown.Item>Test</Dropdown.Item>
-						</DropdownButton>
-						<EditText class='createproductsecondpriceinput' widthPercent={50} />
-					</div>
-				</div>
-				<div>
-					<h3>Select what you need from the customer.</h3>
-				</div>
-				<div className='buttonlistcontainer'>
-					<div>
-						<HelpButton
-							fullWidth={false}
-							label='Phone Number'
-							onClick={() => {
-								setPhoneNumber(true);
-							}}
-						/>
-					</div>
-					<div class='productbuttoncontainer'>
-						<HelpButton
-							fullWidth={false}
-							label='Email'
-							onClick={() => {
-								setEmail(true);
-							}}
-						/>
-					</div>
-					<div class='productbuttoncontainer'>
-						<HelpButton
-							fullWidth={false}
-							label='Address'
-							onClick={() => {
-								setAddress(true);
-							}}
-						/>
-					</div>
-				</div>
-				<div class='textmorespace'>
-					<h3>Any Additional Questions?</h3>
-				</div>
-				<div>
-					<FlatList
-            extraData={questions}
-            EmptyCom
-						showsHorizontalScrollIndicator={false}
-						data={questions}
-            keyExtractor={(item, index) => index}
-						showsVerticalScrollIndicator={false}
-						renderItem={({ item, index }) => {
-							console.log(index);
-							return (
-								<View>
-									<Typography>Question {index + 1}</Typography>
-									<div className='createproducticondiv'>
-										<EditText
-											class='createproductinput'
-											labelText={'Enter Question Here'}
-											widthPercent={300}
-											onChange={(text) => {
-												const newQuestions = questions;
-												newQuestions[index] = text;
-												setQuestions(newQuestions);
-											}}
-											value={item}
-										/>
-										<FaTrash
-											onClick={() => {
-												const newQuestions = questions;
-												newQuestions.splice(index, 1);
-												setQuestions(newQuestions);
-											}}
-										/>
-									</div>
-								</View>
-							);
-						}}
-					/>
-				</div>
-				<div>
-					<p>
-						Add more questions{' '}
-						<MdAddCircle onClick={() => setQuestions(questions.concat(''))} />
-					</p>
-				</div>
-				<div>
-					<h3>Service specifics</h3>
-				</div>
-				<div>
-					<Typography>How long will the service take per request?</Typography>
-					<div className='createproducticondiv'>
-						<EditText
-							labelText={'0'}
-							widthPercent={50}
-							className='createproductedittexts'
-						/>
-						<p className='createproductparagraphs'>Hours</p>
-					</div>
-				</div>
-				<div>
-					<Typography>How many requests can you do at a time?</Typography>
-					<div className='createproducticondiv'>
-						<EditText
-							labelText={'0'}
-							widthPercent={50}
-							value={requestHours}
-							onChange={setRequestHours}></EditText>
-						<p className='createproductparagraphs'>Requests</p>
-					</div>
-				</div>
-				<div>
-					<h3>How will you accept payments?</h3>
-				</div>
-				<div className='buttonlistcontainer'>
-					<div>
-						<HelpButton
-							fullWidth={false}
-							label='Credit/Debit Card'
-							onClick={() => {
-								setCreditCard(true);
-								setCash(false);
-							}}
-						/>
-					</div>
-					<div class='productbuttoncontainer'>
-						<HelpButton
-							fullWidth={false}
-							label='Cash'
-							onClick={() => {
-								setCreditCard(false);
-								setCash(true);
-							}}
-						/>
-					</div>
-				</div>
-				<div className='textmorespace'>
-					<h3>
-						You're all set <FaThumbsUp />
-					</h3>
-				</div>
-				<div>
-					<HelpButton fullWidth={false} label='Create' onPress={() => createProduct()} />
-				</div>
-			</div>
-		</div>
+			//Uploads the image to firebase as the image for this product
+			await FirebaseFunctions.storage.ref('services/' + serviceID).put(image);
+
+			history.push({ pathname: '/dashboard', state: { businessID: business.businessID } });
+		} else {
+			//Display an error to the user to fill out all fields
+			console.log(-1);
+		}
+	};
+
+	return (
+		<View>
+			<HelpButton
+				fullWidth={false}
+				label='Create'
+				onClick={async () => {
+					createProduct();
+				}}
+			/>
+			<ImageUploader
+				singleImage={true}
+				withIcon={true}
+				buttonText='Choose images'
+				onChange={(image) => {
+					Resizer.imageFileResizer(
+						image[0],
+						400,
+						250,
+						'JPEG',
+						100,
+						0,
+						(uri) => {
+							setImage(uri);
+						},
+						'blob'
+					);
+				}}
+				label={'Click to upload'}
+				imgExtension={['.jpg', '.png']}
+				maxFileSize={512000}
+			/>
+		</View>
 	);
 }
