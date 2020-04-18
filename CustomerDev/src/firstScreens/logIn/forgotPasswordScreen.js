@@ -6,7 +6,7 @@ import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import helpButtonStyles from 'config/styles/helpButtonStyles';
 import HelpButton from '../../components/HelpButton';
-import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
+import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
 import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../../components/TopBanner/TopBanner';
@@ -30,7 +30,7 @@ class forgotPasswordScreen extends Component {
 		emailedLink: false,
 		fieldsError: false,
 		isLoading: false,
-		isErrorVisible: false
+		isErrorVisible: false,
 	};
 
 	render() {
@@ -52,7 +52,10 @@ class forgotPasswordScreen extends Component {
 					</View>
 					<View style={{ flex: 0.5 }}></View>
 					<View style={{ flex: 1, justifyContent: 'center' }}>
-						<OneLineRoundedBoxInput
+						<HelpTextInput
+							isMultiline={false}
+							width={screenWidth * 0.6}
+							height={screenHeight * 0.06}
 							placeholder={strings.EnterAnEmail}
 							onChangeText={(input) => this.setState({ email: input })}
 							value={this.state.email}

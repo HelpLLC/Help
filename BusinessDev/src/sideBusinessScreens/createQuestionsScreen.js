@@ -10,7 +10,7 @@ import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
 import helpButtonStyles from 'config/styles/helpButtonStyles';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
+import HelpTextInput from '../components/HelpTextInput/HelpTextInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Icon } from 'react-native-elements';
 import HelpAlert from '../components/HelpAlert';
@@ -291,7 +291,7 @@ class createQuestionsScreen extends Component {
 										flexDirection: 'row',
 										justifyContent: 'space-evenly'
 									}}>
-									<MultiLineRoundedBoxInput
+									<HelpTextInput
 										width={screenWidth * 0.8}
 										height={screenHeight * 0.075}
 										placeholder={strings.AskQuestionsForCustomers}
@@ -301,6 +301,7 @@ class createQuestionsScreen extends Component {
 												questions
 											});
 										}}
+										isMultiline={true}
 										value={item}
 										maxLength={300}
 									/>

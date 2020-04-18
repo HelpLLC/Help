@@ -12,7 +12,7 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Icon } from 'react-native-elements';
 import HelpAlert from '../components/HelpAlert';
-import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
+import HelpTextInput from '../components/HelpTextInput/HelpTextInput';
 
 class serviceAdditionalInformationScreen extends Component {
 	state = {
@@ -23,7 +23,7 @@ class serviceAdditionalInformationScreen extends Component {
 		cash: false,
 		card: false,
 		setUpPaymentVisible: false,
-		business: ''
+		business: '',
 	};
 	componentDidMount() {
 		if (this.props.navigation.state.params.editing === true) {
@@ -41,7 +41,7 @@ class serviceAdditionalInformationScreen extends Component {
 				cash,
 				card,
 				editing: true,
-				business
+				business,
 			});
 		} else {
 			const { business } = this.props.navigation.state.params;
@@ -49,7 +49,12 @@ class serviceAdditionalInformationScreen extends Component {
 				'CreateServiceAddtionalInformationScreen',
 				'serviceAdditionalInformationScreen'
 			);
-			this.setState({ serviceDuration: '', simultaneousRequests: '', editing: false, business });
+			this.setState({
+				serviceDuration: '',
+				simultaneousRequests: '',
+				editing: false,
+				business,
+			});
 		}
 		this.setState({ isScreenLoading: false });
 	}
@@ -76,7 +81,7 @@ class serviceAdditionalInformationScreen extends Component {
 				serviceDescription,
 				price,
 				response,
-				questions
+				questions,
 			} = this.props.navigation.state.params;
 			//Adds a pricing field
 			let priceText =
@@ -99,13 +104,13 @@ class serviceAdditionalInformationScreen extends Component {
 				cash,
 				card,
 				serviceTitle,
-				totalReviews: 0
+				totalReviews: 0,
 			};
 
 			if (this.state.editing === true) {
 				await FirebaseFunctions.call('updateServiceInformation', {
 					...finalService,
-					serviceID: this.state.serviceID
+					serviceID: this.state.serviceID,
 				});
 				if (response) {
 					//Handles the logic for uploading the image to Firebase
@@ -122,7 +127,10 @@ class serviceAdditionalInformationScreen extends Component {
 						.putFile(absolutePath);
 				}
 			} else {
-				const serviceID = await FirebaseFunctions.call('addServiceToDatabase', finalService);
+				const serviceID = await FirebaseFunctions.call(
+					'addServiceToDatabase',
+					finalService
+				);
 
 				//Handles the logic for uploading the image to Firebase
 				//Fetches the absolute path of the image (depending on android or ios)
@@ -137,7 +145,7 @@ class serviceAdditionalInformationScreen extends Component {
 			}
 
 			this.props.navigation.push('BusinessScreens', {
-				businessID
+				businessID,
 			});
 		}
 	}
@@ -167,7 +175,7 @@ class serviceAdditionalInformationScreen extends Component {
 				<View
 					style={{
 						marginTop: screenHeight * 0.025,
-						marginHorizontal: screenWidth * 0.05
+						marginHorizontal: screenWidth * 0.05,
 					}}>
 					<View style={{ marginTop: screenHeight * 0.02 }}>
 						<Text style={[{ textAlign: 'center' }, fontStyles.bigTextStyleBlack]}>
@@ -178,9 +186,11 @@ class serviceAdditionalInformationScreen extends Component {
 						style={{
 							marginTop: screenHeight * 0.025,
 							flexDirection: 'row',
-							justifyContent: 'space-evenly'
+							justifyContent: 'space-evenly',
 						}}>
-						<OneLineRoundedBoxInput
+						<HelpTextInput
+							isMultiline={false}
+							height={screenHeight * 0.06}
 							width={screenWidth * 0.35}
 							height={screenHeight * 0.075}
 							keyboardType={'numeric'}
@@ -198,7 +208,7 @@ class serviceAdditionalInformationScreen extends Component {
 				<View
 					style={{
 						marginTop: screenHeight * 0.025,
-						marginHorizontal: screenWidth * 0.05
+						marginHorizontal: screenWidth * 0.05,
 					}}>
 					<TouchableOpacity
 						onPress={() => {
@@ -209,22 +219,29 @@ class serviceAdditionalInformationScreen extends Component {
 							alignItems: 'center',
 							justifyContent: 'flex-start',
 							marginTop: screenHeight * 0.02,
-							width: screenWidth * 0.85
+							width: screenWidth * 0.85,
 						}}>
 						<Text style={[{ textAlign: 'center' }, fontStyles.bigTextStyleBlack]}>
 							{strings.AmountOfServicesAtATime}
 						</Text>
 						<View style={{ width: screenWidth * 0.02 }} />
-						<Icon name={'info-circle'} type='font-awesome' size={25} color={colors.lightBlue} />
+						<Icon
+							name={'info-circle'}
+							type='font-awesome'
+							size={25}
+							color={colors.lightBlue}
+						/>
 					</TouchableOpacity>
 
 					<View
 						style={{
 							marginTop: screenHeight * 0.025,
 							flexDirection: 'row',
-							justifyContent: 'space-evenly'
+							justifyContent: 'space-evenly',
 						}}>
-						<OneLineRoundedBoxInput
+						<HelpTextInput
+							isMultiline={false}
+							height={screenHeight * 0.06}
 							width={screenWidth * 0.35}
 							height={screenHeight * 0.075}
 							keyboardType={'numeric'}
@@ -242,14 +259,14 @@ class serviceAdditionalInformationScreen extends Component {
 				<View
 					style={{
 						marginTop: screenHeight * 0.025,
-						marginHorizontal: screenWidth * 0.05
+						marginHorizontal: screenWidth * 0.05,
 					}}>
 					<Text style={[{ textAlign: 'center' }, fontStyles.bigTextStyleBlack]}>
 						{strings.HowWillCustomersPay}
 					</Text>
 					<View
 						style={{
-							marginTop: screenHeight * 0.025
+							marginTop: screenHeight * 0.025,
 						}}>
 						<HelpButton
 							title={strings.Cash}
@@ -260,8 +277,9 @@ class serviceAdditionalInformationScreen extends Component {
 								{
 									//Width increased for longer text
 									width: screenWidth * 0.75,
-									borderColor: this.state.cash === true ? colors.lightBlue : colors.white
-								}
+									borderColor:
+										this.state.cash === true ? colors.lightBlue : colors.white,
+								},
 							]}
 							textStyle={fontStyles.mainTextStyleBlue}
 							//Method selects the cash button and deselects the card
@@ -284,8 +302,9 @@ class serviceAdditionalInformationScreen extends Component {
 								{
 									//Width increased for longer text
 									width: screenWidth * 0.75,
-									borderColor: this.state.card === true ? colors.lightBlue : colors.white
-								}
+									borderColor:
+										this.state.card === true ? colors.lightBlue : colors.white,
+								},
 							]}
 							textStyle={fontStyles.mainTextStyleBlue}
 							//Method selects the card button and deselects the cash
@@ -296,7 +315,7 @@ class serviceAdditionalInformationScreen extends Component {
 									this.setState({ cash: false, card: true });
 								} else {
 									this.setState({
-										setUpPaymentVisible: true
+										setUpPaymentVisible: true,
 									});
 								}
 							}}
@@ -308,7 +327,7 @@ class serviceAdditionalInformationScreen extends Component {
 					style={{
 						justifyContent: 'flex-end',
 						alignContent: 'flex-end',
-						marginTop: screenHeight * 0.05
+						marginTop: screenHeight * 0.05,
 					}}>
 					<HelpButton
 						title={this.state.editing === true ? strings.Done : strings.Create}

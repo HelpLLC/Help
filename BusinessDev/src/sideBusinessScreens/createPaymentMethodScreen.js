@@ -22,7 +22,7 @@ import HelpView from '../components/HelpView';
 import HelpAlert from '../components/HelpAlert';
 import NetInfo from '@react-native-community/netinfo';
 import LoadingSpinner from '../components/LoadingSpinner';
-import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
+import HelpTextInput from '../components/HelpTextInput/HelpTextInput';
 import CheckBox from 'react-native-check-box';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import { screenHeight, screenWidth } from 'config/dimensions';
@@ -347,7 +347,9 @@ export default class createPaymentMethodScreen extends Component {
 									</Text>
 								</View>
 								<View style={{ justifyContent: 'center' }}>
-									<OneLineRoundedBoxInput
+									<HelpTextInput
+										isMultiline={false}
+										height={screenHeight * 0.06}
 										width={screenWidth * 0.8}
 										placeholder={strings.EnterTheAccountHolderNameDotDotDot}
 										onChangeText={(input) =>
@@ -374,7 +376,9 @@ export default class createPaymentMethodScreen extends Component {
 									</Text>
 								</View>
 								<View style={{ justifyContent: 'center' }}>
-									<OneLineRoundedBoxInput
+									<HelpTextInput
+										isMultiline={false}
+										height={screenHeight * 0.06}
 										width={screenWidth * 0.8}
 										placeholder={strings.EnterTheAccountNumberDotDotDot}
 										onChangeText={(input) =>
@@ -402,7 +406,9 @@ export default class createPaymentMethodScreen extends Component {
 									</Text>
 								</View>
 								<View style={{ justifyContent: 'center' }}>
-									<OneLineRoundedBoxInput
+									<HelpTextInput
+										isMultiline={false}
+										height={screenHeight * 0.06}
 										width={screenWidth * 0.8}
 										placeholder={strings.EnterTheRoutingNumberDotDotDot}
 										onChangeText={(input) =>

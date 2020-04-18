@@ -9,7 +9,7 @@ import HelpButton from '../components/HelpButton';
 import helpButtonStyles from '../../config/styles/helpButtonStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import fontStyles from '../../config/styles/fontStyles';
-import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
+import HelpTextInput from '../components/HelpTextInput/HelpTextInput';
 import HelpAlert from '../components/HelpAlert';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -130,7 +130,8 @@ class serviceQuestionsScreen extends Component {
 								<Text style={fontStyles.mainTextStyleBlack}>{item}</Text>
 							</View>
 							<View>
-								<MultiLineRoundedBoxInput
+								<HelpTextInput
+								isMultiline={true}
 									width={screenWidth * 0.8}
 									height={screenHeight * 0.08}
 									placeholder={strings.AnswerHereDotDotDot}

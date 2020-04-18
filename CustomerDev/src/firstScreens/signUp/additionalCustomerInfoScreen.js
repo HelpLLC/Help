@@ -7,7 +7,7 @@ import strings from 'config/strings';
 import helpButtonStyles from 'config/styles/helpButtonStyles';
 import FastImage from 'react-native-fast-image';
 import HelpButton from '../../components/HelpButton';
-import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
+import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import HelpView from '../../components/HelpView';
 import { screenWidth, screenHeight } from 'config/dimensions';
@@ -43,7 +43,7 @@ class additionalCustomerInfoScreen extends Component {
 		if (this.props.navigation.state.params.isEditing === true) {
 			const { customer } = this.props.navigation.state.params;
 			const imageSource = await FirebaseFunctions.call('getProfilePictureByID', {
-				ID: customer.customerID
+				ID: customer.customerID,
 			});
 			this.setState({
 				name: customer.name,
@@ -56,12 +56,12 @@ class additionalCustomerInfoScreen extends Component {
 				customer: customer,
 				isEditing: true,
 				isScreenLoading: false,
-				imageSource
+				imageSource,
 			});
 		} else {
 			this.setState({
 				isScreenLoading: false,
-				isEditing: false
+				isEditing: false,
 			});
 		}
 	}
@@ -88,7 +88,7 @@ class additionalCustomerInfoScreen extends Component {
 		isShowing: false,
 		accountSaved: false,
 		allProducts: '',
-		updatedCustomer: ''
+		updatedCustomer: '',
 	};
 
 	//This method will edit customer information in Firebase depending on whether this customer
@@ -118,7 +118,7 @@ class additionalCustomerInfoScreen extends Component {
 						country,
 						name,
 						phoneNumber,
-						currentRequests: customer.currentRequests
+						currentRequests: customer.currentRequests,
 					});
 
 					//If the image has been updated, then it will update it in firebase
@@ -137,12 +137,20 @@ class additionalCustomerInfoScreen extends Component {
 					}
 					const allServices = this.props.navigation.state.params.allServices;
 					const updatedCustomer = await FirebaseFunctions.call('getCustomerByID', {
-						customerID: customer.customerID
+						customerID: customer.customerID,
 					});
-					this.setState({ accountSaved: true, updatedCustomer, allServices, isLoading: false });
+					this.setState({
+						accountSaved: true,
+						updatedCustomer,
+						allServices,
+						isLoading: false,
+					});
 				} catch (error) {
 					this.setState({ isLoading: false, isErrorVisible: true });
-					FirebaseFunctions.call('logIssue', { error, userID: 'EditAdditionalCustomerInfoScreen' });
+					FirebaseFunctions.call('logIssue', {
+						error,
+						userID: 'EditAdditionalCustomerInfoScreen',
+					});
 				}
 			} else {
 				//If the account is new, then it will go through the normal process to create
@@ -151,7 +159,11 @@ class additionalCustomerInfoScreen extends Component {
 					//If this is a customer, then the account will be created here and
 					//along with the new customer being added to the database then
 					//the screen will shift to the new account's screen
-					const { email, password, hasBusinessAccount } = this.props.navigation.state.params;
+					const {
+						email,
+						password,
+						hasBusinessAccount,
+					} = this.props.navigation.state.params;
 					let userID = '';
 					if (hasBusinessAccount === true) {
 						//If a provider account already exists with this email, it doesn't add it twice into Firebase
@@ -160,7 +172,9 @@ class additionalCustomerInfoScreen extends Component {
 						userID = userID.split(' ')[1];
 						userID = userID.substring(2);
 					} else {
-						userID = await firebase.auth().createUserWithEmailAndPassword(email, password);
+						userID = await firebase
+							.auth()
+							.createUserWithEmailAndPassword(email, password);
 						userID = userID.user.uid;
 						await FirebaseFunctions.logIn(email, password);
 					}
@@ -177,18 +191,23 @@ class additionalCustomerInfoScreen extends Component {
 						email,
 						name,
 						phoneNumber,
-						isReviewDue: []
+						isReviewDue: [],
 					});
-					const customer = await FirebaseFunctions.call('getCustomerByID', { customerID: userID });
+					const customer = await FirebaseFunctions.call('getCustomerByID', {
+						customerID: userID,
+					});
 					const allServices = await FirebaseFunctions.call('getAllServices', {});
 					this.setState({ isLoading: false });
 					this.props.navigation.push('FeaturedScreen', {
 						customer,
-						allServices
+						allServices,
 					});
 				} catch (error) {
 					this.setState({ isLoading: false, isErrorVisible: true });
-					FirebaseFunctions.call('logIssue', { error, userID: 'AdditionalCustomerInfoScreen' });
+					FirebaseFunctions.call('logIssue', {
+						error,
+						userID: 'AdditionalCustomerInfoScreen',
+					});
 				}
 			}
 		}
@@ -209,7 +228,9 @@ class additionalCustomerInfoScreen extends Component {
 					<TopBanner
 						leftIconName='navicon'
 						leftOnPress={() => {
-							FirebaseFunctions.analytics.logEvent('sidemenu_opened_from_create_customer_profile');
+							FirebaseFunctions.analytics.logEvent(
+								'sidemenu_opened_from_create_customer_profile'
+							);
 							this.setState({ isOpen: true });
 						}}
 						size={30}
@@ -232,7 +253,7 @@ class additionalCustomerInfoScreen extends Component {
 							marginTop: screenHeight * 0.02,
 							flexDirection: 'row',
 							alignItems: 'center',
-							justifyContent: 'space-evenly'
+							justifyContent: 'space-evenly',
 						}}>
 						<TouchableOpacity
 							onPress={() => {
@@ -243,7 +264,7 @@ class additionalCustomerInfoScreen extends Component {
 							<View
 								style={{
 									marginBottom: screenHeight * 0.02,
-									justifyContent: 'flex-start'
+									justifyContent: 'flex-start',
 								}}>
 								<BoxShadow
 									setting={{
@@ -254,7 +275,7 @@ class additionalCustomerInfoScreen extends Component {
 										radius: (screenWidth * 0.25) / 2,
 										opacity: 0.2,
 										x: 0,
-										y: 5
+										y: 5,
 									}}>
 									<FastImage
 										source={this.state.imageSource}
@@ -263,13 +284,15 @@ class additionalCustomerInfoScreen extends Component {
 											height: screenWidth * 0.25,
 											borderColor: colors.lightBlue,
 											borderWidth: (screenWidth * 0.25) / 17,
-											borderRadius: (screenWidth * 0.25) / 2
+											borderRadius: (screenWidth * 0.25) / 2,
 										}}
 									/>
 								</BoxShadow>
 							</View>
 							<View style={{ justifyContent: 'flex-end' }}>
-								<Text style={fontStyles.mainTextStyleBlue}>{strings.EditImage}</Text>
+								<Text style={fontStyles.mainTextStyleBlue}>
+									{strings.EditImage}
+								</Text>
 							</View>
 						</TouchableOpacity>
 						<View style={{ width: screenWidth * 0.1 }}></View>
@@ -278,13 +301,15 @@ class additionalCustomerInfoScreen extends Component {
 								style={{
 									alignSelf: 'flex-start',
 									justifyContent: 'flex-end',
-									marginVertical: screenHeight * 0.02
+									marginVertical: screenHeight * 0.02,
 								}}>
 								<Text style={fontStyles.bigTextStyleBlack}>{strings.Name}</Text>
 							</View>
 
 							<View style={{ justifyContent: 'center' }}>
-								<OneLineRoundedBoxInput
+								<HelpTextInput
+									isMultiline={false}
+									height={screenHeight * 0.06}
 									placeholder={strings.PleaseEnterName}
 									onChangeText={(input) => this.setState({ name: input })}
 									value={this.state.name}
@@ -301,13 +326,16 @@ class additionalCustomerInfoScreen extends Component {
 							style={{
 								alignSelf: 'flex-start',
 								justifyContent: 'flex-end',
-								marginVertical: screenHeight * 0.02
+								marginVertical: screenHeight * 0.02,
 							}}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.Name}</Text>
 						</View>
 
 						<View style={{ justifyContent: 'center' }}>
-							<OneLineRoundedBoxInput
+							<HelpTextInput
+								isMultiline={false}
+								width={screenWidth * 0.6}
+								height={screenHeight * 0.06}
 								placeholder={strings.PleaseEnterName}
 								onChangeText={(input) => this.setState({ name: input })}
 								value={this.state.name}
@@ -323,13 +351,16 @@ class additionalCustomerInfoScreen extends Component {
 						alignItems: 'flex-start',
 						width: screenWidth * 0.6,
 						alignSelf: 'center',
-						marginVertical: screenHeight * 0.02
+						marginVertical: screenHeight * 0.02,
 					}}>
 					<Text style={fontStyles.bigTextStyleBlack}>{strings.PhoneNumber}</Text>
 				</View>
 
 				<View style={{ justifyContent: 'center' }}>
-					<OneLineRoundedBoxInput
+					<HelpTextInput
+						isMultiline={false}
+						width={screenWidth * 0.6}
+						height={screenHeight * 0.06}
 						placeholder={strings.EnterPhoneNumber}
 						onChangeText={(input) => {
 							this.setState({ phoneNumber: input.replace(/[^0-9]/g, '') });
@@ -347,13 +378,16 @@ class additionalCustomerInfoScreen extends Component {
 						alignItems: 'flex-start',
 						width: screenWidth * 0.8,
 						alignSelf: 'center',
-						marginVertical: screenHeight * 0.02
+						marginVertical: screenHeight * 0.02,
 					}}>
 					<Text style={fontStyles.bigTextStyleBlack}>{strings.StreetAddress}</Text>
 				</View>
 				<View
 					style={{
-						height: this.state.isEditing === true ? screenHeight * 0.25 : screenHeight * 0.275
+						height:
+							this.state.isEditing === true
+								? screenHeight * 0.25
+								: screenHeight * 0.275,
 					}}>
 					<GoogleCityPicker
 						initialText={this.state.address}
@@ -364,7 +398,7 @@ class additionalCustomerInfoScreen extends Component {
 								state,
 								country,
 								city,
-								coordinates: { lng, lat }
+								coordinates: { lng, lat },
 							});
 						}}
 					/>
@@ -373,7 +407,7 @@ class additionalCustomerInfoScreen extends Component {
 					style={{
 						height: screenHeight * 0.1,
 						justifyContent: 'flex-end',
-						alignSelf: 'center'
+						alignSelf: 'center',
 					}}>
 					<HelpButton
 						isLoading={this.state.isLoading}
@@ -408,7 +442,7 @@ class additionalCustomerInfoScreen extends Component {
 						this.setState({ accountSaved: false });
 						this.props.navigation.push('FeaturedScreen', {
 							customer: this.state.updatedCustomer,
-							allServices: this.state.allServices
+							allServices: this.state.allServices,
 						});
 					}}
 					title={strings.Success}
@@ -436,7 +470,7 @@ class additionalCustomerInfoScreen extends Component {
 							//Sets the source of the image if one has been selected
 							this.setState({
 								imageSource: source,
-								response
+								response,
 							});
 						}
 						this.setState({ isShowing: false });

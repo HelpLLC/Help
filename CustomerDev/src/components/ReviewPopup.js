@@ -9,7 +9,7 @@ import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import ImageWithBorder from '../components/ImageWithBorder';
-import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
+import HelpTextInput from '../components/HelpTextInput/HelpTextInput';
 
 //The class that will render the alert
 export default function ReviewPopup(props) {
@@ -76,7 +76,8 @@ export default function ReviewPopup(props) {
 						defaultRating={0}
 					/>
 					<View style={{ paddingBottom: screenHeight * 0.025 }}></View>
-					<MultiLineRoundedBoxInput
+					<HelpTextInput
+						isMultiline={true}
 						width={screenWidth * 0.6}
 						height={screenHeight * 0.1}
 						placeholder={placeholder}

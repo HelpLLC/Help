@@ -2,7 +2,7 @@
 //The user will report it and the report will be visible to the developers
 import React, { Component } from 'react';
 import { View, Text, Keyboard, Dimensions } from 'react-native';
-import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
+import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
 import helpButtonStyles from 'config/styles/helpButtonStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpButton from '../../components/HelpButton';
@@ -86,8 +86,9 @@ class reportIssueScreen extends Component {
 							alignItems: 'center',
 							marginBottom: screenHeight * 0.05
 						}}>
-						<MultiLineRoundedBoxInput
+						<HelpTextInput
 							width={screenWidth * 0.66909}
+							isMultiline={true}
 							height={screenHeight * 0.29282577}
 							placeholder={strings.DescribeYourIssueHereDotDotDot}
 							onChangeText={(input) => this.setState({ userInput: input })}

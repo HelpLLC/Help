@@ -9,7 +9,7 @@ import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
 import helpButtonStyles from 'config/styles/helpButtonStyles';
 import HelpButton from '../../components/HelpButton';
-import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
+import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
 import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
@@ -39,7 +39,7 @@ class emailPasswordScreen extends Component {
 		isErrorVisible: false,
 		isChecked: false,
 		termsAndConditionsError: false,
-		isPasswordVisible: false
+		isPasswordVisible: false,
 	};
 
 	//This method signs up the user & creates an account for them based on what they chose and their
@@ -93,7 +93,8 @@ class emailPasswordScreen extends Component {
 						email,
 						password,
 						editing: false,
-						requesterAccountExists: this.state.requesterAccountExists === true ? true : false
+						requesterAccountExists:
+							this.state.requesterAccountExists === true ? true : false,
 					});
 				} else {
 					this.setState({ isLoading: false, isErrorVisible: true });
@@ -116,20 +117,23 @@ class emailPasswordScreen extends Component {
 					}}
 				/>
 				<ScrollView>
-					<View style={{ height: screenHeight * 0.03 }}></View>
+					<View style={{ height: screenHeight * 0.03 }} />
 					<View
 						style={{
 							height: screenHeight * 0.15,
 							justifyContent: 'center',
-							alignSelf: 'center'
+							alignSelf: 'center',
 						}}>
 						<View style={{ flex: 1, justifyContent: 'flex-end' }}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.Email}</Text>
 						</View>
 
-						<View style={{ flex: 0.5 }}></View>
+						<View style={{ flex: 0.5 }} />
 						<View style={{ flex: 1, justifyContent: 'center' }}>
-							<OneLineRoundedBoxInput
+							<HelpTextInput
+								isMultiline={false}
+								width={screenWidth * 0.6}
+								height={screenHeight * 0.06}
 								placeholder={strings.EnterAnEmail}
 								onChangeText={(input) => this.setState({ email: input })}
 								value={this.state.email}
@@ -143,7 +147,7 @@ class emailPasswordScreen extends Component {
 						style={{
 							height: screenHeight * 0.15,
 							justifyContent: 'center',
-							alignSelf: 'center'
+							alignSelf: 'center',
 						}}>
 						<View style={{ flex: 1, justifyContent: 'flex-end' }}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.Password}</Text>
@@ -152,9 +156,12 @@ class emailPasswordScreen extends Component {
 							style={{
 								flex: 1,
 								justifyContent: 'center',
-								marginTop: screenHeight * 0.02
+								marginTop: screenHeight * 0.02,
 							}}>
-							<OneLineRoundedBoxInput
+							<HelpTextInput
+								isMultiline={false}
+								width={screenWidth * 0.6}
+								height={screenHeight * 0.06}
 								placeholder={strings.ChooseAPassword}
 								onChangeText={(input) => this.setState({ password: input })}
 								value={this.state.password}
@@ -163,17 +170,25 @@ class emailPasswordScreen extends Component {
 										onPress={() => {
 											const { isPasswordVisible } = this.state;
 											this.setState({
-												isPasswordVisible: !isPasswordVisible
+												isPasswordVisible: !isPasswordVisible,
 											});
 										}}
 										style={{
 											justifyContent: 'center',
-											height: screenHeight * 0.06
+											height: screenHeight * 0.06,
 										}}>
 										<Icon
-											name={this.state.isPasswordVisible === true ? 'eye' : 'eye-slash'}
+											name={
+												this.state.isPasswordVisible === true
+													? 'eye'
+													: 'eye-slash'
+											}
 											type='font-awesome'
-											color={this.state.isPasswordVisible === true ? colors.lightBlue : colors.gray}
+											color={
+												this.state.isPasswordVisible === true
+													? colors.lightBlue
+													: colors.gray
+											}
 										/>
 									</TouchableOpacity>
 								}
@@ -187,7 +202,7 @@ class emailPasswordScreen extends Component {
 							marginVertical: screenHeight * 0.05,
 							justifyContent: 'flex-start',
 							alignItems: 'center',
-							flexDirection: 'column'
+							flexDirection: 'column',
 						}}>
 						<CheckBox
 							onClick={() => {
@@ -208,12 +223,12 @@ class emailPasswordScreen extends Component {
 							</Text>
 						</TouchableOpacity>
 					</View>
-					<View style={{ height: screenHeight * 0.03 }}></View>
+					<View style={{ height: screenHeight * 0.03 }} />
 					<View
 						style={{
 							height: screenHeight * 0.12,
 							justifyContent: 'flex-end',
-							alignSelf: 'center'
+							alignSelf: 'center',
 						}}>
 						<HelpButton
 							title={strings.Next}
@@ -226,7 +241,7 @@ class emailPasswordScreen extends Component {
 							disabled={this.state.isLoading}
 						/>
 					</View>
-					<View style={{ height: screenHeight * 0.03 }}></View>
+					<View style={{ height: screenHeight * 0.03 }} />
 				</ScrollView>
 				<HelpAlert
 					isVisible={this.state.isErrorVisible}

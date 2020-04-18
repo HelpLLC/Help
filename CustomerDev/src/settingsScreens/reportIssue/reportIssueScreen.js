@@ -2,7 +2,7 @@
 //The user will report it and the report will be visible to the developers
 import React, { Component } from 'react';
 import { View, Text, Keyboard, Dimensions } from 'react-native';
-import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
+import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
 import helpButtonStyles from 'config/styles/helpButtonStyles';
 import HelpButton from '../../components/HelpButton';
 import HelpAlert from '../../components/HelpAlert';
@@ -20,7 +20,7 @@ class reportIssueScreen extends Component {
 	state = {
 		userInput: '',
 		fieldsError: false,
-		isErrorVisible: false
+		isErrorVisible: false,
 	};
 
 	//This method will report the issue to the developers as well as confirm the reported issue
@@ -33,9 +33,12 @@ class reportIssueScreen extends Component {
 			this.setState({ fieldsError: true });
 		} else {
 			try {
-				FirebaseFunctions.call('reportIssue', { userID: customerID, issue: this.state.userInput });
+				FirebaseFunctions.call('reportIssue', {
+					userID: customerID,
+					issue: this.state.userInput,
+				});
 				this.props.navigation.push('IssueReportedScreen', {
-					customerID
+					customerID,
 				});
 			} catch (error) {
 				this.setState({ isLoading: false, isErrorVisible: true });
@@ -43,8 +46,8 @@ class reportIssueScreen extends Component {
 					error,
 					userID: {
 						screen: 'ReportIssueScreen',
-						userID: 'c-' + customerID
-					}
+						userID: 'c-' + customerID,
+					},
 				});
 			}
 		}
@@ -74,7 +77,7 @@ class reportIssueScreen extends Component {
 							justifyContent: 'center',
 							alignItems: 'center',
 							marginTop: screenHeight * 0.1,
-							marginBottom: screenHeight * 0.05
+							marginBottom: screenHeight * 0.05,
 						}}>
 						<Text style={fontStyles.bigTextStyleBlack}>
 							{strings.WhatSeemsToBeTheProblemQuestion}
@@ -84,9 +87,10 @@ class reportIssueScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginBottom: screenHeight * 0.05
+							marginBottom: screenHeight * 0.05,
 						}}>
-						<MultiLineRoundedBoxInput
+						<HelpTextInput
+							isMultiline={true}
 							width={screenWidth * 0.66909}
 							height={screenHeight * 0.29282577}
 							placeholder={strings.DescribeYourIssueHereDotDotDot}

@@ -86,9 +86,15 @@ export default StyleSheet.create({
 
 	//The style for all small text that is blue
 	smallTextStyleBlue: {
-		fontFamily: smallTextFontSize,
+		fontSize: smallTextFontSize,
 		fontFamily: font,
 		color: colors.lightBlue
+	},
+
+	smallTextStyleBlack: {
+		fontSize: smallTextFontSize,
+		fontFamily: font,
+		color: colors.black
 	},
 
 	//The style for all non-main text that is black

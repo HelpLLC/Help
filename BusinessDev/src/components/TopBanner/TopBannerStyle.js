@@ -11,7 +11,7 @@ export default StyleSheet.create({
 		width: screenWidth,
 		paddingTop: screenHeight * 0.035,
 		alignItems: 'center',
-		backgroundColor: colors.lightBlue,
+		backgroundColor: colors.blue,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 	},
