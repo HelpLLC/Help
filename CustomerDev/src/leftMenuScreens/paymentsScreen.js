@@ -5,7 +5,7 @@ import { View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 import HelpButton from '../components/HelpButton';
 import HelpView from '../components/HelpView';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';

@@ -8,7 +8,7 @@ import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../../components/TopBanner/TopBanner';
 
 export default class accountNotVerified extends Component {
 	componentWillMount() {

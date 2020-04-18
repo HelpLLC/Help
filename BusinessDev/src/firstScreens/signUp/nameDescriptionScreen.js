@@ -15,7 +15,7 @@ import HelpView from '../../components/HelpView';
 import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import HelpAlert from '../../components/HelpAlert';
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../../components/TopBanner/TopBanner';
 
 //The class that will create the look of this screen
 class nameDescriptionScreen extends Component {

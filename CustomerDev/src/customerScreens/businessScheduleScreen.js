@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import { View, Dimensions, FlatList, Text } from 'react-native';
 import strings from 'config/strings';
 import colors from 'config/colors';

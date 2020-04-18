@@ -6,7 +6,7 @@ import screenStyle from 'config/styles/screenStyle';
 import { View, Text, ScrollView, Dimensions, FlatList } from 'react-native';
 import OptionPicker from '../components/OptionPicker';
 import strings from 'config/strings';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import FastImage from 'react-native-fast-image';
 import { screenWidth, screenHeight } from 'config/dimensions';

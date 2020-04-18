@@ -15,7 +15,7 @@ import HelpView from '../components/HelpView';
 import FastImage from 'react-native-fast-image';
 import HelpButton from '../components/HelpButton';
 import helpButtonStyles from 'config/styles/helpButtonStyles';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 
 import ViewMoreText from 'react-native-view-more-text';
 

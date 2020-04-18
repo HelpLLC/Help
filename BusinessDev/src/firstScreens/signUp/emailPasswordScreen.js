@@ -13,7 +13,7 @@ import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../../components/TopBanner/TopBanner';
 import { Icon } from 'react-native-elements';
 import HelpAlert from '../../components/HelpAlert';
 

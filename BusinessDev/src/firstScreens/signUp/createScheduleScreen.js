@@ -1,7 +1,7 @@
 //This screen is going to be navigated in the first screens. It'll be used to set the business schedule. It is accessed from
 //the providerAdditionalInformationScreen
 import React, { Component } from 'react';
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../../components/TopBanner/TopBanner';
 import strings from 'config/strings';
 import HelpButton from '../../components/HelpButton';
 import helpButtonStyles from 'config/styles/helpButtonStyles';

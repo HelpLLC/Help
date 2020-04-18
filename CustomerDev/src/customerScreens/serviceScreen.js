@@ -24,7 +24,7 @@ import HelpAlert from '../components/HelpAlert';
 import OptionPicker from '../components/OptionPicker';
 import screenStyle from 'config/styles/screenStyle';
 import FastImage from 'react-native-fast-image';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import ViewMoreText from 'react-native-view-more-text';
 import call from 'react-native-phone-call';
 import email from 'react-native-email';

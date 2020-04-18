@@ -16,7 +16,7 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import LoadingSpinner from '../components/LoadingSpinner';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import HelpAlert from '../components/HelpAlert';
 import { Icon } from 'react-native-elements';
 import FastImage from 'react-native-fast-image';

@@ -7,7 +7,7 @@ import { View, Text, Dimensions } from 'react-native';
 import HelpView from '../components/HelpView';
 import LoadingSpinner from '../components/LoadingSpinner';
 import screenStyle from 'config/styles/screenStyle';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import strings from 'config/strings';

@@ -12,7 +12,7 @@ import HelpAlert from '../components/HelpAlert';
 import colors from 'config/colors';
 import { Icon } from 'react-native-elements';
 import HelpButton from '../components/HelpButton';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 
 //Declares and exports the class

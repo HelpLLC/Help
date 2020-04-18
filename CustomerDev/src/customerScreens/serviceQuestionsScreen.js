@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import HelpView from '../components/HelpView';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import strings from '../../config/strings';
 import HelpButton from '../components/HelpButton';
 import helpButtonStyles from '../../config/styles/helpButtonStyles';

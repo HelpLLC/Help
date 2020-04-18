@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions, ScrollView, TouchableOpacity, FlatList } from 'react-native';
 import HelpView from '../components/HelpView';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
 import HelpButton from '../components/HelpButton';

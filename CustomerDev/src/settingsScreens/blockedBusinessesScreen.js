@@ -6,7 +6,7 @@ import screenStyle from 'config/styles/screenStyle';
 import { Text, FlatList, View, Dimensions, ScrollView } from 'react-native';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import { screenWidth, screenHeight } from 'config/dimensions';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import LoadingSpinner from '../components/LoadingSpinner';
 import strings from '../../config/strings';

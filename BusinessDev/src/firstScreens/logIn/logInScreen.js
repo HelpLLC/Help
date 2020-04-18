@@ -11,7 +11,7 @@ import HelpButton from '../../components/HelpButton';
 import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
 import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../../components/TopBanner/TopBanner';
 import HelpAlert from '../../components/HelpAlert';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import { Icon } from 'react-native-elements';

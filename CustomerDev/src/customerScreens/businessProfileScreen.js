@@ -14,7 +14,7 @@ import screenStyle from 'config/styles/screenStyle';
 import LoadingSpinner from '../components/LoadingSpinner';
 import HelpAlert from '../components/HelpAlert';
 import strings from 'config/strings';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import HelpSearchBar from '../components/HelpSearchBar';
 
 class companyProfileScreen extends Component {

@@ -20,7 +20,7 @@ import colors from 'config/colors';
 import { Icon } from 'react-native-elements';
 import { BoxShadow } from 'react-native-shadow';
 import ImagePicker from '../../components/ImagePicker';
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../../components/TopBanner/TopBanner';
 import LeftMenu from '../../leftMenuScreens/LeftMenu';
 import SideMenu from 'react-native-side-menu';
 

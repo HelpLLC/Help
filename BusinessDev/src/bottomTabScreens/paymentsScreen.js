@@ -6,7 +6,7 @@ import HelpView from '../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import strings from 'config/strings';
 import HelpAlert from '../components/HelpAlert';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import HelpButton from '../components/HelpButton';

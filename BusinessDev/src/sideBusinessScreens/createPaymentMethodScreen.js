@@ -14,7 +14,7 @@ import screenStyle from 'config/styles/screenStyle';
 import colors from 'config/colors';
 import { Icon } from 'react-native-elements';
 import RNPickerSelect from 'react-native-picker-select';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
 import helpButtonStyles from 'config/styles/helpButtonStyles';

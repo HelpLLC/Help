@@ -3,7 +3,7 @@
 //screens using a StackNavigator
 import React, { Component } from 'react';
 import { View, Linking } from 'react-native';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import WhiteCard from '../components/WhiteCard';
 import { Icon } from 'react-native-elements';

@@ -17,7 +17,7 @@ import GoogleCityPicker from '../../components/GoogleCityPicker';
 import HelpAlert from '../../components/HelpAlert';
 import { Icon } from 'react-native-elements';
 import colors from 'config/colors';
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../../components/TopBanner/TopBanner';
 
 export default class additionalInformationScreen extends Component {
 	//Function sets the name of the current screen & sets the correct state based on whether this is a screen to create a new business
