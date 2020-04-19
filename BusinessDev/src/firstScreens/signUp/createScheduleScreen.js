@@ -1,10 +1,10 @@
 //This screen is going to be navigated in the first screens. It'll be used to set the business schedule. It is accessed from
 //the providerAdditionalInformationScreen
 import React, { Component } from 'react';
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../../components/TopBanner/TopBanner';
 import strings from 'config/strings';
-import HelpButton from '../../components/HelpButton';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
+import HelpButton from '../../components/HelpButton/HelpButton';
+ 
 import HelpView from '../../components/HelpView';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { screenWidth, screenHeight } from 'config/dimensions';
@@ -565,8 +565,7 @@ export default class createScheduleScreen extends Component {
 						<HelpButton
 							title={this.state.editing ? strings.Done : strings.SignUp}
 							isLoading={this.state.isLoading}
-							style={helpButtonStyles.MediumSizeButton}
-							textStyle={fontStyles.bigTextStyleWhite}
+							width={screenWidth * 0.39}
 							onPress={async () => {
 								//Creates the product
 								await this.addProviderInfo();

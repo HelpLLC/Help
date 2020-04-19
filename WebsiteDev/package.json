@@ -20,6 +20,7 @@
     "react-calendar": "^3.0.0",
     "react-dom": "^16.12.0",
     "react-google-charts": "^3.0.15",
+    "react-gradient": "^1.0.2",
     "react-icons": "^3.9.0",
     "react-image-file-resizer": "^0.2.3",
     "react-images-upload": "^1.2.8",

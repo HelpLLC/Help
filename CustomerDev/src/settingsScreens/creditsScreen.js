@@ -8,7 +8,7 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 import HelpView from '../components/HelpView';
 import strings from 'config/strings';
 import { screenWidth, screenHeight } from 'config/dimensions';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 
 //The screen crediting all of our usage
 export default class creditsScreen extends Component {

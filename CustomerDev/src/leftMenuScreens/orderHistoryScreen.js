@@ -13,7 +13,7 @@ import NarrowServiceCard from '../components/NarrowServiceCard';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import fontStyles from 'config/styles/fontStyles';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import NarrowServiceCardList from '../components/NarrowServiceCardList';
 import ServiceCardList from '../components/ServiceCardList';
 import HelpAlert from '../components/HelpAlert';

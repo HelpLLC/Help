@@ -7,12 +7,12 @@ import fontStyles from 'config/styles/fontStyles';
 import { screenHeight, screenWidth } from 'config/dimensions';
 import strings from 'config/strings';
 import screenStyle from 'config/styles/screenStyle';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
+ 
 import HelpAlert from '../components/HelpAlert';
 import colors from 'config/colors';
 import { Icon } from 'react-native-elements';
-import HelpButton from '../components/HelpButton';
-import TopBanner from '../components/TopBanner';
+import HelpButton from '../components/HelpButton/HelpButton';
+import TopBanner from '../components/TopBanner/TopBanner';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 
 //Declares and exports the class
@@ -132,8 +132,7 @@ export default class billCustomerScreen extends Component {
 						}}>
 						<HelpButton
 							title={strings.Complete}
-							style={helpButtonStyles.MediumSizeButton}
-							textStyle={fontStyles.mainTextStyleWhite}
+							width={screenWidth * 0.39}
 							onPress={() => {
 								//Completes the service
 								this.completeRequest();
@@ -216,8 +215,7 @@ export default class billCustomerScreen extends Component {
 							}}>
 							<HelpButton
 								title={strings.Complete}
-								style={helpButtonStyles.MediumSizeButton}
-								textStyle={fontStyles.mainTextStyleWhite}
+								width={screenWidth * 0.39}
 								onPress={() => {
 									//Completes the service
 								}}
@@ -306,8 +304,7 @@ export default class billCustomerScreen extends Component {
 							}}>
 							<HelpButton
 								title={strings.Complete}
-								style={helpButtonStyles.MediumSizeButton}
-								textStyle={fontStyles.mainTextStyleWhite}
+								width={screenWidth * 0.39}
 								onPress={() => {
 									//Completes the service
 								}}

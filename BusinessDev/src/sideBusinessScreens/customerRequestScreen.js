@@ -6,15 +6,15 @@ import screenStyle from 'config/styles/screenStyle';
 import { View, Text, ScrollView, Dimensions, FlatList } from 'react-native';
 import OptionPicker from '../components/OptionPicker';
 import strings from 'config/strings';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import FastImage from 'react-native-fast-image';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import HelpButton from '../components/HelpButton';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
+import HelpButton from '../components/HelpButton/HelpButton';
+ 
 import HelpAlert from '../components/HelpAlert';
 
 //Creates the class and exports it
@@ -270,8 +270,7 @@ export default class customerRequestScreen extends Component {
 											}}>
 											<HelpButton
 												title={strings.Delete}
-												style={helpButtonStyles.SmallSizeButton}
-												textStyle={fontStyles.mainTextStyleWhite}
+												width={screenWidth * 0.278}
 												onPress={() => {
 													this.setState({
 														isDeleteRequestVisible: true
@@ -281,8 +280,7 @@ export default class customerRequestScreen extends Component {
 											/>
 											<HelpButton
 												title={strings.Complete}
-												style={helpButtonStyles.SmallSizeButton}
-												textStyle={fontStyles.mainTextStyleWhite}
+												width={screenWidth * 0.278}
 												onPress={() => {
 													this.props.navigation.push('BillCustomerScreen', {
 														request: request

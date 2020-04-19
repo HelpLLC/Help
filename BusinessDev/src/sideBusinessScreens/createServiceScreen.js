@@ -3,20 +3,19 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity, Keyboard } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
-import HelpButton from '../components/HelpButton';
+import HelpButton from '../components/HelpButton/HelpButton';
 import RNPickerSelect from 'react-native-picker-select';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
+ 
 import { screenWidth, screenHeight } from 'config/dimensions';
-import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
+import HelpTextInput from '../components/HelpTextInput/HelpTextInput';
 import { BoxShadow } from 'react-native-shadow';
 import HelpView from '../components/HelpView';
-import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
 import ImagePicker from '../components/ImagePicker';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import LoadingSpinner from '../components/LoadingSpinner';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import HelpAlert from '../components/HelpAlert';
 import { Icon } from 'react-native-elements';
 import FastImage from 'react-native-fast-image';
@@ -208,7 +207,9 @@ class createServiceScreen extends Component {
 								</Text>
 							</View>
 							<View style={{ justifyContent: 'center' }}>
-								<OneLineRoundedBoxInput
+								<HelpTextInput
+									isMultiline={false}
+									height={screenHeight * 0.06}
 									onChangeText={(input) => this.setState({ serviceTitle: input })}
 									placeholder={strings.GiveItATitleDotDotDot}
 									value={this.state.serviceTitle}
@@ -292,7 +293,8 @@ class createServiceScreen extends Component {
 								{strings.ServiceDescription}
 							</Text>
 						</View>
-						<MultiLineRoundedBoxInput
+						<HelpTextInput
+							isMultiline={true}
 							width={screenWidth - 40}
 							height={screenHeight * 0.14641}
 							placeholder={strings.EnterDescriptionForCustomersDotDotDot}
@@ -368,7 +370,9 @@ class createServiceScreen extends Component {
 											{strings.DollarSign}
 										</Text>
 										<View style={{ width: screenWidth * 0.01 }} />
-										<OneLineRoundedBoxInput
+										<HelpTextInput
+											isMultiline={false}
+											height={screenHeight * 0.06}
 											placeholder={''}
 											onChangeText={(input) =>
 												this.setState({ pricePerNumber: input })
@@ -395,7 +399,9 @@ class createServiceScreen extends Component {
 											alignItems: 'flex-start',
 											justifyContent: 'center',
 										}}>
-										<OneLineRoundedBoxInput
+										<HelpTextInput
+											isMultiline={false}
+											height={screenHeight * 0.06}
 											placeholder={strings.Hour}
 											onChangeText={(input) =>
 												this.setState({ pricePerText: input })
@@ -418,7 +424,9 @@ class createServiceScreen extends Component {
 											{strings.DollarSign}
 										</Text>
 										<View style={{ width: screenWidth * 0.01 }} />
-										<OneLineRoundedBoxInput
+										<HelpTextInput
+											isMultiline={false}
+											height={screenHeight * 0.06}
 											placeholder={''}
 											onChangeText={(input) =>
 												this.setState({ priceFixed: input })
@@ -442,7 +450,9 @@ class createServiceScreen extends Component {
 											{strings.DollarSign}
 										</Text>
 										<View style={{ width: screenWidth * 0.01 }} />
-										<OneLineRoundedBoxInput
+										<HelpTextInput
+											isMultiline={false}
+											height={screenHeight * 0.06}
 											placeholder={strings.Min}
 											onChangeText={(input) =>
 												this.setState({ priceMin: input })
@@ -473,7 +483,9 @@ class createServiceScreen extends Component {
 											{strings.DollarSign}
 										</Text>
 										<View style={{ width: screenWidth * 0.01 }} />
-										<OneLineRoundedBoxInput
+										<HelpTextInput
+											isMultiline={false}
+											height={screenHeight * 0.06}
 											placeholder={strings.Max}
 											onChangeText={(input) =>
 												this.setState({ priceMax: input })
@@ -502,8 +514,8 @@ class createServiceScreen extends Component {
 								}}>
 								<HelpButton
 									title={strings.Delete}
-									style={helpButtonStyles.MediumSizeButtonRed}
-									textStyle={fontStyles.bigTextStyleWhite}
+									width={screenWidth * 0.39}
+									isRedButton={true}
 									onPress={() => {
 										this.setState({ isDeleteServiceVisible: true });
 									}}
@@ -512,8 +524,7 @@ class createServiceScreen extends Component {
 
 								<HelpButton
 									title={strings.Next}
-									style={helpButtonStyles.MediumSizeButton}
-									textStyle={fontStyles.bigTextStyleWhite}
+									width={screenWidth * 0.39}
 									onPress={async () => {
 										await this.goToQuestionsScreen();
 									}}
@@ -524,8 +535,7 @@ class createServiceScreen extends Component {
 							<View style={{ alignItems: 'center', justifyContent: 'center' }}>
 								<HelpButton
 									title={strings.Next}
-									style={helpButtonStyles.MediumSizeButton}
-									textStyle={fontStyles.bigTextStyleWhite}
+									width={screenWidth * 0.39}
 									onPress={async () => {
 										await this.goToQuestionsScreen();
 									}}

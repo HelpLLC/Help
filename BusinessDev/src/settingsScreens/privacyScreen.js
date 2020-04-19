@@ -7,7 +7,7 @@ import FirebaseFunctions from 'config/FirebaseFunctions';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpView from '../components/HelpView';
 import screenStyle from '../../config/styles/screenStyle';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
 

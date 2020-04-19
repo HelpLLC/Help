@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import HelpButton from '../../../components/HelpButton';
+import HelpButton from '../../../components/HelpButton/HelpButton';
 import strings from '../../../config/strings';
 import { useLocation, useHistory } from 'react-router-dom';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import ImageUploader from 'react-images-upload';
 import Resizer from 'react-image-file-resizer';
 import { View } from 'react-native-web';
+import { screenWidth, screenHeight } from '../../../config/dimensions';
 
 export default function CreateProductScreen() {
 	//Declares the state
@@ -134,11 +135,11 @@ export default function CreateProductScreen() {
 	return (
 		<View>
 			<HelpButton
-				fullWidth={false}
-				label='Create'
-				onClick={async () => {
+				title={'Create'}
+				onPress={() => {
 					createProduct();
 				}}
+				width={screenWidth * 0.1}
 			/>
 			<ImageUploader
 				singleImage={true}

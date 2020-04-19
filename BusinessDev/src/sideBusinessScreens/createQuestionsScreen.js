@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { View, Text, Dimensions, ScrollView, TouchableOpacity, FlatList } from 'react-native';
 import HelpView from '../components/HelpView';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
-import HelpButton from '../components/HelpButton';
-import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view'; 
+import HelpButton from '../components/HelpButton/HelpButton';
+import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
+
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
+import HelpTextInput from '../components/HelpTextInput/HelpTextInput';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Icon } from 'react-native-elements';
 import HelpAlert from '../components/HelpAlert';
@@ -19,7 +19,7 @@ import screenStyle from '../../config/styles/screenStyle';
 class createQuestionsScreen extends Component {
 	state = {
 		isScreenLoading: true,
-		emptyQuestionError: false
+		emptyQuestionError: false,
 	};
 	componentDidMount() {
 		//If this product is being edited, then it is going to display the previously entered questions
@@ -34,7 +34,7 @@ class createQuestionsScreen extends Component {
 				business,
 				response,
 				serviceID,
-				service
+				service,
 			} = this.props.navigation.state.params;
 
 			const { questions } = service;
@@ -42,19 +42,25 @@ class createQuestionsScreen extends Component {
 			const defaultQuestions = [
 				{
 					name: strings.Email,
-					isSelected: questions.includes(strings.WhatIsYourEmailAddressQuestion) ? true : false,
-					question: strings.WhatIsYourEmailAddressQuestion
+					isSelected: questions.includes(strings.WhatIsYourEmailAddressQuestion)
+						? true
+						: false,
+					question: strings.WhatIsYourEmailAddressQuestion,
 				},
 				{
 					name: strings.PhoneNumber,
-					isSelected: questions.includes(strings.WhatIsYourPhoneNumberQuestion) ? true : false,
-					question: strings.WhatIsYourPhoneNumberQuestion
+					isSelected: questions.includes(strings.WhatIsYourPhoneNumberQuestion)
+						? true
+						: false,
+					question: strings.WhatIsYourPhoneNumberQuestion,
 				},
 				{
 					name: strings.Address,
-					isSelected: questions.includes(strings.WhatIsYourAddressQuestion) ? true : false,
-					question: strings.WhatIsYourAddressQuestion
-				}
+					isSelected: questions.includes(strings.WhatIsYourAddressQuestion)
+						? true
+						: false,
+					question: strings.WhatIsYourAddressQuestion,
+				},
 			];
 			this.setState({
 				//Removes the default questions from the array
@@ -74,7 +80,7 @@ class createQuestionsScreen extends Component {
 				serviceDescription,
 				price,
 				business,
-				response
+				response,
 			});
 		} else {
 			FirebaseFunctions.setCurrentScreen('CreateQuestionsScreen', 'createQuestionsScreen');
@@ -84,7 +90,7 @@ class createQuestionsScreen extends Component {
 				serviceDescription,
 				price,
 				response,
-				business
+				business,
 			} = this.props.navigation.state.params;
 			this.setState({
 				questions: [],
@@ -93,18 +99,18 @@ class createQuestionsScreen extends Component {
 					{
 						name: strings.Email,
 						isSelected: false,
-						question: strings.WhatIsYourEmailAddressQuestion
+						question: strings.WhatIsYourEmailAddressQuestion,
 					},
 					{
 						name: strings.PhoneNumber,
 						isSelected: false,
-						question: strings.WhatIsYourPhoneNumberQuestion
+						question: strings.WhatIsYourPhoneNumberQuestion,
 					},
 					{
 						name: strings.Address,
 						isSelected: false,
-						question: strings.WhatIsYourAddressQuestion
-					}
+						question: strings.WhatIsYourAddressQuestion,
+					},
 				],
 				businessID,
 				serviceTitle,
@@ -112,7 +118,7 @@ class createQuestionsScreen extends Component {
 				serviceDescription,
 				price,
 				response,
-				isScreenLoading: false
+				isScreenLoading: false,
 			});
 		}
 	}
@@ -126,7 +132,7 @@ class createQuestionsScreen extends Component {
 			serviceDescription,
 			price,
 			response,
-			business
+			business,
 		} = this.state;
 
 		//Checks if any questions are empty. If they are, pops up an alert
@@ -158,7 +164,7 @@ class createQuestionsScreen extends Component {
 				response,
 				questions,
 				business,
-				editing: true
+				editing: true,
 			});
 		} else {
 			this.props.navigation.push('ServiceAdditionalInformationScreen', {
@@ -168,7 +174,7 @@ class createQuestionsScreen extends Component {
 				price,
 				response,
 				questions,
-				business
+				business,
 			});
 		}
 	}
@@ -207,7 +213,7 @@ class createQuestionsScreen extends Component {
 										justifyContent: 'flex-start',
 										alignItems: 'center',
 										marginHorizontal: screenWidth * 0.025,
-										marginVertical: screenHeight * 0.025
+										marginVertical: screenHeight * 0.025,
 									}}>
 									<Text style={fontStyles.mainTextStyleBlack}>
 										{strings.InfoFromCustomersQuestion}
@@ -218,14 +224,16 @@ class createQuestionsScreen extends Component {
 										borderBottomColor: colors.lightBlue,
 										width: screenWidth,
 										alignSelf: 'center',
-										borderBottomWidth: 1
+										borderBottomWidth: 1,
 									}}>
 									<View
 										style={{
 											marginVertical: screenHeight * 0.025,
-											marginLeft: screenWidth * 0.025
+											marginLeft: screenWidth * 0.025,
 										}}>
-										<Text style={fontStyles.bigTextStyleBlack}>{strings.CustomQuestions}</Text>
+										<Text style={fontStyles.bigTextStyleBlack}>
+											{strings.CustomQuestions}
+										</Text>
 									</View>
 									<FlatList
 										showsHorizontalScrollIndicator={false}
@@ -240,34 +248,35 @@ class createQuestionsScreen extends Component {
 												style={{
 													alignItems: 'center',
 													marginHorizontal: screenWidth * 0.0125,
-													marginBottom: screenHeight * 0.025
+													marginBottom: screenHeight * 0.025,
 												}}>
 												<HelpButton
 													title={item.name}
+													width={screenWidth * 0.39}
 													//Tests if this button is selected, if it is, then the border color will
 													//be blue
-													style={[
-														helpButtonStyles.AccountTypeButton,
-														{
-															//Width increased for longer text
-															width: screenWidth * 0.39,
-															borderColor:
-																item.isSelected === true ? colors.lightBlue : colors.white
-														}
-													]}
-													textStyle={fontStyles.mainTextStyleBlue}
+													isLightButton={item.isSelected}
 													//Method selects the business button and deselects the other
 													onPress={() => {
 														let { defaultQuestions } = this.state;
-														defaultQuestions[index].isSelected = !defaultQuestions[index]
+														defaultQuestions[
+															index
+														].isSelected = !defaultQuestions[index]
 															.isSelected;
-														if (defaultQuestions[index].isSelected === true) {
+														if (
+															defaultQuestions[index].isSelected ===
+															true
+														) {
 															//Removes all spaces from the event
-															const event = ('default_questions_' + item.name).replace(' ', '');
-															FirebaseFunctions.analytics.logEvent(event);
+															const event = (
+																'default_questions_' + item.name
+															).replace(' ', '');
+															FirebaseFunctions.analytics.logEvent(
+																event
+															);
 														}
 														this.setState({
-															defaultQuestions
+															defaultQuestions,
 														});
 													}}
 													disabled={this.state.isLoading}
@@ -289,18 +298,19 @@ class createQuestionsScreen extends Component {
 									style={{
 										marginTop: screenHeight * 0.01,
 										flexDirection: 'row',
-										justifyContent: 'space-evenly'
+										justifyContent: 'space-evenly',
 									}}>
-									<MultiLineRoundedBoxInput
+									<HelpTextInput
 										width={screenWidth * 0.8}
 										height={screenHeight * 0.075}
 										placeholder={strings.AskQuestionsForCustomers}
 										onChangeText={(input) => {
 											questions[index] = input;
 											this.setState({
-												questions
+												questions,
 											});
 										}}
+										isMultiline={true}
 										value={item}
 										maxLength={300}
 									/>
@@ -308,7 +318,7 @@ class createQuestionsScreen extends Component {
 										onPress={() => {
 											questions.splice(index, 1);
 											this.setState({
-												questions
+												questions,
 											});
 										}}
 										style={{
@@ -319,12 +329,12 @@ class createQuestionsScreen extends Component {
 											backgroundColor: colors.red,
 											justifyContent: 'center',
 											alignItems: 'center',
-											alignSelf: 'center'
+											alignSelf: 'center',
 										}}>
 										<Icon
 											style={{
 												width: screenWidth * 0.1,
-												height: screenWidth * 0.1
+												height: screenWidth * 0.1,
 											}}
 											name='delete'
 											color={colors.white}
@@ -339,7 +349,7 @@ class createQuestionsScreen extends Component {
 									onPress={() => {
 										questions.push('');
 										this.setState({
-											questions
+											questions,
 										});
 									}}
 									disabled={this.state.isLoading}
@@ -349,18 +359,19 @@ class createQuestionsScreen extends Component {
 										alignItems: 'center',
 										alignSelf: 'center',
 										width: screenWidth * 0.39,
-										height: screenHeight * 0.0878
+										height: screenHeight * 0.0878,
 									}}>
-									<Text style={fontStyles.bigTextStyleBlue}>{strings.AddQuestion}</Text>
+									<Text style={fontStyles.bigTextStyleBlue}>
+										{strings.AddQuestion}
+									</Text>
 								</TouchableOpacity>
 								<View
 									style={{
-										marginTop: screenHeight * 0.03
+										marginTop: screenHeight * 0.03,
 									}}>
 									<HelpButton
 										title={strings.Next}
-										style={helpButtonStyles.MediumSizeButton}
-										textStyle={fontStyles.bigTextStyleWhite}
+										width={screenWidth * 0.39}
 										onPress={async () => {
 											await this.goToAddtionalInfoScreen();
 										}}

@@ -1,176 +1,177 @@
 //This class will represent all the font styles that should be used throughout the application
 //This includes font families, sizes, and colors.
 import colors from './colors';
+import { StyleSheet, Platform, PixelRatio } from 'react-native-web';
+import { screenWidth, screenHeight } from './dimensions';
 
 //Gets the correct font based on either iOS or Android
-const font = "Arial Rounded MT Bold";
+const font = 'Arial Rounded MT Bold';
 
-//Sets the font size
 let baseFontSize = 20;
 
 const bigFontSize = baseFontSize * 1.2;
+const smallTextFontSize = baseFontSize * 0.6;
 const subTextFontSize = baseFontSize * 0.9;
-const miniTextFontSize = baseFontSize * 0.6;
 const subTitleFontSize = baseFontSize * 2.2;
 const bigTitleFontSize = baseFontSize * 4.4;
 
 export default {
-  //The style for all big text that will be colored black
-  bigTextStyleBlack: {
-    fontFamily: font,
-    fontSize: bigFontSize,
-    color: colors.black
-  },
+	//The style for all big text that will be colored black
+	bigTextStyleBlack: {
+		fontFamily: font,
+		fontSize: bigFontSize,
+		color: colors.black,
+	},
 
-  //The style for all big text that will be colored white
-  bigTextStyleWhite: {
-    fontFamily: font,
-    fontSize: bigFontSize,
-    color: colors.white
-  },
+	//The style for all big text that will be colored white
+	bigTextStyleWhite: {
+		fontFamily: font,
+		fontSize: bigFontSize,
+		color: colors.white,
+	},
 
-  //The style for all big text that will be colored blue
-  bigTextStyleBlue: {
-    fontFamily: font,
-    fontSize: bigFontSize,
-    color: colors.lightBlue
-  },
+	//The style for all big text that will be colored blue
+	bigTextStyleBlue: {
+		fontFamily: font,
+		fontSize: bigFontSize,
+		color: colors.lightBlue,
+	},
 
-  //The style for main text that will be colored gray
-  bigTextStyleGray: {
-    fontFamily: font,
-    fontSize: bigFontSize,
-    color: colors.gray
-  },
+	//The style for main text that will be colored gray
+	bigTextStyleGray: {
+		fontFamily: font,
+		fontSize: bigFontSize,
+		color: colors.gray,
+	},
 
-  //The style for main text that will be colored black
-  mainTextStyleBlack: {
-    fontFamily: font,
-    fontSize: baseFontSize,
-    color: colors.black
-  },
+	//The style for main text that will be colored black
+	mainTextStyleBlack: {
+		fontFamily: font,
+		fontSize: baseFontSize,
+		color: colors.black,
+	},
 
-  //The style for main text that will be colored blue
-  mainTextStyleBlue: {
-    fontFamily: font,
-    fontSize: baseFontSize,
-    color: colors.lightBlue
-  },
+	//The style for main text that will be colored blue
+	mainTextStyleBlue: {
+		fontFamily: font,
+		fontSize: baseFontSize,
+		color: colors.lightBlue,
+	},
 
-  //The style for main text that will be colored white
-  mainTextStyleWhite: {
-    fontFamily: font,
-    fontSize: baseFontSize,
-    color: colors.white
-  },
+	//The style for main text that will be colored white
+	mainTextStyleWhite: {
+		fontFamily: font,
+		fontSize: baseFontSize,
+		color: colors.white,
+	},
 
-  //The style for main text that will be colored gray
-  mainTextStyleGray: {
-    fontFamily: font,
-    fontSize: baseFontSize,
-    color: colors.gray
-  },
+	//The style for main text that will be colored gray
+	mainTextStyleGray: {
+		fontFamily: font,
+		fontSize: baseFontSize,
+		color: colors.gray,
+	},
 
-  //The style for main text that will be colored red
-  mainTextStyleRed: {
-    fontFamily: font,
-    fontSize: baseFontSize,
-    color: colors.red
-  },
+	//The style for main text that will be colored red
+	mainTextStyleRed: {
+		fontFamily: font,
+		fontSize: baseFontSize,
+		color: colors.red,
+	},
 
-  //The style for all non-main text that is black
-  subTextStyleBlack: {
-    fontFamily: font,
-    fontSize: subTextFontSize,
-    color: colors.black
-  },
+	//The style for all small text that is blue
+	smallTextStyleBlue: {
+		fontSize: smallTextFontSize,
+		fontFamily: font,
+		color: colors.lightBlue,
+	},
 
-  //The style for all non-main text that is blue
-  subTextStyleBlue: {
-    fontFamily: font,
-    fontSize: subTextFontSize,
-    color: colors.lightBlue
-  },
+	smallTextStyleBlack: {
+		fontSize: smallTextFontSize,
+		fontFamily: font,
+		color: colors.black,
+	},
 
-  //The style for all non-main text that is red
-  subTextStyleRed: {
-    fontFamily: font,
-    fontSize: subTextFontSize,
-    color: colors.red
-  },
+	//The style for all non-main text that is black
+	subTextStyleBlack: {
+		fontFamily: font,
+		fontSize: subTextFontSize,
+		color: colors.black,
+	},
 
-  //The style for all non-main text that is gray
-  subTextStyleGray: {
-    fontFamily: font,
-    fontSize: subTextFontSize,
-    color: colors.gray
-  },
+	//The style for all non-main text that is blue
+	subTextStyleBlue: {
+		fontFamily: font,
+		fontSize: subTextFontSize,
+		color: colors.lightBlue,
+	},
 
-  //The style for all non-main text that is white
-  subTextStyleWhite: {
-    fontFamily: font,
-    fontSize: subTextFontSize,
-    color: colors.white
-  },
+	//The style for all non-main text that is red
+	subTextStyleRed: {
+		fontFamily: font,
+		fontSize: subTextFontSize,
+		color: colors.red,
+	},
 
-  //The style for the tab label at the bottom of the screens
-  tabLabelStyle: {
-    fontFamily: font,
-    fontSize: subTextFontSize
-  },
+	//The style for all non-main text that is gray
+	subTextStyleGray: {
+		fontFamily: font,
+		fontSize: subTextFontSize,
+		color: colors.gray,
+	},
 
-  //The style for the text on the button on the report issue screen
-  reportIssueButtonTextStyle: {
-    fontFamily: font,
-    fontSize: baseFontSize * 1.5,
-    color: colors.white
-  },
+	//The style for all non-main text that is white
+	subTextStyleWhite: {
+		fontFamily: font,
+		fontSize: subTextFontSize,
+		color: colors.white,
+	},
 
-  //The style for all big blue title texts
-  bigTitleStyleBlue: {
-    fontFamily: font,
-    fontSize: bigTitleFontSize,
-    color: colors.lightBlue
-  },
+	//The style for the tab label at the bottom of the screens
+	tabLabelStyle: {
+		fontFamily: font,
+		fontSize: subTextFontSize,
+	},
 
-  //The style for all big black title texts
-  bigTitleStyleBlack: {
-    fontFamily: font,
-    fontSize: bigTitleFontSize,
-    color: colors.black
-  },
+	//The style for the text on the button on the report issue screen
+	reportIssueButtonTextStyle: {
+		fontFamily: font,
+		fontSize: baseFontSize * 1.5,
+		color: colors.white,
+	},
 
-  //The style for all big white title texts
-  bigTitleStyleWhite: {
-    fontFamily: font,
-    fontSize: bigTitleFontSize,
-    color: colors.white
-  },
+	//The style for all big blue title texts
+	bigTitleStyleBlue: {
+		fontFamily: font,
+		fontSize: bigTitleFontSize,
+		color: colors.lightBlue,
+	},
 
-  //The style for all big sub white title texts
-  bigSubTitleStyleWhite: {
-    fontFamily: font,
-    fontSize: subTitleFontSize,
-    color: colors.white
-  },
+	//The style for all big white title texts
+	bigTitleStyleWhite: {
+		fontFamily: font,
+		fontSize: bigTitleFontSize,
+		color: colors.white,
+	},
 
-  bigSubTitleStyleBlack: {
-    fontFamily: font,
-    fontSize: subTitleFontSize,
-    color: colors.black
-  },
+	//The style for all big white title texts
+	bigTitleStyleBlack: {
+		fontFamily: font,
+		fontSize: bigTitleFontSize,
+		color: colors.black,
+	},
 
-  //The style for all big sub blue title texts
-  bigSubTitleStyleBlue: {
-    fontFamily: font,
-    fontSize: subTitleFontSize,
-    color: colors.lightBlue
-  },
+	//The style for all big sub white title texts
+	bigSubTitleStyleWhite: {
+		fontFamily: font,
+		fontSize: subTitleFontSize,
+		color: colors.white,
+	},
 
-  //The style for all non-main text that is blue
-  miniTextStyleBlue: {
-    fontFamily: font,
-    fontSize: miniTextFontSize,
-    color: colors.lightBlue
-  },
+	//The style for all big subtitle text that will be blue
+	bigSubTitleStyleBlue: {
+		fontFamily: font,
+		fontSize: subTitleFontSize,
+		color: colors.lightBlue,
+	},
 };

@@ -12,7 +12,7 @@ import NarrowServiceCardList from '../components/NarrowServiceCardList';
 import LeftMenu from './LeftMenu';
 import SideMenu from 'react-native-side-menu';
 import HelpView from '../components/HelpView';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import HelpAlert from '../components/HelpAlert';
 import colors from 'config/colors';
 import HelpSearchBar from '../components/HelpSearchBar';

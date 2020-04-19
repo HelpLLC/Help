@@ -9,20 +9,20 @@ import {
 	TouchableWithoutFeedback,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import HelpButton from '../components/HelpButton';
+import HelpButton from '../components/HelpButton/HelpButton';
 import screenStyle from 'config/styles/screenStyle';
 import colors from 'config/colors';
 import { Icon } from 'react-native-elements';
 import RNPickerSelect from 'react-native-picker-select';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
+
 import HelpView from '../components/HelpView';
 import HelpAlert from '../components/HelpAlert';
 import NetInfo from '@react-native-community/netinfo';
 import LoadingSpinner from '../components/LoadingSpinner';
-import OneLineRoundedBoxInput from '../components/OneLineRoundedBoxInput';
+import HelpTextInput from '../components/HelpTextInput/HelpTextInput';
 import CheckBox from 'react-native-check-box';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import { screenHeight, screenWidth } from 'config/dimensions';
@@ -257,20 +257,8 @@ export default class createPaymentMethodScreen extends Component {
 							}}>
 							<HelpButton
 								title={strings.BankAccount}
-								//Tests if this button is selected, if it is, then the border color will
-								//be blue
-								style={[
-									helpButtonStyles.AccountTypeButton,
-									{
-										//Width increased for longer text
-										width: screenWidth * 0.39,
-										borderColor:
-											bankAccountSelected === true
-												? colors.lightBlue
-												: colors.white,
-									},
-								]}
-								textStyle={fontStyles.mainTextStyleBlue}
+								width={screenWidth * 0.39}
+								isLightButton={bankAccountSelected}
 								//Method selects the business button and deselects the other
 								onPress={() => {
 									this.setState({
@@ -282,20 +270,10 @@ export default class createPaymentMethodScreen extends Component {
 							/>
 							<HelpButton
 								title={strings.DebitCard}
+								width={screenWidth * 0.39}
 								//Tests if this button is selected, if it is, then the border color will
 								//be blue
-								style={[
-									helpButtonStyles.AccountTypeButton,
-									{
-										//Width increased for longer text
-										width: screenWidth * 0.39,
-										borderColor:
-											debitCardSelected === true
-												? colors.lightBlue
-												: colors.white,
-									},
-								]}
-								textStyle={fontStyles.mainTextStyleBlue}
+								isLightButtton={debitCardSelected}
 								//Method selects the business button and deselects the other
 								onPress={async () => {
 									try {
@@ -347,7 +325,9 @@ export default class createPaymentMethodScreen extends Component {
 									</Text>
 								</View>
 								<View style={{ justifyContent: 'center' }}>
-									<OneLineRoundedBoxInput
+									<HelpTextInput
+										isMultiline={false}
+										height={screenHeight * 0.06}
 										width={screenWidth * 0.8}
 										placeholder={strings.EnterTheAccountHolderNameDotDotDot}
 										onChangeText={(input) =>
@@ -374,7 +354,9 @@ export default class createPaymentMethodScreen extends Component {
 									</Text>
 								</View>
 								<View style={{ justifyContent: 'center' }}>
-									<OneLineRoundedBoxInput
+									<HelpTextInput
+										isMultiline={false}
+										height={screenHeight * 0.06}
 										width={screenWidth * 0.8}
 										placeholder={strings.EnterTheAccountNumberDotDotDot}
 										onChangeText={(input) =>
@@ -402,7 +384,9 @@ export default class createPaymentMethodScreen extends Component {
 									</Text>
 								</View>
 								<View style={{ justifyContent: 'center' }}>
-									<OneLineRoundedBoxInput
+									<HelpTextInput
+										isMultiline={false}
+										height={screenHeight * 0.06}
 										width={screenWidth * 0.8}
 										placeholder={strings.EnterTheRoutingNumberDotDotDot}
 										onChangeText={(input) =>
@@ -549,8 +533,7 @@ export default class createPaymentMethodScreen extends Component {
 								title={strings.Next}
 								disabled={isLoading}
 								isLoading={isLoading}
-								style={helpButtonStyles.MediumSizeButton}
-								textStyle={fontStyles.bigTextStyleWhite}
+								width={screenWidth * 0.39}
 								onPress={() => {
 									if (isEditing === true) {
 										this.updateStripeConnectedAccount();

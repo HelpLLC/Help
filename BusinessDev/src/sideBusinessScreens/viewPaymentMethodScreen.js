@@ -3,13 +3,13 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
-import HelpButton from '../components/HelpButton';
+import HelpButton from '../components/HelpButton/HelpButton';
 import HelpView from '../components/HelpView';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
+ 
 import colors from 'config/colors';
 import OptionPicker from '../components/OptionPicker';
 import strings from 'config/strings';
@@ -187,8 +187,8 @@ export default class viewPaymentMethodScreen extends Component {
 						}}>
 						<HelpButton
 							title={strings.Delete}
-							style={helpButtonStyles.MediumSizeButtonRed}
-							textStyle={fontStyles.bigTextStyleWhite}
+							width={screenWidth * 0.39}
+							isRedButton={true}
 							onPress={() => {
 								this.setState({ isDeletePaymentMethodVisible: true });
 							}}
@@ -197,8 +197,7 @@ export default class viewPaymentMethodScreen extends Component {
 
 						<HelpButton
 							title={strings.Edit}
-							style={helpButtonStyles.MediumSizeButton}
-							textStyle={fontStyles.bigTextStyleWhite}
+							width={screenWidth * 0.39}
 							onPress={() => {
 								//Starts the Stripe Payments process
 								this.props.navigation.push('CreatePaymentMethodScreen', {

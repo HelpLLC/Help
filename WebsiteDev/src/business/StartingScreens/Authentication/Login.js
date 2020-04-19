@@ -2,7 +2,7 @@ import React from 'react';
 import loginImg from '../../../images/Login.svg';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 // import Modal from 'react-modal';
-import HelpButton from '../../../components/HelpButton.js';
+import HelpButton from '../../../components/HelpButton/HelpButton.js';
 import TitleComponent from '../../../components/TitleComponent.js';
 import EditText from '../../../components/EditText.js';
 import Dialog from '@material-ui/core/Dialog';
@@ -10,6 +10,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import { useHistory } from 'react-router-dom';
+import { screenWidth, screenHeight } from '../../../config/dimensions';
 
 export function Login(props) {
 	const [email, setEmail] = React.useState('');
@@ -106,11 +107,11 @@ export function Login(props) {
 
 				<br />
 				<HelpButton
-					fullWidth={false}
-					label='Forgot Password'
-					onClick={() => {
+					title={'Forgot Password'}
+					onPress={() => {
 						handleClickOpen();
 					}}
+					width={screenWidth * 0.15}
 				/>
 			</div>
 
@@ -133,8 +134,8 @@ export function Login(props) {
 					/>
 				</DialogContent>
 				<DialogActions>
-					<HelpButton fullWidth={false} onClick={handleClose} label='Cancel' />
-					<HelpButton fullWidth={false} onClick={submit} label='Email Me' />
+					<HelpButton title={'Cancel'} onPress={handleClose} width={screenWidth * 0.1} />
+					<HelpButton title={'Email Me'} onPress={submit} width={screenWidth * 0.1} />
 				</DialogActions>
 			</Dialog>
 
@@ -151,7 +152,11 @@ export function Login(props) {
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<HelpButton fullWidth={false} onClick={handleEmailSentClose} label='Ok' />
+					<HelpButton
+						title={'Ok'}
+						onPress={handleEmailSentClose}
+						width={screenWidth * 0.1}
+					/>
 				</DialogActions>
 			</Dialog>
 
@@ -168,11 +173,15 @@ export function Login(props) {
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<HelpButton fullWidth={false} onClick={handleErrorClose} label='Close' />
 					<HelpButton
-						fullWidth={false}
-						onClick={(event) => (window.location.href = '/signUp')}
-						label='Go to Sign Up'
+						title={'Close'}
+						onPress={handleErrorClose}
+						width={screenWidth * 0.1}
+					/>
+					<HelpButton
+						title={'Go to Sign Up'}
+						onPress={(event) => (window.location.href = '/signUp')}
+						width={screenWidth * 0.1}
 					/>
 				</DialogActions>
 			</Dialog>

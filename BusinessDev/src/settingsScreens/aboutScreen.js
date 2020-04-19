@@ -10,7 +10,7 @@ import strings from 'config/strings';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 
 class aboutScreen extends Component {
 	componentDidMount() {
