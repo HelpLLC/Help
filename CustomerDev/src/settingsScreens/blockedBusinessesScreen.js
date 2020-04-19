@@ -10,8 +10,8 @@ import TopBanner from '../components/TopBanner/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import LoadingSpinner from '../components/LoadingSpinner';
 import strings from '../../config/strings';
-import HelpButton from '../components/HelpButton';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
+import HelpButton from '../components/HelpButton/HelpButton';
+ 
 import HelpAlert from '../components/HelpAlert';
 import OptionPicker from '../components/OptionPicker';
 import colors from 'config/colors';
@@ -114,8 +114,7 @@ export default class blockedBusinessesScreen extends Component {
 							<Text style={fontStyles.mainTextStyleBlack}>{item.businessName}</Text>
 							<HelpButton
 								title={strings.Unblock}
-								style={helpButtonStyles.SmallSizeButton}
-								textStyle={fontStyles.bigTextStyleWhite}
+								width={screenWidth * 0.278}
 								onPress={() => {
 									this.setState({
 										companyClicked: item,

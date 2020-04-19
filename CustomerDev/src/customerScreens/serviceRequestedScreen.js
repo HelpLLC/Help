@@ -13,8 +13,8 @@ import FastImage from 'react-native-fast-image';
 import LoadingSpinner from '../components/LoadingSpinner';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import HelpButton from '../components/HelpButton';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
+import HelpButton from '../components/HelpButton/HelpButton';
+ 
 import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpAlert from '../components/HelpAlert';
 
@@ -280,8 +280,7 @@ export default class serviceRequestedScreen extends Component {
 									}}>
 									<HelpButton
 										title={strings.OrderAgain}
-										style={helpButtonStyles.MediumSizeButton}
-										textStyle={fontStyles.bigTextStyleWhite}
+										width={screenWidth * 0.39}
 										onPress={() => {
 											this.props.navigation.push('RequesterServiceScreen', {
 												serviceID: service.serviceID,
@@ -301,8 +300,8 @@ export default class serviceRequestedScreen extends Component {
 									}}>
 									<HelpButton
 										title={strings.Cancel}
-										style={helpButtonStyles.SmallSizeButton}
-										textStyle={fontStyles.mainTextStyleWhite}
+										width={screenWidth * 0.278}
+										isRedButton={true}
 										onPress={() => {
 											this.setState({
 												isCancelRequestVisible: true
@@ -312,8 +311,7 @@ export default class serviceRequestedScreen extends Component {
 									/>
 									<HelpButton
 										title={strings.Edit}
-										style={helpButtonStyles.SmallSizeButton}
-										textStyle={fontStyles.mainTextStyleWhite}
+										width={screenWidth * 0.278}
 										onPress={() => {
 											//If the product has questions associated with it, then it will
 											//go to the questions screen. If it only has a schedule associated

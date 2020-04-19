@@ -9,16 +9,16 @@ import strings from 'config/strings';
 import colors from 'config/colors';
 import { Calendar } from 'react-native-calendars';
 import fontStyles from '../../config/styles/fontStyles';
-import HelpButton from '../components/HelpButton';
+import HelpButton from '../components/HelpButton/HelpButton';
 import { screenWidth, screenHeight } from 'config/dimensions';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
+
 import OptionPicker from '../components/OptionPicker';
 import LoadingSpinner from '../components/LoadingSpinner';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import HelpAlert from '../components/HelpAlert';
 import stripe from 'tipsi-stripe';
 stripe.setOptions({
-	publishableKey: 'pk_test_RP4GxbKwMWbM3NN5XMo3qzKz00lEiD2Fe1'
+	publishableKey: 'pk_test_RP4GxbKwMWbM3NN5XMo3qzKz00lEiD2Fe1',
 });
 
 //Renders the actual class
@@ -45,15 +45,21 @@ export default class businessScheduleScreen extends Component {
 		saveCardVisible: false,
 		isPayWithCardVisible: false,
 		shouldSaveCard: '',
-		paymentToken: ''
+		paymentToken: '',
 	};
 
 	//Sets the initial fields and fetches the correct business schedule for that date
 	async componentDidMount() {
-		const { answers, service, customer, isEditing, request } = this.props.navigation.state.params;
+		const {
+			answers,
+			service,
+			customer,
+			isEditing,
+			request,
+		} = this.props.navigation.state.params;
 		//Fetches the business
 		const business = await FirebaseFunctions.call('getBusinessByID', {
-			businessID: service.businessID
+			businessID: service.businessID,
 		});
 		this.setState({ business, service, answers, customer, isEditing, request });
 
@@ -77,7 +83,7 @@ export default class businessScheduleScreen extends Component {
 				dateString,
 				isDayLoading: true,
 				selectedDate: dateObject.toLocaleDateString('en-US'),
-				selectedTime: time
+				selectedTime: time,
 			});
 			const availableTimes = await this.setAvailableTimes(dateObject);
 			this.setState({ availableTimes, isDayLoading: false });
@@ -99,14 +105,14 @@ export default class businessScheduleScreen extends Component {
 			this.setState({
 				dateString,
 				isDayLoading: true,
-				selectedDate: new Date().toLocaleDateString('en-US')
+				selectedDate: new Date().toLocaleDateString('en-US'),
 			});
 
 			const availableTimes = await this.setAvailableTimes(date);
 			this.setState({ availableTimes, isDayLoading: false });
 		}
 		this.setState({
-			isScreenLoading: false
+			isScreenLoading: false,
 		});
 	}
 
@@ -136,7 +142,7 @@ export default class businessScheduleScreen extends Component {
 			'wednesday',
 			'thursday',
 			'friday',
-			'saturday'
+			'saturday',
 		][dateObject.getDay()];
 		const date = dateObject.toLocaleDateString('en-US');
 
@@ -181,7 +187,7 @@ export default class businessScheduleScreen extends Component {
 		const dateString = year + '-' + month + '-' + day;
 		const currentRequests = await FirebaseFunctions.call('getBusinessCurrentRequestsByDay', {
 			day: dateString,
-			businessID: business.businessID
+			businessID: business.businessID,
 		});
 		let currentRequestIDs = Object.keys(currentRequests);
 		if (this.state.request && currentRequestIDs.includes(this.state.request.requestID)) {
@@ -198,7 +204,8 @@ export default class businessScheduleScreen extends Component {
 					if (date === request.date) {
 						//Tests if it interferes with existing request
 						const beginExistingRequestTime = this.convertToMinutes(request.time);
-						const endExistingRequestTime = beginExistingRequestTime + 60 * request.serviceDuration;
+						const endExistingRequestTime =
+							beginExistingRequestTime + 60 * request.serviceDuration;
 
 						const beginNewRequestTime = this.convertToMinutes(time);
 						const endNewRequestTime = beginNewRequestTime + 60 * serviceDuration;
@@ -228,15 +235,15 @@ export default class businessScheduleScreen extends Component {
 				requiredBillingAddressFields: 'full',
 				theme: {
 					accentColor: colors.lightBlue,
-					errorColor: colors.red
-				}
+					errorColor: colors.red,
+				},
 			});
 			//Waits a quarter of a second to make a natural pop up appear
 			this.timeoutHandle = setTimeout(() => {
 				this.setState({
 					paymentInformation: strings.CardEndingIn + token.card.last4,
 					paymentToken: token.tokenId,
-					saveCardVisible: true
+					saveCardVisible: true,
 				});
 			}, 500);
 		} catch (error) {
@@ -249,7 +256,7 @@ export default class businessScheduleScreen extends Component {
 	//Requests the service by checking if all fields have been filled out correctly
 	async requestService() {
 		this.setState({
-			isLoading: true
+			isLoading: true,
 		});
 
 		//Fetches all the required fields
@@ -264,14 +271,14 @@ export default class businessScheduleScreen extends Component {
 			request,
 			shouldSaveCard,
 			paymentInformation,
-			paymentToken
+			paymentToken,
 		} = this.state;
 
 		//If the card payment information needs to be attatched to a customer, the function handles that logic as well
 		if (shouldSaveCard === true) {
 			paymentToken = await FirebaseFunctions.call('createStripeCustomerPaymentInformtion', {
 				customerID: customer.customerID,
-				paymentInformation: paymentToken
+				paymentInformation: paymentToken,
 			});
 		}
 		//Uploads the request to firebase
@@ -283,7 +290,7 @@ export default class businessScheduleScreen extends Component {
 				customerLocation: {
 					city: customer.city,
 					state: customer.state,
-					country: customer.country
+					country: customer.country,
 				},
 				paymentInformation: paymentToken,
 				businessID: request.businessID,
@@ -293,7 +300,7 @@ export default class businessScheduleScreen extends Component {
 				date: selectedDate,
 				serviceDuration: service.serviceDuration,
 				questions: answers ? answers : [],
-				time: selectedTime
+				time: selectedTime,
 			});
 		} else {
 			await FirebaseFunctions.call('requestService', {
@@ -302,7 +309,7 @@ export default class businessScheduleScreen extends Component {
 				customerLocation: {
 					city: customer.city,
 					state: customer.state,
-					country: customer.country
+					country: customer.country,
 				},
 				paymentInformation: paymentToken,
 				customerID: customer.customerID,
@@ -319,19 +326,19 @@ export default class businessScheduleScreen extends Component {
 				serviceID: service.serviceID,
 				requestedOn: new Date().toLocaleDateString('en-US'),
 				status: 'REQUESTED',
-				time: selectedTime
+				time: selectedTime,
 			});
 		}
 
 		const allServices = await FirebaseFunctions.call('getAllServices', {});
 		const updatedCustomer = await FirebaseFunctions.call('getCustomerByID', {
-			customerID: customer.customerID
+			customerID: customer.customerID,
 		});
 		this.setState({
 			isLoading: false,
 			isRequestSucess: true,
 			customer: updatedCustomer,
-			allServices
+			allServices,
 		});
 	}
 
@@ -350,7 +357,7 @@ export default class businessScheduleScreen extends Component {
 			isPayWithCardVisible,
 			requestSummaryVisible,
 			isRequestSucess,
-			allServices
+			allServices,
 		} = this.state;
 		if (isScreenLoading === true) {
 			return (
@@ -379,7 +386,7 @@ export default class businessScheduleScreen extends Component {
 							style={{
 								justifyContent: 'center',
 								alignItems: 'center',
-								marginTop: screenHeight * 0.1
+								marginTop: screenHeight * 0.1,
 							}}>
 							<LoadingSpinner isVisible={true} />
 						</View>
@@ -403,14 +410,18 @@ export default class businessScheduleScreen extends Component {
 											dayTextColor: colors.black,
 											arrowColor: colors.lightBlue,
 											monthTextColor: colors.black,
-											textDayFontFamily: fontStyles.mainTextStyleBlack.fontFamily,
-											textMonthFontFamily: fontStyles.mainTextStyleBlack.fontFamily,
-											textDayHeaderFontFamily: fontStyles.mainTextStyleBlack.fontFamily,
+											textDayFontFamily:
+												fontStyles.mainTextStyleBlack.fontFamily,
+											textMonthFontFamily:
+												fontStyles.mainTextStyleBlack.fontFamily,
+											textDayHeaderFontFamily:
+												fontStyles.mainTextStyleBlack.fontFamily,
 											textDayFontSize: fontStyles.subTextStyleBlack.fontSize,
-											textMonthFontSize: fontStyles.bigTextStyleBlack.fontSize
+											textMonthFontSize:
+												fontStyles.bigTextStyleBlack.fontSize,
 										}}
 										markedDates={{
-											[this.state.dateString]: { selected: true }
+											[this.state.dateString]: { selected: true },
 										}}
 										current={this.state.selectedDate}
 										minDate={this.state.isEditing === true ? null : new Date()}
@@ -421,14 +432,18 @@ export default class businessScheduleScreen extends Component {
 											dateObject.setMonth(newDate.month - 1);
 											dateObject.setDate(newDate.day);
 											this.setState({
-												selectedDate: dateObject.toLocaleDateString('en-US'),
+												selectedDate: dateObject.toLocaleDateString(
+													'en-US'
+												),
 												dateString: newDate.dateString,
-												selectedTime: ''
+												selectedTime: '',
 											});
-											const availableTimes = await this.setAvailableTimes(dateObject);
+											const availableTimes = await this.setAvailableTimes(
+												dateObject
+											);
 											this.setState({
 												availableTimes,
-												isDayLoading: false
+												isDayLoading: false,
 											});
 										}}
 									/>
@@ -438,21 +453,14 @@ export default class businessScheduleScreen extends Component {
 								<View
 									style={{
 										marginLeft: screenWidth * 0.1,
-										marginTop: screenHeight * 0.025
+										marginTop: screenHeight * 0.025,
 									}}>
 									<HelpButton
 										title={item}
+										width={screenWidth * 0.35}
 										//Tests if this button is selected, if it is, then the border color will
 										//be blue
-										style={[
-											helpButtonStyles.AccountTypeButton,
-											{
-												//Width increased for longer text
-												width: screenWidth * 0.35,
-												borderColor: selectedTime === item ? colors.lightBlue : colors.white
-											}
-										]}
-										textStyle={fontStyles.mainTextStyleBlue}
+										isLightButton={selectedTime !== item}
 										//Method selects the business button and deselects the other
 										onPress={() => {
 											this.setState({ selectedTime: item });
@@ -465,26 +473,35 @@ export default class businessScheduleScreen extends Component {
 								<View style={{ marginVertical: screenHeight * 0.05 }}>
 									<HelpButton
 										title={strings.Request}
-										style={helpButtonStyles.MediumSizeButton}
-										textStyle={fontStyles.bigTextStyleWhite}
+										width={screenWidth * 0.39}
 										isLoading={this.state.isLoading}
 										onPress={() => {
 											if (selectedDate === '' || selectedTime === '') {
 												this.setState({ fieldsError: true });
 											} else {
-												if (service.card === true && customer.paymentInformation === '') {
-													this.setState({ isPayWithCardVisible: true })
+												if (
+													service.card === true &&
+													customer.paymentInformation === ''
+												) {
+													this.setState({ isPayWithCardVisible: true });
 												} else {
 													if (service.cash === true) {
-														this.setState({ paymentToken: '', paymentInformation: strings.Cash });
+														this.setState({
+															paymentToken: '',
+															paymentInformation: strings.Cash,
+														});
 													} else if (customer.paymentInformation !== '') {
 														this.setState({
 															paymentToken: {
-																sourceID: customer.paymentInformation.id,
-																stripeCustomerID: customer.paymentInformation.customer
+																sourceID:
+																	customer.paymentInformation.id,
+																stripeCustomerID:
+																	customer.paymentInformation
+																		.customer,
 															},
 															paymentInformation:
-																strings.CardEndingIn + customer.paymentInformation.last4
+																strings.CardEndingIn +
+																customer.paymentInformation.last4,
 														});
 													}
 													this.setState({ requestSummaryVisible: true });
@@ -501,9 +518,13 @@ export default class businessScheduleScreen extends Component {
 									<View
 										style={{
 											marginVertical: screenHeight * 0.05,
-											marginHorizontal: screenWidth * 0.025
+											marginHorizontal: screenWidth * 0.025,
 										}}>
-										<Text style={[fontStyles.bigTextStyleBlack, { textAlign: 'center' }]}>
+										<Text
+											style={[
+												fontStyles.bigTextStyleBlack,
+												{ textAlign: 'center' },
+											]}>
 											{strings.NoAvailableTimes}
 										</Text>
 									</View>
@@ -535,7 +556,7 @@ export default class businessScheduleScreen extends Component {
 						this.setState({ isRequestSucess: false });
 						this.props.navigation.push('FeaturedScreen', {
 							customer: customer,
-							allServices: allServices
+							allServices: allServices,
 						});
 					}}
 					title={strings.Success}
@@ -560,14 +581,14 @@ export default class businessScheduleScreen extends Component {
 						this.setState({
 							saveCardVisible: false,
 							requestSummaryVisible: true,
-							shouldSaveCard: true
+							shouldSaveCard: true,
 						});
 					}}
 					cancelOnPress={() => {
 						this.setState({
 							saveCardVisible: false,
 							requestSummaryVisible: true,
-							shouldSaveCard: false
+							shouldSaveCard: false,
 						});
 					}}
 				/>

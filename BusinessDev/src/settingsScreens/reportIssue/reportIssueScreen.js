@@ -3,9 +3,9 @@
 import React, { Component } from 'react';
 import { View, Text, Keyboard, Dimensions } from 'react-native';
 import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
+ 
 import { screenWidth, screenHeight } from 'config/dimensions';
-import HelpButton from '../../components/HelpButton';
+import HelpButton from '../../components/HelpButton/HelpButton';
 import HelpAlert from '../../components/HelpAlert';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
@@ -100,8 +100,7 @@ class reportIssueScreen extends Component {
 						<View style={{ flex: 1 }}>
 							<HelpButton
 								title={strings.Report}
-								style={helpButtonStyles.MediumSizeButton}
-								textStyle={fontStyles.reportIssueButtonTextStyle}
+								width={screenWidth * 0.39}
 								onPress={() => {
 									this.reportIssue();
 								}}

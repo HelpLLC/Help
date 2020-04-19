@@ -4,9 +4,9 @@ import HelpView from '../components/HelpView';
 import TopBanner from '../components/TopBanner/TopBanner';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
-import HelpButton from '../components/HelpButton';
+import HelpButton from '../components/HelpButton/HelpButton';
 import colors from 'config/colors';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
+
 import { screenWidth, screenHeight } from 'config/dimensions';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -270,18 +270,10 @@ class serviceAdditionalInformationScreen extends Component {
 						}}>
 						<HelpButton
 							title={strings.Cash}
+							width={screenWidth * 0.75}
 							//Tests if this button is selected, if it is, then the border color will
 							//be blue
-							style={[
-								helpButtonStyles.AccountTypeButton,
-								{
-									//Width increased for longer text
-									width: screenWidth * 0.75,
-									borderColor:
-										this.state.cash === true ? colors.lightBlue : colors.white,
-								},
-							]}
-							textStyle={fontStyles.mainTextStyleBlue}
+							isLightButton={this.state.cash}
 							//Method selects the cash button and deselects the card
 							onPress={() => {
 								this.setState({ cash: true, card: false });
@@ -295,18 +287,10 @@ class serviceAdditionalInformationScreen extends Component {
 						}}>
 						<HelpButton
 							title={strings.CreditDebitCard}
+							width={screenWidth * 0.75}
 							//Tests if this button is selected, if it is, then the border color will
 							//be blue
-							style={[
-								helpButtonStyles.AccountTypeButton,
-								{
-									//Width increased for longer text
-									width: screenWidth * 0.75,
-									borderColor:
-										this.state.card === true ? colors.lightBlue : colors.white,
-								},
-							]}
-							textStyle={fontStyles.mainTextStyleBlue}
+							isLightButton={this.state.card}
 							//Method selects the card button and deselects the cash
 							onPress={() => {
 								//If Stripe connect has not been setup yet, then a popup appear. If it has, then it just selects
@@ -331,8 +315,7 @@ class serviceAdditionalInformationScreen extends Component {
 					}}>
 					<HelpButton
 						title={this.state.editing === true ? strings.Done : strings.Create}
-						style={helpButtonStyles.MediumSizeButton}
-						textStyle={fontStyles.bigTextStyleWhite}
+						width={screenWidth * 0.39}
 						onPress={async () => {
 							await this.finishService();
 						}}

@@ -1,8 +1,8 @@
 //This is the styles for the HelpTextInput component
-import { StyleSheet } from 'react-native';
-import colors from 'config/colors';
-import { screenHeight, screenWidth } from 'config/dimensions';
-import fontStyles from 'config/styles/fontStyles';
+import { StyleSheet } from 'react-native-web';
+import colors from '../../config/colors';
+import { screenHeight, screenWidth } from '../../config/dimensions';
+import fontStyles from '../../config/fontStyles';
 
 export default StyleSheet.create({
 	textInputContainerStyle: {

@@ -6,8 +6,8 @@ import { View, Text, Keyboard, Dimensions } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
-import HelpButton from '../../components/HelpButton';
+ 
+import HelpButton from '../../components/HelpButton/HelpButton';
 import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { screenWidth, screenHeight } from 'config/dimensions';
@@ -185,8 +185,7 @@ class nameDescriptionScreen extends Component {
 					<HelpButton
 						title={strings.Next}
 						isLoading={this.state.isLoading}
-						style={helpButtonStyles.MediumSizeButton}
-						textStyle={fontStyles.bigTextStyleWhite}
+						width={screenWidth * 0.39}
 						onPress={() => {
 							this.goToAddtionalInfoScreen();
 						}}

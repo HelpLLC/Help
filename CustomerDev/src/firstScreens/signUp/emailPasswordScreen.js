@@ -6,8 +6,8 @@ import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import CheckBox from 'react-native-check-box';
 import colors from 'config/colors';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
-import HelpButton from '../../components/HelpButton';
+ 
+import HelpButton from '../../components/HelpButton/HelpButton';
 import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
 import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
@@ -235,8 +235,7 @@ class emailPasswordScreen extends Component {
 						<HelpButton
 							title={strings.Next}
 							isLoading={this.state.isLoading}
-							style={helpButtonStyles.MediumSizeButton}
-							textStyle={fontStyles.bigTextStyleWhite}
+							width={screenWidth * 0.39}
 							onPress={() => {
 								this.goToAdditionalScreen();
 							}}

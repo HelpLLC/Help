@@ -13,8 +13,8 @@ import { screenWidth, screenHeight } from 'config/dimensions';
 import LoadingSpinner from '../components/LoadingSpinner';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import HelpButton from '../components/HelpButton';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
+import HelpButton from '../components/HelpButton/HelpButton';
+ 
 import HelpAlert from '../components/HelpAlert';
 
 //Creates the class and exports it
@@ -270,8 +270,7 @@ export default class customerRequestScreen extends Component {
 											}}>
 											<HelpButton
 												title={strings.Delete}
-												style={helpButtonStyles.SmallSizeButton}
-												textStyle={fontStyles.mainTextStyleWhite}
+												width={screenWidth * 0.278}
 												onPress={() => {
 													this.setState({
 														isDeleteRequestVisible: true
@@ -281,8 +280,7 @@ export default class customerRequestScreen extends Component {
 											/>
 											<HelpButton
 												title={strings.Complete}
-												style={helpButtonStyles.SmallSizeButton}
-												textStyle={fontStyles.mainTextStyleWhite}
+												width={screenWidth * 0.278}
 												onPress={() => {
 													this.props.navigation.push('BillCustomerScreen', {
 														request: request

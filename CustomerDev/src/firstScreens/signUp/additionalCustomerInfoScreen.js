@@ -4,9 +4,9 @@ import React, { Component } from 'react';
 import { View, Text, Dimensions, TouchableOpacity, Keyboard, Platform } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
+ 
 import FastImage from 'react-native-fast-image';
-import HelpButton from '../../components/HelpButton';
+import HelpButton from '../../components/HelpButton/HelpButton';
 import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import HelpView from '../../components/HelpView';
@@ -412,8 +412,7 @@ class additionalCustomerInfoScreen extends Component {
 					<HelpButton
 						isLoading={this.state.isLoading}
 						title={this.state.customer ? strings.Done : strings.SignUp}
-						style={helpButtonStyles.MediumSizeButton}
-						textStyle={fontStyles.bigTextStyleWhite}
+						width={screenWidth * 0.39}
 						onPress={() => {
 							this.addCustomerInfo();
 						}}

@@ -5,8 +5,7 @@ import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import HelpView from '../components/HelpView';
 import TopBanner from '../components/TopBanner/TopBanner';
 import strings from '../../config/strings';
-import HelpButton from '../components/HelpButton';
-import helpButtonStyles from '../../config/styles/helpButtonStyles';
+import HelpButton from '../components/HelpButton/HelpButton';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import fontStyles from '../../config/styles/fontStyles';
 import HelpTextInput from '../components/HelpTextInput/HelpTextInput';
@@ -154,8 +153,7 @@ class serviceQuestionsScreen extends Component {
 						<View style={{ marginTop: screenHeight * 0.05, marginTop: screenHeight * 0.1 }}>
 							<HelpButton
 								title={strings.Next}
-								style={helpButtonStyles.MediumSizeButton}
-								textStyle={fontStyles.bigTextStyleWhite}
+								width={screenWidth * 0.39}
 								isLoading={this.state.isLoading}
 								onPress={() => {
 									//Passes the correct parameters to the scheduling screen

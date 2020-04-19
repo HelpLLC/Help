@@ -2,8 +2,8 @@
 //or sign up
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import HelpButton from '../components/HelpButton';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
+import HelpButton from '../components/HelpButton/HelpButton';
+ 
 import { screenWidth, screenHeight } from 'config/dimensions';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
@@ -22,8 +22,7 @@ class splashScreen extends Component {
 					<View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
 						<HelpButton
 							title={strings.GetStarted}
-							style={helpButtonStyles.MediumSizeButton}
-							textStyle={fontStyles.bigTextStyleWhite}
+							width={screenWidth * 0.39}
 							onPress={() => {
 								this.props.navigation.push('EmailPasswordScreen');
 							}}
@@ -33,8 +32,7 @@ class splashScreen extends Component {
 					<View style={{ flexDirection: 'row', flex: 2.5, justifyContent: 'center' }}>
 						<HelpButton
 							title={strings.LogIn}
-							style={helpButtonStyles.MediumSizeButton}
-							textStyle={fontStyles.bigTextStyleWhite}
+							width={screenWidth * 0.39}
 							onPress={() => {
 								this.props.navigation.push('LogInScreen');
 							}}

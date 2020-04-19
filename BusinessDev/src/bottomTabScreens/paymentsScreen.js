@@ -9,8 +9,8 @@ import HelpAlert from '../components/HelpAlert';
 import TopBanner from '../components/TopBanner/TopBanner';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import LoadingSpinner from '../components/LoadingSpinner';
-import HelpButton from '../components/HelpButton';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
+import HelpButton from '../components/HelpButton/HelpButton';
+ 
 import colors from 'config/colors';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
@@ -126,8 +126,7 @@ export default class paymentsScreen extends Component {
 						}}>
 						<HelpButton
 							title={strings.GetStarted}
-							style={helpButtonStyles.MediumSizeButton}
-							textStyle={fontStyles.bigTextStyleWhite}
+							width={screenWidth * 0.39}
 							onPress={() => {
 								//Starts the Stripe Payments process
 								this.props.navigation.push('CreatePaymentMethodScreen', {

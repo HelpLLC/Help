@@ -4,8 +4,8 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
-import HelpButton from '../../components/HelpButton';
+ 
+import HelpButton from '../../components/HelpButton/HelpButton';
 import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
 import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
@@ -69,8 +69,7 @@ class forgotPasswordScreen extends Component {
 				<View style={{ flex: 0.5, justifyContent: 'flex-end', alignSelf: 'center' }}>
 					<HelpButton
 						title={strings.EmailMe}
-						style={helpButtonStyles.MediumSizeButton}
-						textStyle={fontStyles.bigTextStyleWhite}
+						width={screenWidth * 0.39}
 						isLoading={this.state.isLoading}
 						onPress={async () => {
 							if (this.state.email.trim().length === 0) {

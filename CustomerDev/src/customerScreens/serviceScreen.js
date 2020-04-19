@@ -15,8 +15,8 @@ import HelpView from '../components/HelpView';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
-import HelpButton from '../components/HelpButton';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
+import HelpButton from '../components/HelpButton/HelpButton';
+ 
 import LoadingSpinner from '../components/LoadingSpinner';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import FirebaseFunctions from '../../config/FirebaseFunctions';
@@ -407,8 +407,7 @@ class serviceScreen extends Component {
 											}}>
 											<HelpButton
 												title={strings.Request}
-												style={helpButtonStyles.MediumSizeButton}
-												textStyle={fontStyles.bigTextStyleWhite}
+												width={screenWidth * 0.39}
 												onPress={() => {
 													const { service, customer } = this.state;
 													//If the service has questions associated with it, then it will
@@ -450,11 +449,7 @@ class serviceScreen extends Component {
 											}}>
 											<HelpButton
 												title={strings.ViewRequest}
-												style={[
-													helpButtonStyles.MediumSizeButton,
-													{ width: screenWidth * 0.45 },
-												]}
-												textStyle={fontStyles.bigTextStyleWhite}
+												width={screenWidth * 0.45}
 												onPress={() => {
 													//This take the user to the screen to view their request for this service
 													this.props.navigation.push(

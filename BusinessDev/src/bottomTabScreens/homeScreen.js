@@ -6,9 +6,8 @@ import strings from 'config/strings';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import FastImage from 'react-native-fast-image';
-import HelpButton from '../components/HelpButton';
+import HelpButton from '../components/HelpButton/HelpButton';
 import TopBanner from '../components/TopBanner/TopBanner';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
@@ -24,7 +23,7 @@ class homeScreen extends Component {
 		isErrorVisible: false,
 		additionalVerificationNeeded: false,
 		connectOnboardingSuccess: false,
-		paymentsVerified: false
+		paymentsVerified: false,
 	};
 
 	//This will fetch the data about this business from firestore
@@ -107,7 +106,7 @@ class homeScreen extends Component {
 				<View style={{ flex: 1 }}>
 					<TopBanner title={strings.Home} />
 				</View>
-				<View style={{ flex: 0.125 }}></View>
+				<View style={{ flex: 0.125 }} />
 				<View style={{ flex: 1, justifyContent: 'center' }}>
 					<View
 						style={{
@@ -126,7 +125,7 @@ class homeScreen extends Component {
 									{business.businessName}
 								</Text>
 							</View>
-							<View style={{ flex: 0.25 }}></View>
+							<View style={{ flex: 0.25 }} />
 							<TouchableOpacity
 								style={{ flex: 1, justifyContent: 'flex-start' }}
 								onPress={() => {
@@ -145,8 +144,7 @@ class homeScreen extends Component {
 						<View style={{}}>
 							<HelpButton
 								title={strings.PlusSign}
-								textStyle={fontStyles.bigTextStyleWhite}
-								style={helpButtonStyles.BusinessScreenPlusButton}
+								isCircleBlueButton={true}
 								onPress={() => {
 									this.props.navigation.push('CreateServiceScreen', {
 										businessID: business.businessID,
@@ -202,8 +200,7 @@ class homeScreen extends Component {
 					<View style={{ flex: 1, justifyContent: 'center' }}>
 						<HelpButton
 							title={strings.Create}
-							style={helpButtonStyles.MediumSizeButton}
-							textStyle={fontStyles.bigTextStyleWhite}
+							width={screenWidth * 0.39}
 							onPress={() => {
 								this.props.navigation.push('CreateServiceScreen', {
 									businessID: business.businessID,

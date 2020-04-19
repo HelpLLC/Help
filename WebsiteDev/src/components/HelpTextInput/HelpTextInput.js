@@ -1,9 +1,9 @@
 //This component will represent the TextInput that will be used to users to type into
 import React from 'react';
-import { View, TextInput } from 'react-native';
-import { screenWidth, screenHeight } from 'config/dimensions';
+import { View, TextInput } from 'react-native-web';
+import { screenWidth, screenHeight } from '../../config/dimensions';
 import HelpTextInputStyle from './HelpTextInputStyle';
-import colors from 'config/colors';
+import colors from '../../config/colors';
 import PropTypes from 'prop-types';
 
 //The function will take in properties that are the value that the textinput will hold when it

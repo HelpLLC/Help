@@ -11,8 +11,8 @@ import screenStyle from 'config/styles/screenStyle';
 import { Text, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import fontStyles from 'config/styles/fontStyles';
-import helpButtonStyles from 'config/styles/helpButtonStyles';
-import HelpButton from '../../components/HelpButton';
+ 
+import HelpButton from '../../components/HelpButton/HelpButton';
 import GoogleCityPicker from '../../components/GoogleCityPicker';
 import HelpAlert from '../../components/HelpAlert';
 import { Icon } from 'react-native-elements';
@@ -230,8 +230,7 @@ export default class additionalInformationScreen extends Component {
 						}}>
 						<HelpButton
 							title={strings.Next}
-							style={helpButtonStyles.MediumSizeButton}
-							textStyle={fontStyles.bigTextStyleWhite}
+							width={screenWidth * 0.39}
 							isLoading={this.state.isLoading}
 							onPress={() => {
 								//Function goes to the next screen
