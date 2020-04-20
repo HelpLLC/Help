@@ -228,6 +228,7 @@ export default {
 	CustomQuestionsDescription: 'What information do you need from the customer to complete the service?',
 	AddQuestion: 'Add Question',
 	Question: 'Question',
+	WorkerManagement: 'Worker Management',
 	EnterAQuestionForCustomerHere:
 		'Enter a question for the customer to answer here...',
 	WhatIsYourEmailAddressQuestion: 'What is your email address?',

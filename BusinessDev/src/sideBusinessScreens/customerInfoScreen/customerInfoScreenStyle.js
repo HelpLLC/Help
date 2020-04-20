@@ -43,5 +43,7 @@ export default StyleSheet.create({
 	},
 	buttonSection: {
 		marginVertical: screenHeight * 0.05,
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 });

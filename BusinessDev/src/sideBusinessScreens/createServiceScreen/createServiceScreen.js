@@ -52,7 +52,7 @@ export default function createServiceScreen(props) {
 		if (
 			serviceTitle.trim() === '' ||
 			serviceDescription.trim() === '' ||
-			(serviceDurationHours === '0' && serviceDurationMinutes === '0')
+			(serviceDurationHours.trim() === '' && serviceDurationMinutes === '0')
 		) {
 			setFieldsError(true);
 		} else if (imageSource === '') {
@@ -63,7 +63,7 @@ export default function createServiceScreen(props) {
 			const { business, businessID } = props.navigation.state.params;
 			//Calculates how many hours this is
 			const serviceDuration =
-				parseFloat(serviceDurationHours) * 60 + parseFloat(serviceDurationMinutes);
+				(parseFloat(serviceDurationHours) +  (parseFloat(serviceDurationMinutes) / 60)).toFixed(2);
 			props.navigation.push('PricingAndPaymentScreen', {
 				business,
 				businessID,

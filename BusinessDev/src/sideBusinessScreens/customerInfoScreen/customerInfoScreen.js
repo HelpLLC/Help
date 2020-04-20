@@ -1,21 +1,18 @@
 //This is the third step of the product creation product. The business is going to enter the custom questions
 //they would want the customers to answer when requesting the process.
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Picker, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, Platform } from 'react-native';
 import HelpButton from '../../components/HelpButton/HelpButton';
 import TopBanner from '../../components/TopBanner/TopBanner';
 import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
 import { screenHeight, screenWidth } from 'config/dimensions';
-import ImagePicker from '../../components/ImagePicker';
 import strings from 'config/strings';
-import RNPickerSelect from 'react-native-picker-select';
 import { CheckBox } from 'react-native-elements';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import styles from './customerInfoScreenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
-import FastImage from 'react-native-fast-image';
 import HelpAlert from '../../components/HelpAlert';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import { Icon } from 'react-native-elements';
@@ -43,6 +40,7 @@ export default function customerInfoScreen(props) {
 	const [customQuestions, setCustomQuestions] = useState(['']);
 	const [emptyQuestionError, setEmptyQuestionError] = useState(false);
 	const [updateBoolean, setUpdateBoolean] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	//This the method that is called when the component mounts. Sets the screen in firebase, and fetches the data
 	//if this service is being edited
@@ -55,20 +53,27 @@ export default function customerInfoScreen(props) {
 
 	//The method will check that there are no empty questions. If there are, an error will pop up. If there are, then
 	//an error will pop up. If there aren't, it will construct the questions array and then get the previously created
-	//information and then navigated to the next screen
-	const goToNextScreen = () => {
+	//information and then create the service in firestore or edit it if this is an existing service
+	const saveService = async () => {
+		setIsLoading(true);
 		for (const customQuestion of customQuestions.slice(1)) {
 			if (customQuestion.trim() === '') {
 				setEmptyQuestionError(true);
+				setIsLoading(false);
 				return;
 			}
 		}
 
-		const finalQuestions = customQuestions;
+		let finalQuestions = [];
 		for (const defaultQuestion of defaultQuestions) {
 			if (defaultQuestion.isSelected) {
 				finalQuestions.push(defaultQuestion.question);
 			}
+		}
+
+		finalQuestions = customQuestions.concat(finalQuestions);
+		if (finalQuestions[0].trim() === '') {
+			finalQuestions.splice(0, 1);
 		}
 
 		const {
@@ -85,20 +90,40 @@ export default function customerInfoScreen(props) {
 			isPrepaySelected,
 			isPostpaySelected,
 		} = props.navigation.state.params;
-		props.navigation.push('WorkerManagementScreen', {
-			business,
+
+		//Adds the product to the database & upload the image to Firebase Storage
+		const serviceID = await FirebaseFunctions.call('addServiceToDatabase', {
+			averageRating: 0,
 			businessID,
-			serviceTitle,
-			serviceDescription,
+			businessName: business.businessName,
+			category: 'Cleaning',
+			coordinates: business.coordinates,
+			displayedReviews: [],
 			serviceDuration,
-			imageResponse,
-			priceText,
 			price,
-			isCardSelected,
-			isCashSelected,
-			isPrepaySelected,
-			isPostpaySelected,
-			finalQuestions,
+			priceText,
+			prepay: isPrepaySelected,
+			postpay: isPostpaySelected,
+			questions: finalQuestions,
+			serviceDescription,
+			serviceTitle,
+			totalReviews: 0,
+			cash: isCashSelected,
+			card: isCardSelected,
+		});
+		//Handles the logic for uploading the image to Firebase
+		//Fetches the absolute path of the image (depending on android or ios)
+		let absolutePath = '';
+		if (Platform.OS === 'android') {
+			absolutePath = 'file://' + imageResponse.path;
+		} else {
+			absolutePath = imageResponse.path;
+		}
+		//Creates the reference & uploads the image (async)
+		await FirebaseFunctions.storage.ref('services/' + serviceID).putFile(absolutePath);
+		setIsLoading(false);
+		props.navigation.push('BusinessScreens', {
+			businessID,
 		});
 	};
 
@@ -223,9 +248,11 @@ export default function customerInfoScreen(props) {
 							<HelpButton
 								title={strings.Next}
 								width={screenWidth * 0.39}
+								isLoading={isLoading}
+								disabled={isLoading}
 								onPress={() => {
-									//Attempts to go to the next screen
-									goToNextScreen();
+									//Saves the service
+									saveService();
 								}}
 							/>
 						</View>
