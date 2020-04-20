@@ -1,6 +1,6 @@
 //This is the screen where the business is first going to create the basic information for the new serivce
 //they are creating
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Picker } from 'react-native';
 import HelpButton from '../../components/HelpButton/HelpButton';
 import TopBanner from '../../components/TopBanner/TopBanner';
@@ -14,6 +14,7 @@ import styles from './createServiceScreenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 import FastImage from 'react-native-fast-image';
 import HelpAlert from '../../components/HelpAlert';
 import { Icon } from 'react-native-elements';
@@ -31,6 +32,12 @@ export default function createServiceScreen(props) {
 	const [fieldsError, setFieldsError] = useState(false);
 	const [descriptionError, setDescriptionError] = useState(false);
 	const [imageError, setImageError] = useState(false);
+
+	//This the method that is called when the component mounts. Sets the screen in firebase, and fetches the data
+	//if this service is being edited
+	useEffect(() => {
+		FirebaseFunctions.setCurrentScreen('BusinessCreateServiceScreen', 'createServiceScreen');
+	}, []);
 
 	//Constucts array of minutes for the duration picker
 	const arrayOfNMinutes = [];

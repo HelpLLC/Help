@@ -28,6 +28,7 @@ import { createAppContainer } from 'react-navigation';
 import TermsAndConditionsScreen from './settingsScreens/termsAndConditionsScreen';
 import CreatePaymentMethodScreen from './sideBusinessScreens/createPaymentMethodScreen';
 import { createStackNavigator } from 'react-navigation-stack';
+import CustomerInfoScreen from './sideBusinessScreens/customerInfoScreen/customerInfoScreen';
 import ViewPaymentMethodScreen from './sideBusinessScreens/viewPaymentMethodScreen';
 
 //The route config for all of the screens
@@ -124,12 +125,17 @@ const routeConfig = {
 
 	//This is where businesses will view their exisitng payment method
 	ViewPaymentMethodScreen: {
-		screen: ViewPaymentMethodScreen
+		screen: ViewPaymentMethodScreen,
 	},
 
 	//This is the screen where a business will add the payment information for customers
 	PricingAndPaymentScreen: {
-		screen: PricingAndPaymentScreen
+		screen: PricingAndPaymentScreen,
+	},
+
+	//this is the screen where businesses will create questions to collect cuustomer info on request
+	CustomerInfoScreen: {
+		screen: CustomerInfoScreen,
 	},
 
 	CreatePaymentMethodScreen: {

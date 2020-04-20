@@ -1,6 +1,6 @@
 //This screen is going to be the second step in the product creation process. The business will determine the pricing
 //of the service, as well as choose when customers will pay
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Picker } from 'react-native';
 import HelpButton from '../../components/HelpButton/HelpButton';
 import TopBanner from '../../components/TopBanner/TopBanner';
@@ -16,6 +16,7 @@ import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import FastImage from 'react-native-fast-image';
 import HelpAlert from '../../components/HelpAlert';
+import FirebaseFunctions from 'config/FirebaseFunctions';
 import { Icon } from 'react-native-elements';
 
 //Declares and exports the functional component
@@ -31,6 +32,15 @@ export default function pricingAndPaymentScreen(props) {
 	const [paymentMethodError, setPaymentMethodError] = useState(false);
 	const [paymentTimeError, setPaymentTimeError] = useState(false);
 	const [cardPaymentMethodError, setCardPaymentMethodError] = useState(false);
+
+	//This the method that is called when the component mounts. Sets the screen in firebase, and fetches the data
+	//if this service is being edited
+	useEffect(() => {
+		FirebaseFunctions.setCurrentScreen(
+			'BusinessCreatePricingAndPaymentScreen',
+			'pricingAndPaymentScreen'
+		);
+	}, []);
 
 	//This method will capture all of the data from this screen, make sure it is completed, then capture all the data
 	//from the previous step, then pass it on to the next screen. If the fields from here are incomplete, then an error will
