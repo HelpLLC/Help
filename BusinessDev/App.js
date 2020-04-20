@@ -5,6 +5,7 @@ import MainStackNavigator from './src/MainStackNavigator';
 import { YellowBox } from 'react-native';
 import codePush from 'react-native-code-push';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import PricingAndPaymentScreen from './src/sideBusinessScreens/pricingAndPaymentScreen/pricingAndPaymentScreen';
 import stripe from 'tipsi-stripe';
 
 //Launches the app with the persisted store
@@ -12,7 +13,7 @@ class App extends Component {
 	//Initializes stripe for payments
 	componentDidMount() {
 		stripe.setOptions({
-			publishableKey: 'pk_test_RP4GxbKwMWbM3NN5XMo3qzKz00lEiD2Fe1'
+			publishableKey: 'pk_test_RP4GxbKwMWbM3NN5XMo3qzKz00lEiD2Fe1',
 		});
 	}
 
@@ -22,9 +23,9 @@ class App extends Component {
 		YellowBox.ignoreWarnings([
 			'ViewPagerAndroid',
 			'componentWillMount',
-			'componentWillReceiveProps'
+			'componentWillReceiveProps',
 		]);
-		return <MainStackNavigator />;
+		return <PricingAndPaymentScreen />;
 	}
 }
 

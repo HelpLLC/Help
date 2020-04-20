@@ -111,6 +111,13 @@ export default StyleSheet.create({
 		color: colors.black,
 	},
 
+	//The style for all small text that will be colored dark blue
+	smallTextStyleDarkBlue: {
+		fontFamily: font,
+		fontSize: smallTextFontSize,
+		color: colors.darkBlue,
+	},
+
 	//The style for all non-main text that is black
 	subTextStyleBlack: {
 		fontFamily: font,
@@ -123,6 +130,13 @@ export default StyleSheet.create({
 		fontFamily: font,
 		fontSize: subTextFontSize,
 		color: colors.lightBlue,
+	},
+
+	//The style for all sub text that will be colored dark blue
+	subTextStyleDarkBlue: {
+		fontFamily: font,
+		fontSize: subTextFontSize,
+		color: colors.darkBlue,
 	},
 
 	//The style for all non-main text that is red
