@@ -1,6 +1,6 @@
 //This stack navigator will contain all of the screens & navigators that will be accessed with the
 //default slide right transition
-import CreateServiceScreen from './sideBusinessScreens/createServiceScreen';
+import CreateServiceScreen from './sideBusinessScreens/createServiceScreen/createServiceScreen';
 import NameDescriptionScreen from './firstScreens/signUp/nameDescriptionScreen';
 import AdditionalInformationScreen from './firstScreens/signUp/additionalInformationScreen';
 import ServiceScreen from './sideBusinessScreens/serviceScreen';
