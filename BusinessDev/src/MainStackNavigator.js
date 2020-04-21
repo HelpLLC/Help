@@ -1,6 +1,6 @@
 //This stack navigator will contain all of the screens & navigators that will be accessed with the
 //default slide right transition
-import CreateServiceScreen from './sideBusinessScreens/createServiceScreen';
+import CreateServiceScreen from './sideBusinessScreens/createServiceScreen/createServiceScreen';
 import NameDescriptionScreen from './firstScreens/signUp/nameDescriptionScreen';
 import AdditionalInformationScreen from './firstScreens/signUp/additionalInformationScreen';
 import ServiceScreen from './sideBusinessScreens/serviceScreen';
@@ -21,14 +21,14 @@ import ReportIssueScreensNavigator from './settingsScreens/reportIssue/reportScr
 import BusinessScreensNavigator from './bottomTabScreens/businessScreensNavigator';
 import CreditsScreen from './settingsScreens/creditsScreen';
 import ServiceCurrentRequestsScreen from './sideBusinessScreens/serviceCurrentRequestsScreen';
-import CreateQuestionsScreen from './sideBusinessScreens/createQuestionsScreen';
 import CreateScheduleScreen from './firstScreens/signUp/createScheduleScreen';
 import { fadeIn, fromRight } from 'react-navigation-transitions';
+import PricingAndPaymentScreen from './sideBusinessScreens/pricingAndPaymentScreen/pricingAndPaymentScreen';
 import { createAppContainer } from 'react-navigation';
 import TermsAndConditionsScreen from './settingsScreens/termsAndConditionsScreen';
 import CreatePaymentMethodScreen from './sideBusinessScreens/createPaymentMethodScreen';
-import ServiceAdditionalInformationScreen from './sideBusinessScreens/serviceAdditionalInformationScreen';
 import { createStackNavigator } from 'react-navigation-stack';
+import CustomerInfoScreen from './sideBusinessScreens/customerInfoScreen/customerInfoScreen';
 import ViewPaymentMethodScreen from './sideBusinessScreens/viewPaymentMethodScreen';
 
 //The route config for all of the screens
@@ -123,18 +123,19 @@ const routeConfig = {
 		screen: CreateServiceScreen,
 	},
 
+	//This is where businesses will view their exisitng payment method
 	ViewPaymentMethodScreen: {
-		screen: ViewPaymentMethodScreen
+		screen: ViewPaymentMethodScreen,
 	},
 
-	//Route leading to where businesses create their questions
-	CreateQuestionsScreen: {
-		screen: CreateQuestionsScreen,
+	//This is the screen where a business will add the payment information for customers
+	PricingAndPaymentScreen: {
+		screen: PricingAndPaymentScreen,
 	},
 
-	//Takes you to where businesses edit additional service information
-	ServiceAdditionalInformationScreen: {
-		screen: ServiceAdditionalInformationScreen,
+	//this is the screen where businesses will create questions to collect cuustomer info on request
+	CustomerInfoScreen: {
+		screen: CustomerInfoScreen,
 	},
 
 	CreatePaymentMethodScreen: {

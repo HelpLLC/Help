@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { View, Text, Dimensions } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
- 
+
 import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpButton from '../../components/HelpButton/HelpButton';
 import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
@@ -56,8 +56,8 @@ class forgotPasswordScreen extends Component {
 					<View style={{ justifyContent: 'center' }}>
 						<HelpTextInput
 							isMultiline={false}
-              width={screenWidth * 0.6}
-              height={screenHeight * 0.06}
+							width={screenWidth * 0.6}
+							height={screenHeight * 0.06}
 							placeholder={strings.EnterAnEmail}
 							onChangeText={(input) => this.setState({ email: input })}
 							value={this.state.email}

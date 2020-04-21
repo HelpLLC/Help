@@ -1,49 +1,46 @@
-import React from "react";
-import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
-import "./LandingPage.css";
-import fontStyles from "../../../config/fontStyles";
-import strings from "../../../config/strings";
-import LandingPage from "./LandingPage";
-import LoginRegister from "../Authentication/LoginRegister";
-import Dashboard from "../../../business/BusinessScreens/Dashboard/Dashboard";
-import { SocialIcon } from "react-social-icons";
-import PrivacyPolicy from "../../PrivacyPolicy.js";
-import Credits from "../../Credits.js";
-import TermsAndConditions from "../../TermsAndConditions.js";
-import CreateProductScreen from "../../BusinessScreens/CreateProduct/CreateProductScreen";
+import React from 'react';
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import './LandingPage.css';
+import fontStyles from '../../../config/fontStyles';
+import strings from '../../../config/strings';
+import LandingPage from './LandingPage';
+import LoginRegister from '../Authentication/LoginRegister';
+import Dashboard from '../../../business/BusinessScreens/Dashboard/Dashboard';
+import { SocialIcon } from 'react-social-icons';
+import PrivacyPolicy from '../../PrivacyPolicy.js';
+import Credits from '../../Credits.js';
+import ContactUs from '../ContactUs/ContactUs';
+import TermsAndConditions from '../../TermsAndConditions.js';
+import CreateProductScreen from '../../BusinessScreens/CreateProduct/CreateProductScreen'
 
 export default function LandingPageNavigator() {
-  //The header containing the title, log in, and sign up buttons
-  const header = (
-    <div className={"header"}>
-      <div className={"companyTitle"}>
-        <Link
-          style={{ ...fontStyles.bigTextStyleWhite, textDecoration: "none" }}
-          to={"/"}
-        >
-          {strings.HelpForBusiness}
-        </Link>
-      </div>
-      <div className={"logInSignUp"}>
-        <div className={"logIn"}>
-          <Link
-            style={{ ...fontStyles.bigTextStyleWhite, textDecoration: "none" }}
-            to={"/login"}
-          >
-            {strings.LogIn}
-          </Link>
-        </div>
-        <div className={"signUp"}>
-          <Link
-            style={{ ...fontStyles.bigTextStyleWhite, textDecoration: "none" }}
-            to={"/signUp"}
-          >
-            {strings.SignUp}
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
+	//The header containing the title, log in, and sign up buttons
+	const header = (
+		<div className={'header'}>
+			<div className={'companyTitle'}>
+				<Link style={{ ...fontStyles.bigTextStyleWhite, textDecoration: 'none' }} to={'/'}>
+					{strings.HelpForBusiness}
+				</Link>
+			</div>
+			<div className={'logInSignUp'}>
+				<div className={'logIn'}>
+					<Link style={{ ...fontStyles.bigTextStyleWhite, textDecoration: 'none' }} to={'/login'}>
+						{strings.LogIn}
+					</Link>
+				</div>
+				<div className={'signUp'}>
+					<Link style={{ ...fontStyles.bigTextStyleWhite, textDecoration: 'none' }} to={'/signUp'}>
+						{strings.SignUp}
+					</Link>
+				</div>
+				<div className={'contactUs'}>
+					<Link style={{ ...fontStyles.bigTextStyleWhite, textDecoration: 'none' }} to={'/contactus'}>
+						{strings.ContactUs}
+					</Link>
+				</div>
+			</div>
+		</div>
+	);
 
   //The footer conataining the privacy policy, credits, and terms and conditions buttons. Also contains Help contact information
   const footer = (
@@ -99,52 +96,67 @@ export default function LandingPageNavigator() {
     </div>
   );
 
-  return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/">
-          <LandingPage />
-        </Route>
-        <Route path="/login">
-          <LoginRegister login={true} />
-        </Route>
-        <Route path="/signUp">
-          <LoginRegister login={false} />
-        </Route>
-        <Route path="/dashboard">
-          <Dashboard />
-        </Route>
-        <Route path="/createproduct">
-          <CreateProductScreen />
-        </Route>
-        <Route path="/privacypolicy">
-          <div className={"bodyOuter"}>
-            <div className={"bodyInner"}>
-              {header}
-              <PrivacyPolicy />
-            </div>
-            {footer}
-          </div>
-        </Route>
-        <Route path="/terms">
-          <div className={"bodyOuter"}>
-            <div className={"bodyInner"}>
-              {header}
-              <TermsAndConditions />
-            </div>
-            {footer}
-          </div>
-        </Route>
-        <Route path="/credits">
-          <div className={"bodyOuter"}>
-            <div className={"bodyInner"}>
-              {header}
-              <Credits />
-            </div>
-            {footer}
-          </div>
-        </Route>
-      </Switch>
-    </BrowserRouter>
-  );
+	return (
+		<BrowserRouter>
+			<Switch>
+				<Route exact path='/'>
+					<div className={'bodyOuter'}>
+						<div className={'bodyInner'}>
+							{header}
+							<LandingPage />
+						</div>
+						{footer}
+					</div>
+				</Route>
+				<Route path='/login'>
+					<LoginRegister login={true} />
+				</Route>
+				<Route path='/signUp'>
+					<LoginRegister login={false} />
+				</Route>
+				<Route path='/dashboard'>
+					<Dashboard />
+				</Route>
+				<Route path='/createproduct'>
+					<CreateProductScreen/>
+				</Route>
+				<Route path='/contactus'>
+					<div className={'bodyOuter'}>
+						<div className={'bodyInner'}>
+							{header}
+							<ContactUs />
+						</div>
+						{footer}
+					</div>
+				</Route>
+				<Route path='/privacypolicy'>
+					<div className={'bodyOuter'}>
+						<div className={'bodyInner'}>
+							{header}
+							<PrivacyPolicy />
+						</div>
+						{footer}
+					</div>
+				</Route>
+				<Route path='/terms'>
+					<div className={'bodyOuter'}>
+						<div className={'bodyInner'}>
+							{header}
+							<TermsAndConditions />
+						</div>
+						{footer}
+					</div>
+				</Route>
+				<Route path='/credits'>
+					<div className={'bodyOuter'}>
+						<div className={'bodyInner'}>
+							{header}
+							<Credits />
+						</div>
+						{footer}
+					</div>
+				</Route>
+			</Switch>
+		</BrowserRouter>
+	);
 }

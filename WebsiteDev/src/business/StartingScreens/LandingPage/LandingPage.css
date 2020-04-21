@@ -30,6 +30,10 @@ section.sec2{
 	width: 40%;
 	margin-left: 10vh;
 }
+.contactUs {
+	margin-right: 2vw;
+	white-space: nowrap;
+}
 
 .titlecontainer2 {
 	display: flex;
