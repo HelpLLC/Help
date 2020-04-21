@@ -1,86 +1,52 @@
-import React from 'react';
-import './LandingPage.css';
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
-import LoginRegister from '../Authentication/LoginRegister';
-import strings from '../../../config/strings';
-import fontStyles from '../../../config/fontStyles';
-import HelpButton from '../../../components/HelpButton/HelpButton';
-import { screenHeight, screenWidth } from '../../../config/dimensions';
+import React from "react";
+import "./LandingPage.css";
+import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import LoginRegister from "../Authentication/LoginRegister";
+import strings from "../../../config/strings";
+import fontStyles from "../../../config/fontStyles";
+import HelpButton from "../../../components/HelpButton/HelpButton";
+import { screenHeight, screenWidth } from "../../../config/dimensions";
+import { Text, Image } from "react-native-web";
+import {Box} from "@material-ui/core";
 
 export default function LandingPage() {
-	//To save code, this generates each reduntant section in the landing page
-	const featureSection = (title, message, image, leftRight) => {
-		return (
-			<div
-				className={
-					leftRight === 'right' ? 'featureSectionGray' : 'featureSectionLightGray'
-				}>
-				<div
-					className={
-						leftRight === 'right' ? 'featureSectionRight' : 'featureSectionLeft'
-					}>
-					<div className={'featureTitle'} style={fontStyles.bigSubTitleStyleBlue}>
-						{title}
-					</div>
-					<div style={fontStyles.bigTextStyleBlack}>{message}</div>
-				</div>
-			</div>
-		);
-	};
+  //To save code, this generates each reduntant section in the landing page
 
-	return (
-		<div className={'landingPageContainer'}>
-			<div style={fontStyles.bigTitleStyleBlack} className={'topMessage'}>
-				{strings.EnhanceYourBusiness}
-			</div>
-			{featureSection(
-				strings.ConnectWithCustomers,
-				strings.ConnectWithCustomersMessage,
-				'',
-				'right'
-			)}
-			{featureSection(strings.SmartScheduling, strings.SmartSchedulingMessage, '', 'left')}
-			{featureSection(
-				strings.AdvancedAnalytics,
-				strings.AdvancedAnalyticsMessage,
-				'',
-				'right'
-			)}
-			{featureSection(
-				strings.CentralizedPayments,
-				strings.CentralizedPaymentsMessage,
-				'',
-				'left'
-			)}
-			{featureSection(
-				strings.EmployeeManagement,
-				strings.EmployeeManagementMessage,
-				'',
-				'right'
-			)}
-			<div className={'startSellingToday'}>
-				<div className={'startSellingLeftSection'}>
-					<div style={fontStyles.bigSubTitleStyleBlack}>{strings.StartSellingToday}</div>
-					<div style={fontStyles.bigTextStyleBlack} className={'startSellingMessage'}>
-						<div>{strings.StartSellingTodayMessage}</div>
-					</div>
-					<div className={'signUpButton'}>
-						<Link style={{ textDecoration: 'none' }} to='/login'>
-							<HelpButton
-								title={strings.SignUp}
-								onPress={(event) => (window.location.href = '/signUp')}
-								width={screenWidth * 0.1}
-							/>
-						</Link>
-						<div className={'percentageText'} style={fontStyles.subTextStyleBlack}>
-							{strings.PercentageMessage}
-						</div>
-					</div>
-				</div>
-				<div className={'helpLogo'} style={fontStyles.bigTitleStyleBlue}>
-					{strings.Help}
-				</div>
-			</div>
-		</div>
-	);
+  return (
+    <div>
+      <section className="sec2">
+        <div style={{ flexDirection: "row" }}>
+          <div>
+            <div className="titlecontainer">
+              <Text style={{ fontSize: 100, color: "white" }}>
+                Let us help your business thrive.
+              </Text>
+            </div>
+            <div style={{ width: "30%", marginLeft: "9%", marginTop: "2%" }}>
+              <HelpButton title="Let's work together" />
+            </div>
+          </div>
+          <div>
+            <Image />
+          </div>
+        </div>
+      </section>
+      <section className="sec1"></section>
+      <section>
+        <div className="titlecontainer2">
+          <Text style={{ fontSize: 100, color: "#567681" }}>Our Services</Text>
+        </div>
+        <div className="titlecontainer2" style={{ marginTop: "1%" }}>
+          <Text style={{ fontSize: 60, color: "#00B0F0" }}>
+            What we do best
+          </Text>
+        </div>
+        <div>
+          <div>
+            <Box></Box>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
 }
