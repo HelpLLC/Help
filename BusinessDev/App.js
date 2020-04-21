@@ -12,7 +12,7 @@ class App extends Component {
 	//Initializes stripe for payments
 	componentDidMount() {
 		stripe.setOptions({
-			publishableKey: 'pk_test_RP4GxbKwMWbM3NN5XMo3qzKz00lEiD2Fe1'
+			publishableKey: 'pk_test_RP4GxbKwMWbM3NN5XMo3qzKz00lEiD2Fe1',
 		});
 	}
 
@@ -22,7 +22,7 @@ class App extends Component {
 		YellowBox.ignoreWarnings([
 			'ViewPagerAndroid',
 			'componentWillMount',
-			'componentWillReceiveProps'
+			'componentWillReceiveProps',
 		]);
 		return <MainStackNavigator />;
 	}

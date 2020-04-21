@@ -149,6 +149,7 @@ class homeScreen extends Component {
 									this.props.navigation.push('CreateServiceScreen', {
 										businessID: business.businessID,
 										business,
+										editing: false,
 									});
 								}}
 							/>
@@ -205,6 +206,7 @@ class homeScreen extends Component {
 								this.props.navigation.push('CreateServiceScreen', {
 									businessID: business.businessID,
 									business,
+									editing: false,
 								});
 							}}
 						/>
