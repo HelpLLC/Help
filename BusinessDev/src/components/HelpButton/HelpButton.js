@@ -30,6 +30,7 @@ export default function HelpButton(props) {
 		disabled,
 		onPress,
 		width,
+		height,
 		isLightButton,
 		isRedButton,
 		isCircleBlueButton,
@@ -49,7 +50,14 @@ export default function HelpButton(props) {
 				end={{ x: 1, y: 0 }}
 				style={[
 					[
-						{ width: width },
+						{
+							width: width,
+							height: height
+								? height
+								: isCircleBlueButton
+								? screenHeight * 0.0732
+								: screenHeight * 0.0878,
+						},
 						isLightButton
 							? HelpButtonStyle.LightButton
 							: isRedButton
@@ -63,7 +71,14 @@ export default function HelpButton(props) {
 				<TouchableOpacity
 					style={[
 						[
-							{ width: width },
+							{
+								width: width,
+								height: height
+									? height
+									: isCircleBlueButton
+									? screenHeight * 0.0732
+									: screenHeight * 0.0878,
+							},
 							isLightButton
 								? HelpButtonStyle.LightButton
 								: isRedButton
