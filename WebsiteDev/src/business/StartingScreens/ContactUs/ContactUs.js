@@ -7,8 +7,7 @@ import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import colors from '../../../config/colors';
 import { screenHeight, screenWidth } from '../../../config/dimensions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconLookup, IconDefinition, findIconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { faGlassMartiniAlt } from '@fortawesome/free-solid-svg-icons';
+import './ContactUsStyle.css';
 
 export default function ContactUs() {
 	const [email, setEmail] = useState('');
@@ -25,13 +24,7 @@ export default function ContactUs() {
 	};
 
 	return (
-		<View
-			style={{
-				flexDirection: 'column',
-				height: screenHeight,
-				width: screenWidth,
-				justifyContent: 'flex-start',
-			}}>
+		<div className='contactUsContainer'>
 			<View
 				style={{
 					alignItems: 'center',
@@ -43,7 +36,7 @@ export default function ContactUs() {
 						left: 0,
 						bottom: 0,
 						right: 0,
-						height: '50%',
+						height: '80vh',
 						opacity: 1,
 					}}
 					source={require('./images/path_1.png')}
@@ -64,7 +57,7 @@ export default function ContactUs() {
 				</View>
 				<View
 					style={{
-						marginTop: '5%',
+						marginTop: '9vh',
 					}}>
 					<Text
 						style={{
@@ -80,16 +73,18 @@ export default function ContactUs() {
 				</View>
 				<View
 					style={{
-						marginTop: '20%',
+						marginTop: '30vh',
 						borderRadius: '25px',
 						border: '2px solid #5cc6bc',
 						boxShadow: '0px 3px 5px 1px rgba(92, 198, 188, 2.55)',
 						flexDirection: 'row',
-						padding: '20px',
+						paddingHorizontal: '2vw',
+						paddingVertical: '5vw',
 					}}>
 					<View
 						style={{
 							flexDirection: 'column',
+							justifyContent: 'center',
 						}}>
 						<View
 							style={{
@@ -184,16 +179,17 @@ export default function ContactUs() {
 						</View>
 					</View>
 
-					<View>
+					<View style={{ alignItems: 'center' }}>
 						<Image
 							source={require('./images/map.png')}
-							style={{ width: '200px', height: '200px' }}
+							style={{ width: '30vw', height: '30vw' }}
 						/>
 						<View
 							style={{
 								marginTop: '5%',
 							}}>
 							<HelpButton
+								width={'15vw'}
 								title='Go To Map'
 								onPress={() =>
 									loadInBrowser(
@@ -210,7 +206,8 @@ export default function ContactUs() {
 						justifyContent: 'flex-start',
 						alignItems: 'center',
 						flexDirection: 'column',
-						marginTop: '5%',
+						width: '90vw',
+						marginTop: '15vh',
 					}}>
 					<Text
 						style={{
@@ -221,57 +218,61 @@ export default function ContactUs() {
 						}}>
 						Let's Grow Your Business
 					</Text>
-
 					<Text
 						style={{
 							overflow: 'hidden',
 							fontFamily: 'Lucida Grande',
 							fontSize: '50px',
 							textAlign: 'center',
-							lineHeight: '50px',
+							lineHeight: '7.5vh',
 							color: '#00b0f0',
-							marginTop: '2%',
+							marginVertical: '4vh',
 						}}>
-						Ready to start working together? Have a general question? We're only an email away.
+						Ready to start working together? Have a general question? We're only an
+						email away.
 					</Text>
 				</View>
 			</View>
-
 			<View
 				style={{
 					flexDirection: 'row',
+					width: '95vw',
+					marginBottom: '5vh',
 					alignItems: 'center',
 					justifyContent: 'space-between',
-					marginBottom: '1%',
-					marginTop: '2%',
 				}}>
 				<HelpTextInput
-					height='150%'
-					width='45%'
+					height={'7vh'}
+					width={'45vw'}
 					placeholder='E-mail Address'
 					isMultiline={false}
 					onChangeText={(email) => setEmail(email)}
 				/>
 				<HelpTextInput
-					style={{ marginLeft: '2%' }}
-					height='150%'
-					width='45%'
+					height='7vh'
+					width={'45vw'}
 					placeholder='Business Name (Optional)'
 					isMultiline={false}
 					onChangeText={(name) => setBusinessName(name)}
 				/>
 			</View>
 			<HelpTextInput
-				height='30%'
-				width='100%'
+				height={'35vh'}
+				width={'95vw'}
 				placeholder='Message'
 				isMultiline={true}
 				onChangeText={(message) => setMessage(message)}></HelpTextInput>
-			<View style={{ marginTop: '2%', alignItems: 'center' }}>
+			<View
+				style={{
+					marginTop: '2vh',
+					marginBottom: '3vh',
+					alignItems: 'flex-end',
+					width: '95vw',
+					alignSelf: 'center',
+				}}>
 				<HelpButton
 					title='SUBMIT'
-					style={{ marginTop: '2%' }}
-					width='30%'
+					width={'15vw'}
 					onPress={async () =>
 						await FirebaseFunctions.call('sendEmail', {
 							recepient: 'helpcocontact@gmail.com',
@@ -281,85 +282,6 @@ export default function ContactUs() {
 					}
 				/>
 			</View>
-
-			<View
-				style={{
-					marginTop: '5%',
-					backgroundColor: '#000000',
-				}}>
-				<View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
-					<TouchableOpacity onPress={() => loadInBrowser('https://twitter.com/llc_help')}>
-						<FontAwesomeIcon
-							icon={['fab', 'twitter-square']}
-							size='3x'
-							color={colors.lightBlue}
-							style={{ marginLeft: '2%' }}
-							onPress={() => loadInBrowser('https://twitter.com/llc_help')}
-						/>
-					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => loadInBrowser('https://www.facebook.com/realhelpllc/')}
-						style={{ marginLeft: '2%' }}>
-						<FontAwesomeIcon icon={['fab', 'facebook-square']} size='3x' color={colors.lightBlue} />
-					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => loadInBrowser('https://www.instagram.com/realhelpllc/')}
-						style={{ marginLeft: '2%' }}>
-						<FontAwesomeIcon
-							icon={['fab', 'instagram-square']}
-							size='3x'
-							color={colors.lightBlue}
-						/>
-					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => loadInBrowser('https://www.linkedin.com/company/helpllc/')}
-						style={{ marginLeft: '2%' }}>
-						<FontAwesomeIcon icon={['fab', 'linkedin']} size='3x' color={colors.lightBlue} />
-					</TouchableOpacity>
-				</View>
-
-				<Text
-					style={{
-						overflow: 'hidden',
-						fontFamily: 'Lucida Grande',
-						fontSize: '30px',
-						textAlign: 'left',
-						color: '#ffffff',
-						marginTop: '2%',
-						marginLeft: '2%',
-					}}>
-					Click here to view our{' '}
-					<TouchableOpacity
-						style={{ textDecorationLine: 'underline' }}
-						onPress={() => window.open('/privacypolicy', '_blank')}>
-						Privacy Policy
-					</TouchableOpacity>
-					,
-					<TouchableOpacity
-						style={{ textDecorationLine: 'underline' }}
-						onPress={() => window.open('/terms', '_blank')}>
-						Terms and Conditions
-					</TouchableOpacity>
-					, and{' '}
-					<TouchableOpacity
-						style={{ textDecorationLine: 'underline' }}
-						onPress={() => window.open('/credits', '_blank')}>
-						Credits
-					</TouchableOpacity>{' '}
-				</Text>
-
-				<View style={{ alignItems: 'center', justifyContent: 'center' }}>
-					<Text
-						style={{
-							fontFamily: 'Lucida Grande',
-							fontSize: '30px',
-							color: '#ffffff',
-							marginTop: '2%',
-						}}>
-						© 2020 by Help.
-					</Text>
-				</View>
-			</View>
-		</View>
+		</div>
 	);
 }

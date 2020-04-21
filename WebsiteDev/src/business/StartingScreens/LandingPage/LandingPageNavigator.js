@@ -9,6 +9,7 @@ import Dashboard from '../../../business/BusinessScreens/Dashboard/Dashboard';
 import { SocialIcon } from 'react-social-icons';
 import PrivacyPolicy from '../../PrivacyPolicy.js';
 import Credits from '../../Credits.js';
+import ContactUs from '../ContactUs/ContactUs';
 import TermsAndConditions from '../../TermsAndConditions.js';
 import CreateProductScreen from '../../BusinessScreens/CreateProduct/CreateProductScreen'
 
@@ -30,6 +31,11 @@ export default function LandingPageNavigator() {
 				<div className={'signUp'}>
 					<Link style={{ ...fontStyles.bigTextStyleWhite, textDecoration: 'none' }} to={'/signUp'}>
 						{strings.SignUp}
+					</Link>
+				</div>
+				<div className={'contactUs'}>
+					<Link style={{ ...fontStyles.bigTextStyleWhite, textDecoration: 'none' }} to={'/contactus'}>
+						{strings.ContactUs}
 					</Link>
 				</div>
 			</div>
@@ -102,6 +108,15 @@ export default function LandingPageNavigator() {
 				</Route>
 				<Route path='/createproduct'>
 					<CreateProductScreen/>
+				</Route>
+				<Route path='/contactus'>
+					<div className={'bodyOuter'}>
+						<div className={'bodyInner'}>
+							{header}
+							<ContactUs />
+						</div>
+						{footer}
+					</div>
 				</Route>
 				<Route path='/privacypolicy'>
 					<div className={'bodyOuter'}>
