@@ -46,9 +46,7 @@ const getAllServices = async () => {
 
 		//Removes the example from product from the array along with products that have been deleted
 		const newArray = array.filter((element) => {
-			return (
-				element.serviceTitle !== '' && !(element.isDeleted && element.isDeleted === true)
-			);
+			return element.serviceTitle !== '' && !(element.isDeleted && element.isDeleted === true);
 		});
 
 		//Sorts the array by highest average rating
@@ -118,12 +116,9 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 			day = '0' + day;
 		}
 		const dateString = year + '-' + month + '-' + day;
-		await transaction.update(
-			businesses.doc(businessID).collection('Schedule').doc(dateString),
-			{
-				[requestID]: admin.firestore.FieldValue.delete(),
-			}
-		);
+		await transaction.update(businesses.doc(businessID).collection('Schedule').doc(dateString), {
+			[requestID]: admin.firestore.FieldValue.delete(),
+		});
 
 		//Updates the customer document
 		indexOfRequest = customer.currentRequests.findIndex(
@@ -167,9 +162,7 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 			await transaction.get(businesses.doc(businessID).collection('Schedule').doc(dateString))
 		).data();
 		if (Object.keys(scheduleDoc).length === 1) {
-			await transaction.delete(
-				businesses.doc(businessID).collection('Schedule').doc(dateString)
-			);
+			await transaction.delete(businesses.doc(businessID).collection('Schedule').doc(dateString));
 		}
 		await transaction.delete(requests.doc(requestID));
 	});
@@ -322,9 +315,7 @@ exports.getBusinessCurrentRequestsByDay = functions.https.onCall(async (input, c
 	const { businessID, day } = input;
 
 	const doc = await database.runTransaction(async (transaction) => {
-		const doc = await transaction.get(
-			businesses.doc(businessID).collection('Schedule').doc(day)
-		);
+		const doc = await transaction.get(businesses.doc(businessID).collection('Schedule').doc(day));
 		if (doc.exists === true) {
 			const data = await doc.data();
 			delete data.dateString;
@@ -743,7 +734,6 @@ exports.updateServiceInformation = functions.https.onCall(async (input, context)
 	const {
 		priceText,
 		serviceDuration,
-		simultaneousRequests,
 		price,
 		questions,
 		serviceDescription,
@@ -752,6 +742,8 @@ exports.updateServiceInformation = functions.https.onCall(async (input, context)
 		businessID,
 		card,
 		cash,
+		prepay,
+		postpay,
 	} = input;
 
 	const batch = database.batch();
@@ -759,12 +751,13 @@ exports.updateServiceInformation = functions.https.onCall(async (input, context)
 	batch.update(services.doc(serviceID), {
 		priceText,
 		serviceDuration,
-		simultaneousRequests,
 		price,
 		questions,
 		serviceDescription,
 		card,
 		cash,
+		prepay,
+		postpay,
 		serviceTitle,
 	});
 
@@ -1407,11 +1400,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		return 0;
 	});
 
-	sendNotification(
-		'b-' + businessID,
-		'New Request',
-		'You have a new request for ' + serviceTitle
-	);
+	sendNotification('b-' + businessID, 'New Request', 'You have a new request for ' + serviceTitle);
 
 	//Emails help team that there has been a new requeset
 	sendEmail(
@@ -1484,20 +1473,17 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 			day = '0' + day;
 		}
 		const dateString = year + '-' + month + '-' + day;
-		await transaction.update(
-			businesses.doc(businessID).collection('Schedule').doc(dateString),
-			{
-				[requestID]: {
-					date,
-					time,
-					requestID,
-					serviceDuration,
-					serviceTitle,
-					serviceID,
-					customerName,
-				},
-			}
-		);
+		await transaction.update(businesses.doc(businessID).collection('Schedule').doc(dateString), {
+			[requestID]: {
+				date,
+				time,
+				requestID,
+				serviceDuration,
+				serviceTitle,
+				serviceID,
+				customerName,
+			},
+		});
 	});
 
 	//Sends notifications to the customer and the business
@@ -1841,8 +1827,7 @@ exports.businessGoodToGo = functions.firestore
 			await admin.messaging().sendToTopic(topic, {
 				notification: {
 					title: 'Your good to go',
-					body:
-						"You're account has been verified and accepted. Create your first product now!",
+					body: "You're account has been verified and accepted. Create your first product now!",
 				},
 			});
 		}

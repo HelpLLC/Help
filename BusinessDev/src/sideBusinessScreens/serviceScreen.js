@@ -122,6 +122,7 @@ class serviceScreen extends Component {
 									this.props.navigation.push('CreateServiceScreen', {
 										businessID,
 										business,
+										serviceImage: this.state.image,
 										serviceID,
 										service,
 										editing: true,
