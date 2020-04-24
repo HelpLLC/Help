@@ -1,0 +1,26 @@
+Prettier Settings
+
+DOWNLOAD "Prettier - Code Formatter" by Esben Petersen from the VSCode Extensions
+
+Here are all of the settings we're using. Navigate to the settings by going to the extensions in the left VSCode menu,
+right click on Prettier after installing it, and click extension settings. Make sure the following is what you have:
+(If a setting isn't on this list, leave it at whatever the default is)
+
+Arrow Parens: Always
+Bracket Spacing: On
+End Of Line: If
+HTML Whitespace Sensitivity: CSS
+Insert Pragma: Off
+Jsx Bracket Same Line: On
+Jsx Single Quote: On
+Package Manager: npm
+Print Width: 100
+Prose Wrap: Never
+Quote Props: as needed
+Semi: On
+Single Quote: On
+Tab Width: 2
+Trailing Comma: ES5 (Unless ES6 is an option)
+Use Tabs: On
+Vue Indent Script And Style: Off
+With Node Modules: Off
