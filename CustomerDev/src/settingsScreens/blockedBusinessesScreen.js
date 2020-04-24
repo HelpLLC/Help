@@ -6,12 +6,12 @@ import screenStyle from 'config/styles/screenStyle';
 import { Text, FlatList, View, Dimensions, ScrollView } from 'react-native';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import { screenWidth, screenHeight } from 'config/dimensions';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import LoadingSpinner from '../components/LoadingSpinner';
 import strings from '../../config/strings';
-import RoundBlueButton from '../components/RoundBlueButton';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import HelpButton from '../components/HelpButton/HelpButton';
+ 
 import HelpAlert from '../components/HelpAlert';
 import OptionPicker from '../components/OptionPicker';
 import colors from 'config/colors';
@@ -112,10 +112,9 @@ export default class blockedBusinessesScreen extends Component {
 								borderBottomWidth: 1
 							}}>
 							<Text style={fontStyles.mainTextStyleBlack}>{item.businessName}</Text>
-							<RoundBlueButton
+							<HelpButton
 								title={strings.Unblock}
-								style={roundBlueButtonStyle.SmallSizeButton}
-								textStyle={fontStyles.bigTextStyleWhite}
+								width={screenWidth * 0.278}
 								onPress={() => {
 									this.setState({
 										companyClicked: item,

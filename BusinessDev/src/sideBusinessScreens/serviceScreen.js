@@ -13,9 +13,9 @@ import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpAlert from '../components/HelpAlert';
 import HelpView from '../components/HelpView';
 import FastImage from 'react-native-fast-image';
-import RoundBlueButton from '../components/RoundBlueButton';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import TopBanner from '../components/TopBanner';
+import HelpButton from '../components/HelpButton/HelpButton';
+
+import TopBanner from '../components/TopBanner/TopBanner';
 
 import ViewMoreText from 'react-native-view-more-text';
 
@@ -27,7 +27,7 @@ class serviceScreen extends Component {
 		this.state = {
 			isLoading: true,
 			service: '',
-			isErrorVisible: false
+			isErrorVisible: false,
 		};
 	}
 
@@ -37,15 +37,19 @@ class serviceScreen extends Component {
 
 		const { serviceID, businessID, business } = this.props.navigation.state.params;
 		try {
-			const service = await FirebaseFunctions.call('getServiceByID', { serviceID: serviceID });
-			const image = await FirebaseFunctions.call('getServiceImageByID', { serviceID: serviceID });
+			const service = await FirebaseFunctions.call('getServiceByID', {
+				serviceID: serviceID,
+			});
+			const image = await FirebaseFunctions.call('getServiceImageByID', {
+				serviceID: serviceID,
+			});
 			this.setState({
 				isLoading: false,
 				service,
 				business,
 				businessID,
 				serviceID,
-				image
+				image,
 			});
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
@@ -54,8 +58,8 @@ class serviceScreen extends Component {
 				userID: {
 					screen: 'BusinessServiceScreen',
 					userID: 'b-' + businessID,
-					service: serviceID
-				}
+					service: serviceID,
+				},
 			});
 		}
 		this.setState({ isLoading: false });
@@ -100,15 +104,17 @@ class serviceScreen extends Component {
 							width: screenWidth - 40,
 							alignItems: 'center',
 							alignSelf: 'center',
-							justifyContent: 'space-between'
+							justifyContent: 'space-between',
 						}}>
 						<View style={{ flexDirection: 'column', justifyContent: 'center' }}>
 							<View
 								style={{
 									justifyContent: 'flex-end',
-									marginVertical: screenHeight * 0.03
+									marginVertical: screenHeight * 0.03,
 								}}>
-								<Text style={fontStyles.bigTextStyleBlack}>{service.serviceTitle}</Text>
+								<Text style={fontStyles.bigTextStyleBlack}>
+									{service.serviceTitle}
+								</Text>
 							</View>
 
 							<TouchableOpacity
@@ -118,23 +124,25 @@ class serviceScreen extends Component {
 										business,
 										serviceID,
 										service,
-										editing: true
+										editing: true,
 									});
 								}}
 								style={{ justifyContent: 'flex-end' }}>
-								<Text style={fontStyles.bigTextStyleBlue}>{strings.EditService}</Text>
+								<Text style={fontStyles.bigTextStyleBlue}>
+									{strings.EditService}
+								</Text>
 							</TouchableOpacity>
 
 							<TouchableOpacity
 								onPress={() => {
 									this.props.navigation.push('ServiceHistoryScreen', {
 										serviceID,
-										service
+										service,
 									});
 								}}
 								style={{
 									justifyContent: 'flex-end',
-									marginTop: screenHeight * 0.02
+									marginTop: screenHeight * 0.02,
 								}}>
 								<Text style={fontStyles.bigTextStyleBlue}>{strings.History}</Text>
 							</TouchableOpacity>
@@ -148,29 +156,28 @@ class serviceScreen extends Component {
 							borderTopWidth: 4,
 							width: screenWidth,
 							height: 258,
-							marginVertical: screenHeight * 0.02
+							marginVertical: screenHeight * 0.02,
 						}}>
 						<FastImage
 							style={{
 								width: screenWidth,
-								height: 250
+								height: 250,
 							}}
 							source={this.state.image}
 						/>
 					</View>
 					<View
 						style={{
-							marginVertical: screenHeight * 0.1
+							marginVertical: screenHeight * 0.1,
 						}}>
-						<RoundBlueButton
+						<HelpButton
 							title={strings.ViewRequests}
-							style={[roundBlueButtonStyle.MediumSizeButton, { width: screenWidth * 0.525 }]}
-							textStyle={fontStyles.bigTextStyleWhite}
+							width={screenWidth * 0.525}
 							onPress={() => {
 								//Goes to the current requests screen for this specific service
 								this.props.navigation.push('ServiceCurrentRequestsScreen', {
 									service,
-									serviceID
+									serviceID,
 								});
 							}}
 						/>

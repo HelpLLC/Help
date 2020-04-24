@@ -4,7 +4,7 @@ var serviceAccount = require('./serviceAccountKey.json');
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
 	databaseURL: 'https://help-technologies-e4e1c.firebaseio.com',
-	storageBucket: 'help-technologies-e4e1c.appspot.com'
+	storageBucket: 'help-technologies-e4e1c.appspot.com',
 });
 //Configures email for automated emails
 const nodemailer = require('nodemailer');
@@ -12,11 +12,11 @@ const mailTransport = nodemailer.createTransport({
 	service: 'gmail',
 	auth: {
 		user: 'helpcocontact@gmail.com',
-		pass: 'techBusiness123'
+		pass: 'techBusiness123',
 	},
 	tls: {
-		rejectUnauthorized: false
-	}
+		rejectUnauthorized: false,
+	},
 });
 
 //Sets up Stripe for payments
@@ -46,7 +46,9 @@ const getAllServices = async () => {
 
 		//Removes the example from product from the array along with products that have been deleted
 		const newArray = array.filter((element) => {
-			return element.serviceTitle !== '' && !(element.isDeleted && element.isDeleted === true);
+			return (
+				element.serviceTitle !== '' && !(element.isDeleted && element.isDeleted === true)
+			);
 		});
 
 		//Sorts the array by highest average rating
@@ -66,8 +68,8 @@ const sendNotification = async (topic, title, body) => {
 	await fcm.sendToTopic(topic, {
 		notification: {
 			title,
-			body
-		}
+			body,
+		},
 	});
 	return 0;
 };
@@ -79,7 +81,7 @@ const sendEmail = async (recepient, subject, text) => {
 		from: 'Help <helpcocontact@gmail.com>',
 		to: recepient,
 		subject,
-		text
+		text,
 	};
 
 	await mailTransport.sendMail(mailOptions);
@@ -101,7 +103,7 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 		business.services[indexOfService].numCurrentRequests =
 			business.services[indexOfService].numCurrentRequests - 1;
 		await transaction.update(businesses.doc(businessID), {
-			services: business.services
+			services: business.services,
 		});
 
 		//Fetches the date from the business and formats it in a way so scheduling could be deleted within business as well
@@ -117,12 +119,9 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 		}
 		const dateString = year + '-' + month + '-' + day;
 		await transaction.update(
-			businesses
-				.doc(businessID)
-				.collection('Schedule')
-				.doc(dateString),
+			businesses.doc(businessID).collection('Schedule').doc(dateString),
 			{
-				[requestID]: admin.firestore.FieldValue.delete()
+				[requestID]: admin.firestore.FieldValue.delete(),
 			}
 		);
 
@@ -132,7 +131,7 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 		);
 		customer.currentRequests.splice(indexOfRequest, 1);
 		await transaction.update(customers.doc(customerID), {
-			currentRequests: customer.currentRequests
+			currentRequests: customer.currentRequests,
 		});
 
 		//Notifies the business that the request has been deleted.
@@ -140,6 +139,13 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 			'b-' + request.businessID,
 			'Request Cancelled',
 			customer.name + ' ' + 'has cancelled their request for' + ' ' + request.serviceTitle
+		);
+
+		//Notifies the customer that the request has been deleted.
+		sendNotification(
+			'b-' + request.customerID,
+			'Request Cancelled',
+			'Your request for ' + request.serviceTitle + ' has been cancelled by the business.'
 		);
 	});
 
@@ -158,19 +164,11 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 		const dateString = year + '-' + month + '-' + day;
 		//Tests if this document should be deleted all together
 		const scheduleDoc = (
-			await transaction.get(
-				businesses
-					.doc(businessID)
-					.collection('Schedule')
-					.doc(dateString)
-			)
+			await transaction.get(businesses.doc(businessID).collection('Schedule').doc(dateString))
 		).data();
 		if (Object.keys(scheduleDoc).length === 1) {
 			await transaction.delete(
-				businesses
-					.doc(businessID)
-					.collection('Schedule')
-					.doc(dateString)
+				businesses.doc(businessID).collection('Schedule').doc(dateString)
 			);
 		}
 		await transaction.delete(requests.doc(requestID));
@@ -178,6 +176,20 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 
 	return 0;
 };
+
+//--------------------------------- Miscellaneous Functions ---------------------------------
+
+//Method send to a recpeint from the company email. Accepts a text, subject, and a recepient
+exports.sendEmail = functions.https.onCall(async (input, context) => {
+	const { recepient, subject, text } = input;
+
+	try {
+		await sendEmail(recepient, subject, text);
+		return 0;
+	} catch (error) {
+		return -1;
+	}
+});
 
 //--------------------------------- "Document-Object" Getters ---------------------------------
 
@@ -311,17 +323,14 @@ exports.getBusinessCurrentRequestsByDay = functions.https.onCall(async (input, c
 
 	const doc = await database.runTransaction(async (transaction) => {
 		const doc = await transaction.get(
-			businesses
-				.doc(businessID)
-				.collection('Schedule')
-				.doc(day)
+			businesses.doc(businessID).collection('Schedule').doc(day)
 		);
 		if (doc.exists === true) {
 			const data = await doc.data();
 			delete data.dateString;
 			return data;
 		} else {
-			return {};
+			return [];
 		}
 	});
 
@@ -366,15 +375,13 @@ exports.getCategoryObjects = functions.https.onCall(async (input, context) => {
 	return result;
 });
 
-//This method will take in all the unblocked services for a customer and then return
-//all the services associated with a certain category which will be passed in as a second
-//parameter
+//This method will return all the services associated with a certain category which will be passed in as a parameter
 exports.getServicesByCategory = functions.https.onCall(async (input, context) => {
-	const { allServices, categoryName } = input;
+	const { categoryName } = input;
 	//creates the new array
-	const filteredServices = allServices.filter((element) => {
-		return element.category === categoryName;
-	});
+	const allFilteredDocs = await services.where('category', '==', categoryName).get();
+	let filteredServices = allFilteredDocs.docs.map((doc) => doc.data());
+	filteredServices = filteredServices.filter((service) => service.serviceTitle !== '');
 
 	return filteredServices;
 });
@@ -466,7 +473,7 @@ exports.addCustomerToDatabase = functions.https.onCall(async (input, context) =>
 		email,
 		name,
 		phoneNumber,
-		isReviewDue
+		isReviewDue,
 	} = input;
 
 	const batch = database.batch();
@@ -484,7 +491,7 @@ exports.addCustomerToDatabase = functions.https.onCall(async (input, context) =>
 		email,
 		name,
 		phoneNumber,
-		isReviewDue
+		isReviewDue,
 	});
 
 	await batch.commit();
@@ -505,7 +512,7 @@ exports.updateCustomerInformation = functions.https.onCall(async (input, context
 		paymentInformation,
 		currentRequests,
 		state,
-		country
+		country,
 	} = input;
 
 	const batch = database.batch();
@@ -519,7 +526,7 @@ exports.updateCustomerInformation = functions.https.onCall(async (input, context
 		state,
 		city,
 		name,
-		phoneNumber
+		phoneNumber,
 	});
 
 	for (const request of currentRequests) {
@@ -547,8 +554,9 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		services,
 		website,
 		businessID,
+		paymentSetupStatus,
 		phoneNumber,
-		isVerified
+		isVerified,
 	} = input;
 
 	const batch = database.batch();
@@ -559,12 +567,13 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		businessHours,
 		coordinates,
 		businessID,
+		paymentSetupStatus,
 		email,
 		location,
 		services,
 		website,
 		phoneNumber,
-		isVerified
+		isVerified,
 	});
 
 	//Adds analytics documents
@@ -625,7 +634,7 @@ exports.updateBusinessInformation = functions.https.onCall(async (input, context
 		website,
 		phoneNumber,
 		businessID,
-		business
+		business,
 	} = input;
 
 	const batch = database.batch();
@@ -637,7 +646,7 @@ exports.updateBusinessInformation = functions.https.onCall(async (input, context
 		coordinates,
 		location,
 		website,
-		phoneNumber
+		phoneNumber,
 	});
 
 	for (const service of business.services) {
@@ -660,15 +669,16 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 		coordinates,
 		displayedReviews,
 		serviceDuration,
-		simultaneousRequests,
 		price,
 		priceText,
+		prepay,
+		postpay,
 		questions,
 		serviceDescription,
 		serviceTitle,
 		totalReviews,
 		cash,
-		card
+		card,
 	} = input;
 
 	//Adds the service to the collection
@@ -681,14 +691,15 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 		displayedReviews,
 		serviceDuration,
 		priceText,
-		simultaneousRequests,
 		price,
+		prepay,
+		postpay,
 		questions,
 		serviceDescription,
 		serviceTitle,
 		card,
 		cash,
-		totalReviews
+		totalReviews,
 	});
 
 	const batch = database.batch();
@@ -703,27 +714,23 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 			serviceID,
 			category,
 			serviceDescription,
+			totalReviews,
+			averageRating,
 			serviceTitle,
-			priceText
-		})
+			priceText,
+		}),
 	});
 
 	//Adds the service to analytics
-	batch.update(
-		businesses
-			.doc(businessID)
-			.collection('Analytics')
-			.doc('TopServices'),
-		{
-			[serviceID]: {
-				serviceTitle,
-				serviceID,
-				totalViews: 0,
-				totalRequests: 0,
-				totalRevenue: 0
-			}
-		}
-	);
+	batch.update(businesses.doc(businessID).collection('Analytics').doc('TopServices'), {
+		[serviceID]: {
+			serviceTitle,
+			serviceID,
+			totalViews: 0,
+			totalRequests: 0,
+			totalRevenue: 0,
+		},
+	});
 
 	await batch.commit();
 
@@ -744,7 +751,7 @@ exports.updateServiceInformation = functions.https.onCall(async (input, context)
 		serviceID,
 		businessID,
 		card,
-		cash
+		cash,
 	} = input;
 
 	const batch = database.batch();
@@ -758,7 +765,7 @@ exports.updateServiceInformation = functions.https.onCall(async (input, context)
 		serviceDescription,
 		card,
 		cash,
-		serviceTitle
+		serviceTitle,
 	});
 
 	await batch.commit();
@@ -773,21 +780,18 @@ exports.updateServiceInformation = functions.https.onCall(async (input, context)
 			...business.services[indexOfService],
 			serviceTitle,
 			priceText,
-			serviceDescription
+			serviceDescription,
 		};
 		await transaction.update(businesses.doc(businessID), {
-			services: business.services
+			services: business.services,
 		});
 
 		//Updates the service title in analytics
 		const fieldName = serviceID + '.serviceTitle';
 		await transaction.update(
-			businesses
-				.doc(businessID)
-				.collection('Analytics')
-				.doc('TopServices'),
+			businesses.doc(businessID).collection('Analytics').doc('TopServices'),
 			{
-				[fieldName]: serviceTitle
+				[fieldName]: serviceTitle,
 			}
 		);
 
@@ -801,29 +805,119 @@ exports.updateServiceInformation = functions.https.onCall(async (input, context)
 //a "isDeleted" field of true to make sure it does not appear for customers. It will still remain in the database
 //so it can be referenced to in a customer's order history and/or reviews. Additionally, it is going to remove
 //all exisitng requests that are in this service & send customers notifications saying the service has been
-//deleted
+//deleted.
 exports.deleteService = functions.https.onCall(async (input, context) => {
 	const { serviceID, businessID } = input;
 
-	const batch = database.batch();
+	const result = await database.runTransaction(async (transaction) => {
+		const allInProgressForThisService = await transaction.get(
+			requests.where('serviceID', '==', serviceID).where('status', '==', 'IN_PROGRESS')
+		);
 
-	batch.update(services.doc(serviceID), {
-		isDeleted: true
+		//If there are any in progress requests for this service, then this function will not delete the service and will
+		//tell the business to complete the service first.
+		if (allInProgressForThisService.docs.length > 0) {
+			return 'IN_PROGRESS_REQUESTS';
+		} else {
+			const business = (await transaction.get(businesses.doc(businessID))).data();
+			//Fetches the necessary data
+			const allRequestedForThisService = (
+				await transaction.get(
+					requests.where('serviceID', '==', serviceID).where('status', '==', 'REQUESTED')
+				)
+			).docs;
+			let arrayOfCustomers = [];
+			let promises = allRequestedForThisService.map((request) => {
+				const customerID = request.data().customerID;
+				return transaction.get(customers.doc(customerID));
+			});
+			arrayOfCustomers = await Promise.all(promises);
+
+			//Removes each request from the business's schedule
+			promises = allRequestedForThisService.map((requestDoc) => {
+				const request = requestDoc.data();
+				date = new Date(request.date);
+				let year = date.getFullYear();
+				let month = date.getMonth() + 1;
+				let day = date.getDate();
+				if (month < 10) {
+					month = '0' + month;
+				}
+				if (day < 10) {
+					day = '0' + day;
+				}
+				const dateString = year + '-' + month + '-' + day;
+				return transaction.update(
+					businesses.doc(businessID).collection('Schedule').doc(dateString),
+					{
+						[request.requestID]: admin.firestore.FieldValue.delete(),
+					}
+				);
+			});
+			await Promise.all(promises);
+
+			promises = arrayOfCustomers.map((customerDoc) => {
+				const customer = customerDoc.data();
+				//Updates the customer document
+				indexOfRequest = customer.currentRequests.findIndex(
+					(element) => element.serviceID === serviceID
+				);
+				//Notifies the business that the request has been deleted.
+				sendNotification(
+					'b-' + businessID,
+					'Request Cancelled',
+					customer.name +
+						' ' +
+						'has cancelled their request for' +
+						' ' +
+						customer.currentRequests[indexOfRequest].serviceTitle
+				);
+
+				//Notifies the customer that the request has been deleted.
+				sendNotification(
+					'c-' + customer.name,
+					'Request Cancelled',
+					'Your request for ' +
+						customer.currentRequests[indexOfRequest].serviceTitle +
+						' has been cancelled by the business.'
+				);
+
+				customer.currentRequests.splice(indexOfRequest, 1);
+				return transaction.update(customers.doc(customer.customerID), {
+					currentRequests: customer.currentRequests,
+				});
+			});
+			await Promise.all(promises);
+
+			//Deletes the request docments themselves
+			promises = allRequestedForThisService.map((request) => {
+				return transaction.delete(requests.doc(request.data().requestID));
+			});
+			await Promise.all(promises);
+
+			//Updates the service to indicate that it is deleted (simply archives it)
+			await transaction.update(services.doc(serviceID), {
+				isDeleted: true,
+			});
+
+			//Finds the index of the service in the business's document removes it from that array of their services
+			const indexOfService = business.services.findIndex(
+				(eachService) => eachService.serviceID === serviceID
+			);
+			business.services.splice(indexOfService, 1);
+			await transaction.update(businesses.doc(businessID), { services: business.services });
+
+			return 0;
+		}
 	});
 
-	batch.update(businesses.doc(businessID), {
-		serviceIDs: admin.firestore.FieldValue.arrayRemove(serviceID)
-	});
-
-	await batch.commit();
-
-	return 0;
+	return result;
 });
 
 //--------------------------------- Payment Functions ---------------------------------
 
 //This function will create a stripe customer and attach a payment method to that customer. It will then return
-//the information for that specific stripe customer
+//the information for that specific stripe customer in the form of an object containing the IDs
 exports.createStripeCustomerPaymentInformtion = functions.https.onCall(async (input, context) => {
 	const { paymentInformation, customerID } = input;
 
@@ -834,13 +928,13 @@ exports.createStripeCustomerPaymentInformtion = functions.https.onCall(async (in
 		email: customerObject.email,
 		name: customerObject.name,
 		metadata: {
-			firestoreDocumentID: customerID
-		}
+			firestoreDocumentID: customerID,
+		},
 	});
 
 	//Creates the credit card information and connects it with the customer in stripe
 	await stripe.customers.createSource(stripeCustomer.id, {
-		source: paymentInformation
+		source: paymentInformation,
 	});
 
 	const stripeCustomerObject = await stripe.customers.retrieve(stripeCustomer.id);
@@ -850,11 +944,292 @@ exports.createStripeCustomerPaymentInformtion = functions.https.onCall(async (in
 	//Writes this payment information to the customer's document for future references
 	await customers.doc(customerID).update({
 		stripeCustomerID: stripeCustomer.id,
-		paymentInformation: source
+		paymentInformation: source,
 	});
 
 	return { sourceID: source.id, stripeCustomerID: stripeCustomer.id };
+});
 
+//This function takes in an existing stripe customer and updates their payment information both in firebase
+//and in the Stripe API
+exports.updateStripeCustomerPaymentInformtion = functions.https.onCall(async (input, context) => {
+	try {
+		const { paymentInformation, customerID } = input;
+
+		const stripeCustomerID = (await customers.doc(customerID).get()).data().stripeCustomerID;
+
+		const newCustomer = await stripe.customers.update(stripeCustomerID, {
+			source: paymentInformation,
+		});
+
+		const source = newCustomer.sources.data[0];
+
+		//Writes this payment information to the customer's document for future references
+		await customers.doc(customerID).update({
+			paymentInformation: source,
+		});
+		return 0;
+	} catch (error) {
+		return -1;
+	}
+});
+
+//This function is going to take in a customerID and is going to delete their payment information from
+//the database, as well as delete their stripe account from Stripe
+exports.deleteCustomerPaymentInformation = functions.https.onCall(async (input, context) => {
+	try {
+		const { customerID } = input;
+		const customer = (await customers.doc(customerID).get()).data();
+
+		//Deletes the stripe information in the Stripe API
+		const { stripeCustomerID } = customer;
+		await stripe.customers.del(stripeCustomerID);
+
+		//Removes the payment information from firestore
+		await customers.doc(customerID).update({
+			paymentInformation: '',
+			stripeCustomerID: admin.firestore.FieldValue.delete(),
+		});
+
+		return 0;
+	} catch (error) {
+		return -1;
+	}
+});
+
+//This function is going to take in a set of required information and create a Custom Account with Stripe Connect
+//for businesses. It will return the account information. It will take in links that  stripe will redirect to
+//once the OnBoarding process is complete
+exports.createStripeConnectAccountForBusiness = functions.https.onCall(async (input, context) => {
+	const { businessID, tos_acceptance, paymentToken } = input;
+
+	try {
+		const business = (await businesses.doc(businessID).get()).data();
+
+		const connectAccount = await stripe.accounts.create({
+			type: 'custom',
+			country: 'US',
+			email: business.email,
+			business_type: 'company',
+			requested_capabilities: ['transfers'],
+			metadata: {
+				firestoreDocumentID: businessID,
+			},
+			tos_acceptance,
+			external_account: paymentToken,
+		});
+
+		const accountLinks = await stripe.accountLinks.create({
+			account: connectAccount.id,
+			failure_url: 'https://google.com', //Replace this with website payments once that is coded
+			success_url: 'https://google.com', //Replace this with website payments once that is  coded
+			type: 'custom_account_verification',
+			collect: 'eventually_due',
+		});
+
+		await businesses.doc(businessID).update({
+			paymentSetupStatus: 'PENDING',
+			stripeBusinessID: connectAccount.id,
+			paymentInformation: connectAccount.external_accounts.data[0],
+		});
+
+		return {
+			accountLinks,
+			stripeID: connectAccount.id,
+			sourceID: connectAccount.external_accounts.data[0].id,
+		};
+	} catch (error) {
+		//Handles the case that the user enters in a non-valid card for Stripe Connect (a credit card for example)
+		if (error.code === 'invalid_card_type') {
+			return 'invalid_card_type';
+		} else {
+			throw error;
+		}
+	}
+});
+
+//This function is going to update a business's payment information for their Stripe connect account that they've already
+//created. They don't need to reonboard or anything
+exports.updateStripeConnectAccountPayment = functions.https.onCall(async (input, context) => {
+	const { businessID, paymentToken } = input;
+
+	try {
+		const business = (await businesses.doc(businessID).get()).data();
+		//Updates the card in stripe
+		const connectAccount = await stripe.accounts.update(business.stripeBusinessID, {
+			external_account: paymentToken,
+		});
+
+		//updates the firestore payment information
+		await businesses.doc(businessID).update({
+			paymentInformation: connectAccount.external_accounts.data[0],
+		});
+
+		return 0;
+	} catch (error) {
+		//Handles the case that the user enters in a non-valid card for Stripe Connect (a credit card for example)
+		if (error.code === 'invalid_card_type') {
+			return 'invalid_card_type';
+		} else {
+			return -1;
+		}
+	}
+});
+
+//This method is going to close a business stripe account, delete their payment information, and delete the payment
+//information from Firestore. The method is also going to change all of the business's current products to a cash
+//product if they currently accept cards. If the business wants to reopen their account with Stripe, they will
+//have to go through the onboarding process again. If there are any current requests for any of the services that
+//are card, it changes them to cash requests.
+exports.deleteBusinessPaymentInformation = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+
+	//Updates the business's document and the changes the services to only accept cash. If the business
+	//has anu current card requests. This entire function will return an error
+	const result = await database.runTransaction(async (transaction) => {
+		//Fetches the documents needed
+		const business = (await transaction.get(businesses.doc(businessID))).data();
+		const currentRequestsWithCard = await transaction.get(
+			requests.where('businessID', '==', businessID).where('card', '==', true)
+		);
+
+		if (currentRequestsWithCard.docs.length > 0) {
+			return -1;
+		}
+
+		//Changes all of the business's services to cash payments
+		/* eslint-disable no-await-in-loop */
+		for (const service of business.services) {
+			await transaction.update(services.doc(service.serviceID), {
+				cash: true,
+				card: false,
+			});
+		}
+
+		await transaction.update(businesses.doc(businessID), {
+			paymentInformation: '',
+			paymentSetupStatus: 'FALSE',
+			stripeBusinessID: admin.firestore.FieldValue.delete(),
+		});
+
+		return business;
+	});
+
+	//Only deletes the stripe account if the previous part of the function succeeded.
+	if (result !== -1) {
+		await stripe.accounts.del(result.stripeBusinessID);
+		return 0;
+	} else {
+		return -1;
+	}
+});
+
+//Checks if a Stripe Connect account needs to be updated with any information. If it does, the function
+//will return the URL to update it. If it doesn't the function will return false
+exports.checkStripeOnboardingByStripeID = functions.https.onCall(async (input, context) => {
+	const { stripeID } = input;
+	const stripeAccount = await stripe.accounts.retrieve(stripeID);
+
+	if (stripeAccount.requirements && stripeAccount.requirements.eventually_due.length === 0) {
+		return {
+			value: false,
+			verification: stripeAccount.requirements.pending_verification,
+		};
+	} else {
+		const accountLinks = await stripe.accountLinks.create({
+			account: stripeID,
+			failure_url: 'https://google.com', //Replace this with website payments once that is coded
+			success_url: 'https://google.com', //Replace this with website payments once that is  coded
+			type: 'custom_account_verification',
+			collect: 'eventually_due',
+		});
+		return accountLinks.url;
+	}
+});
+
+//The method updates the business's payment status to ready to go so they can now accept payments
+exports.updateBusinessPaymentStatus = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+
+	await businesses.doc(businessID).update({
+		paymentSetupStatus: 'TRUE',
+	});
+});
+
+//This method will charge a specific amount to a specific customer and move it to a Stripe Connect account
+//It will take in a billed amount, charge it to the customer, and move it to the Stripe Connect balance. It will
+//record this transaction as a field in the request document
+exports.chargeCustomerForRequest = functions.https.onCall(async (input, context) => {
+	const { businessID, customerID, requestID, billedAmount, serviceID, isCardSaved } = input;
+
+	try {
+		const promises = await Promise.all([
+			businesses.doc(businessID).get(),
+			customers.doc(customerID).get(),
+		]);
+		const business = promises[0].data();
+		const customer = promises[1].data();
+
+		const { stripeBusinessID } = business;
+		const stripeCustomerID = isCardSaved === true ? customer.stripeCustomerID : isCardSaved;
+
+		//Calculates the charge amount along with the fee. Stripe accepts parameters as cents
+		const chargedAmountToCustomer = billedAmount * 100; //This is how much the customer will be charged
+		const feePaidByBusiness = (billedAmount * 0.05 + 0.3) * 100; //This is how much comes to us from the business. The "0.05 + 0.3" means 5% + 30 cents, which is the amount we will edit
+
+		//If this is a one-time payment, then it charges the token which will be saved in the "isCardSaved param". If this
+		//is a saved customer card, then it charges the customer object
+		let charge = '';
+		if (isCardSaved === true) {
+			charge = await stripe.charges.create({
+				amount: chargedAmountToCustomer,
+				application_fee_amount: feePaidByBusiness,
+				currency: 'usd',
+				customer: stripeCustomerID,
+				transfer_data: {
+					destination: stripeBusinessID,
+				},
+			});
+		} else {
+			charge = await stripe.charges.create({
+				amount: chargedAmountToCustomer,
+				application_fee_amount: feePaidByBusiness,
+				currency: 'usd',
+				source: isCardSaved,
+				transfer_data: {
+					destination: stripeBusinessID,
+				},
+			});
+		}
+
+		//Updates the request document with information about the completed request. Also updates the CompletedRequest
+		//subcollection documents within the service and the customer just in case it needs to be referenced.
+		const { id, payment_method, receipt_url } = charge;
+		const paymentInformation = {
+			chargedAmountToCustomer: billedAmount,
+			feePaidByBusiness: feePaidByBusiness / 100,
+			amountPaidToHelp: (feePaidByBusiness / 100 - (billedAmount * 0.029 + 0.3)).toFixed(2), //This should be adjusted based on the Stripe Connect costs
+			stripeCustomerID,
+			stripeBusinessID,
+			chargeID: id,
+			paymentMethodID: payment_method,
+			receiptURL: receipt_url,
+		};
+
+		const batch = database.batch();
+		batch.update(requests.doc(requestID), { paymentInformation });
+		batch.update(customers.doc(customerID).collection('CompletedRequests').doc(requestID), {
+			paymentInformation,
+		});
+		batch.update(services.doc(serviceID).collection('CompletedRequests').doc(requestID), {
+			paymentInformation,
+		});
+		await batch.commit();
+
+		return 0;
+	} catch (error) {
+		return -1;
+	}
 });
 
 //--------------------------------- Image Functions ---------------------------------
@@ -922,7 +1297,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		requestedOn,
 		serviceID,
 		status,
-		time
+		time,
 	} = input;
 
 	const batch = database.batch();
@@ -946,7 +1321,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		requestedOn,
 		serviceID,
 		status,
-		time
+		time,
 	});
 
 	const requestID = newRequestDoc.id;
@@ -961,8 +1336,8 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 			serviceID,
 			serviceTitle,
 			status,
-			time
-		})
+			time,
+		}),
 	});
 
 	await batch.commit();
@@ -980,10 +1355,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 			day = '0' + day;
 		}
 		const dateString = year + '-' + month + '-' + day;
-		const dateDocPath = businesses
-			.doc(businessID)
-			.collection('Schedule')
-			.doc(dateString);
+		const dateDocPath = businesses.doc(businessID).collection('Schedule').doc(dateString);
 		const dateDoc = await transaction.get(dateDocPath);
 		//Increments the numRequests for the service. Also adds scheduling information for the business
 		let business = (await transaction.get(businesses.doc(businessID))).data();
@@ -993,18 +1365,15 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		business.services[indexOfService].numCurrentRequests =
 			business.services[indexOfService].numCurrentRequests + 1;
 		await transaction.update(businesses.doc(businessID), {
-			services: business.services
+			services: business.services,
 		});
 
 		//Updates the analytics for the business
 		const fieldName = serviceID + '.totalRequests';
 		await transaction.update(
-			businesses
-				.doc(businessID)
-				.collection('Analytics')
-				.doc('TopServices'),
+			businesses.doc(businessID).collection('Analytics').doc('TopServices'),
 			{
-				[fieldName]: admin.firestore.FieldValue.increment(1)
+				[fieldName]: admin.firestore.FieldValue.increment(1),
 			}
 		);
 
@@ -1017,8 +1386,8 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 					serviceDuration,
 					serviceTitle,
 					serviceID,
-					customerName
-				}
+					customerName,
+				},
 			});
 		} else {
 			await transaction.set(dateDocPath, {
@@ -1030,15 +1399,19 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 					serviceDuration,
 					serviceTitle,
 					serviceID,
-					customerName
-				}
+					customerName,
+				},
 			});
 		}
 
 		return 0;
 	});
 
-	sendNotification('b-' + businessID, 'New Request', 'You have a new request for ' + serviceTitle);
+	sendNotification(
+		'b-' + businessID,
+		'New Request',
+		'You have a new request for ' + serviceTitle
+	);
 
 	//Emails help team that there has been a new requeset
 	sendEmail(
@@ -1071,7 +1444,7 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 		serviceTitle,
 		status,
 		serviceID,
-		customerName
+		customerName,
 	} = input;
 
 	const result = await database.runTransaction(async (transaction) => {
@@ -1086,17 +1459,17 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 			serviceID,
 			serviceTitle,
 			status,
-			time
+			time,
 		};
 		await transaction.update(customers.doc(customerID), {
-			currentRequests: customer.currentRequests
+			currentRequests: customer.currentRequests,
 		});
 
 		await transaction.update(requests.doc(requestID), {
 			date,
 			questions,
 			customerLocation,
-			time
+			time,
 		});
 
 		//updates the request within the business and fetches correct date format to do so
@@ -1112,10 +1485,7 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 		}
 		const dateString = year + '-' + month + '-' + day;
 		await transaction.update(
-			businesses
-				.doc(businessID)
-				.collection('Schedule')
-				.doc(dateString),
+			businesses.doc(businessID).collection('Schedule').doc(dateString),
 			{
 				[requestID]: {
 					date,
@@ -1124,8 +1494,8 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 					serviceDuration,
 					serviceTitle,
 					serviceID,
-					customerName
-				}
+					customerName,
+				},
 			}
 		);
 	});
@@ -1170,17 +1540,14 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 			//Moves the request from currentRequests to the subcollection in the customer document and adds the requestID to
 			//the customer's isReviewDue array
 			await transaction.set(
-				customers
-					.doc(request.customerID)
-					.collection('CompletedRequests')
-					.doc(requestID),
+				customers.doc(request.customerID).collection('CompletedRequests').doc(requestID),
 				{
 					date: request.date,
 					requestID,
 					serviceID: request.serviceID,
 					serviceTitle: request.serviceTitle,
 					time: request.time,
-					billedAmount
+					billedAmount,
 				}
 			);
 			const indexOfCustomerRequest = customer.currentRequests.findIndex(
@@ -1189,22 +1556,19 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 			customer.currentRequests.splice(indexOfCustomerRequest, 1);
 			await transaction.update(customers.doc(request.customerID), {
 				currentRequests: customer.currentRequests,
-				isReviewDue: admin.firestore.FieldValue.arrayUnion(requestID)
+				isReviewDue: admin.firestore.FieldValue.arrayUnion(requestID),
 			});
 
 			//Moves the request from currentRequests to the subcollection in the service document
 			await transaction.set(
-				services
-					.doc(request.serviceID)
-					.collection('CompletedRequests')
-					.doc(requestID),
+				services.doc(request.serviceID).collection('CompletedRequests').doc(requestID),
 				{
 					customerID: request.customerID,
 					customerName: request.customerName,
 					date: request.date,
 					requestID,
 					time: request.time,
-					billedAmount
+					billedAmount,
 				}
 			);
 
@@ -1215,7 +1579,7 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 			business.services[indexOfService].numCurrentRequests =
 				business.services[indexOfService].numCurrentRequests - 1;
 			await transaction.update(businessDoc, {
-				services: business.services
+				services: business.services,
 			});
 
 			//Gets the correct format of the date string and removes the current request from the business schedule
@@ -1235,13 +1599,13 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 			//Updates the revenue analytics for this business
 			await transaction.update(businessDoc.collection('Analytics').doc('Revenue'), {
 				[year]: admin.firestore.FieldValue.increment(billedAmount),
-				[year + '-' + month]: admin.firestore.FieldValue.increment(billedAmount)
+				[year + '-' + month]: admin.firestore.FieldValue.increment(billedAmount),
 			});
 
 			//Updates the service analytics for this service
 			const fieldName = request.serviceID + '.totalRevenue';
 			await transaction.update(businessDoc.collection('Analytics').doc('TopServices'), {
-				[fieldName]: admin.firestore.FieldValue.increment(billedAmount)
+				[fieldName]: admin.firestore.FieldValue.increment(billedAmount),
 			});
 
 			//Updates the customer analytics for this service
@@ -1251,21 +1615,17 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 			await transaction.update(businessDoc.collection('Analytics').doc('CustomerLocations'), {
 				[cityFieldName]: admin.firestore.FieldValue.increment(1),
 				[stateFieldName]: admin.firestore.FieldValue.increment(1),
-				[countryFieldName]: admin.firestore.FieldValue.increment(1)
+				[countryFieldName]: admin.firestore.FieldValue.increment(1),
 			});
 
 			await transaction.update(businessDoc.collection('Schedule').doc(dateString), {
-				[requestID]: admin.firestore.FieldValue.delete()
+				[requestID]: admin.firestore.FieldValue.delete(),
 			});
 		});
 		await database.runTransaction(async (transaction) => {
 			//Tests if this document should be deleted all together
 			const request = (await transaction.get(requests.doc(requestID))).data();
 			let businessDoc = businesses.doc(request.businessID);
-			const scheduleDoc = (
-				await transaction.get(businessDoc.collection('Schedule').doc(dateString))
-			).data();
-
 			let date = request.date;
 			date = new Date(date);
 			let year = date.getFullYear();
@@ -1278,7 +1638,9 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 				day = '0' + day;
 			}
 			const dateString = year + '-' + month + '-' + day;
-
+			const scheduleDoc = (
+				await transaction.get(businessDoc.collection('Schedule').doc(dateString))
+			).data();
 			if (Object.keys(scheduleDoc).length === 1) {
 				await transaction.delete(businessDoc.collection('Schedule').doc(dateString));
 			}
@@ -1305,15 +1667,9 @@ exports.viewService = functions.https.onCall(async (input, context) => {
 
 	const batch = database.batch();
 	const fieldName = serviceID + '.totalViews';
-	batch.update(
-		businesses
-			.doc(businessID)
-			.collection('Analytics')
-			.doc('TopServices'),
-		{
-			[fieldName]: admin.firestore.FieldValue.increment(1)
-		}
-	);
+	batch.update(businesses.doc(businessID).collection('Analytics').doc('TopServices'), {
+		[fieldName]: admin.firestore.FieldValue.increment(1),
+	});
 
 	await batch.commit();
 	return 0;
@@ -1328,23 +1684,17 @@ exports.reviewService = functions.https.onCall(async (input, context) => {
 	const { serviceID, comment, customerID, customerName, requestID, reviewDate, stars } = input;
 
 	const result = await database.runTransaction(async (transaction) => {
-		const service = (await transaction.get(products.doc(serviceID))).data();
+		const service = (await transaction.get(services.doc(serviceID))).data();
 
 		//Adds the review to the service subcollection
-		await transaction.set(
-			services
-				.doc(serviceID)
-				.collection('Reviews')
-				.doc(requestID),
-			{
-				comment,
-				customerID,
-				customerName,
-				requestID,
-				reviewDate,
-				stars
-			}
-		);
+		await transaction.set(services.doc(serviceID).collection('Reviews').doc(requestID), {
+			comment,
+			customerID,
+			customerName,
+			requestID,
+			reviewDate,
+			stars,
+		});
 
 		//Calculates the new average rating for the service
 		const a = service.averageRating * service.totalReviews;
@@ -1353,7 +1703,7 @@ exports.reviewService = functions.https.onCall(async (input, context) => {
 		const newRating = b / c;
 		await transaction.update(services.doc(serviceID), {
 			averageRating: newRating,
-			totalReviews: service.totalReviews + 1
+			totalReviews: admin.firestore.FieldValue.increment(1),
 		});
 
 		//Adds the review to the request document itself
@@ -1364,13 +1714,13 @@ exports.reviewService = functions.https.onCall(async (input, context) => {
 				customerName,
 				requestID,
 				reviewDate,
-				stars
-			}
+				stars,
+			},
 		});
 
 		//Removes the requestID from the customer's isReviewDue field
 		await transaction.update(customers.doc(customerID), {
-			isReviewDue: admin.firestore.FieldValue.arrayRemove(requestID)
+			isReviewDue: admin.firestore.FieldValue.arrayRemove(requestID),
 		});
 	});
 
@@ -1384,8 +1734,10 @@ exports.skipReview = functions.https.onCall(async (input, context) => {
 
 	const batch = database.batch();
 	batch.update(customers.doc(customerID), {
-		isReviewDue: admin.firestore.FieldValue.arrayRemove(requestID)
+		isReviewDue: admin.firestore.FieldValue.arrayRemove(requestID),
 	});
+
+	batch.update(requests.doc(requestID), { review: 'SKIPPED' });
 
 	await batch.commit();
 	return 0;
@@ -1401,7 +1753,7 @@ exports.blockBusiness = functions.https.onCall(async (input, context) => {
 
 	const batch = database.batch();
 	batch.update(customers.doc(customerID), {
-		blockedBusinesses: admin.firestore.FieldValue.arrayUnion(businessID)
+		blockedBusinesses: admin.firestore.FieldValue.arrayUnion(businessID),
 	});
 	await batch.commit();
 	return 0;
@@ -1414,7 +1766,7 @@ exports.unblockCompany = functions.https.onCall(async (input, context) => {
 
 	const batch = database.batch();
 	batch.update(customers.doc(customerID), {
-		blockedBusinesses: admin.firestore.FieldValue.arrayRemove(businessID)
+		blockedBusinesses: admin.firestore.FieldValue.arrayRemove(businessID),
 	});
 	await batch.commit();
 	return 0;
@@ -1489,8 +1841,9 @@ exports.businessGoodToGo = functions.firestore
 			await admin.messaging().sendToTopic(topic, {
 				notification: {
 					title: 'Your good to go',
-					body: "You're account has been verified and accepted. Create your first product now!"
-				}
+					body:
+						"You're account has been verified and accepted. Create your first product now!",
+				},
 			});
 		}
 
@@ -1569,6 +1922,6 @@ exports.logIssue = functions.https.onCall(async (input, context) => {
 	issues.add({
 		userID,
 		appError: true,
-		...error
+		...error,
 	});
 });

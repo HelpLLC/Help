@@ -6,14 +6,14 @@ import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import CheckBox from 'react-native-check-box';
 import colors from 'config/colors';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import RoundBlueButton from '../../components/RoundBlueButton';
-import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
+ 
+import HelpButton from '../../components/HelpButton/HelpButton';
+import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
 import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../../components/TopBanner/TopBanner';
 import { Icon } from 'react-native-elements';
 import HelpAlert from '../../components/HelpAlert';
 
@@ -40,7 +40,7 @@ class emailPasswordScreen extends Component {
 		isErrorVisible: false,
 		isChecked: false,
 		termsAndConditionsError: false,
-		isPasswordVisible: false
+		isPasswordVisible: false,
 	};
 
 	//This method signs up the user & creates an account for them based on what they chose and their
@@ -94,7 +94,7 @@ class emailPasswordScreen extends Component {
 						email,
 						password,
 						isEditing: false,
-						hasBusinessAccount: this.state.hasBusinessAccount === true ? true : false
+						hasBusinessAccount: this.state.hasBusinessAccount === true ? true : false,
 					});
 				} else {
 					this.setState({ isLoading: false, isErrorVisible: true });
@@ -122,7 +122,7 @@ class emailPasswordScreen extends Component {
 						style={{
 							height: screenHeight * 0.15,
 							justifyContent: 'center',
-							alignSelf: 'center'
+							alignSelf: 'center',
 						}}>
 						<View style={{ flex: 1, justifyContent: 'flex-end' }}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.Email}</Text>
@@ -130,7 +130,10 @@ class emailPasswordScreen extends Component {
 
 						<View style={{ flex: 0.5 }}></View>
 						<View style={{ flex: 1, justifyContent: 'center' }}>
-							<OneLineRoundedBoxInput
+							<HelpTextInput
+								isMultiline={false}
+								width={screenWidth * 0.6}
+								height={screenHeight * 0.06}
 								placeholder={strings.EnterAnEmail}
 								onChangeText={(input) => this.setState({ email: input })}
 								value={this.state.email}
@@ -144,7 +147,7 @@ class emailPasswordScreen extends Component {
 						style={{
 							height: screenHeight * 0.15,
 							justifyContent: 'center',
-							alignSelf: 'center'
+							alignSelf: 'center',
 						}}>
 						<View style={{ flex: 1, justifyContent: 'flex-end' }}>
 							<Text style={fontStyles.bigTextStyleBlack}>{strings.Password}</Text>
@@ -153,9 +156,12 @@ class emailPasswordScreen extends Component {
 							style={{
 								flex: 1,
 								justifyContent: 'center',
-								marginTop: screenHeight * 0.02
+								marginTop: screenHeight * 0.02,
 							}}>
-							<OneLineRoundedBoxInput
+							<HelpTextInput
+								isMultiline={false}
+								width={screenWidth * 0.6}
+								height={screenHeight * 0.06}
 								placeholder={strings.ChooseAPassword}
 								onChangeText={(input) => this.setState({ password: input })}
 								value={this.state.password}
@@ -164,17 +170,25 @@ class emailPasswordScreen extends Component {
 										onPress={() => {
 											const { isPasswordVisible } = this.state;
 											this.setState({
-												isPasswordVisible: !isPasswordVisible
+												isPasswordVisible: !isPasswordVisible,
 											});
 										}}
 										style={{
 											justifyContent: 'center',
-											height: screenHeight * 0.06
+											height: screenHeight * 0.06,
 										}}>
 										<Icon
-											name={this.state.isPasswordVisible === true ? 'eye' : 'eye-slash'}
+											name={
+												this.state.isPasswordVisible === true
+													? 'eye'
+													: 'eye-slash'
+											}
 											type='font-awesome'
-											color={this.state.isPasswordVisible === true ? colors.lightBlue : colors.gray}
+											color={
+												this.state.isPasswordVisible === true
+													? colors.lightBlue
+													: colors.gray
+											}
 										/>
 									</TouchableOpacity>
 								}
@@ -190,7 +204,7 @@ class emailPasswordScreen extends Component {
 							marginBottom: screenHeight * 0.1,
 							justifyContent: 'center',
 							alignItems: 'center',
-							flexDirection: 'column'
+							flexDirection: 'column',
 						}}>
 						<CheckBox
 							onClick={() => {
@@ -216,13 +230,12 @@ class emailPasswordScreen extends Component {
 						style={{
 							height: screenHeight * 0.12,
 							justifyContent: 'flex-end',
-							alignSelf: 'center'
+							alignSelf: 'center',
 						}}>
-						<RoundBlueButton
+						<HelpButton
 							title={strings.Next}
 							isLoading={this.state.isLoading}
-							style={roundBlueButtonStyle.MediumSizeButton}
-							textStyle={fontStyles.bigTextStyleWhite}
+							width={screenWidth * 0.39}
 							onPress={() => {
 								this.goToAdditionalScreen();
 							}}

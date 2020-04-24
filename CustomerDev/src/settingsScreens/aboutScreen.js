@@ -6,12 +6,11 @@ import { View, Text, Dimensions } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import WhiteCard from '../components/WhiteCard';
 import strings from 'config/strings';
-import whiteCardStyle from '../../config/styles/componentStyles/whiteCardStyle';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpView from '../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 
 class aboutScreen extends Component {
 	componentDidMount() {
@@ -45,14 +44,12 @@ class aboutScreen extends Component {
 					</View>
 					<View style={{ flexDirection: 'column', flex: 3 }}>
 						<WhiteCard
-							style={whiteCardStyle.whiteCardStyle}
 							text={strings.PublishedBy}
 							mainTextStyle={fontStyles.subTextStyleBlack}
 							comp={<Text style={fontStyles.subTextStyleBlack}>{strings.HelpLLC}</Text>}
 							onPress={() => {}}
 						/>
 						<WhiteCard
-							style={whiteCardStyle.whiteCardStyle}
 							text={strings.Contact}
 							mainTextStyle={fontStyles.subTextStyleBlack}
 							comp={

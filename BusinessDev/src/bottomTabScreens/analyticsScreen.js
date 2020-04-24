@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import colors from 'config/colors';
 import { Icon } from 'react-native-elements';
@@ -447,7 +447,7 @@ export default class analyticsScreen extends Component {
 										<BarChart
 											style={{
 												height: screenHeight * 0.3,
-												width: screenWidth * 0.7,
+												width: screenWidth * 0.8,
 												paddingHorizontal: screenWidth * 0.02
 											}}
 											gridMin={0}
@@ -567,7 +567,7 @@ export default class analyticsScreen extends Component {
 										<BarChart
 											style={{
 												height: screenHeight * 0.3,
-												width: screenWidth * 0.7,
+												width: screenWidth * 0.8,
 												paddingHorizontal: screenWidth * 0.02
 											}}
 											gridMin={0}

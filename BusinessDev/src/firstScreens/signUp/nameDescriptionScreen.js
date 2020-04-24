@@ -6,16 +6,15 @@ import { View, Text, Keyboard, Dimensions } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import RoundBlueButton from '../../components/RoundBlueButton';
-import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
+ 
+import HelpButton from '../../components/HelpButton/HelpButton';
+import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpView from '../../components/HelpView';
-import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import HelpAlert from '../../components/HelpAlert';
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../../components/TopBanner/TopBanner';
 
 //The class that will create the look of this screen
 class nameDescriptionScreen extends Component {
@@ -34,7 +33,7 @@ class nameDescriptionScreen extends Component {
 				businessID,
 				business,
 				isLoadingScreen: false,
-				editing
+				editing,
 			});
 		} else {
 			FirebaseFunctions.setCurrentScreen(
@@ -45,7 +44,7 @@ class nameDescriptionScreen extends Component {
 				businessInfo: '',
 				businessName: '',
 				isLoadingScreen: false,
-				editing
+				editing,
 			});
 		}
 	}
@@ -60,7 +59,7 @@ class nameDescriptionScreen extends Component {
 		descriptionError: false,
 		isLoading: false,
 		isLoadingScreen: true,
-		isErrorVisible: false
+		isErrorVisible: false,
 	};
 	//Double checks that all of the information has been fully filled out and then passes it onto the next screen which collects
 	//additional info then signs them up. It first checks if this company name is already taken
@@ -88,7 +87,7 @@ class nameDescriptionScreen extends Component {
 					businessName,
 					business,
 					businessID,
-					editing: true
+					editing: true,
 				});
 			} else {
 				const { email, password } = this.props.navigation.state.params;
@@ -100,7 +99,8 @@ class nameDescriptionScreen extends Component {
 					businessInfo,
 					businessName,
 					editing: false,
-					requesterAccountExists: this.props.navigation.state.params.requesterAccountExists
+					requesterAccountExists: this.props.navigation.state.params
+						.requesterAccountExists,
 				});
 			}
 		}
@@ -128,7 +128,9 @@ class nameDescriptionScreen extends Component {
 		return (
 			<HelpView style={screenStyle.container}>
 				<TopBanner
-					title={this.state.editing === true ? strings.EditCompany : strings.CreateProfile}
+					title={
+						this.state.editing === true ? strings.EditCompany : strings.CreateProfile
+					}
 					leftIconName='angle-left'
 					leftOnPress={() => this.props.navigation.goBack()}
 				/>
@@ -137,12 +139,15 @@ class nameDescriptionScreen extends Component {
 						alignSelf: 'flex-start',
 						justifyContent: 'flex-end',
 						marginVertical: screenHeight * 0.04,
-						marginLeft: screenWidth * 0.2
+						marginLeft: screenWidth * 0.2,
 					}}>
 					<Text style={fontStyles.bigTextStyleBlack}>{strings.BusinessName}</Text>
 				</View>
 				<View style={{ alignSelf: 'center', justifyContent: 'center' }}>
-					<OneLineRoundedBoxInput
+					<HelpTextInput
+						isMultiline={false}
+						width={screenWidth * 0.6}
+						height={screenHeight * 0.06}
 						placeholder={strings.EnterCompanyNameDotDotDot}
 						onChangeText={(input) => this.setState({ businessName: input })}
 						value={this.state.businessName}
@@ -155,14 +160,15 @@ class nameDescriptionScreen extends Component {
 						alignSelf: 'flex-start',
 						justifyContent: 'flex-end',
 						marginVertical: screenHeight * 0.04,
-						marginLeft: screenWidth * 0.2
+						marginLeft: screenWidth * 0.2,
 					}}>
 					<Text style={fontStyles.bigTextStyleBlack}>{strings.BusinessDescription}</Text>
 				</View>
 				<View style={{ alignSelf: 'center', justifyContent: 'flex-start' }}>
-					<MultiLineRoundedBoxInput
+					<HelpTextInput
 						width={screenWidth * 0.6}
 						height={screenHeight * 0.14641}
+						isMultiline={true}
 						placeholder={strings.TellYourCustomersAboutYourselfDotDotDot}
 						onChangeText={(input) => this.setState({ businessInfo: input })}
 						value={this.state.businessInfo}
@@ -174,13 +180,12 @@ class nameDescriptionScreen extends Component {
 						height: screenHeight * 0.1,
 						marginTop: screenHeight * 0.25,
 						justifyContent: 'flex-end',
-						alignSelf: 'center'
+						alignSelf: 'center',
 					}}>
-					<RoundBlueButton
+					<HelpButton
 						title={strings.Next}
 						isLoading={this.state.isLoading}
-						style={roundBlueButtonStyle.MediumSizeButton}
-						textStyle={fontStyles.bigTextStyleWhite}
+						width={screenWidth * 0.39}
 						onPress={() => {
 							this.goToAddtionalInfoScreen();
 						}}

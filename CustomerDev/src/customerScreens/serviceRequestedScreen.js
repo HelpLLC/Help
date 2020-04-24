@@ -7,14 +7,14 @@ import screenStyle from 'config/styles/screenStyle';
 import { View, Text, ScrollView, Dimensions, FlatList } from 'react-native';
 import OptionPicker from '../components/OptionPicker';
 import strings from 'config/strings';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import FastImage from 'react-native-fast-image';
 import LoadingSpinner from '../components/LoadingSpinner';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import RoundBlueButton from '../components/RoundBlueButton';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import HelpButton from '../components/HelpButton/HelpButton';
+ 
 import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpAlert from '../components/HelpAlert';
 
@@ -278,10 +278,9 @@ export default class serviceRequestedScreen extends Component {
 										flexDirection: 'row',
 										justifyContent: 'space-evenly'
 									}}>
-									<RoundBlueButton
+									<HelpButton
 										title={strings.OrderAgain}
-										style={roundBlueButtonStyle.MediumSizeButton}
-										textStyle={fontStyles.bigTextStyleWhite}
+										width={screenWidth * 0.39}
 										onPress={() => {
 											this.props.navigation.push('RequesterServiceScreen', {
 												serviceID: service.serviceID,
@@ -299,10 +298,10 @@ export default class serviceRequestedScreen extends Component {
 										flexDirection: 'row',
 										justifyContent: 'space-evenly'
 									}}>
-									<RoundBlueButton
+									<HelpButton
 										title={strings.Cancel}
-										style={roundBlueButtonStyle.SmallSizeButton}
-										textStyle={fontStyles.mainTextStyleWhite}
+										width={screenWidth * 0.278}
+										isRedButton={true}
 										onPress={() => {
 											this.setState({
 												isCancelRequestVisible: true
@@ -310,10 +309,9 @@ export default class serviceRequestedScreen extends Component {
 										}}
 										disabled={this.state.isLoading}
 									/>
-									<RoundBlueButton
+									<HelpButton
 										title={strings.Edit}
-										style={roundBlueButtonStyle.SmallSizeButton}
-										textStyle={fontStyles.mainTextStyleWhite}
+										width={screenWidth * 0.278}
 										onPress={() => {
 											//If the product has questions associated with it, then it will
 											//go to the questions screen. If it only has a schedule associated

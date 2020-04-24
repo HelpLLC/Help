@@ -11,20 +11,21 @@ import AboutScreen from './settingsScreens/aboutScreen';
 import PrivacyScreen from './settingsScreens/privacyScreen';
 import ReportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';
 import { screenWidth, screenHeight } from 'config/dimensions';
-import SettingsScreen from './settingsScreens/settingsScreen';
-import FeaturedScreen from './customerScreens/featuredScreen';
-import OrderHistoryScreen from './customerScreens/orderHistoryScreen';
+import SettingsScreen from './leftMenuScreens/settingsScreen';
+import FeaturedScreen from './leftMenuScreens/featuredScreen';
+import OrderHistoryScreen from './leftMenuScreens/orderHistoryScreen';
 import { fadeIn, fromRight } from 'react-navigation-transitions';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import TermsAndConditionsScreen from './settingsScreens/termsAndConditionsScreen';
 import CreditsScreen from './settingsScreens/creditsScreen';
-import CategoriesScreen from './customerScreens/categoriesScreen';
+import CategoriesScreen from './leftMenuScreens/categoriesScreen';
 import CategoryScreen from './customerScreens/categoryScreen';
 import AdditionalCustomerInfoScreen from './firstScreens/signUp/additionalCustomerInfoScreen';
 import BusinessScheduleScreen from './customerScreens/businessScheduleScreen';
 import ServiceQuestionsScreen from './customerScreens/serviceQuestionsScreen';
 import BlockedBusinessesScreen from './settingsScreens/blockedBusinessesScreen';
 import ServiceRequestedScreen from './customerScreens/serviceRequestedScreen';
+import PaymentsScreen from './leftMenuScreens/paymentsScreen';
 
 //The route config for all of the screens
 const routeConfig = {
@@ -93,6 +94,11 @@ const routeConfig = {
 	//Route to screen with list of all categories
 	CategoriesScreen: {
 		screen: CategoriesScreen
+	},
+
+	//The route that leads to the screen that has the customer's payment methods
+	PaymentsScreen: {
+		screen: PaymentsScreen
 	},
 
 	//Route leading to the screen with the array of blocked businesses

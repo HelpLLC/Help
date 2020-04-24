@@ -1,14 +1,13 @@
 //This screen will represent the landing screen for any given business. It will contain the
 //business's profile and will be the landing screen for the user when they login.
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Linking } from 'react-native';
 import strings from 'config/strings';
 import colors from 'config/colors';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import FastImage from 'react-native-fast-image';
-import RoundBlueButton from '../components/RoundBlueButton';
-import TopBanner from '../components/TopBanner';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import HelpButton from '../components/HelpButton/HelpButton';
+import TopBanner from '../components/TopBanner/TopBanner';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import screenStyle from 'config/styles/screenStyle';
 import fontStyles from 'config/styles/fontStyles';
@@ -22,7 +21,9 @@ class homeScreen extends Component {
 		isLoading: true,
 		business: '',
 		isErrorVisible: false,
-		incompleteProfile: false
+		additionalVerificationNeeded: false,
+		connectOnboardingSuccess: false,
+		paymentsVerified: false,
 	};
 
 	//This will fetch the data about this business from firestore
@@ -31,7 +32,6 @@ class homeScreen extends Component {
 		try {
 			//If navigated from launch screen or the log in screen, won't "double fetch" the business object because it'll have
 			//already been fetched
-
 			const { businessID, businessFetched } = this.props.navigation.state.params;
 			let business = '';
 			let image = '';
@@ -42,20 +42,59 @@ class homeScreen extends Component {
 			}
 			//Fetches the image if the business has no services
 			if (business.services.length === 0) {
-				image = await FirebaseFunctions.call('getCategoryImageByID', { ID: 'lawn-mower.png' });
+				image = await FirebaseFunctions.call('getCategoryImageByID', {
+					ID: 'lawn-mower.png',
+				});
 			}
+			this.setState({ image, business });
 
-			this.setState({ image, business, isLoading: false });
+			this.checkStripe(business);
 		} catch (error) {
 			this.setState({ isLoading: false, isErrorVisible: true });
 			FirebaseFunctions.call('logIssue', {
 				error,
 				userID: {
 					screen: 'HomeScreen',
-					userID: 'b-' + this.props.navigation.state.params.businessID
-				}
+					userID: 'b-' + this.props.navigation.state.params.businessID,
+				},
 			});
 		}
+	}
+
+	//This method is going check if the business has enabled payments. If they have, it will check the status of Stripe and whether
+	//any additional information is needed
+	async checkStripe(business) {
+		//If payments is even enabled, checks will happen
+		if (business.paymentSetupStatus !== 'FALSE') {
+			//Checks if onboarding needs to happen. If it does, starts that sequence.
+			//If onboarding doesn't happen, and the business is pending from Stripe, then a message will pop up telling them that
+			//If everything is set up correctly, the app opens as normal
+			const doesNeedInformationFromStripe = await FirebaseFunctions.call(
+				'checkStripeOnboardingByStripeID',
+				{
+					stripeID: business.stripeBusinessID,
+				}
+			);
+			if (doesNeedInformationFromStripe.value !== false) {
+				this.setState({
+					connectURL: doesNeedInformationFromStripe,
+					additionalVerificationNeeded: true,
+				});
+			} else if (business.paymentSetupStatus === 'PENDING') {
+				//Checks if the business has now been verified by Stripe
+				if (doesNeedInformationFromStripe.verification.length === 0) {
+					await FirebaseFunctions.call('updateBusinessPaymentStatus', {
+						businessID: business.businessID,
+					});
+					this.setState({
+						paymentsVerified: true,
+					});
+				} else {
+					this.setState({ connectOnboardingSuccess: true });
+				}
+			}
+		}
+		this.setState({ isLoading: false });
 	}
 
 	render() {
@@ -67,7 +106,7 @@ class homeScreen extends Component {
 				<View style={{ flex: 1 }}>
 					<TopBanner title={strings.Home} />
 				</View>
-				<View style={{ flex: 0.125 }}></View>
+				<View style={{ flex: 0.125 }} />
 				<View style={{ flex: 1, justifyContent: 'center' }}>
 					<View
 						style={{
@@ -78,35 +117,39 @@ class homeScreen extends Component {
 							borderWidth: 0.5,
 							alignItems: 'center',
 							justifyContent: 'space-between',
-							flex: 1
+							flex: 1,
 						}}>
 						<View style={{ flexDirection: 'column' }}>
 							<View style={{ flex: 1, justifyContent: 'flex-end' }}>
-								<Text style={fontStyles.bigTextStyleBlack}>{business.businessName}</Text>
+								<Text style={fontStyles.bigTextStyleBlack}>
+									{business.businessName}
+								</Text>
 							</View>
-							<View style={{ flex: 0.25 }}></View>
+							<View style={{ flex: 0.25 }} />
 							<TouchableOpacity
 								style={{ flex: 1, justifyContent: 'flex-start' }}
 								onPress={() => {
 									this.props.navigation.push('NameDescriptionScreen', {
 										businessID: business.businessID,
 										business,
-										editing: true
+										editing: true,
 									});
 								}}>
-								<Text style={fontStyles.mainTextStyleBlue}>{strings.EditCompanyProfile}</Text>
+								<Text style={fontStyles.mainTextStyleBlue}>
+									{strings.EditCompanyProfile}
+								</Text>
 							</TouchableOpacity>
 						</View>
 
 						<View style={{}}>
-							<RoundBlueButton
+							<HelpButton
 								title={strings.PlusSign}
-								textStyle={fontStyles.bigTextStyleWhite}
-								style={roundBlueButtonStyle.BusinessScreenPlusButton}
+								isCircleBlueButton={true}
 								onPress={() => {
 									this.props.navigation.push('CreateServiceScreen', {
 										businessID: business.businessID,
-										business
+										business,
+										editing: false,
 									});
 								}}
 							/>
@@ -151,19 +194,19 @@ class homeScreen extends Component {
 							source={this.state.image}
 							style={{
 								width: screenWidth * 0.5,
-								height: screenHeight * 0.2
+								height: screenHeight * 0.2,
 							}}
 						/>
 					</View>
 					<View style={{ flex: 1, justifyContent: 'center' }}>
-						<RoundBlueButton
+						<HelpButton
 							title={strings.Create}
-							style={roundBlueButtonStyle.MediumSizeButton}
-							textStyle={fontStyles.bigTextStyleWhite}
+							width={screenWidth * 0.39}
 							onPress={() => {
 								this.props.navigation.push('CreateServiceScreen', {
 									businessID: business.businessID,
-									business
+									business,
+									editing: false,
 								});
 							}}
 						/>
@@ -175,6 +218,31 @@ class homeScreen extends Component {
 						}}
 						title={strings.Whoops}
 						message={strings.SomethingWentWrong}
+					/>
+					<HelpAlert
+						isVisible={this.state.connectOnboardingSuccess}
+						onPress={() => {
+							this.setState({ connectOnboardingSuccess: false });
+						}}
+						title={strings.Success}
+						message={strings.OnboardingSucessMessage}
+					/>
+					<HelpAlert
+						isVisible={this.state.additionalVerificationNeeded}
+						onPress={() => {
+							this.setState({ additionalVerificationNeeded: false });
+							Linking.openURL(connectURL);
+						}}
+						title={strings.PaymentVerification}
+						message={strings.PaymentVerificationMessage}
+					/>
+					<HelpAlert
+						isVisible={this.state.paymentsVerified}
+						onPress={() => {
+							this.setState({ paymentsVerified: false });
+						}}
+						title={strings.Success}
+						message={strings.PaymentsVerifiedSuccss}
 					/>
 				</HelpView>
 			);
@@ -188,9 +256,34 @@ class homeScreen extends Component {
 							this.props.navigation.push('ServiceScreen', {
 								serviceID: service.serviceID,
 								businessID: business.businessID,
-								business
+								business,
 							});
 						}}
+					/>
+					<HelpAlert
+						isVisible={this.state.connectOnboardingSuccess}
+						onPress={() => {
+							this.setState({ connectOnboardingSuccess: false });
+						}}
+						title={strings.Success}
+						message={strings.OnboardingSucessMessage}
+					/>
+					<HelpAlert
+						isVisible={this.state.additionalVerificationNeeded}
+						onPress={() => {
+							this.setState({ additionalVerificationNeeded: false });
+							Linking.openURL(this.state.connectURL);
+						}}
+						title={strings.PaymentVerification}
+						message={strings.PaymentVerificationMessage}
+					/>
+					<HelpAlert
+						isVisible={this.state.paymentsVerified}
+						onPress={() => {
+							this.setState({ paymentsVerified: false });
+						}}
+						title={strings.Success}
+						message={strings.PaymentsVerifiedSuccss}
 					/>
 				</View>
 			);

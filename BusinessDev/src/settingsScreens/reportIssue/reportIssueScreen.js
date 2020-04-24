@@ -2,16 +2,16 @@
 //The user will report it and the report will be visible to the developers
 import React, { Component } from 'react';
 import { View, Text, Keyboard, Dimensions } from 'react-native';
-import MultiLineRoundedBoxInput from '../../components/MultiLineRoundedBoxInput';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
+import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
+ 
 import { screenWidth, screenHeight } from 'config/dimensions';
-import RoundBlueButton from '../../components/RoundBlueButton';
+import HelpButton from '../../components/HelpButton/HelpButton';
 import HelpAlert from '../../components/HelpAlert';
 import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../../components/TopBanner/TopBanner';
 import HelpView from '../../components/HelpView';
 
 class reportIssueScreen extends Component {
@@ -86,8 +86,9 @@ class reportIssueScreen extends Component {
 							alignItems: 'center',
 							marginBottom: screenHeight * 0.05
 						}}>
-						<MultiLineRoundedBoxInput
+						<HelpTextInput
 							width={screenWidth * 0.66909}
+							isMultiline={true}
 							height={screenHeight * 0.29282577}
 							placeholder={strings.DescribeYourIssueHereDotDotDot}
 							onChangeText={(input) => this.setState({ userInput: input })}
@@ -97,10 +98,9 @@ class reportIssueScreen extends Component {
 					<View style={{ justifyContent: 'center', alignItems: 'center' }}>
 						<View style={{ flex: 0.025 }}></View>
 						<View style={{ flex: 1 }}>
-							<RoundBlueButton
+							<HelpButton
 								title={strings.Report}
-								style={roundBlueButtonStyle.MediumSizeButton}
-								textStyle={fontStyles.reportIssueButtonTextStyle}
+								width={screenWidth * 0.39}
 								onPress={() => {
 									this.reportIssue();
 								}}

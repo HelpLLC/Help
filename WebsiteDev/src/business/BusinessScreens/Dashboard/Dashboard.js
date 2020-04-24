@@ -4,7 +4,10 @@ import Header from "../Header/Header";
 import "../Header/Header.css";
 import FirebaseFunctions from "../../../config/FirebaseFunctions";
 import BusinessServiceCard from "../../../components/BusinessServiceCard";
-import {useLocation} from 'react-router-dom'
+import { useLocation, Link } from "react-router-dom";
+import IconButton from "@material-ui/core/IconButton";
+import AddIcon from "@material-ui/icons/Add";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 export default function Dashboard(props) {
   const [business, setBusiness] = React.useState();
@@ -13,19 +16,14 @@ export default function Dashboard(props) {
   const [image, setImage] = React.useState("");
   const location = useLocation();
 
-
   const componentDidMount = async () => {
-    console.log()
     const businessID = location.state.businessID;
     const business = await FirebaseFunctions.call("getBusinessByID", {
-      businessID
+      businessID,
     });
-    console.log(business);
-    console.log(business.services);
     setBusiness(business);
     setServices(business.services);
     setLoaded(true);
-    console.log("done");
   };
 
   if (loaded === false) {
@@ -40,7 +38,7 @@ export default function Dashboard(props) {
       {
         <div class="servicecardlistcontainer">
           {loaded
-            ? services.map(service => (
+            ? services.map((service) => (
                 <div>
                   <BusinessServiceCard
                     title={service.serviceTitle}
@@ -60,6 +58,11 @@ export default function Dashboard(props) {
                 </div>
               ))
             : null}
+          <div class="createproductlink">
+            <Link to={{ pathname: "/createproduct", state: { business: business } }}>
+              Add Service
+            </Link>
+          </div>
         </div>
       }
     </div>

@@ -11,7 +11,7 @@ import { screenWidth, screenHeight } from 'config/dimensions';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import ImageWithBorder from '../components/ImageWithBorder';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 //The class for this screen

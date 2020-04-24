@@ -3,13 +3,12 @@ import React, { Component } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import HelpView from '../components/HelpView';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import strings from '../../config/strings';
-import RoundBlueButton from '../components/RoundBlueButton';
-import roundBlueButtonStyle from '../../config/styles/componentStyles/roundBlueButtonStyle';
+import HelpButton from '../components/HelpButton/HelpButton';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import fontStyles from '../../config/styles/fontStyles';
-import MultiLineRoundedBoxInput from '../components/MultiLineRoundedBoxInput';
+import HelpTextInput from '../components/HelpTextInput/HelpTextInput';
 import HelpAlert from '../components/HelpAlert';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -130,7 +129,8 @@ class serviceQuestionsScreen extends Component {
 								<Text style={fontStyles.mainTextStyleBlack}>{item}</Text>
 							</View>
 							<View>
-								<MultiLineRoundedBoxInput
+								<HelpTextInput
+								isMultiline={true}
 									width={screenWidth * 0.8}
 									height={screenHeight * 0.08}
 									placeholder={strings.AnswerHereDotDotDot}
@@ -151,10 +151,9 @@ class serviceQuestionsScreen extends Component {
 					)}
 					ListFooterComponent={
 						<View style={{ marginTop: screenHeight * 0.05, marginTop: screenHeight * 0.1 }}>
-							<RoundBlueButton
+							<HelpButton
 								title={strings.Next}
-								style={roundBlueButtonStyle.MediumSizeButton}
-								textStyle={fontStyles.bigTextStyleWhite}
+								width={screenWidth * 0.39}
 								isLoading={this.state.isLoading}
 								onPress={() => {
 									//Passes the correct parameters to the scheduling screen

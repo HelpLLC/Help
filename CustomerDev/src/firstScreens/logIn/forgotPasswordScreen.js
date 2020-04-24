@@ -4,12 +4,12 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import RoundBlueButton from '../../components/RoundBlueButton';
-import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
+ 
+import HelpButton from '../../components/HelpButton/HelpButton';
+import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
 import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../../components/TopBanner/TopBanner';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import HelpAlert from '../../components/HelpAlert';
@@ -30,7 +30,7 @@ class forgotPasswordScreen extends Component {
 		emailedLink: false,
 		fieldsError: false,
 		isLoading: false,
-		isErrorVisible: false
+		isErrorVisible: false,
 	};
 
 	render() {
@@ -52,7 +52,10 @@ class forgotPasswordScreen extends Component {
 					</View>
 					<View style={{ flex: 0.5 }}></View>
 					<View style={{ flex: 1, justifyContent: 'center' }}>
-						<OneLineRoundedBoxInput
+						<HelpTextInput
+							isMultiline={false}
+							width={screenWidth * 0.6}
+							height={screenHeight * 0.06}
 							placeholder={strings.EnterAnEmail}
 							onChangeText={(input) => this.setState({ email: input })}
 							value={this.state.email}
@@ -64,10 +67,9 @@ class forgotPasswordScreen extends Component {
 				</View>
 				<View style={{ flex: 1 }}></View>
 				<View style={{ flex: 0.5, justifyContent: 'flex-end', alignSelf: 'center' }}>
-					<RoundBlueButton
+					<HelpButton
 						title={strings.EmailMe}
-						style={roundBlueButtonStyle.MediumSizeButton}
-						textStyle={fontStyles.bigTextStyleWhite}
+						width={screenWidth * 0.39}
 						isLoading={this.state.isLoading}
 						onPress={async () => {
 							if (this.state.email.trim().length === 0) {

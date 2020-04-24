@@ -8,7 +8,7 @@ import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import screenStyle from 'config/styles/screenStyle';
 import HelpView from '../../components/HelpView';
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../../components/TopBanner/TopBanner';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 
 export default class issueReportedScreen extends Component {

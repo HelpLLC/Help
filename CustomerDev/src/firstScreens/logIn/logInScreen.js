@@ -5,12 +5,12 @@ import React, { Component } from 'react';
 import { View, Text, Keyboard, TouchableOpacity, Dimensions } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import RoundBlueButton from '../../components/RoundBlueButton';
-import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
+ 
+import HelpButton from '../../components/HelpButton/HelpButton';
+import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
 import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../../components/TopBanner/TopBanner';
 import HelpAlert from '../../components/HelpAlert';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
@@ -37,7 +37,7 @@ class logInScreen extends Component {
 		//This will determine whether the loading widget appears or not. Initially false
 		isLoading: false,
 		isErrorVisible: false,
-		isPasswordVisible: false
+		isPasswordVisible: false,
 	};
 
 	//This function will login based on the entered phone number... if the number is non existent,
@@ -65,18 +65,19 @@ class logInScreen extends Component {
 				}
 				const allServices = await FirebaseFunctions.call('getAllServices', {});
 				const customer = await FirebaseFunctions.call('getCustomerByID', {
-					customerID: account.substring(2)
+					customerID: account.substring(2),
 				});
 				//If this is a requester, then it will navigate to the screens & pass in the
 				//correct params
 				this.setState({ isLoading: false });
 				this.props.navigation.push('FeaturedScreen', {
 					customer,
-					allServices
+					allServices,
 				});
 			} catch (error) {
 				if (
-					error.message === 'The password is invalid or the user does not have a password.' ||
+					error.message ===
+						'The password is invalid or the user does not have a password.' ||
 					error.message === 'The email address is badly formatted.' ||
 					error.message ===
 						'There is no user record corresponding to this identifier. The user may have been deleted.'
@@ -88,8 +89,8 @@ class logInScreen extends Component {
 						error,
 						userID: {
 							screen: 'LogInScreen',
-							email
-						}
+							email,
+						},
 					});
 				}
 			}
@@ -113,7 +114,10 @@ class logInScreen extends Component {
 					</View>
 
 					<View style={{ flex: 1, justifyContent: 'center' }}>
-						<OneLineRoundedBoxInput
+						<HelpTextInput
+							isMultiline={false}
+							width={screenWidth * 0.6}
+							height={screenHeight * 0.06}
 							placeholder={strings.EnterYourEmail}
 							onChangeText={(input) => this.setState({ email: input })}
 							value={this.state.email}
@@ -130,7 +134,10 @@ class logInScreen extends Component {
 					</View>
 
 					<View style={{ flex: 1, justifyContent: 'center' }}>
-						<OneLineRoundedBoxInput
+						<HelpTextInput
+							isMultiline={false}
+							width={screenWidth * 0.6}
+							height={screenHeight * 0.06}
 							placeholder={strings.EnterYourPassword}
 							onChangeText={(input) => this.setState({ password: input })}
 							value={this.state.password}
@@ -139,17 +146,25 @@ class logInScreen extends Component {
 									onPress={() => {
 										const { isPasswordVisible } = this.state;
 										this.setState({
-											isPasswordVisible: !isPasswordVisible
+											isPasswordVisible: !isPasswordVisible,
 										});
 									}}
 									style={{
 										justifyContent: 'center',
-										height: screenHeight * 0.06
+										height: screenHeight * 0.06,
 									}}>
 									<Icon
-										name={this.state.isPasswordVisible === true ? 'eye' : 'eye-slash'}
+										name={
+											this.state.isPasswordVisible === true
+												? 'eye'
+												: 'eye-slash'
+										}
 										type='font-awesome'
-										color={this.state.isPasswordVisible === true ? colors.lightBlue : colors.gray}
+										color={
+											this.state.isPasswordVisible === true
+												? colors.lightBlue
+												: colors.gray
+										}
 									/>
 								</TouchableOpacity>
 							}
@@ -170,10 +185,9 @@ class logInScreen extends Component {
 					</TouchableOpacity>
 				</View>
 				<View style={{ flex: 1.5, alignItems: 'center', justifyContent: 'center' }}>
-					<RoundBlueButton
+					<HelpButton
 						title={strings.LogIn}
-						style={roundBlueButtonStyle.MediumSizeButton}
-						textStyle={fontStyles.bigTextStyleWhite}
+						width={screenWidth * 0.39}
 						isLoading={this.state.isLoading}
 						//Method logs the person in based on what is entered into the text
 						//input

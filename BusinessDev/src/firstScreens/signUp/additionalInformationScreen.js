@@ -3,7 +3,7 @@
 //the actual business in this screen
 import React, { Component } from 'react';
 import HelpView from '../../components/HelpView';
-import OneLineRoundedBoxInput from '../../components/OneLineRoundedBoxInput';
+import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
 import strings from 'config/strings';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { screenWidth, screenHeight } from 'config/dimensions';
@@ -11,13 +11,13 @@ import screenStyle from 'config/styles/screenStyle';
 import { Text, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import fontStyles from 'config/styles/fontStyles';
-import roundBlueButtonStyle from 'config/styles/componentStyles/roundBlueButtonStyle';
-import RoundBlueButton from '../../components/RoundBlueButton';
+ 
+import HelpButton from '../../components/HelpButton/HelpButton';
 import GoogleCityPicker from '../../components/GoogleCityPicker';
 import HelpAlert from '../../components/HelpAlert';
 import { Icon } from 'react-native-elements';
 import colors from 'config/colors';
-import TopBanner from '../../components/TopBanner';
+import TopBanner from '../../components/TopBanner/TopBanner';
 
 export default class additionalInformationScreen extends Component {
 	//Function sets the name of the current screen & sets the correct state based on whether this is a screen to create a new business
@@ -38,7 +38,7 @@ export default class additionalInformationScreen extends Component {
 				isLoadingScreen: false,
 				editing,
 				business,
-				businessID
+				businessID,
 			});
 		} else {
 			FirebaseFunctions.setCurrentScreen(
@@ -47,7 +47,7 @@ export default class additionalInformationScreen extends Component {
 			);
 			this.setState({
 				isLoadingScreen: false,
-				editing
+				editing,
 			});
 		}
 	}
@@ -62,7 +62,7 @@ export default class additionalInformationScreen extends Component {
 			password,
 			editing,
 			business,
-			businessID
+			businessID,
 		} = this.props.navigation.state.params;
 		const { phoneNumber, website, location, coordinates } = this.state;
 		if (phoneNumber !== '' && location !== '' && coordinates !== '') {
@@ -78,11 +78,11 @@ export default class additionalInformationScreen extends Component {
 				coordinates,
 				editing,
 				business,
-				businessID
+				businessID,
 			});
 		} else {
 			this.setState({
-				fieldsError: true
+				fieldsError: true,
 			});
 		}
 	}
@@ -97,7 +97,7 @@ export default class additionalInformationScreen extends Component {
 		isLoadingScreen: true,
 		fieldsError: false,
 		locationInfoVisible: false,
-		accountSaved: false
+		accountSaved: false,
 	};
 
 	//This function renders the screen
@@ -127,7 +127,11 @@ export default class additionalInformationScreen extends Component {
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 				<View style={screenStyle.container}>
 					<TopBanner
-						title={this.state.editing === true ? strings.EditCompany : strings.CreateProfile}
+						title={
+							this.state.editing === true
+								? strings.EditCompany
+								: strings.CreateProfile
+						}
 						leftIconName='angle-left'
 						leftOnPress={() => {
 							//Method will go back to the splash screen
@@ -139,13 +143,16 @@ export default class additionalInformationScreen extends Component {
 							alignSelf: 'flex-start',
 							justifyContent: 'flex-end',
 							marginVertical: screenHeight * 0.02,
-							marginLeft: screenWidth * 0.2
+							marginLeft: screenWidth * 0.2,
 						}}>
 						<Text style={fontStyles.bigTextStyleBlack}>{strings.Website}</Text>
 					</View>
 
 					<View style={{ justifyContent: 'center' }}>
-						<OneLineRoundedBoxInput
+						<HelpTextInput
+							isMultiline={false}
+							width={screenWidth * 0.6}
+							height={screenHeight * 0.06}
 							placeholder={strings.EnterWebsiteLink}
 							onChangeText={(input) => this.setState({ website: input })}
 							value={this.state.website}
@@ -158,15 +165,20 @@ export default class additionalInformationScreen extends Component {
 							alignSelf: 'flex-start',
 							justifyContent: 'flex-end',
 							marginVertical: screenHeight * 0.02,
-							marginLeft: screenWidth * 0.2
+							marginLeft: screenWidth * 0.2,
 						}}>
 						<Text style={fontStyles.bigTextStyleBlack}>{strings.PhoneNumber}</Text>
 					</View>
 
 					<View style={{ justifyContent: 'center' }}>
-						<OneLineRoundedBoxInput
+						<HelpTextInput
+							isMultiline={false}
+							width={screenWidth * 0.6}
+							height={screenHeight * 0.06}
 							placeholder={strings.EnterPhoneNumber}
-							onChangeText={(input) => this.setState({ phoneNumber: input.replace(/[^0-9]/g, '') })}
+							onChangeText={(input) =>
+								this.setState({ phoneNumber: input.replace(/[^0-9]/g, '') })
+							}
 							value={this.state.phoneNumber}
 							password={false}
 							keyboardType='numeric'
@@ -179,16 +191,23 @@ export default class additionalInformationScreen extends Component {
 							justifyContent: 'flex-end',
 							alignSelf: 'flex-start',
 							marginVertical: screenHeight * 0.02,
-							marginLeft: screenWidth * 0.2
+							marginLeft: screenWidth * 0.2,
 						}}>
 						<TouchableOpacity
 							onPress={() => {
 								this.setState({ locationInfoVisible: true });
 							}}
 							style={{ flexDirection: 'row', alignItems: 'center' }}>
-							<Text style={fontStyles.bigTextStyleBlack}>{strings.LocationYouServe}</Text>
-							<View style={{ width: screenWidth * 0.01 }}></View>
-							<Icon name={'info-circle'} type='font-awesome' size={25} color={colors.lightBlue} />
+							<Text style={fontStyles.bigTextStyleBlack}>
+								{strings.LocationYouServe}
+							</Text>
+							<View style={{ width: screenWidth * 0.01 }} />
+							<Icon
+								name={'info-circle'}
+								type='font-awesome'
+								size={25}
+								color={colors.lightBlue}
+							/>
 						</TouchableOpacity>
 					</View>
 					<View style={{ height: screenHeight * 0.35 }}>
@@ -198,7 +217,7 @@ export default class additionalInformationScreen extends Component {
 							onPress={(locationName, long, lat) => {
 								this.setState({
 									location: locationName,
-									coordinates: { long, lat }
+									coordinates: { long, lat },
 								});
 							}}
 						/>
@@ -207,12 +226,11 @@ export default class additionalInformationScreen extends Component {
 						style={{
 							height: screenHeight * 0.1,
 							justifyContent: 'flex-end',
-							alignSelf: 'center'
+							alignSelf: 'center',
 						}}>
-						<RoundBlueButton
+						<HelpButton
 							title={strings.Next}
-							style={roundBlueButtonStyle.MediumSizeButton}
-							textStyle={fontStyles.bigTextStyleWhite}
+							width={screenWidth * 0.39}
 							isLoading={this.state.isLoading}
 							onPress={() => {
 								//Function goes to the next screen

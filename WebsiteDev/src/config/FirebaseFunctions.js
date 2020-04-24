@@ -7,7 +7,7 @@ var firebaseConfig = {
 	storageBucket: 'help-technologies-e4e1c.appspot.com',
 	messagingSenderId: '127668734841',
 	appId: '1:127668734841:web:2e9114165d61025d653da8',
-	measurementId: 'G-DPVW5284H2'
+	measurementId: 'G-DPVW5284H2',
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -22,7 +22,7 @@ export default class FirebaseFunctions {
 	static async call(functionName, parameters) {
 		const functionReturn = await this.functions.httpsCallable(functionName)(parameters);
 		return functionReturn.data;
-	  }
+	}
 
 	//Logs the user in and subscribes to the notification service associated with his/her account
 	static async logIn(email, password) {
@@ -30,8 +30,12 @@ export default class FirebaseFunctions {
 		//Tests whether this is a business or a customer & based on that, subscribes to the correct channel
 		const { uid } = account.user;
 		//If the user only has a customer account, an error is returned
-		const customer = (await this.functions.httpsCallable('getCustomerByID')({ customerID: uid })).data;
-		const business =  (await this.functions.httpsCallable('getBusinessByID')({ businessID: uid })).data;
+		const customer = (
+			await this.functions.httpsCallable('getCustomerByID')({ customerID: uid })
+		).data;
+		const business = (
+			await this.functions.httpsCallable('getBusinessByID')({ businessID: uid })
+		).data;
 		//Logs the event in firebase analytics
 		this.analytics.logEvent('business_log_in');
 		//Subscribes to the business channel
@@ -41,14 +45,15 @@ export default class FirebaseFunctions {
 		return business.businessID;
 	}
 	// This method emails the user a link to go ahead and reset their password if they have forgotten their password
-  // Used in Login.js
-  // @param email: the email that the link needs to be sent to
-  static async forgotPassword(emailAddress) {
-	// If successful, return 1 or else return -1
-	firebase.auth().sendPasswordResetEmail(emailAddress).then(function() {
-		return 1;
-	}).catch(function(error) {
-		return -1;
-	});
- }
+	// Used in Login.js
+	// @param email: the email that the link needs to be sent to
+	static async forgotPassword(emailAddress) {
+		try {
+			// If successful, return 1 or else return -1
+			await firebase.auth().sendPasswordResetEmail(emailAddress);
+			return 1;
+		} catch (error) {
+			return -1;
+		}
+	}
 }

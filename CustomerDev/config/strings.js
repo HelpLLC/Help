@@ -1,35 +1,20 @@
 //This object contains all of the strings used throughout the entire application.
 //Each new defined string must be defined and accessed through this object
 export default {
-	//------------------- Default Error Message ----------------
 	SomethingWentWrong: 'Something went wrong, please try again later',
-
-	//------------------- Tab Bar Navigators -------------------
-	Chats: 'Chats',
 	Settings: 'Settings',
 	Request: 'Request',
-
-	//-------------------  Splash Screen -------------------
-	GetStarted: 'Get Started',
 	LogIn: 'Log In',
 	Help: 'Help',
-
-	//------------------- Log In Screen -------------------
 	EnterYourEmail: 'Enter your email...',
 	EnterYourPassword: 'Enter your password...',
 	IncorrectInfo: 'Incorrect email/password',
 	ForgotPassword: 'Forgot Password?',
 	ForgotPasswordNoQuestionMark: 'Forgot Password',
-
-	//------------------- Forgot Password Screen -------------------
 	EmailMe: 'Email Me!',
 	LinkHasBeenEmailed:
 		"If a user with this email exists, a link to reset your password has been sent. Please check your spam/junk folders if you don't see the email.",
-
-	//------------------- Create Profile Screen -------------------
 	CreateProfile: 'Create Profile',
-
-	//------------------- Sign Up Screen -------------------
 	SignUp: 'Sign Up',
 	Email: 'Email',
 	PhoneNumber: 'Phone Number',
@@ -37,7 +22,6 @@ export default {
 	EnterPhoneNumber: 'Enter your phone number...',
 	Password: 'Password',
 	ChooseAPassword: 'Choose a password...',
-	SignUp: 'Sign Up',
 	PleaseFillOutAllFields: 'Please fill out all of the fields',
 	PleaseEnterAValidEmail: 'Please enter a valid email',
 	EmailExists: 'An account with this email already exists. Go back and log into this account',
@@ -47,34 +31,42 @@ export default {
 	CheckTermsAndConditions: 'You must accept the terms and conditions to use Help',
 	InvalidPhoneNumberError: 'Please enter a valid 10 digit phone number',
 	Next: 'Next',
-
-	//------------------- Customer Sign Up Screen -------------------
 	City: 'City',
 	Name: 'Name',
 	StreetAddress: 'Street Address',
-	EnterYourAddress: '12345 Willow Road',
 	EnterCityDotDotDot: 'Enter city...',
 	AccountSaved: 'Your account has been saved.',
 	PleaseEnterName: 'Please enter your name...',
 	MyProfile: 'My Profile',
-
-	//------------------- Payment Info Screen -------------------
+	Payments: 'Payments',
+	NameOnCard: 'Name on Card',
+	CardNumber: 'Card Number',
+	Asterisks: ' ************',
+	ExpDate: 'Exp. Date',
+	Delete: 'Delete',
+	Address: 'Address',
+	AddAPaymentMethodWithHelp: 'Add a payment method with Help',
+	Add: 'Add',
+	DeletePaymentMethod: 'Delete Payment Method',
+	AreYouSureYouWantToDeletePaymentMethod:
+		'Are you sure you want to delete your payment method? This cannot be undone.',
+	YourInformationWillNotBeSharedWithBusinesses:
+		'Your information will not be shared with businesses.',
 	SavePaymentInfo: 'Save Payment Information',
 	No: 'No',
 	SavePaymentInfoMessage:
 		'Would you like Help to save your payment information for future purchases? Your information will not be visible to businesses.',
 	CardEndingIn: 'Card ending in ',
 	PaidWithColon: 'Paid with: ',
-
-	//------------------- Blocked Businesses Screen -------------------
+	EnterPaymentInformation: 'Enter Payment Information',
+	EnterPaymentMessage:
+		'Please enter your payment information. Note: You will not be charged until the request has been completed and you approve the amount.',
 	Blocked: 'Blocked',
 	Unblock: 'Unblock',
 	NoBusinessesBlocked: 'No Businesses Blocked',
 	UnblockBusiness: 'Unblock Business',
 	AreYouSureYouWantToUnblock: 'Are you sure you want to unblock ',
 	HasBeenUnblocked: 'has been unblocked.',
-
-	//------------------- Settings Screen -------------------
 	Privacy: 'Privacy',
 	ReportAnIssue: 'Report an Issue',
 	Notifications: 'Notifications',
@@ -82,40 +74,27 @@ export default {
 	Credits: 'Credits',
 	BlockedBusinesses: 'Blocked Businesses',
 	LogOut: 'Log Out',
-
-	//------------------- About Screen -------------------
 	MarketingMessage: 'Connecting people with service producing businesses',
 	PublishedBy: 'Published By',
 	HelpLLC: 'Help LLC',
 	Contact: 'Contact',
 	ContactEmail: 'helpcocontact@gmail.com',
-
-	//------------------- Report Issue Screen -------------------
 	WhatSeemsToBeTheProblemQuestion: 'What seems to be the problem?',
 	DescribeYourIssueHereDotDotDot: 'Describe your issue here...',
 	Report: 'Report',
 	ThankYouForReporting: 'Thank you for reporting the problem',
 	WellFixItRightAway: "We'll fix it right away",
-
-	//------------------- Create Provider Profile Screen -------------------
 	BusinessName: 'Business Name',
-
-	//------------------- Additional Provider Info Screen -------------------
 	Website: 'Website',
 	Ok: 'Ok',
 	Location: 'Location',
 	WhyWeUseLocation:
 		'We collect locations from users to show customers the business that are nearest to them. We never share customer locations without their consent. Our intent is to provide the best customer experience.',
-
-	//------------------- Provider Business Screen -------------------
 	FinishCreatingYourProfile: 'Finish Creating Your Profile',
 	FinishCreatingYourProfileMessage:
 		"Your business doesn't have all the info customers need! Go complete your profile.",
 
-	//------------------- Create Product Screen -------------------
 	EditImage: 'Edit Image',
-
-	//------------------- Requester Schedule Screen -------------------
 	Schedule: 'Schedule',
 	and: 'and',
 	PleaseSelectATimeInWhichTheBusinessIsAvailable:
@@ -134,28 +113,18 @@ export default {
 	ScheduledDateColon: 'Scheduled Date: ',
 	ScheduleTimeColon: 'Scheduled Time: ',
 	Done: 'Done',
-
-	//------------------- Product Screen -------------------
 	Service: 'Service',
 	Cancel: 'Cancel',
 	RequestedOn: 'Requested On',
-
-	//------------------- Add Questions Screen--------------------
 	Questions: 'Questions',
 	Edit: 'Edit',
-
-	//------------------- Service History Screen -------------------
 	CompletedOn: 'Completed On',
 	DollarSign: '$',
-
-	//------------------- Business Side Customer Request Screen -------------------
 	CustomerRequest: 'Customer Request',
 	Message: 'Message',
 	ScheduledOn: 'Scheduled on',
 	ScheduledAt: 'Scheduled at',
 	at: 'at',
-
-	//------------------- Featured Screen -------------------
 	OfferedBy: 'Offered by',
 	Featured: 'Featured',
 	FeaturedServices: 'Featured Services',
@@ -165,11 +134,7 @@ export default {
 	Skip: 'Skip',
 	LeaveAReviewDotDotDot: 'Leave a review...',
 	PleaseGiveAStarRatingAlongWithReview: 'Please give a star rating along with your review.',
-
-	//------------------- Categories Screen -------------------
 	FeaturedCategories: 'Featured Categories',
-
-	//------------------- Requester Service Screen -------------------
 	ServiceRequested: 'Service Requested',
 	CancelRequest: 'Cancel Request',
 	RequestService: 'Request Service',
@@ -184,19 +149,13 @@ export default {
 	BusinessBlocked: 'Business Blocked',
 	BusinessHasBeenBlocked: 'The business has been blocked',
 	ViewRequest: 'View Request',
-
-	//------------------- Requester Answer Questions Screen -------------------
 	AnswerHereDotDotDot: 'Answer here...',
 	PleaseFillOutAllQuestions: 'Please fill out all of the questions.',
-	TheServiceHasBeenRequested: 'The service has been requested',
-
-	//------------------- Requester Order History Screen -------------------
+	TheServiceHasBeenRequested: 'The service has been requested.',
 	OrderHistory: 'Order History',
 	InProgress: 'In Progress',
 	Completed: 'Completed',
 	NoRequestsYet: "You haven't requested anything yet! Go check out our services by going to Home",
-
-	//------------------- Requester Requested Service Screen -------------------
 	RequestHasBeenCancelled: 'Your request has been cancelled',
 	AreYouSureCancelRequest: 'Are you sure you want to cancel your request for this service?',
 	OrderAgain: 'Order Again',
@@ -208,29 +167,20 @@ export default {
 	RequestID: 'Request ID',
 	Cash: 'Cash',
 	Card: 'Card',
-
-	//----------------------- Requester Side Menu -----------------------------------
-
 	Home: 'Home',
 	Chats: 'Chats',
 	Settings: 'Settings',
 	LogOut: 'Log Out',
 	Credits: 'Credits',
 	Categories: 'Categories',
-
-	//------------------- Customer Side Business Profile Screen -------------------
 	BusinessProfile: 'Business Profile',
 	Block: 'Block',
 	BusinessReported: 'Business Reported',
 	AreYouSureYouWantToBlock: 'Are you sure your want to block',
 	BusinessHasBeenReported:
 		'This business has been reported. Help staff will take a look. Thank you for your patience.',
-
-	//------------------- Chats Screen -------------------
 	NoMessagesYet: 'No messages yet',
 	Today: 'Today',
-
-	//------------------- Notifications -------------------
 	NewRequest: 'New Request',
 	YouHaveNewRequestFor: 'You have a new request for ',
 	YourRequestFor: 'Your request for',
@@ -241,8 +191,6 @@ export default {
 	HasCancelledTheirRequestFor: 'has cancelled their request for',
 	HasUpdatedTheirRequestFor: 'has updated their request for',
 	RequestUpdated: 'Request Updated',
-
-	//------------------- Documents -----------------
 	PrivacyPolicyString: 'Privacy Policy',
 	PrivacyPolicy:
 		'Welcome to our Privacy Policy' +
@@ -277,18 +225,12 @@ export default {
 		'- Email Addresses  Collected email addresses in order to create account information from customers.' +
 		'- Credit & Contact Information' +
 		'This privacy policy was created at https://termsandconditionstemplate.com/privacy-policy-generator/. If you have any questions about this Privacy Policy, please contact us via or phone.',
-
-	//------------------- Search Bar -------------------
 	WhatAreYouLookingForQuestion: 'What are you looking for?',
 	SearchIn: 'Search in',
 	SearchCategoriesDotDotDot: 'Search categories...',
-
-	//------------------- Image Picker -------------------
 	SelectPhoto: 'Select a Photo',
 	TakePhotoDotDotDot: 'Take Photo...',
 	ChooseFromLibraryDotDotDot: 'Choose from Library...',
-
-	//------------------- Miscellaneous -----------------
 	Whoops: 'Whoops',
 	DotDotDot: '...',
 	Success: 'Success',
@@ -302,5 +244,6 @@ export default {
 	NewBusinessAppMessage:
 		'Businesses on Help now use a seperate app to manage their business. Go download it now!',
 	UnderMaintenance: 'Under Maintenance',
-	AppIsUnderMaintenance: 'Help is currently under scheduled maintenance. It should be back up soon.'
+	AppIsUnderMaintenance:
+		'Help is currently under scheduled maintenance. It should be back up soon.',
 };

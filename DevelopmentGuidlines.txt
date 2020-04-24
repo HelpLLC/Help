@@ -1,0 +1,72 @@
+Development Guidelines
+
+General
+- Only use Functional Components & React Hooks to manage state & lifecycle methods (componentDidMount)
+
+Formatting & Syntax
+
+- Imports at the top of the file, then the class declaration, then the state declarations, then the hooks for the screen, 
+then the methods/functions, then the return method containing the UI underneath all of that.
+
+- If a function contains less than three lines of code, write it whereever it is being called. Don't declare a function unless
+it is more than three lines. Ex: DO onPress={() => { setBoolean (false) }} NOT const theMethod = () => { setBoolean(false) } then
+onPress={() => theMethod()}
+
+- When declaring state, declare each variable independantly. Don't create ONE state useState() hook and then put all of your
+state there. Ex: DO const [example, setExample] = useState('Value') NOT const [state, setState] = useState({ example: 'value' })
+
+- Only Component declarations can contain "function" keyword. All other functions must use ES6 syntax of arrow functions. Ex:
+DO const method = () => { ... } NOT function method() { ... }
+
+- Use ES6 syntax of await/async keywords & try/catch blocks. NEVER use .then() and .catch() chaining methods. 
+Ex: DO try { const methodResult = await method(); console.log(methodResult); } catch(error) { ... } NOT
+method().then((methodResult) => console.log(methodResult)).catch((error) => { ... })
+
+- Use the prettier settings that are located in the file "GitHub/PrettierSettings.txt" to make sure your formatting is the same as everyone else.
+
+Languages
+
+- In the app development, react-native & StyleSheet will be used for all screens & components.
+
+- In the website development, React.js will be used for all screens. All components should be primarily written using react-native-web 
+components (View, Text, etc.) and StyleSheet to make components look as consistent as possible across the mobile app and the website. Since some libraries
+are not available in React.js, CSS can also be additionally used to style the components as needed. Start off with StyleSheet, and adjust as needed.
+
+Mobile App Filing & Styling
+
+- Never use hard coded numbers to adjust margin, height, width, etc. Instead use the screenHeight & screenWidth components in config/dimensions. 
+To import it, type "import { screenHeight, screenWidth } from 'config/dimensions'". Ex: DO height: screenHeight * 0.05 NOT height: 100. screenHeight * 0.05
+would return 5% of the screen.
+
+- All styles should be seperate from the components themselves. NO INLINE STYLING. Every screen should have two files inside of a folder. One for styles & one for 
+the component itself. Ex: BusinessDev/bottomScreens/exampleScreen/exampleScreen.js AND BusinessDev/bottomScreens/exampleScreen/exampleScreenStyle.js. 
+
+- Using the previous example, exampleScreenStyle.js would just export a StyleSheet containing all of the styles for the screen and then they would be referenced in
+the component. Ex: exampleScreen.js would include import styles from './exampleScreenStyle.js'; and then would have <View style={styles.container} />. 
+exampleScreenStyle would include the following: export default StyleSheet.create({ exampleStyle: { height: 100 }}). DO NOT DO <View style={{ height: 100 }} />.
+
+- All fonts and sizes will be centralized by getting declared & exported from config/fontStyles.js. Ex: DO <Text style={fontStyles.mainTextStyleBlack}>Example</Text>
+NOT <Text style={{ fontSize: 30, color: '#FFFFFF }}>Example</Text>
+
+- All colors will be centralized by getting declared & exported from config/colors.js. Ex: DO exampleStyle: { backgroundColor: colors.black } NOT 
+exampleStyle: { backgroundColor: '#000000' }
+
+- All strings will be centralized by getting declared & exported from config/strings.js. Ex: DO <Text>{strings.Next}</Text> NOT <Text>Next</Text>
+
+Website Filing & Styling
+
+- Never use hard coded numbers/pixels/% to adjust margin, height, width, etc. Instead use "vh" (viewport height) & "vw" (viewport width). Ex: 
+DO height: 10vh NOT height: 100px. 10vh means "10% of the viewport height". Viewport height is how big the screen actually. 
+
+- All styles should be seperate from the components themselves. NO INLINE STYLING. Every screen should have two files inside of a folder. One for styles & one for 
+the component itself. Ex: WebsiteDev/BusinessScreens/exampleScreen/exampleScreen.js AND WebsiteDev/BusinessScreens/exampleScreen/exampleScreenStyle.css. 
+
+- Using the previous example, exampleScreen.js would contain the import './exampleScreenStyle.css' and then implement the stylings in the form of classNames
+throughout the screen. DO <div className='divContainer' /> NOT <div style={{ height: '100vh' }}. exampleScreenStyle.css would have .divContainer { height: '100vh' }
+
+- All fonts and sizes will be centralized by getting declared & exported from config/fontStyles.css. You would import 'path/fontStyles.css' in addition
+to the normal css file. Then you would do the following: Ex: DO <div className={'container mainTextStyleBlack'}>Example</div> NOT 
+<div className={'container'} style={{ fontSize: 30, color: '#FFFFFF }}>Example</div>
+
+- All strings will be centralized by getting declared & exported from config/strings.js. Ex: DO <Text>{strings.Next}</Text> NOT <Text>Next</Text>
+

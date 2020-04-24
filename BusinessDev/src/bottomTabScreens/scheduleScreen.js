@@ -5,7 +5,7 @@ import screenStyle from 'config/styles/screenStyle';
 import HelpView from '../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import { View, Dimensions, Text } from 'react-native';
-import TopBanner from '../components/TopBanner';
+import TopBanner from '../components/TopBanner/TopBanner';
 import { Agenda } from 'react-native-calendars';
 import fontStyles from 'config/styles/fontStyles';
 import colors from 'config/colors';
