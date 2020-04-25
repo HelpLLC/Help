@@ -1,8 +1,129 @@
 /*The style for the contact us page*/
 .contactUsContainer {
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    justify-content: flex-start;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: fit-content;
+	height: fit-content;
+	background-image: url('images/path_1.png');
+	background-repeat: no-repeat;
+	background-size: 100vw 100vh;
+}
+.centerItems {
+	display: flex;
+	align-items: center;
+}
+.textContainer {
+	display: flex;
+	margin-top: 9vh;
+	align-self: center;
+    justify-content: center;
     align-items: center;
+}
+.title {
+	font-family: 'Lucida Grande';
+	font-size: 87px;
+	text-align: center;
+	color: #ffffff;
+}
+.explanation {
+	overflow: hidden;
+	font-family: 'Lucida Grande';
+	font-size: 130px;
+	text-align: center;
+	line-height: 17vh;
+	color: #ffffff;
+}
+.contactBorder {
+	margin-top: 30vh;
+	border-radius: 25px;
+	border: 2px solid #5cc6bc;
+	box-shadow: 0px 3px 5px 1px #5cc6bc;
+	display: flex;
+	flex-direction: row;
+	padding-left: 2vw;
+	padding-right: 2vw;
+	padding-top: 5vw;
+	padding-bottom: 5vw;
+}
+.heading1Container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.heading1 {
+	font-family: 'Lucida Grande';
+	font-size: 80px;
+	text-align: left;
+	color: #567681;
+}
+.rowContainer {
+	display: flex;
+	flex-direction: row;
+	margin-top: 1vh;
+}
+.contactInfoIcon {
+	overflow: hidden;
+	font-family: 'Lucida Grande';
+	text-align: left;
+	color: #000000;
+	margin-top: 3vh;
+}
+.contactInfoText {
+	overflow: hidden;
+	font-family: 'Lucida Grande';
+	font-size: 40px;
+	text-align: left;
+	color: #567681;
+	margin-top: 3vh;
+	margin-left: 1vw;
+    text-decoration: none;
+}
+.mapImage {
+	width: 25vw;
+	height: 35vh;
+	object-fit: cover;
+}
+.heading2Container {
+	justify-content: flex-start;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	width: 100vw;
+	margin-top: 15vh;
+}
+.heading2 {
+	font-family: 'Lucida Grande';
+	font-size: 79px;
+	text-align: left;
+	color: #567681;
+}
+.subtitle2 {
+	overflow: hidden;
+	font-family: 'Lucida Grande';
+	font-size: 50px;
+	text-align: center;
+	line-height: 7.5vh;
+	color: #00b0f0;
+	margin-top: 4vh;
+	margin-bottom: 4vh;
+}
+.formContainer {
+	margin-bottom: 5vh;
+	align-items: center;
+	margin-left: 3vh;
+}
+.emailNameContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 95vw;
+	margin-bottom: 5vh;
+}
+.buttonContainer {
+	margin-top: 2vh;
+	margin-bottom: 3vh;
+	align-items: center;
+	align-self: center;
 }
