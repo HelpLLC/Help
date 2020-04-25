@@ -43,4 +43,9 @@ export default {
 	WhatIsYourEmailAddressQuestion: 'What is your email address?',
 	WhatIsYourAddressQuestion: 'What is your address?',
 	WhatIsYourPhoneNumberQuestion: 'What is your phone number?',
+	ContactUs: 'Contact Us',
+	LetsLaunch: 'Let\'s launch your business into success!',
+	ContactInformation: 'Contact Information',
+	LetsGrow: 'Let\'s Grow Your Business',
+	ReadyToStartWorkingTogether: 'Ready to start working together? Have a general question? We\'re only an email away.'
 };
