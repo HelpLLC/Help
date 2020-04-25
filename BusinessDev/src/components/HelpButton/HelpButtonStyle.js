@@ -6,7 +6,6 @@ import colors from 'config/colors';
 export default StyleSheet.create({
 	//Default button size to use
 	BlueButton: {
-		height: screenHeight * 0.0878,
 		alignItems: 'center',
 		justifyContent: 'center',
 		alignSelf: 'center',
@@ -15,7 +14,6 @@ export default StyleSheet.create({
 
 	//Default button size to use but the red version
 	RedButton: {
-		height: screenHeight * 0.0878,
 		alignItems: 'center',
 		alignSelf: 'center',
 		backgroundColor: colors.red,
@@ -25,7 +23,6 @@ export default StyleSheet.create({
 
 	//These are two buttons that will determine the type of account the user wants
 	LightButton: {
-		height: screenHeight * 0.0878,
 		alignItems: 'center',
 		backgroundColor: colors.white,
 		borderColor: colors.lightBlue,
@@ -37,7 +34,6 @@ export default StyleSheet.create({
 
 	//The style for a perfect round button that is small
 	CircleBlueButton: {
-		height: screenHeight * 0.0732,
 		width: screenHeight * 0.0732,
 		alignSelf: 'center',
 		alignItems: 'center',

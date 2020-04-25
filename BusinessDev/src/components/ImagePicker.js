@@ -16,7 +16,7 @@ export default function ImagePicker(props) {
 	//Displays the action sheet
 	if (isShowing === true) {
 		this.ActionSheet.show();
-	}
+	} 
 
 	return (
 		<ActionSheet
