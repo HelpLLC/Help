@@ -10,6 +10,5 @@ export default {
     red: '#DF1919',
     gray: '#808080',
     green: '#5CC6BC',
-    bismark: '#567681',
     fountainBlue: '#5cc6bc'
 };
