@@ -48,22 +48,14 @@ export default function HelpTextInput(props) {
 	return (
 		//Creates a view that includes the interior TextInput so that the curvature doesn't
 		//impact the text
-		<View
-			style={[
-				HelpTextInputStyle.textInputContainerStyle,
-				{
-					width: width,
-					height: height,
-				},
-			]}>
+		<View>
 			<TextInput
-				style={[
-					HelpTextInputStyle.textInputStyle,
-					{
-						height: height * 0.9,
-						width: additionalIcon ? width * 0.8 : width * 0.935,
-					},
-				]}
+				style={{
+					...HelpTextInputStyle.textInputContainerStyle,
+					width,
+					height,
+					outline: 'none',
+				}}
 				multiline={isMultiline}
 				keyboardType={keyboardType ? keyboardType : 'default'}
 				textAlignVertical='top'
