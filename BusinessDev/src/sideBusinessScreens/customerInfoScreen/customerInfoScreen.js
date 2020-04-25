@@ -19,22 +19,23 @@ import { Icon } from 'react-native-elements';
 
 //Creates and exports the functional component
 export default function customerInfoScreen(props) {
+	const { service, editing, serviceID } = props.navigation.state.params;
 	//The state declarations that will be used in this screen
 	const [defaultQuestions, setDefaultQuestions] = useState([
 		{
 			question: strings.WhatIsYourEmailAddressQuestion,
 			title: strings.Email,
-			isSelected: false,
+			isSelected: service && service.questions.includes(strings.WhatIsYourEmailAddressQuestion),
 		},
 		{
 			question: strings.WhatIsYourPhoneNumberQuestion,
 			title: strings.PhoneNumber,
-			isSelected: false,
+			isSelected: service && service.questions.includes(strings.WhatIsYourPhoneNumberQuestion),
 		},
 		{
 			question: strings.WhatIsYourAddressQuestion,
 			title: strings.Address,
-			isSelected: false,
+			isSelected: service && service.questions.includes(strings.WhatIsYourAddressQuestion),
 		},
 	]);
 	const [customQuestions, setCustomQuestions] = useState(['']);
@@ -45,11 +46,29 @@ export default function customerInfoScreen(props) {
 	//This the method that is called when the component mounts. Sets the screen in firebase, and fetches the data
 	//if this service is being edited
 	useEffect(() => {
-		FirebaseFunctions.setCurrentScreen(
-			'BusinessCreateCustomerInfoScreen',
-			'customerInfoScreen'
-		);
+		FirebaseFunctions.setCurrentScreen('BusinessCreateCustomerInfoScreen', 'customerInfoScreen');
+		if (editing === true) {
+			setData();
+		}
 	}, []);
+
+	//This method is going to set the data for this screen if this is editing an exisitng prodct
+	const setData = () => {
+		const { questions } = service;
+		//Removes the default questions from the questions array
+		if (questions.includes(strings.WhatIsYourEmailAddressQuestion)) {
+			questions.splice(questions.indexOf(strings.WhatIsYourEmailAddressQuestion), 1);
+		}
+		if (questions.includes(strings.WhatIsYourPhoneNumberQuestion)) {
+			questions.splice(questions.indexOf(strings.WhatIsYourPhoneNumberQuestion), 1);
+		}
+		if (questions.includes(strings.WhatIsYourAddressQuestion)) {
+			questions.splice(questions.indexOf(strings.WhatIsYourAddressQuestion), 1);
+		}
+		if (questions.length > 0) {
+			setCustomQuestions(questions);
+		}
+	};
 
 	//The method will check that there are no empty questions. If there are, an error will pop up. If there are, then
 	//an error will pop up. If there aren't, it will construct the questions array and then get the previously created
@@ -91,36 +110,68 @@ export default function customerInfoScreen(props) {
 			isPostpaySelected,
 		} = props.navigation.state.params;
 
-		//Adds the product to the database & upload the image to Firebase Storage
-		const serviceID = await FirebaseFunctions.call('addServiceToDatabase', {
-			averageRating: 0,
-			businessID,
-			businessName: business.businessName,
-			category: 'Cleaning',
-			coordinates: business.coordinates,
-			displayedReviews: [],
-			serviceDuration,
-			price,
-			priceText,
-			prepay: isPrepaySelected,
-			postpay: isPostpaySelected,
-			questions: finalQuestions,
-			serviceDescription,
-			serviceTitle,
-			totalReviews: 0,
-			cash: isCashSelected,
-			card: isCardSelected,
-		});
-		//Handles the logic for uploading the image to Firebase
-		//Fetches the absolute path of the image (depending on android or ios)
-		let absolutePath = '';
-		if (Platform.OS === 'android') {
-			absolutePath = 'file://' + imageResponse.path;
+		//If the service is being edited, then the information will be updated. If it is new, it will be created
+		if (editing === true) {
+			await FirebaseFunctions.call('updateServiceInformation', {
+				priceText,
+				serviceDuration: parseFloat(serviceDuration),
+				price,
+				questions: finalQuestions,
+				serviceDescription,
+				serviceTitle,
+				serviceID,
+				businessID,
+				card: isCardSelected,
+				cash: isCashSelected,
+				prepay: isPrepaySelected,
+				postpay: isPostpaySelected,
+			});
+
+			if (imageResponse !== '') {
+				//Handles the logic for uploading the image to Firebase
+				//Fetches the absolute path of the image (depending on android or ios)
+				let absolutePath = '';
+				if (Platform.OS === 'android') {
+					absolutePath = 'file://' + imageResponse.path;
+				} else {
+					absolutePath = imageResponse.path;
+				}
+				//Creates the reference & uploads the image (async)
+				await FirebaseFunctions.storage.ref('services/' + serviceID).putFile(absolutePath);
+			}
 		} else {
-			absolutePath = imageResponse.path;
+			//Adds the product to the database & upload the image to Firebase Storage
+			const serviceID = await FirebaseFunctions.call('addServiceToDatabase', {
+				averageRating: 0,
+				businessID,
+				businessName: business.businessName,
+				category: 'Cleaning',
+				coordinates: business.coordinates,
+				displayedReviews: [],
+				serviceDuration: parseFloat(serviceDuration),
+				price,
+				priceText,
+				prepay: isPrepaySelected,
+				postpay: isPostpaySelected,
+				questions: finalQuestions,
+				serviceDescription,
+				serviceTitle,
+				totalReviews: 0,
+				cash: isCashSelected,
+				card: isCardSelected,
+			});
+			//Handles the logic for uploading the image to Firebase
+			//Fetches the absolute path of the image (depending on android or ios)
+			let absolutePath = '';
+			if (Platform.OS === 'android') {
+				absolutePath = 'file://' + imageResponse.path;
+			} else {
+				absolutePath = imageResponse.path;
+			}
+			//Creates the reference & uploads the image (async)
+			await FirebaseFunctions.storage.ref('services/' + serviceID).putFile(absolutePath);
 		}
-		//Creates the reference & uploads the image (async)
-		await FirebaseFunctions.storage.ref('services/' + serviceID).putFile(absolutePath);
+
 		setIsLoading(false);
 		props.navigation.push('BusinessScreens', {
 			businessID,
@@ -144,13 +195,9 @@ export default function customerInfoScreen(props) {
 				ListHeaderComponent={
 					<View style={styles.customQuestionsContainer}>
 						<View style={styles.customQuestionsText}>
-							<Text style={fontStyles.bigTextStyleDarkBlue}>
-								{strings.CustomQuestions}
-							</Text>
+							<Text style={fontStyles.bigTextStyleDarkBlue}>{strings.CustomQuestions}</Text>
 							<View style={styles.textSpacer} />
-							<Text style={fontStyles.mainTextStyleBlue}>
-								{strings.CustomQuestionsDescription}
-							</Text>
+							<Text style={fontStyles.mainTextStyleBlue}>{strings.CustomQuestionsDescription}</Text>
 						</View>
 						<FlatList
 							showsHorizontalScrollIndicator={false}
@@ -164,9 +211,8 @@ export default function customerInfoScreen(props) {
 									<CheckBox
 										onClick={() => {
 											const newDefaultQuestions = defaultQuestions;
-											newDefaultQuestions[
-												index
-											].isSelected = !newDefaultQuestions[index].isSelected;
+											newDefaultQuestions[index].isSelected = !newDefaultQuestions[index]
+												.isSelected;
 											setDefaultQuestions(newDefaultQuestions);
 											setUpdateBoolean(!updateBoolean); //Used for react to know to update the screen because it can't detect changes to state arrays
 										}}
@@ -179,9 +225,8 @@ export default function customerInfoScreen(props) {
 										title={item.title}
 										onPress={() => {
 											const newDefaultQuestions = defaultQuestions;
-											newDefaultQuestions[
-												index
-											].isSelected = !newDefaultQuestions[index].isSelected;
+											newDefaultQuestions[index].isSelected = !newDefaultQuestions[index]
+												.isSelected;
 											setDefaultQuestions(newDefaultQuestions);
 											setUpdateBoolean(!updateBoolean); //Used for react to know to update the screen because it can't detect changes to state arrays
 										}}
@@ -218,19 +263,19 @@ export default function customerInfoScreen(props) {
 							<TouchableOpacity
 								style={styles.deleteCustomQuestion}
 								onPress={() => {
-									if (customQuestions.length > 1) {
+									if (index === 0) {
+										const newCustomQuestions = customQuestions;
+										newCustomQuestions[0] = '';
+										setCustomQuestions(newCustomQuestions);
+										setUpdateBoolean(!updateBoolean);
+									} else {
 										const newCustomQuestions = customQuestions;
 										newCustomQuestions.splice(index, 1);
 										setCustomQuestions(newCustomQuestions);
 										setUpdateBoolean(!updateBoolean);
 									}
 								}}>
-								<Icon
-									name={'trash'}
-									type='font-awesome'
-									size={30}
-									color={colors.gray}
-								/>
+								<Icon name={'trash'} type='font-awesome' size={30} color={colors.gray} />
 							</TouchableOpacity>
 						</View>
 					</View>
@@ -246,7 +291,7 @@ export default function customerInfoScreen(props) {
 						/>
 						<View style={styles.buttonSection}>
 							<HelpButton
-								title={strings.Next}
+								title={editing ? strings.Done : strings.Create}
 								width={screenWidth * 0.39}
 								isLoading={isLoading}
 								disabled={isLoading}

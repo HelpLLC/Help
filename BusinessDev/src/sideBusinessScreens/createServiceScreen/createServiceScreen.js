@@ -21,6 +21,7 @@ import { Icon } from 'react-native-elements';
 
 //Creates & exports the functional component
 export default function createServiceScreen(props) {
+	const { service, serviceID, serviceImage } = props.navigation.state.params;
 	//All of the state for this screen is declared here
 	const [imageSource, setImageSource] = useState('');
 	const [imageResponse, setImageResponse] = useState('');
@@ -33,17 +34,34 @@ export default function createServiceScreen(props) {
 	const [descriptionError, setDescriptionError] = useState(false);
 	const [imageError, setImageError] = useState(false);
 
-	//This the method that is called when the component mounts. Sets the screen in firebase, and fetches the data
-	//if this service is being edited
-	useEffect(() => {
-		FirebaseFunctions.setCurrentScreen('BusinessCreateServiceScreen', 'createServiceScreen');
-	}, []);
-
 	//Constucts array of minutes for the duration picker
 	const arrayOfNMinutes = [];
 	for (let i = 0; i < 60; i++) {
 		arrayOfNMinutes.push(i + '');
 	}
+
+	//This the method that is called when the component mounts. Sets the screen in firebase, and fetches the data
+	//if this service is being edited
+	useEffect(() => {
+		FirebaseFunctions.setCurrentScreen('BusinessCreateServiceScreen', 'createServiceScreen');
+		if (props.navigation.state.params.editing === true) {
+			setData();
+		}
+	}, []);
+
+	//This method is going to set the data for this screen if this is editing an exisitng prodct
+	const setData = () => {
+		const theServiceDuration = service.serviceDuration;
+
+		const hours = Math.floor(theServiceDuration) + '';
+		const minutes = ((theServiceDuration * 60) % 60) + '';
+
+		setImageSource(serviceImage);
+		setServiceTitle(service.serviceTitle);
+		setServiceDescription(service.serviceDescription);
+		setServiceDurationHours(hours);
+		setServiceDurationMinutes(minutes);
+	};
 
 	//This function is going to double check that all fields are filled out, the description is of sufficient length
 	//and the service duration is of valid length (greater than 0), and that an image has been uploaded. If all
@@ -60,10 +78,12 @@ export default function createServiceScreen(props) {
 		} else if (serviceDescription.trim().length < 150) {
 			setDescriptionError(true);
 		} else {
-			const { business, businessID } = props.navigation.state.params;
+			const { business, businessID, editing } = props.navigation.state.params;
 			//Calculates how many hours this is
-			const serviceDuration =
-				(parseFloat(serviceDurationHours) +  (parseFloat(serviceDurationMinutes) / 60)).toFixed(2);
+			const serviceDuration = (
+				parseFloat(serviceDurationHours) +
+				parseFloat(serviceDurationMinutes) / 60
+			).toFixed(2);
 			props.navigation.push('PricingAndPaymentScreen', {
 				business,
 				businessID,
@@ -71,6 +91,9 @@ export default function createServiceScreen(props) {
 				serviceDescription,
 				serviceDuration,
 				imageResponse,
+				serviceID,
+				service,
+				editing,
 			});
 		}
 	};
@@ -86,12 +109,7 @@ export default function createServiceScreen(props) {
 				<TouchableOpacity onPress={() => setIsImagePickerShowing(true)}>
 					{imageSource === '' ? (
 						<View style={styles.imagePicker}>
-							<Icon
-								name={'camera'}
-								type={'font-awesome'}
-								size={30}
-								color={colors.gray}
-							/>
+							<Icon name={'camera'} type={'font-awesome'} size={30} color={colors.gray} />
 						</View>
 					) : (
 						<FastImage source={imageSource} style={styles.imagePicker} />
@@ -115,9 +133,7 @@ export default function createServiceScreen(props) {
 			</View>
 			<View style={styles.inputSection}>
 				<View style={styles.inputTitleStyle}>
-					<Text style={fontStyles.bigTextStyleDarkBlue}>
-						{strings.ServiceDescription}
-					</Text>
+					<Text style={fontStyles.bigTextStyleDarkBlue}>{strings.ServiceDescription}</Text>
 				</View>
 				<HelpTextInput
 					isMultiline={true}
@@ -168,12 +184,7 @@ export default function createServiceScreen(props) {
 								],
 							}}
 							Icon={() => (
-								<Icon
-									type='font-awesome'
-									name='arrow-down'
-									color={colors.lightBlue}
-									size={20}
-								/>
+								<Icon type='font-awesome' name='arrow-down' color={colors.lightBlue} size={20} />
 							)}
 						/>
 					</View>
