@@ -47,5 +47,15 @@ export default {
 	LetsLaunch: 'Let\'s launch your business into success!',
 	ContactInformation: 'Contact Information',
 	LetsGrow: 'Let\'s Grow Your Business',
-	ReadyToStartWorkingTogether: 'Ready to start working together? Have a general question? We\'re only an email away.'
+	ReadyToStartWorkingTogether: 'Ready to start working together? Have a general question? We\'re only an email away.',
+	LetUsHelp: "Let us Help your business thrive.",
+	WorkTogether: "Let's work together",
+	OurServices: "Our Services",
+	WhatWeDoBest: 'What We Do Best',
+	SmartScheduling: 'Smart Scheduling',
+	SmartSchedulingText: ' Automate your schedule by having customers schedule a time that works for them and for you.',
+	AdvancedAnalyticsText: 'Analyze your business over time and make data-driven decisions based on things like Monthly Revenue, Top Services, and Customer Locations.',
+	PaymentsText: 'Allow customers to pay through the secure Help platform however they want and accept it all in one place.',
+	EmployeeText: 'Manage how your employees complete requests through Help’s employee management features.',
+	ConnectText: 'Connect with your customers and take your business to the next level today.'
 };

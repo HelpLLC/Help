@@ -1,17 +1,25 @@
 import React from "react";
 import "./LandingPage.css";
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  Link,
+  useHistory,
+} from "react-router-dom";
 import LoginRegister from "../Authentication/LoginRegister";
 import strings from "../../../config/strings";
 import fontStyles from "../../../config/fontStyles";
 import HelpButton from "../../../components/HelpButton/HelpButton";
 import { screenHeight, screenWidth } from "../../../config/dimensions";
 import { Text, Image, View } from "react-native-web";
-import { Box } from "@material-ui/core";
+import { Box, StylesProvider } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import LandingPageStyles from "./LandingPageStyles";
 
 export default function LandingPage() {
   //To save code, this generates each reduntant section in the landing page
+  const history = useHistory();
 
   return (
     <div>
@@ -20,19 +28,17 @@ export default function LandingPage() {
         <div style={{ flexDirection: "row" }}>
           <div>
             <div className="titlecontainer3">
-              <Text
-                style={{
-                  fontSize: 100,
-                  color: "white",
-                  fontFamily: "Lucidda Grande",
-                  fontWeight: "bold",
-                }}
-              >
-                Let us Help your business thrive.
+              <Text style={LandingPageStyles.titleWhite}>
+                {strings.LetUsHelp}
               </Text>
             </div>
-            <div style={{ width: "30%", marginLeft: "9%", marginTop: "2%" }}>
-              <HelpButton title="Let's work together" />
+            <div style={{ width: "30%", marginLeft: "14vw", marginTop: "2%" }}>
+              <HelpButton
+                title={strings.WorkTogether}
+                onPress={() => {
+                  history.push("/signUp");
+                }}
+              />
             </div>
           </div>
           <div>
@@ -43,158 +49,210 @@ export default function LandingPage() {
       <section className="sec1"></section>
       <section>
         <div className="titlecontainer4">
-          <Text
-            style={{
-              fontSize: 100,
-              color: "#567681",
-              fontFamily: "Lucidda Grande",
-              fontWeight: "bold",
-            }}
-          >
-            Our Services
-          </Text>
+          <Text style={LandingPageStyles.titleNavy}>{strings.OurServices}</Text>
         </div>
         <div className="titlecontainer4" style={{ marginTop: "1%" }}>
-          <Text
+          <Text style={LandingPageStyles.subtitleBlue}>{strings.WhatWeDoBest}</Text>
+        </div>
+        <View style={LandingPageStyles.cardRowContainer}>
+          <View style={LandingPageStyles.cardContainer}>
+            <View
+              style={{
+                background: "#00B0F0",
+                width: "10vw",
+                padding: 20,
+                height: "10vw",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "5vw",
+                alignContent: "center",
+                marginTop: '-5vh'
+              }}
+            >
+              <FontAwesomeIcon
+                icon={["fas", "calendar-alt"]}
+                style={{
+                  overflow: "hidden",
+                  fontSize: "67px",
+                  textAlign: "left",
+                  color: "#000000",
+                }}
+              />
+            </View>
+            <View style={LandingPageStyles.cardTextContainer}>
+              <Text style={LandingPageStyles.cardTitle}>{strings.SmartScheduling}</Text>
+              <View>
+                <Text style={LandingPageStyles.cardText}>
+                 {strings.SmartSchedulingText}
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View style={LandingPageStyles.cardContainer}>
+            <View
+              style={{
+                background: "#41CBEF",
+                width: "10vw",
+                padding: 20,
+                height: "10vw",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "5vw",
+                alignContent: "center",
+                marginTop: '6vh'
+              }}
+            >
+              <FontAwesomeIcon
+                icon={["fas", "chart-bar"]}
+                style={{
+                  overflow: "hidden",
+                  fontSize: "67px",
+                  textAlign: "left",
+                  color: "#000000",
+                }}
+              />
+            </View>
+            <View style={LandingPageStyles.cardTextContainer}>
+              <Text style={LandingPageStyles.cardTitle}>
+                {strings.AdvancedAnalytics}
+              </Text>
+              <View>
+                <Text
+                 style={LandingPageStyles.cardText}
+                >
+                  {strings.AdvancedAnalyticsText}
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View style={LandingPageStyles.cardContainer}>
+            <View
+              style={{
+                background: "#5CC6BC",
+                width: "10vw",
+                padding: 20,
+                height: "10vw",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "5vw",
+                alignContent: "center",
+              }}
+            >
+              <FontAwesomeIcon
+                icon={["fas", "dollar-sign"]}
+                style={{
+                  overflow: "hidden",
+                  fontSize: "67px",
+                  textAlign: "left",
+                  color: "#000000",
+                  marginTop: "2.5%",
+                }}
+              />
+            </View>
+            <View style={LandingPageStyles.cardTextContainer}>
+              <Text style={LandingPageStyles.cardTitle}>
+                Centralized Payments
+              </Text>
+              <View>
+                <Text
+                  style={LandingPageStyles.cardText}
+                >
+                  {strings.PaymentsText}
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View style={LandingPageStyles.cardContainer}>
+            <View
+              style={{
+                background: "#8ED0AC",
+                width: "10vw",
+                padding: 20,
+                height: "10vw",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "5vw",
+                alignContent: "center",
+              }}
+            >
+              <FontAwesomeIcon
+                icon={["fas", "users"]}
+                style={{
+                  overflow: "hidden",
+                  fontSize: "67px",
+                  textAlign: "left",
+                  color: "#000000",
+                }}
+              />
+            </View>
+            <View style={LandingPageStyles.cardTextContainer}>
+              <Text style={LandingPageStyles.cardTitle}>
+                {strings.EmployeeManagement}
+              </Text>
+              <View>
+                <Text style={LandingPageStyles.cardText}
+                >
+                  {strings.EmployeeText}
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      </section>
+      <section className="sec4" />
+      <section className="sec5">
+        <div style={{ flexDirection: "row", display: "flex" }}>
+          <div style={{ width: "50vw" }}>
+            <div className="titlecontainer5">
+              <Text style={LandingPageStyles.titleWhite}>
+                {strings.StartSellingToday}
+              </Text>
+            </div>
+            ]
+            <div>
+              <h1
+                style={{
+                  fontFamily: "Lucida Grande",
+                  color: "white",
+                  fontSize: 50,
+                  marginLeft: "5vw",
+                  textAlign: "left",
+                }}
+              >
+                {strings.ConnectText}
+              </h1>
+            </div>
+            <div
+              style={{ width: "20vw", marginLeft: "14vw", marginTop: "5vh" }}
+            >
+              <HelpButton
+                title={strings.SignUp}
+                onPress={() => {
+                  history.push("/signUp");
+                }}
+              />
+            </div>
+            <div
+              style={{ width: "15vw", marginLeft: "16.5vw", marginTop: "5vh" }}
+            >
+              <HelpButton
+                title={strings.ContactUs}
+                onPress={() => {
+                  history.push("/contactus");
+                }}
+              />
+            </div>
+          </div>
+          <div
             style={{
-              fontSize: 60,
-              color: "#00B0F0",
-              fontFamily: "Lucidda Grande",
+              alignItems: "row-reverse",
+              marginLeft: "5vw",
+              marginTop: "10vh",
             }}
           >
-            What We Do Best
-          </Text>
+            <Text style={LandingPageStyles.bigTitleWhite}>{strings.Help}</Text>
+          </div>
         </div>
-
-          <div>
-            <View
-              style={{
-                marginLeft: "5%",
-                width: "20%",
-                height: "20%",
-                borderWidth: 2,
-                borderColor: "#00B0F0",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: 15,
-              }}
-            >
-              <View
-                style={{
-                  background: "#00B0F0",
-                  width: "10vw",
-                  padding: 20,
-                  height: '10vw',
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginTop: "5%",
-                  borderRadius: "5vw",
-                  alignContent: "center",
-                  flexDirection: "row",
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={["fas", "calendar-alt"]}
-                  style={{
-                    overflow: "hidden",
-                    fontFamily: "Lucida Grande",
-                    fontSize: "67px",
-                    textAlign: "left",
-                    color: "#000000",
-                    marginTop: "2.5%",
-                  }}
-                />
-              </View>
-              <View style={{ justifyContent: "center", alignItems: "center", textAlign: 'center' }}>
-                <Text
-                  style={{
-                    fontFamily: "Lucida Grande",
-                    fontSize: 40,
-                    color: "#567681",
-                    fontWeight: 'bold'
-                  }}
-                >
-                  Smart Scheduling
-                </Text>
-                <Text>
-                  <Text
-                    style={{
-                      fontFamily: "Lucida Grande",
-                      fontSize: 30,
-                      color: "#567681",
-                    }}
-                  >
-                    Automate your schedule by having customers schedule a time
-                    that works for them and for you.
-                  </Text>
-                </Text>
-              </View>
-            </View>
-          </div>
-          <div>
-            <View
-              style={{
-                marginLeft: "5%",
-                width: "20%",
-                height: "20%",
-                borderWidth: 2,
-                borderColor: "#00B0F0",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: 15,
-              }}
-            >
-              <View
-                style={{
-                  background: "#00B0F0",
-                  width: "50%",
-                  padding: 20,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginTop: "5%",
-                  borderRadius: "100%",
-                  alignContent: "center",
-                  flexDirection: "row",
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={["fas", "calendar-alt"]}
-                  style={{
-                    overflow: "hidden",
-                    fontFamily: "Lucida Grande",
-                    fontSize: "67px",
-                    textAlign: "left",
-                    color: "#000000",
-                    marginTop: "2.5%",
-                  }}
-                />
-              </View>
-              <View style={{ justifyContent: "center", alignItems: "center", textAlign: 'center' }}>
-                <Text
-                  style={{
-                    fontFamily: "Lucida Grande",
-                    fontSize: 40,
-                    color: "#567681",
-                    fontWeight: 'bold'
-                  }}
-                >
-                  Smart Scheduling
-                </Text>
-                <Text>
-                  <Text
-                    style={{
-                      fontFamily: "Lucida Grande",
-                      fontSize: 30,
-                      color: "#567681",
-                    }}
-                  >
-                    Automate your schedule by having customers schedule a time
-                    that works for them and for you.
-                  </Text>
-                </Text>
-              </View>
-            </View>
-          </div>
       </section>
     </div>
   );
