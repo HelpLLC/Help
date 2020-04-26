@@ -5,8 +5,7 @@ import HelpTextInput from '../../../components/HelpTextInput/HelpTextInput';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import strings from '../../../config/strings';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import path from './images/path_1.png';
-import map from './images/map.png';
+import map from './assets/map.svg';
 
 export default function ContactUs() {
 	const [email, setEmail] = useState('');
@@ -19,7 +18,6 @@ export default function ContactUs() {
 
 	return (
 		<div className='contactUsContainer'>
-			<div className='imageContainer'>
 				<div className='path'>
 					<div className='textContainer'>
 						<text className='title'>{strings.ContactUs}</text>
@@ -65,9 +63,9 @@ export default function ContactUs() {
 						</div>
 					</div>
 
-					<div className='imageContainer'>
+					<div>
 						<img src={map} className='mapImage' />
-						<div className='textContainer'>
+						<div className='mapButton'>
 							<HelpButton
 								width={'15vw'}
 								title='Go To Map'
@@ -87,7 +85,7 @@ export default function ContactUs() {
 						{strings.ReadyToStartWorkingTogether}
 					</text>
 				</div>
-			</div>
+			{/* </div> */}
 			<div className='formContainer'>
 				<div className='emailNameContainer'>
 					<HelpTextInput
