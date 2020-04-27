@@ -11,7 +11,7 @@ import PrivacyPolicy from '../../PrivacyPolicy.js';
 import Credits from '../../Credits.js';
 import ContactUs from '../ContactUs/ContactUs';
 import TermsAndConditions from '../../TermsAndConditions.js';
-import CreateProductScreen from '../../BusinessScreens/CreateProduct/CreateProductScreen'
+import CreateProductScreen from '../../BusinessScreens/CreateProductScreen/CreateProductScreen'
 
 export default function LandingPageNavigator() {
 	//The header containing the title, log in, and sign up buttons

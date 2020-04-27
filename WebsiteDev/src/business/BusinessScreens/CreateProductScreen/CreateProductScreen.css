@@ -1,0 +1,167 @@
+.container {
+	padding-top: 10vh;
+	width: 100vw;
+	background-color: white;
+	align-items: center;
+	flex-direction: column;
+	display: flex;
+}
+.innerContainer {
+	display: flex;
+	width: 80vw;
+	height: 90vh;
+	justify-content: center;
+	margin-bottom: 2vh;
+	border-style: solid;
+	border-width: 0.5vw;
+	border-bottom-right-radius: 5vh;
+	border-bottom-left-radius: 5vh;
+	border-color: #5cc6bc;
+	border-top-color: #ffffff;
+}
+.stepsRow {
+	display: flex;
+	width: 81vw;
+	border-top-left-radius: 20.25vw;
+	border-top-right-radius: 20.25vw;
+	background-color: #f3f3f3;
+	height: 12vh;
+	flex-direction: row;
+}
+.leftStep {
+	display: flex;
+	cursor: pointer;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: center;
+	border-style: solid;
+	border-left-color: #5cc6bc;
+	border-top-left-radius: 8vh;
+	border-top-right-radius: 6.75vw;
+	border-bottom-right-radius: 6.75vw;
+	width: 27vw;
+	background-color: #5cc6bc;
+	height: 10vh;
+}
+.middleStep {
+	display: flex;
+	cursor: pointer;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: center;
+	border-top-left-radius: 5vh;
+	width: 27vw;
+	border-top-right-radius: 6.75vw;
+	border-bottom-right-radius: 6.75vw;
+	border-top-left-radius: 6.75vw;
+	border-bottom-left-radius: 6.75vw;
+	background-color: #5cc6bc;
+	height: 10vh;
+}
+.rightStep {
+	display: flex;
+	flex-direction: row;
+	cursor: pointer;
+	justify-content: space-evenly;
+	align-items: center;
+	border-style: solid;
+	border-right-color: #5cc6bc;
+	border-top-right-radius: 8vh;
+	border-top-left-radius: 6.75vw;
+	border-bottom-left-radius: 6.75vw;
+	width: 27vw;
+	background-color: #5cc6bc;
+	height: 10vh;
+}
+.selected {
+	background-color: #5cc6bc;
+	border-style: solid;
+	border-color: #5cc6bc;
+}
+.unselected {
+	background-color: #f3f3f3;
+	border-style: solid;
+	border-color: #f3f3f3;
+}
+.selectedCircle {
+	width: 3vw;
+	height: 3vw;
+	border-radius: 1.5vw;
+	background-color: #ffffff;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+}
+.unselectedCircle {
+	width: 3vw;
+	height: 3vw;
+	border-radius: 1.5vw;
+	background-color: #808080;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+}
+.stepOneTopSection {
+	display: flex;
+	height: 20vh;
+	justify-content: space-evenly;
+	align-items: center;
+	flex-direction: column;
+}
+.stepOneBottomSection {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	width: 81vw;
+}
+.imagePickerSection {
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	border-style: none;
+	height: 60vh;
+	justify-content: center;
+	align-items: center;
+}
+.imagePickerCircle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 10vw;
+	height: 10vw;
+	border-radius: 5.1vw;
+	background-color: #ffffff;
+	border-color: #5cc6bc;
+	border-width: 0.2vw;
+	border-style: solid;
+}
+.textInputs {
+	height: 70vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+.durationRow {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	width: 32.5vw;
+}
+.buttonsContainer {
+	width: 81vw;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-bottom: 5vh;
+}
+.rightButton {
+	display: flex;
+	justify-content: flex-end;
+	width: 81vw;
+}
+.leftButton {
+	display: flex;
+	justify-content: flex-end;
+	width: 81vw;
+}

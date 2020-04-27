@@ -1,0 +1,29 @@
+/*This is going to contain the fontStyles that are going to be used in the website*/
+.bold {
+    font-weight: bold;
+}
+.bigTextStyleWhite {
+	font-family: 'Lucida Grande';
+	font-size: 2vw;
+	color: #ffffff;
+}
+.bigTextStyleGray {
+	font-family: 'Lucida Grande';
+	font-size: 2vw;
+	color: #808080;
+}
+.bigTextStyleLightGray {
+	font-family: 'Lucida Grande';
+	font-size: 2vw;
+	color: #f3f3f3;
+}
+.bigTextStyleBlue {
+    font-family: 'Lucida Grande';
+	font-size: 2vw;
+	color: #00B0F0;
+}
+.bigTextStyleDarkBlue {
+    font-family: 'Lucida Grande';
+	font-size: 2vw;
+	color: #567681;
+}
