@@ -1,179 +1,182 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "./Calendar.css";
 import Card from "@material-ui/core/Card";
 import Divider from "@material-ui/core/Divider";
-import { IoIosArrowForward } from "react-icons/io";
-import { IoMdPerson } from "react-icons/io";
-import HelpButton from "../../../components/HelpButton";
+import HelpButton from "../../../components/HelpButton/HelpButton";
 import FirebaseFunctions from "../../../config/FirebaseFunctions";
+import strings from "../../../config/strings";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default class ReactCalendar extends Component {
-  state = {
-    arrayOfRequests: [],
-  };
+export default function ReactCalendar() {
+  const [arrayOfRequests, setArrayOfRequests] = useState([]);
+  const [upcomingBusinessRequest, getUpcomingBusinessRequest] = useState({});
 
-  async componentDidMount() {
-    const user = await FirebaseFunctions.call(
-      "getBusinessCurrentRequestsByDay",
+  const fecthFunc = async () => {
+    const upcomingBusinessRequest = await FirebaseFunctions.call(
+      "getUpcomingRequestByBusinessID",
       {
-        day: "2020-04-20",
         businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2",
       }
     );
-    console.log(user);
-  }
+    getUpcomingBusinessRequest(upcomingBusinessRequest);
+    console.log(upcomingBusinessRequest);
+  };
 
-  render() {
-    const array = [
-      "12:00 AM",
-      "1:00 AM",
-      "2:00 AM",
-      "3:00 AM",
-      "4:00 AM",
-      "5:00 AM",
-      "6:00 AM",
-      "7:00 AM",
-      "8:00 AM",
-      "9:00 AM",
-      "10:00 AM",
-      "11:00 AM",
-      "12:00 PM",
-      "1:00 PM",
-      "2:00 PM",
-      "3:00 PM",
-      "4:00 PM",
-      "5:00 PM",
-      "6:00 PM",
-      "7:00 PM",
-      "8:00 PM",
-      "9:00 PM",
-      "10:00 PM",
-      "11:00 PM",
-    ];
-    console.log(this.state.arrayOfRequests);
-    return (
-      <div className="container">
-        <h1 className="header">Calender</h1>
-        <Calendar
-          onClickDay={async (value) => {
-            const dateString =
-              value.getFullYear() +
-              "-" +
-              (value.getMonth() + 1) +
-              "-" +
-              value.getDate();
+  useEffect(() => {
+    fecthFunc();
+  }, []);
 
-            const arrayOfRequests = await FirebaseFunctions.call(
-              "getBusinessCurrentRequestsByDay",
-              {
-                day: dateString,
-                businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2",
-              }
-            );
-            this.setState({ arrayOfRequests });
-          }}
-        />
-        <div className="divcontainer">
-          <button>
-            <h2 className="heading">Day</h2>
-          </button>
+  const array = [
+    strings.TwelveAM,
+    strings.OneAM,
+    strings.TwoAM,
+    strings.ThreeAM,
+    strings.FourAM,
+    strings.FiveAM,
+    strings.SixAm,
+    strings.SevenAM,
+    strings.EightAM,
+    strings.NineAM,
+    strings.TenAM,
+    strings.ElevenAM,
+    strings.TwelvePM,
+    strings.OnePM,
+    strings.TwoPM,
+    strings.ThreePM,
+    strings.FourPM,
+    strings.FivePM,
+    strings.SixPM,
+    strings.SevenPM,
+    strings.EightPM,
+    strings.NinePM,
+    strings.TenPM,
+    strings.ElevenPM,
+  ];
 
-          <button>
-            <h2 className="heading">Week</h2>
-          </button>
+  return (
+    <div className="container">
+      <h1 className="header">{strings.CalendarHeader}</h1>
+      <Calendar
+        onClickDay={async (value) => {
+          const dateString =
+            value.getFullYear() +
+            "-" +
+            (value.getMonth() + 1) +
+            "-" +
+            value.getDate();
 
-          <button>
-            <h2 className="heading">Month</h2>
-          </button>
+          const arrayOfRequests = await FirebaseFunctions.call(
+            "getBusinessCurrentRequestsByDay",
+            {
+              day: dateString,
+              businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2",
+            }
+          );
+          setArrayOfRequests(arrayOfRequests);
+        }}
+      />
+      <div className="divcontainer">
+        <button>
+          <h2 className="heading">{strings.Day}</h2>
+        </button>
 
-          <button>
-            <h2 className="heading">Year</h2>
-          </button>
+        <button>
+          <h2 className="heading">{strings.Week}</h2>
+        </button>
+
+        <button>
+          <h2 className="heading">{strings.Month}</h2>
+        </button>
+
+        <button>
+          <h2 className="heading">{strings.Year}</h2>
+        </button>
+      </div>
+      <div>
+        <div className="dayscontainer">
+          <button className="daysheading">{strings.Sunday}</button>
+          <button className="daysheading">{strings.Monday}</button>
+          <button className="daysheading">{strings.Tuesday}</button>
+          <button className="daysheading">{strings.Wednesday}</button>
+          <button className="daysheading">{strings.Thursday}</button>
+          <button className="daysheading">{strings.Friday}</button>
+          <button className="daysheading">{strings.Saturday}</button>
         </div>
-        <div>
-          <div className="dayscontainer">
-            <button className="daysheading">Sun</button>
-            <button className="daysheading">Mon</button>
-            <button className="daysheading">Tue</button>
-            <button className="daysheading">Wed</button>
-            <button className="daysheading">Thu</button>
-            <button className="daysheading">Fri</button>
-            <button className="daysheading">Sat</button>
+        <Divider orientation="horizontal" />
+        <div className="eventdetails">
+          <div className="timecarddiv">
+            <div className="timediv">
+              {array.map((eachString) => (
+                <div className="arraydiv">
+                  {eachString}
+                  <Divider orientation="horizontal" className="divider" />
+                </div>
+              ))}
+            </div>
           </div>
-          <Divider orientation="horizontal" />
-          <div className="eventdetails">
-            <div className="timecarddiv">
-              <div className="timediv">
-                {array.map((eachString) => (
-                  <div className="arraydiv">
-                    {eachString}
-                    <Divider orientation="horizontal" className="divider" />
-                  </div>
-                ))}
-              </div>
-            </div>
 
-            <div className="carddiv">
-              <Card className="card">
+          <div className="carddiv">
+            <Card className="card">
+              <div>
+                <h1 className="cardheader">House Cleaning</h1>
+                <p className="cardtext">Woodinville</p>
+              </div>
+              <div className="cardtimetext">
+                <p className="timetext">
+                  Tuesday, Mar 2, 2020
+                  <br /> repeats monthly
+                </p>
+                <p className="timetext2">7:00 pm to 8:30 pm</p>
+              </div>
+              <hr />
+              <div>
+                <h3 className="cardadjust">{strings.AdjustJobHeader}</h3>
+                <FontAwesomeIcon className="arrow" icon="angle-right" />
+              </div>
+              <hr className="horiline" />
+              <div className="cardrequestdiv">
+                <FontAwesomeIcon icon="user" className="person" size="2x" />
                 <div>
-                  {this.state.arrayOfRequests.map((eachRequest) => {
-                    return (
-                      <h1 className="cardheaders">
-                        {eachRequest.serviceTitle}
-                      </h1>
-                    );
-                    console.log(eachRequest);
-                  })}
-                  <p className="cardtext">Woodinville</p>
+                  <h4 className="requestheaders">
+                    {strings.RequestFromHeader}
+                  </h4>
+                  <h5 className="requestername">Jim Halpert</h5>
                 </div>
-                <div className="cardtimetext">
-                  <p className="timetext">
-                    Tuesday, Mar 2, 2020
-                    <br /> repeats monthly
-                  </p>
-                  <p className="timetext">7:00 pm to 8:30 pm</p>
+                <div className="arrow2div">
+                  {" "}
+                  <FontAwesomeIcon icon="angle-right" className="arrow2" />{" "}
                 </div>
-                <hr />
-                <div className="cardadjustdiv">
-                  <h3 className="cardadjust">Adjust Job</h3>
-                  <IoIosArrowForward className="arrow" />
-                </div>
-                <hr className="horiline" />
-                <div className="cardrequestdiv">
-                  <IoMdPerson className="person" />
-                  <div className="requestheaders">
-                    <h4>Request from</h4>
-                    <h5 className="requestername">Jim Halpert</h5>
-                  </div>
-                  <IoIosArrowForward className="arrow2" />
-                </div>
-                <hr className="horiline2" />
-                <div>
-                  <h3 className="assignedheader">Assigned Employees</h3>
-                  <p className="assignedtext">Dwight Shrute</p>
-                  <p className="assignedtext">Pam Beasley</p>
-                  <IoIosArrowForward className="arrow3" />
-                </div>
-                <hr className="horiline3" />
-                <div>
-                  <h3 className="notesheader">Notes</h3>
-                  <p className="notestext">
-                    Make sure to get the job done and do a very good job most
-                    important people are the customers......
-                  </p>
-                  <h6 className="fullnotesheader">Show all notes</h6>
-                  <IoIosArrowForward className="arrow4" />
-                </div>
-                <hr className="horiline3" />
-                <div className="helpbutton">
-                  <HelpButton label="Confirm Job" />
-                </div>
-              </Card>
-            </div>
+              </div>
+              <hr className="horiline2" />
+              <div>
+                <h3 className="assignedheader">
+                  {strings.AssignedEmployeesHeader}
+                </h3>
+                <p className="assignedtext">Dwight Shrute</p>
+                <p className="assignedtext">Pam Beasley</p>
+                <FontAwesomeIcon icon="angle-right" className="arrow3" />
+              </div>
+              <hr className="horiline3" />
+              <div>
+                <h3 className="notesheader">{strings.NotesHeader}</h3>
+                <p className="notestext">
+                  Make sure to get the job done and do a very good job most
+                  important people are the customers......
+                </p>
+                <h6 className="fullnotesheader">
+                  {strings.ShowAllNotesSubHeader}
+                </h6>
+                <FontAwesomeIcon icon="angle-right" className="arrow4" />
+              </div>
+              <hr className="horiline3" />
+              <div className="helpbutton">
+                <HelpButton title="Confirm Job" width="20vw" />
+              </div>
+            </Card>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }

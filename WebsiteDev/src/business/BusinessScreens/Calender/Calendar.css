@@ -164,10 +164,6 @@ button:hover {
   display: inline-flex;
 }
 
-.linediv {
-  margin: 50px;
-}
-
 .container {
   height: 250vh;
   width: 205vh;
@@ -175,7 +171,7 @@ button:hover {
 
 .carddiv {
   float: right;
-  margin-left: 10px;
+  margin-left: .1vw;
 }
 
 .eventdetails {
@@ -183,8 +179,8 @@ button:hover {
 }
 
 .card {
-  height: 700px;
-  width: 50vh;
+  height: 85vh;
+  width: 30vw;
   flex-direction: column;
 }
 
@@ -196,74 +192,80 @@ button:hover {
   align-items: left;
 }
 
-.cardheaders {
-  margin-left: 10px;
+.cardheader{
+  margin-left: .5vw;
 }
 
 .cardtext {
-  margin-top: -20px;
-  margin-left: 10px;
+  margin-top: -2vh;
+  margin-left: .5vw;
 }
 
 .cardtimetext {
   display: flex;
-  margin: 10px;
+  margin: .1vh;
 }
 
-.timetext {
+.timetext,
+.timetext2 {
   font-size: 20px;
-  margin: 20px;
+  margin: 2vh 2vw 0vh 1vw;
+}
+
+.timetext2 {
+  font-size: 20px;
+  margin: 2vh 0vw 0vh 2vw;
 }
 
 .cardadjust {
-  margin-top: 10px;
-  margin-left: 20px;
+  margin-top: 1.5vh;
+  margin-left: 1vw;
   float: left;
-}
-
-.cardadjustdiv {
-  flex-direction: row;
 }
 
 .arrow,
 .arrow3,
 .arrow4 {
-  margin-top: 15px;
+  margin-top: 2vh;
   float: right;
-  width: 20px;
+  width: 15px;
 }
 
 .horiline,
 .horiline2,
 .horiline3 {
-  margin-top: 65px;
+  margin-top: 8vh;
   height: 1px;
 }
 
 .cardrequestdiv {
-  display: flex;
-}
+  display: flex;}
 
 .requestheaders {
-  margin-top: -20px;
-  margin-left: 20px;
+  margin-top: .2vh;
+  margin-left: .2vw;
+  margin-right: -10vw;
   font-size: 15px;
 }
 
 .requestername {
-  margin-top: -15px;
+  margin-top: -2vh;
   font-size: 20px;
+  margin-right: -10vw;
 }
 
 .person {
-  height: 50px;
-  width: 50px;
+  margin-left: 1vw;
+  margin-right: 1vw;
+  margin-top: 1vh;
 }
 
 .arrow2 {
-  margin-left: 220px;
-  margin-top: 30px;
+  margin-top: 2vh;
   width: 20px;
+}
+.arrow2div{
+  margin-left: 25.5vw;
 }
 
 .horiline2 {
@@ -282,24 +284,24 @@ button:hover {
 
 .assignedtext,
 .assignedheader {
-  margin: 5px;
+  margin: .5vw;
 }
 
 .assignedheader {
-  margin-bottom: 10px;
+  margin-bottom: 2vh;
 }
 
 .arrow3 {
-  margin-top: -50px;
+  margin-top: -6vh;
 }
 
 .horiline3 {
-  margin-top: 10px;
+  margin-top: .1vh;
 }
 
 .notesheader,
 .notestext {
-  margin: 10px;
+  margin: .5vh;
 }
 
 .notestext {
@@ -308,15 +310,16 @@ button:hover {
 }
 
 .fullnotesheader {
-  margin: 10px;
+  margin: 2vh 0 -.1vh .2vw ;
 }
 
 .arrow4 {
-  margin-top: -25px;
+  margin-top: -2vh;
 }
 
 .helpbutton {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 5vh;
 }
