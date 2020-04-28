@@ -3,7 +3,7 @@ import "./Dashboard.css";
 import Header from "../Header/Header";
 import "../Header/Header.css";
 import FirebaseFunctions from "../../../config/FirebaseFunctions";
-import BusinessServiceCard from "../../../components/BusinessServiceCard";
+import BusinessServiceCard from "../../../components/BusinessServiceCard/BusinessServiceCard";
 import { useLocation, Link } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
