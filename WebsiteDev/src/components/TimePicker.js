@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import TimeInput from 'material-ui-time-picker';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { View } from 'react-native-web';
+import TimePickerStyle from './TimePickerStyle';
 
 export default function TimePicker(props) {
 	TimePicker.propTypes = {
@@ -23,19 +24,10 @@ export default function TimePicker(props) {
 		color: '#00B0F0',
 	});
 
-	const mystyle = {
-		color: '#00B0F0',
-		fontFamily: 'Arial Rounded MT Bold',
-		marginLeft: props.marginLeft,
-		fontSize: 14,
-		width: props.widthPercent,
-		marginTop: props.marginTop,
-	};
-
 	return (
 		<View>
 			<ThemeProvider theme={theme}>
-				<TimeInput mode='12h' style={mystyle} onChange={props.onChange} value={props.value} />
+				<TimeInput mode='12h' style={{...fontStyles.mainTextStyleBlue, width: widthPercent}} onChange={props.onChange} value={props.value} />
 			</ThemeProvider>
 		</View>
 	);
