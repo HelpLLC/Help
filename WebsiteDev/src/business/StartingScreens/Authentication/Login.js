@@ -1,7 +1,6 @@
 import React from 'react';
 import loginImg from '../../../images/Login.svg';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
-// import Modal from 'react-modal';
 import HelpButton from '../../../components/HelpButton/HelpButton.js';
 import TitleComponent from '../../../components/TitleComponent.js';
 import Dialog from '@material-ui/core/Dialog';
@@ -77,24 +76,24 @@ export function Login(props) {
 					<div className='form'>
 						<div className='form-group'>
 							<HelpTextInput
-						placeholder='E-mail Address'
-						isMultiline={false}
-						width={'100%'}
-						onChangeText={(email) => setEmail(email)}
+								placeholder='E-mail Address'
+								isMultiline={false}
+								width={'100%'}
+								onChangeText={(email) => setEmail(email)}
 							/>
 						</div>
 						<div className='form-group'>
 							<HelpTextInput
-						placeholder='Password'
-						isMultiline={false}
-						width={'100%'}
-						password={true}
-						onChangeText={(password) => setPassword(password)}
+								placeholder='Password'
+								isMultiline={false}
+								width={'100%'}
+								password={true}
+								onChangeText={(password) => setPassword(password)}
 							/>
 						</div>
 					</div>
 				</div>
-					<HelpButton title={'Login'} onPress={login} width={screenWidth * 0.1} />
+				<HelpButton title={'Login'} onPress={login} width={screenWidth * 0.1} />
 
 				<br />
 				<HelpButton
@@ -110,8 +109,8 @@ export function Login(props) {
 				<TitleComponent text={'Forgot Password?'} isCentered={true} textColor='#00B0F0' />
 				<DialogContent>
 					<DialogContentText>
-						Please enter your email here and we will send you an email with a link to
-						reset your password.
+						Please enter your email here and we will send you an email with a link to reset your
+						password.
 					</DialogContentText>
 					<HelpTextInput
 						placeholder='E-mail Address'
@@ -126,45 +125,29 @@ export function Login(props) {
 				</DialogActions>
 			</Dialog>
 
-			<Dialog
-				open={emailSentOpen}
-				onClose={handleEmailSentClose}
-				aria-labelledby='email-sent'>
+			<Dialog open={emailSentOpen} onClose={handleEmailSentClose} aria-labelledby='email-sent'>
 				<TitleComponent text={'Email Sent!'} isCentered={true} textColor='#00B0F0' />
 				<DialogContent>
 					<DialogContentText>
-						If a user with this email exists, then the email has been sent. Please go to
-						your inbox for the link to reset your password. If you do not see it, check
-						the spam folder.
+						If a user with this email exists, then the email has been sent. Please go to your inbox
+						for the link to reset your password. If you do not see it, check the spam folder.
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<HelpButton
-						title={'Ok'}
-						onPress={handleEmailSentClose}
-						width={screenWidth * 0.1}
-					/>
+					<HelpButton title={'Ok'} onPress={handleEmailSentClose} width={screenWidth * 0.1} />
 				</DialogActions>
 			</Dialog>
 
 			<Dialog open={errorOpen} onClose={handleErrorClose} aria-labelledby='error-dialog'>
-				<TitleComponent
-					text={'Error Sending Email'}
-					isCentered={true}
-					textColor='#00B0F0'
-				/>
+				<TitleComponent text={'Error Sending Email'} isCentered={true} textColor='#00B0F0' />
 				<DialogContent>
 					<DialogContentText>
-						There was an error sending the email. Please make sure a user with this
-						email exists, and try again.
+						There was an error sending the email. Please make sure a user with this email exists,
+						and try again.
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<HelpButton
-						title={'Close'}
-						onPress={handleErrorClose}
-						width={screenWidth * 0.1}
-					/>
+					<HelpButton title={'Close'} onPress={handleErrorClose} width={screenWidth * 0.1} />
 					<HelpButton
 						title={'Go to Sign Up'}
 						onPress={(event) => (window.location.href = '/signUp')}
