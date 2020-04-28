@@ -10,6 +10,7 @@ import Resizer from 'react-image-file-resizer';
 import HelpTextInput from '../../../components/HelpTextInput/HelpTextInput';
 import { useDropzone } from 'react-dropzone';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Select from 'react-select';
 import { View } from 'react-native-web';
 import { screenWidth, screenHeight } from '../../../config/dimensions';
 
@@ -24,10 +25,10 @@ export default function CreateProductScreen() {
 	const [image, setImage] = useState('');
 	const [hours, setHours] = useState('');
 	const [minutes, setMinutes] = useState('');
-	const [priceType, setPriceType] = useState('fixed');
+	const [priceType, setPriceType] = useState(strings.Fixed);
 	const [priceNumber, setPriceNumber] = useState('');
-	const [pricePerText, setPricePerText] = useState('');
-	const [questions, setQuestions] = useState([]);
+	const [pricePerText, setPricePerText] = useState(strings.Hour);
+	const [questions, setQuestions] = useState(['']);
 	const [defaultQuestions, setDefaultQuestions] = useState([
 		{
 			name: strings.Email,
@@ -48,7 +49,11 @@ export default function CreateProductScreen() {
 	const [serviceDescription, setServiceDescription] = useState('');
 	const [cash, setCash] = useState(false);
 	const [card, setCard] = useState(false);
+	const [prepay, setPrepay] = useState(false);
+	const [postpay, setPostpay] = useState(false);
 	const [serviceTitle, setServiceTitle] = useState('');
+	const [cardPaymentMethodError, setCardPaymentMethodError] = useState(false);
+	const [updateBoolean, setUpdateBoolean] = useState(true);
 
 	let minutesArray = [];
 	for (let i = 0; i < 60; i++) {
@@ -135,6 +140,7 @@ export default function CreateProductScreen() {
 		}
 	};
 	*/
+	console.log(priceType);
 	return (
 		<div className='container'>
 			<div className='stepsRow'>
@@ -190,7 +196,7 @@ export default function CreateProductScreen() {
 					//Displays the current UI based on which step the user is currently on
 					currentStep === 1 ? (
 						<div>
-							<div className='stepOneTopSection'>
+							<div className='stepTopSection'>
 								<text className='bigTextStyleDarkBlue'>{strings.StepOne}</text>
 								<text className='bigTextStyleDarkBlue bold'>{strings.AddNewService}</text>
 							</div>
@@ -252,9 +258,213 @@ export default function CreateProductScreen() {
 							</div>
 						</div>
 					) : currentStep === 2 ? (
-						<div></div>
+						<div>
+							<div className='stepTopSection'>
+								<text className='bigTextStyleDarkBlue'>{strings.StepTwo}</text>
+								<text className='bigTextStyleDarkBlue bold'>{strings.PricingAndPayment}</text>
+							</div>
+							<div className='pricingType'>
+								<text className='bigTextStyleDarkBlue'>{strings.PricingType}</text>
+							</div>
+							<div className='pricingTypeRow'>
+								<div className='row'>
+									<text className='bigTextStyleDarkBlue'>{strings.DollarSign}</text>
+									<HelpTextInput
+										height={'7vh'}
+										keyboardType={'numeric'}
+										width={'10vw'}
+										placeholder={'0'}
+										isMultiline={false}
+										onChangeText={(text) => setPriceNumber(text)}
+										value={priceNumber}
+									/>
+								</div>
+								<Select
+									className='picker'
+									styles={{
+										control: (provided, state) => ({
+											...provided,
+											border: state.isFocused ? 0 : 0,
+											// This line disable the blue border
+											boxShadow: state.isFocused ? 0 : 0,
+											'&:hover': {
+												border: state.isFocused ? 0 : 0,
+											},
+										}),
+									}}
+									value={{ value: priceType, label: priceType }}
+									onChange={(value) => setPriceType(value.value)}
+									options={[
+										{ value: strings.Fixed, label: strings.Fixed },
+										{ value: strings.Per, label: strings.Per },
+									]}
+								/>
+								{priceType === strings.Per ? (
+									<Select
+										className='picker'
+										styles={{
+											control: (provided, state) => ({
+												...provided,
+												border: state.isFocused ? 0 : 0,
+												// This line disable the blue border
+												boxShadow: state.isFocused ? 0 : 0,
+												'&:hover': {
+													border: state.isFocused ? 0 : 0,
+												},
+											}),
+										}}
+										value={{ value: pricePerText, label: pricePerText }}
+										onChange={(value) => setPricePerText(value.value)}
+										options={[{ value: strings.Hour, label: strings.Hour }]}
+									/>
+								) : (
+									<div />
+								)}
+							</div>
+							<div className='paymentTypeText'>
+								<text className='bigTextStyleDarkBlue'>{strings.PaymentType}</text>
+								<div className='spacer' />
+								<text className='mainTextStyleBlue'>{strings.HowWillYourCustomersPayYou}</text>
+							</div>
+							<div className='paymentTypeButtonsDiv'>
+								<HelpButton
+									isLightButton={!cash}
+									onPress={() => {
+										setCash(true);
+										setCard(false);
+									}}
+									title={strings.Cash}
+									width={'20vw'}
+								/>
+								<div className='spacer' />
+								<HelpButton
+									isLightButton={!card}
+									onPress={() => {
+										setCard(true);
+										setCash(false);
+										/*//If Stripe connect has not been setup yet, then a popup appear. If it has, then it just selects
+										//the payment method
+										if (business.paymentSetupStatus === 'TRUE') {
+											setCard(true);
+											setCash(false);
+										} else {
+											setCardPaymentMethodError(true);
+										}*/
+									}}
+									title={strings.CreditDebitCard}
+									width={'20vw'}
+								/>
+							</div>
+							<div className='paymentTypeText'>
+								<div className='spacer' />
+								<text className='mainTextStyleBlue'>
+									{strings.WhenDoYouWantYourCustomersToPayYou}
+								</text>
+							</div>
+							<div className='paymentTimeButtonsDiv'>
+								<HelpButton
+									isLightButton={!prepay}
+									onPress={() => {
+										setPrepay(true);
+										setPostpay(false);
+									}}
+									title={strings.WhenTheyOrder}
+									width={'20vw'}
+								/>
+								<div className='spacer' />
+								<HelpButton
+									isLightButton={!postpay}
+									onPress={() => {
+										setPostpay(true);
+										setPrepay(false);
+									}}
+									title={strings.AfterCompletion}
+									width={'20vw'}
+								/>
+							</div>
+						</div>
 					) : (
-						<div></div>
+						<div>
+							<div className='stepTopSection'>
+								<text className='bigTextStyleDarkBlue'>{strings.StepTwo}</text>
+								<text className='bigTextStyleDarkBlue bold'>{strings.CustomerInfo}</text>
+								<text className='bigTextStyleDarkBlue'>{strings.CustomQuestions}</text>
+								<text className='mainTextStyleBlue'>{strings.WhatInformationDoYouNeed}</text>
+							</div>
+							<div className='defaultQuestionsRow'>
+								{defaultQuestions.map((element, index) => (
+									<HelpButton
+										isLightButton={!element.isSelected}
+										onPress={() => {
+											const newQuestions = defaultQuestions;
+											newQuestions[index].isSelected = !newQuestions[index].isSelected;
+											setDefaultQuestions(newQuestions);
+											setUpdateBoolean(!updateBoolean);
+										}}
+										title={element.name}
+										width={'20vw'}
+									/>
+								))}
+							</div>
+							{questions.map((element, index) => (
+								<div className='customQuestionsRow'>
+									<div className='questionInput'>
+										<text className='bigTextStyleDarkBlue'>
+											{strings.QuestionNumber} {index + 1}
+										</text>
+										<div className='spacer' />
+										<div className='spacer' />
+										<HelpTextInput
+											height={'15vh'}
+											width={'30vw'}
+											placeholder={strings.EnterQuestionForCustomer}
+											isMultiline={true}
+											onChangeText={(text) => {
+												const newQuestions = questions;
+												newQuestions[index] = text;
+												setQuestions(newQuestions);
+												setUpdateBoolean(!updateBoolean);
+											}}
+											value={element}
+										/>
+									</div>
+									<div className='horizontalSpacer' />
+									<div className='deleteCustomQuestion'>
+										<FontAwesomeIcon
+											onClick={() => {
+												if (index === 0) {
+													const newQuestions = questions;
+													newQuestions[index] = '';
+													setQuestions(newQuestions);
+													setUpdateBoolean(!updateBoolean);
+												} else {
+													const newQuestions = questions;
+													newQuestions.splice(index, 1);
+													setQuestions(newQuestions);
+													setUpdateBoolean(!updateBoolean);
+												}
+											}}
+											icon={'trash'}
+											color='#808080'
+											size='4x'
+										/>
+									</div>
+								</div>
+							))}
+							<div className='addQuestionsButton'>
+								<HelpButton
+									title={'+'}
+									isCircleBlueButton={true}
+									onPress={() => {
+										const newQuestions = questions;
+										questions.push('');
+										setQuestions(newQuestions);
+										setUpdateBoolean(!updateBoolean);
+									}}
+									width={'6vw'}
+								/>
+							</div>
+						</div>
 					)
 				}
 			</div>
@@ -262,27 +472,47 @@ export default function CreateProductScreen() {
 				//Renders the correct buttons based on the current step
 				currentStep === 1 ? (
 					<div className='rightButton buttonsContainer'>
-						<HelpButton title={strings.NextWithArrow} onPress={() => {
-							setCurrentStep(2)
-						}} width={'8vw'} />
+						<HelpButton
+							title={strings.NextWithArrow}
+							onPress={() => {
+								setCurrentStep(2);
+							}}
+							width={'8vw'}
+						/>
 					</div>
 				) : currentStep === 2 ? (
 					<div className='buttonsContainer'>
-						<HelpButton title={strings.BackWithArrow} onPress={() => {
-							setCurrentStep(1)
-						}} width={'8vw'} />
-						<HelpButton title={strings.NextWithArrow} onPress={() => {
-							setCurrentStep(3)
-						}} width={'8vw'} />
+						<HelpButton
+							title={strings.BackWithArrow}
+							onPress={() => {
+								setCurrentStep(1);
+							}}
+							width={'8vw'}
+						/>
+						<HelpButton
+							title={strings.NextWithArrow}
+							onPress={() => {
+								setCurrentStep(3);
+							}}
+							width={'8vw'}
+						/>
 					</div>
 				) : (
 					<div className='buttonsContainer'>
-						<HelpButton title={strings.BackWithArrow} onPress={() => {
-							setCurrentStep(2)
-						}} width={'8vw'} />
-						<HelpButton title={strings.Create} onPress={() => {
-							//Creates the product
-						}} width={'8vw'} />
+						<HelpButton
+							title={strings.BackWithArrow}
+							onPress={() => {
+								setCurrentStep(2);
+							}}
+							width={'8vw'}
+						/>
+						<HelpButton
+							title={strings.Create}
+							onPress={() => {
+								//Creates the product
+							}}
+							width={'8vw'}
+						/>
 					</div>
 				)
 			}

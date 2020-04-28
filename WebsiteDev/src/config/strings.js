@@ -35,8 +35,7 @@ export default {
 	StartSellingTodayMessage:
 		'Connect with your customers and take your business to the next level today.',
 	PercentageMessage: '5% per successful transaction',
-	per: 'per',
-	fixed: 'fixed',
+	Fixed: 'Fixed',
 	Email: 'Email',
 	PhoneNumber: 'Phone Number',
 	Address: 'Address',
@@ -72,7 +71,7 @@ export default {
 	DollarSign: '$',
 	Per: 'Per',
 	Hour: 'Hour',
-	PaymentType: 'PaymentType',
+	PaymentType: 'Payment Type',
 	Cash: 'Cash',
 	CreditDebitCard: 'Credit/Debit Card',
 	WhenDoYouWantYourCustomersToPayYou: 'When do you want your customers to pay you?',
