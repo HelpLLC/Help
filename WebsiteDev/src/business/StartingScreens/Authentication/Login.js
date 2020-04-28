@@ -4,13 +4,13 @@ import FirebaseFunctions from '../../../config/FirebaseFunctions';
 // import Modal from 'react-modal';
 import HelpButton from '../../../components/HelpButton/HelpButton.js';
 import TitleComponent from '../../../components/TitleComponent.js';
-import EditText from '../../../components/EditText.js';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import { useHistory } from 'react-router-dom';
 import { screenWidth, screenHeight } from '../../../config/dimensions';
+import HelpTextInput from '../../../components/HelpTextInput/HelpTextInput';
 
 export function Login(props) {
 	const [email, setEmail] = React.useState('');
@@ -76,34 +76,25 @@ export function Login(props) {
 					</div>
 					<div className='form'>
 						<div className='form-group'>
-							<label htmlFor='email'>Email</label>
-							<input
-								type='text'
-								name='username'
-								placeholder='email'
-								value={email}
-								onChange={(event) => {
-									setEmail(event.target.value);
-								}}
+							<HelpTextInput
+						placeholder='E-mail Address'
+						isMultiline={false}
+						width={'100%'}
+						onChangeText={(email) => setEmail(email)}
 							/>
 						</div>
 						<div className='form-group'>
-							<label htmlFor='password'>Password</label>
-							<input
-								type='password'
-								name='password'
-								placeholder='password'
-								value={password}
-								onChange={(event) => {
-									setPassword(event.target.value);
-								}}
+							<HelpTextInput
+						placeholder='Password'
+						isMultiline={false}
+						width={'100%'}
+						password={true}
+						onChangeText={(password) => setPassword(password)}
 							/>
 						</div>
 					</div>
 				</div>
-				<button className='btn' type='button' onClick={login}>
-					Login
-				</button>
+					<HelpButton title={'Login'} onPress={login} width={screenWidth * 0.1} />
 
 				<br />
 				<HelpButton
@@ -122,15 +113,11 @@ export function Login(props) {
 						Please enter your email here and we will send you an email with a link to
 						reset your password.
 					</DialogContentText>
-					<EditText
-						labelText={'Email'}
-						multiline={false}
-						widthPercent={'100%'}
-						onChange={setEmail}
-						value={email}
-						onChange={(event) => {
-							setEmail(event.target.value);
-						}}
+					<HelpTextInput
+						placeholder='E-mail Address'
+						isMultiline={false}
+						width={'100%'}
+						onChangeText={(email) => setEmail(email)}
 					/>
 				</DialogContent>
 				<DialogActions>
