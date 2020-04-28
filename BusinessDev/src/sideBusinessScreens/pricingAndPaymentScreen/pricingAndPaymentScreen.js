@@ -21,6 +21,7 @@ import { Icon } from 'react-native-elements';
 
 //Declares and exports the functional component
 export default function pricingAndPaymentScreen(props) {
+	const { service, serviceID } = props.navigation.state.params;
 	const [priceNumber, setPriceNumber] = useState('');
 	const [priceType, setPriceType] = useState(strings.Fixed);
 	const [perType, setPerType] = useState(strings.Hour);
@@ -40,7 +41,28 @@ export default function pricingAndPaymentScreen(props) {
 			'BusinessCreatePricingAndPaymentScreen',
 			'pricingAndPaymentScreen'
 		);
+		if (props.navigation.state.params.editing === true) {
+			setData();
+		}
 	}, []);
+
+	//This method is going to set the data for this screen if this is editing an exisitng prodct
+	const setData = () => {
+		const thePrice = service.price;
+
+		if (thePrice.priceType === 'Fixed') {
+			setPriceType(strings.Fixed);
+			setPriceNumber(thePrice.priceFixed + '');
+		} else if (thePrice.priceType === 'Per') {
+			setPriceType(strings.Per);
+			setPriceNumber(thePrice.price + '');
+			setPerType(thePrice.per);
+		}
+		setIsCashSelected(service.cash);
+		setIsCardSelected(service.card);
+		setIsPrepaySelected(service.prepay);
+		setIsPostPaySelected(service.postpay);
+	};
 
 	//This method will capture all of the data from this screen, make sure it is completed, then capture all the data
 	//from the previous step, then pass it on to the next screen. If the fields from here are incomplete, then an error will
@@ -61,13 +83,13 @@ export default function pricingAndPaymentScreen(props) {
 			let price = '';
 			if (priceType === strings.Fixed) {
 				price = {
-					priceType,
-					priceFixed: priceNumber,
+					priceType: 'Fixed',
+					priceFixed: parseFloat(priceNumber),
 				};
 			} else {
 				price = {
-					priceType,
-					price: priceNumber,
+					priceType: 'Per',
+					price: parseFloat(priceNumber),
 					per: perType,
 				};
 			}
@@ -79,6 +101,7 @@ export default function pricingAndPaymentScreen(props) {
 				serviceDescription,
 				serviceDuration,
 				imageResponse,
+				editing,
 			} = props.navigation.state.params;
 			props.navigation.push('CustomerInfoScreen', {
 				business,
@@ -93,6 +116,9 @@ export default function pricingAndPaymentScreen(props) {
 				isCashSelected,
 				isPrepaySelected,
 				isPostpaySelected,
+				service,
+				serviceID,
+				editing,
 			});
 		}
 	};
@@ -145,12 +171,7 @@ export default function pricingAndPaymentScreen(props) {
 								],
 							}}
 							Icon={() => (
-								<Icon
-									type='font-awesome'
-									name='arrow-down'
-									color={colors.lightBlue}
-									size={20}
-								/>
+								<Icon type='font-awesome' name='arrow-down' color={colors.lightBlue} size={20} />
 							)}
 						/>
 					</View>
@@ -176,12 +197,7 @@ export default function pricingAndPaymentScreen(props) {
 									],
 								}}
 								Icon={() => (
-									<Icon
-										type='font-awesome'
-										name='arrow-down'
-										color={colors.lightBlue}
-										size={20}
-									/>
+									<Icon type='font-awesome' name='arrow-down' color={colors.lightBlue} size={20} />
 								)}
 							/>
 						</View>
@@ -193,9 +209,7 @@ export default function pricingAndPaymentScreen(props) {
 			<View style={styles.paymentMethodSection}>
 				<Text style={fontStyles.bigTextStyleDarkBlue}>{strings.PaymentMethod}</Text>
 				<View style={styles.paymentTypeSubText}>
-					<Text style={fontStyles.mainTextStyleBlue}>
-						{strings.HowWillYourCustomersPayYou}
-					</Text>
+					<Text style={fontStyles.mainTextStyleBlue}>{strings.HowWillYourCustomersPayYou}</Text>
 				</View>
 				<HelpButton
 					isLightButton={!isCashSelected}

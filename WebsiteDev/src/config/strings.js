@@ -85,3 +85,9 @@ export default {
 	TenPM: '10 PM',
 	ElevenPM: '11 PM'
 };
+	ContactUs: 'Contact Us',
+	LetsLaunch: 'Let\'s launch your business into success!',
+	ContactInformation: 'Contact Information',
+	LetsGrow: 'Let\'s Grow Your Business',
+	ReadyToStartWorkingTogether: 'Ready to start working together? Have a general question? We\'re only an email away.'
+};
