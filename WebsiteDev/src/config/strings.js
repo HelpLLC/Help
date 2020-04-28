@@ -84,4 +84,8 @@ export default {
 	AddQuestion: 'Add Question',
 	EnterQuestionForCustomer: 'Enter a question for the customer here...',
 	QuestionNumber: 'Question #',
+	PleaseCompleteAllFields: 'Please complete all the fields.',
+	Whoops: 'Whoops',
+	PleaseAddAnImage: 'Please add an image.',
+	DescriptionError: 'Your description must be at least 150 characters.',
 };

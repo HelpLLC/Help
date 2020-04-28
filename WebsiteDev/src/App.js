@@ -4,7 +4,6 @@ import LandingPageNavigator from './business/StartingScreens/LandingPage/Landing
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import CreateProductScreen from './business/BusinessScreens/CreateProductScreen/CreateProductScreen';
 
 library.add(fab, fas);
 
@@ -12,7 +11,7 @@ export default class App extends Component {
 	render() {
 		return (
 			<BrowserRouter>
-				<CreateProductScreen />
+				<LandingPageNavigator />
 			</BrowserRouter>
 		);
 	}

@@ -5,14 +5,16 @@ import HelpButton from '../../../components/HelpButton/HelpButton';
 import strings from '../../../config/strings';
 import { useLocation, useHistory } from 'react-router-dom';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
-import ImageUploader from 'react-images-upload';
 import Resizer from 'react-image-file-resizer';
 import HelpTextInput from '../../../components/HelpTextInput/HelpTextInput';
 import { useDropzone } from 'react-dropzone';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import colors from '../../../config/colors';
+import TitleComponent from '../../../components/TitleComponent.js';
 import Select from 'react-select';
-import { Image } from 'react-native-web';
-import { screenWidth, screenHeight } from '../../../config/dimensions';
 
 export default function CreateProductScreen() {
 	//Declares the hooks
@@ -32,7 +34,7 @@ export default function CreateProductScreen() {
 	const history = useHistory();
 
 	//Declares the state
-	//const [business, setBusiness] = useState(location.state.business);
+	const [business, setBusiness] = useState(location.state.business);
 	const [currentStep, setCurrentStep] = useState(1);
 	const [isLoading, setIsLoading] = useState(true);
 	const [image, setImage] = useState('');
@@ -66,7 +68,9 @@ export default function CreateProductScreen() {
 	const [prepay, setPrepay] = useState(false);
 	const [postpay, setPostpay] = useState(false);
 	const [serviceTitle, setServiceTitle] = useState('');
-	const [cardPaymentMethodError, setCardPaymentMethodError] = useState(false);
+	const [fieldsError, setFieldsError] = useState(false);
+	const [descriptionError, setDescriptionError] = useState(false);
+	const [imageError, setImageError] = useState(false);
 	const [updateBoolean, setUpdateBoolean] = useState(true);
 
 	let minutesArray = [];
@@ -91,16 +95,9 @@ export default function CreateProductScreen() {
 			serviceDescription.trim() !== '' &&
 			(cash === true || card === true) &&
 			serviceTitle.trim() !== '' &&
-			!(priceType === 'per' && pricePerText === '') &&
+			!(priceType === strings.Per && pricePerText === '') &&
 			(prepay === true || postpay === true)
 		) {
-			//Double checks there are no empty questions
-			for (const question of questions) {
-				if (question.trim() === '') {
-					//Displays some kind of error
-					return;
-				}
-			}
 			//Adds a pricing field
 			let priceText =
 				priceType === 'per'
@@ -118,7 +115,14 @@ export default function CreateProductScreen() {
 							priceFixed: priceNumber,
 					  };
 			//Adds the default questions to the questions array
-			const finalQuestions = questions;
+			const finalQuestions = [];
+			//Double checks there are no empty questions
+			for (let i = 0; i < finalQuestions.length; i++) {
+				const question = questions[i];
+				if (question.trim() !== '') {
+					finalQuestions.push(question)
+				}
+			}
 			for (const question of defaultQuestions) {
 				if (question.isSelected === true) {
 					finalQuestions.push(question.question);
@@ -151,9 +155,15 @@ export default function CreateProductScreen() {
 			//Uploads the image to firebase as the image for this product
 			await FirebaseFunctions.storage.ref('services/' + serviceID).put(image);
 
-			//history.push({ pathname: '/dashboard', state: { businessID: '' } });
+			history.push({ pathname: '/dashboard', state: { businessID: '' } });
 		} else {
-			//Display an error to the user to fill out all fields
+			if (image === '') {
+				setImageError(true);
+			} else if (serviceDescription.trim() !== '' && serviceDescription.length < 150) {
+				setDescriptionError(true);
+			} else {
+				setFieldsError(true)
+			}
 		}
 	};
 	return (
@@ -383,17 +393,10 @@ export default function CreateProductScreen() {
 								<div className='spacer' />
 								<HelpButton
 									isLightButton={!card}
+									disabled={!business.paymentSetupStatus === 'TRUE'}
 									onPress={() => {
 										setCard(true);
 										setCash(false);
-										/*//If Stripe connect has not been setup yet, then a popup appear. If it has, then it just selects
-										//the payment method
-										if (business.paymentSetupStatus === 'TRUE') {
-											setCard(true);
-											setCash(false);
-										} else {
-											setCardPaymentMethodError(true);
-										}*/
 									}}
 									title={strings.CreditDebitCard}
 									width={'20vw'}
@@ -438,6 +441,7 @@ export default function CreateProductScreen() {
 							<div className='defaultQuestionsRow'>
 								{defaultQuestions.map((element, index) => (
 									<HelpButton
+										key={index}
 										isLightButton={!element.isSelected}
 										onPress={() => {
 											const newQuestions = defaultQuestions;
@@ -451,7 +455,7 @@ export default function CreateProductScreen() {
 								))}
 							</div>
 							{questions.map((element, index) => (
-								<div className='customQuestionsRow'>
+								<div key={index} className='customQuestionsRow'>
 									<div className='questionInput'>
 										<text className='bigTextStyleDarkBlue'>
 											{strings.QuestionNumber} {index + 1}
@@ -561,6 +565,36 @@ export default function CreateProductScreen() {
 					</div>
 				)
 			}
+			<Dialog
+				open={fieldsError}
+				onClose={() => {
+					setFieldsError(false);
+				}}>
+				<TitleComponent text={strings.Whoops} isCentered={true} textColor={colors.darkBlue} />
+				<DialogContent>
+					<DialogContentText>{strings.PleaseCompleteAllFields}</DialogContentText>
+				</DialogContent>
+			</Dialog>
+			<Dialog
+				open={descriptionError}
+				onClose={() => {
+					setDescriptionError(false);
+				}}>
+				<TitleComponent text={strings.Whoops} isCentered={true} textColor={colors.darkBlue} />
+				<DialogContent>
+					<DialogContentText>{strings.DescriptionError}</DialogContentText>
+				</DialogContent>
+			</Dialog>
+			<Dialog
+				open={imageError}
+				onClose={() => {
+					setImageError(false);
+				}}>
+				<TitleComponent text={strings.Whoops} isCentered={true} textColor={colors.darkBlue} />
+				<DialogContent>
+					<DialogContentText>{strings.PleaseAddAnImage}</DialogContentText>
+				</DialogContent>
+			</Dialog>
 		</div>
 	);
 }
