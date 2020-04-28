@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import loginImg from '../../../images/Login.svg';
 import { BrowserRouter, Route, Link, Switch } from 'react-router-dom';
-import TimePicker from '../../../components/TimePicker';
+import TimePicker from '../../../components/TimePicker/TimePicker';
 import * as firebase from 'firebase';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 
@@ -219,7 +219,7 @@ export function Register() {
 							<div className='days'>
 								<label className='label'>Monday</label>
 								<TimePicker
-									widthPercent={'62px'}
+									widthPercent={'100px'}
 									marginLeft='20px'
 									value={mondayStartTime}
 									onChange={setMondayStartTime}
@@ -228,7 +228,7 @@ export function Register() {
 									to
 								</label>
 								<TimePicker
-									widthPercent={'62px'}
+									widthPercent={'100px'}
 									marginLeft='20px'
 									value={mondayEndTime}
 									onChange={setMondayEndTime}
@@ -237,7 +237,7 @@ export function Register() {
 							<div className='days'>
 								<label className='label'>Tuesday</label>
 								<TimePicker
-									widthPercent={'62px'}
+									widthPercent={'100px'}
 									marginLeft='20px'
 									value={tuesdayStartTime}
 									onChange={setTuesdayStartTime}
@@ -246,7 +246,7 @@ export function Register() {
 									to
 								</label>
 								<TimePicker
-									widthPercent={'62px'}
+									widthPercent={'100px'}
 									marginLeft='20px'
 									value={tuesdayEndTime}
 									onChange={setTuesdayEndTime}
@@ -255,7 +255,7 @@ export function Register() {
 							<div className='days'>
 								<label className='label'>Wednesday</label>
 								<TimePicker
-									widthPercent={'62px'}
+									widthPercent={'100px'}
 									marginLeft='20px'
 									value={wednesdayStartTime}
 									onChange={setWednesdayStartTime}
@@ -264,7 +264,7 @@ export function Register() {
 									to
 								</label>
 								<TimePicker
-									widthPercent={'62px'}
+									widthPercent={'100px'}
 									marginLeft='20px'
 									value={wednesdayEndTime}
 									onChange={setWednesdayEndTime}
@@ -273,7 +273,7 @@ export function Register() {
 							<div className='days'>
 								<label className='label'>Thursday</label>
 								<TimePicker
-									widthPercent={'62px'}
+									widthPercent={'100px'}
 									marginLeft='20px'
 									value={thursdayStartTime}
 									onChange={setThursdayStartTime}
@@ -282,7 +282,7 @@ export function Register() {
 									to
 								</label>
 								<TimePicker
-									widthPercent={'62px'}
+									widthPercent={'100px'}
 									marginLeft='20px'
 									value={thursdayEndTime}
 									onChange={setThursdayEndTime}
@@ -291,7 +291,7 @@ export function Register() {
 							<div className='days'>
 								<label className='label'>Friday</label>
 								<TimePicker
-									widthPercent={'62px'}
+									widthPercent={'100px'}
 									marginLeft='20px'
 									value={fridayStartTime}
 									onChange={setFridayStartTime}
@@ -300,7 +300,7 @@ export function Register() {
 									to
 								</label>
 								<TimePicker
-									widthPercent={'62px'}
+									widthPercent={'100px'}
 									marginLeft='20px'
 									value={fridayEndTime}
 									onChange={setFridayEndTime}
@@ -309,7 +309,7 @@ export function Register() {
 							<div className='days'>
 								<label className='label'>Saturday</label>
 								<TimePicker
-									widthPercent={'62px'}
+									widthPercent={'100px'}
 									marginLeft='20px'
 									value={saturdayStartTime}
 									onChange={setSaturdayStartTime}
@@ -318,7 +318,7 @@ export function Register() {
 									to
 								</label>
 								<TimePicker
-									widthPercent={'62px'}
+									widthPercent={'100px'}
 									marginLeft='20px'
 									value={saturdayEndTime}
 									onChange={setSaturdayEndTime}
@@ -327,7 +327,7 @@ export function Register() {
 							<div className='days'>
 								<label className='label'>Sunday</label>
 								<TimePicker
-									widthPercent={'62px'}
+									widthPercent={'100px'}
 									marginLeft='20px'
 									value={sundayStartTime}
 									onChange={setSundayStartTime}
@@ -336,7 +336,7 @@ export function Register() {
 									to
 								</label>
 								<TimePicker
-									widthPercent={'62px'}
+									widthPercent={'100px'}
 									marginLeft='20px'
 									value={sundayEndTime}
 									onChange={setSundayEndTime}

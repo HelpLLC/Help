@@ -23,7 +23,7 @@ export default function HelpTextInput(props) {
 		value: PropTypes.string,
 		maxLength: PropTypes.number,
 		isMultiline: PropTypes.bool.isRequired,
-		passowrd: PropTypes.bool,
+		password: PropTypes.bool,
 		autoCompleteType: PropTypes.string,
 		keyboardType: PropTypes.string,
 		autoCapitalize: PropTypes.string,
