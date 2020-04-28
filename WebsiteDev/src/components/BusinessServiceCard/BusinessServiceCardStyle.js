@@ -1,4 +1,4 @@
-//This is going to contain the styles for the Help Button
+//This is going to contain the styles for the Business Card
 import { StyleSheet } from 'react-native';
 import { screenHeight, screenWidth } from '../../config/dimensions';
 import colors from '../../config/colors';
