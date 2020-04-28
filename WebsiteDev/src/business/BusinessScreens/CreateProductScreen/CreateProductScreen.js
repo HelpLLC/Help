@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './CreateProductScreen.css';
 import '../../../config/fontStyles.css';
 import HelpButton from '../../../components/HelpButton/HelpButton';
@@ -11,18 +11,32 @@ import HelpTextInput from '../../../components/HelpTextInput/HelpTextInput';
 import { useDropzone } from 'react-dropzone';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Select from 'react-select';
-import { View } from 'react-native-web';
+import { Image } from 'react-native-web';
 import { screenWidth, screenHeight } from '../../../config/dimensions';
 
 export default function CreateProductScreen() {
-	//Declares the state
+	//Declares the hooks
 	const location = useLocation();
-	const { getRootProps, getInputProps, isDragActive } = useDropzone();
+	const onDrop = useCallback((file) => {
+		const imageFile = file[0];
+		//Makes sure that the file uploaded is an actual image
+		if (imageFile.type === 'image/jpeg' || imageFile.type === 'image/png') {
+			//Sets the image
+			setImage(imageFile);
+		} else {
+			//Displays an error to upload a correct file
+		}
+	}, []);
+	const { getRootProps, getInputProps } = useDropzone({ onDrop });
+
 	const history = useHistory();
+
+	//Declares the state
 	//const [business, setBusiness] = useState(location.state.business);
 	const [currentStep, setCurrentStep] = useState(1);
 	const [isLoading, setIsLoading] = useState(true);
 	const [image, setImage] = useState('');
+	const [imagePreview, setImagePreview] = useState('');
 	const [hours, setHours] = useState('');
 	const [minutes, setMinutes] = useState('');
 	const [priceType, setPriceType] = useState(strings.Fixed);
@@ -63,23 +77,22 @@ export default function CreateProductScreen() {
 	//The useEffect method that renders when the page is loaded
 	useEffect(() => {}, []);
 
-	/*
 	//This function goes and creates the product in Firebase, then fetches the correct updates business object,
 	//and navigates back to the Dashboard screen
 	const createProduct = async () => {
 		//Tests that all fields have been filled out
 		if (
 			image !== '' &&
-			serviceDuration !== '' &&
-			serviceDuration > 0 &&
-			simultaneousRequests !== '' &&
-			simultaneousRequests > 0 &&
+			hours !== '' &&
+			minutes !== '' &&
+			parseFloat(hours) * 60 + parseFloat(minutes) > 0 &&
 			priceNumber !== '' &&
 			priceNumber > 0 &&
 			serviceDescription.trim() !== '' &&
 			(cash === true || card === true) &&
 			serviceTitle.trim() !== '' &&
-			!(priceType === 'per' && pricePerText === '')
+			!(priceType === 'per' && pricePerText === '') &&
+			(prepay === true || postpay === true)
 		) {
 			//Double checks there are no empty questions
 			for (const question of questions) {
@@ -111,36 +124,38 @@ export default function CreateProductScreen() {
 					finalQuestions.push(question.question);
 				}
 			}
-			//Creates the product in firebase
+			//Calculates how many hours this is
+			const serviceDuration = (parseFloat(hours) + parseFloat(minutes) / 60).toFixed(2);
+
+			//Creates the product in firebase (Currently hardcoded, shouldn't be eventually)
 			const serviceID = await FirebaseFunctions.call('addServiceToDatabase', {
 				averageRating: 0,
-				businessID: business.businessID,
-				businessName: business.businessName,
+				businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2',
+				businessName: 'Example Businesses',
 				category: 'Cleaning',
-				coordinates: business.coordinates,
+				coordinates: { lat: -122.2054452, long: 47.76011099999999 },
 				displayedReviews: [],
-				serviceDuration,
-				simultaneousRequests,
+				serviceDuration: parseFloat(serviceDuration),
 				price,
 				priceText,
+				prepay,
+				postpay,
 				questions: finalQuestions,
 				serviceDescription,
-				cash,
-				card,
 				serviceTitle,
 				totalReviews: 0,
+				cash,
+				card,
 			});
 
 			//Uploads the image to firebase as the image for this product
 			await FirebaseFunctions.storage.ref('services/' + serviceID).put(image);
 
-			history.push({ pathname: '/dashboard', state: { businessID: business.businessID } });
+			//history.push({ pathname: '/dashboard', state: { businessID: '' } });
 		} else {
 			//Display an error to the user to fill out all fields
 		}
 	};
-	*/
-	console.log(priceType);
 	return (
 		<div className='container'>
 			<div className='stepsRow'>
@@ -201,15 +216,44 @@ export default function CreateProductScreen() {
 								<text className='bigTextStyleDarkBlue bold'>{strings.AddNewService}</text>
 							</div>
 							<div className='stepOneBottomSection'>
-								<button {...getRootProps()} className='imagePickerSection'>
-									<input {...getInputProps()} />
-									{image === '' ? (
-										<div className='imagePickerCircle'>
-											<FontAwesomeIcon icon={'camera'} color='#5cc6bc' size='7x' />
-										</div>
-									) : (
-										<div />
-									)}
+								<button className='imagePickerSection'>
+									<input
+										type='file'
+										id='upload'
+										style={{ display: 'none' }}
+										onChange={(e) => {
+											setImagePreview(URL.createObjectURL(e.target.files[0]));
+											if (e.target.files.length) {
+												Resizer.imageFileResizer(
+													e.target.files[0],
+													400,
+													250,
+													'JPEG',
+													100,
+													0,
+													(uri) => {
+														setImage(uri);
+													},
+													'blob'
+												);
+											}
+										}}
+									/>
+									<label htmlFor='upload'>
+										{image.preview ? (
+											<img src={image.preview} alt='dummy' width='300' height='300' />
+										) : (
+											<>
+												{image === '' ? (
+													<div className='imagePickerCircle' id='imagePickerCircle'>
+														<FontAwesomeIcon icon={'camera'} color='#5cc6bc' size='7x' />
+													</div>
+												) : (
+													<img src={imagePreview} className='serviceImage' />
+												)}
+											</>
+										)}
+									</label>
 									<text className='bigTextStyleDarkBlue'>{strings.EditServiceImage}</text>
 								</button>
 								<div className='textInputs'>
@@ -510,6 +554,7 @@ export default function CreateProductScreen() {
 							title={strings.Create}
 							onPress={() => {
 								//Creates the product
+								createProduct();
 							}}
 							width={'8vw'}
 						/>

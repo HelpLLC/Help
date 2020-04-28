@@ -70,6 +70,7 @@ export default {
 	PricingType: 'Pricing Type',
 	DollarSign: '$',
 	Per: 'Per',
+	per: 'per',
 	Hour: 'Hour',
 	PaymentType: 'Payment Type',
 	Cash: 'Cash',

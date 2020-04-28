@@ -124,6 +124,7 @@
 }
 .imagePickerCircle {
 	display: flex;
+	cursor: pointer;
 	align-items: center;
 	justify-content: center;
 	width: 10vw;
@@ -133,6 +134,12 @@
 	border-color: #5cc6bc;
 	border-width: 0.2vw;
 	border-style: solid;
+}
+.serviceImage {
+	width: 10vw;
+	height: 10vw;
+	border-radius: 5vw;
+	cursor: pointer;
 }
 .textInputs {
 	height: 70vh;
@@ -268,3 +275,4 @@
 	justify-content: center;
 	margin-bottom: 5vh;
 }
+
