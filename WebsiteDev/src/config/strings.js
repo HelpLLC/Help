@@ -149,7 +149,7 @@ export default {
 	EightPM: '8 PM',
 	NinePM: '9 PM',
 	TenPM: '10 PM',
-	ElevenPM: '11 PM'\
+	ElevenPM: '11 PM',
 	ContactUs: 'Contact Us',
 	LetsLaunch: 'Let\'s launch your business into success!',
 	ContactInformation: 'Contact Information',
