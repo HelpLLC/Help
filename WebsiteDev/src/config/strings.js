@@ -73,7 +73,7 @@ export default {
 	ElevenAM: '11 AM',
 	TwelvePM: '12 PM',
 	OnePM: '1 PM',
-	TwoPM: '2 PM', 
+	TwoPM: '2 PM',
 	ThreePM: '3 PM',
 	FourPM: '4 PM',
 	FivePM: '5 PM',
@@ -82,8 +82,7 @@ export default {
 	EightPM: '8 PM',
 	NinePM: '9 PM',
 	TenPM: '10 PM',
-	ElevenPM: '11 PM'
-};
+	ElevenPM: '11 PM',
 	ContactUs: 'Contact Us',
 	LetsLaunch: "Let's launch your business into success!",
 	ContactInformation: 'Contact Information',
@@ -122,7 +121,8 @@ export default {
 	WhenTheyOrder: 'When They Order',
 	AfterCompletion: 'After Completion',
 	CustomQuestions: 'Custom Questions',
-	WhatInformationDoYouNeed: 'What information do you need from the customer to complete this service?',
+	WhatInformationDoYouNeed:
+		'What information do you need from the customer to complete this service?',
 	AddQuestion: 'Add Question',
 	EnterQuestionForCustomer: 'Enter a question for the customer here...',
 	QuestionNumber: 'Question #',

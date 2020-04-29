@@ -175,12 +175,12 @@ export default function CreateProductScreen() {
 					<div className={currentStep === 1 ? 'selectedCircle' : 'unselectedCircle'}>
 						<text
 							className={
-								currentStep === 1 ? 'bigTextStyleGray bold' : 'bigTextStyleLightGray bold'
+								currentStep === 1 ? 'bigTextStyle gray bold' : 'bigTextStyle lightGray bold'
 							}>
 							{strings.OneNumber}
 						</text>
 					</div>
-					<text className={currentStep === 1 ? 'bigTextStyleWhite bold' : 'bigTextStyleGray bold'}>
+					<text className={currentStep === 1 ? 'bigTextStyle white bold' : 'bigTextStyle gray bold'}>
 						{strings.AddNewService}
 					</text>
 				</div>
@@ -190,12 +190,12 @@ export default function CreateProductScreen() {
 					<div className={currentStep === 2 ? 'selectedCircle' : 'unselectedCircle'}>
 						<text
 							className={
-								currentStep === 2 ? 'bigTextStyleGray bold' : 'bigTextStyleLightGray bold'
+								currentStep === 2 ? 'bigTextStyle gray bold' : 'bigTextStyle lightGray bold'
 							}>
 							{strings.TwoNumber}
 						</text>
 					</div>
-					<text className={currentStep === 2 ? 'bigTextStyleWhite bold' : 'bigTextStyleGray bold'}>
+					<text className={currentStep === 2 ? 'bigTextStyle white bold' : 'bigTextStyle gray bold'}>
 						{strings.PricingAndPayment}
 					</text>
 				</div>
@@ -205,12 +205,12 @@ export default function CreateProductScreen() {
 					<div className={currentStep === 3 ? 'selectedCircle' : 'unselectedCircle'}>
 						<text
 							className={
-								currentStep === 3 ? 'bigTextStyleGray bold' : 'bigTextStyleLightGray bold'
+								currentStep === 3 ? 'bigTextStyle gray bold' : 'bigTextStyle lightGray bold'
 							}>
 							{strings.ThreeNumber}
 						</text>
 					</div>
-					<text className={currentStep === 3 ? 'bigTextStyleWhite bold' : 'bigTextStyleGray bold'}>
+					<text className={currentStep === 3 ? 'bigTextStyle white bold' : 'bigTextStyle gray bold'}>
 						{strings.CustomerInfo}
 					</text>
 				</div>
@@ -222,8 +222,8 @@ export default function CreateProductScreen() {
 					currentStep === 1 ? (
 						<div>
 							<div className='stepTopSection'>
-								<text className='bigTextStyleDarkBlue'>{strings.StepOne}</text>
-								<text className='bigTextStyleDarkBlue bold'>{strings.AddNewService}</text>
+								<text className='bigTextStyle darkBlue'>{strings.StepOne}</text>
+								<text className='bigTextStyle darkBlue bold'>{strings.AddNewService}</text>
 							</div>
 							<div className='stepOneBottomSection'>
 								<button className='imagePickerSection'>
@@ -264,10 +264,10 @@ export default function CreateProductScreen() {
 											</>
 										)}
 									</label>
-									<text className='bigTextStyleDarkBlue'>{strings.EditServiceImage}</text>
+									<text className='bigTextStyle darkBlue'>{strings.EditServiceImage}</text>
 								</button>
 								<div className='textInputs'>
-									<text className='bigTextStyleDarkBlue'>{strings.ServiceTitle}</text>
+									<text className='bigTextStyle darkBlue'>{strings.ServiceTitle}</text>
 									<HelpTextInput
 										height={'7vh'}
 										width={'45vw'}
@@ -276,7 +276,7 @@ export default function CreateProductScreen() {
 										onChangeText={(text) => setServiceTitle(text)}
 										value={serviceTitle}
 									/>
-									<text className='bigTextStyleDarkBlue'>{strings.ServiceDescription}</text>
+									<text className='bigTextStyle darkBlue'>{strings.ServiceDescription}</text>
 									<HelpTextInput
 										height={'20vh'}
 										width={'45vw'}
@@ -285,7 +285,7 @@ export default function CreateProductScreen() {
 										onChangeText={(text) => setServiceDescription(text)}
 										value={serviceDescription}
 									/>
-									<text className='bigTextStyleDarkBlue'>{strings.ServiceDuration}</text>
+									<text className='bigTextStyle darkBlue'>{strings.ServiceDuration}</text>
 									<div className='durationRow'>
 										<HelpTextInput
 											height={'7vh'}
@@ -296,7 +296,7 @@ export default function CreateProductScreen() {
 											onChangeText={(text) => setHours(text)}
 											value={hours}
 										/>
-										<text className='bigTextStyleDarkBlue'>{strings.Hrs}</text>
+										<text className='bigTextStyle darkBlue'>{strings.Hrs}</text>
 										<HelpTextInput
 											height={'7vh'}
 											keyboardType={'numeric'}
@@ -306,7 +306,7 @@ export default function CreateProductScreen() {
 											onChangeText={(text) => setMinutes(text)}
 											value={minutes}
 										/>
-										<text className='bigTextStyleDarkBlue'>{strings.Mins}</text>
+										<text className='bigTextStyle darkBlue'>{strings.Mins}</text>
 									</div>
 								</div>
 							</div>
@@ -314,15 +314,15 @@ export default function CreateProductScreen() {
 					) : currentStep === 2 ? (
 						<div>
 							<div className='stepTopSection'>
-								<text className='bigTextStyleDarkBlue'>{strings.StepTwo}</text>
-								<text className='bigTextStyleDarkBlue bold'>{strings.PricingAndPayment}</text>
+								<text className='bigTextStyle darkBlue'>{strings.StepTwo}</text>
+								<text className='bigTextStyle darkBlue bold'>{strings.PricingAndPayment}</text>
 							</div>
 							<div className='pricingType'>
-								<text className='bigTextStyleDarkBlue'>{strings.PricingType}</text>
+								<text className='bigTextStyle darkBlue'>{strings.PricingType}</text>
 							</div>
 							<div className='pricingTypeRow'>
 								<div className='row'>
-									<text className='bigTextStyleDarkBlue'>{strings.DollarSign}</text>
+									<text className='bigTextStyle darkBlue'>{strings.DollarSign}</text>
 									<HelpTextInput
 										height={'7vh'}
 										keyboardType={'numeric'}
@@ -376,9 +376,9 @@ export default function CreateProductScreen() {
 								)}
 							</div>
 							<div className='paymentTypeText'>
-								<text className='bigTextStyleDarkBlue'>{strings.PaymentType}</text>
+								<text className='bigTextStyle darkBlue'>{strings.PaymentType}</text>
 								<div className='spacer' />
-								<text className='mainTextStyleBlue'>{strings.HowWillYourCustomersPayYou}</text>
+								<text className='mainTextStyle blue'>{strings.HowWillYourCustomersPayYou}</text>
 							</div>
 							<div className='paymentTypeButtonsDiv'>
 								<HelpButton
@@ -404,7 +404,7 @@ export default function CreateProductScreen() {
 							</div>
 							<div className='paymentTypeText'>
 								<div className='spacer' />
-								<text className='mainTextStyleBlue'>
+								<text className='mainTextStyle blue'>
 									{strings.WhenDoYouWantYourCustomersToPayYou}
 								</text>
 							</div>
@@ -433,10 +433,10 @@ export default function CreateProductScreen() {
 					) : (
 						<div>
 							<div className='stepTopSection'>
-								<text className='bigTextStyleDarkBlue'>{strings.StepTwo}</text>
-								<text className='bigTextStyleDarkBlue bold'>{strings.CustomerInfo}</text>
-								<text className='bigTextStyleDarkBlue'>{strings.CustomQuestions}</text>
-								<text className='mainTextStyleBlue'>{strings.WhatInformationDoYouNeed}</text>
+								<text className='bigTextStyle darkBlue'>{strings.StepTwo}</text>
+								<text className='bigTextStyle darkBlue bold'>{strings.CustomerInfo}</text>
+								<text className='bigTextStyle darkBlue'>{strings.CustomQuestions}</text>
+								<text className='mainTextStyle blue'>{strings.WhatInformationDoYouNeed}</text>
 							</div>
 							<div className='defaultQuestionsRow'>
 								{defaultQuestions.map((element, index) => (
@@ -457,7 +457,7 @@ export default function CreateProductScreen() {
 							{questions.map((element, index) => (
 								<div key={index} className='customQuestionsRow'>
 									<div className='questionInput'>
-										<text className='bigTextStyleDarkBlue'>
+										<text className='bigTextStyle darkBlue'>
 											{strings.QuestionNumber} {index + 1}
 										</text>
 										<div className='spacer' />
