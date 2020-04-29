@@ -15,11 +15,8 @@ export default StyleSheet.create({
 
 	//The style for a perfect round button that is small
 	CircleBlueButton: {
-		height: screenHeight * 0.0732,
-		width: screenHeight * 0.0732,
 		alignSelf: 'center',
 		alignItems: 'center',
 		justifyContent: 'center',
-		borderRadius: (screenHeight * 0.0732) / 2,
 	},
 });

@@ -1,0 +1,278 @@
+.container {
+	padding-top: 10vh;
+	width: 100vw;
+	background-color: white;
+	align-items: center;
+	flex-direction: column;
+	display: flex;
+}
+.innerContainer {
+	display: flex;
+	width: 80vw;
+	justify-content: center;
+	margin-bottom: 2vh;
+	border-style: solid;
+	border-width: 0.5vw;
+	border-bottom-right-radius: 5vh;
+	border-bottom-left-radius: 5vh;
+	border-color: #5cc6bc;
+	border-top-color: #ffffff;
+}
+.stepsRow {
+	display: flex;
+	width: 81vw;
+	border-top-left-radius: 20.25vw;
+	border-top-right-radius: 20.25vw;
+	background-color: #f3f3f3;
+	height: 12vh;
+	flex-direction: row;
+}
+.leftStep {
+	display: flex;
+	cursor: pointer;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: center;
+	border-style: solid;
+	border-left-color: #5cc6bc;
+	border-top-left-radius: 8vh;
+	border-top-right-radius: 6.75vw;
+	border-bottom-right-radius: 6.75vw;
+	width: 27vw;
+	background-color: #5cc6bc;
+	height: 10vh;
+}
+.middleStep {
+	display: flex;
+	cursor: pointer;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: center;
+	border-top-left-radius: 5vh;
+	width: 27vw;
+	border-top-right-radius: 6.75vw;
+	border-bottom-right-radius: 6.75vw;
+	border-top-left-radius: 6.75vw;
+	border-bottom-left-radius: 6.75vw;
+	background-color: #5cc6bc;
+	height: 10vh;
+}
+.rightStep {
+	display: flex;
+	flex-direction: row;
+	cursor: pointer;
+	justify-content: space-evenly;
+	align-items: center;
+	border-style: solid;
+	border-right-color: #5cc6bc;
+	border-top-right-radius: 8vh;
+	border-top-left-radius: 6.75vw;
+	border-bottom-left-radius: 6.75vw;
+	width: 27vw;
+	background-color: #5cc6bc;
+	height: 10vh;
+}
+.selected {
+	background-color: #5cc6bc;
+	border-style: solid;
+	border-color: #5cc6bc;
+}
+.unselected {
+	background-color: #f3f3f3;
+	border-style: solid;
+	border-color: #f3f3f3;
+}
+.selectedCircle {
+	width: 3vw;
+	height: 3vw;
+	border-radius: 1.5vw;
+	background-color: #ffffff;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+}
+.unselectedCircle {
+	width: 3vw;
+	height: 3vw;
+	border-radius: 1.5vw;
+	background-color: #808080;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+}
+.stepTopSection {
+	display: flex;
+	height: 30vh;
+	justify-content: space-evenly;
+	align-items: center;
+	flex-direction: column;
+}
+.stepOneBottomSection {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	width: 81vw;
+}
+.imagePickerSection {
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	border-style: none;
+	height: 60vh;
+	justify-content: center;
+	align-items: center;
+}
+.imagePickerCircle {
+	display: flex;
+	cursor: pointer;
+	align-items: center;
+	justify-content: center;
+	width: 10vw;
+	height: 10vw;
+	border-radius: 5.1vw;
+	background-color: #ffffff;
+	border-color: #5cc6bc;
+	border-width: 0.2vw;
+	border-style: solid;
+}
+.serviceImage {
+	width: 10vw;
+	height: 10vw;
+	border-radius: 5vw;
+	cursor: pointer;
+}
+.textInputs {
+	height: 70vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+.durationRow {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	width: 32.5vw;
+}
+.buttonsContainer {
+	width: 81vw;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-bottom: 5vh;
+}
+.rightButton {
+	display: flex;
+	justify-content: flex-end;
+	width: 81vw;
+}
+.leftButton {
+	display: flex;
+	justify-content: flex-end;
+	width: 81vw;
+}
+.pricingType {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
+	margin-top: 2vh;
+}
+.pricingTypeRow {
+	display: flex;
+	margin-top: 2vh;
+	width: 40vw;
+	justify-content: space-evenly;
+	flex-direction: row;
+	align-items: center;
+}
+.picker {
+	border-radius: 20px;
+	background-color: #ffffff;
+	border-style: solid;
+	border-color: #41cbef;
+	border-width: 3;
+	height: 7vh;
+	padding-top: 1vh;
+	width: 10vw;
+}
+.row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.paymentTypeText {
+	display: flex;
+	margin-top: 3vh;
+	flex-direction: column;
+	align-items: center;
+}
+.spacer {
+	height: 1vh;
+}
+.paymentTypeButtonsDiv {
+	margin-top: 3vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	border-style: solid;
+	border-color: #ffffff;
+	border-bottom-color: #41cbef;
+	width: 45vw;
+	padding-bottom: 3vh;
+}
+.paymentTimeButtonsDiv {
+	margin-top: 3vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 7vh;
+}
+.defaultQuestionsRow {
+	display: flex;
+	flex-direction: row;
+	width: 65vw;
+	border-style: solid;
+	border-color: #ffffff;
+	border-bottom-color: #41cbef;
+	padding-bottom: 5vh;
+	margin-bottom: 3vh;
+	padding-left: 3vw;
+	padding-right: 3vw;
+	justify-content: space-between;
+}
+.questionInput {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.customQuestionsRow {
+	display: flex;
+	flex-direction: row;
+	align-self: center;
+	justify-content: center;
+	margin-bottom: 5vh;
+	align-items: center;
+}
+.horizontalSpacer {
+	width: 5vw;
+}
+.deleteCustomQuestion {
+	display: flex;
+	cursor: pointer;
+	padding-top: 4vh;
+	align-self: center;
+	align-items: center;
+	justify-content: center;
+}
+.addQuestionsButton {
+	display: flex;
+	align-self: center;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 5vh;
+}
+

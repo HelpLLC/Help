@@ -45,18 +45,18 @@ export default function HelpButton(props) {
 		return (
 			<div
 				className={isLightButton ? 'whiteDiv' : isRedButton ? 'redDiv' : 'gradientDiv'}
+				onClick={onPress}
 				style={
 					isCircleBlueButton
-						? { ...HelpButtonStyle.CircleBlueButton, width }
+						? { ...HelpButtonStyle.CircleBlueButton, width, height: width, borderRadius: width }
 						: { ...HelpButtonStyle.MainButton, width }
 				}>
 				<TouchableOpacity
 					style={
 						isCircleBlueButton
-							? { ...HelpButtonStyle.CircleBlueButton, width }
+							? { ...HelpButtonStyle.CircleBlueButton }
 							: { ...HelpButtonStyle.MainButton, width }
 					}
-					onPress={onPress}
 					disabled={disabled ? disabled : false}>
 					<Text
 						style={
