@@ -1,37 +1,32 @@
-import React, { Component } from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
+import { View, Text } from 'react-native-web';
 
+export default function TitleComponent(props) {
+	TitleComponent.propTypes = {
+		text: PropTypes.string.isRequired,
+		isCentered: PropTypes.bool.isRequired,
+		marginLeft: PropTypes.number,
+		fontSize: PropTypes.number,
+		backgroundColor: PropTypes.string,
+		textColor: PropTypes.string,
+	};
 
-class TitleComponent extends Component {
-render() {
-  const { text, isCentered, marginLeft, backgroundColor, textColor } = this.props;
-  const mystyle = {
-   color: this.props.textColor !== null? this.props.textColor: "#00B0F0",
-   backgroundColor: this.props.backgroundColor !== null? this.props.backgroundColor: "#fff",
-   padding: "10px",
-   fontFamily: "Arial Rounded MT Bold",
-   textAlign: this.props.isCentered === true ? "center" : "",
-   marginLeft: this.props.marginLeft,
-   fontSize: this.props.fontSize !== null? this.props.fontSize: 30
- };
+	const { text, isCentered, marginLeft, backgroundColor, textColor } = props;
 
-  return (
-     
-    <div >
-        <h1 style={mystyle}>{this.props.text}</h1>
-    </div>
-  );
+	const mystyle = {
+		color: props.textColor !== null ? props.textColor : '#00B0F0',
+		backgroundColor: props.backgroundColor !== null ? props.backgroundColor : '#fff',
+		padding: '10px',
+		fontFamily: 'Arial Rounded MT Bold',
+		textAlign: props.isCentered === true ? 'center' : '',
+		marginLeft: props.marginLeft,
+		fontSize: props.fontSize !== null ? props.fontSize : 30,
+	};
+
+	return (
+		<View>
+			<Text style={mystyle}>{props.text}</Text>
+		</View>
+	);
 }
-
-propTypes = {
-  text: PropTypes.string.isRequired,
-  isCentered: PropTypes.bool.isRequired,
-  marginLeft: PropTypes.number,
-  fontSize: PropTypes.number,
-  backgroundColor: PropTypes.string,
-  textColor: PropTypes.string
-};
-}
-
-//exports the module
-export default TitleComponent;
