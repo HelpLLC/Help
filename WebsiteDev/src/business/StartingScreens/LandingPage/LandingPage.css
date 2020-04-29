@@ -12,6 +12,77 @@ section.sec1 {
   background-size: cover;
 }
 
+h1 span {
+  display: block;
+}
+
+.topSection {
+  display: flex;
+  flex-direction: row;
+}
+
+.landingPageButtonContainer {
+  width: 30vw;
+  margin-left: 15vw;
+  margin-top: 5vh;
+}
+.landingPageButtonContainer2 {
+  width: 20vw;
+  margin-left: 14vw;
+  margin-top: 5vh;
+}
+.landingPageButtonContainer3 {
+  width: 15vw;
+  margin-left: 16.5vw;
+  margin-top: 5vh;
+}
+
+h1.hugeTitleTextGrey {
+  font-size: 12.5vh;
+  color: #567681;
+  font-family: 'Lucida Grande';
+  font-weight: bold;
+  margin: 0;
+}
+
+.giganticText {
+  font-size: 34vh;
+  color: white;
+  font-family: 'Lucida Grande';
+  font-weight: bold;
+  margin: 0;
+}
+
+.bottomSectionContainer {
+  flex-direction: row;
+  display: flex;
+}
+
+.bottomSectionSubContainer{
+  width: 50vw;
+}
+
+.hugeTextWhite{
+  font-size: 6.5vh;
+  color: #ffffff;
+  font-family: 'Lucida Grande';
+  margin-left: 5vw;
+  text-align: left;
+}
+h1.hugeTitleTextWhite {
+  font-size: 12.5vh;
+  color: white;
+  font-family: 'Lucida Grande';
+  font-weight: bold;
+  margin: 0;
+}
+h1.hugeSubTitleTextBlue {
+  font-size: 7.5vh;
+  color: #00B0F0;
+  font-family: 'Lucida Grande';
+  margin: 0;
+}
+
 section.sec4 {
   position: relative;
   padding: 0;
@@ -30,15 +101,7 @@ section.sec2 {
   height: 48vh;
   background-repeat: no-repeat;
   background-size: cover;
-}
-section.sec3 {
-  position: relative;
-  margin: 0;
-  background: #00b0f0;
-  width: 100%;
-  height: 5vh;
-  background-repeat: no-repeat;
-  background-size: cover;
+  padding-top: 5vh;
 }
 
 section.sec5 {
@@ -49,6 +112,7 @@ section.sec5 {
   height: 88vh;
   background-repeat: no-repeat;
   background-size: cover;
+  padding-bottom: 5vh;
 }
 
 .titlecontainer3 {

@@ -1,30 +1,6 @@
 import { StyleSheet } from "react-native-web";
 
 export default StyleSheet.create({
-  titleWhite: {
-    fontSize: 100,
-    color: "white",
-    fontFamily: "Lucida Grande",
-    fontWeight: "bold",
-  },
-  bigTitleWhite: {
-    fontSize: 260,
-    color: "white",
-    fontFamily: "Lucida Grande",
-    fontWeight: "bold",
-    width: "30vh",
-  },
-  titleNavy: {
-    fontSize: 100,
-    color: "#567681",
-    fontFamily: "Lucida Grande",
-    fontWeight: "bold",
-  },
-  subtitleBlue: {
-    fontSize: 60,
-    color: "#00B0F0",
-    fontFamily: "Lucida Grande",
-  },
   cardRowContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -65,16 +41,11 @@ export default StyleSheet.create({
     color: "#567681",
     fontWeight: "bold",
   },
-  buttonContainer2: {
-    width: "20vw",
-    marginLeft: "14vw",
-    marginTop: "5vh",
-  },
   cardText: {
     fontFamily: "Lucida Grande",
     fontSize: 29,
     color: "#567681",
     marginTop: "2vh",
     marginBottom: "10vh",
-  }
+  },
 });
