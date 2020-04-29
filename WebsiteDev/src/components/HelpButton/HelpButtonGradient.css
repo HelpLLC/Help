@@ -6,9 +6,9 @@
 	justify-content: center;
 	height: 8.78vh;
 	background: linear-gradient(90deg, #5cc6bc, #41cbef);
+	border-style: solid;
+	border-color: #41cbef;
 	font-size: xx-large;
-	outline: 0;
-	border: none;
 }
 .whiteDiv {
 	border-radius: 5.12vh;
@@ -16,10 +16,10 @@
 	align-items: center;
 	justify-content: center;
 	height: 8.78vh;
+	border-style: solid;
+	border-color: #41cbef;
 	background: #ffffff;
 	font-size: xx-large;
-	outline: 0;
-	border: none;
 }
 .redDiv {
 	border-radius: 5.12vh;

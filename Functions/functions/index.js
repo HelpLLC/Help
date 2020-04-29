@@ -339,8 +339,7 @@ exports.getUpcomingRequestByBusinessID = functions.https.onCall(async (input, co
 			.collection('Schedule')
 			.orderBy('dateString')
 			.limit(1);
-
-		const docs = await transaction.get(query);
+		const docs =  (await transaction.get(query)).docs;
 		if (docs.length === 0) {
 			return -1;
 		} else {

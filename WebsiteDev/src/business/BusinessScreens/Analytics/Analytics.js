@@ -219,11 +219,7 @@ export default function Analytics(props) {
 		return (
 			<div className='container'>
 				<TitleComponent text={'Analytics'} isCentered={true} textColor={colors.lightBlue} />
-				<TitleComponent
-					text={'Monthly Revenue'}
-					isCentered={true}
-					textColor={colors.lightBlue}
-				/>
+				<TitleComponent text={'Monthly Revenue'} isCentered={true} textColor={colors.lightBlue} />
 			</div>
 		);
 	} else {
@@ -231,20 +227,12 @@ export default function Analytics(props) {
 			<div className='container'>
 				<TitleComponent text={'Analytics'} isCentered={true} textColor={colors.lightBlue} />
 				<div className='row'>
-					<TitleComponent
-						text={'Monthly Revenue'}
-						isCentered={true}
-						textColor={colors.lightBlue}
-					/>
+					<TitleComponent text={'Monthly Revenue'} isCentered={true} textColor={colors.lightBlue} />
 
 					<div className='right'>
 						<FormControl variant='outlined'>
 							<InputLabel>Sort By</InputLabel>
-							<Select
-								native
-								value={revenueBy}
-								onChange={revenueChange}
-								label='Sort By'>
+							<Select native value={revenueBy} onChange={revenueChange} label='Sort By'>
 								<option value={'Month'}>Month</option>
 								<option value={'Year'}>Year</option>
 							</Select>
@@ -272,20 +260,12 @@ export default function Analytics(props) {
 				/>
 
 				<div className='row'>
-					<TitleComponent
-						text={'Top Services'}
-						isCentered={true}
-						textColor={colors.lightBlue}
-					/>
+					<TitleComponent text={'Top Services'} isCentered={true} textColor={colors.lightBlue} />
 
 					<div className='right'>
 						<FormControl variant='outlined'>
 							<InputLabel>Sort By</InputLabel>
-							<Select
-								native
-								value={topServicesBy}
-								onChange={servicesChange}
-								label='Sort By'>
+							<Select native value={topServicesBy} onChange={servicesChange} label='Sort By'>
 								<option value={'Revenue'}>Revenue</option>
 								<option value={'Requests'}>Requests</option>
 								<option value={'Views'}>Views</option>
@@ -306,20 +286,12 @@ export default function Analytics(props) {
 				/>
 
 				<div className='row'>
-					<TitleComponent
-						text={'Top Locations'}
-						isCentered={true}
-						textColor={colors.lightBlue}
-					/>
+					<TitleComponent text={'Top Locations'} isCentered={true} textColor={colors.lightBlue} />
 
 					<div className='right'>
 						<FormControl variant='outlined'>
 							<InputLabel>Sort By</InputLabel>
-							<Select
-								native
-								value={customerLocationsBy}
-								onChange={locationsChange}
-								label='Sort By'>
+							<Select native value={customerLocationsBy} onChange={locationsChange} label='Sort By'>
 								<option value={'City'}>City</option>
 								<option value={'State'}>State</option>
 								<option value={'Country'}>Country</option>
