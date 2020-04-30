@@ -18,23 +18,23 @@ export default function LandingPageNavigator() {
 	const header = (
 		<div className={'header'}>
 			<div className={'companyTitle'}>
-				<Link style={{ ...fontStyles.bigTextStyleWhite, textDecoration: 'none' }} to={'/'}>
+				<Link style={{ ...fontStyles.bigTextStyleBlue, textDecoration: 'none' }} to={'/'}>
 					{strings.HelpForBusiness}
 				</Link>
 			</div>
 			<div className={'logInSignUp'}>
 				<div className={'logIn'}>
-					<Link style={{ ...fontStyles.bigTextStyleWhite, textDecoration: 'none' }} to={'/login'}>
+					<Link style={{ ...fontStyles.bigTextStyleBlue, textDecoration: 'none' }} to={'/login'}>
 						{strings.LogIn}
 					</Link>
 				</div>
 				<div className={'signUp'}>
-					<Link style={{ ...fontStyles.bigTextStyleWhite, textDecoration: 'none' }} to={'/signUp'}>
+					<Link style={{ ...fontStyles.bigTextStyleBlue, textDecoration: 'none' }} to={'/signUp'}>
 						{strings.SignUp}
 					</Link>
 				</div>
 				<div className={'contactUs'}>
-					<Link style={{ ...fontStyles.bigTextStyleWhite, textDecoration: 'none' }} to={'/contactus'}>
+					<Link style={{ ...fontStyles.bigTextStyleBlue, textDecoration: 'none' }} to={'/contactus'}>
 						{strings.ContactUs}
 					</Link>
 				</div>
@@ -42,48 +42,59 @@ export default function LandingPageNavigator() {
 		</div>
 	);
 
-	//The footer conataining the privacy policy, credits, and terms and conditions buttons. Also contains Help contact information
-	const footer = (
-		<div className={'footer'}>
-			<div className={'contactUs'}>
-				<div style={fontStyles.bigTextStyleBlack}>{strings.ContactUs}</div>
-				<div style={fontStyles.subTextStyleBlack}>{strings.HelpEmail}</div>
-				<div style={fontStyles.subTextStyleBlack}>{strings.HelpPhoneNumber}</div>
-				<div style={fontStyles.subTextStyleBlack}>{strings.HelpAddress}</div>
-				<div style={fontStyles.subTextStyleBlack}>{strings.HelpCity}</div>
-			</div>
-			<div className={'joinHelpFamily'}>
-				<div style={fontStyles.bigTextStyleBlack}>{strings.JoinHelpFamily}</div>
-				<div className={'socialMedia'}>
-					<SocialIcon url={'https://twitter.com/llc_help'} />
-					<SocialIcon url={'https://www.instagram.com/realhelpllc/'} />
-					<SocialIcon url={'https://www.facebook.com/realhelpllc/'} />
-					<SocialIcon url={'https://www.linkedin.com/company/helpllc/'} />
-				</div>
-			</div>
-			<div className={'legal'}>
-				<div style={fontStyles.bigTextStyleBlack}>{strings.Legal}</div>
-				<div>
-					<Link
-						style={{ ...fontStyles.subTextStyleBlack, textDecoration: 'none' }}
-						to={'/privacypolicy'}>
-						{strings.PrivacyPolicy}
-					</Link>
-				</div>
-				<div>
-					<Link style={{ ...fontStyles.subTextStyleBlack, textDecoration: 'none' }} to={'/terms'}>
-						{strings.TermsAndConditions}
-					</Link>
-				</div>
-				<div>
-					<Link style={{ ...fontStyles.subTextStyleBlack, textDecoration: 'none' }} to={'/credits'}>
-						{strings.Credits}
-					</Link>
-				</div>
-				<div style={fontStyles.subTextStyleBlack}>&copy;{strings.Copyright}</div>
-			</div>
-		</div>
-	);
+  //The footer conataining the privacy policy, credits, and terms and conditions buttons. Also contains Help contact information
+  const footer = (
+    <div className={"footer"}>
+      <div className={"contactUs"}>
+        <div style={fontStyles.bigTextStyleBlack}>{strings.ContactUs}</div>
+        <div style={fontStyles.subTextStyleBlack}>{strings.HelpEmail}</div>
+        <div style={fontStyles.subTextStyleBlack}>
+          {strings.HelpPhoneNumber}
+        </div>
+        <div style={fontStyles.subTextStyleBlack}>{strings.HelpAddress}</div>
+        <div style={fontStyles.subTextStyleBlack}>{strings.HelpCity}</div>
+      </div>
+      <div className={"joinHelpFamily"}>
+        <div style={fontStyles.bigTextStyleBlack}>{strings.JoinHelpFamily}</div>
+        <div className={"socialMedia"}>
+          <SocialIcon url={"https://twitter.com/llc_help"} />
+          <SocialIcon url={"https://www.instagram.com/realhelpllc/"} />
+          <SocialIcon url={"https://www.facebook.com/realhelpllc/"} />
+          <SocialIcon url={"https://www.linkedin.com/company/helpllc/"} />
+        </div>
+      </div>
+      <div className={"legal"}>
+        <div style={fontStyles.bigTextStyleBlack}>{strings.Legal}</div>
+        <div>
+          <Link
+            style={{ ...fontStyles.subTextStyleBlack, textDecoration: "none" }}
+            to={"/privacypolicy"}
+          >
+            {strings.PrivacyPolicy}
+          </Link>
+        </div>
+        <div>
+          <Link
+            style={{ ...fontStyles.subTextStyleBlack, textDecoration: "none" }}
+            to={"/terms"}
+          >
+            {strings.TermsAndConditions}
+          </Link>
+        </div>
+        <div>
+          <Link
+            style={{ ...fontStyles.subTextStyleBlack, textDecoration: "none" }}
+            to={"/credits"}
+          >
+            {strings.Credits}
+          </Link>
+        </div>
+        <div style={fontStyles.subTextStyleBlack}>
+          &copy;{strings.Copyright}
+        </div>
+      </div>
+    </div>
+  );
 
 	return (
 		<BrowserRouter>

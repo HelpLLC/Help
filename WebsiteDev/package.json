@@ -30,6 +30,7 @@
     "react-image-file-resizer": "^0.2.3",
     "react-images-upload": "^1.2.8",
     "react-modal": "^3.11.2",
+    "react-native-fontawesome": "^7.0.0",
     "react-native-web": "^0.12.2",
     "react-picker": "^1.2.15",
     "react-router-dom": "^5.1.2",
