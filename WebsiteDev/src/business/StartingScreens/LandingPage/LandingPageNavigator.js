@@ -46,7 +46,7 @@ export default function LandingPageNavigator() {
   const footer = (
     <div className={"footer"}>
       <div className={"contactUs"}>
-        <div style={fontStyles.bigTextStyleBlack}>{strings.ContactUs}</div>
+        <div style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.ContactUs}</div>
         <div style={fontStyles.subTextStyleBlack}>{strings.HelpEmail}</div>
         <div style={fontStyles.subTextStyleBlack}>
           {strings.HelpPhoneNumber}
@@ -55,7 +55,7 @@ export default function LandingPageNavigator() {
         <div style={fontStyles.subTextStyleBlack}>{strings.HelpCity}</div>
       </div>
       <div className={"joinHelpFamily"}>
-        <div style={fontStyles.bigTextStyleBlack}>{strings.JoinHelpFamily}</div>
+        <div style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.JoinHelpFamily}</div>
         <div className={"socialMedia"}>
           <SocialIcon url={"https://twitter.com/llc_help"} />
           <SocialIcon url={"https://www.instagram.com/realhelpllc/"} />
@@ -64,7 +64,7 @@ export default function LandingPageNavigator() {
         </div>
       </div>
       <div className={"legal"}>
-        <div style={fontStyles.bigTextStyleBlack}>{strings.Legal}</div>
+        <div style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.Legal}</div>
         <div>
           <Link
             style={{ ...fontStyles.subTextStyleBlack, textDecoration: "none" }}

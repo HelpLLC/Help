@@ -16,7 +16,8 @@ export default StyleSheet.create({
 		justifyContent: 'space-between',
 	},
 	textStyle: {
-		...fontStyles.bigTextStyleWhite,
+		...fontStyles.bigTextStyle,
+		...fontStyles.white,
 		alignItems: 'center',
 		justifyContent: 'center',
 		textAlign: 'center',

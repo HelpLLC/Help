@@ -290,7 +290,7 @@ class additionalCustomerInfoScreen extends Component {
 								</BoxShadow>
 							</View>
 							<View style={{ justifyContent: 'flex-end' }}>
-								<Text style={fontStyles.mainTextStyleBlue}>
+								<Text style={[fontStyles.mainTextStyle, fontStyles.blue]}>
 									{strings.EditImage}
 								</Text>
 							</View>
@@ -303,7 +303,7 @@ class additionalCustomerInfoScreen extends Component {
 									justifyContent: 'flex-end',
 									marginVertical: screenHeight * 0.02,
 								}}>
-								<Text style={fontStyles.bigTextStyleBlack}>{strings.Name}</Text>
+								<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.Name}</Text>
 							</View>
 
 							<View style={{ justifyContent: 'center' }}>
@@ -328,7 +328,7 @@ class additionalCustomerInfoScreen extends Component {
 								justifyContent: 'flex-end',
 								marginVertical: screenHeight * 0.02,
 							}}>
-							<Text style={fontStyles.bigTextStyleBlack}>{strings.Name}</Text>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.Name}</Text>
 						</View>
 
 						<View style={{ justifyContent: 'center' }}>
@@ -353,7 +353,7 @@ class additionalCustomerInfoScreen extends Component {
 						alignSelf: 'center',
 						marginVertical: screenHeight * 0.02,
 					}}>
-					<Text style={fontStyles.bigTextStyleBlack}>{strings.PhoneNumber}</Text>
+					<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.PhoneNumber}</Text>
 				</View>
 
 				<View style={{ justifyContent: 'center' }}>
@@ -380,7 +380,7 @@ class additionalCustomerInfoScreen extends Component {
 						alignSelf: 'center',
 						marginVertical: screenHeight * 0.02,
 					}}>
-					<Text style={fontStyles.bigTextStyleBlack}>{strings.StreetAddress}</Text>
+					<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.StreetAddress}</Text>
 				</View>
 				<View
 					style={{

@@ -111,7 +111,8 @@ export default function NarrowServiceCardFunction(props) {
 							}}>
 							<Text
 								style={[
-									fontStyles.mainTextStyleBlack,
+									fontStyles.mainTextStyle,
+									fontStyles.black,
 									{
 										paddingLeft: screenWidth * 0.025,
 									},
@@ -132,7 +133,7 @@ export default function NarrowServiceCardFunction(props) {
 										defaultRating={averageRating}
 										showRating={false}
 									/>
-									<Text style={fontStyles.subTextStyleBlack}>
+									<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 										{' '}
 										({totalReviews})
 									</Text>
@@ -142,7 +143,8 @@ export default function NarrowServiceCardFunction(props) {
 							)}
 							<Text
 								style={[
-									fontStyles.mainTextStyleBlack,
+									fontStyles.mainTextStyle,
+									fontStyles.black,
 									{
 										paddingLeft: screenWidth * 0.025,
 									},

@@ -161,7 +161,7 @@ export default class featuredScreen extends Component {
 							justifyContent: 'center',
 							alignItems: 'flex-start',
 						}}>
-						<Text style={fontStyles.bigTextStyleBlue}>{strings.FeaturedServices}</Text>
+						<Text style={[fontStyles.bigTextStyle, fontStyles.blue]}>{strings.FeaturedServices}</Text>
 					</View>
 					<NarrowServiceCardList
 						customerID={customer.customerID}

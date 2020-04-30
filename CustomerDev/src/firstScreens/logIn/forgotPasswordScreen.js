@@ -48,7 +48,7 @@ class forgotPasswordScreen extends Component {
 				<View style={{ flex: 0.25 }}></View>
 				<View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center' }}>
 					<View style={{ flex: 1, justifyContent: 'flex-end' }}>
-						<Text style={fontStyles.bigTextStyleBlack}>{strings.Email}</Text>
+						<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.Email}</Text>
 					</View>
 					<View style={{ flex: 0.5 }}></View>
 					<View style={{ flex: 1, justifyContent: 'center' }}>

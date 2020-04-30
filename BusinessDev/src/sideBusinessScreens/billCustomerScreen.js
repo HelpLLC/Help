@@ -7,7 +7,7 @@ import fontStyles from 'config/styles/fontStyles';
 import { screenHeight, screenWidth } from 'config/dimensions';
 import strings from 'config/strings';
 import screenStyle from 'config/styles/screenStyle';
- 
+
 import HelpAlert from '../components/HelpAlert';
 import colors from 'config/colors';
 import { Icon } from 'react-native-elements';
@@ -29,7 +29,7 @@ export default class billCustomerScreen extends Component {
 		units: '',
 		isLoading: false,
 		fieldsError: false,
-		requestCompleted: false
+		requestCompleted: false,
 	};
 
 	//Sets the initial state
@@ -39,7 +39,7 @@ export default class billCustomerScreen extends Component {
 		//Sets the initial billed amount if it is fixed for this service
 		if (request.price.priceType === 'fixed') {
 			this.setState({
-				billedAmount: request.price.priceFixed.toFixed(2) + ''
+				billedAmount: request.price.priceFixed.toFixed(2) + '',
 			});
 		}
 
@@ -49,7 +49,7 @@ export default class billCustomerScreen extends Component {
 			cash: request.cash,
 			card: request.card,
 			price: request.price,
-			priceText: request.priceText
+			priceText: request.priceText,
 		});
 	}
 
@@ -66,7 +66,7 @@ export default class billCustomerScreen extends Component {
 			await FirebaseFunctions.call('completeRequest', {
 				cash: true,
 				requestID,
-				billedAmount
+				billedAmount,
 			});
 
 			this.setState({ requestCompleted: true, isLoading: false });
@@ -95,9 +95,9 @@ export default class billCustomerScreen extends Component {
 							alignItems: 'center',
 							alignSelf: 'center',
 							marginTop: screenHeight * 0.05,
-							width: screenWidth * 0.9
+							width: screenWidth * 0.9,
 						}}>
-						<Text style={[fontStyles.mainTextStyleBlack, { textAlign: 'center' }]}>
+						<Text style={[fontStyles.mainTextStyle, fontStyles.black, { textAlign: 'center' }]}>
 							{strings.HowMuchWasTheCustomerChargedForTheService}
 						</Text>
 					</View>
@@ -105,17 +105,18 @@ export default class billCustomerScreen extends Component {
 						style={{
 							flexDirection: 'row',
 							justifyContent: 'center',
-							marginTop: screenHeight * 0.2
+							marginTop: screenHeight * 0.2,
 						}}>
-						<Text style={fontStyles.bigTitleStyleBlack}>{strings.DollarSign}</Text>
+						<Text style={[fontStyles.bigTitleStyle, fontStyles.black]}>{strings.DollarSign}</Text>
 						<TextInput
 							value={billedAmount}
 							style={[
-								fontStyles.bigTitleStyleBlack,
+								fontStyles.bigTitleStyle,
+								fontStyles.black,
 								{
 									borderBottomColor: colors.black,
-									borderBottomWidth: 1
-								}
+									borderBottomWidth: 1,
+								},
 							]}
 							keyboardType={'numeric'}
 							placeholder={strings.ExampleBilledAmount}
@@ -128,7 +129,7 @@ export default class billCustomerScreen extends Component {
 						style={{
 							alignItems: 'center',
 							justifyContent: 'center',
-							marginTop: screenHeight * 0.175
+							marginTop: screenHeight * 0.175,
 						}}>
 						<HelpButton
 							title={strings.Complete}
@@ -178,9 +179,9 @@ export default class billCustomerScreen extends Component {
 								alignItems: 'center',
 								alignSelf: 'center',
 								marginTop: screenHeight * 0.05,
-								width: screenWidth * 0.9
+								width: screenWidth * 0.9,
 							}}>
-							<Text style={[fontStyles.mainTextStyleBlack, { textAlign: 'center' }]}>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.black, { textAlign: 'center' }]}>
 								{strings.PleaseConfirmThatThisIsThePriceTheCustomerShouldBeChargedForThisService}
 							</Text>
 						</View>
@@ -188,17 +189,18 @@ export default class billCustomerScreen extends Component {
 							style={{
 								flexDirection: 'row',
 								justifyContent: 'center',
-								marginTop: screenHeight * 0.2
+								marginTop: screenHeight * 0.2,
 							}}>
-							<Text style={fontStyles.bigTitleStyleBlack}>{strings.DollarSign}</Text>
+							<Text style={[fontStyles.bigTitleStyle, fontStyles.black]}>{strings.DollarSign}</Text>
 							<TextInput
 								value={billedAmount}
 								style={[
-									fontStyles.bigTitleStyleBlack,
+									fontStyles.bigTitleStyle,
+									fontStyles.black,
 									{
 										borderBottomColor: colors.black,
-										borderBottomWidth: 1
-									}
+										borderBottomWidth: 1,
+									},
 								]}
 								keyboardType={'numeric'}
 								placeholder={strings.ExampleBilledAmount}
@@ -211,7 +213,7 @@ export default class billCustomerScreen extends Component {
 							style={{
 								alignItems: 'center',
 								justifyContent: 'center',
-								marginTop: screenHeight * 0.175
+								marginTop: screenHeight * 0.175,
 							}}>
 							<HelpButton
 								title={strings.Complete}
@@ -259,14 +261,14 @@ export default class billCustomerScreen extends Component {
 								alignItems: 'center',
 								alignSelf: 'center',
 								marginTop: screenHeight * 0.05,
-								width: screenWidth * 0.9
+								width: screenWidth * 0.9,
 							}}>
-							<Text style={[fontStyles.mainTextStyleBlack, { textAlign: 'center' }]}>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.black, { textAlign: 'center' }]}>
 								{strings.ThePriceForThisServiceWas}
 								{priceText}
 							</Text>
 							<View style={{ height: screenHeight * 0.025 }} />
-							<Text style={[fontStyles.mainTextStyleBlack, { textAlign: 'center' }]}>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.black, { textAlign: 'center' }]}>
 								{strings.PleaseEnterAmountOf}
 								{price.per}
 								{strings.ParanthesesS}
@@ -278,16 +280,17 @@ export default class billCustomerScreen extends Component {
 							style={{
 								flexDirection: 'row',
 								justifyContent: 'center',
-								marginTop: screenHeight * 0.2
+								marginTop: screenHeight * 0.2,
 							}}>
 							<TextInput
 								value={units}
 								style={[
-									fontStyles.bigTitleStyleBlack,
+									fontStyles.bigTitleStyle,
+									fontStyles.black,
 									{
 										borderBottomColor: colors.black,
-										borderBottomWidth: 1
-									}
+										borderBottomWidth: 1,
+									},
 								]}
 								keyboardType={'numeric'}
 								placeholder={strings.Zero}
@@ -300,7 +303,7 @@ export default class billCustomerScreen extends Component {
 							style={{
 								alignItems: 'center',
 								justifyContent: 'center',
-								marginTop: screenHeight * 0.175
+								marginTop: screenHeight * 0.175,
 							}}>
 							<HelpButton
 								title={strings.Complete}

@@ -125,7 +125,7 @@ class emailPasswordScreen extends Component {
 							alignSelf: 'center',
 						}}>
 						<View style={{ flex: 1, justifyContent: 'flex-end' }}>
-							<Text style={fontStyles.bigTextStyleBlack}>{strings.Email}</Text>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.Email}</Text>
 						</View>
 
 						<View style={{ flex: 0.5 }} />
@@ -150,7 +150,7 @@ class emailPasswordScreen extends Component {
 							alignSelf: 'center',
 						}}>
 						<View style={{ flex: 1, justifyContent: 'flex-end' }}>
-							<Text style={fontStyles.bigTextStyleBlack}>{strings.Password}</Text>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.Password}</Text>
 						</View>
 						<View
 							style={{
@@ -212,13 +212,13 @@ class emailPasswordScreen extends Component {
 							checkedCheckBoxColor={colors.lightBlue}
 							checkBoxColor={colors.lightBlue}
 						/>
-						<Text style={fontStyles.mainTextStyleBlack}>{strings.IAcceptThe}</Text>
+						<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{strings.IAcceptThe}</Text>
 						<TouchableOpacity
 							onPress={() => {
 								//Navigates to the Terms and Conditions screen
 								this.props.navigation.push('TermsAndConditionsScreen');
 							}}>
-							<Text style={[fontStyles.mainTextStyleBlue, { flexWrap: 'wrap' }]}>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.blue , { flexWrap: 'wrap' }]}>
 								{strings.TermsAndConditions}
 							</Text>
 						</TouchableOpacity>

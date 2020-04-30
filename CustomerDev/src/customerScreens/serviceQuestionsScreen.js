@@ -126,7 +126,7 @@ class serviceQuestionsScreen extends Component {
 								style={{
 									marginBottom: screenHeight * 0.025
 								}}>
-								<Text style={fontStyles.mainTextStyleBlack}>{item}</Text>
+								<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{item}</Text>
 							</View>
 							<View>
 								<HelpTextInput

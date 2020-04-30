@@ -76,7 +76,7 @@ class reportIssueScreen extends Component {
 							marginTop: screenHeight * 0.1,
 							marginBottom: screenHeight * 0.05
 						}}>
-						<Text style={fontStyles.bigTextStyleBlack}>
+						<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>
 							{strings.WhatSeemsToBeTheProblemQuestion}
 						</Text>
 					</View>

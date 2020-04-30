@@ -99,7 +99,7 @@ export default class orderHistoryScreen extends Component {
 									alignItems: 'center',
 									width: screenWidth * 0.9
 								}}>
-								<Text style={fontStyles.bigTextStyleBlack}>{strings.NoRequestsYet}</Text>
+								<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.NoRequestsYet}</Text>
 							</View>
 						) : (
 							<View>
@@ -125,7 +125,7 @@ export default class orderHistoryScreen extends Component {
 														borderBottomColor: colors.lightBlue,
 														borderBottomWidth: 1
 													}}>
-													<Text style={fontStyles.bigTextStyleBlue}>
+													<Text style={[fontStyles.bigTextStyle, fontStyles.blue]}>
 														{strings.InProgress + ' (' + currentRequests.length + ')'}
 													</Text>
 												</View>
@@ -183,7 +183,7 @@ export default class orderHistoryScreen extends Component {
 														borderBottomColor: colors.black,
 														borderBottomWidth: 1
 													}}>
-													<Text style={fontStyles.bigTextStyleBlack}>{strings.Completed}</Text>
+													<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.Completed}</Text>
 												</View>
 												<ServiceCardList
 													services={completedRequests}

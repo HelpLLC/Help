@@ -27,7 +27,7 @@ export default class accountNotVerified extends Component {
 					}}
 				/>
 				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: screenWidth * 0.8 }}>
-					<Text style={fontStyles.bigTextStyleBlack}>{strings.AccountNotVerified}</Text>
+					<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.AccountNotVerified}</Text>
 				</View>
 			</HelpView>
 		);

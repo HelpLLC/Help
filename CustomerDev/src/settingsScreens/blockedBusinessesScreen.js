@@ -95,7 +95,7 @@ export default class blockedBusinessesScreen extends Component {
 					}}
 					ListEmptyComponent={
 						<View style={{ height: screenHeight * 0.7, justifyContent: 'center', alignItems: 'center' }}>
-							<Text style={fontStyles.bigTextStyleBlack}>{strings.NoBusinessesBlocked}</Text>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.NoBusinessesBlocked}</Text>
 						</View>
 					}
 					renderItem={({ item, index }) => (
@@ -111,7 +111,7 @@ export default class blockedBusinessesScreen extends Component {
 								borderBottomColor: colors.lightBlue,
 								borderBottomWidth: 1
 							}}>
-							<Text style={fontStyles.mainTextStyleBlack}>{item.businessName}</Text>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{item.businessName}</Text>
 							<HelpButton
 								title={strings.Unblock}
 								width={screenWidth * 0.278}

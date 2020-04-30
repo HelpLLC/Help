@@ -54,14 +54,14 @@ class LeftMenu extends Component {
 								flexDirection: 'column',
 								justifyContent: 'space-evenly'
 							}}>
-							<Text style={fontStyles.bigTextStyleBlack}>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>
 								{//Creates a first name effect
 								customer.name.trim().includes(' ')
 									? customer.name.substring(0, customer.name.trim().indexOf(' '))
 									: customer.name}
 							</Text>
 							<View style={{ height: screenHeight * 0.01 }}></View>
-							<Text style={fontStyles.subTextStyleBlack}>
+							<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 								{customer.city + ', ' + customer.state}
 							</Text>
 						</View>

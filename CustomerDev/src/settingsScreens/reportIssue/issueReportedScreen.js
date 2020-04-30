@@ -32,9 +32,9 @@ export default class issueReportedScreen extends Component {
 			<HelpView style={screenStyle.container}>
 				<TopBanner title={strings.ReportAnIssue} leftIconName='angle-left' leftOnPress={() => {}} />
 				<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-					<Text style={fontStyles.mainTextStyleBlack}>{strings.ThankYouForReporting}</Text>
+					<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{strings.ThankYouForReporting}</Text>
 					<Text style={{}}></Text>
-					<Text style={fontStyles.mainTextStyleBlack}>{strings.WellFixItRightAway}</Text>
+					<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{strings.WellFixItRightAway}</Text>
 				</View>
 			</HelpView>
 		);

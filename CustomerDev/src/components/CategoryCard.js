@@ -101,7 +101,7 @@ export default function CategoryCard(props) {
 								justifyContent: 'center',
 								alignItems: 'center',
 							}}>
-							<Text style={[fontStyles.mainTextStyleBlack]}>{categoryTitle}</Text>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.black ]}>{categoryTitle}</Text>
 						</View>
 					</View>
 				</BoxShadow>

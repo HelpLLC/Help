@@ -76,8 +76,8 @@ export default function ChatCard(props) {
 							flexDirection: 'column',
 							justifyContent: 'flex-start',
 						}}>
-						<Text style={fontStyles.mainTextStyleBlack}>{username}</Text>
-						<Text style={fontStyles.subTextStyleGray}>
+						<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{username}</Text>
+						<Text style={[fontStyles.subTextStyle, fontStyles.gray]}>
 							{previewText.length > 25
 								? previewText.substring(0, 24).trim() + '...'
 								: previewText}
@@ -88,7 +88,7 @@ export default function ChatCard(props) {
 							flexDirection: 'column',
 							justifyContent: 'flex-end',
 						}}>
-						<Text style={fontStyles.mainTextStyleGray}>{timeTextToString}</Text>
+						<Text style={[fontStyles.mainTextStyle, fontStyles.gray]}>{timeTextToString}</Text>
 					</View>
 				</View>
 			</View>
