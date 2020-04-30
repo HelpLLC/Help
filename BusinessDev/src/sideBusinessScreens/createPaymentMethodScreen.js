@@ -498,7 +498,7 @@ export default class createPaymentMethodScreen extends Component {
 											//Opens the stripe agreements
 											Linking.openURL('https://stripe.com/connect-account/legal');
 										}}>
-										<Text style={[fontStyles.mainTextStyle, fontStyles.blue { flexWrap: 'wrap' }]}>
+										<Text style={[fontStyles.mainTextStyle, fontStyles.blue, { flexWrap: 'wrap' }]}>
 											{strings.StripeConnectedAccountAgreement}
 										</Text>
 									</TouchableOpacity>
