@@ -16,7 +16,7 @@ class splashScreen extends Component {
 		return (
 			<HelpView style={screenStyle.container}>
 				<View style={{ flex: 1, justifyContent: 'center' }}>
-					<Text style={fontStyles.bigTitleStyleBlue}>{strings.Help}</Text>
+					<Text style={[fontStyles.bigTitleStyle, fontStyles.blue]}>{strings.Help}</Text>
 				</View>
 				<View style={{ flex: 0.75 }}>
 					<View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>

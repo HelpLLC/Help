@@ -233,8 +233,8 @@ export default class paymentsScreen extends Component {
 								width: screenWidth * 0.9,
 								marginBottom: screenHeight * 0.015,
 							}}>
-							<Text style={fontStyles.mainTextStyleBlack}>{strings.NameOnCard}</Text>
-							<Text style={fontStyles.subTextStyleBlack}>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{strings.NameOnCard}</Text>
+							<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 								{paymentInformation.name}
 							</Text>
 						</View>
@@ -246,8 +246,8 @@ export default class paymentsScreen extends Component {
 								width: screenWidth * 0.9,
 								marginBottom: screenHeight * 0.015,
 							}}>
-							<Text style={fontStyles.mainTextStyleBlack}>{strings.CardNumber}</Text>
-							<Text style={fontStyles.smallTextStyleBlack}>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{strings.CardNumber}</Text>
+							<Text style={[fontStyles.smallTextStyle, fontStyles.black]}>
 								{paymentInformation.brand}
 								{strings.Asterisks}
 								{paymentInformation.last4}
@@ -261,8 +261,8 @@ export default class paymentsScreen extends Component {
 								width: screenWidth * 0.9,
 								marginBottom: screenHeight * 0.015,
 							}}>
-							<Text style={fontStyles.mainTextStyleBlack}>{strings.ExpDate}</Text>
-							<Text style={fontStyles.subTextStyleBlack}>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{strings.ExpDate}</Text>
+							<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 								{paymentInformation.exp_month}/{paymentInformation.exp_year}
 							</Text>
 						</View>
@@ -274,8 +274,8 @@ export default class paymentsScreen extends Component {
 								width: screenWidth * 0.9,
 								marginBottom: screenHeight * 0.015,
 							}}>
-							<Text style={fontStyles.mainTextStyleBlack}>{strings.Address}</Text>
-							<Text style={fontStyles.subTextStyleBlack}>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{strings.Address}</Text>
+							<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 								{paymentInformation.address_line1}
 							</Text>
 						</View>
@@ -361,7 +361,7 @@ export default class paymentsScreen extends Component {
 									width: screenWidth * 0.9,
 								}}>
 								<Text
-									style={[fontStyles.bigTextStyleBlack, { textAlign: 'center' }]}>
+									style={[fontStyles.bigTextStyle, fontStyles.black, { textAlign: 'center' }]}>
 									{strings.AddAPaymentMethodWithHelp}
 								</Text>
 							</View>
@@ -374,7 +374,7 @@ export default class paymentsScreen extends Component {
 									width: screenWidth * 0.9,
 								}}>
 								<Text
-									style={[fontStyles.subTextStyleBlack, { textAlign: 'center' }]}>
+									style={[fontStyles.subTextStyle, fontStyles.black , { textAlign: 'center' }]}>
 									{strings.YourInformationWillNotBeSharedWithBusinesses}
 								</Text>
 							</View>

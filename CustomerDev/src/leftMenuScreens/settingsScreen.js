@@ -65,7 +65,7 @@ class settingsScreen extends Component {
 							<View style={{ flex: 1 }}>
 								<WhiteCard
 									text={strings.ReportAnIssue}
-									mainTextStyle={fontStyles.mainTextStyleBlack}
+									mainTextStyle={[fontStyles.mainTextStyle, fontStyles.black]}
 									comp={angleRightIcon}
 									//Pressing this leads to the report an issue screen
 									onPress={() =>
@@ -78,7 +78,7 @@ class settingsScreen extends Component {
 							<View style={{ flex: 1 }}>
 								<WhiteCard
 									text={strings.Notifications}
-									mainTextStyle={fontStyles.mainTextStyleBlack}
+									mainTextStyle={[fontStyles.mainTextStyle, fontStyles.black]}
 									comp={angleRightIcon}
 									//Pressing this leads to the about screen page
 									onPress={() => {
@@ -89,7 +89,7 @@ class settingsScreen extends Component {
 							<View style={{ flex: 1 }}>
 								<WhiteCard
 									text={strings.About}
-									mainTextStyle={fontStyles.mainTextStyleBlack}
+									mainTextStyle={[fontStyles.mainTextStyle, fontStyles.black]}
 									comp={angleRightIcon}
 									//Pressing this leads to the about screen page
 									onPress={() => this.props.navigation.push('AboutScreen')}
@@ -98,7 +98,7 @@ class settingsScreen extends Component {
 							<View style={{ flex: 1 }}>
 								<WhiteCard
 									text={strings.Privacy}
-									mainTextStyle={fontStyles.mainTextStyleBlack}
+									mainTextStyle={[fontStyles.mainTextStyle, fontStyles.black]}
 									comp={angleRightIcon}
 									//Pressing this leads to the about screen page
 									onPress={() => this.props.navigation.push('PrivacyScreen')}
@@ -107,7 +107,7 @@ class settingsScreen extends Component {
 							<View style={{ flex: 1 }}>
 								<WhiteCard
 									text={strings.TermsAndConditions}
-									mainTextStyle={fontStyles.mainTextStyleBlack}
+									mainTextStyle={[fontStyles.mainTextStyle, fontStyles.black]}
 									comp={angleRightIcon}
 									//Pressing this leads to the about screen page
 									onPress={() =>
@@ -118,7 +118,7 @@ class settingsScreen extends Component {
 							<View style={{ flex: 1 }}>
 								<WhiteCard
 									text={strings.Credits}
-									mainTextStyle={fontStyles.mainTextStyleBlack}
+									mainTextStyle={[fontStyles.mainTextStyle, fontStyles.black]}
 									comp={angleRightIcon}
 									//Pressing this leads to the about screen page
 									onPress={() => this.props.navigation.push('CreditsScreen')}
@@ -127,7 +127,7 @@ class settingsScreen extends Component {
 							<View style={{ flex: 1 }}>
 								<WhiteCard
 									text={strings.BlockedBusinesses}
-									mainTextStyle={fontStyles.mainTextStyleBlack}
+									mainTextStyle={[fontStyles.mainTextStyle, fontStyles.black]}
 									comp={angleRightIcon}
 									//Pressing this leads to the blocked users screen
 									onPress={() =>

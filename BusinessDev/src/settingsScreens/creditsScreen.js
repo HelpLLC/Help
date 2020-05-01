@@ -33,7 +33,7 @@ export default class creditsScreen extends Component {
 						alignItems: 'center',
 						padding: screenHeight * 0.02
 					}}>
-					<Text style={fontStyles.mainTextStyleBlack}>
+					<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>
 						1) Icons made by "https://www.flaticon.com/authors/smashicons"{'\n\n'}
 						2) Icons made by "https://www.flaticon.com/authors/kiranshastry"{'\n\n'}
 						3) Icons made by "https://www.flaticon.com/authors/smalllikeart"{'\n\n'}

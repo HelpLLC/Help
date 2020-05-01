@@ -5,7 +5,7 @@ import { StyleSheet, Platform, PixelRatio } from 'react-native';
 import { screenWidth, screenHeight } from 'config/dimensions';
 
 //Gets the correct font based on either iOS or Android
-const font = 'Arial Rounded MT Bold';
+const font = 'Lucida Grande';
 
 //Sets the font size
 let baseFontSize = Platform.OS === 'android' ? 20 : 18;
@@ -21,155 +21,81 @@ const subTitleFontSize = baseFontSize * 2.2;
 const bigTitleFontSize = baseFontSize * 4.4;
 
 export default StyleSheet.create({
-	//The style for all big text that will be colored black
-	bigTextStyleBlack: {
+	//The style for all big text style
+	bigTextStyle: {
 		fontFamily: font,
 		fontSize: bigFontSize,
-		color: colors.black
 	},
 
-	//The style for all big text that will be colored white
-	bigTextStyleWhite: {
+	//The style for all small text style
+	smallTextStyle: {
 		fontFamily: font,
-		fontSize: bigFontSize,
-		color: colors.white
-	},
-
-	//The style for all big text that will be colored blue
-	bigTextStyleBlue: {
-		fontFamily: font,
-		fontSize: bigFontSize,
-		color: colors.lightBlue
-	},
-
-	//The style for main text that will be colored gray
-	bigTextStyleGray: {
-		fontFamily: font,
-		fontSize: bigFontSize,
-		color: colors.gray
-	},
-
-	//The style for main text that will be colored black
-	mainTextStyleBlack: {
-		fontFamily: font,
-		fontSize: baseFontSize,
-		color: colors.black
-	},
-
-	//The style for main text that will be colored blue
-	mainTextStyleBlue: {
-		fontFamily: font,
-		fontSize: baseFontSize,
-		color: colors.lightBlue
-	},
-
-	//The style for main text that will be colored white
-	mainTextStyleWhite: {
-		fontFamily: font,
-		fontSize: baseFontSize,
-		color: colors.white
-	},
-
-	//The style for main text that will be colored gray
-	mainTextStyleGray: {
-		fontFamily: font,
-		fontSize: baseFontSize,
-		color: colors.gray
-	},
-
-	//The style for main text that will be colored red
-	mainTextStyleRed: {
-		fontFamily: font,
-		fontSize: baseFontSize,
-		color: colors.red
-	},
-
-	//The style for all small text that is blue
-	smallTextStyleBlue: {
 		fontSize: smallTextFontSize,
-		fontFamily: font,
-		color: colors.lightBlue
 	},
 
-	smallTextStyleBlack: {
-		fontSize: smallTextFontSize,
-		fontFamily: font,
-		color: colors.black
-	},
-
-	//The style for all non-main text that is black
-	subTextStyleBlack: {
+	//The style for all sub text style
+	subTextStyle: {
 		fontFamily: font,
 		fontSize: subTextFontSize,
-		color: colors.black
 	},
 
-	//The style for all non-main text that is blue
-	subTextStyleBlue: {
+	//The style for all the main text style
+	mainTextStyle: {
 		fontFamily: font,
-		fontSize: subTextFontSize,
-		color: colors.lightBlue
+		fontSize: baseFontSize,
 	},
 
-	//The style for all non-main text that is red
-	subTextStyleRed: {
-		fontFamily: font,
-		fontSize: subTextFontSize,
-		color: colors.red
-	},
-
-	//The style for all non-main text that is gray
-	subTextStyleGray: {
-		fontFamily: font,
-		fontSize: subTextFontSize,
-		color: colors.gray
-	},
-
-	//The style for all non-main text that is white
-	subTextStyleWhite: {
-		fontFamily: font,
-		fontSize: subTextFontSize,
-		color: colors.white
-	},
-
-	//The style for the tab label at the bottom of the screens
-	tabLabelStyle: {
-		fontFamily: font,
-		fontSize: subTextFontSize
-	},
-
-	//The style for the text on the button on the report issue screen
-	reportIssueButtonTextStyle: {
-		fontFamily: font,
-		fontSize: baseFontSize * 1.5,
-		color: colors.white
-	},
-
-	//The style for all big blue title texts
-	bigTitleStyleBlue: {
-		fontFamily: font,
-		fontSize: bigTitleFontSize,
-		color: colors.lightBlue
-	},
-
-	//The style for all big white title texts
-	bigTitleStyleWhite: {
-		fontFamily: font,
-		fontSize: bigTitleFontSize,
-		color: colors.white
-    },
-    
-	//The style for all big white title texts
-	bigTitleStyleBlack: {
-		fontFamily: font,
-		fontSize: bigTitleFontSize,
-		color: colors.black
-	},
-
-	//The style for all big sub white title texts
-	bigSubTitleStyleWhite: {
+	//The style for all the big subtitle text style
+	bigSubTitleStyle: {
 		fontFamily: font,
 		fontSize: subTitleFontSize,
-		color: colors.white
-	}
+	},
+
+	//The style for all the big title text style
+	bigTitleStyle: {
+		fontFamily: font,
+		fontSize: bigTitleFontSize,
+	},
+
+	/* The colors for all the different fonts*/
+	lightGray: {
+		color: colors.lightGray,
+	},
+
+	white: {
+		color: colors.white,
+	},
+
+	lightBlue: {
+		color: colors.lightBlue,
+	},
+
+	darkBlue: {
+		color: colors.darkBlue,
+	},
+
+	blue: {
+		color: colors.blue,
+	},
+
+	black: {
+		color: colors.black,
+	},
+
+	red: {
+		color: colors.red,
+	},
+
+	gray: {
+		color: colors.gray,
+	},
+
+	green: {
+		color: colors.green,
+	},
+
+	/*The different font stylings*/
+	bold: {
+		fontWeight: 'bold',
+	},
 });

@@ -42,9 +42,10 @@
 		9B9D44A422F62A55004CC1EC /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B9D44A322F62A55004CC1EC /* UserNotifications.framework */; };
 		9C03D6BC2F0D42FF81E45202 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C3EFFFA83A8A4D419A009728 /* Fontisto.ttf */; };
 		9F637A9A890E4F53A4C404C7 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CD6D45C9C5E04A2DA1394548 /* EvilIcons.ttf */; };
-		C3737553AF954439B20EBA9D /* Arial Rounded MT Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6AE037F354F84680B9CE0D39 /* Arial Rounded MT Bold.ttf */; };
 		D5666FE38D10454284805655 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD28F1259CC94058A6B770F3 /* AntDesign.ttf */; };
 		FF938FBE995A478B9B585BC9 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1758DFE6837147AE86C4B9C5 /* MaterialIcons.ttf */; };
+		20CCF3CC36B24C5CB36AAEB0 /* Lucida Grande Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A1D3965AA044D34B7449D70 /* Lucida Grande Bold.ttf */; };
+		00BE801F927D421C9E9594B3 /* Lucida Grande.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EAB1DFC0DCE84110A5D4B740 /* Lucida Grande.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,7 +101,6 @@
 		44C9224B22DAEF40003DD74E /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNFirebase.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EE6C0263BDBCA099DE0B7DD /* Pods-Help.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Help.release.xcconfig"; path = "Pods/Target Support Files/Pods-Help/Pods-Help.release.xcconfig"; sourceTree = "<group>"; };
 		5638AADD3C87127E6B92B1D6 /* Pods-Help-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Help-tvOS.release.xcconfig"; path = "Target Support Files/Pods-Help-tvOS/Pods-Help-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		6AE037F354F84680B9CE0D39 /* Arial Rounded MT Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arial Rounded MT Bold.ttf"; path = "../assets/fonts/Arial Rounded MT Bold.ttf"; sourceTree = "<group>"; };
 		7D1D52590BFA29C942794C15 /* Pods-Help-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Help-tvOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Help-tvOS/Pods-Help-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		870B6944B99D47928E248132 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		88A23E7FD13263CE390B6BEC /* Pods-HelpTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HelpTests.debug.xcconfig"; path = "Target Support Files/Pods-HelpTests/Pods-HelpTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -135,6 +135,8 @@
 		EDD0150259A24E67A6E70702 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		F4794E3353B2C66A0DF4ABCD /* Pods-Help.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Help.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Help/Pods-Help.debug.xcconfig"; sourceTree = "<group>"; };
 		F76F6001B68C4137AE87FBB2 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		5A1D3965AA044D34B7449D70 /* Lucida Grande Bold.ttf */ = {isa = PBXFileReference; name = "Lucida Grande Bold.ttf"; path = "../assets/fonts/Lucida Grande Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EAB1DFC0DCE84110A5D4B740 /* Lucida Grande.ttf */ = {isa = PBXFileReference; name = "Lucida Grande.ttf"; path = "../assets/fonts/Lucida Grande.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -318,7 +320,8 @@
 				B17CEC4E81D54B7EBCDC9D80 /* Octicons.ttf */,
 				870B6944B99D47928E248132 /* SimpleLineIcons.ttf */,
 				C618EF218DF840FAB5374125 /* Zocial.ttf */,
-				6AE037F354F84680B9CE0D39 /* Arial Rounded MT Bold.ttf */,
+				5A1D3965AA044D34B7449D70 /* Lucida Grande Bold.ttf */,
+				EAB1DFC0DCE84110A5D4B740 /* Lucida Grande.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -512,7 +515,8 @@
 				0451DEB1118C4F54B5A7230C /* Octicons.ttf in Resources */,
 				2864B73BD4DC48CEB2FFB62F /* SimpleLineIcons.ttf in Resources */,
 				78441636FB2B40B0A5AFCCEE /* Zocial.ttf in Resources */,
-				C3737553AF954439B20EBA9D /* Arial Rounded MT Bold.ttf in Resources */,
+				20CCF3CC36B24C5CB36AAEB0 /* Lucida Grande Bold.ttf in Resources */,
+				00BE801F927D421C9E9594B3 /* Lucida Grande.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

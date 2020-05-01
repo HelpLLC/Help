@@ -113,7 +113,7 @@ class logInScreen extends Component {
 						width: screenWidth * 0.6,
 						marginVertical: screenHeight * 0.05,
 					}}>
-					<Text style={fontStyles.bigTextStyleBlack}>{strings.Email}</Text>
+					<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.Email}</Text>
 				</View>
 
 				<View style={{ justifyContent: 'center' }}>
@@ -137,7 +137,7 @@ class logInScreen extends Component {
 						width: screenWidth * 0.6,
 						marginVertical: screenHeight * 0.05,
 					}}>
-					<Text style={fontStyles.bigTextStyleBlack}>{strings.Password}</Text>
+					<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.Password}</Text>
 				</View>
 
 				<View style={{ justifyContent: 'center' }}>
@@ -187,7 +187,7 @@ class logInScreen extends Component {
 							//Navigates to the Forgot Password screen
 							this.props.navigation.push('ForgotPasswordScreen');
 						}}>
-						<Text style={[fontStyles.mainTextStyleBlue, { flexWrap: 'wrap' }]}>
+						<Text style={[fontStyles.mainTextStyle, fontStyles.blue , { flexWrap: 'wrap' }]}>
 							{strings.ForgotPassword}
 						</Text>
 					</TouchableOpacity>

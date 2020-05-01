@@ -64,12 +64,12 @@ export default class viewPaymentMethodScreen extends Component {
 					width: screenWidth * 0.9,
 					marginBottom: screenHeight * 0.015,
 				}}>
-				<Text style={fontStyles.mainTextStyleBlack}>{leftText}</Text>
+				<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{leftText}</Text>
 				<Text
 					style={
 						isRightTextBig === true
-							? fontStyles.subTextStyleBlack
-							: fontStyles.smallTextStyleBlack
+							? [fontStyles.subTextStyle, fontStyles.black]
+							: [fontStyles.smallTextStyle, fontStyles.black]
 					}>
 					{rightText}
 				</Text>

@@ -75,7 +75,7 @@ class serviceCurrentRequestsScreen extends Component {
 								justifyContent: 'center',
 								alignItems: 'center'
 							}}>
-							<Text style={[fontStyles.bigTextStyleBlack, { textAlign: 'center' }]}>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.black, { textAlign: 'center' }]}>
 								{strings.NoCurrentRequestsForThisService}
 							</Text>
 						</View>
@@ -94,7 +94,7 @@ class serviceCurrentRequestsScreen extends Component {
 									justifyContent: 'space-between',
 									height: screenHeight * 0.2
 								}}>
-								<Text style={fontStyles.bigTextStyleBlack}>{service.serviceTitle}</Text>
+								<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{service.serviceTitle}</Text>
 								<ImageWithBorder
 									width={screenWidth * 0.25}
 									height={screenWidth * 0.25}

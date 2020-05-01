@@ -164,7 +164,7 @@ export default class launchScreen extends Component {
           alignItems: 'center'
         }}>
         <View style={{ marginTop: screenHeight * 0.35 }}>
-          <Text style={fontStyles.bigTitleStyleWhite}>{strings.Help}</Text>
+          <Text style={[fontStyles.bigTitleStyle, fontStyles.white]}>{strings.Help}</Text>
         </View>
         <View
           style={{

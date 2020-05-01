@@ -141,7 +141,7 @@ class nameDescriptionScreen extends Component {
 						marginVertical: screenHeight * 0.04,
 						marginLeft: screenWidth * 0.2,
 					}}>
-					<Text style={fontStyles.bigTextStyleBlack}>{strings.BusinessName}</Text>
+					<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.BusinessName}</Text>
 				</View>
 				<View style={{ alignSelf: 'center', justifyContent: 'center' }}>
 					<HelpTextInput
@@ -162,7 +162,7 @@ class nameDescriptionScreen extends Component {
 						marginVertical: screenHeight * 0.04,
 						marginLeft: screenWidth * 0.2,
 					}}>
-					<Text style={fontStyles.bigTextStyleBlack}>{strings.BusinessDescription}</Text>
+					<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.BusinessDescription}</Text>
 				</View>
 				<View style={{ alignSelf: 'center', justifyContent: 'flex-start' }}>
 					<HelpTextInput
