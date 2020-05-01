@@ -214,6 +214,7 @@ export default {
 	EmailAddress: 'Email Address',
 	BusinessNameOptional: 'Business Name (Optional)',
 	Message: 'Message',
-	SubmitCapital: 'SUBMIT'
+	SubmitCapital: 'SUBMIT',
+	BestDays: 'Best Days',
 
 };

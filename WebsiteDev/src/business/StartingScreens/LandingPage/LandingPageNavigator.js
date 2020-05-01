@@ -19,24 +19,31 @@ export default function LandingPageNavigator() {
 	const header = (
 		<div className={'header'}>
 			<div className={'companyTitle'}>
-				<Link style={{ ...fontStyles.bigTextStyleBlue, textDecoration: 'none' }} to={'/'}>
+				<Link className='mainTextStyle blue bold' style={{ textDecoration: 'none' }} to={'/'}>
 					{strings.HelpForBusiness}
 				</Link>
 			</div>
 			<div className={'logInSignUp'}>
 				<div className={'logIn'}>
-					<Link style={{ ...fontStyles.bigTextStyleBlue, textDecoration: 'none' }} to={'/login'}>
+					<Link
+						className='mainTextStyle blue bold'
+						style={{ textDecoration: 'none' }}
+						to={'/login'}>
 						{strings.LogIn}
 					</Link>
 				</div>
 				<div className={'signUp'}>
-					<Link style={{ ...fontStyles.bigTextStyleBlue, textDecoration: 'none' }} to={'/signUp'}>
+					<Link
+						className='mainTextStyle blue bold'
+						style={{ textDecoration: 'none' }}
+						to={'/signUp'}>
 						{strings.SignUp}
 					</Link>
 				</div>
 				<div className={'contactUs'}>
 					<Link
-						style={{ ...fontStyles.bigTextStyleBlue, textDecoration: 'none' }}
+						className='mainTextStyle blue bold'
+						style={{ textDecoration: 'none' }}
 						to={'/contactus'}>
 						{strings.ContactUs}
 					</Link>

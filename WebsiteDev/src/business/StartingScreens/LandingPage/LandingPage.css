@@ -1,216 +1,193 @@
 body {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 section.sec1 {
-  position: relative;
-  padding: 0;
-  background: url("./assets/svg.svg");
-  width: 100%;
-  height: 29.5vh;
-  background-repeat: no-repeat;
-  background-size: cover;
+	position: relative;
+	padding: 0;
+	background: url('./assets/svg.svg');
+	width: 100%;
+	height: 29.5vh;
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 h1 span {
-  display: block;
+	display: block;
 }
 
 .topSection {
-  display: flex;
-  flex-direction: row;
+	display: flex;
+	flex-direction: row;
 }
 
 .landingPageButtonContainer {
-  width: 30vw;
-  margin-left: 15vw;
-  margin-top: 5vh;
+	width: 30vw;
+	margin-left: 15vw;
+	margin-top: 5vh;
 }
 .landingPageButtonContainer2 {
-  width: 20vw;
-  margin-left: 14vw;
-  margin-top: 5vh;
+	width: 20vw;
+	margin-left: 14vw;
+	margin-top: 5vh;
 }
 .landingPageButtonContainer3 {
-  width: 15vw;
-  margin-left: 16.5vw;
-  margin-top: 5vh;
-}
-
-h1.hugeTitleTextGrey {
-  font-size: 12.5vh;
-  color: #567681;
-  font-family: 'Lucida Grande';
-  font-weight: bold;
-  margin: 0;
-}
-
-.giganticText {
-  font-size: 34vh;
-  color: white;
-  font-family: 'Lucida Grande';
-  font-weight: bold;
-  margin: 0;
+	width: 15vw;
+	margin-left: 16.5vw;
+	margin-top: 5vh;
 }
 
 .bottomSectionContainer {
-  flex-direction: row;
-  display: flex;
+	flex-direction: row;
+	display: flex;
 }
 
-.bottomSectionSubContainer{
-  width: 50vw;
-}
-
-.hugeTextWhite{
-  font-size: 6.5vh;
-  color: #ffffff;
-  font-family: 'Lucida Grande';
-  margin-left: 5vw;
-  text-align: left;
-}
-h1.hugeTitleTextWhite {
-  font-size: 12.5vh;
-  color: white;
-  font-family: 'Lucida Grande';
-  font-weight: bold;
-  margin: 0;
-}
-h1.hugeSubTitleTextBlue {
-  font-size: 7.5vh;
-  color: #00B0F0;
-  font-family: 'Lucida Grande';
-  margin: 0;
+.bottomSectionSubContainer {
+	width: 50vw;
 }
 
 section.sec4 {
-  position: relative;
-  padding: 0;
-  background: url("./assets/Path-2.svg");
-  width: 100%;
-  height: 31.5vh;
-  background-repeat: no-repeat;
-  background-size: cover;
+	position: relative;
+	padding: 0;
+	background: url('./assets/Path-2.svg');
+	width: 100%;
+	height: 31.5vh;
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 section.sec2 {
-  position: relative;
-  margin: 0;
-  background: #00b0f0;
-  width: 100%;
-  height: 48vh;
-  background-repeat: no-repeat;
-  background-size: cover;
-  padding-top: 5vh;
+	position: relative;
+	margin: 0;
+	background: #00b0f0;
+	width: 100%;
+	height: 48vh;
+	background-repeat: no-repeat;
+	background-size: cover;
+	padding-top: 5vh;
 }
 
 section.sec5 {
-  position: relative;
-  margin: 0;
-  background: #00b0f0;
-  width: 100%;
-  height: 88vh;
-  background-repeat: no-repeat;
-  background-size: cover;
-  padding-bottom: 5vh;
+	position: relative;
+	margin: 0;
+	background: #00b0f0;
+	width: 100%;
+	height: 88vh;
+	background-repeat: no-repeat;
+	background-size: cover;
+	padding-bottom: 5vh;
 }
 
 .titlecontainer3 {
-  width: 60%;
-  margin-left: 5%;
+	width: 60%;
+	margin-left: 5%;
 }
 .titlecontainer5 {
-  margin-left: 5vw;
-  white-space: nowrap;
+	margin-left: 5vw;
+	margin-bottom: 30px;
+	display: flex;
+	flex-direction: column;
 }
 .contactUs {
-  margin-right: 2vw;
-  white-space: nowrap;
+	margin-right: 2vw;
+	white-space: nowrap;
 }
 
 .titlecontainer4 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 50px;
 }
 
 /*Header Styles*/
 .header {
-  width: 100vw;
-  height: 9vh;
-  background-color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: row;
+	width: 100vw;
+	height: 9vh;
+	background-color: #ffffff;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: row;
 }
 .companyTitle {
-  white-space: nowrap;
-  margin-left: 1vw;
+	white-space: nowrap;
+	margin-left: 1vw;
 }
 .logInSignUp {
-  flex-direction: row;
-  display: flex;
+	flex-direction: row;
+	display: flex;
 }
 .logIn {
-  margin-right: 2vw;
-  white-space: nowrap;
+	display: flex;
+	flex-direction: column;
+	margin-left: 2vw;
+	height: 20vh;
+	justify-content: space-evenly;
+}
+.featureRow {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
 }
 .signUp {
-  margin-right: 2vw;
-  white-space: nowrap;
+	display: flex;
+	flex-direction: column;
+	margin-left: 2vw;
+	height: 20vh;
+	justify-content: space-evenly;
+}
+
+.contactUs {
+	display: flex;
+	flex-direction: column;
+	margin-left: 2vw;
+	height: 20vh;
+	justify-content: space-evenly;
 }
 .titlecontainer {
-  width: 40%;
-  margin-left: 10vh;
+	width: 40%;
+	margin-left: 10vh;
 }
 
 /*Footer Styles*/
 .footer {
-  width: 100vw;
-  height: 20vh;
-  background-color: #dcdcdc;
-  flex-direction: row;
-  display: flex;
-  justify-content: space-between;
+	width: 100vw;
+	height: 20vh;
+	background-color: #dcdcdc;
+	flex-direction: row;
+	display: flex;
+	justify-content: space-between;
 }
 .titlecontainer2 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  justify-self: end;
-  justify-content: space-between;
-  flex-direction: row;
-}
-.contactUs {
-  display: flex;
-  flex-direction: column;
-  margin-left: 2vw;
-  height: 20vh;
-  justify-content: space-evenly;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	justify-self: end;
+	justify-content: space-between;
+	flex-direction: row;
 }
 .joinHelpFamily {
-  height: 20vh;
-  width: 20vw;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
+	height: 20vh;
+	width: 20vw;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
 }
 .socialMedia {
-  display: flex;
-  width: 20vw;
-  flex-direction: row;
-  justify-content: space-evenly;
+	display: flex;
+	width: 20vw;
+	flex-direction: row;
+	justify-content: space-evenly;
 }
 .legal {
-  display: flex;
-  flex-direction: column;
-  margin-right: 2vw;
-  height: 20vh;
-  justify-content: space-evenly;
-  margin-bottom: 10;
+	display: flex;
+	flex-direction: column;
+	margin-right: 2vw;
+	height: 20vh;
+	justify-content: space-evenly;
+	margin-bottom: 10;
 }
 .bodyOuter {
 	display: flex;
@@ -220,4 +197,7 @@ section.sec5 {
 .bodyInner {
 	flex: 1;
 }
-
+.helpLogo {
+	margin-left: 10vw;
+	margin-top: 30vh;
+}

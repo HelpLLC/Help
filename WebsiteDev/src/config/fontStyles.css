@@ -29,6 +29,18 @@
 .green {
 	color: #5CC6BC
 }
+.giganticTextStyle {
+	font-family: 'Lucida Grande';
+	font-size: 10vw;
+}
+.bigTitleTextStyle {
+	font-family: 'Lucida Grande';
+	font-size: 5.5vw;
+}
+.bigSubTitleTextStyle {
+	font-family: 'Lucida Grande';
+	font-size: 4vw;
+}
 .bigTextStyle {
 	font-family: 'Lucida Grande';
 	font-size: 2vw;
@@ -40,4 +52,8 @@
 .subTextStyle {
 	font-family: 'Lucida Grande';
 	font-size: 1.5vw;
+}
+.smallTextStyle {
+	font-family: 'Lucida Grande';
+	font-size: 1.25vw;
 }

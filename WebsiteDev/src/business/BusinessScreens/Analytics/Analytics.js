@@ -222,13 +222,9 @@ export default function Analytics(props) {
 	} else {
 		return (
 			<div className='container'>
-				<TitleComponent text={strings.Analytics} isCentered={true} textColor={colors.lightBlue} />
+				<text className='bigTitleTextStyle blue'>{strings.Analytics}</text>
 				<div className='row'>
-					<TitleComponent
-						text={strings.MonthlyRevenue}
-						isCentered={true}
-						textColor={colors.lightBlue}
-					/>
+					<text className='bigTextStyle blue bold'>{strings.MonthlyRevenue}</text>
 					<div className='right'>
 						<FormControl variant='outlined'>
 							<InputLabel>{strings.SortBy}</InputLabel>
@@ -240,9 +236,9 @@ export default function Analytics(props) {
 					</div>
 				</div>
 				<Chart
-					width={'auto'}
+					width={'90vw'}
+					height={'20vh'}
 					chartType='Line'
-					style={{ marginRight: '1%', marginLeft: '5%' }}
 					loader={<div>{strings.LoadingChart}</div>}
 					data={revenueChart.chartData}
 					options={{
@@ -259,12 +255,7 @@ export default function Analytics(props) {
 				/>
 
 				<div className='row'>
-					<TitleComponent
-						text={strings.TopServices}
-						isCentered={true}
-						textColor={colors.lightBlue}
-					/>
-
+					<text className='bigTextStyle blue bold'>{strings.TopServices}</text>
 					<div className='right'>
 						<FormControl variant='outlined'>
 							<InputLabel>{strings.SortBy}</InputLabel>
@@ -277,9 +268,8 @@ export default function Analytics(props) {
 					</div>
 				</div>
 				<Chart
-					width={'auto'}
-					height={'75%'}
-					style={{ marginRight: '1%', marginLeft: '5%' }}
+					width={'90vw'}
+					height={'20vh'}
 					chartType='Bar'
 					loader={<div>{strings.LoadingChart}</div>}
 					data={servicesChart.chartData}
@@ -288,11 +278,7 @@ export default function Analytics(props) {
 					}}
 				/>
 				<div className='row'>
-					<TitleComponent
-						text={strings.TopLocations}
-						isCentered={true}
-						textColor={colors.lightBlue}
-					/>
+					<text className='bigTextStyle blue bold'>{strings.TopLocations}</text>
 					<div className='right'>
 						<FormControl variant='outlined'>
 							<InputLabel>{strings.SortBy}</InputLabel>
@@ -309,9 +295,8 @@ export default function Analytics(props) {
 					</div>
 				</div>
 				<Chart
-					width={'auto'}
-					height={'75%'}
-					style={{ marginRight: '1%', marginLeft: '5%' }}
+					width={'90vw'}
+					height={'20vh'}
 					chartType='Bar'
 					loader={<div>{strings.LoadingChart}</div>}
 					data={locationsChart.chartData}
@@ -319,9 +304,10 @@ export default function Analytics(props) {
 						colors: [colors.lightBlue],
 					}}
 				/>
-				<TitleComponent text={'Best Days'} isCentered={true} textColor={colors.lightBlue} />
+				<text className='bigTextStyle blue bold'>{strings.BestDays}</text>
 				<Chart
-					width={'auto'}
+					width={'90vw'}
+					height={'20vh'}
 					chartType='Calendar'
 					loader={<div>{strings.LoadingChart}</div>}
 					data={[

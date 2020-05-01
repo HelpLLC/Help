@@ -3,8 +3,9 @@ import './LandingPage.css';
 import { useHistory } from 'react-router-dom';
 import strings from '../../../config/strings';
 import HelpButton from '../../../components/HelpButton/HelpButton';
+import '../../../config/fontStyles.css';
 import { Image } from 'react-native-web';
-import FeatureCardRow from '../../../components/FeatureCardRow/FeatureCardRow';
+import FeatureCard from '../../../components/FeatureCard/FeatureCard';
 
 export default function LandingPage() {
 	//To save code, this generates each reduntant section in the landing page
@@ -16,7 +17,7 @@ export default function LandingPage() {
 				<div className='topSection'>
 					<div>
 						<div className='titlecontainer3'>
-							<h1 className='hugeTitleTextWhite'>{strings.LetUsHelp}</h1>
+							<text className='bigTitleTextStyle bold white'>{strings.LetUsHelp}</text>
 						</div>
 						<div className='landingPageButtonContainer'>
 							<HelpButton
@@ -35,26 +36,44 @@ export default function LandingPage() {
 			<section className='sec1'></section>
 			<section>
 				<div className='titlecontainer4'>
-					<h1 className='hugeTitleTextGrey'>{strings.OurServices}</h1>
+					<text className='bigTitleTextStyle gray'>{strings.OurServices}</text>
 				</div>
-				<div className='titlecontainer4' style={{ marginTop: '1%' }}>
-					<h1 className='hugeSubTitleTextBlue'>{strings.WhatWeDoBest}</h1>
+				<div className='titlecontainer4'>
+					<text className='bigSubTitleTextStyle blue'>{strings.WhatWeDoBest}</text>
 				</div>
-				<FeatureCardRow />
+				<div className='featureRow'>
+				<FeatureCard
+					icon={'calendar-alt'}
+					title={strings.SmartScheduling}
+					text={strings.SmartSchedulingText}
+				/>
+				<FeatureCard
+					icon={'chart-bar'}
+					title={strings.AdvancedAnalytics}
+					text={strings.AdvancedAnalyticsText}
+				/>
+				<FeatureCard
+					icon={'dollar-sign'}
+					title={strings.CentralizedPayments}
+					text={strings.PaymentsText}
+				/>
+				<FeatureCard
+					icon={'users'}
+					title={strings.EmployeeManagement}
+					text={strings.EmployeeText}
+				/>
+				</div>
 			</section>
 			<section className='sec4' />
 			<section className='sec5'>
 				<div className='bottomSectionContainer'>
 					<div className='bottomSectionSubContainer'>
 						<div className='titlecontainer5'>
-							<h1 className='hugeTitleTextWhite'>
-								<span>{strings.StartSelling}</span>
-								<span>{strings.Today}</span>
-							</h1>
+							<text className='bigTitleTextStyle white bold'>{strings.StartSelling}</text>
+							<text className='bigTitleTextStyle white bold'>{strings.Today}</text>
 						</div>
-						]
-						<div>
-							<h1 className='hugeTextWhite'>{strings.ConnectText}</h1>
+						<div className='titlecontainer5'>
+							<text className='bigSubTitleTextStyle white'>{strings.ConnectText}</text>
 						</div>
 						<div className='landingPageButtonContainer2'>
 							<HelpButton
@@ -73,13 +92,8 @@ export default function LandingPage() {
 							/>
 						</div>
 					</div>
-					<div
-						style={{
-							alignItems: 'row-reverse',
-							marginLeft: '5vw',
-							marginTop: '10vh',
-						}}>
-						<h1 className='giganticText'>{strings.Help}</h1>
+					<div className='helpLogo'>
+						<text className='giganticTextStyle white'>{strings.Help}</text>
 					</div>
 				</div>
 			</section>
