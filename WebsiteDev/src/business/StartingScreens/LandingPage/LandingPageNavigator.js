@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import './LandingPage.css';
 import '../../../config/fontStyles.css';
-import fontStyles from '../../../config/fontStyles';
 import strings from '../../../config/strings';
 import LandingPage from './LandingPage';
 import LoginRegister from '../Authentication/LoginRegister';
@@ -57,10 +56,10 @@ export default function LandingPageNavigator() {
 		<div className={'footer'}>
 			<div className={'contactUs'}>
 				<div className='bigTextStyle black'>{strings.ContactUs}</div>
-				<div style={fontStyles.subTextStyleBlack}>{strings.HelpEmail}</div>
-				<div style={fontStyles.subTextStyleBlack}>{strings.HelpPhoneNumber}</div>
-				<div style={fontStyles.subTextStyleBlack}>{strings.HelpAddress}</div>
-				<div style={fontStyles.subTextStyleBlack}>{strings.HelpCity}</div>
+				<div className='smallTextStyle black'>{strings.HelpEmail}</div>
+				<div className='smallTextStyle black'>{strings.HelpPhoneNumber}</div>
+				<div className='smallTextStyle black'>{strings.HelpAddress}</div>
+				<div className='smallTextStyle black'>{strings.HelpCity}</div>
 			</div>
 			<div className={'joinHelpFamily'}>
 				<div className='bigTextStyle black'>{strings.JoinHelpFamily}</div>
@@ -75,22 +74,23 @@ export default function LandingPageNavigator() {
 				<div className='bigTextStyle black'>{strings.Legal}</div>
 				<div>
 					<Link
-						style={{ ...fontStyles.subTextStyleBlack, textDecoration: 'none' }}
+						className='smallTextStyle black'
+						style={{ textDecoration: 'none' }}
 						to={'/privacypolicy'}>
 						{strings.PrivacyPolicy}
 					</Link>
 				</div>
 				<div>
-					<Link style={{ ...fontStyles.subTextStyleBlack, textDecoration: 'none' }} to={'/terms'}>
+					<Link className='smallTextStyle black' style={{ textDecoration: 'none' }} to={'/terms'}>
 						{strings.TermsAndConditions}
 					</Link>
 				</div>
 				<div>
-					<Link style={{ ...fontStyles.subTextStyleBlack, textDecoration: 'none' }} to={'/credits'}>
+					<Link className='smallTextStyle black' style={{ textDecoration: 'none' }} to={'/credits'}>
 						{strings.Credits}
 					</Link>
 				</div>
-				<div style={fontStyles.subTextStyleBlack}>&copy;{strings.Copyright}</div>
+				<div className='smallTextStyle black'>&copy;{strings.Copyright}</div>
 			</div>
 		</div>
 	);

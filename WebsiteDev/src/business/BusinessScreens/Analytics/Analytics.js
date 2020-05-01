@@ -375,9 +375,9 @@ export default function Analytics(props) {
 								strokeOpacity: 1,
 								strokeWidth: 4,
 							},
-							dayOfWeekLabel: fontStyles.mainTextStyleBlue,
+							dayOfWeekLabel: { ...fontStyles.mainTextStyle, ...fontStyles.blue },
 							dayOfWeekRightSpace: 10,
-							monthLabel: fontStyles.mainTextStyleBlue,
+							monthLabel: { ...fontStyles.mainTextStyle, ...fontStyles.blue },
 							monthOutlineColor: {
 								stroke: '#000',
 								strokeOpacity: 0.8,
@@ -385,7 +385,7 @@ export default function Analytics(props) {
 							},
 							underMonthSpace: 15,
 							underYearSpace: 5,
-							yearLabel: fontStyles.bigTitleStyleBlue,
+							yearLabel: { ...fontStyles.bigTitleStyle, ...fontStyles.blue },
 						},
 					}}
 				/>
