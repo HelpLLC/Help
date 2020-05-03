@@ -27,7 +27,7 @@ class aboutScreen extends Component {
 				/>
 				<View>
 					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-						<Text style={fontStyles.bigTitleStyleBlue}>{strings.Help}</Text>
+						<Text style={[fontStyles.bigTitleStyle, fontStyles.blue]}>{strings.Help}</Text>
 					</View>
 					<View
 						style={{
@@ -38,22 +38,22 @@ class aboutScreen extends Component {
 							alignItems: 'center',
 							alignSelf: 'center'
 						}}>
-						<Text style={[fontStyles.bigTextStyleBlack, { textAlign: 'center' }]}>
+						<Text style={[fontStyles.bigTextStyle, fontStyles.black, { textAlign: 'center' }]}>
 							{strings.MarketingMessage}
 						</Text>
 					</View>
 					<View style={{ flexDirection: 'column', flex: 3 }}>
 						<WhiteCard
 							text={strings.PublishedBy}
-							mainTextStyle={fontStyles.subTextStyleBlack}
-							comp={<Text style={fontStyles.subTextStyleBlack}>{strings.HelpLLC}</Text>}
+							mainTextStyle={[fontStyles.subTextStyle, fontStyles.black]}
+							comp={<Text style={[fontStyles.subTextStyle, fontStyles.black]}>{strings.HelpLLC}</Text>}
 							onPress={() => {}}
 						/>
 						<WhiteCard
 							text={strings.Contact}
-							mainTextStyle={fontStyles.subTextStyleBlack}
+							mainTextStyle={[fontStyles.subTextStyle, fontStyles.black]}
 							comp={
-								<Text style={fontStyles.subTextStyleBlack} numberOfLines={1}>
+								<Text style={[fontStyles.subTextStyle, fontStyles.black]} numberOfLines={1}>
 									{strings.ContactEmail}
 								</Text>
 							}

@@ -121,7 +121,7 @@ class homeScreen extends Component {
 						}}>
 						<View style={{ flexDirection: 'column' }}>
 							<View style={{ flex: 1, justifyContent: 'flex-end' }}>
-								<Text style={fontStyles.bigTextStyleBlack}>
+								<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>
 									{business.businessName}
 								</Text>
 							</View>
@@ -135,7 +135,7 @@ class homeScreen extends Component {
 										editing: true,
 									});
 								}}>
-								<Text style={fontStyles.mainTextStyleBlue}>
+								<Text style={[fontStyles.mainTextStyle, fontStyles.blue]}>
 									{strings.EditCompanyProfile}
 								</Text>
 							</TouchableOpacity>
@@ -184,7 +184,7 @@ class homeScreen extends Component {
 				<HelpView style={screenStyle.container}>
 					<View style={{ flex: 1.1 }}>{topView}</View>
 					<View style={{ flex: 1, justifyContent: 'center' }}>
-						<Text style={fontStyles.bigTextStyleBlack}>
+						<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>
 							{strings.CreateYourFirstProductNowExclamation}
 						</Text>
 					</View>

@@ -59,7 +59,7 @@ export default function CustomerReviewCard(props) {
 					}}
 				/>
 				<View style={{ width: screenWidth * 0.05 }}></View>
-				<Text style={fontStyles.subTextStyleBlack}>{customerName}</Text>
+				<Text style={[fontStyles.subTextStyle, fontStyles.black]}>{customerName}</Text>
 			</View>
 			<View style={{ marginTop: screenHeight * 0.01 }}>
 				<AirbnbRating
@@ -80,7 +80,7 @@ export default function CustomerReviewCard(props) {
 								width: screenWidth * 0.3,
 								height: screenHeight * 0.1,
 							}}>
-							<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadMore}</Text>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.blue]}>{strings.ReadMore}</Text>
 						</TouchableOpacity>
 					)}
 					renderViewLess={(onPress) => (
@@ -90,11 +90,11 @@ export default function CustomerReviewCard(props) {
 								width: screenWidth * 0.3,
 								height: screenHeight * 0.1,
 							}}>
-							<Text style={fontStyles.mainTextStyleBlue}>{strings.ReadLess}</Text>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.blue]}>{strings.ReadLess}</Text>
 						</TouchableOpacity>
 					)}
 					textStyle={{ textAlign: 'left' }}>
-					<Text style={fontStyles.subTextStyleBlack}>{comment}</Text>
+					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>{comment}</Text>
 				</ViewMoreText>
 			</View>
 		</View>

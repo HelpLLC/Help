@@ -112,7 +112,7 @@ class serviceScreen extends Component {
 									justifyContent: 'flex-end',
 									marginVertical: screenHeight * 0.03,
 								}}>
-								<Text style={fontStyles.bigTextStyleBlack}>
+								<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>
 									{service.serviceTitle}
 								</Text>
 							</View>
@@ -129,7 +129,7 @@ class serviceScreen extends Component {
 									});
 								}}
 								style={{ justifyContent: 'flex-end' }}>
-								<Text style={fontStyles.bigTextStyleBlue}>
+								<Text style={[fontStyles.bigTextStyle, fontStyles.blue]}>
 									{strings.EditService}
 								</Text>
 							</TouchableOpacity>
@@ -145,7 +145,7 @@ class serviceScreen extends Component {
 									justifyContent: 'flex-end',
 									marginTop: screenHeight * 0.02,
 								}}>
-								<Text style={fontStyles.bigTextStyleBlue}>{strings.History}</Text>
+								<Text style={[fontStyles.bigTextStyle, fontStyles.blue]}>{strings.History}</Text>
 							</TouchableOpacity>
 						</View>
 					</View>

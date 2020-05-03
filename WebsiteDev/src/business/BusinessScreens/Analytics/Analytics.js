@@ -1,28 +1,26 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import './Analytics.css';
 import TitleComponent from '../../../components/TitleComponent';
 import colors from '../../../config/colors';
 import fontStyles from '../../../config/fontStyles';
 import { Chart } from 'react-google-charts';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
-import { makeStyles } from '@material-ui/core/styles';
+import strings from '../../../config/strings';
 import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import NativeSelect from '@material-ui/core/NativeSelect';
 
 export default function Analytics(props) {
-	const [isScreenLoading, setIsScreenLoading] = React.useState(true);
-	const [revenueBy, setRevenueBy] = React.useState('Month');
-	const [customerLocationsBy, setCustomerLocationsBy] = React.useState('City');
-	const [topServicesBy, setTopServicesBy] = React.useState('Revenue');
-	const [revenueData, setRevenueData] = React.useState();
-	const [customerLocationData, setCustomerLocationData] = React.useState();
-	const [topServicesData, setTopServicesData] = React.useState();
-	const [revenueChart, setRevenueChart] = React.useState([[]]);
-	const [servicesChart, setServicesChart] = React.useState([[]]);
-	const [locationsChart, setLocationsChart] = React.useState([[]]);
+	const [isScreenLoading, setIsScreenLoading] = useState(true);
+	const [revenueBy, setRevenueBy] = useState('Month');
+	const [customerLocationsBy, setCustomerLocationsBy] = useState('City');
+	const [topServicesBy, setTopServicesBy] = useState('Revenue');
+	const [revenueData, setRevenueData] = useState();
+	const [customerLocationData, setCustomerLocationData] = useState();
+	const [topServicesData, setTopServicesData] = useState();
+	const [revenueChart, setRevenueChart] = useState([[]]);
+	const [servicesChart, setServicesChart] = useState([[]]);
+	const [locationsChart, setLocationsChart] = useState([[]]);
 
 	const revenueChange = (event) => {
 		setRevenueBy(event.target.value);
@@ -218,41 +216,38 @@ export default function Analytics(props) {
 		componentDidMount();
 		return (
 			<div className='container'>
-				<TitleComponent text={'Analytics'} isCentered={true} textColor={colors.lightBlue} />
-				<TitleComponent text={'Monthly Revenue'} isCentered={true} textColor={colors.lightBlue} />
+				<TitleComponent text={strings.Analytics} isCentered={true} textColor={colors.lightBlue} />
 			</div>
 		);
 	} else {
 		return (
 			<div className='container'>
-				<TitleComponent text={'Analytics'} isCentered={true} textColor={colors.lightBlue} />
+				<text className='bigTitleTextStyle blue'>{strings.Analytics}</text>
 				<div className='row'>
-					<TitleComponent text={'Monthly Revenue'} isCentered={true} textColor={colors.lightBlue} />
-
+					<text className='bigTextStyle blue bold'>{strings.MonthlyRevenue}</text>
 					<div className='right'>
 						<FormControl variant='outlined'>
-							<InputLabel>Sort By</InputLabel>
+							<InputLabel>{strings.SortBy}</InputLabel>
 							<Select native value={revenueBy} onChange={revenueChange} label='Sort By'>
-								<option value={'Month'}>Month</option>
-								<option value={'Year'}>Year</option>
+								<option value={'Month'}>{strings.Month}</option>
+								<option value={'Year'}>{strings.Year}</option>
 							</Select>
 						</FormControl>
 					</div>
 				</div>
-
 				<Chart
-					width={'auto'}
+					width={'90vw'}
+					height={'20vh'}
 					chartType='Line'
-					style={{ marginRight: '1%', marginLeft: '5%' }}
-					loader={<div>Loading Chart</div>}
+					loader={<div>{strings.LoadingChart}</div>}
 					data={revenueChart.chartData}
 					options={{
 						height: '100%',
 						hAxis: {
-							title: 'Month',
+							title: strings.Month,
 						},
 						vAxis: {
-							title: 'Revenue ($)',
+							title: strings.RevenueDollarSign,
 						},
 						legend: 'none',
 						colors: [colors.lightBlue],
@@ -260,62 +255,61 @@ export default function Analytics(props) {
 				/>
 
 				<div className='row'>
-					<TitleComponent text={'Top Services'} isCentered={true} textColor={colors.lightBlue} />
-
+					<text className='bigTextStyle blue bold'>{strings.TopServices}</text>
 					<div className='right'>
 						<FormControl variant='outlined'>
-							<InputLabel>Sort By</InputLabel>
-							<Select native value={topServicesBy} onChange={servicesChange} label='Sort By'>
-								<option value={'Revenue'}>Revenue</option>
-								<option value={'Requests'}>Requests</option>
-								<option value={'Views'}>Views</option>
+							<InputLabel>{strings.SortBy}</InputLabel>
+							<Select native value={topServicesBy} onChange={servicesChange} label={strings.SortBy}>
+								<option value={'Revenue'}>{strings.Revenue}</option>
+								<option value={'Requests'}>{strings.Requests}</option>
+								<option value={'Views'}>{strings.Views}</option>
 							</Select>
 						</FormControl>
 					</div>
 				</div>
 				<Chart
-					width={'auto'}
-					height={'75%'}
-					style={{ marginRight: '1%', marginLeft: '5%' }}
+					width={'90vw'}
+					height={'20vh'}
 					chartType='Bar'
-					loader={<div>Loading Chart</div>}
+					loader={<div>{strings.LoadingChart}</div>}
 					data={servicesChart.chartData}
 					options={{
 						colors: [colors.lightBlue],
 					}}
 				/>
-
 				<div className='row'>
-					<TitleComponent text={'Top Locations'} isCentered={true} textColor={colors.lightBlue} />
-
+					<text className='bigTextStyle blue bold'>{strings.TopLocations}</text>
 					<div className='right'>
 						<FormControl variant='outlined'>
-							<InputLabel>Sort By</InputLabel>
-							<Select native value={customerLocationsBy} onChange={locationsChange} label='Sort By'>
-								<option value={'City'}>City</option>
-								<option value={'State'}>State</option>
-								<option value={'Country'}>Country</option>
+							<InputLabel>{strings.SortBy}</InputLabel>
+							<Select
+								native
+								value={customerLocationsBy}
+								onChange={locationsChange}
+								label={strings.SortBy}>
+								<option value={'City'}>{strings.City}</option>
+								<option value={'State'}>{strings.State}</option>
+								<option value={'Country'}>{strings.Country}</option>
 							</Select>
 						</FormControl>
 					</div>
 				</div>
 				<Chart
-					width={'auto'}
-					height={'75%'}
-					style={{ marginRight: '1%', marginLeft: '5%' }}
+					width={'90vw'}
+					height={'20vh'}
 					chartType='Bar'
-					loader={<div>Loading Chart</div>}
+					loader={<div>{strings.LoadingChart}</div>}
 					data={locationsChart.chartData}
 					options={{
 						colors: [colors.lightBlue],
 					}}
 				/>
-
-				<TitleComponent text={'Best Days'} isCentered={true} textColor={colors.lightBlue} />
+				<text className='bigTextStyle blue bold'>{strings.BestDays}</text>
 				<Chart
-					width={'auto'}
+					width={'90vw'}
+					height={'20vh'}
 					chartType='Calendar'
-					loader={<div>Loading Chart</div>}
+					loader={<div>{strings.LoadingChart}</div>}
 					data={[
 						[
 							{ type: 'date', id: 'Date' },
@@ -381,9 +375,9 @@ export default function Analytics(props) {
 								strokeOpacity: 1,
 								strokeWidth: 4,
 							},
-							dayOfWeekLabel: fontStyles.mainTextStyleBlue,
+							dayOfWeekLabel: { ...fontStyles.mainTextStyle, ...fontStyles.blue },
 							dayOfWeekRightSpace: 10,
-							monthLabel: fontStyles.mainTextStyleBlue,
+							monthLabel: { ...fontStyles.mainTextStyle, ...fontStyles.blue },
 							monthOutlineColor: {
 								stroke: '#000',
 								strokeOpacity: 0.8,
@@ -391,7 +385,7 @@ export default function Analytics(props) {
 							},
 							underMonthSpace: 15,
 							underYearSpace: 5,
-							yearLabel: fontStyles.bigTitleStyleBlue,
+							yearLabel: { ...fontStyles.bigTitleStyle, ...fontStyles.blue },
 						},
 					}}
 				/>

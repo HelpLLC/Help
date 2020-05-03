@@ -99,7 +99,7 @@ export default class paymentsScreen extends Component {
 							marginTop: screenHeight * 0.025,
 							width: screenWidth * 0.9,
 						}}>
-						<Text style={[fontStyles.bigTextStyleBlack, { textAlign: 'center' }]}>
+						<Text style={[fontStyles.bigTextStyle, fontStyles.black, { textAlign: 'center' }]}>
 							{strings.AcceptCardPaymentsWithHelp}
 						</Text>
 					</View>
@@ -171,7 +171,7 @@ export default class paymentsScreen extends Component {
 							/>
 						</View>
 						<View style={{ marginLeft: screenWidth * 0.15 }}>
-							<Text style={fontStyles.mainTextStyleBlue}>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.blue]}>
 								{paymentInformation.object === 'bank_account'
 									? paymentInformation.account_holder_name
 									: paymentInformation.name}

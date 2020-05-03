@@ -27,7 +27,12 @@ export default function TimePicker(props) {
 	return (
 		<View>
 			<ThemeProvider theme={theme}>
-				<TimeInput mode='12h' style={{...fontStyles.mainTextStyleBlue, width: widthPercent}} onChange={props.onChange} value={props.value} />
+				<TimeInput
+					mode='12h'
+					style={{ ...fontStyles.mainTextStyle, width: widthPercent, ...fontStyles.blue }}
+					onChange={props.onChange}
+					value={props.value}
+				/>
 			</ThemeProvider>
 		</View>
 	);

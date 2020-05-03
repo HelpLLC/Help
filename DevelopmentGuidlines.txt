@@ -45,7 +45,7 @@ the component itself. Ex: BusinessDev/bottomScreens/exampleScreen/exampleScreen.
 the component. Ex: exampleScreen.js would include import styles from './exampleScreenStyle.js'; and then would have <View style={styles.container} />. 
 exampleScreenStyle would include the following: export default StyleSheet.create({ exampleStyle: { height: 100 }}). DO NOT DO <View style={{ height: 100 }} />.
 
-- All fonts and sizes will be centralized by getting declared & exported from config/fontStyles.js. Ex: DO <Text style={fontStyles.mainTextStyleBlack}>Example</Text>
+- All fonts and sizes will be centralized by getting declared & exported from config/fontStyles.js. Ex: DO <Text style={[fontStyles.mainTextStyle, fontStyles.black]}>Example</Text>
 NOT <Text style={{ fontSize: 30, color: '#FFFFFF }}>Example</Text>
 
 - All colors will be centralized by getting declared & exported from config/colors.js. Ex: DO exampleStyle: { backgroundColor: colors.black } NOT 

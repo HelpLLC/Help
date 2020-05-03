@@ -113,22 +113,22 @@ export default function ServiceCard(props) {
 								alignItems: 'flex-start',
 								justifyContent: 'space-evenly',
 							}}>
-							<Text style={fontStyles.mainTextStyleBlack}>{serviceTitle}</Text>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{serviceTitle}</Text>
 							{serviceDescription ? (
-								<Text style={fontStyles.subTextStyleGray}>
+								<Text style={[fontStyles.subTextStyle, fontStyles.gray]}>
 									{serviceDescription.length > 25
 										? serviceDescription.slice(0, 24) + '...'
 										: serviceDescription}
 								</Text>
 							) : (
 								<View flexDirection='column'>
-									<Text style={fontStyles.subTextStyleGray}>
+									<Text style={[fontStyles.subTextStyle, fontStyles.gray]}>
 										{strings.OfferedBy}
 									</Text>
-									<Text style={fontStyles.subTextStyleGray}>{offeredBy}</Text>
+									<Text style={[fontStyles.subTextStyle, fontStyles.gray]}>{offeredBy}</Text>
 								</View>
 							)}
-							<Text style={fontStyles.mainTextStyleBlack}>{price}</Text>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{price}</Text>
 						</View>
 						<View style={{ flex: 0.05 }} />
 					</View>
@@ -143,7 +143,7 @@ export default function ServiceCard(props) {
 						height: screenWidth * 0.0973,
 						borderRadius: (screenWidth * 0.0973) / 2,
 					}}
-					textStyle={fontStyles.mainTextStyleWhite}
+					textStyle={[fontStyles.mainTextStyle, fontStyles.white]}
 					containerStyle={{
 						position: 'absolute',
 						top: screenHeight * 0.03,

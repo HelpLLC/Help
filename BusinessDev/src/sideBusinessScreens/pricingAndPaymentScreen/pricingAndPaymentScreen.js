@@ -162,11 +162,13 @@ export default function pricingAndPaymentScreen(props) {
 									right: screenWidth * 0.01,
 								},
 								inputIOS: [
-									fontStyles.subTextStyleBlack,
+									fontStyles.subTextStyle,
+									fontStyles.black,
 									{ width: screenWidth * 0.2, height: screenHeight * 0.06 },
 								],
 								inputAndroid: [
-									fontStyles.subTextStyleBlack,
+									fontStyles.subTextStyle,
+									fontStyles.black,
 									{ width: screenWidth * 0.2, height: screenHeight * 0.06 },
 								],
 							}}
@@ -188,11 +190,13 @@ export default function pricingAndPaymentScreen(props) {
 										right: screenWidth * 0.01,
 									},
 									inputIOS: [
-										fontStyles.subTextStyleBlack,
+										fontStyles.subTextStyle,
+										fontStyles.black,
 										{ width: screenWidth * 0.25, height: screenHeight * 0.06 },
 									],
 									inputAndroid: [
-										fontStyles.subTextStyleBlack,
+										fontStyles.subTextStyle,
+										fontStyles.black,
 										{ width: screenWidth * 0.25, height: screenHeight * 0.06 },
 									],
 								}}
@@ -209,7 +213,9 @@ export default function pricingAndPaymentScreen(props) {
 			<View style={styles.paymentMethodSection}>
 				<Text style={fontStyles.bigTextStyleDarkBlue}>{strings.PaymentMethod}</Text>
 				<View style={styles.paymentTypeSubText}>
-					<Text style={fontStyles.mainTextStyleBlue}>{strings.HowWillYourCustomersPayYou}</Text>
+					<Text style={[fontStyles.mainTextStyle, fontStyles.blue]}>
+						{strings.HowWillYourCustomersPayYou}
+					</Text>
 				</View>
 				<HelpButton
 					isLightButton={!isCashSelected}
@@ -242,7 +248,7 @@ export default function pricingAndPaymentScreen(props) {
 			<View style={styles.paymentTimeSection}>
 				<Text style={fontStyles.bigTextStyleDarkBlue}>{strings.PaymentTime}</Text>
 				<View style={styles.paymentTypeSubText}>
-					<Text style={fontStyles.mainTextStyleBlue}>
+					<Text style={[fontStyles.mainTextStyle, fontStyles.blue]}>
 						{strings.WhenDoYouWantYourCustomersToPayYou}
 					</Text>
 				</View>

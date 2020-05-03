@@ -21,7 +21,8 @@ export default StyleSheet.create({
 		borderWidth: 3,
 	},
 	textInputStyle: {
-		...fontStyles.subTextStyleBlack,
+		...fontStyles.subTextStyle,
+		...fontStyles.black,
 		paddingLeft: 10,
 	},
 });
