@@ -9,15 +9,14 @@ import { Login } from './business/StartingScreens/Authentication/Login';
 import Dashboard from './business/BusinessScreens/Dashboard/Dashboard';
 import { Register } from './business/StartingScreens/Authentication/Register';
 import TermsAndConditions  from './business/TermsAndConditions';
+import ReactCalendar from './business/BusinessScreens/Calender/Calender'
 
 library.add(fab, fas);
 
 export default class App extends Component {
 	render() {
 		return (
-			<BrowserRouter>
-				<LandingPageNavigator />
-			</BrowserRouter>
+			<ReactCalendar/>
 		);
 	}
 }

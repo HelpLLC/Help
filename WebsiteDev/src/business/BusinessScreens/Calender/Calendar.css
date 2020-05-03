@@ -1,4 +1,13 @@
-.react-calendar {
+.headerdiv {
+  flex-direction: row;
+  display: flex;
+}
+
+.bell{
+  display: flex;
+float: right;
+}
+/* .react-calendar {
   height: 700px;
   width: 200vh;
   margin-left: 30px;
@@ -322,4 +331,4 @@ button:hover {
   justify-content: center;
   align-items: center;
   margin-top: 5vh;
-}
+}  */
