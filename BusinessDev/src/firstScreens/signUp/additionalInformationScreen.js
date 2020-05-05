@@ -145,7 +145,7 @@ export default class additionalInformationScreen extends Component {
 							marginVertical: screenHeight * 0.02,
 							marginLeft: screenWidth * 0.2,
 						}}>
-						<Text style={fontStyles.bigTextStyleBlack}>{strings.Website}</Text>
+						<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.Website}</Text>
 					</View>
 
 					<View style={{ justifyContent: 'center' }}>
@@ -167,7 +167,7 @@ export default class additionalInformationScreen extends Component {
 							marginVertical: screenHeight * 0.02,
 							marginLeft: screenWidth * 0.2,
 						}}>
-						<Text style={fontStyles.bigTextStyleBlack}>{strings.PhoneNumber}</Text>
+						<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.PhoneNumber}</Text>
 					</View>
 
 					<View style={{ justifyContent: 'center' }}>
@@ -198,7 +198,7 @@ export default class additionalInformationScreen extends Component {
 								this.setState({ locationInfoVisible: true });
 							}}
 							style={{ flexDirection: 'row', alignItems: 'center' }}>
-							<Text style={fontStyles.bigTextStyleBlack}>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>
 								{strings.LocationYouServe}
 							</Text>
 							<View style={{ width: screenWidth * 0.01 }} />

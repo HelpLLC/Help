@@ -70,7 +70,8 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
-		<string>Arial Rounded MT Bold.ttf</string>
+		<string>Lucida Grande Bold.ttf</string>
+		<string>Lucida Grande.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

@@ -278,7 +278,7 @@ export default class createScheduleScreen extends Component {
 						backgroundColor: colors.white,
 						color: colors.black
 					}}>
-					<Text style={fontStyles.subTextStyleBlack}>{this.state[day].from}</Text>
+					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>{this.state[day].from}</Text>
 				</TouchableOpacity>
 				<View
 					style={{
@@ -287,7 +287,7 @@ export default class createScheduleScreen extends Component {
 						marginHorizontal: screenHeight * 0.02
 					}}></View>
 
-				<Text style={fontStyles.mainTextStyleBlack}>{strings.to}</Text>
+				<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{strings.to}</Text>
 				<View
 					style={{
 						justifyContent: 'center',
@@ -318,7 +318,7 @@ export default class createScheduleScreen extends Component {
 						backgroundColor: colors.white,
 						color: colors.black
 					}}>
-					<Text style={fontStyles.subTextStyleBlack}>{this.state[day].to}</Text>
+					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>{this.state[day].to}</Text>
 				</TouchableOpacity>
 				<DateTimePickerModal
 					is24Hour={false}
@@ -425,7 +425,7 @@ export default class createScheduleScreen extends Component {
 							marginLeft: screenHeight * 0.15
 						}}>
 						<View style={{ marginTop: screenHeight * 0.015 }}>
-							<Text style={fontStyles.bigTextStyleGray}>{strings.Sunday}</Text>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.gray]}>{strings.Sunday}</Text>
 						</View>
 						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('sunday')}</View>
 					</View>
@@ -446,7 +446,7 @@ export default class createScheduleScreen extends Component {
 							marginLeft: screenHeight * 0.15
 						}}>
 						<View style={{ marginTop: screenHeight * 0.015 }}>
-							<Text style={fontStyles.bigTextStyleGray}>{strings.Monday}</Text>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.gray]}>{strings.Monday}</Text>
 						</View>
 						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('monday')}</View>
 					</View>
@@ -466,7 +466,7 @@ export default class createScheduleScreen extends Component {
 							marginLeft: screenHeight * 0.15
 						}}>
 						<View style={{ marginTop: screenHeight * 0.015 }}>
-							<Text style={fontStyles.bigTextStyleGray}>{strings.Tuesday}</Text>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.gray]}>{strings.Tuesday}</Text>
 						</View>
 						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('tuesday')}</View>
 					</View>
@@ -486,7 +486,7 @@ export default class createScheduleScreen extends Component {
 							marginLeft: screenHeight * 0.15
 						}}>
 						<View style={{ marginTop: screenHeight * 0.015 }}>
-							<Text style={fontStyles.bigTextStyleGray}>{strings.Wednesday}</Text>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.gray]}>{strings.Wednesday}</Text>
 						</View>
 						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('wednesday')}</View>
 					</View>
@@ -506,7 +506,7 @@ export default class createScheduleScreen extends Component {
 							marginLeft: screenHeight * 0.15
 						}}>
 						<View style={{ marginTop: screenHeight * 0.015 }}>
-							<Text style={fontStyles.bigTextStyleGray}>{strings.Thursday}</Text>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.gray]}>{strings.Thursday}</Text>
 						</View>
 						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('thursday')}</View>
 					</View>
@@ -526,7 +526,7 @@ export default class createScheduleScreen extends Component {
 							marginLeft: screenHeight * 0.15
 						}}>
 						<View style={{ marginTop: screenHeight * 0.015 }}>
-							<Text style={fontStyles.bigTextStyleGray}>{strings.Friday}</Text>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.gray]}>{strings.Friday}</Text>
 						</View>
 						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('friday')}</View>
 					</View>
@@ -546,7 +546,7 @@ export default class createScheduleScreen extends Component {
 							marginLeft: screenHeight * 0.15
 						}}>
 						<View style={{ marginTop: screenHeight * 0.015 }}>
-							<Text style={fontStyles.bigTextStyleGray}>{strings.Saturday}</Text>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.gray]}>{strings.Saturday}</Text>
 						</View>
 						<View style={{ alignItems: 'flex-end' }}>{this.timePicker('saturday')}</View>
 					</View>

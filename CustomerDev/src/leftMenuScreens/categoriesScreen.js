@@ -148,7 +148,7 @@ export default class categoriesScreen extends Component {
 								justifyContent: 'flex-end',
 								alignItems: 'flex-start'
 							}}>
-							<Text style={fontStyles.bigTextStyleBlue}>{strings.FeaturedCategories}</Text>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.blue]}>{strings.FeaturedCategories}</Text>
 						</View>
 						<CategoriesList
 							categories={this.state.categories}

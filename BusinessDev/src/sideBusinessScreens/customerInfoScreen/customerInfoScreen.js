@@ -197,7 +197,7 @@ export default function customerInfoScreen(props) {
 						<View style={styles.customQuestionsText}>
 							<Text style={fontStyles.bigTextStyleDarkBlue}>{strings.CustomQuestions}</Text>
 							<View style={styles.textSpacer} />
-							<Text style={fontStyles.mainTextStyleBlue}>{strings.CustomQuestionsDescription}</Text>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.blue]}>{strings.CustomQuestionsDescription}</Text>
 						</View>
 						<FlatList
 							showsHorizontalScrollIndicator={false}

@@ -175,11 +175,13 @@ export default function createServiceScreen(props) {
 									right: screenWidth * 0.01,
 								},
 								inputIOS: [
-									fontStyles.subTextStyleBlack,
+									fontStyles.subTextStyle,
+									fontStyles.black,
 									{ width: screenWidth * 0.2, height: screenHeight * 0.06 },
 								],
 								inputAndroid: [
-									fontStyles.subTextStyleBlack,
+									fontStyles.subTextStyle,
+									fontStyles.black,
 									{ width: screenWidth * 0.2, height: screenHeight * 0.06 },
 								],
 							}}

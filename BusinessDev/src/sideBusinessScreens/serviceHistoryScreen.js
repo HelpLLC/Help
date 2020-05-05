@@ -73,7 +73,7 @@ class serviceHistoryScreen extends Component {
 								justifyContent: 'center',
 								alignItems: 'center'
 							}}>
-							<Text style={fontStyles.bigTextStyleBlack}>{strings.NoHistoryForThisServiceYet}</Text>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.NoHistoryForThisServiceYet}</Text>
 						</View>
 					}
 					ListHeaderComponent={
@@ -90,7 +90,7 @@ class serviceHistoryScreen extends Component {
 									justifyContent: 'space-between',
 									height: screenHeight * 0.2
 								}}>
-								<Text style={fontStyles.bigTextStyleBlack}>{service.serviceTitle}</Text>
+								<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{service.serviceTitle}</Text>
 								<ImageWithBorder
 									width={screenWidth * 0.25}
 									height={screenWidth * 0.25}

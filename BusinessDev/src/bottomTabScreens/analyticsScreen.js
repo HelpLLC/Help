@@ -26,7 +26,7 @@ export default class analyticsScreen extends Component {
 		revenueData: '',
 		customerLocationData: '',
 		topServicesData: '',
-		businessID: ''
+		businessID: '',
 	};
 
 	//Declares the screen name in Firebase
@@ -34,7 +34,7 @@ export default class analyticsScreen extends Component {
 		FirebaseFunctions.setCurrentScreen('AnalyticsScreen', 'analyticsScreen');
 		const { businessID } = this.props.navigation.state.params;
 		const analyticsData = await FirebaseFunctions.call('getBusinessAnalyticsByBusinessID', {
-			businessID
+			businessID,
 		});
 		const revenueData = analyticsData[0];
 		const topServicesData = analyticsData[1];
@@ -44,7 +44,7 @@ export default class analyticsScreen extends Component {
 			businessID,
 			customerLocationData,
 			topServicesData,
-			isScreenLoading: false
+			isScreenLoading: false,
 		});
 	}
 
@@ -64,7 +64,7 @@ export default class analyticsScreen extends Component {
 			'Sep',
 			'Oct',
 			'Nov',
-			'Dec'
+			'Dec',
 		];
 
 		let months = Object.keys(revenueData);
@@ -236,9 +236,9 @@ export default class analyticsScreen extends Component {
 							borderBottomColor: colors.gray,
 							borderBottomWidth: 2,
 							paddingBottom: screenHeight * 0.025,
-							width: screenWidth * 0.95
+							width: screenWidth * 0.95,
 						}}>
-						<Text style={fontStyles.bigTextStyleBlue}>{strings.Revenue}</Text>
+						<Text style={[fontStyles.bigTextStyle, fontStyles.blue]}>{strings.Revenue}</Text>
 						<View
 							style={{
 								marginRight: screenWidth * 0.05,
@@ -248,33 +248,35 @@ export default class analyticsScreen extends Component {
 								borderWidth: 3,
 								borderRadius: 20,
 								paddingHorizontal: screenWidth * 0.01,
-								backgroundColor: colors.white
+								backgroundColor: colors.white,
 							}}>
 							<RNPickerSelect
 								onValueChange={(value) => this.setState({ revenueBy: value })}
 								items={[
 									{ label: strings.ByMonth, value: strings.ByMonth },
-									{ label: strings.ByYear, value: strings.ByYear }
+									{ label: strings.ByYear, value: strings.ByYear },
 								]}
 								value={revenueBy}
 								style={{
 									iconContainer: {
-										top: screenHeight * 0.015
+										top: screenHeight * 0.015,
 									},
 									inputIOS: [
-										fontStyles.smallTextStyleBlue,
+										fontStyles.smallTextStyle,
+										fontStyles.blue,
 										{
 											width: screenWidth * 0.275,
-											height: screenHeight * 0.05
-										}
+											height: screenHeight * 0.05,
+										},
 									],
 									inputAndroid: [
-										fontStyles.smallTextStyleBlue,
+										fontStyles.smallTextStyle,
+										fontStyles.blue,
 										{
 											width: screenWidth * 0.275,
-											height: screenHeight * 0.05
-										}
-									]
+											height: screenHeight * 0.05,
+										},
+									],
 								}}
 								Icon={() => (
 									<Icon type='font-awesome' name='arrow-down' color={colors.lightBlue} size={20} />
@@ -289,10 +291,10 @@ export default class analyticsScreen extends Component {
 								height: screenHeight * 0.38,
 								width: screenWidth * 0.95,
 								paddingHorizontal: screenWidth * 0.025,
-								paddingVertical: screenHeight * 0.01
+								paddingVertical: screenHeight * 0.01,
 							}}>
 							<View style={{ alignSelf: 'center' }}>
-								<Text style={fontStyles.subTextStyleBlue}>
+								<Text style={[fontStyles.subTextStyle, fontStyles.blue]}>
 									{revenueBy === strings.ByMonth
 										? strings.AverageMonthlyRevenue + this.getAverage(revenueChart.chartData)
 										: strings.AverageYearlyRevenue + this.getAverage(revenueChart.chartData)}
@@ -304,20 +306,22 @@ export default class analyticsScreen extends Component {
 										paddingHorizontal: screenWidth * 0.02,
 										height: screenHeight * 0.3,
 										alignItems: 'center',
-										justifyContent: 'center'
+										justifyContent: 'center',
 									}}>
-									<Text style={fontStyles.mainTextStyleBlue}>{strings.NoDataYet}</Text>
+									<Text style={[fontStyles.mainTextStyle, fontStyles.blue]}>
+										{strings.NoDataYet}
+									</Text>
 								</View>
 							) : (
 								<View>
 									<View
 										style={{
-											flexDirection: 'row'
+											flexDirection: 'row',
 										}}>
 										<YAxis
 											data={revenueChart.chartData}
 											contentInset={{ top: screenHeight * 0.022, bottom: screenHeight * 0.022 }}
-											svg={{ ...fontStyles.subTextStyleNoColor, fill: colors.lightBlue }}
+											svg={{ ...fontStyles.subTextStyle, fill: colors.lightBlue }}
 											numberOfTicks={
 												revenueChart.chartData.length < 5 ? revenueChart.chartData.length : 5
 											}
@@ -327,13 +331,13 @@ export default class analyticsScreen extends Component {
 											style={{
 												paddingHorizontal: screenWidth * 0.02,
 												height: screenHeight * 0.3,
-												width: screenWidth * 0.7
+												width: screenWidth * 0.7,
 											}}
 											data={revenueChart.chartData}
 											numberOfTicks={8}
 											svg={{
 												stroke: colors.lightBlue,
-												strokeWidth: 3
+												strokeWidth: 3,
 											}}
 											contentInset={{ top: screenHeight * 0.022, bottom: screenHeight * 0.022 }}>
 											<Grid />
@@ -344,9 +348,9 @@ export default class analyticsScreen extends Component {
 										contentInset={{
 											left: screenWidth * 0.1,
 											top: screenHeight * 0.022,
-											bottom: screenHeight * 0.022
+											bottom: screenHeight * 0.022,
 										}}
-										svg={{ ...fontStyles.subTextStyleNoColor, fill: colors.lightBlue }}
+										svg={{ ...fontStyles.subTextStyle, fill: colors.lightBlue }}
 										numberOfTicks={revenueChart.xAxis.length < 3 ? revenueChart.xAxis.length : 3}
 										formatLabel={(value, index) => revenueChart.xAxis[index]}
 									/>
@@ -363,9 +367,9 @@ export default class analyticsScreen extends Component {
 							borderBottomColor: colors.gray,
 							borderBottomWidth: 2,
 							paddingBottom: screenHeight * 0.025,
-							width: screenWidth * 0.95
+							width: screenWidth * 0.95,
 						}}>
-						<Text style={fontStyles.bigTextStyleBlue}>{strings.TopServices}</Text>
+						<Text style={[fontStyles.bigTextStyle, fontStyles.blue]}>{strings.TopServices}</Text>
 						<View
 							style={{
 								marginRight: screenWidth * 0.05,
@@ -375,34 +379,36 @@ export default class analyticsScreen extends Component {
 								borderWidth: 3,
 								borderRadius: 20,
 								paddingHorizontal: screenWidth * 0.01,
-								backgroundColor: colors.white
+								backgroundColor: colors.white,
 							}}>
 							<RNPickerSelect
 								onValueChange={(value) => this.setState({ topServicesBy: value })}
 								items={[
 									{ label: strings.ByTotalRequests, value: strings.ByTotalRequests },
 									{ label: strings.ByTotalRevenue, value: strings.ByTotalRevenue },
-									{ label: strings.ByTotalViews, value: strings.ByTotalViews }
+									{ label: strings.ByTotalViews, value: strings.ByTotalViews },
 								]}
 								value={topServicesBy}
 								style={{
 									iconContainer: {
-										top: screenHeight * 0.015
+										top: screenHeight * 0.015,
 									},
 									inputIOS: [
-										fontStyles.smallTextStyleBlue,
+										fontStyles.smallTextStyle,
+										fontStyles.blue,
 										{
 											width: screenWidth * 0.415,
-											height: screenHeight * 0.05
-										}
+											height: screenHeight * 0.05,
+										},
 									],
 									inputAndroid: [
-										fontStyles.smallTextStyleBlue,
+										fontStyles.smallTextStyle,
+										fontStyles.blue,
 										{
 											width: screenWidth * 0.415,
-											height: screenHeight * 0.05
-										}
-									]
+											height: screenHeight * 0.05,
+										},
+									],
 								}}
 								Icon={() => (
 									<Icon type='font-awesome' name='arrow-down' color={colors.lightBlue} size={20} />
@@ -417,7 +423,7 @@ export default class analyticsScreen extends Component {
 								width: screenWidth * 0.95,
 								paddingVertical: screenHeight * 0.01,
 								height: screenHeight * 0.38,
-								borderRadius: 15
+								borderRadius: 15,
 							}}>
 							{topServicesChart.chartData.length === 0 ? (
 								<View
@@ -425,21 +431,23 @@ export default class analyticsScreen extends Component {
 										paddingHorizontal: screenWidth * 0.02,
 										height: screenHeight * 0.3,
 										alignItems: 'center',
-										justifyContent: 'center'
+										justifyContent: 'center',
 									}}>
-									<Text style={fontStyles.mainTextStyleBlue}>{strings.NoDataYet}</Text>
+									<Text style={[fontStyles.mainTextStyle, fontStyles.blue]}>
+										{strings.NoDataYet}
+									</Text>
 								</View>
 							) : (
 								<View>
 									<View
 										style={{
 											flexDirection: 'row',
-											marginBottom: screenHeight * 0.01
+											marginBottom: screenHeight * 0.01,
 										}}>
 										<YAxis
 											data={topServicesChart.chartData}
 											contentInset={{ top: screenHeight * 0.022, bottom: screenHeight * 0.022 }}
-											svg={{ ...fontStyles.subTextStyleNoColor, fill: colors.lightBlue }}
+											svg={{ ...fontStyles.subTextStyle, fill: colors.lightBlue }}
 											min={0}
 											numberOfTicks={3}
 											formatLabel={(value) => value}
@@ -448,7 +456,7 @@ export default class analyticsScreen extends Component {
 											style={{
 												height: screenHeight * 0.3,
 												width: screenWidth * 0.8,
-												paddingHorizontal: screenWidth * 0.02
+												paddingHorizontal: screenWidth * 0.02,
 											}}
 											gridMin={0}
 											data={topServicesChart.chartData}
@@ -462,10 +470,10 @@ export default class analyticsScreen extends Component {
 										data={topServicesChart.chartData}
 										contentInset={{
 											left: screenWidth * 0.03,
-											right: screenWidth * -0.03
+											right: screenWidth * -0.03,
 										}}
 										scale={scale.scaleBand}
-										svg={{ ...fontStyles.subTextStyleNoColor, fill: colors.lightBlue }}
+										svg={{ ...fontStyles.subTextStyle, fill: colors.lightBlue }}
 										formatLabel={(value, index) => topServicesChart.xAxis[index]}
 									/>
 								</View>
@@ -483,9 +491,11 @@ export default class analyticsScreen extends Component {
 							borderBottomWidth: 2,
 							paddingBottom: screenHeight * 0.025,
 							marginBottom: screenHeight * 0.025,
-							width: screenWidth * 0.95
+							width: screenWidth * 0.95,
 						}}>
-						<Text style={fontStyles.bigTextStyleBlue}>{strings.CustomerLocations}</Text>
+						<Text style={[fontStyles.bigTextStyle, fontStyles.blue]}>
+							{strings.CustomerLocations}
+						</Text>
 						<View
 							style={{
 								marginRight: screenWidth * 0.05,
@@ -495,34 +505,36 @@ export default class analyticsScreen extends Component {
 								borderWidth: 3,
 								borderRadius: 20,
 								paddingHorizontal: screenWidth * 0.01,
-								backgroundColor: colors.white
+								backgroundColor: colors.white,
 							}}>
 							<RNPickerSelect
 								onValueChange={(value) => this.setState({ customerLocationsBy: value })}
 								items={[
 									{ label: strings.ByCity, value: strings.ByCity },
 									{ label: strings.ByState, value: strings.ByState },
-									{ label: strings.ByCountry, value: strings.ByCountry }
+									{ label: strings.ByCountry, value: strings.ByCountry },
 								]}
 								value={customerLocationsBy}
 								style={{
 									iconContainer: {
-										top: screenHeight * 0.015
+										top: screenHeight * 0.015,
 									},
 									inputIOS: [
-										fontStyles.smallTextStyleBlue,
+										fontStyles.smallTextStyle,
+										fontStyles.blue,
 										{
 											width: screenWidth * 0.3,
-											height: screenHeight * 0.05
-										}
+											height: screenHeight * 0.05,
+										},
 									],
 									inputAndroid: [
-										fontStyles.smallTextStyleBlue,
+										fontStyles.smallTextStyle,
+										fontStyles.blue,
 										{
 											width: screenWidth * 0.3,
-											height: screenHeight * 0.05
-										}
-									]
+											height: screenHeight * 0.05,
+										},
+									],
 								}}
 								Icon={() => (
 									<Icon type='font-awesome' name='arrow-down' color={colors.lightBlue} size={20} />
@@ -537,7 +549,7 @@ export default class analyticsScreen extends Component {
 								paddingVertical: screenHeight * 0.01,
 								height: screenHeight * 0.38,
 								width: screenWidth * 0.95,
-								borderRadius: 15
+								borderRadius: 15,
 							}}>
 							{customerLocationData.chartData.length === 0 ? (
 								<View
@@ -545,21 +557,23 @@ export default class analyticsScreen extends Component {
 										paddingHorizontal: screenWidth * 0.02,
 										height: screenHeight * 0.3,
 										alignItems: 'center',
-										justifyContent: 'center'
+										justifyContent: 'center',
 									}}>
-									<Text style={fontStyles.mainTextStyleBlue}>{strings.NoDataYet}</Text>
+									<Text style={[fontStyles.mainTextStyle, fontStyles.blue]}>
+										{strings.NoDataYet}
+									</Text>
 								</View>
 							) : (
 								<View>
 									<View
 										style={{
 											flexDirection: 'row',
-											marginBottom: screenHeight * 0.01
+											marginBottom: screenHeight * 0.01,
 										}}>
 										<YAxis
 											data={customerLocationData.chartData}
 											contentInset={{ top: screenHeight * 0.022, bottom: screenHeight * 0.022 }}
-											svg={{ ...fontStyles.subTextStyleNoColor, fill: colors.lightBlue }}
+											svg={{ ...fontStyles.subTextStyle, fill: colors.lightBlue }}
 											min={0}
 											numberOfTicks={3}
 											formatLabel={(value) => value}
@@ -568,7 +582,7 @@ export default class analyticsScreen extends Component {
 											style={{
 												height: screenHeight * 0.3,
 												width: screenWidth * 0.8,
-												paddingHorizontal: screenWidth * 0.02
+												paddingHorizontal: screenWidth * 0.02,
 											}}
 											gridMin={0}
 											data={customerLocationData.chartData}
@@ -582,10 +596,10 @@ export default class analyticsScreen extends Component {
 										data={customerLocationData.chartData}
 										contentInset={{
 											left: screenWidth * 0.03,
-											right: screenWidth * -0.03
+											right: screenWidth * -0.03,
 										}}
 										scale={scale.scaleBand}
-										svg={{ ...fontStyles.subTextStyleNoColor, fill: colors.lightBlue }}
+										svg={{ ...fontStyles.subTextStyle, fill: colors.lightBlue }}
 										formatLabel={(value, index) => customerLocationData.xAxis[index]}
 									/>
 								</View>

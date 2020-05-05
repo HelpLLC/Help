@@ -187,11 +187,11 @@ export default class scheduleScreen extends Component {
 							selectedDotColor: colors.white,
 							arrowColor: colors.lightBlue,
 							monthTextColor: colors.black,
-							textDayFontFamily: fontStyles.mainTextStyleBlack.fontFamily,
-							textMonthFontFamily: fontStyles.mainTextStyleBlack.fontFamily,
-							textDayHeaderFontFamily: fontStyles.mainTextStyleBlack.fontFamily,
-							textDayFontSize: fontStyles.subTextStyleBlack.fontSize,
-							textMonthFontSize: fontStyles.bigTextStyleBlack.fontSize
+							textDayFontFamily: fontStyles.mainTextStyle.fontFamily,
+							textMonthFontFamily: fontStyles.mainTextStyle.fontFamily,
+							textDayHeaderFontFamily: fontStyles.mainTextStyle.fontFamily,
+							textDayFontSize: fontStyles.subTextStyle.fontSize,
+							textMonthFontSize: fontStyles.bigTextStylefontSize
 						}}
 						markedDates={{
 							[dateString]: { selected: true },

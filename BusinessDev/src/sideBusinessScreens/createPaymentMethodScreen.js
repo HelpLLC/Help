@@ -60,10 +60,7 @@ export default class createPaymentMethodScreen extends Component {
 
 	//Fetches the correctly passed in data and sets it to the state
 	componentDidMount() {
-		FirebaseFunctions.setCurrentScreen(
-			'CreatePaymentMethodScreen',
-			'createPaymentMethodScreen'
-		);
+		FirebaseFunctions.setCurrentScreen('CreatePaymentMethodScreen', 'createPaymentMethodScreen');
 		const { businessID, isEditing } = this.props.navigation.state.params;
 		this.setState({ isScreenLoading: false, businessID, isEditing });
 	}
@@ -108,14 +105,11 @@ export default class createPaymentMethodScreen extends Component {
 				ip: IPAddress,
 			};
 
-			const connectAccount = await FirebaseFunctions.call(
-				'createStripeConnectAccountForBusiness',
-				{
-					businessID,
-					tos_acceptance,
-					paymentToken: paymentInfoToken.tokenId,
-				}
-			);
+			const connectAccount = await FirebaseFunctions.call('createStripeConnectAccountForBusiness', {
+				businessID,
+				tos_acceptance,
+				paymentToken: paymentInfoToken.tokenId,
+			});
 
 			//Handles the case  if the card is invalid
 			if (connectAccount === 'invalid_card_type') {
@@ -160,13 +154,10 @@ export default class createPaymentMethodScreen extends Component {
 				paymentInfoToken = await stripe.createTokenWithBankAccount(bankInformation);
 			}
 
-			const connectAccount = await FirebaseFunctions.call(
-				'updateStripeConnectAccountPayment',
-				{
-					businessID,
-					paymentToken: paymentInfoToken.tokenId,
-				}
-			);
+			const connectAccount = await FirebaseFunctions.call('updateStripeConnectAccountPayment', {
+				businessID,
+				paymentToken: paymentInfoToken.tokenId,
+			});
 
 			//Handles the case  if the card is invalid
 			if (connectAccount === 'invalid_card_type') {
@@ -244,7 +235,7 @@ export default class createPaymentMethodScreen extends Component {
 								marginLeft: screenWidth * 0.025,
 								marginTop: screenHeight * 0.025,
 							}}>
-							<Text style={fontStyles.mainTextStyleBlack}>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>
 								{strings.WhereDoYouWantToAcceptPaymentsQuestion}
 							</Text>
 						</View>
@@ -281,16 +272,14 @@ export default class createPaymentMethodScreen extends Component {
 											debitCardSelected: true,
 											bankAccountSelected: false,
 										});
-										const paymentInfoToken = await stripe.paymentRequestWithCardForm(
-											{
-												requiredBillingAddressFields: 'full',
-												theme: {
-													accentColor: colors.lightBlue,
-													errorColor: colors.red,
-												},
-												managedAccountCurrency: 'usd',
-											}
-										);
+										const paymentInfoToken = await stripe.paymentRequestWithCardForm({
+											requiredBillingAddressFields: 'full',
+											theme: {
+												accentColor: colors.lightBlue,
+												errorColor: colors.red,
+											},
+											managedAccountCurrency: 'usd',
+										});
 										this.setState({
 											paymentInfoToken,
 										});
@@ -320,7 +309,7 @@ export default class createPaymentMethodScreen extends Component {
 										width: screenWidth * 0.8,
 										marginVertical: screenHeight * 0.05,
 									}}>
-									<Text style={fontStyles.bigTextStyleBlack}>
+									<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>
 										{strings.AccountHolderName}
 									</Text>
 								</View>
@@ -349,7 +338,7 @@ export default class createPaymentMethodScreen extends Component {
 										width: screenWidth * 0.8,
 										marginVertical: screenHeight * 0.05,
 									}}>
-									<Text style={fontStyles.bigTextStyleBlack}>
+									<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>
 										{strings.AccountNumber}
 									</Text>
 								</View>
@@ -379,7 +368,7 @@ export default class createPaymentMethodScreen extends Component {
 										width: screenWidth * 0.8,
 										marginVertical: screenHeight * 0.05,
 									}}>
-									<Text style={fontStyles.bigTextStyleBlack}>
+									<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>
 										{strings.RoutingNumber}
 									</Text>
 								</View>
@@ -409,7 +398,7 @@ export default class createPaymentMethodScreen extends Component {
 										width: screenWidth * 0.8,
 										marginVertical: screenHeight * 0.05,
 									}}>
-									<Text style={fontStyles.bigTextStyleBlack}>
+									<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>
 										{strings.AccountType}
 									</Text>
 								</View>
@@ -444,14 +433,16 @@ export default class createPaymentMethodScreen extends Component {
 												top: screenHeight * 0.015,
 											},
 											inputIOS: [
-												fontStyles.smallTextStyleBlue,
+												fontStyles.smallTextStyle,
+												fontStyles.blue,
 												{
 													width: screenWidth * 0.8,
 													height: screenHeight * 0.05,
 												},
 											],
 											inputAndroid: [
-												fontStyles.smallTextStyleBlue,
+												fontStyles.smallTextStyle,
+												fontStyles.blue,
 												{
 													width: screenWidth * 0.8,
 													height: screenHeight * 0.05,
@@ -489,7 +480,7 @@ export default class createPaymentMethodScreen extends Component {
 										checkedCheckBoxColor={colors.lightBlue}
 										checkBoxColor={colors.lightBlue}
 									/>
-									<Text style={fontStyles.mainTextStyleBlack}>
+									<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>
 										{strings.IAcceptThe}
 									</Text>
 									<TouchableOpacity
@@ -497,29 +488,17 @@ export default class createPaymentMethodScreen extends Component {
 											//Opens the stripe agreements
 											Linking.openURL('https://stripe.com/legal');
 										}}>
-										<Text
-											style={[
-												fontStyles.mainTextStyleBlue,
-												{ flexWrap: 'wrap' },
-											]}>
+										<Text style={[fontStyles.mainTextStyle, fontStyles.blue, { flexWrap: 'wrap' }]}>
 											{strings.StripeServicesAgreement}
 										</Text>
 									</TouchableOpacity>
-									<Text style={fontStyles.mainTextStyleBlack}>
-										{strings.AndThe}
-									</Text>
+									<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{strings.AndThe}</Text>
 									<TouchableOpacity
 										onPress={() => {
 											//Opens the stripe agreements
-											Linking.openURL(
-												'https://stripe.com/connect-account/legal'
-											);
+											Linking.openURL('https://stripe.com/connect-account/legal');
 										}}>
-										<Text
-											style={[
-												fontStyles.mainTextStyleBlue,
-												{ flexWrap: 'wrap' },
-											]}>
+										<Text style={[fontStyles.mainTextStyle, fontStyles.blue, { flexWrap: 'wrap' }]}>
 											{strings.StripeConnectedAccountAgreement}
 										</Text>
 									</TouchableOpacity>

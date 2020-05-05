@@ -16,7 +16,7 @@ export default function ImagePicker(props) {
 	//Displays the action sheet
 	if (isShowing === true) {
 		this.ActionSheet.show();
-	} 
+	}
 
 	return (
 		<ActionSheet
@@ -25,7 +25,7 @@ export default function ImagePicker(props) {
 			options={[strings.TakePhotoDotDotDot, strings.ChooseFromLibraryDotDotDot, strings.Cancel]}
 			cancelButtonIndex={2}
 			styles={{
-				titleText: fontStyles.subTextStyleBlue,
+				titleText: { ...fontStyles.subTextStyle, ...fontStyles.blue },
 			}}
 			destructiveButtonIndex={2}
 			onPress={async (index) => {

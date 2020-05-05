@@ -31,15 +31,15 @@ export default class privacyScreen extends Component {
 						paddingVertical: screenHeight * 0.02,
 						marginHorizontal: screenWidth * 0.02
 					}}>
-					<Text style={fontStyles.bigTextStyleBlack}>Welcome to our Privacy Policy</Text>
-					<Text style={fontStyles.subTextStyleBlack}>
+					<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>Welcome to our Privacy Policy</Text>
+					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 						-- Your privacy is critically important to us.
 					</Text>
-					<Text style={fontStyles.subTextStyleBlack}>Help is located at:</Text>
-					<Text style={fontStyles.subTextStyleBlack}>
+					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>Help is located at:</Text>
+					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 						Help LLC 13543 NE 200th St Washington, United States 4252299185
 					</Text>
-					<Text style={fontStyles.subTextStyleBlack}>
+					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 						It is Help LLC's policy to respect your privacy regarding any information we may collect
 						while operating our website. This Privacy Policy applies to
 						https://helpcocontact.wixsite.com/website (hereinafter, "us", "we", or
@@ -55,7 +55,7 @@ export default class privacyScreen extends Component {
 						Website, you may be required to agree to additional terms and conditions.
 					</Text>
 
-					<Text style={fontStyles.subTextStyleBlack}>
+					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 						- Website Visitors Like most website operators, Help LLC collects
 						non-personally-identifying information of the sort that web browsers and servers
 						typically make available, such as the browser type, language preference, referring site,
@@ -69,7 +69,7 @@ export default class privacyScreen extends Component {
 						user and commenter IP addresses under the same circumstances that it uses and discloses
 						personally-identifying information as described below.
 					</Text>
-					<Text style={fontStyles.subTextStyleBlack}>
+					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 						- Gathering of Personally - Identifying Information Certain visitors to Help LLC's
 						websites choose to interact with Help LLC in ways that require Help LLC to gather
 						personally-identifying information. The amount and type of information that Help LLC
@@ -77,14 +77,14 @@ export default class privacyScreen extends Component {
 						up for a blog at https://helpcocontact.wixsite.com/website to provide a username and
 						email address.
 					</Text>
-					<Text style={fontStyles.bigTextStyleBlack}>License</Text>
-					<Text style={fontStyles.subTextStyleBlack}>
+					<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>License</Text>
+					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 						- Security The security of your Personal Information is important to us, but remember
 						that no method of transmission over the Internet, or method of electronic storage is 100
 						% secure. While we strive to use commercially acceptable means to protect your Personal
 						Information, we cannot guarantee its absolute security.
 					</Text>
-					<Text style={fontStyles.subTextStyleBlack}>
+					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 						- Advertisements Ads appearing on our website may be delivered to users by advertising
 						partners, who may set cookies. These cookies allow the ad server to recognize your
 						computer each time they send you an online advertisement to compile information about
@@ -93,7 +93,7 @@ export default class privacyScreen extends Component {
 						you. This Privacy Policy covers the use of cookies by Help LLC and does not cover the
 						use of cookies by any advertisers.
 					</Text>
-					<Text style={fontStyles.subTextStyleBlack}>
+					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 						- Links To External Sites Our Service may contain links to external sites that are not
 						operated by us. If you click on a third party link, you will be directed to that third
 						party's site. We strongly advise you to review the Privacy Policy and terms and
@@ -101,12 +101,12 @@ export default class privacyScreen extends Component {
 						responsibility for the content, privacy policies or practices of any third party sites,
 						products or services.
 					</Text>
-					<Text style={fontStyles.subTextStyleBlack}>
+					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 						- Aggregated Statistics 'Help LLC may collect statistics about the behavior of visitors
 						to its website.Help LLC may display this information publicly or provide it to others.
 						However, Help LLC does not disclose your personally - identifying information.
 					</Text>
-					<Text style={fontStyles.subTextStyleBlack}>
+					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 						- Cookies To enrich and perfect your online experience, Help LLC uses "Cookies", similar
 						technologies and services provided by others to display personalized content,
 						appropriate advertising and store your preferences on your computer. A cookie is a
@@ -120,18 +120,18 @@ export default class privacyScreen extends Component {
 						cookies. By continuing to navigate our website without changing your cookie settings,
 						you hereby acknowledge and agree to Help LLC's use of cookies.
 					</Text>
-					<Text style={fontStyles.subTextStyleBlack}>
+					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 						- Privacy Policy Changes Although most changes are likely to be minor, Help LLC may
 						change its Privacy Policy from time to time, and in Help LLC's sole discretion. Help LLC
 						encourages visitors to frequently check this page for any changes to its Privacy Policy.
 						Your continued use of this site after any change in this Privacy Policy will constitute
 						your acceptance of such change.
 					</Text>
-					<Text style={fontStyles.subTextStyleBlack}>
+					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 						- Email Addresses Collected email addresses in order to create account information from
 						customers.
 					</Text>
-					<Text style={fontStyles.subTextStyleBlack}>
+					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 						- Credit and Contact Information This privacy policy was created at
 						https://termsandconditionstemplate.com/privacy-policy-generator. If you have any
 						questions about this Privacy Policy, please contact us via email or phone.

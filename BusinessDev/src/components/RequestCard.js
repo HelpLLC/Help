@@ -52,21 +52,21 @@ export default function RequestCard(props) {
 								marginLeft: screenWidth * 0.025,
 								marginTop: screenHeight * 0.01,
 							}}>
-							<Text style={fontStyles.mainTextStyleBlack}>{time}</Text>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{time}</Text>
 						</View>
 						<View
 							style={{
 								marginLeft: screenWidth * 0.025,
 								marginTop: screenHeight * 0.01,
 							}}>
-							<Text style={fontStyles.subTextStyleBlack}>{serviceTitle}</Text>
+							<Text style={[fontStyles.subTextStyle, fontStyles.black]}>{serviceTitle}</Text>
 						</View>
 						<View
 							style={{
 								marginLeft: screenWidth * 0.025,
 								marginTop: screenHeight * 0.01,
 							}}>
-							<Text style={fontStyles.subTextStyleBlack}>
+							<Text style={[fontStyles.subTextStyle, fontStyles.black]}>
 								{strings.RequestedBy} {customerName}
 							</Text>
 						</View>

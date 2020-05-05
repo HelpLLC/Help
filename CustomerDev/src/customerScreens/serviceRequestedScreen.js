@@ -105,12 +105,12 @@ export default class serviceRequestedScreen extends Component {
 											justifyContent: 'flex-end',
 											marginVertical: screenHeight * 0.03
 										}}>
-										<Text style={fontStyles.bigTextStyleBlack}>{service.serviceTitle}</Text>
+										<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{service.serviceTitle}</Text>
 									</View>
 									<View>
-										<Text style={fontStyles.mainTextStyleBlack}>{strings.RequestedOn}</Text>
+										<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{strings.RequestedOn}</Text>
 										<View style={{ height: screenHeight * 0.01 }}></View>
-										<Text style={fontStyles.mainTextStyleBlack}>{request.requestedOn}</Text>
+										<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{request.requestedOn}</Text>
 									</View>
 								</View>
 								<FastImage
@@ -133,11 +133,11 @@ export default class serviceRequestedScreen extends Component {
 									alignItems: 'center'
 								}}>
 								{request.status === 'COMPLETE' ? (
-									<Text style={fontStyles.mainTextStyleBlack}>
+									<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>
 										{strings.CompletedOn} {request.date}
 									</Text>
 								) : (
-									<Text style={fontStyles.mainTextStyleBlack}>
+									<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>
 										{strings.ScheduledOn} {request.date} {strings.at} {request.time}
 									</Text>
 								)}
@@ -150,7 +150,7 @@ export default class serviceRequestedScreen extends Component {
 										borderBottomWidth: 1,
 										paddingBottom: screenWidth * 0.01
 									}}>
-									<Text style={fontStyles.bigTextStyleBlack}>{strings.Questions}</Text>
+									<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.Questions}</Text>
 								</View>
 							) : (
 								<View></View>
@@ -164,7 +164,7 @@ export default class serviceRequestedScreen extends Component {
 								alignSelf: 'center',
 								marginVertical: screenHeight * 0.02
 							}}>
-							<Text style={fontStyles.mainTextStyleBlack}>{item.question}</Text>
+							<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{item.question}</Text>
 							<View
 								style={{
 									backgroundColor: colors.white,
@@ -181,7 +181,7 @@ export default class serviceRequestedScreen extends Component {
 									style={{
 										marginHorizontal: screenWidth * 0.025
 									}}>
-									<Text style={fontStyles.subTextStyleBlack}>{item.answer}</Text>
+									<Text style={[fontStyles.subTextStyle, fontStyles.black]}>{item.answer}</Text>
 								</View>
 							</View>
 						</View>
@@ -202,8 +202,8 @@ export default class serviceRequestedScreen extends Component {
 											width: screenWidth * 0.9,
 											marginBottom: screenHeight * 0.015
 										}}>
-										<Text style={fontStyles.mainTextStyleBlack}>{strings.BilledAmount}</Text>
-										<Text style={fontStyles.mainTextStyleBlack}>
+										<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{strings.BilledAmount}</Text>
+										<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>
 											{strings.DollarSign + request.billedAmount}
 										</Text>
 									</View>
@@ -215,8 +215,8 @@ export default class serviceRequestedScreen extends Component {
 											width: screenWidth * 0.9,
 											marginBottom: screenHeight * 0.015
 										}}>
-										<Text style={fontStyles.mainTextStyleBlack}>{strings.Price}</Text>
-										<Text style={fontStyles.mainTextStyleBlack}>{request.priceText}</Text>
+										<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{strings.Price}</Text>
+										<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{request.priceText}</Text>
 									</View>
 								)}
 								<View
@@ -226,8 +226,8 @@ export default class serviceRequestedScreen extends Component {
 										width: screenWidth * 0.9,
 										marginBottom: screenHeight * 0.015
 									}}>
-									<Text style={fontStyles.mainTextStyleBlack}>{strings.Date}</Text>
-									<Text style={fontStyles.mainTextStyleBlack}>{request.date}</Text>
+									<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{strings.Date}</Text>
+									<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{request.date}</Text>
 								</View>
 								<View
 									style={{
@@ -236,8 +236,8 @@ export default class serviceRequestedScreen extends Component {
 										width: screenWidth * 0.9,
 										marginBottom: screenHeight * 0.015
 									}}>
-									<Text style={fontStyles.mainTextStyleBlack}>{strings.Time}</Text>
-									<Text style={fontStyles.mainTextStyleBlack}>{request.time}</Text>
+									<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{strings.Time}</Text>
+									<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{request.time}</Text>
 								</View>
 								<View
 									style={{
@@ -246,8 +246,8 @@ export default class serviceRequestedScreen extends Component {
 										width: screenWidth * 0.9,
 										marginBottom: screenHeight * 0.015
 									}}>
-									<Text style={fontStyles.mainTextStyleBlack}>{strings.PaymentType}</Text>
-									<Text style={fontStyles.mainTextStyleBlack}>
+									<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{strings.PaymentType}</Text>
+									<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>
 										{request.cash === true ? strings.Cash : strings.Card}
 									</Text>
 								</View>
@@ -258,8 +258,8 @@ export default class serviceRequestedScreen extends Component {
 										width: screenWidth * 0.9,
 										marginBottom: screenHeight * 0.015
 									}}>
-									<Text style={fontStyles.mainTextStyleBlack}>{strings.RequestID}</Text>
-									<Text style={fontStyles.smallTextStyleBlack}>{request.requestID}</Text>
+									<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{strings.RequestID}</Text>
+									<Text style={[fontStyles.smallTextStyle, fontStyles.black]}>{request.requestID}</Text>
 								</View>
 							</View>
 							{this.state.isLoading === true ? (

@@ -51,7 +51,7 @@ class forgotPasswordScreen extends Component {
 							justifyContent: 'flex-end',
 							marginVertical: screenHeight * 0.05,
 						}}>
-						<Text style={fontStyles.bigTextStyleBlack}>{strings.Email}</Text>
+						<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.Email}</Text>
 					</View>
 					<View style={{ justifyContent: 'center' }}>
 						<HelpTextInput

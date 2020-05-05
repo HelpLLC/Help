@@ -22,14 +22,10 @@ export default function ImagePicker(props) {
 		<ActionSheet
 			ref={(o) => (this.ActionSheet = o)}
 			title={strings.SelectPhoto}
-			options={[
-				strings.TakePhotoDotDotDot,
-				strings.ChooseFromLibraryDotDotDot,
-				strings.Cancel,
-			]}
+			options={[strings.TakePhotoDotDotDot, strings.ChooseFromLibraryDotDotDot, strings.Cancel]}
 			cancelButtonIndex={2}
 			styles={{
-				titleText: fontStyles.subTextStyleBlue,
+				titleText: { ...fontStyles.subTextStyle, ...fontStyles.blue },
 			}}
 			destructiveButtonIndex={2}
 			onPress={async (index) => {

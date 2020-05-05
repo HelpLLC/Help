@@ -42,7 +42,7 @@ export default function LeftMenuCard(props) {
 			onPress={() => {
 				onPress();
 			}}>
-			<Text style={[fontStyles.bigTextStyleBlue, { color: textColor }]}>{text}</Text>
+			<Text style={[fontStyles.bigTextStyle, { color: textColor }]}>{text}</Text>
 		</TouchableOpacity>
 	);
 }

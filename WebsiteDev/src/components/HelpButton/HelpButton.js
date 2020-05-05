@@ -65,11 +65,11 @@ export default function HelpButton(props) {
 						style={
 							isLightButton
 								? width < screenWidth * 0.3
-									? { ...fontStyles.mainTextStyleBlue, textAlign: 'center' }
-									: { ...fontStyles.bigTextStyleBlue, textAlign: 'center' }
+									? { ...fontStyles.mainTextStyle, ...fontStyles.blue, textAlign: 'center' }
+									: { ...fontStyles.bigTextStyle, ...fontStyles.blue, textAlign: 'center' }
 								: width < screenWidth * 0.3
-								? { ...fontStyles.mainTextStyleWhite, textAlign: 'center' }
-								: { ...fontStyles.bigTextStyleWhite, textAlign: 'center' }
+								? { ...fontStyles.mainTextStyle, ...fontStyles.white, textAlign: 'center' }
+								: { ...fontStyles.bigTextStyle, ...fontStyles.white, textAlign: 'center' }
 						}>
 						{title}
 					</Text>

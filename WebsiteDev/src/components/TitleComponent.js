@@ -12,13 +12,11 @@ export default function TitleComponent(props) {
 		textColor: PropTypes.string,
 	};
 
-	const { text, isCentered, marginLeft, backgroundColor, textColor } = props;
-
 	const mystyle = {
 		color: props.textColor !== null ? props.textColor : '#00B0F0',
 		backgroundColor: props.backgroundColor !== null ? props.backgroundColor : '#fff',
 		padding: '10px',
-		fontFamily: 'Arial Rounded MT Bold',
+		fontFamily: 'Lucida Grande',
 		textAlign: props.isCentered === true ? 'center' : '',
 		marginLeft: props.marginLeft,
 		fontSize: props.fontSize !== null ? props.fontSize : 30,

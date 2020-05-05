@@ -19,7 +19,8 @@ export default {
 		alignItems: 'center',
 		flexDirection: 'row',
 		borderWidth: 3,
-		...fontStyles.subTextStyleBlack,
+		...fontStyles.subTextStyle,
+		...fontStyles.black,
 		padding: 10,
 	},
 };
