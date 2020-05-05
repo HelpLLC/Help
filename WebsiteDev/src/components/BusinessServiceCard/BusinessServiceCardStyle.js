@@ -1,80 +1,57 @@
 //This is going to contain the styles for the Business Card
-import { StyleSheet } from 'react-native';
-import { screenHeight, screenWidth } from '../../config/dimensions';
-import colors from '../../config/colors';
+import { StyleSheet } from "react-native";
+import { screenHeight, screenWidth } from "../../config/dimensions";
+import colors from "../../config/colors";
 
 export default StyleSheet.create({
-	cardcontainer: {
-		float: 'initial',
-		display: 'inline-flex',
-		height: '175px',
-		width: 'initial',
-		marginLeft: '200px',
-		marginRight: '200px',
-		marginTop: '50px',
-		backgroundColor: colors.white,
-	},
-	body1: {
-		margin: '10px',
-	},
-	body2: {
-		margin: '10px',
-	},
-	body3: {
-		margin: '10px',
-	},
-	body4: {
-		margin: '10px',
-	},
-	body5: {
-		margin: '10px',
-	},
-	img: {
-		borderTop: 'initial',
-		display: 'inline-block',
-		height: '120px',
-		marginTop: '0px',
-	},
-	price: {
-		fontSize: '20px',
-		backgroundColor: 'unset',
-		borderColor: colors.white,
-		fontWeight: 'bold',
-		marginTop: '-10px',
-	},
-	requests: {
-		fontSize: '20px',
-		backgroundColor: 'unset',
-		borderColor: colors.white,
-		fontWeight: 'bold',
-		marginTop: '-10px',
-	},
-	days: {
-		fontSize: '20px',
-		backgroundColor: 'unset',
-		borderColor: colors.white,
-		fontWeight: 'bold',
-		marginTop: '-10px',
-	},
-	house: {
-		fontSize: '20px',
-		backgroundColor: 'unset',
-		borderColor: colors.white,
-		fontWeight: 'bold',
-		marginTop: '-10px',
-	},
-	rating: {
-		fontSize: '20px',
-		backgroundColor: 'unset',
-		borderColor: colors.white,
-		fontWeight: 'bold',
-		marginTop: '-10px',
-	},
-	description: {
-		fontSize: '20px',
-		backgroundColor: 'unset',
-		borderColor: colors.white,
-		fontWeight: 'bold',
-		marginTop: '-10px',
-	},
+  cardcontainer: {
+    width: "47vw",
+    height: "25vh",
+    borderWidth: 6,
+    borderColor: colors.green,
+    borderRadius: "2.5vh",
+    flexDirection: "row",
+    overflow: "hidden",
+  },
+  image: {
+    height: "18.50vh",
+    width: "13.5vw",
+    marginLeft: "1vw",
+    marginTop: "2.5vh",
+    borderRadius: "1vh",
+  },
+  title: {
+    fontFamily: "Lucida Grande",
+    fontSize: "2vw",
+    color: colors.darkBlue,
+    fontWeight: "bold",
+  },
+  titleContainer: { marginTop: "2.5vh", marginLeft: "1.5vw" },
+  requestsContainer: { marginTop: "2vh", width: "10vw" },
+  requestsText: {
+    fontFamily: "Lucida Grande",
+    fontSize: "1.5vw",
+    color: colors.darkBlue,
+  },
+  reviewsText: {
+    fontFamily: "Lucida Grande",
+    fontSize: "1.25vw",
+    color: colors.darkBlue,
+  },
+  starsContainer: { marginTop: "2.5vh", marginRight: "10vw" },
+  bottomSectionContainer: { marginTop: "12.5vh" },
+  priceContainer: { width: "15vw" },
+  priceText: {
+    fontFamily: "Lucida Grande",
+    fontSize: "1.5vw",
+    color: colors.darkBlue,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  buttonContainer: {
+    width: "12.5vw",
+    marginLeft: "1.5vw",
+    marginTop: "1.5vh",
+    marginBottom: "1vh",
+  },
 });

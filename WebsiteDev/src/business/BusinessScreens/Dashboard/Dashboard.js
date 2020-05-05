@@ -8,6 +8,9 @@ import { useLocation, Link } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
+import "../../../config/fontStyles.css";
+import HelpButton from "../../../components/HelpButton/HelpButton";
+import UpcomingRequests from "../../../components/UpcomingRequests/UpcomingRequests";
 
 export default function Dashboard(props) {
   const [business, setBusiness] = React.useState();
@@ -31,15 +34,19 @@ export default function Dashboard(props) {
   }
 
   return (
-    <div className="container">
-      <div className="title-container">
-        <h1 className="title">Current Services</h1>
-      </div>
-      {
-        <div class="servicecardlistcontainer">
-          {loaded
-            ? services.map((service) => (
-                <div>
+    <div className="dashboardContainer">
+      <section className="sidebarHolder"></section>
+      <section className="dashboardHolder">
+        <div className="dashboardTitleContainer">
+          <text className="darkGreen bold bigTextStyle">Services</text>
+        </div>
+        <div className="cardsHolder">
+          <div>
+            <div className="buttonContainer">
+              <HelpButton title="Add Service" isSmallButton={true} />
+            </div>
+            {loaded
+              ? services.map((service) => (
                   <BusinessServiceCard
                     title={service.serviceTitle}
                     totalReviews={service.totalReviews}
@@ -51,20 +58,20 @@ export default function Dashboard(props) {
                       //Passes in the function to retrieve the image of this product
                       return await FirebaseFunctions.call(
                         "getServiceImageByID",
-                        { serviceID: service.serviceID }
+                        {
+                          serviceID: service.serviceID,
+                        }
                       );
                     }}
                   />
-                </div>
-              ))
-            : null}
-          <div class="createproductlink">
-            <Link to={{ pathname: "/createproduct", state: { business: business } }}>
-              Add Service
-            </Link>
+                ))
+              : null}
+          </div>
+          <div className="upcomingRequestsContainer">
+            <UpcomingRequests />
           </div>
         </div>
-      }
+      </section>
     </div>
   );
 }

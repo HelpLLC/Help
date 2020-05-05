@@ -3,7 +3,7 @@ import "./LandingPage.css";
 import { useHistory } from "react-router-dom";
 import strings from "../../../config/strings";
 import HelpButton from "../../../components/HelpButton/HelpButton";
-import { Text, Image, View } from "react-native-web";
+import {Image } from "react-native-web";
 import FeatureCardRow from "../../../components/FeatureCardRow/FeatureCardRow";
 
 export default function LandingPage() {

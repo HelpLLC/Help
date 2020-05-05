@@ -5,7 +5,7 @@ import { StyleSheet, Platform, PixelRatio } from 'react-native-web';
 import { screenWidth, screenHeight } from './dimensions';
 
 //Gets the correct font based on either iOS or Android
-const font = 'Arial Rounded MT Bold';
+const font = 'Lucida Grande';
 
 let baseFontSize = 20;
 

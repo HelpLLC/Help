@@ -32,6 +32,9 @@ export default function HelpButton(props) {
 		isLightButton,
 		isRedButton,
 		isCircleBlueButton,
+		height,
+		isSmallButton,
+		isSmallButton2,
 	} = props;
 
 	//sets up what properties the custom component should take in, which in this case
@@ -44,11 +47,11 @@ export default function HelpButton(props) {
 	} else {
 		return (
 			<div
-				className={isLightButton ? 'whiteDiv' : isRedButton ? 'redDiv' : 'gradientDiv'}
+				className={isLightButton ? 'whiteDiv' : isRedButton ? 'redDiv': isSmallButton ? 'gradientDivSmall': isSmallButton2 ? 'gradientDivSmall2': 'gradientDiv'}
 				onClick={onPress}
 				style={
 					isCircleBlueButton
-						? { ...HelpButtonStyle.CircleBlueButton, width, height: width, borderRadius: width }
+						? { ...HelpButtonStyle.CircleBlueButton, width, height: height, borderRadius: width }
 						: { ...HelpButtonStyle.MainButton, width }
 				}>
 				<TouchableOpacity
