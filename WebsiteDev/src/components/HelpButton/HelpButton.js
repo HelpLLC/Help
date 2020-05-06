@@ -47,30 +47,64 @@ export default function HelpButton(props) {
 	} else {
 		return (
 			<div
-				className={isLightButton ? 'whiteDiv' : isRedButton ? 'redDiv': isSmallButton ? 'gradientDivSmall': isSmallButton2 ? 'gradientDivSmall2': 'gradientDiv'}
+				className={
+					isLightButton
+						? 'whiteDiv'
+						: isRedButton
+						? 'redDiv'
+						: isSmallButton
+						? 'gradientDivSmall'
+						: isSmallButton2
+						? 'gradientDivSmall2'
+						: 'gradientDiv'
+				}
 				onClick={onPress}
 				style={
 					isCircleBlueButton
-						? { ...HelpButtonStyle.CircleBlueButton, width, height: height, borderRadius: width }
+						? {
+								...HelpButtonStyle.CircleBlueButton,
+								width,
+								height: height,
+								borderRadius: width,
+						  }
 						: { ...HelpButtonStyle.MainButton, width }
-				}>
+				}
+			>
 				<TouchableOpacity
 					style={
 						isCircleBlueButton
 							? { ...HelpButtonStyle.CircleBlueButton }
 							: { ...HelpButtonStyle.MainButton, width }
 					}
-					disabled={disabled ? disabled : false}>
+					disabled={disabled ? disabled : false}
+				>
 					<Text
 						style={
 							isLightButton
 								? width < screenWidth * 0.3
-									? { ...fontStyles.mainTextStyle, ...fontStyles.blue, textAlign: 'center' }
-									: { ...fontStyles.bigTextStyle, ...fontStyles.blue, textAlign: 'center' }
+									? {
+											...fontStyles.mainTextStyle,
+											...fontStyles.blue,
+											textAlign: 'center',
+									  }
+									: {
+											...fontStyles.bigTextStyle,
+											...fontStyles.blue,
+											textAlign: 'center',
+									  }
 								: width < screenWidth * 0.3
-								? { ...fontStyles.mainTextStyle, ...fontStyles.white, textAlign: 'center' }
-								: { ...fontStyles.bigTextStyle, ...fontStyles.white, textAlign: 'center' }
-						}>
+								? {
+										...fontStyles.mainTextStyle,
+										...fontStyles.white,
+										textAlign: 'center',
+								  }
+								: {
+										...fontStyles.bigTextStyle,
+										...fontStyles.white,
+										textAlign: 'center',
+								  }
+						}
+					>
 						{title}
 					</Text>
 				</TouchableOpacity>
