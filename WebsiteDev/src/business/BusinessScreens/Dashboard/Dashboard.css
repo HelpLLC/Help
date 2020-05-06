@@ -1,24 +1,33 @@
 /* Container */
-.container {
-	background-color: lightgray;
+.dashboardContainer {
+	display: flex;
+	flex-direction: row;
+}
+
+.sidebarHolder{
+	width: 20vw;
+	background-color: lightblue;
 	height: 100vh;
+	background-size: cover;
 }
-.title-container {
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
+.dashboardHolder{
+	height: 100vh;
+	width: 70vw;
+	margin-left: 3vw;
+	margin-top: 3vh;
+}
+
+.buttonContainer{
+	width: 20vw;
+	margin-left: 27vw;
+	margin-top: 5vh;
+}
+
+.cardsHolder{
 	display: flex;
+	flex-direction: row;
 }
-.title {
-	align-self: center;
-	display: flex;
-}
-.servicecardlistcontainer {
-	width: 100vw;
-}
-.createproductlink {
-	display: flex;
-	align-items: center;
-	margin-left: 82vw;
-	margin-top: 1vh;
+
+.upcomingRequestsContainer{
+	margin-left: 2vw;
 }

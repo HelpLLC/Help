@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Image } from 'react-native-web';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
@@ -7,6 +6,10 @@ import BusinessServiceCardStyle from './BusinessServiceCardStyle';
 import { Divider } from '@material-ui/core';
 // import image from '../images/download.jpg';
 import fontStyles from '../../config/fontStyles.js';
+import { View, Text, Image, Dimensions } from 'react-native-web';
+import HelpButton from '../HelpButton/HelpButton';
+import StarRatingComponent from 'react-star-rating-component';
+import colors from '../../config/colors';
 
 export default function BusinessServiceCard(props) {
 	const {
@@ -32,38 +35,40 @@ export default function BusinessServiceCard(props) {
 	}, []);
 
 	return (
-		<Card style={{...BusinessServiceCardStyle.cardcontainer}}>
-			<CardContent style={{...fontStyles.mainTextStyleBlack}}>
-				<Typography style={{...BusinessServiceCardStyle.house}}>{title}</Typography>
-				<Divider varient='middle' />
-				{/* <Image style={{ height: 50, width: 50 }} source={loadedImage} /> */}
-			</CardContent>
-			<Divider orientation='vertical' flexItem />
-			<CardContent style={{...BusinessServiceCardStyle.body1, ...fontStyles.mainTextStyleBlack}}>
-				<Typography style={{...BusinessServiceCardStyle.rating}}>Rating</Typography>
-				<Divider varient='middle' />
-				<Typography>{averageRating} stars</Typography>
-				<Typography>{totalReviews} reviews</Typography>
-			</CardContent>
-			<Divider orientation='vertical' flexItem />
-			<CardContent style={{...BusinessServiceCardStyle.body2, ...fontStyles.mainTextStyleBlack}}>
-				<Typography style={{...BusinessServiceCardStyle.price}}>Price</Typography>
-				<Divider varient='middle' />
-				<Typography>{priceText}</Typography>
-			</CardContent>
-			<Divider orientation='vertical' flexItem />
-			<CardContent style={{...BusinessServiceCardStyle.body3, ...fontStyles.mainTextStyleBlack}}>
-				<Typography style={{...BusinessServiceCardStyle.description}}>Description</Typography>
-				<Divider varient='middle' />
-				<Typography>{serviceDescription}</Typography>
-			</CardContent>
-			<Divider orientation='vertical' flexItem />
-			<CardContent style={{...BusinessServiceCardStyle.body4, ...fontStyles.mainTextStyleBlack}}>
-				<Typography style={{...BusinessServiceCardStyle.requests}}>Requests</Typography>
-				<Divider varient='middle' />
-				<Typography>{numCurrentRequests} upcoming requests</Typography>
-			</CardContent>
-			<Divider orientation='vertical' flexItem />
-		</Card>
+		<View style={BusinessServiceCardStyle.cardcontainer}>
+			<View>
+				<Image style={BusinessServiceCardStyle.image} source={loadedImage} />
+			</View>
+			<View style={BusinessServiceCardStyle.titleContainer}>
+				<View>
+					<Text style={BusinessServiceCardStyle.title}>{title}</Text>
+				</View>
+				<View style={BusinessServiceCardStyle.requestsContainer}>
+					<Text style={BusinessServiceCardStyle.requestsText}>
+						Current Number of Requests: {numCurrentRequests}
+					</Text>
+				</View>
+				<View style={BusinessServiceCardStyle.starsContainer}>
+					<StarRatingComponent
+						name={'Rating'} /* name of the radio input, it is required */
+						value={averageRating}
+						editing={false}
+					/>
+				</View>
+				<View style={BusinessServiceCardStyle.requestsContainer}>
+					<Text style={BusinessServiceCardStyle.reviewsText}>
+						{totalReviews} reviews
+					</Text>
+				</View>
+			</View>
+			<View style={BusinessServiceCardStyle.bottomSectionContainer}>
+				<View style={BusinessServiceCardStyle.priceContainer}>
+					<Text style={BusinessServiceCardStyle.priceText}>{priceText}</Text>
+				</View>
+				<View style={BusinessServiceCardStyle.buttonContainer}>
+					<HelpButton title={'Edit'} isSmallButton={true} />
+				</View>
+			</View>
+		</View>
 	);
 }

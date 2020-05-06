@@ -1,15 +1,41 @@
 /*This is going to contain the css for the gradient color of the HelpButton*/
+.gradientDivSmall {
+	border-radius: 5.12vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(90deg, #5cc6bc, #41cbef);
+	border-style: solid;
+	border-color: #41cbef;
+	font-size: xx-large;
+	height: 4vh;
+}
+
+.gradientDivSmall2 {
+	border-radius: 2vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(90deg, #5cc6bc, #41cbef);
+	border-style: solid;
+	border-color: #41cbef;
+	font-size: 1vh;
+	height: 3vh;
+	width: 7.5vw;
+}
+
 .gradientDiv {
 	border-radius: 5.12vh;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: 8.78vh;
 	background: linear-gradient(90deg, #5cc6bc, #41cbef);
 	border-style: solid;
 	border-color: #41cbef;
 	font-size: xx-large;
+	height: 8.78vh;
 }
+
 .whiteDiv {
 	border-radius: 5.12vh;
 	display: flex;
