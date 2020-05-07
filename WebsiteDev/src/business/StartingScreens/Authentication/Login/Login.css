@@ -1,0 +1,115 @@
+#content-container {
+	display: flex;
+	flex-direction: row;
+	position: relative;
+	width: 100vw;
+	height: 100vh;
+	margin-left: auto;
+	margin-right: auto;
+}
+#header {
+	display: flex;
+	flex-direction: row;
+	position: relative;
+	width: 50vw;
+	height: 5vh;
+}
+
+#help {
+	margin-left: 2vw;
+	font-family: Lucida Grande;
+	font-size: 50px;
+	text-align: left;
+	color: #00b0f0;
+	text-decoration: none;
+}
+
+#login_tab_selected {
+	margin-top: 2vh;
+	margin-left: 20vw;
+	font-family: Lucida Grande;
+	font-size: 25px;
+	text-align: left;
+	color: #00b0f0;
+	text-decoration: none;
+}
+
+#signup_tab {
+	margin-top: 2vh;
+	margin-left: 3vw;
+	font-family: Lucida Grande;
+	font-size: 25px;
+	text-align: left;
+	color: #567681;
+	text-decoration: none;
+}
+
+#email_address {
+	margin-top: 5vh;
+	margin-left: 5vw;
+	font-family: Lucida Grande;
+	font-size: 35px;
+	text-align: left;
+}
+
+#password {
+	margin-top: 3vh;
+	margin-left: 5vw;
+	font-family: Lucida Grande;
+	font-size: 35px;
+	text-align: left;
+}
+
+#login_button {
+	margin-top: 3vh;
+	margin-left: 5vw;
+}
+
+#login_title {
+	margin-top: 20vh;
+	font-family: Lucida Grande;
+	font-size: 80px;
+	text-align: center;
+	color: #567681;
+}
+
+#dialog_title {
+	font-family: Lucida Grande;
+	font-size: 80px;
+	text-align: center;
+	color: #567681;
+}
+
+#forgot_password {
+	margin-top: 4vh;
+	margin-left: 14vw;
+}
+
+#forgot_password_button {
+	font-family: Lucida Grande;
+	font-size: 34px;
+	text-align: left;
+	color: #00b0f0;
+	border: 0;
+	text-decoration: none;
+}
+
+#forgot_password_button:hover {
+	text-decoration: underline;
+}
+
+#gradientBackground {
+	width: 100vw;
+	height: 100vh;
+	background: url(../assets/gradient.svg);
+	background-size: cover;
+}
+
+#descriptionText {
+	margin-top: 20vh;
+	padding: 70px 0;
+	text-align: center;
+	font-family: Lucida Grande;
+	font-size: 100px;
+	color: #ffffff;
+}
