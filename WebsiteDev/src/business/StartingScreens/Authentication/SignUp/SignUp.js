@@ -137,7 +137,7 @@ export function SignUp(props) {
 			setFailed(true);
 		}
 	};
-	if (!step1) {
+	if (step1) {
 		return (
 			<div id='content-container'>
 				<div>
