@@ -132,6 +132,7 @@ export function SignUp(props) {
 					lng: 3,
 				},
 			});
+			setSubmitted(true);
 		} else {
 			setFailed(true);
 		}
