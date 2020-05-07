@@ -196,6 +196,8 @@ export default {
 	Whoops: 'Whoops',
 	PleaseAddAnImage: 'Please add an image.',
 	DescriptionError: 'Your description must be at least 150 characters.',
+	Error: 'Error',
+	InvalidCredentials: 'Invalid Credentials',
 	Analytics: 'Analytics',
 	MonthlyRevenue: 'Monthly Revenue',
 	SortBy: 'Sort By',
