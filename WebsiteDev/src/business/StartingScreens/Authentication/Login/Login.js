@@ -16,22 +16,30 @@ export function Login(props) {
 	const [email, setEmail] = React.useState('');
 	const [password, setPassword] = React.useState('');
 	const [loggedIn, setLoggedIn] = React.useState(false);
+	const [credentialsError, setCredentialsError] = React.useState(false);
 	let history = useHistory();
 
 	const login = async () => {
-		const businessID = await FirebaseFunctions.logIn(email, password);
-		if (businessID) {
-			setLoggedIn(true);
-			history.push({ pathname: '/dashboard', state: { businessID: businessID } });
-		}
+		if(email.length > 1 && password.length > 1) {
+		const businessID = await FirebaseFunctions.logIn(email, password).catch(() => {
+		setCredentialsError(true);
+	});
+
+	if (businessID) {
+		setLoggedIn(true);
+		history.push({ pathname: '/dashboard', state: { businessID: businessID } });
+	}
+} else {
+	setCredentialsError(true);
+}
 	};
 
 	const submit = async () => {
 		try {
 			await FirebaseFunctions.forgotPassword(email);
-			handleEmailSentOpen();
+			setEmailSentOpen(true);
 		} catch (error) {
-			handleErrorOpen();
+			setErrorOpen(true);
 		}
 		setOpen(false);
 	};
@@ -47,14 +55,6 @@ export function Login(props) {
 	};
 
 	const [emailSentOpen, setEmailSentOpen] = React.useState(false);
-
-	const handleEmailSentOpen = () => {
-		setEmailSentOpen(true);
-	};
-
-	const handleEmailSentClose = () => {
-		setEmailSentOpen(false);
-	};
 
 	const [errorOpen, setErrorOpen] = React.useState(false);
 
@@ -94,6 +94,7 @@ export function Login(props) {
 					<HelpTextInput
 						height={'7vh'}
 						width={'40vw'}
+						password={true}
 						placeholder={strings.Password}
 						isMultiline={false}
 						onChangeText={(password) => setPassword(password)}
@@ -112,7 +113,20 @@ export function Login(props) {
 				<div id='descriptionText'>Let us continue helping your business thrive!</div>
 			</div>
 
-			<Dialog open={open} onClose={handleClose} aria-labelledby='forgot-password-dialog'>
+<Dialog open={credentialsError} onClose={() => setCredentialsError(false)} aria-labelledby='forgot-password-dialog'>
+	<TitleComponent
+		text={strings.InvalidCredentials}
+		isCentered={true}
+		textColor='#00B0F0'
+		fontSize='50px'
+	/>
+	<DialogActions>
+		<HelpButton title={strings.Cancel} onPress={() => setCredentialsError(false)} width={screenWidth * 0.211} />
+		<HelpButton title={strings.GoToSignUp} onPress={(event) => (window.location.href = '/signUp')} width={screenWidth * 0.211} />
+	</DialogActions>
+</Dialog>
+
+			<Dialog open={open} onClose={() => setOpen(false)} aria-labelledby='forgot-password-dialog'>
 				<TitleComponent
 					text={strings.ForgotPasswordQuestion}
 					isCentered={true}
@@ -132,12 +146,12 @@ export function Login(props) {
 					/>
 				</DialogContent>
 				<DialogActions>
-					<HelpButton title={strings.Cancel} onPress={handleClose} width={screenWidth * 0.211} />
+					<HelpButton title={strings.Cancel} onPress={() => setOpen(false)} width={screenWidth * 0.211} />
 					<HelpButton title={strings.EmailMe} onPress={submit} width={screenWidth * 0.211} />
 				</DialogActions>
 			</Dialog>
 
-			<Dialog open={emailSentOpen} onClose={handleEmailSentClose} aria-labelledby='email-sent'>
+			<Dialog open={emailSentOpen} onClose={() => setEmailSentOpen(false)} aria-labelledby='email-sent'>
 				<TitleComponent text={strings.EmailSentExclamation} isCentered={true} textColor='#00B0F0' />
 				<DialogContent>
 					<DialogContentText>
@@ -146,11 +160,11 @@ export function Login(props) {
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<HelpButton title={strings.Ok} onPress={handleEmailSentClose} width={screenWidth * 0.3} />
+					<HelpButton title={strings.Ok} onPress={() => setEmailSentOpen(false)} width={screenWidth * 0.3} />
 				</DialogActions>
 			</Dialog>
 
-			<Dialog open={errorOpen} onClose={handleErrorClose} aria-labelledby='error-dialog'>
+			<Dialog open={errorOpen} onClose={() => setErrorOpen(false)} aria-labelledby='error-dialog'>
 				<TitleComponent text={strings.ErrorSendingEmail} isCentered={true} textColor='#00B0F0' />
 				<DialogContent>
 					<DialogContentText>
@@ -159,7 +173,7 @@ export function Login(props) {
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<HelpButton title={strings.Close} onPress={handleErrorClose} width={screenWidth * 0.2} />
+					<HelpButton title={strings.Close} onPress={() => setErrorOpen(false)} width={screenWidth * 0.2} />
 					<HelpButton
 						title={strings.GoToSignUp}
 						onPress={(event) => (window.location.href = '/signUp')}

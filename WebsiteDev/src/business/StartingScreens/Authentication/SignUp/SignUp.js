@@ -8,6 +8,11 @@ import HelpTextInput from '../../../../components/HelpTextInput/HelpTextInput';
 import TimePicker from '../../../../components/TimePicker/TimePicker';
 import './SignUp.css';
 import * as firebase from 'firebase';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import TitleComponent from '../../../../components/TitleComponent.js';
 
 export function SignUp(props) {
 	const [email, setEmail] = React.useState('');
@@ -18,11 +23,31 @@ export function SignUp(props) {
 	const [location, setLocation] = React.useState('');
 	const [website, setWebsite] = React.useState('');
 	const [phoneNumber, setPhoneNumber] = React.useState('');
-	const [agreed, setAgreed] = React.useState(true);
+	const [agreed, setAgreed] = React.useState(false);
 
 	const [step1, setStep1] = React.useState(true);
 	const [submitted, setSubmitted] = React.useState(false);
-	const [failed, setFailed] = React.useState(false);
+	let history = useHistory();
+
+	const [errorOpen, setErrorOpen] = React.useState(false);
+
+	const goToStep2 = () => {
+		if (
+			email.length > 1 &&
+			email.includes('.') &&
+			email.includes('@') &&
+			password.length > 6 &&
+			confirmPassword == password &&
+			businessDescription.length > 150 &&
+			location &&
+			website.includes('.') &&
+			phoneNumber.length == 10
+		) {
+			setStep1(false);
+		} else {
+			setErrorOpen(true);
+		}
+	};
 
 	const [mondayStartTime, setMondayStartTime] = React.useState();
 	const [tuesdayStartTime, setTuesdayStartTime] = React.useState();
@@ -54,32 +79,35 @@ export function SignUp(props) {
 		return intHours + ':' + minutes + ' ' + ampm;
 	};
 
+	const back = () => {
+		setStep1(true);
+	};
+
 	const signup = async () => {
 		if (
-			email.length > 1 &&
-			password &&
-			businessName &&
-			businessDescription &&
-			location &&
-			website &&
-			phoneNumber &&
-			mondayStartTime
+			agreed &&
+			((mondayStartTime && mondayEndTime) ||
+				(tuesdayStartTime && tuesdayEndTime) ||
+				(wednesdayStartTime && wednesdayEndTime) ||
+				(thursdayStartTime && thursdayEndTime) ||
+				(fridayStartTime && fridayEndTime) ||
+				(saturdayStartTime && saturdayEndTime) ||
+				(sundayStartTime && sundayEndTime))
 		) {
-			setFailed(false);
-			const mondayFrom = parseTime(mondayStartTime);
-			const mondayTo = parseTime(mondayEndTime);
-			const tuesdayFrom = parseTime(tuesdayStartTime);
-			const tuesdayTo = parseTime(tuesdayEndTime);
-			const wednesdayFrom = parseTime(wednesdayStartTime);
-			const wednesdayTo = parseTime(wednesdayEndTime);
-			const thursdayFrom = parseTime(thursdayStartTime);
-			const thursdayTo = parseTime(thursdayEndTime);
-			const fridayFrom = parseTime(fridayStartTime);
-			const fridayTo = parseTime(fridayEndTime);
-			const saturdayFrom = parseTime(saturdayStartTime);
-			const saturdayTo = parseTime(saturdayEndTime);
-			const sundayFrom = parseTime(sundayStartTime);
-			const sundayTo = parseTime(sundayEndTime);
+			const mondayFrom = mondayStartTime !== undefined ? parseTime(mondayStartTime) : '';
+			const mondayTo = mondayEndTime !== undefined ? parseTime(mondayEndTime) : '';
+			const tuesdayFrom = tuesdayStartTime !== undefined ? parseTime(tuesdayStartTime) : '';
+			const tuesdayTo = tuesdayEndTime !== undefined ? parseTime(tuesdayEndTime) : '';
+			const wednesdayFrom = wednesdayStartTime !== undefined ? parseTime(wednesdayStartTime) : '';
+			const wednesdayTo = wednesdayEndTime !== undefined ? parseTime(wednesdayEndTime) : '';
+			const thursdayFrom = thursdayStartTime !== undefined ? parseTime(thursdayStartTime) : '';
+			const thursdayTo = thursdayEndTime !== undefined ? parseTime(thursdayEndTime) : '';
+			const fridayFrom = fridayStartTime !== undefined ? parseTime(fridayStartTime) : '';
+			const fridayTo = fridayEndTime !== undefined ? parseTime(fridayEndTime) : '';
+			const saturdayFrom = saturdayStartTime !== undefined ? parseTime(saturdayStartTime) : '';
+			const saturdayTo = saturdayEndTime !== undefined ? parseTime(saturdayEndTime) : '';
+			const sundayFrom = sundayStartTime !== undefined ? parseTime(sundayStartTime) : '';
+			const sundayTo = sundayEndTime !== undefined ? parseTime(sundayEndTime) : '';
 			const businessHours = {
 				sunday: {
 					from: sundayFrom,
@@ -112,7 +140,7 @@ export function SignUp(props) {
 			};
 			let account = '';
 			account = await firebase.auth().createUserWithEmailAndPassword(email, password);
-			await FirebaseFunctions.logIn(email, password);
+			const businessID = await FirebaseFunctions.logIn(email, password);
 			await FirebaseFunctions.call('addBusinessToDatabase', {
 				//Fields for the business
 				businessName,
@@ -131,10 +159,14 @@ export function SignUp(props) {
 					lat: 3,
 					lng: 3,
 				},
-			});
-			setSubmitted(true);
+			})
+				.then(() => {
+					history.push({ pathname: '/dashboard', state: { businessID: businessID } });
+					setSubmitted(true);
+				})
+				.catch(() => setErrorOpen(true));
 		} else {
-			setFailed(true);
+			setErrorOpen(true);
 		}
 	};
 	if (step1) {
@@ -160,6 +192,7 @@ export function SignUp(props) {
 								width={'20vw'}
 								placeholder={strings.EmailAddress}
 								isMultiline={false}
+								value={email}
 								onChangeText={(email) => setEmail(email)}
 							/>
 						</div>
@@ -170,6 +203,7 @@ export function SignUp(props) {
 								width={'20vw'}
 								placeholder={strings.BusinessNameOptional}
 								isMultiline={false}
+								value={businessName}
 								onChangeText={(businessName) => setBusinessName(businessName)}
 							/>
 						</div>
@@ -181,6 +215,7 @@ export function SignUp(props) {
 								width={'20vw'}
 								placeholder={strings.BusinessWebsite}
 								isMultiline={false}
+								value={website}
 								onChangeText={(website) => setWebsite(website)}
 							/>
 						</div>
@@ -191,7 +226,8 @@ export function SignUp(props) {
 								width={'20vw'}
 								placeholder={strings.PhoneNumber}
 								isMultiline={false}
-								onChangeText={(phone) => setPhoneNumber(phone)}
+								value={phoneNumber}
+								onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
 							/>
 						</div>
 					</div>
@@ -202,6 +238,7 @@ export function SignUp(props) {
 							width={'42vw'}
 							placeholder={strings.BusinessLocation}
 							isMultiline={false}
+							value={location}
 							onChangeText={(location) => setLocation(location)}
 						/>
 					</div>
@@ -212,7 +249,8 @@ export function SignUp(props) {
 							width={'42vw'}
 							placeholder={strings.BusinessDescription}
 							isMultiline={true}
-							onChangeText={(description) => setBusinessDescription(description)}
+							value={businessDescription}
+							onChangeText={(businessDescription) => setBusinessDescription(businessDescription)}
 						/>
 					</div>
 
@@ -224,6 +262,7 @@ export function SignUp(props) {
 								placeholder={strings.Password}
 								isMultiline={false}
 								password={true}
+								value={password}
 								onChangeText={(password) => setPassword(password)}
 							/>
 						</div>
@@ -235,19 +274,37 @@ export function SignUp(props) {
 								placeholder={strings.ConfirmPassword}
 								isMultiline={false}
 								password={true}
+								value={confirmPassword}
 								onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
 							/>
 						</div>
 					</div>
 
 					<div id='signup_button'>
-						<HelpButton title={strings.Next} width={'42vw'} onPress={() => setStep1(false)} />
+						<HelpButton title={strings.Next} width={'42vw'} onPress={goToStep2} />
 					</div>
 				</div>
 
 				<div id='gradientBackground'>
 					<div id='descriptionText'>Let us continue helping your business thrive!</div>
 				</div>
+
+				<Dialog open={errorOpen} onClose={() => setErrorOpen(false)} aria-labelledby='error-dialog'>
+					<TitleComponent text={strings.Error} isCentered={true} textColor='#00B0F0' />
+					<DialogContent>
+						<DialogContentText>
+							Make sure you fill out all required information correctly and have at least 150
+							characters in the description.
+						</DialogContentText>
+					</DialogContent>
+					<DialogActions>
+						<HelpButton
+							title={strings.Close}
+							onPress={() => setErrorOpen(false)}
+							width={screenWidth * 0.45}
+						/>
+					</DialogActions>
+				</Dialog>
 			</div>
 		);
 	} else if (!step1 && !submitted) {
@@ -387,36 +444,32 @@ export function SignUp(props) {
 					<div id='signup_button'>
 						<HelpButton title={strings.SignUp} width={'42vw'} onPress={signup} />
 					</div>
+					<div id='signup_button'>
+						<HelpButton title={strings.BackWithArrow} width={'10vw'} onPress={back} />
+					</div>
 				</div>
 
 				<div id='gradientBackground'>
 					<div id='descriptionText'>Let us continue helping your business thrive!</div>
 				</div>
+
+				<Dialog open={errorOpen} onClose={() => setErrorOpen(false)} aria-labelledby='error-dialog'>
+					<TitleComponent text={strings.Error} isCentered={true} textColor='#00B0F0' />
+					<DialogContent>
+						<DialogContentText>
+							There was an error signing you up. Make sure you fill out all required information,
+							then try again.
+						</DialogContentText>
+					</DialogContent>
+					<DialogActions>
+						<HelpButton
+							title={strings.Close}
+							onPress={() => setErrorOpen(false)}
+							width={screenWidth * 0.4}
+						/>
+					</DialogActions>
+				</Dialog>
 			</div>
 		);
-	} else {
-		return (
-			<div id='content-container'>
-						<div>
-							<div id='header'>
-								<a href='/' id='help'>
-									Help
-								</a>
-								<a href='login' id='login_tab'>
-									Login
-								</a>
-								<a href='signUp' id='signup_tab'>
-									Sign Up
-								</a>
-							</div>
-		
-							<div id='successText'>Success! You have been signed up!</div>
-							</div>
-		
-						<div id='gradientBackground'>
-							<div id='descriptionText'>Let us continue helping your business thrive!</div>
-						</div>
-					</div>
-			);
 	}
 }
