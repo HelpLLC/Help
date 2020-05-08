@@ -11,6 +11,7 @@ import { useHistory } from 'react-router-dom';
 import { screenWidth, screenHeight } from '../../../../config/dimensions';
 import HelpTextInput from '../../../../components/HelpTextInput/HelpTextInput';
 import './Login.css';
+import '../../../../config/fontStyles.css';
 
 export function Login(props) {
 	const [email, setEmail] = React.useState('');
@@ -20,18 +21,21 @@ export function Login(props) {
 	let history = useHistory();
 
 	const login = async () => {
-		if(email.length > 1 && password.length > 1) {
-		const businessID = await FirebaseFunctions.logIn(email, password).catch(() => {
-		setCredentialsError(true);
-	});
+		if (email.length > 1 && password.length > 1) {
+			const businessID = '';
+			try {
+				businessID = await FirebaseFunctions.logIn(email, password);
+			} catch (error) {
+				setCredentialsError(true);
+			}
 
-	if (businessID) {
-		setLoggedIn(true);
-		history.push({ pathname: '/dashboard', state: { businessID: businessID } });
-	}
-} else {
-	setCredentialsError(true);
-}
+			if (businessID) {
+				setLoggedIn(true);
+				history.push({ pathname: '/dashboard', state: { businessID: businessID } });
+			}
+		} else {
+			setCredentialsError(true);
+		}
 	};
 
 	const submit = async () => {
@@ -70,18 +74,20 @@ export function Login(props) {
 		<div id='content-container'>
 			<div>
 				<div id='header'>
-					<a href='/' id='help'>
+					<a href='/' id='help' className='bigTextStyle blue'>
 						Help
 					</a>
-					<a href='login' id='login_tab_selected'>
+					<a href='login' id='login_tab_selected' className='mainTextStyle blue'>
 						Login
 					</a>
-					<a href='signUp' id='signup_tab'>
+					<a href='signUp' id='signup_tab' className='mainTextStyle gray'>
 						Sign Up
 					</a>
 				</div>
-				<div id='login_title'>Login</div>
-				<div id='email_address'>
+				<div id='login_title' className='bigTitleTextStyle gray'>
+					Login
+				</div>
+				<div id='email_address' className='mainTextStyle'>
 					<HelpTextInput
 						height={'7vh'}
 						width={'40vw'}
@@ -90,7 +96,7 @@ export function Login(props) {
 						onChangeText={(email) => setEmail(email)}
 					/>
 				</div>
-				<div id='password'>
+				<div id='password' className='mainTextStyle'>
 					<HelpTextInput
 						height={'7vh'}
 						width={'40vw'}
@@ -103,28 +109,39 @@ export function Login(props) {
 				<div id='login_button'>
 					<HelpButton title={strings.LogIn} width={'40vw'} onPress={login} />
 				</div>
-				<div id='forgot_password'>
-					<button id='forgot_password_button' onClick={() => setOpen(true)}>
+					<button id='forgot_password_button' onClick={() => setOpen(true)} className='mainTextStyle blue'>
 						Forgot Password?
 					</button>
-				</div>
 			</div>
 			<div id='gradientBackground'>
-				<div id='descriptionText'>Let us continue helping your business thrive!</div>
+				<div id='descriptionText' className='bigTitleTextStyle white'>
+					Let us continue helping your business thrive!
+				</div>
 			</div>
 
-<Dialog open={credentialsError} onClose={() => setCredentialsError(false)} aria-labelledby='forgot-password-dialog'>
-	<TitleComponent
-		text={strings.InvalidCredentials}
-		isCentered={true}
-		textColor='#00B0F0'
-		fontSize='50px'
-	/>
-	<DialogActions>
-		<HelpButton title={strings.Cancel} onPress={() => setCredentialsError(false)} width={screenWidth * 0.211} />
-		<HelpButton title={strings.GoToSignUp} onPress={(event) => (window.location.href = '/signUp')} width={screenWidth * 0.211} />
-	</DialogActions>
-</Dialog>
+			<Dialog
+				open={credentialsError}
+				onClose={() => setCredentialsError(false)}
+				aria-labelledby='forgot-password-dialog'>
+				<TitleComponent
+					text={strings.InvalidCredentials}
+					isCentered={true}
+					textColor='#00B0F0'
+					fontSize='50px'
+				/>
+				<DialogActions>
+					<HelpButton
+						title={strings.Cancel}
+						onPress={() => setCredentialsError(false)}
+						width={screenWidth * 0.211}
+					/>
+					<HelpButton
+						title={strings.GoToSignUp}
+						onPress={(event) => (window.location.href = '/signUp')}
+						width={screenWidth * 0.211}
+					/>
+				</DialogActions>
+			</Dialog>
 
 			<Dialog open={open} onClose={() => setOpen(false)} aria-labelledby='forgot-password-dialog'>
 				<TitleComponent
@@ -146,12 +163,19 @@ export function Login(props) {
 					/>
 				</DialogContent>
 				<DialogActions>
-					<HelpButton title={strings.Cancel} onPress={() => setOpen(false)} width={screenWidth * 0.211} />
+					<HelpButton
+						title={strings.Cancel}
+						onPress={() => setOpen(false)}
+						width={screenWidth * 0.211}
+					/>
 					<HelpButton title={strings.EmailMe} onPress={submit} width={screenWidth * 0.211} />
 				</DialogActions>
 			</Dialog>
 
-			<Dialog open={emailSentOpen} onClose={() => setEmailSentOpen(false)} aria-labelledby='email-sent'>
+			<Dialog
+				open={emailSentOpen}
+				onClose={() => setEmailSentOpen(false)}
+				aria-labelledby='email-sent'>
 				<TitleComponent text={strings.EmailSentExclamation} isCentered={true} textColor='#00B0F0' />
 				<DialogContent>
 					<DialogContentText>
@@ -160,7 +184,11 @@ export function Login(props) {
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<HelpButton title={strings.Ok} onPress={() => setEmailSentOpen(false)} width={screenWidth * 0.3} />
+					<HelpButton
+						title={strings.Ok}
+						onPress={() => setEmailSentOpen(false)}
+						width={screenWidth * 0.3}
+					/>
 				</DialogActions>
 			</Dialog>
 
@@ -173,7 +201,11 @@ export function Login(props) {
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<HelpButton title={strings.Close} onPress={() => setErrorOpen(false)} width={screenWidth * 0.2} />
+					<HelpButton
+						title={strings.Close}
+						onPress={() => setErrorOpen(false)}
+						width={screenWidth * 0.2}
+					/>
 					<HelpButton
 						title={strings.GoToSignUp}
 						onPress={(event) => (window.location.href = '/signUp')}

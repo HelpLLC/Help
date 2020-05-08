@@ -32,21 +32,21 @@ export function SignUp(props) {
 	const [errorOpen, setErrorOpen] = React.useState(false);
 
 	const goToStep2 = () => {
-		if (
-			email.length > 1 &&
-			email.includes('.') &&
-			email.includes('@') &&
-			password.length > 6 &&
-			confirmPassword == password &&
-			businessDescription.length > 150 &&
-			location &&
-			website.includes('.') &&
-			phoneNumber.length == 10
-		) {
+		// if (
+			// email.length > 1 &&
+			// email.includes('.') &&
+			// email.includes('@') &&
+			// password.length > 6 &&
+			// confirmPassword == password &&
+			// businessDescription.length > 150 &&
+			// location &&
+			// website.includes('.') &&
+			// phoneNumber.length == 10
+		// ) {
 			setStep1(false);
-		} else {
-			setErrorOpen(true);
-		}
+		// } else {
+			// setErrorOpen(true);
+		// }
 	};
 
 	const [mondayStartTime, setMondayStartTime] = React.useState();
@@ -174,19 +174,19 @@ export function SignUp(props) {
 			<div id='content-container'>
 				<div>
 					<div id='header'>
-						<a href='/' id='help'>
+						<a href='/' id='helpSignup' className='bigTextStyle blue'>
 							Help
 						</a>
-						<a href='login' id='login_tab'>
+						<a href='login' id='login_tab' className='mainTextStyle gray'>
 							Login
 						</a>
-						<a href='signUp' id='signup_tab_selected'>
+						<a href='signUp' id='signup_tab_selected' className='mainTextStyle blue'>
 							Sign Up
 						</a>
 					</div>
-					<div id='signup_title'>Sign Up</div>
+					<div id='signup_title' className='bigTitleTextStyle gray'>Sign Up</div>
 					<div id='row'>
-						<div id='split_edit'>
+						<div id='split_edit' className='mainTextStyle gray'>
 							<HelpTextInput
 								height={'7vh'}
 								width={'20vw'}
@@ -197,7 +197,7 @@ export function SignUp(props) {
 							/>
 						</div>
 
-						<div id='split_edit'>
+						<div id='split_edit' className='mainTextStyle gray'>
 							<HelpTextInput
 								height={'7vh'}
 								width={'20vw'}
@@ -209,7 +209,7 @@ export function SignUp(props) {
 						</div>
 					</div>
 					<div id='row'>
-						<div id='split_edit'>
+						<div id='split_edit' className='mainTextStyle gray'>
 							<HelpTextInput
 								height={'7vh'}
 								width={'20vw'}
@@ -220,7 +220,7 @@ export function SignUp(props) {
 							/>
 						</div>
 
-						<div id='split_edit'>
+						<div id='split_edit' className='mainTextStyle gray'>
 							<HelpTextInput
 								height={'7vh'}
 								width={'20vw'}
@@ -232,7 +232,7 @@ export function SignUp(props) {
 						</div>
 					</div>
 
-					<div id='edit'>
+					<div id='edit' className='mainTextStyle gray'>
 						<HelpTextInput
 							height={'7vh'}
 							width={'42vw'}
@@ -243,7 +243,7 @@ export function SignUp(props) {
 						/>
 					</div>
 
-					<div id='edit'>
+					<div id='edit' className='mainTextStyle gray'>
 						<HelpTextInput
 							height={'7vh'}
 							width={'42vw'}
@@ -255,7 +255,7 @@ export function SignUp(props) {
 					</div>
 
 					<div id='row'>
-						<div id='split_edit'>
+						<div id='split_edit' className='mainTextStyle gray'>
 							<HelpTextInput
 								height={'7vh'}
 								width={'20vw'}
@@ -267,7 +267,7 @@ export function SignUp(props) {
 							/>
 						</div>
 
-						<div id='split_edit'>
+						<div id='split_edit' className='mainTextStyle gray'>
 							<HelpTextInput
 								height={'7vh'}
 								width={'20vw'}
@@ -286,7 +286,7 @@ export function SignUp(props) {
 				</div>
 
 				<div id='gradientBackground'>
-					<div id='descriptionText'>Let us continue helping your business thrive!</div>
+					<div id='descriptionText' className='bigTitleTextStyle white'>Let us continue helping your business thrive!</div>
 				</div>
 
 				<Dialog open={errorOpen} onClose={() => setErrorOpen(false)} aria-labelledby='error-dialog'>
@@ -312,26 +312,26 @@ export function SignUp(props) {
 			<div id='content-container'>
 				<div>
 					<div id='header'>
-						<a href='/' id='help'>
+						<a href='/' id='helpSignup' className='bigTextStyle blue'>
 							Help
 						</a>
-						<a href='login' id='login_tab'>
+						<a href='login' id='login_tab' className='mainTextStyle gray'>
 							Login
 						</a>
-						<a href='signUp' id='signup_tab'>
+						<a href='signUp' id='signup_tab' className='mainTextStyle blue'>
 							Sign Up
 						</a>
 					</div>
-					<div id='business_schedule'>Business Schedule</div>
+					<div id='business_schedule' className='bigTitleTextStyle gray'>Business Schedule</div>
 					<div className='days'>
-						<label id='day_title'>Monday</label>
+						<label id='day_title' className='mainTextStyle gray'>Monday</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
 							value={mondayStartTime}
 							onChange={(time) => setMondayStartTime(time)}
 						/>
-						<label id='to_text'>to</label>
+						<label id='to_text' className='mainTextStyle gray'>to</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
@@ -340,14 +340,14 @@ export function SignUp(props) {
 						/>
 					</div>
 					<div className='days'>
-						<label id='day_title'>Tuesday</label>
+						<label id='day_title' className='mainTextStyle gray'>Tuesday</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
 							value={tuesdayStartTime}
 							onChange={(time) => setTuesdayStartTime(time)}
 						/>
-						<label id='to_text'>to</label>
+						<label id='to_text' className='mainTextStyle gray'>to</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
@@ -356,14 +356,14 @@ export function SignUp(props) {
 						/>
 					</div>
 					<div className='days'>
-						<label id='day_title'>Wednesday</label>
+						<label id='day_title' className='mainTextStyle gray'>Wednesday</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
 							value={wednesdayStartTime}
 							onChange={(time) => setWednesdayStartTime(time)}
 						/>
-						<label id='to_text'>to</label>
+						<label id='to_text' className='mainTextStyle gray'>to</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
@@ -372,14 +372,14 @@ export function SignUp(props) {
 						/>
 					</div>
 					<div className='days'>
-						<label id='day_title'>Thursday</label>
+						<label id='day_title' className='mainTextStyle gray'>Thursday</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
 							value={thursdayStartTime}
 							onChange={(time) => setThursdayStartTime(time)}
 						/>
-						<label id='to_text'>to</label>
+						<label id='to_text' className='mainTextStyle gray'>to</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
@@ -388,14 +388,14 @@ export function SignUp(props) {
 						/>
 					</div>
 					<div className='days'>
-						<label id='day_title'>Friday</label>
+						<label id='day_title' className='mainTextStyle gray'>Friday</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
 							value={fridayStartTime}
 							onChange={(time) => setFridayStartTime(time)}
 						/>
-						<label id='to_text'>to</label>
+						<label id='to_text' className='mainTextStyle gray'>to</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
@@ -404,14 +404,14 @@ export function SignUp(props) {
 						/>
 					</div>
 					<div className='days'>
-						<label id='day_title'>Saturday</label>
+						<label id='day_title' className='mainTextStyle gray'>Saturday</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
 							value={saturdayStartTime}
 							onChange={(time) => setSaturdayStartTime(time)}
 						/>
-						<label id='to_text'>to</label>
+						<label id='to_text' className='mainTextStyle gray'>to</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
@@ -420,14 +420,14 @@ export function SignUp(props) {
 						/>
 					</div>
 					<div className='days'>
-						<label id='day_title'>Sunday</label>
+						<label id='day_title' className='mainTextStyle gray'>Sunday</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
 							value={sundayStartTime}
 							onChange={(time) => setSundayStartTime(time)}
 						/>
-						<label id='to_text'>to</label>
+						<label id='to_text' className='mainTextStyle gray'>to</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
@@ -436,7 +436,7 @@ export function SignUp(props) {
 						/>
 					</div>
 
-					<label id='day_title'>
+					<label id='checkbox' className='smallTextStyle'>
 						<input type='checkbox' id='agree' onChange={(value) => setAgreed(value)} />I agree to
 						Help's Terms and Conditions and Privacy Policy
 					</label>
@@ -450,7 +450,7 @@ export function SignUp(props) {
 				</div>
 
 				<div id='gradientBackground'>
-					<div id='descriptionText'>Let us continue helping your business thrive!</div>
+					<div id='descriptionText' className='bigTitleTextStyle white'>Let us continue helping your business thrive!</div>
 				</div>
 
 				<Dialog open={errorOpen} onClose={() => setErrorOpen(false)} aria-labelledby='error-dialog'>

@@ -7,6 +7,7 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+
 #header {
 	display: flex;
 	flex-direction: row;
@@ -14,81 +15,50 @@
 	width: 50vw;
 	height: 5vh;
 }
+
 #row {
 	display: flex;
 	flex-direction: row;
 }
+
 .days {
 	flex-direction: row;
 	align-items: flex-start;
 	display: flex;
 	width: fit-content;
-	margin-top: 2vh;
+	margin-top: 1vh;
 	margin-left: 2.2vw;
 }
 
-.label {
-	font-size: 20px;
-}
-
-#help {
+#helpSignup {
 	margin-left: 2vw;
-	font-family: Lucida Grande;
-	font-size: 50px;
 	text-align: left;
-	color: #00b0f0;
 	text-decoration: none;
 }
 
 #login_tab {
 	margin-top: 2vh;
 	margin-left: 20vw;
-	font-family: Lucida Grande;
-	font-size: 25px;
 	text-align: left;
-	color: #567681;
 	text-decoration: none;
 }
 
 #signup_tab_selected {
 	margin-top: 2vh;
 	margin-left: 3vw;
-	font-family: Lucida Grande;
-	font-size: 25px;
 	text-align: left;
-	color: #00b0f0;
 	text-decoration: none;
 }
 
 #split_edit {
 	margin-top: 5vh;
 	margin-left: 2vw;
-	font-family: Lucida Grande;
-	font-size: 35px;
 	text-align: left;
 }
 
 #edit {
 	margin-top: 5vh;
 	margin-left: 2vw;
-	font-family: Lucida Grande;
-	font-size: 35px;
-	text-align: left;
-}
-
-#business_name {
-	margin-top: 5vh;
-	margin-left: 5vw;
-	font-family: Lucida Grande;
-	font-size: 35px;
-	text-align: left;
-}
-
-#password {
-	margin-top: 3vh;
-	margin-left: 5vw;
-	font-family: Lucida Grande;
-	font-size: 35px;
 	text-align: left;
 }
 
@@ -99,37 +69,31 @@
 
 #signup_title {
 	margin-top: 5vh;
-	font-family: Lucida Grande;
-	font-size: 80px;
 	text-align: center;
-	color: #567681;
 }
 
 #business_schedule {
 	margin-top: 5vh;
-	font-family: Lucida Grande;
-	font-size: 60px;
 	text-align: center;
-	color: #567681;
 }
 
 #day_title {
-	margin-top: 1vh;
+	margin-top: 0.5vh;
 	width: 10vw;
-	font-family: Lucida Grande;
-	font-size: 20px;
 	text-align: left;
-	color: #567681;
+}
+
+#checkbox {
+	margin-top: -1vh;
+	width: 10vw;
+	text-align: left;
 }
 
 #to_text {
 	margin-top: 1vh;
-	font-family: Lucida Grande;
-	font-size: 20px;
 	margin-left: 5vw;
 	margin-right: 5vw;
 	text-align: left;
-	color: #567681;
 }
 
 #gradientBackground {
@@ -143,31 +107,10 @@
 	margin-top: 27vh;
 	padding: 70px 0;
 	text-align: center;
-	font-family: Lucida Grande;
-	font-size: 70px;
-	color: #ffffff;
-}
-
-#successText {
-	margin-top: 30vh;
-	padding: 70px 0;
-	text-align: center;
-	font-family: Lucida Grande;
-	font-size: 50px;
-	color: #000000;
 }
 
 #agree {
    margin-left: 2vw;
    margin-right: 1vw;
    margin-top: 7vh;
-}
-
-#back_text {
-	margin-top: 1vh;
-	width: 10vw;
-	font-family: Lucida Grande;
-	font-size: 20px;
-	text-align: center;
-	color: #00b0f0;
 }
