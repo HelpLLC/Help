@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import FirebaseFunctions from '../../../../config/FirebaseFunctions';
 import HelpButton from '../../../../components/HelpButton/HelpButton.js';
 import strings from '../../../../config/strings';
@@ -15,54 +15,54 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import TitleComponent from '../../../../components/TitleComponent.js';
 
 export function SignUp(props) {
-	const [email, setEmail] = React.useState('');
-	const [password, setPassword] = React.useState('');
-	const [confirmPassword, setConfirmPassword] = React.useState('');
-	const [businessName, setBusinessName] = React.useState('');
-	const [businessDescription, setBusinessDescription] = React.useState('');
-	const [location, setLocation] = React.useState('');
-	const [website, setWebsite] = React.useState('');
-	const [phoneNumber, setPhoneNumber] = React.useState('');
-	const [agreed, setAgreed] = React.useState(false);
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
+	const [businessName, setBusinessName] = useState('');
+	const [businessDescription, setBusinessDescription] = useState('');
+	const [location, setLocation] = useState('');
+	const [website, setWebsite] = useState('');
+	const [phoneNumber, setPhoneNumber] = useState('');
+	const [agreed, setAgreed] = useState(false);
 
-	const [step1, setStep1] = React.useState(true);
-	const [submitted, setSubmitted] = React.useState(false);
+	const [step1, setStep1] = useState(true);
+	const [submitted, setSubmitted] = useState(false);
 	let history = useHistory();
 
-	const [errorOpen, setErrorOpen] = React.useState(false);
+	const [errorOpen, setErrorOpen] = useState(false);
 
 	const goToStep2 = () => {
-		// if (
-			// email.length > 1 &&
-			// email.includes('.') &&
-			// email.includes('@') &&
-			// password.length > 6 &&
-			// confirmPassword == password &&
-			// businessDescription.length > 150 &&
-			// location &&
-			// website.includes('.') &&
-			// phoneNumber.length == 10
-		// ) {
+		if (
+			email.length > 1 &&
+			email.includes('.') &&
+			email.includes('@') &&
+			password.length > 6 &&
+			confirmPassword == password &&
+			businessDescription.length > 150 &&
+			location &&
+			website.includes('.') &&
+			phoneNumber.length == 10
+		) {
 			setStep1(false);
-		// } else {
-			// setErrorOpen(true);
-		// }
+		} else {
+			setErrorOpen(true);
+		}
 	};
 
-	const [mondayStartTime, setMondayStartTime] = React.useState();
-	const [tuesdayStartTime, setTuesdayStartTime] = React.useState();
-	const [wednesdayStartTime, setWednesdayStartTime] = React.useState();
-	const [thursdayStartTime, setThursdayStartTime] = React.useState();
-	const [fridayStartTime, setFridayStartTime] = React.useState();
-	const [saturdayStartTime, setSaturdayStartTime] = React.useState();
-	const [sundayStartTime, setSundayStartTime] = React.useState();
-	const [mondayEndTime, setMondayEndTime] = React.useState();
-	const [tuesdayEndTime, setTuesdayEndTime] = React.useState();
-	const [wednesdayEndTime, setWednesdayEndTime] = React.useState();
-	const [thursdayEndTime, setThursdayEndTime] = React.useState();
-	const [fridayEndTime, setFridayEndTime] = React.useState();
-	const [saturdayEndTime, setSaturdayEndTime] = React.useState();
-	const [sundayEndTime, setSundayEndTime] = React.useState();
+	const [mondayStartTime, setMondayStartTime] = useState();
+	const [tuesdayStartTime, setTuesdayStartTime] = useState();
+	const [wednesdayStartTime, setWednesdayStartTime] = useState();
+	const [thursdayStartTime, setThursdayStartTime] = useState();
+	const [fridayStartTime, setFridayStartTime] = useState();
+	const [saturdayStartTime, setSaturdayStartTime] = useState();
+	const [sundayStartTime, setSundayStartTime] = useState();
+	const [mondayEndTime, setMondayEndTime] = useState();
+	const [tuesdayEndTime, setTuesdayEndTime] = useState();
+	const [wednesdayEndTime, setWednesdayEndTime] = useState();
+	const [thursdayEndTime, setThursdayEndTime] = useState();
+	const [fridayEndTime, setFridayEndTime] = useState();
+	const [saturdayEndTime, setSaturdayEndTime] = useState();
+	const [sundayEndTime, setSundayEndTime] = useState();
 
 	const parseTime = (time) => {
 		time = time.toTimeString();
@@ -184,7 +184,9 @@ export function SignUp(props) {
 							Sign Up
 						</a>
 					</div>
-					<div id='signup_title' className='bigTitleTextStyle gray'>Sign Up</div>
+					<div id='signup_title' className='bigTitleTextStyle gray'>
+						Sign Up
+					</div>
 					<div id='row'>
 						<div id='split_edit' className='mainTextStyle gray'>
 							<HelpTextInput
@@ -286,7 +288,9 @@ export function SignUp(props) {
 				</div>
 
 				<div id='gradientBackground'>
-					<div id='descriptionText' className='bigTitleTextStyle white'>Let us continue helping your business thrive!</div>
+					<div id='descriptionText' className='bigTitleTextStyle white'>
+						Let us continue helping your business thrive!
+					</div>
 				</div>
 
 				<Dialog open={errorOpen} onClose={() => setErrorOpen(false)} aria-labelledby='error-dialog'>
@@ -322,16 +326,22 @@ export function SignUp(props) {
 							Sign Up
 						</a>
 					</div>
-					<div id='business_schedule' className='bigTitleTextStyle gray'>Business Schedule</div>
+					<div id='business_schedule' className='bigTitleTextStyle gray'>
+						Business Schedule
+					</div>
 					<div className='days'>
-						<label id='day_title' className='mainTextStyle gray'>Monday</label>
+						<label id='day_title' className='mainTextStyle gray'>
+							{strings.Monday}
+						</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
 							value={mondayStartTime}
 							onChange={(time) => setMondayStartTime(time)}
 						/>
-						<label id='to_text' className='mainTextStyle gray'>to</label>
+						<label id='to_text' className='mainTextStyle gray'>
+							{strings.to}
+						</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
@@ -340,14 +350,18 @@ export function SignUp(props) {
 						/>
 					</div>
 					<div className='days'>
-						<label id='day_title' className='mainTextStyle gray'>Tuesday</label>
+						<label id='day_title' className='mainTextStyle gray'>
+							{strings.Tuesday}
+						</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
 							value={tuesdayStartTime}
 							onChange={(time) => setTuesdayStartTime(time)}
 						/>
-						<label id='to_text' className='mainTextStyle gray'>to</label>
+						<label id='to_text' className='mainTextStyle gray'>
+							{strings.to}
+						</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
@@ -356,14 +370,18 @@ export function SignUp(props) {
 						/>
 					</div>
 					<div className='days'>
-						<label id='day_title' className='mainTextStyle gray'>Wednesday</label>
+						<label id='day_title' className='mainTextStyle gray'>
+							{strings.Wednesday}
+						</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
 							value={wednesdayStartTime}
 							onChange={(time) => setWednesdayStartTime(time)}
 						/>
-						<label id='to_text' className='mainTextStyle gray'>to</label>
+						<label id='to_text' className='mainTextStyle gray'>
+							{strings.to}
+						</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
@@ -372,14 +390,18 @@ export function SignUp(props) {
 						/>
 					</div>
 					<div className='days'>
-						<label id='day_title' className='mainTextStyle gray'>Thursday</label>
+						<label id='day_title' className='mainTextStyle gray'>
+							{strings.Thursday}
+						</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
 							value={thursdayStartTime}
 							onChange={(time) => setThursdayStartTime(time)}
 						/>
-						<label id='to_text' className='mainTextStyle gray'>to</label>
+						<label id='to_text' className='mainTextStyle gray'>
+							{strings.to}
+						</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
@@ -388,14 +410,18 @@ export function SignUp(props) {
 						/>
 					</div>
 					<div className='days'>
-						<label id='day_title' className='mainTextStyle gray'>Friday</label>
+						<label id='day_title' className='mainTextStyle gray'>
+							{strings.Friday}
+						</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
 							value={fridayStartTime}
 							onChange={(time) => setFridayStartTime(time)}
 						/>
-						<label id='to_text' className='mainTextStyle gray'>to</label>
+						<label id='to_text' className='mainTextStyle gray'>
+							{strings.to}
+						</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
@@ -404,14 +430,18 @@ export function SignUp(props) {
 						/>
 					</div>
 					<div className='days'>
-						<label id='day_title' className='mainTextStyle gray'>Saturday</label>
+						<label id='day_title' className='mainTextStyle gray'>
+							{strings.Saturday}
+						</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
 							value={saturdayStartTime}
 							onChange={(time) => setSaturdayStartTime(time)}
 						/>
-						<label id='to_text' className='mainTextStyle gray'>to</label>
+						<label id='to_text' className='mainTextStyle gray'>
+							{strings.to}
+						</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
@@ -420,14 +450,18 @@ export function SignUp(props) {
 						/>
 					</div>
 					<div className='days'>
-						<label id='day_title' className='mainTextStyle gray'>Sunday</label>
+						<label id='day_title' className='mainTextStyle gray'>
+							{strings.Sunday}
+						</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
 							value={sundayStartTime}
 							onChange={(time) => setSundayStartTime(time)}
 						/>
-						<label id='to_text' className='mainTextStyle gray'>to</label>
+						<label id='to_text' className='mainTextStyle gray'>
+							{strings.to}
+						</label>
 						<TimePicker
 							widthPercent={'10vw'}
 							marginLeft='20px'
@@ -437,8 +471,8 @@ export function SignUp(props) {
 					</div>
 
 					<label id='checkbox' className='smallTextStyle'>
-						<input type='checkbox' id='agree' onChange={(value) => setAgreed(value)} />I agree to
-						Help's Terms and Conditions and Privacy Policy
+						<input type='checkbox' id='agree' onChange={(value) => setAgreed(value)} />
+						{strings.AgreeToPolicies}
 					</label>
 
 					<div id='signup_button'>
@@ -450,16 +484,15 @@ export function SignUp(props) {
 				</div>
 
 				<div id='gradientBackground'>
-					<div id='descriptionText' className='bigTitleTextStyle white'>Let us continue helping your business thrive!</div>
+					<div id='descriptionText' className='bigTitleTextStyle white'>
+						Let us continue helping your business thrive!
+					</div>
 				</div>
 
 				<Dialog open={errorOpen} onClose={() => setErrorOpen(false)} aria-labelledby='error-dialog'>
 					<TitleComponent text={strings.Error} isCentered={true} textColor='#00B0F0' />
 					<DialogContent>
-						<DialogContentText>
-							There was an error signing you up. Make sure you fill out all required information,
-							then try again.
-						</DialogContentText>
+						<DialogContentText>{strings.ErrorSigningUp}</DialogContentText>
 					</DialogContent>
 					<DialogActions>
 						<HelpButton
