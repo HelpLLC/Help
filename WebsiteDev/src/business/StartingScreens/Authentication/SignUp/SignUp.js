@@ -3,7 +3,6 @@ import FirebaseFunctions from '../../../../config/FirebaseFunctions';
 import HelpButton from '../../../../components/HelpButton/HelpButton.js';
 import strings from '../../../../config/strings';
 import { useHistory } from 'react-router-dom';
-import { screenWidth, screenHeight } from '../../../../config/dimensions';
 import HelpTextInput from '../../../../components/HelpTextInput/HelpTextInput';
 import TimePicker from '../../../../components/TimePicker/TimePicker';
 import './SignUp.css';
@@ -77,10 +76,6 @@ export function SignUp(props) {
 		return intHours + ':' + minutes + ' ' + ampm;
 	};
 
-	const back = () => {
-		setStep1(true);
-	};
-
 	const signup = async () => {
 		if (
 			agreed &&
@@ -92,77 +87,78 @@ export function SignUp(props) {
 				(saturdayStartTime && saturdayEndTime) ||
 				(sundayStartTime && sundayEndTime))
 		) {
-			const mondayFrom = mondayStartTime !== undefined ? parseTime(mondayStartTime) : '';
-			const mondayTo = mondayEndTime !== undefined ? parseTime(mondayEndTime) : '';
-			const tuesdayFrom = tuesdayStartTime !== undefined ? parseTime(tuesdayStartTime) : '';
-			const tuesdayTo = tuesdayEndTime !== undefined ? parseTime(tuesdayEndTime) : '';
-			const wednesdayFrom = wednesdayStartTime !== undefined ? parseTime(wednesdayStartTime) : '';
-			const wednesdayTo = wednesdayEndTime !== undefined ? parseTime(wednesdayEndTime) : '';
-			const thursdayFrom = thursdayStartTime !== undefined ? parseTime(thursdayStartTime) : '';
-			const thursdayTo = thursdayEndTime !== undefined ? parseTime(thursdayEndTime) : '';
-			const fridayFrom = fridayStartTime !== undefined ? parseTime(fridayStartTime) : '';
-			const fridayTo = fridayEndTime !== undefined ? parseTime(fridayEndTime) : '';
-			const saturdayFrom = saturdayStartTime !== undefined ? parseTime(saturdayStartTime) : '';
-			const saturdayTo = saturdayEndTime !== undefined ? parseTime(saturdayEndTime) : '';
-			const sundayFrom = sundayStartTime !== undefined ? parseTime(sundayStartTime) : '';
-			const sundayTo = sundayEndTime !== undefined ? parseTime(sundayEndTime) : '';
-			const businessHours = {
-				sunday: {
-					from: sundayFrom,
-					to: sundayTo,
-				},
-				monday: {
-					from: mondayFrom,
-					to: mondayTo,
-				},
-				tuesday: {
-					from: tuesdayFrom,
-					to: tuesdayTo,
-				},
-				wednesday: {
-					from: wednesdayFrom,
-					to: wednesdayTo,
-				},
-				thursday: {
-					from: thursdayFrom,
-					to: thursdayTo,
-				},
-				friday: {
-					from: fridayFrom,
-					to: fridayTo,
-				},
-				saturday: {
-					from: saturdayFrom,
-					to: saturdayTo,
-				},
-			};
-			let account = '';
-			account = await firebase.auth().createUserWithEmailAndPassword(email, password);
-			const businessID = await FirebaseFunctions.logIn(email, password);
-			await FirebaseFunctions.call('addBusinessToDatabase', {
-				//Fields for the business
-				businessName,
-				businessDescription: businessDescription,
-				businessHours,
-				currentRequests: [],
-				email,
-				paymentSetupStatus: 'FALSE',
-				location,
-				services: [],
-				website,
-				phoneNumber,
-				isVerified: false,
-				businessID: account.user.uid,
-				coordinates: {
-					lat: 3,
-					lng: 3,
-				},
-			})
-				.then(() => {
-					history.push({ pathname: '/dashboard', state: { businessID: businessID } });
-					setSubmitted(true);
-				})
-				.catch(() => setErrorOpen(true));
+			try {
+				const mondayFrom = mondayStartTime !== undefined ? parseTime(mondayStartTime) : '';
+				const mondayTo = mondayEndTime !== undefined ? parseTime(mondayEndTime) : '';
+				const tuesdayFrom = tuesdayStartTime !== undefined ? parseTime(tuesdayStartTime) : '';
+				const tuesdayTo = tuesdayEndTime !== undefined ? parseTime(tuesdayEndTime) : '';
+				const wednesdayFrom = wednesdayStartTime !== undefined ? parseTime(wednesdayStartTime) : '';
+				const wednesdayTo = wednesdayEndTime !== undefined ? parseTime(wednesdayEndTime) : '';
+				const thursdayFrom = thursdayStartTime !== undefined ? parseTime(thursdayStartTime) : '';
+				const thursdayTo = thursdayEndTime !== undefined ? parseTime(thursdayEndTime) : '';
+				const fridayFrom = fridayStartTime !== undefined ? parseTime(fridayStartTime) : '';
+				const fridayTo = fridayEndTime !== undefined ? parseTime(fridayEndTime) : '';
+				const saturdayFrom = saturdayStartTime !== undefined ? parseTime(saturdayStartTime) : '';
+				const saturdayTo = saturdayEndTime !== undefined ? parseTime(saturdayEndTime) : '';
+				const sundayFrom = sundayStartTime !== undefined ? parseTime(sundayStartTime) : '';
+				const sundayTo = sundayEndTime !== undefined ? parseTime(sundayEndTime) : '';
+				const businessHours = {
+					sunday: {
+						from: sundayFrom,
+						to: sundayTo,
+					},
+					monday: {
+						from: mondayFrom,
+						to: mondayTo,
+					},
+					tuesday: {
+						from: tuesdayFrom,
+						to: tuesdayTo,
+					},
+					wednesday: {
+						from: wednesdayFrom,
+						to: wednesdayTo,
+					},
+					thursday: {
+						from: thursdayFrom,
+						to: thursdayTo,
+					},
+					friday: {
+						from: fridayFrom,
+						to: fridayTo,
+					},
+					saturday: {
+						from: saturdayFrom,
+						to: saturdayTo,
+					},
+				};
+				let account = '';
+				account = await firebase.auth().createUserWithEmailAndPassword(email, password);
+				const businessID = await FirebaseFunctions.logIn(email, password);
+				await FirebaseFunctions.call('addBusinessToDatabase', {
+					//Fields for the business
+					businessName,
+					businessDescription: businessDescription,
+					businessHours,
+					currentRequests: [],
+					email,
+					paymentSetupStatus: 'FALSE',
+					location,
+					services: [],
+					website,
+					phoneNumber,
+					isVerified: false,
+					businessID: account.user.uid,
+					coordinates: {
+						lat: 3,
+						lng: 3,
+					},
+				});
+				history.push({ pathname: '/dashboard', state: { businessID: businessID } });
+				setSubmitted(true);
+			} catch (error) {
+				setErrorOpen(true);
+			}
 		} else {
 			setErrorOpen(true);
 		}
@@ -294,16 +290,10 @@ export function SignUp(props) {
 				<Dialog open={errorOpen} onClose={() => setErrorOpen(false)} aria-labelledby='error-dialog'>
 					<TitleComponent text={strings.Error} isCentered={true} textColor='#00B0F0' />
 					<DialogContent>
-						<DialogContentText>
-							{strings.FieldsError}
-						</DialogContentText>
+						<DialogContentText>{strings.FieldsError}</DialogContentText>
 					</DialogContent>
 					<DialogActions>
-						<HelpButton
-							title={strings.Close}
-							onPress={() => setErrorOpen(false)}
-							width={screenWidth * 0.45}
-						/>
+						<HelpButton title={strings.Close} onPress={() => setErrorOpen(false)} width={'44vw'} />
 					</DialogActions>
 				</Dialog>
 			</div>
@@ -476,7 +466,11 @@ export function SignUp(props) {
 						<HelpButton title={strings.SignUp} width={'42vw'} onPress={signup} />
 					</div>
 					<div id='signup_button'>
-						<HelpButton title={strings.BackWithArrow} width={'10vw'} onPress={back} />
+						<HelpButton
+							title={strings.BackWithArrow}
+							width={'10vw'}
+							onPress={() => setStep1(true)}
+						/>
 					</div>
 				</div>
 
@@ -492,11 +486,7 @@ export function SignUp(props) {
 						<DialogContentText>{strings.ErrorSigningUp}</DialogContentText>
 					</DialogContent>
 					<DialogActions>
-						<HelpButton
-							title={strings.Close}
-							onPress={() => setErrorOpen(false)}
-							width={screenWidth * 0.4}
-						/>
+						<HelpButton title={strings.Close} onPress={() => setErrorOpen(false)} width={'44vw'} />
 					</DialogActions>
 				</Dialog>
 			</div>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import FirebaseFunctions from '../../../../config/FirebaseFunctions';
 import HelpButton from '../../../../components/HelpButton/HelpButton.js';
 import TitleComponent from '../../../../components/TitleComponent.js';
@@ -23,7 +23,12 @@ export function Login(props) {
 	let history = useHistory();
 
 	const login = async () => {
-		if (email.trim().length > 0 && email.includes('@') && email.includes('.') && password.trim().length > 0) {
+		if (
+			email.trim().length > 0 &&
+			email.includes('@') &&
+			email.includes('.') &&
+			password.trim().length > 0
+		) {
 			const businessID = '';
 			try {
 				businessID = await FirebaseFunctions.logIn(email, password);
@@ -133,9 +138,7 @@ export function Login(props) {
 					fontSize='50px'
 				/>
 				<DialogContent>
-					<DialogContentText>
-						{strings.EnterEmailHere}
-					</DialogContentText>
+					<DialogContentText>{strings.EnterEmailHere}</DialogContentText>
 					<HelpTextInput
 						placeholder={strings.EmailAddress}
 						isMultiline={false}
@@ -144,11 +147,7 @@ export function Login(props) {
 					/>
 				</DialogContent>
 				<DialogActions>
-					<HelpButton
-						title={strings.Cancel}
-						onPress={() => setOpen(false)}
-						width={'22vw'}
-					/>
+					<HelpButton title={strings.Cancel} onPress={() => setOpen(false)} width={'22vw'} />
 					<HelpButton title={strings.EmailMe} onPress={submit} width={'22vw'} />
 				</DialogActions>
 			</Dialog>
@@ -159,32 +158,20 @@ export function Login(props) {
 				aria-labelledby='email-sent'>
 				<TitleComponent text={strings.EmailSentExclamation} isCentered={true} textColor='#00B0F0' />
 				<DialogContent>
-					<DialogContentText>
-						{strings.EmailSentText}
-					</DialogContentText>
+					<DialogContentText>{strings.EmailSentText}</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<HelpButton
-						title={strings.Ok}
-						onPress={() => setEmailSentOpen(false)}
-						width={'45vw'}
-					/>
+					<HelpButton title={strings.Ok} onPress={() => setEmailSentOpen(false)} width={'45vw'} />
 				</DialogActions>
 			</Dialog>
 
 			<Dialog open={errorOpen} onClose={() => setErrorOpen(false)} aria-labelledby='error-dialog'>
 				<TitleComponent text={strings.ErrorSendingEmail} isCentered={true} textColor='#00B0F0' />
 				<DialogContent>
-					<DialogContentText>
-						{strings.EmailError}
-					</DialogContentText>
+					<DialogContentText>{strings.EmailError}</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<HelpButton
-						title={strings.Close}
-						onPress={() => setErrorOpen(false)}
-						width={'18vw'}
-					/>
+					<HelpButton title={strings.Close} onPress={() => setErrorOpen(false)} width={'18vw'} />
 					<HelpButton
 						title={strings.GoToSignUp}
 						onPress={(event) => (window.location.href = '/signUp')}
