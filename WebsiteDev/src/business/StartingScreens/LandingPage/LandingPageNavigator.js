@@ -4,7 +4,6 @@ import './LandingPage.css';
 import '../../../config/fontStyles.css';
 import strings from '../../../config/strings';
 import LandingPage from './LandingPage';
-import LoginRegister from '../Authentication/LoginRegister';
 import Dashboard from '../../../business/BusinessScreens/Dashboard/Dashboard';
 import { SocialIcon } from 'react-social-icons';
 import PrivacyPolicy from '../../PrivacyPolicy.js';
@@ -12,6 +11,8 @@ import Credits from '../../Credits.js';
 import ContactUs from '../ContactUs/ContactUs';
 import TermsAndConditions from '../../TermsAndConditions.js';
 import CreateProductScreen from '../../BusinessScreens/CreateProductScreen/CreateProductScreen';
+import { Login } from '../Authentication/Login/Login';
+import { SignUp } from '../Authentication/SignUp/SignUp';
 
 export default function LandingPageNavigator() {
 	//The header containing the title, log in, and sign up buttons
@@ -108,10 +109,10 @@ export default function LandingPageNavigator() {
 					</div>
 				</Route>
 				<Route path='/login'>
-					<LoginRegister login={true} />
+					<Login login={true} />
 				</Route>
 				<Route path='/signUp'>
-					<LoginRegister login={false} />
+					<SignUp login={false} />
 				</Route>
 				<Route path='/dashboard'>
 					<Dashboard />
