@@ -23,7 +23,7 @@ export function Login(props) {
 	let history = useHistory();
 
 	const login = async () => {
-		if (email.length > 1 && password.length > 1) {
+		if (email.trim().length > 0 && email.includes('@') && email.includes('.') && password.trim().length > 0) {
 			const businessID = '';
 			try {
 				businessID = await FirebaseFunctions.logIn(email, password);
