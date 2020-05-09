@@ -49,7 +49,10 @@ export default {
 	LetsGrow: "Let's Grow Your Business",
 	ReadyToStartWorkingTogether:
 		"Ready to start working together? Have a general question? We're only an email away.",
-	LetUsHelp: 'Let us Help your business thrive.',
+	LetUsHelp: 'Let us continue helping your business thrive!',
+	EnterEmailHere: 'Please enter your email here and we will send you an email with a link to reset your password.',
+	EmailSentText: 'If a user with this email exists, then the email has been sent. Please go to your inbox for the link to reset your password. If you do not see it, check the spam folder.',
+	EmailError: 'There was an error sending the email. Please make sure a user with this email exists, and try again.',
 	WorkTogether: "Let's work together",
 	OurServices: 'Our Services',
 	WhatWeDoBest: 'What We Do Best',
@@ -194,6 +197,7 @@ export default {
 	EnterQuestionForCustomer: 'Enter a question for the customer here...',
 	QuestionNumber: 'Question #',
 	PleaseCompleteAllFields: 'Please complete all the fields.',
+	FieldsError: 'Please complete all the fields with valid inputs and ensure your description is at least 150 characters.',
 	Whoops: 'Whoops',
 	PleaseAddAnImage: 'Please add an image.',
 	DescriptionError: 'Your description must be at least 150 characters.',
@@ -237,4 +241,5 @@ export default {
 	ErrorSendingEmail: 'Error Sending Email',
 	ErrorSigningUp: 'There was an error signing you up. Make sure you fill out all required information, then try again.',
 	AgreeToPolicies: 'I agree to Help\'s Terms and Conditions and Privacy Policy',
+	BusinessSchedule: 'Business Schedule',
 };

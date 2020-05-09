@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import FirebaseFunctions from '../../../../config/FirebaseFunctions';
 import HelpButton from '../../../../components/HelpButton/HelpButton.js';
 import TitleComponent from '../../../../components/TitleComponent.js';
@@ -14,10 +14,12 @@ import './Login.css';
 import '../../../../config/fontStyles.css';
 
 export function Login(props) {
-	const [email, setEmail] = React.useState('');
-	const [password, setPassword] = React.useState('');
-	const [loggedIn, setLoggedIn] = React.useState(false);
-	const [credentialsError, setCredentialsError] = React.useState(false);
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [credentialsError, setCredentialsError] = useState(false);
+	const [open, setOpen] = useState(false);
+	const [emailSentOpen, setEmailSentOpen] = useState(false);
+	const [errorOpen, setErrorOpen] = useState(false);
 	let history = useHistory();
 
 	const login = async () => {
@@ -30,7 +32,6 @@ export function Login(props) {
 			}
 
 			if (businessID) {
-				setLoggedIn(true);
 				history.push({ pathname: '/dashboard', state: { businessID: businessID } });
 			}
 		} else {
@@ -48,44 +49,22 @@ export function Login(props) {
 		setOpen(false);
 	};
 
-	const [open, setOpen] = React.useState(false);
-
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-
-	const [emailSentOpen, setEmailSentOpen] = React.useState(false);
-
-	const [errorOpen, setErrorOpen] = React.useState(false);
-
-	const handleErrorOpen = () => {
-		setErrorOpen(true);
-	};
-
-	const handleErrorClose = () => {
-		setErrorOpen(false);
-	};
-
 	return (
 		<div id='content-container'>
 			<div>
 				<div id='header'>
 					<a href='/' id='help' className='bigTextStyle blue'>
-						Help
+						{strings.Help}
 					</a>
 					<a href='login' id='login_tab_selected' className='mainTextStyle blue'>
-						Login
+						{strings.LogIn}
 					</a>
 					<a href='signUp' id='signup_tab' className='mainTextStyle gray'>
-						Sign Up
+						{strings.SignUp}
 					</a>
 				</div>
 				<div id='login_title' className='bigTitleTextStyle gray'>
-					Login
+					{strings.LogIn}
 				</div>
 				<div id='email_address' className='mainTextStyle'>
 					<HelpTextInput
@@ -109,13 +88,16 @@ export function Login(props) {
 				<div id='login_button'>
 					<HelpButton title={strings.LogIn} width={'40vw'} onPress={login} />
 				</div>
-					<button id='forgot_password_button' onClick={() => setOpen(true)} className='mainTextStyle blue'>
-						Forgot Password?
-					</button>
+				<button
+					id='forgot_password_button'
+					onClick={() => setOpen(true)}
+					className='mainTextStyle blue'>
+					{strings.ForgotPasswordQuestion}
+				</button>
 			</div>
 			<div id='gradientBackground'>
 				<div id='descriptionText' className='bigTitleTextStyle white'>
-					Let us continue helping your business thrive!
+					{strings.LetUsHelp}
 				</div>
 			</div>
 
@@ -133,12 +115,12 @@ export function Login(props) {
 					<HelpButton
 						title={strings.Cancel}
 						onPress={() => setCredentialsError(false)}
-						width={screenWidth * 0.211}
+						width={'20vw'}
 					/>
 					<HelpButton
 						title={strings.GoToSignUp}
 						onPress={(event) => (window.location.href = '/signUp')}
-						width={screenWidth * 0.211}
+						width={'20vw'}
 					/>
 				</DialogActions>
 			</Dialog>
@@ -152,8 +134,7 @@ export function Login(props) {
 				/>
 				<DialogContent>
 					<DialogContentText>
-						Please enter your email here and we will send you an email with a link to reset your
-						password.
+						{strings.EnterEmailHere}
 					</DialogContentText>
 					<HelpTextInput
 						placeholder={strings.EmailAddress}
@@ -166,9 +147,9 @@ export function Login(props) {
 					<HelpButton
 						title={strings.Cancel}
 						onPress={() => setOpen(false)}
-						width={screenWidth * 0.211}
+						width={'22vw'}
 					/>
-					<HelpButton title={strings.EmailMe} onPress={submit} width={screenWidth * 0.211} />
+					<HelpButton title={strings.EmailMe} onPress={submit} width={'22vw'} />
 				</DialogActions>
 			</Dialog>
 
@@ -179,15 +160,14 @@ export function Login(props) {
 				<TitleComponent text={strings.EmailSentExclamation} isCentered={true} textColor='#00B0F0' />
 				<DialogContent>
 					<DialogContentText>
-						If a user with this email exists, then the email has been sent. Please go to your inbox
-						for the link to reset your password. If you do not see it, check the spam folder.
+						{strings.EmailSentText}
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
 					<HelpButton
 						title={strings.Ok}
 						onPress={() => setEmailSentOpen(false)}
-						width={screenWidth * 0.3}
+						width={'45vw'}
 					/>
 				</DialogActions>
 			</Dialog>
@@ -196,20 +176,19 @@ export function Login(props) {
 				<TitleComponent text={strings.ErrorSendingEmail} isCentered={true} textColor='#00B0F0' />
 				<DialogContent>
 					<DialogContentText>
-						There was an error sending the email. Please make sure a user with this email exists,
-						and try again.
+						{strings.EmailError}
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
 					<HelpButton
 						title={strings.Close}
 						onPress={() => setErrorOpen(false)}
-						width={screenWidth * 0.2}
+						width={'18vw'}
 					/>
 					<HelpButton
 						title={strings.GoToSignUp}
 						onPress={(event) => (window.location.href = '/signUp')}
-						width={screenWidth * 0.2}
+						width={'18vw'}
 					/>
 				</DialogActions>
 			</Dialog>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import FirebaseFunctions from '../../../../config/FirebaseFunctions';
 import HelpButton from '../../../../components/HelpButton/HelpButton.js';
 import strings from '../../../../config/strings';
@@ -24,31 +24,9 @@ export function SignUp(props) {
 	const [website, setWebsite] = useState('');
 	const [phoneNumber, setPhoneNumber] = useState('');
 	const [agreed, setAgreed] = useState(false);
-
 	const [step1, setStep1] = useState(true);
 	const [submitted, setSubmitted] = useState(false);
-	let history = useHistory();
-
 	const [errorOpen, setErrorOpen] = useState(false);
-
-	const goToStep2 = () => {
-		if (
-			email.length > 1 &&
-			email.includes('.') &&
-			email.includes('@') &&
-			password.length > 6 &&
-			confirmPassword == password &&
-			businessDescription.length > 150 &&
-			location &&
-			website.includes('.') &&
-			phoneNumber.length == 10
-		) {
-			setStep1(false);
-		} else {
-			setErrorOpen(true);
-		}
-	};
-
 	const [mondayStartTime, setMondayStartTime] = useState();
 	const [tuesdayStartTime, setTuesdayStartTime] = useState();
 	const [wednesdayStartTime, setWednesdayStartTime] = useState();
@@ -63,6 +41,26 @@ export function SignUp(props) {
 	const [fridayEndTime, setFridayEndTime] = useState();
 	const [saturdayEndTime, setSaturdayEndTime] = useState();
 	const [sundayEndTime, setSundayEndTime] = useState();
+	let history = useHistory();
+
+	const goToStep2 = () => {
+		if (
+			email.trim().length > 0 &&
+			email.includes('.') &&
+			email.includes('@') &&
+			password.trim().length > 6 &&
+			confirmPassword == password &&
+			businessDescription.trim().length > 150 &&
+			location &&
+			website.includes('.') &&
+			phoneNumber.trim().length == 10 &&
+			phoneNumber.trim().match(/^[0-9]+$/) != null
+		) {
+			setStep1(false);
+		} else {
+			setErrorOpen(true);
+		}
+	};
 
 	const parseTime = (time) => {
 		time = time.toTimeString();
@@ -175,17 +173,17 @@ export function SignUp(props) {
 				<div>
 					<div id='header'>
 						<a href='/' id='helpSignup' className='bigTextStyle blue'>
-							Help
+							{strings.Help}
 						</a>
 						<a href='login' id='login_tab' className='mainTextStyle gray'>
-							Login
+							{strings.LogIn}
 						</a>
 						<a href='signUp' id='signup_tab_selected' className='mainTextStyle blue'>
-							Sign Up
+							{strings.SignUp}
 						</a>
 					</div>
 					<div id='signup_title' className='bigTitleTextStyle gray'>
-						Sign Up
+						{strings.SignUp}
 					</div>
 					<div id='row'>
 						<div id='split_edit' className='mainTextStyle gray'>
@@ -289,7 +287,7 @@ export function SignUp(props) {
 
 				<div id='gradientBackground'>
 					<div id='descriptionText' className='bigTitleTextStyle white'>
-						Let us continue helping your business thrive!
+						{strings.LetUsHelp}
 					</div>
 				</div>
 
@@ -297,8 +295,7 @@ export function SignUp(props) {
 					<TitleComponent text={strings.Error} isCentered={true} textColor='#00B0F0' />
 					<DialogContent>
 						<DialogContentText>
-							Make sure you fill out all required information correctly and have at least 150
-							characters in the description.
+							{strings.FieldsError}
 						</DialogContentText>
 					</DialogContent>
 					<DialogActions>
@@ -317,17 +314,17 @@ export function SignUp(props) {
 				<div>
 					<div id='header'>
 						<a href='/' id='helpSignup' className='bigTextStyle blue'>
-							Help
+							{strings.Help}
 						</a>
 						<a href='login' id='login_tab' className='mainTextStyle gray'>
-							Login
+							{strings.LogIn}
 						</a>
 						<a href='signUp' id='signup_tab' className='mainTextStyle blue'>
-							Sign Up
+							{strings.SignUp}
 						</a>
 					</div>
 					<div id='business_schedule' className='bigTitleTextStyle gray'>
-						Business Schedule
+						{strings.BusinessSchedule}
 					</div>
 					<div className='days'>
 						<label id='day_title' className='mainTextStyle gray'>
@@ -485,7 +482,7 @@ export function SignUp(props) {
 
 				<div id='gradientBackground'>
 					<div id='descriptionText' className='bigTitleTextStyle white'>
-						Let us continue helping your business thrive!
+						{strings.LetUsHelp}
 					</div>
 				</div>
 
