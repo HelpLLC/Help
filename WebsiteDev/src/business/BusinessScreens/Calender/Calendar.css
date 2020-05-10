@@ -1,3 +1,8 @@
+
+.Cheader{
+  margin-left: 13vw;
+}
+
 .headerdiv {
   flex-direction: row;
   display: flex;
@@ -5,7 +10,56 @@
 
 .bell{
   display: flex;
-float: right;
+  justify-content: right;
+  align-items: center;
+  margin-left: 43vw;
+}
+
+.usercircle{
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  margin-left: 1vw;
+}
+
+.businessprofilename{
+  margin-left: 1vw;
+}
+
+.screenbody{
+  display: flex;
+}
+
+.popupmenu{
+  margin-left: 1vw;
+  width: 20vw;
+  height: 125vh;
+  margin-top: -15.7vh;
+  background-color: #F3F3F3;
+}
+
+.divwrap{
+  height: auto;
+  float: left;
+  margin-top: 10vh;
+  margin-left: 2vw;
+}
+.servicecard{
+  border-radius: 30px;
+  width: 16vw;
+  background-color: white;
+  border: 3px solid #00B0F0;
+  box-shadow: 1px #00B0F0;
+  display: block;
+  margin-bottom: 3vh;
+  height: 15vh;
+}
+
+.helpbutton{
+  display: flex;
+  justify-content: center;
+  align-items: right;
+  margin-top: 10vh;
 }
 /* .react-calendar {
   height: 700px;

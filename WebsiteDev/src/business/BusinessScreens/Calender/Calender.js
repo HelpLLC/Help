@@ -1,43 +1,121 @@
-// import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 // import Calendar from "react-calendar";
 import "./Calendar.css";
 import "./main.css";
+import fontStyles from "../../../config/fontStyles";
+import colors from "../../../config/colors";
 // import Card from "@material-ui/core/Card";
 // import Divider from "@material-ui/core/Divider";
-// import HelpButton from "../../../components/HelpButton/HelpButton";
-// import FirebaseFunctions from "../../../config/FirebaseFunctions";
-// import strings from "../../../config/strings";
+import HelpButton from "../../../components/HelpButton/HelpButton";
+import FirebaseFunctions from "../../../config/FirebaseFunctions";
+import strings from "../../../config/strings";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+
 // import bootstrapPlugin from '@fullcalendar/bootstrap';
 
 export default function ReactCalendar() {
+  const [arrayOfRequests, setArrayOfRequests] = useState([]);
+  const [upcomingBusinessRequest, getUpcomingBusinessRequest] = useState({});
+  let [open, isOpen] = useState(false);
+
+  const fecthFunc = async () => {
+    const upcomingBusinessRequest = await FirebaseFunctions.call(
+      "getUpcomingRequestByBusinessID",
+      {
+        businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2",
+      }
+    );
+    getUpcomingBusinessRequest(upcomingBusinessRequest);
+    console.log(upcomingBusinessRequest);
+  };
+
+
+  useEffect(() => {
+    fecthFunc();
+  }, []);
+
   return (
     <div>
       <div className="headerdiv">
-        <h1>Calendar</h1>
-          <FontAwesomeIcon icon="bell" size="2x"  
-          style={{
-            display: "flex",
-            justifyContent: "right",
-            alignItems: "center",
-            float: 'right'
-          }}/>
+        <h1 style={fontStyles.bigSubTitleStyle} className="Cheader">
+          Calendar
+        </h1>
+        <div className="bell">
+          <FontAwesomeIcon icon="bell" size="2x" color={colors.black} />
+        </div>
+        <div className="usercircle">
+          <FontAwesomeIcon
+            icon="user-circle"
+            size="3x"
+            color={colors.lightBlue}
+          />
+          <p className="businessprofilename" style={fontStyles.bigTextStyle}>
+            Business
+          </p>
+        </div>
       </div>
-      <div>
-        <FullCalendar
-          defaultView="dayGridMonth"
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          header={{
-            left: "prev,next today",
-            center: "title",
-            right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
-          }}
-        />
+      <div className="screenbody">
+        <div>
+          <FullCalendar
+            className="calendar"
+            defaultView="dayGridMonth"
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            header={{
+              left: "dayGridMonth timeGridWeek",
+              center: "title",
+              right: "prev,next today",
+            }}
+            dateClick={async (info) => {
+              const arrayOfRequests = await FirebaseFunctions.call(
+                "getBusinessCurrentRequestsByDay",
+                {
+                  day: info.dateStr,
+                  businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2",
+                }
+              );
+              setArrayOfRequests(arrayOfRequests);
+              const open = true;
+              isOpen(open);
+            }}
+          />
+        </div>
+        <div>
+          {open === true ? (
+            <div className="popupmenu">
+              <div className="divwrap">
+                <div className="servicecard">
+                {arrayOfRequests.map((dateString) => (
+                  <p>
+                   {dateString}
+                  </p>
+              ))}
+                  <div className="helpbutton">
+                    <HelpButton
+                      width={"10vw"}
+                      height={"3vh"}
+                      title={strings.ViewMore}
+                    />
+                  </div>
+                </div>
+                <div className="servicecard">
+                  <div className="helpbutton">
+                    <HelpButton
+                      width={"10vw"}
+                      height={"3vh"}
+                      title={strings.ViewMore}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div></div>
+          )}
+        </div>
       </div>
     </div>
   );

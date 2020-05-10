@@ -216,5 +216,6 @@ export default {
 	Message: 'Message',
 	SubmitCapital: 'SUBMIT',
 	BestDays: 'Best Days',
+	ViewMore: 'View More',
 
 };
