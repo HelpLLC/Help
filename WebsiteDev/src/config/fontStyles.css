@@ -29,6 +29,12 @@
 .green {
 	color: #5CC6BC
 }
+.darkGreen{
+	color:#567681
+}
+.fountainBlue {
+	color: #5CC6BC
+}
 .giganticTextStyle {
 	font-family: 'Lucida Grande';
 	font-size: 10vw;
@@ -43,7 +49,7 @@
 }
 .bigTextStyle {
 	font-family: 'Lucida Grande';
-	font-size: 2vw;
+	font-size: 3vw;
 }
 .mainTextStyle {
 	font-family: 'Lucida Grande';

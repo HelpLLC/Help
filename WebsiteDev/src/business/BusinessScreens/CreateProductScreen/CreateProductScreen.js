@@ -84,6 +84,7 @@ export default function CreateProductScreen() {
 	//This function goes and creates the product in Firebase, then fetches the correct updates business object,
 	//and navigates back to the Dashboard screen
 	const createProduct = async () => {
+		setIsLoading(true);
 		//Tests that all fields have been filled out
 		if (
 			image !== '' &&
@@ -120,7 +121,7 @@ export default function CreateProductScreen() {
 			for (let i = 0; i < finalQuestions.length; i++) {
 				const question = questions[i];
 				if (question.trim() !== '') {
-					finalQuestions.push(question)
+					finalQuestions.push(question);
 				}
 			}
 			for (const question of defaultQuestions) {
@@ -154,7 +155,7 @@ export default function CreateProductScreen() {
 
 			//Uploads the image to firebase as the image for this product
 			await FirebaseFunctions.storage.ref('services/' + serviceID).put(image);
-
+			setIsLoading(false);
 			history.push({ pathname: '/dashboard', state: { businessID: '' } });
 		} else {
 			if (image === '') {
@@ -162,8 +163,9 @@ export default function CreateProductScreen() {
 			} else if (serviceDescription.trim() !== '' && serviceDescription.length < 150) {
 				setDescriptionError(true);
 			} else {
-				setFieldsError(true)
+				setFieldsError(true);
 			}
+			setIsLoading(false);
 		}
 	};
 	return (
@@ -180,7 +182,8 @@ export default function CreateProductScreen() {
 							{strings.OneNumber}
 						</text>
 					</div>
-					<text className={currentStep === 1 ? 'bigTextStyle white bold' : 'bigTextStyle gray bold'}>
+					<text
+						className={currentStep === 1 ? 'bigTextStyle white bold' : 'bigTextStyle gray bold'}>
 						{strings.AddNewService}
 					</text>
 				</div>
@@ -195,7 +198,8 @@ export default function CreateProductScreen() {
 							{strings.TwoNumber}
 						</text>
 					</div>
-					<text className={currentStep === 2 ? 'bigTextStyle white bold' : 'bigTextStyle gray bold'}>
+					<text
+						className={currentStep === 2 ? 'bigTextStyle white bold' : 'bigTextStyle gray bold'}>
 						{strings.PricingAndPayment}
 					</text>
 				</div>
@@ -210,7 +214,8 @@ export default function CreateProductScreen() {
 							{strings.ThreeNumber}
 						</text>
 					</div>
-					<text className={currentStep === 3 ? 'bigTextStyle white bold' : 'bigTextStyle gray bold'}>
+					<text
+						className={currentStep === 3 ? 'bigTextStyle white bold' : 'bigTextStyle gray bold'}>
 						{strings.CustomerInfo}
 					</text>
 				</div>
@@ -556,6 +561,7 @@ export default function CreateProductScreen() {
 						/>
 						<HelpButton
 							title={strings.Create}
+							isLoading={isLoading}
 							onPress={() => {
 								//Creates the product
 								createProduct();

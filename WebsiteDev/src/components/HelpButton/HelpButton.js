@@ -8,6 +8,7 @@ import './HelpButtonGradient.css';
 import HelpButtonStyle from './HelpButtonStyle';
 import colors from '../../config/colors';
 import fontStyles from '../../config/fontStyles';
+import ReactLoading from 'react-loading';
 
 export default function HelpButton(props) {
 	//This function makes sure that the correct props are passed into the component
@@ -32,6 +33,9 @@ export default function HelpButton(props) {
 		isLightButton,
 		isRedButton,
 		isCircleBlueButton,
+		height,
+		isSmallButton,
+		isSmallButton2,
 	} = props;
 
 	//sets up what properties the custom component should take in, which in this case
@@ -40,38 +44,66 @@ export default function HelpButton(props) {
 	//doesn't display
 	if (isLoading === true) {
 		//Loading state
-		return <View></View>;
+		return <ReactLoading type={'bars'} color={colors.lightBlue} width='5vw' />;
 	} else {
 		return (
-			<div
-				className={isLightButton ? 'whiteDiv' : isRedButton ? 'redDiv' : 'gradientDiv'}
+			<button
+				className={
+					isLightButton
+						? 'whiteDiv'
+						: isRedButton
+						? 'redDiv'
+						: isSmallButton
+						? 'gradientDivSmall'
+						: isSmallButton2
+						? 'gradientDivSmall2'
+						: 'gradientDiv'
+				}
 				onClick={onPress}
+				disabled={disabled ? disabled : false}
 				style={
 					isCircleBlueButton
-						? { ...HelpButtonStyle.CircleBlueButton, width, height: width, borderRadius: width }
-						: { ...HelpButtonStyle.MainButton, width }
+						? {
+								...HelpButtonStyle.CircleBlueButton,
+								width,
+								height: height,
+								borderRadius: width,
+						  }
+						: {
+								...HelpButtonStyle.MainButton,
+								width: width ? width : '20vw',
+								height: height ? height : '8.78vh',
+						  }
 				}>
-				<TouchableOpacity
+				<Text
 					style={
-						isCircleBlueButton
-							? { ...HelpButtonStyle.CircleBlueButton }
-							: { ...HelpButtonStyle.MainButton, width }
-					}
-					disabled={disabled ? disabled : false}>
-					<Text
-						style={
-							isLightButton
-								? width < screenWidth * 0.3
-									? { ...fontStyles.mainTextStyle, ...fontStyles.blue, textAlign: 'center' }
-									: { ...fontStyles.bigTextStyle, ...fontStyles.blue, textAlign: 'center' }
-								: width < screenWidth * 0.3
-								? { ...fontStyles.mainTextStyle, ...fontStyles.white, textAlign: 'center' }
-								: { ...fontStyles.bigTextStyle, ...fontStyles.white, textAlign: 'center' }
-						}>
-						{title}
-					</Text>
-				</TouchableOpacity>
-			</div>
+						isLightButton
+							? width < screenWidth * 0.3
+								? {
+										...fontStyles.mainTextStyle,
+										...fontStyles.blue,
+										textAlign: 'center',
+								  }
+								: {
+										...fontStyles.bigTextStyle,
+										...fontStyles.blue,
+										textAlign: 'center',
+								  }
+							: width < screenWidth * 0.3
+							? {
+									...fontStyles.mainTextStyle,
+									...fontStyles.white,
+									textAlign: 'center',
+							  }
+							: {
+									...fontStyles.bigTextStyle,
+									...fontStyles.white,
+									textAlign: 'center',
+							  }
+					}>
+					{title}
+				</Text>
+			</button>
 		);
 	}
 }
