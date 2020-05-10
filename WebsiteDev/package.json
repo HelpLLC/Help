@@ -29,6 +29,7 @@
     "react-icons": "^3.9.0",
     "react-image-file-resizer": "^0.2.3",
     "react-images-upload": "^1.2.8",
+    "react-loading": "^2.0.3",
     "react-modal": "^3.11.2",
     "react-native-fontawesome": "^7.0.0",
     "react-native-web": "^0.12.2",

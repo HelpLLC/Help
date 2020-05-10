@@ -24,8 +24,8 @@ const UpcomingRequests = () => {
 					<View style={UpcomingRequestsStyles.DateContainer}>
 						<Text style={UpcomingRequestsStyles.Date}>April 28th, 2020</Text>
 					</View>
-					<View style={UpcomingRequestsStyles.ButtonContainer }>
-						<HelpButton title='View More' isSmallButton2={true} />
+					<View style={UpcomingRequestsStyles.ButtonContainer}>
+						<HelpButton title='View More' isSmallButton2={true} height={'3vh'} width={'7.5vw'} />
 					</View>
 				</View>
 			</View>

@@ -6,11 +6,10 @@ import colors from '../../config/colors';
 export default StyleSheet.create({
 	//Default button size to use
 	MainButton: {
-		height: screenHeight * 0.0878,
+		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
 		alignSelf: 'center',
-		borderRadius: screenHeight * 0.0512,
 	},
 
 	//The style for a perfect round button that is small
