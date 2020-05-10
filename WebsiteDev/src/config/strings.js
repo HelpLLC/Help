@@ -231,10 +231,8 @@ export default {
 	Message: 'Message',
 	SubmitCapital: 'SUBMIT',
 	BestDays: 'Best Days',
-<<<<<<< HEAD
 	ViewMore: 'View More',
 
-=======
 	Cancel: 'Cancel',
 	EmailMe: 'Email Me',
 	ForgotPasswordQuestion: 'Forgot Password?',
@@ -246,5 +244,4 @@ export default {
 	ErrorSigningUp: 'There was an error signing you up. Make sure you fill out all required information, then try again.',
 	AgreeToPolicies: 'I agree to Help\'s Terms and Conditions and Privacy Policy',
 	BusinessSchedule: 'Business Schedule',
->>>>>>> master
 };
