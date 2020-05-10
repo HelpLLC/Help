@@ -8,6 +8,7 @@ import './HelpButtonGradient.css';
 import HelpButtonStyle from './HelpButtonStyle';
 import colors from '../../config/colors';
 import fontStyles from '../../config/fontStyles';
+import ReactLoading from 'react-loading';
 
 export default function HelpButton(props) {
 	//This function makes sure that the correct props are passed into the component
@@ -43,10 +44,14 @@ export default function HelpButton(props) {
 	//doesn't display
 	if (isLoading === true) {
 		//Loading state
-		return <View></View>;
+		return (
+			<View>
+				<ReactLoading type={'balls'} color={colors.blue} height={height} width={width} />
+			</View>
+		);
 	} else {
 		return (
-			<div
+			<button
 				className={
 					isLightButton
 						? 'whiteDiv'
@@ -59,6 +64,7 @@ export default function HelpButton(props) {
 						: 'gradientDiv'
 				}
 				onClick={onPress}
+				disabled={disabled ? disabled : false}
 				style={
 					isCircleBlueButton
 						? {
@@ -67,48 +73,37 @@ export default function HelpButton(props) {
 								height: height,
 								borderRadius: width,
 						  }
-						: { ...HelpButtonStyle.MainButton, width }
-				}
-			>
-				<TouchableOpacity
+						: { ...HelpButtonStyle.MainButton, width: width ? width : '20vw', height: height ? height : '8.78vh' }
+				}>
+				<Text
 					style={
-						isCircleBlueButton
-							? { ...HelpButtonStyle.CircleBlueButton }
-							: { ...HelpButtonStyle.MainButton, width }
-					}
-					disabled={disabled ? disabled : false}
-				>
-					<Text
-						style={
-							isLightButton
-								? width < screenWidth * 0.3
-									? {
-											...fontStyles.mainTextStyle,
-											...fontStyles.blue,
-											textAlign: 'center',
-									  }
-									: {
-											...fontStyles.bigTextStyle,
-											...fontStyles.blue,
-											textAlign: 'center',
-									  }
-								: width < screenWidth * 0.3
+						isLightButton
+							? width < screenWidth * 0.3
 								? {
 										...fontStyles.mainTextStyle,
-										...fontStyles.white,
+										...fontStyles.blue,
 										textAlign: 'center',
 								  }
 								: {
 										...fontStyles.bigTextStyle,
-										...fontStyles.white,
+										...fontStyles.blue,
 										textAlign: 'center',
 								  }
-						}
-					>
-						{title}
-					</Text>
-				</TouchableOpacity>
-			</div>
+							: width < screenWidth * 0.3
+							? {
+									...fontStyles.mainTextStyle,
+									...fontStyles.white,
+									textAlign: 'center',
+							  }
+							: {
+									...fontStyles.bigTextStyle,
+									...fontStyles.white,
+									textAlign: 'center',
+							  }
+					}>
+					{title}
+				</Text>
+			</button>
 		);
 	}
 }

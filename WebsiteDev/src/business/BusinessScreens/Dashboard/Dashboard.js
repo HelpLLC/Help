@@ -43,7 +43,7 @@ export default function Dashboard(props) {
 				<div className='cardsHolder'>
 					<div>
 						<div className='buttonContainer'>
-							<HelpButton title='Add Service' isSmallButton={true} />
+							<HelpButton title='Add Service' isSmallButton={true} height={'4vh'} />
 						</div>
 						{loaded
 							? services.map((service) => (
@@ -56,12 +56,9 @@ export default function Dashboard(props) {
 										numCurrentRequests={service.numCurrentRequests}
 										image={async () => {
 											//Passes in the function to retrieve the image of this product
-											return await FirebaseFunctions.call(
-												'getServiceImageByID',
-												{
-													serviceID: service.serviceID,
-												}
-											);
+											return await FirebaseFunctions.call('getServiceImageByID', {
+												serviceID: service.serviceID,
+											});
 										}}
 									/>
 							  ))
