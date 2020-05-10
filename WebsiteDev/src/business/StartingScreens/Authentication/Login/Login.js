@@ -19,10 +19,13 @@ export function Login(props) {
 	const [credentialsError, setCredentialsError] = useState(false);
 	const [open, setOpen] = useState(false);
 	const [emailSentOpen, setEmailSentOpen] = useState(false);
+	const [loggingInLoading, setLoggingInLoading] = useState(false);
+	const [emailSendingLoading, setEmailSendingLoading] = useState(false);
 	const [errorOpen, setErrorOpen] = useState(false);
 	let history = useHistory();
 
 	const login = async () => {
+		setLoggingInLoading(true);
 		if (
 			email.trim().length > 0 &&
 			email.includes('@') &&
@@ -35,22 +38,25 @@ export function Login(props) {
 			} catch (error) {
 				setCredentialsError(true);
 			}
-
+			setLoggingInLoading(false);
 			if (businessID) {
 				history.push({ pathname: '/dashboard', state: { businessID: businessID } });
 			}
 		} else {
+			setLoggingInLoading(false);
 			setCredentialsError(true);
 		}
 	};
 
 	const submit = async () => {
+		setEmailSendingLoading(true);
 		try {
 			await FirebaseFunctions.forgotPassword(email);
 			setEmailSentOpen(true);
 		} catch (error) {
 			setErrorOpen(true);
 		}
+		setLoggingInLoading(false);
 		setOpen(false);
 	};
 
@@ -91,7 +97,7 @@ export function Login(props) {
 					/>
 				</div>
 				<div id='login_button'>
-					<HelpButton title={strings.LogIn} width={'40vw'} onPress={login} />
+					<HelpButton title={strings.LogIn} isLoading={loggingInLoading} width={'40vw'} onPress={login} />
 				</div>
 				<button
 					id='forgot_password_button'
@@ -148,7 +154,7 @@ export function Login(props) {
 				</DialogContent>
 				<DialogActions>
 					<HelpButton title={strings.Cancel} onPress={() => setOpen(false)} width={'22vw'} />
-					<HelpButton title={strings.EmailMe} onPress={submit} width={'22vw'} />
+					<HelpButton title={strings.EmailMe} isLoading={emailSendingLoading} onPress={submit} width={'22vw'} />
 				</DialogActions>
 			</Dialog>
 

@@ -64,7 +64,10 @@
 
 #signup_button {
 	margin-top: 1.5vh;
-	margin-left: 2vw;
+	margin-right: 4vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 #signup_title {

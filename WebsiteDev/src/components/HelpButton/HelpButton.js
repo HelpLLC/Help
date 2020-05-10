@@ -44,11 +44,7 @@ export default function HelpButton(props) {
 	//doesn't display
 	if (isLoading === true) {
 		//Loading state
-		return (
-			<View>
-				<ReactLoading type={'balls'} color={colors.blue} height={height} width={width} />
-			</View>
-		);
+		return <ReactLoading type={'bars'} color={colors.lightBlue} width='5vw' />;
 	} else {
 		return (
 			<button
@@ -73,7 +69,11 @@ export default function HelpButton(props) {
 								height: height,
 								borderRadius: width,
 						  }
-						: { ...HelpButtonStyle.MainButton, width: width ? width : '20vw', height: height ? height : '8.78vh' }
+						: {
+								...HelpButtonStyle.MainButton,
+								width: width ? width : '20vw',
+								height: height ? height : '8.78vh',
+						  }
 				}>
 				<Text
 					style={

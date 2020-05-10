@@ -15,6 +15,7 @@ import TitleComponent from '../../../../components/TitleComponent.js';
 
 export function SignUp(props) {
 	const [email, setEmail] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [businessName, setBusinessName] = useState('');
@@ -77,6 +78,7 @@ export function SignUp(props) {
 	};
 
 	const signup = async () => {
+		setIsLoading(true);
 		if (
 			agreed &&
 			((mondayStartTime && mondayEndTime) ||
@@ -154,12 +156,15 @@ export function SignUp(props) {
 						lng: 3,
 					},
 				});
+				setIsLoading(false);
 				history.push({ pathname: '/dashboard', state: { businessID: businessID } });
 				setSubmitted(true);
 			} catch (error) {
+				setIsLoading(false);
 				setErrorOpen(true);
 			}
 		} else {
+			setIsLoading(false);
 			setErrorOpen(true);
 		}
 	};
@@ -463,7 +468,7 @@ export function SignUp(props) {
 					</label>
 
 					<div id='signup_button'>
-						<HelpButton title={strings.SignUp} width={'42vw'} onPress={signup} />
+						<HelpButton title={strings.SignUp} isLoading={isLoading} width={'42vw'} onPress={signup} />
 					</div>
 					<div id='signup_button'>
 						<HelpButton
