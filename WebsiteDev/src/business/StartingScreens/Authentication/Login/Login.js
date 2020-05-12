@@ -32,10 +32,11 @@ export function Login(props) {
 			email.includes('.') &&
 			password.trim().length > 0
 		) {
-			const businessID = '';
+			let businessID = '';
 			try {
 				businessID = await FirebaseFunctions.logIn(email, password);
 			} catch (error) {
+				console.log(error);
 				setCredentialsError(true);
 			}
 			setLoggingInLoading(false);

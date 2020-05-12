@@ -4,7 +4,7 @@ import Header from '../Header/Header';
 import '../Header/Header.css';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import BusinessServiceCard from '../../../components/BusinessServiceCard/BusinessServiceCard';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -18,6 +18,7 @@ export default function Dashboard(props) {
 	const [loaded, setLoaded] = React.useState(false);
 	const [image, setImage] = React.useState('');
 	const location = useLocation();
+	const history = useHistory();
 
 	const componentDidMount = async () => {
 		const businessID = location.state.businessID;
@@ -58,6 +59,12 @@ export default function Dashboard(props) {
 											//Passes in the function to retrieve the image of this product
 											return await FirebaseFunctions.call('getServiceImageByID', {
 												serviceID: service.serviceID,
+											});
+										}}
+										onPress={() => {
+											history.push({
+												pathname: '/serviceScreen',
+												state: { business: business, service: service },
 											});
 										}}
 									/>
