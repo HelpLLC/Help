@@ -8,7 +8,7 @@ import { Divider } from '@material-ui/core';
 import fontStyles from '../../config/fontStyles.js';
 import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native-web';
 import HelpButton from '../HelpButton/HelpButton';
-import StarRatingComponent from 'react-star-rating-component';
+import StarRatings from 'react-star-ratings';
 import colors from '../../config/colors';
 
 export default function BusinessServiceCard(props) {
@@ -50,10 +50,12 @@ export default function BusinessServiceCard(props) {
 					</Text>
 				</View>
 				<View style={BusinessServiceCardStyle.starsContainer}>
-					<StarRatingComponent
-						name={'Rating'} /* name of the radio input, it is required */
-						value={averageRating}
-						editing={false}
+					<StarRatings
+						rating={averageRating}
+						numberOfStars={5}
+						starRatedColor={colors.yellow}
+						starDimension={'2vw'}
+						starSpacing={'0.25vw'}
 					/>
 				</View>
 				<View style={BusinessServiceCardStyle.requestsContainer}>

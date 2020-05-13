@@ -39,7 +39,7 @@
     "react-scrollbar": "^0.5.6",
     "react-select": "^3.1.0",
     "react-social-icons": "^4.1.0",
-    "react-star-rating-component": "^1.4.1"
+    "react-star-ratings": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
