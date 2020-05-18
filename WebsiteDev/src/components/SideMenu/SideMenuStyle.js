@@ -3,7 +3,7 @@ import fontStyles from '../../config/fontStyles';
 
 export default {
 	sidebar: {
-		width: 256,
+		width: '20vw',
 		height: '100vh',
 		color: colors.white,
       backgroundColor: colors.blue,
@@ -16,7 +16,7 @@ export default {
       ...fontStyles.mainTextStyle,
 	},
 	divider: {
-		margin: '1vh 0',
+		margin: '2.5vh 0vw',
 		height: 1,
 		backgroundColor: colors.white,
 	},
