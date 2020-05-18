@@ -82,6 +82,17 @@ export default function SideMenuContent(props) {
 					&ensp; {strings.Profile}
 				</a>
 				<div style={styles.divider} />
+
+				<a
+					style={styles.logout, { cursor: 'pointer' }}
+					onClick={() =>
+						history.push({
+							pathname: '/',
+						})
+					}>
+					<FontAwesomeIcon icon='sign-out-alt' size='1x' />
+					&ensp; {strings.LogOut}
+				</a>
 			</div>
 		</SideMenuTitle>
 	);
