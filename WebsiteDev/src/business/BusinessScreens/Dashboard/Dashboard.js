@@ -11,6 +11,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import '../../../config/fontStyles.css';
 import HelpButton from '../../../components/HelpButton/HelpButton';
 import UpcomingRequests from '../../../components/UpcomingRequests/UpcomingRequests';
+import SideMenu from '../../../components/SideMenu/SideMenu';
 
 export default function Dashboard(props) {
 	const [business, setBusiness] = React.useState();
@@ -35,7 +36,9 @@ export default function Dashboard(props) {
 
 	return (
 		<div className='dashboardContainer'>
-			<section className='sidebarHolder'></section>
+			<section className='sidebarHolder'>
+				<SideMenu title='Dashboard' />
+			</section>
 			<section className='dashboardHolder'>
 				<div className='dashboardTitleContainer'>
 					<text className='darkGreen bold bigTextStyle'>Services</text>

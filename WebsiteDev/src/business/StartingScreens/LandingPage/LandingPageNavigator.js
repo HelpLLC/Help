@@ -13,6 +13,10 @@ import TermsAndConditions from '../../TermsAndConditions.js';
 import CreateProductScreen from '../../BusinessScreens/CreateProductScreen/CreateProductScreen';
 import { Login } from '../Authentication/Login/Login';
 import { SignUp } from '../Authentication/SignUp/SignUp';
+import Analytics from '../../BusinessScreens/Analytics/Analytics';
+import ReactCalendar from '../../BusinessScreens/Calender/Calender';
+import Dispatch from '../../BusinessScreens/Dispatch/Dispatch';
+import Profile from '../../BusinessScreens/Profile/Profile';
 
 export default function LandingPageNavigator() {
 	//The header containing the title, log in, and sign up buttons
@@ -116,6 +120,18 @@ export default function LandingPageNavigator() {
 				</Route>
 				<Route path='/dashboard'>
 					<Dashboard />
+				</Route>
+				<Route path='/analytics'>
+					<Analytics />
+				</Route>
+				<Route path='/calendar'>
+					<ReactCalendar />
+				</Route>
+				<Route path='/dispatch'>
+					<Dispatch />
+				</Route>
+				<Route path='/profile'>
+					<Profile />
 				</Route>
 				<Route path='/createproduct'>
 					<CreateProductScreen />

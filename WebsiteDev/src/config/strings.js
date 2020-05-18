@@ -22,6 +22,11 @@ export default {
 	SmartScheduling: 'Smart Scheduling',
 	SmartSchedulingMessage:
 		'Automate your schedule by having customers schedule a time that works for them, and works for you.',
+	Analytics: 'Analytics',
+	Dashboard: 'Dashboard',
+	Calendar: 'Calendar',
+	Dispatch: 'Dispatch',
+	Profile: 'Profile',
 	AdvancedAnalytics: 'Advanced Analytics',
 	AdvancedAnalyticsMessage:
 		'Analyze your business over time and make data-driven decisions based on things like Monthly Revenue, Top Services, and Customer Locations.',
@@ -58,7 +63,7 @@ export default {
 	WhatWeDoBest: 'What We Do Best',
 	SmartScheduling: 'Smart Scheduling',
 	SmartSchedulingText:
-		' Automate your schedule by having customers schedule a time that works for them and for you.',
+		'Automate your schedule by having customers schedule a time that works for them and for you.',
 	AdvancedAnalyticsText:
 		'Analyze your business over time and make data-driven decisions based on things like Monthly Revenue, Top Services, and Customer Locations.',
 	PaymentsText:

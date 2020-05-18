@@ -6,6 +6,7 @@ import HelpButton from '../../../components/HelpButton/HelpButton';
 import '../../../config/fontStyles.css';
 import { Image } from 'react-native-web';
 import FeatureCard from '../../../components/FeatureCard/FeatureCard';
+import SideMenu from '../../../components/SideMenu/SideMenu';
 
 export default function LandingPage() {
 	//To save code, this generates each reduntant section in the landing page

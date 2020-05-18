@@ -9,6 +9,7 @@ import strings from '../../../config/strings';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import SideMenu from '../../../components/SideMenu/SideMenu';
 
 export default function Analytics(props) {
 	const [isScreenLoading, setIsScreenLoading] = useState(true);
@@ -215,12 +216,22 @@ export default function Analytics(props) {
 	if (isScreenLoading === true) {
 		componentDidMount();
 		return (
+			<div className='top'>
+
+			<section className='sidebarHolder'>
+				<SideMenu title='Analytics' />
+			</section>
+
 			<div className='container'>
 				<TitleComponent text={strings.Analytics} isCentered={true} textColor={colors.lightBlue} />
 			</div>
+			</div>
 		);
 	} else {
-		return (
+		return (<div className='top'>
+		<section className='sidebarHolder'>
+				<SideMenu title='Analytics' />
+		</section>
 			<div className='container'>
 				<text className='bigTitleTextStyle blue'>{strings.Analytics}</text>
 				<div className='row'>
@@ -236,7 +247,7 @@ export default function Analytics(props) {
 					</div>
 				</div>
 				<Chart
-					width={'90vw'}
+					width={'75vw'}
 					height={'20vh'}
 					chartType='Line'
 					loader={<div>{strings.LoadingChart}</div>}
@@ -268,7 +279,7 @@ export default function Analytics(props) {
 					</div>
 				</div>
 				<Chart
-					width={'90vw'}
+					width={'75vw'}
 					height={'20vh'}
 					chartType='Bar'
 					loader={<div>{strings.LoadingChart}</div>}
@@ -295,7 +306,7 @@ export default function Analytics(props) {
 					</div>
 				</div>
 				<Chart
-					width={'90vw'}
+					width={'75vw'}
 					height={'20vh'}
 					chartType='Bar'
 					loader={<div>{strings.LoadingChart}</div>}
@@ -306,7 +317,7 @@ export default function Analytics(props) {
 				/>
 				<text className='bigTextStyle blue bold'>{strings.BestDays}</text>
 				<Chart
-					width={'90vw'}
+					width={'75vw'}
 					height={'20vh'}
 					chartType='Calendar'
 					loader={<div>{strings.LoadingChart}</div>}
@@ -364,7 +375,7 @@ export default function Analytics(props) {
 						},
 						colorAxis: { minValue: 5, colors: [colors.white, colors.lightBlue] },
 						calendar: {
-							cellSize: 21,
+							cellSize: 15,
 							cellColor: {
 								stroke: colors.lightBlue,
 								strokeOpacity: 0.5,
@@ -389,6 +400,7 @@ export default function Analytics(props) {
 						},
 					}}
 				/>
+			</div>
 			</div>
 		);
 	}
