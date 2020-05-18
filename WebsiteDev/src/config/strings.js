@@ -75,6 +75,7 @@ export default {
 	Today: 'Today',
 	HelpForBusiness: 'Help for Business',
 	LogIn: 'Log In',
+	LogOut: 'Log Out',
 	SignUp: 'Sign Up',
 	ContactUs: 'Contact Us',
 	HelpEmail: 'helpcocontact@gmail.com',
