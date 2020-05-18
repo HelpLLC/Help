@@ -5,6 +5,7 @@ import '../../../config/fontStyles.css';
 import strings from '../../../config/strings';
 import LandingPage from './LandingPage';
 import Dashboard from '../../../business/BusinessScreens/Dashboard/Dashboard';
+import ServiceScreen from '../../BusinessScreens/ServiceScreen/ServiceScreen';
 import { SocialIcon } from 'react-social-icons';
 import PrivacyPolicy from '../../PrivacyPolicy.js';
 import Credits from '../../Credits.js';
@@ -120,6 +121,9 @@ export default function LandingPageNavigator() {
 				</Route>
 				<Route path='/dashboard'>
 					<Dashboard />
+				</Route>
+				<Route path='/serviceScreen'>
+					<ServiceScreen />
 				</Route>
 				<Route path='/analytics'>
 					<Analytics />

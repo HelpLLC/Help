@@ -120,7 +120,7 @@ export default {
 	Monday: 'Monday',
 	Tuesday: 'Tuesday',
 	Wednesday: 'Wednesday',
-	Thursday: 'Thursda',
+	Thursday: 'Thursday',
 	Friday: 'Friday',
 	Saturday: 'Saturday',
 	AdjustJobHeader: 'Adjust Job',
@@ -247,4 +247,12 @@ export default {
 	ErrorSigningUp: 'There was an error signing you up. Make sure you fill out all required information, then try again.',
 	AgreeToPolicies: 'I agree to Help\'s Terms and Conditions and Privacy Policy',
 	BusinessSchedule: 'Business Schedule',
+	EditService: 'Edit Service',
+	Description: 'Description',
+	Rating: 'Rating',
+	RequestsHistory: 'Requests History',
+	DaysOffered: 'Days Offered',
+	View: 'View',
+	CurrentRequests: 'Current Requests',
+	ViewAll: 'View All'
 };
