@@ -140,6 +140,9 @@ export default function LandingPageNavigator() {
 				<Route path='/createproduct'>
 					<CreateProductScreen />
 				</Route>
+				<Route path='/analytics'>
+					<Analytics />
+				</Route>
 				<Route path='/contactus'>
 					<div className={'bodyOuter'}>
 						<div className={'bodyInner'}>
