@@ -11,6 +11,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import '../../../config/fontStyles.css';
 import { View } from 'react-native-web';
+import SideMenu from '../../../components/SideMenu/SideMenu';
 
 export default function Analytics(props) {
 	const [isScreenLoading, setIsScreenLoading] = useState(true);
@@ -227,16 +228,22 @@ export default function Analytics(props) {
 
 	if (isScreenLoading === true) {
 		return (
-			<div className='titlecontainer'>
-				<TitleComponent
-					text={strings.Analytics}
-					isCentered={true}
-					textColor={colors.lightBlue}
-				/>
+			<div className='top'>
+
+			<section className='sidebarHolder'>
+				<SideMenu title='Analytics' />
+			</section>
+
+			<div className='container'>
+				<TitleComponent text={strings.Analytics} isCentered={true} textColor={colors.lightBlue} />
+			</div>
 			</div>
 		);
 	} else {
-		return (
+		return (<div className='top'>
+		<section className='sidebarHolder'>
+				<SideMenu title='Analytics' />
+		</section>
 			<div className='container'>
 				<div className='titlecontainer'>
 					<text className='biggerBigTextStyle blue bold'>
@@ -358,6 +365,7 @@ export default function Analytics(props) {
 				</div>
 
 				
+			</div>
 			</div>
 		);
 	}

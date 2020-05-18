@@ -15,6 +15,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import colors from '../../../config/colors';
 import TitleComponent from '../../../components/TitleComponent.js';
 import Select from 'react-select';
+import SideMenu from '../../../components/SideMenu/SideMenu';
 
 export default function CreateProductScreen() {
 	//Declares the hooks
@@ -169,6 +170,12 @@ export default function CreateProductScreen() {
 		}
 	};
 	return (
+		<div className='top'>
+
+		<section className='sidebarHolder'>
+				<SideMenu />
+			</section>
+		
 		<div className='container'>
 			<div className='stepsRow'>
 				<div
@@ -601,6 +608,7 @@ export default function CreateProductScreen() {
 					<DialogContentText>{strings.PleaseAddAnImage}</DialogContentText>
 				</DialogContent>
 			</Dialog>
+		</div>
 		</div>
 	);
 }

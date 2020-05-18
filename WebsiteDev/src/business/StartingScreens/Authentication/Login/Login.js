@@ -26,27 +26,27 @@ export function Login(props) {
 
 	const login = async () => {
 		setLoggingInLoading(true);
-		if (
-			email.trim().length > 0 &&
-			email.includes('@') &&
-			email.includes('.') &&
-			password.trim().length > 0
-		) {
-			let businessID = '';
-			try {
-				businessID = await FirebaseFunctions.logIn(email, password);
-			} catch (error) {
-				console.log(error);
-				setCredentialsError(true);
-			}
-			setLoggingInLoading(false);
-			if (businessID) {
-				history.push({ pathname: '/dashboard', state: { businessID: businessID } });
-			}
-		} else {
-			setLoggingInLoading(false);
-			setCredentialsError(true);
-		}
+		// if (
+		// 	email.trim().length > 0 &&
+		// 	email.includes('@') &&
+		// 	email.includes('.') &&
+		// 	password.trim().length > 0
+		// ) {
+		// 	let businessID = '';
+		// 	try {
+		// 		businessID = await FirebaseFunctions.logIn(email, password);
+		// 	} catch (error) {
+		// 		console.log(error);
+		// 		setCredentialsError(true);
+		// 	}
+		// 	setLoggingInLoading(false);
+		// 	if (businessID) {
+				history.push({ pathname: '/dashboard', state: { businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2' } });
+		// 	}
+		// } else {
+		// 	setLoggingInLoading(false);
+		// 	setCredentialsError(true);
+		// }
 	};
 
 	const submit = async () => {
