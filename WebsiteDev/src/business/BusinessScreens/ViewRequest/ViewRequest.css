@@ -4,8 +4,8 @@
 }
 
 #rectangle_4 {
-   margin-top: 15vh;
-   margin-left: 15vw;
+   margin-top: 5vh;
+   margin-left: 22.5vw;
    width: 75vw;
 	-ms-border-radius: 30px;
 	-o-border-radius: 30px;
@@ -57,6 +57,8 @@
 
 .details_column {
    margin-top: 2vh;
+   justify-content: space-evenly;
+   height: 12vh;
    display: flex;
    flex-direction: column;
 }
@@ -64,6 +66,12 @@
 .questions {
    display: flex;
    flex-direction: column;
+   border-right: #00b0f0;
+   padding-right: 2vw;
+   border-style: solid;
+   border-top: 0;
+   border-left: 0;
+   border-bottom: 0;
 }
 
 .question_response {
@@ -72,6 +80,7 @@
 }
 
 .questions_title {
+   margin-top: 3vh;
    margin-bottom: 2vh;
 }
 
@@ -98,7 +107,8 @@
 
 .payment_container {
    flex-direction: column;
-   margin-left: 5vw;
+   margin-top: 3vh;
+   margin-left: 2vw;
 }
 
 .payment_column {

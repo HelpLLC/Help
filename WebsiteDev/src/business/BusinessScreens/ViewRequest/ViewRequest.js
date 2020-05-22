@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import HelpTextInput from '../../../components/HelpTextInput/HelpTextInput';
 import HelpButton from '../../../components/HelpButton/HelpButton';
+import SideMenu from '../../../components/SideMenu/SideMenu';
 import './ViewRequest.css';
 import '../../../config/fontStyles.css';
 import strings from '../../../config/strings';
 import profile_pic from './profile_pic.png'; // Tell webpack this JS file uses this image
 
 export function ViewRequest(props) {
-	const [service, setService] = useState(props.name);
+	const [service, setService] = useState(props.service);
 	const [name, setName] = useState(props.name);
 	const [day, setDay] = useState('');
 	const [date, setDate] = useState(props.date);
 	const [time, setTime] = useState('');
-	const [repeat, setRepeat] = useState('');
 	const [questions, setQuestions] = useState();
 	const [paymentType, setPaymentType] = useState('Card');
 	const [cardNumber, setCardNumber] = useState('');
@@ -22,6 +22,7 @@ export function ViewRequest(props) {
 
 	return paymentType == 'Card' ? (
 		<div id='container'>
+			<SideMenu />
 			<div id='rectangle_4'>
 				<div className='content_container'>
 					<div className='service_title bigTitleTextStyle darkBlue'>{service}</div>
@@ -40,7 +41,6 @@ export function ViewRequest(props) {
 									{day}, {date}{' '}
 								</text>
 								<text className='subTextStyle darkBlue'> {time} </text>
-								<text className='smallTextStyle darkBlue'> {repeat} </text>
 							</div>
 						</div>
 					</div>
@@ -95,6 +95,7 @@ export function ViewRequest(props) {
 		</div>
 	) : (
 		<div id='container'>
+			<SideMenu />
 			<div id='rectangle_4'>
 				<div className='content_container'>
 					<div className='service_title bigTitleTextStyle darkBlue'>{service}</div>
@@ -113,7 +114,6 @@ export function ViewRequest(props) {
 									{day}, {date}{' '}
 								</text>
 								<text className='subTextStyle darkBlue'> {time} </text>
-								<text className='smallTextStyle darkBlue'> {repeat} </text>
 							</div>
 						</div>
 					</div>
