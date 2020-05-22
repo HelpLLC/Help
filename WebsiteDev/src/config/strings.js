@@ -22,9 +22,12 @@ export default {
 	SmartScheduling: 'Smart Scheduling',
 	SmartSchedulingMessage:
 		'Automate your schedule by having customers schedule a time that works for them, and works for you.',
+	Total: 'Total',
 	Analytics: 'Analytics',
 	Dashboard: 'Dashboard',
 	Calendar: 'Calendar',
+	CancelRequest: 'Cancel Request',
+	CompleteRequest: 'Complete Request',
 	Dispatch: 'Dispatch',
 	Profile: 'Profile',
 	AdvancedAnalytics: 'Advanced Analytics',
@@ -99,6 +102,8 @@ export default {
 	CentralizedPayments: 'Centralized Payments',
 	CentralizedPaymentsMessage:
 		'Allow customers to pay through the secure Help platform however they want, and accept it all in one place.',
+	Payment: 'Payment',
+	QuestionResponses: 'Question Responses',
 	EmployeeManagement: 'Employee Management',
 	EmployeeManagementMessage:
 		"If you are a business owner, manage how your employees complete requests through Help's employee management features.",
@@ -229,5 +234,5 @@ export default {
 	SortByCountry: 'Sort By Country',
 	SortByRequests: 'Sort By Requests',
 	SortByRevenue: 'Sort By Revenue',
-	SortByViews: 'Sort By Views'
+	SortByViews: 'Sort By Views',
 };
