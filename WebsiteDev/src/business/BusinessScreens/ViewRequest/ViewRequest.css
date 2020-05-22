@@ -1,0 +1,121 @@
+.content_container {
+   margin-left: 5vw;
+   margin-right: 5vw;
+}
+
+#rectangle_4 {
+   margin-top: 15vh;
+   margin-left: 15vw;
+   width: 75vw;
+	-ms-border-radius: 30px;
+	-o-border-radius: 30px;
+	-moz-border-radius: 30px;
+	-webkit-border-radius: 30px;
+	border-radius: 30px;
+	border: 2px solid #5cc6bc;
+	-ms-box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
+	-o-box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
+	-webkit-box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
+	-moz-box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
+	box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
+}
+
+.topRow {
+   display: flex;
+   justify-content: space-between;
+   flex-direction: row;
+}
+
+.row3 {
+   display: flex;
+   justify-content: space-between;
+   flex-direction: row;
+   margin-bottom: 2vh;
+}
+
+
+.profile_details {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-evenly;
+}
+
+.request_from {
+   display: flex;
+   flex-direction: column;
+   margin-top: 3vh;
+   margin-left: 1vw;
+}
+
+.service_title {
+   text-align: center;
+}
+
+.request_details {
+   justify-content: flex-end;
+}
+
+.details_column {
+   margin-top: 2vh;
+   display: flex;
+   flex-direction: column;
+}
+
+.questions {
+   display: flex;
+   flex-direction: column;
+}
+
+.question_response {
+   margin-top: 1vh;
+   margin-bottom: 2vh;
+}
+
+.questions_title {
+   margin-bottom: 2vh;
+}
+
+.row2 {
+   display: flex;
+   flex-direction: row;
+}
+
+.payment_background {
+   margin-top: 2vh;
+   width: 28vw;
+	-ms-border-radius: 30px;
+	-o-border-radius: 30px;
+	-moz-border-radius: 30px;
+	-webkit-border-radius: 30px;
+	border-radius: 30px;
+	border: 2px solid #5cc6bc;
+	-ms-box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
+	-o-box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
+	-webkit-box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
+	-moz-box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
+	box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
+}
+
+.payment_container {
+   flex-direction: column;
+   margin-left: 5vw;
+}
+
+.payment_column {
+   margin-top: 1vh;
+   margin-left: 1vw;
+   display: flex;
+   flex-direction: column;
+}
+
+.payment_method {
+   display: flex;
+   justify-content: space-between;
+   flex-direction: row;
+   margin-top: 2vh;
+   margin-bottom: 3vh;
+}
+
+.payment_right {
+   margin-right: 1vw;
+}
