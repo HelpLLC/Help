@@ -1,55 +1,71 @@
 /*This is going to contain the fontStyles that are going to be used in the website*/
 .bold {
-    font-weight: bold;
+	font-weight: bold;
 }
 .lightGray {
-	color: #F3F3F3
+	color: #f3f3f3;
 }
 .white {
-	color: #FFFFFF
+	color: #ffffff;
 }
 .lightBlue {
-	color: #41CBEF
+	color: #41cbef;
 }
 .darkBlue {
-	color: #567681
+	color: #567681;
 }
 .blue {
-	color: #00B0F0
+	color: #00b0f0;
 }
 .black {
-	color: #000000
+	color: #000000;
 }
 .red {
-	color: #DF1919
+	color: #df1919;
 }
 .gray {
-	color: #808080
+	color: #808080;
 }
 .green {
-	color: #5CC6BC
+	color: #5cc6bc;
 }
-.darkGreen{
-	color:#567681
+.darkGreen {
+	color: #567681;
 }
 .fountainBlue {
-	color: #5CC6BC
+	color: #5cc6bc;
 }
 .giganticTextStyle {
 	font-family: 'Lucida Grande';
 	font-size: 10vw;
+	margin: 0;
 }
 .bigTitleTextStyle {
 	font-family: 'Lucida Grande';
 	font-size: 5.5vw;
+	margin: 0;
 }
 .bigSubTitleTextStyle {
 	font-family: 'Lucida Grande';
 	font-size: 4vw;
+	margin: 0;
+}
+
+.biggerBigTextStyle {
+	font-family: 'Lucida Grande';
+	font-size: 3.5vw;
+	margin: 0;
 }
 .bigTextStyle {
 	font-family: 'Lucida Grande';
 	font-size: 3vw;
+	margin: 0;
+}
+
+.smallerBigTextStyle {
+	font-family: 'Lucida Grande';
+	font-size: 2.5vw;
+	margin: 0;
 }
 .mainTextStyle {
 	font-family: 'Lucida Grande';

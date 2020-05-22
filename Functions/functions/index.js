@@ -319,7 +319,12 @@ exports.getBusinessCurrentRequestsByDay = functions.https.onCall(async (input, c
 		if (doc.exists === true) {
 			const data = await doc.data();
 			delete data.dateString;
-			return data;
+			//Structures the requests as an array
+			const finalArray = [];
+			for (const objectKey of Object.keys(data)) {
+				finalArray.push(data[objectKey]);
+			}
+			return finalArray;
 		} else {
 			return [];
 		}
@@ -339,7 +344,7 @@ exports.getUpcomingRequestByBusinessID = functions.https.onCall(async (input, co
 			.collection('Schedule')
 			.orderBy('dateString')
 			.limit(1);
-		const docs =  (await transaction.get(query)).docs;
+		const docs = (await transaction.get(query)).docs;
 		if (docs.length === 0) {
 			return -1;
 		} else {

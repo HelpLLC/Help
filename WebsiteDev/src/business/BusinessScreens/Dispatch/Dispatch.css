@@ -1,0 +1,16 @@
+/* Container */
+.dispatchContainer {
+	display: flex;
+	flex-direction: row;
+}
+
+.sidebarHolder{
+	width: 20vw;
+	height: 100vh;
+}
+.dispatchHolder{
+	height: 100vh;
+	width: 70vw;
+	margin-left: 3vw;
+	margin-top: 3vh;
+}

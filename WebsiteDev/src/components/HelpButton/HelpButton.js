@@ -83,24 +83,28 @@ export default function HelpButton(props) {
 						isLightButton
 							? width < screenWidth * 0.3
 								? {
-										...fontStyles.mainTextStyle,
+										...fontStyles.subTextStyle,
 										...fontStyles.blue,
+										...fontStyles.bold,
 										textAlign: 'center',
 								  }
 								: {
-										...fontStyles.bigTextStyle,
+										...fontStyles.mainTextStyle,
 										...fontStyles.blue,
+										...fontStyles.bold,
 										textAlign: 'center',
 								  }
 							: width < screenWidth * 0.3
 							? {
-									...fontStyles.mainTextStyle,
+									...fontStyles.subTextStyle,
 									...fontStyles.white,
+									...fontStyles.bold,
 									textAlign: 'center',
 							  }
 							: {
-									...fontStyles.bigTextStyle,
+									...fontStyles.mainTextStyle,
 									...fontStyles.white,
+									...fontStyles.bold,
 									textAlign: 'center',
 							  }
 					}>

@@ -4,13 +4,14 @@ import Header from '../Header/Header';
 import '../Header/Header.css';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import BusinessServiceCard from '../../../components/BusinessServiceCard/BusinessServiceCard';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import '../../../config/fontStyles.css';
 import HelpButton from '../../../components/HelpButton/HelpButton';
 import UpcomingRequests from '../../../components/UpcomingRequests/UpcomingRequests';
+import SideMenu from '../../../components/SideMenu/SideMenu';
 
 export default function Dashboard(props) {
 	const [business, setBusiness] = React.useState();
@@ -18,6 +19,7 @@ export default function Dashboard(props) {
 	const [loaded, setLoaded] = React.useState(false);
 	const [image, setImage] = React.useState('');
 	const location = useLocation();
+	const history = useHistory();
 
 	const componentDidMount = async () => {
 		const businessID = location.state.businessID;
@@ -35,7 +37,9 @@ export default function Dashboard(props) {
 
 	return (
 		<div className='dashboardContainer'>
-			<section className='sidebarHolder'></section>
+			<section className='sidebarHolder'>
+				<SideMenu title='Dashboard' />
+			</section>
 			<section className='dashboardHolder'>
 				<div className='dashboardTitleContainer'>
 					<text className='darkGreen bold bigTextStyle'>Services</text>
@@ -58,6 +62,12 @@ export default function Dashboard(props) {
 											//Passes in the function to retrieve the image of this product
 											return await FirebaseFunctions.call('getServiceImageByID', {
 												serviceID: service.serviceID,
+											});
+										}}
+										onPress={() => {
+											history.push({
+												pathname: '/serviceScreen',
+												state: { business: business, service: service },
 											});
 										}}
 									/>

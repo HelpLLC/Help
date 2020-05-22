@@ -5,6 +5,7 @@ import '../../../config/fontStyles.css';
 import strings from '../../../config/strings';
 import LandingPage from './LandingPage';
 import Dashboard from '../../../business/BusinessScreens/Dashboard/Dashboard';
+import ServiceScreen from '../../BusinessScreens/ServiceScreen/ServiceScreen';
 import { SocialIcon } from 'react-social-icons';
 import PrivacyPolicy from '../../PrivacyPolicy.js';
 import Credits from '../../Credits.js';
@@ -13,6 +14,10 @@ import TermsAndConditions from '../../TermsAndConditions.js';
 import CreateProductScreen from '../../BusinessScreens/CreateProductScreen/CreateProductScreen';
 import { Login } from '../Authentication/Login/Login';
 import { SignUp } from '../Authentication/SignUp/SignUp';
+import Analytics from '../../BusinessScreens/Analytics/Analytics';
+import ReactCalendar from '../../BusinessScreens/Calender/Calender';
+import Dispatch from '../../BusinessScreens/Dispatch/Dispatch';
+import Profile from '../../BusinessScreens/Profile/Profile';
 
 export default function LandingPageNavigator() {
 	//The header containing the title, log in, and sign up buttons
@@ -117,8 +122,26 @@ export default function LandingPageNavigator() {
 				<Route path='/dashboard'>
 					<Dashboard />
 				</Route>
+				<Route path='/serviceScreen'>
+					<ServiceScreen />
+				</Route>
+				<Route path='/analytics'>
+					<Analytics />
+				</Route>
+				<Route path='/calendar'>
+					<ReactCalendar />
+				</Route>
+				<Route path='/dispatch'>
+					<Dispatch />
+				</Route>
+				<Route path='/profile'>
+					<Profile />
+				</Route>
 				<Route path='/createproduct'>
 					<CreateProductScreen />
+				</Route>
+				<Route path='/analytics'>
+					<Analytics />
 				</Route>
 				<Route path='/contactus'>
 					<div className={'bodyOuter'}>
