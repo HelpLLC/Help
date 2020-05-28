@@ -235,4 +235,6 @@ export default {
 	SortByRequests: 'Sort By Requests',
 	SortByRevenue: 'Sort By Revenue',
 	SortByViews: 'Sort By Views',
+	CompletedColon: 'Completed:',
+	TotalColonDollar: 'Total: $'
 };
