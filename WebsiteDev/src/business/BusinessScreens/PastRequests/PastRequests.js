@@ -24,13 +24,13 @@ export default function PastRequests(props) {
             <text>Past Services Requests</text>
          </div>
          <div className="cards">
-          <ServiceHistoryCard  />
+          <ServiceHistoryCard service='Photography' name='John Doe' paymentStatus='Payment Pending' completedDate='5/2/2020' total='180'  />
          </div>
          <div className="cards">
-          <ServiceHistoryCard  />
+          <ServiceHistoryCard service='Photography' name='John Doe' paymentStatus='Payment Pending' completedDate='5/2/2020' total='180'  />
          </div>
          <div className="cards">
-          <ServiceHistoryCard  />
+          <ServiceHistoryCard service='Photography' name='John Doe' paymentStatus='Payment Pending' completedDate='5/2/2020' total='180'  />
          </div>
       </div>
 </div>

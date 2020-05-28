@@ -3,6 +3,7 @@ import { View, Text, Image } from 'react-native';
 import HelpButton from '../HelpButton/HelpButton';
 import PropTypes from 'prop-types';
 import fontStyles from '../../config/fontStyles';
+import strings from '../../config/strings';
 import { useHistory } from 'react-router-dom';
 import ServiceHistoryCardStyle from './ServiceHistoryCardStyle';
 
@@ -25,14 +26,17 @@ export default function ServiceHistoryCard(props) {
 	}, []);
 
 	ServiceHistoryCard.propTypes = {
-		//A height & width is required for this component to render. Along with whether it is multiline, and what
-		//the onChangeText function will return
 		height: PropTypes.number,
 		width: PropTypes.number,
-		image: PropTypes.string,
+      image: PropTypes.string,
+      service: PropTypes.string,
+      paymentStatus: PropTypes.string,
+      name: PropTypes.string,
+      completedDate: PropTypes.string,
+      total: PropTypes.string,
 	};
 
-	const { width, height } = props;
+	const { width, height, service, paymentStatus, name, completedDate, total } = props;
 
 	return (
 		<View>
@@ -57,14 +61,14 @@ export default function ServiceHistoryCard(props) {
                      ...fontStyles.bigSubTitleStyle,
                      ...fontStyles.darkBlue,
 						}}>
-						{' '}
-						Photography{' '}
+						{service}
 					</Text>
 					<View
 						style={{
                      alignItems: 'flex-start',
-                     marginTop: '1vh',
+                     marginTop: '0.5vh',
                      borderRadius: 15,
+                     marginStart: '1vw',
                      paddingHorizontal: '0.5vw',
                      paddingVertical: '1vh',
 							'background': 'linear-gradient(90deg, #5cc6bc, #41cbef)',
@@ -74,8 +78,7 @@ export default function ServiceHistoryCard(props) {
                         ...fontStyles.mainTextStyle,
                         ...fontStyles.white
 							}}>
-							{' '}
-							Payment Pending{' '}
+							{paymentStatus}
 						</Text>
 					</View>
 				</View>
@@ -111,8 +114,7 @@ export default function ServiceHistoryCard(props) {
                            ...fontStyles.darkBlue,
                            marginTop: '2vh'
                         }}>
-								{' '}
-								Request from{' '}
+								{strings.RequestFromHeader}
 							</Text>
 							<Text
 								style={{
@@ -123,7 +125,7 @@ export default function ServiceHistoryCard(props) {
                            marginStart: '27vw'
 								}}>
 								{' '}
-								Completed 05 / 02 / 2020{' '}
+								{strings.CompletedColon} {completedDate}
 							</Text>
 						</View>
 						<View
@@ -139,8 +141,7 @@ export default function ServiceHistoryCard(props) {
                            ...fontStyles.bold,
                            marginStart: '-0.5vw'
 								}}>
-								{' '}
-								John Doe{' '}
+								{name}
 							</Text>
 							<Text
 								style={{
@@ -148,10 +149,10 @@ export default function ServiceHistoryCard(props) {
                            ...fontStyles.darkBlue,
                            ...fontStyles.bold,
                            marginTop: '2vh',
-                           marginStart: '22vw'
+                           marginStart: '23.5vw'
 								}}>
 								{' '}
-								Total: $180{' '}
+								{strings.TotalColonDollar}{total}
 							</Text>
 						</View>
 					</View>
