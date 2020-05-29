@@ -8,7 +8,7 @@ import '../../../config/fontStyles.css';
 import strings from '../../../config/strings';
 import profile_pic from './profile_pic.png'; // Tell webpack this JS file uses this image
 
-export function ViewRequest(props) {
+export default function ViewRequest(props) {
 	const [service, setService] = useState(props.service);
 	const [name, setName] = useState(props.name);
 	const [day, setDay] = useState('');
