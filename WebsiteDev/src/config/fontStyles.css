@@ -70,12 +70,15 @@
 .mainTextStyle {
 	font-family: 'Lucida Grande';
 	font-size: 1.75vw;
+	margin: 0;
 }
 .subTextStyle {
 	font-family: 'Lucida Grande';
 	font-size: 1.5vw;
+	margin: 0;
 }
 .smallTextStyle {
 	font-family: 'Lucida Grande';
 	font-size: 1.25vw;
+	margin: 0;
 }

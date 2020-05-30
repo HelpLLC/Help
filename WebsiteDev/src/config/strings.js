@@ -104,6 +104,9 @@ export default {
 	Email: 'Email',
 	PhoneNumber: 'Phone Number',
 	Address: 'Address',
+	Website: 'Website',
+	BusinessName: 'Business Name',
+	BusinessDescription : 'Business Description',
 	WhatIsYourEmailAddressQuestion: 'What is your email address?',
 	WhatIsYourAddressQuestion: 'What is your address?',
 	WhatIsYourPhoneNumberQuestion: 'What is your phone number?',
@@ -223,5 +226,14 @@ export default {
 	SortByCountry: 'Sort By Country',
 	SortByRequests: 'Sort By Requests',
 	SortByRevenue: 'Sort By Revenue',
-	SortByViews: 'Sort By Views'
+	SortByViews: 'Sort By Views',
+	BusinessAddress: 'Business Address',
+	businessPhoneNumber: 'Business Phone Number',
+	ChangePassword: 'Change Password',
+	OldPassword: 'Old Password',
+	NewPassword: 'New Password',
+	ConfirmNewPassword: 'Confirm New Password',
+	CompanyInfo: 'Company Info',
+	Business: 'Business',
+	Password: "Password"
 };

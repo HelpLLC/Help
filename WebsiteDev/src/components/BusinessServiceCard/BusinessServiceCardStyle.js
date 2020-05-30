@@ -38,9 +38,9 @@ export default StyleSheet.create({
     fontSize: "1.25vw",
     color: colors.darkBlue,
   },
-  starsContainer: { marginTop: "2.5vh", marginRight: "10vw" },
-  bottomSectionContainer: { marginTop: "12.5vh" },
-  priceContainer: { width: "15vw" },
+  starsContainer: { marginTop: "1vh" },
+  bottomSectionContainer: { marginTop: "13vh", marginLeft: '4vw' },
+  priceContainer: { width: "12vw" },
   priceText: {
     fontFamily: "Lucida Grande",
     fontSize: "1.5vw",
@@ -50,8 +50,8 @@ export default StyleSheet.create({
   },
   buttonContainer: {
     width: "12.5vw",
-    marginLeft: "1.5vw",
     marginTop: "1.5vh",
     marginBottom: "1vh",
+    
   },
 });

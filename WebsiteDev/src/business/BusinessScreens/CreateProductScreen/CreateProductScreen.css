@@ -121,6 +121,7 @@
 	height: 60vh;
 	justify-content: center;
 	align-items: center;
+	background-color: #ffffff;
 }
 .imagePickerCircle {
 	display: flex;

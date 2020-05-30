@@ -67,7 +67,7 @@ export default function BusinessServiceCard(props) {
 					<Text style={BusinessServiceCardStyle.priceText}>{priceText}</Text>
 				</View>
 				<View style={BusinessServiceCardStyle.buttonContainer}>
-					<HelpButton title={'Edit'} isSmallButton={true} height={'4vh'} />
+					<HelpButton title={'Edit'} isSmallButton={true} height={'4vh'} width={'15vh'} />
 				</View>
 			</View>
 		</TouchableOpacity>

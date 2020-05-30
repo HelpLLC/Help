@@ -15,6 +15,7 @@ import CreateProductScreen from '../../BusinessScreens/CreateProductScreen/Creat
 import { Login } from '../Authentication/Login/Login';
 import { SignUp } from '../Authentication/SignUp/SignUp';
 import Analytics from '../../BusinessScreens/Analytics/Analytics'
+import EditProfile from '../../BusinessScreens/EditProfile/EditProfile'
 
 export default function LandingPageNavigator() {
 	//The header containing the title, log in, and sign up buttons
@@ -118,6 +119,9 @@ export default function LandingPageNavigator() {
 				</Route>
 				<Route path='/dashboard'>
 					<Dashboard />
+				</Route>
+				<Route path='/editprofile'>
+					<EditProfile />
 				</Route>
 				<Route path='/serviceScreen'>
 					<ServiceScreen />
