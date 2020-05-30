@@ -14,6 +14,11 @@ import TermsAndConditions from '../../TermsAndConditions.js';
 import CreateProductScreen from '../../BusinessScreens/CreateProductScreen/CreateProductScreen';
 import { Login } from '../Authentication/Login/Login';
 import { SignUp } from '../Authentication/SignUp/SignUp';
+import Analytics from '../../BusinessScreens/Analytics/Analytics';
+import ReactCalendar from '../../BusinessScreens/Calender/Calender';
+import Dispatch from '../../BusinessScreens/Dispatch/Dispatch';
+import Profile from '../../BusinessScreens/Profile/Profile';
+import ViewRequest from '../../BusinessScreens/ViewRequest/ViewRequest';
 
 export default function LandingPageNavigator() {
 	//The header containing the title, log in, and sign up buttons
@@ -121,8 +126,26 @@ export default function LandingPageNavigator() {
 				<Route path='/serviceScreen'>
 					<ServiceScreen />
 				</Route>
-				<Route path='/createproduct'>
-					<CreateProductScreen />
+				<Route path='/analytics'>
+					<Analytics />
+				</Route>
+				<Route path='/calendar'>
+					<ReactCalendar />
+				</Route>
+				<Route path='/dispatch'>
+					<Dispatch />
+				</Route>
+				<Route path='/profile'>
+					<Profile />
+				</Route>
+				<Route path='/profile'>
+					<Profile />
+				</Route>
+				<Route path='/viewrequest'>
+					<ViewRequest />
+				</Route>
+				<Route path='/analytics'>
+					<Analytics />
 				</Route>
 				<Route path='/contactus'>
 					<div className={'bodyOuter'}>

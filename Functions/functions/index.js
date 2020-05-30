@@ -170,6 +170,25 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 	return 0;
 };
 
+const getBusinessCurrentRequestsByDay = async (businessID, day) => {
+	const doc = await database.runTransaction(async (transaction) => {
+		const doc = await transaction.get(businesses.doc(businessID).collection('Schedule').doc(day));
+		if (doc.exists === true) {
+			const data = await doc.data();
+			delete data.dateString;
+			//Structures the requests as an array
+			const finalArray = [];
+			for (const objectKey of Object.keys(data)) {
+				finalArray.push(data[objectKey]);
+			}
+			return finalArray;
+		} else {
+			return [];
+		}
+	});
+	return doc;
+};
+
 //--------------------------------- Miscellaneous Functions ---------------------------------
 
 //Method send to a recpeint from the company email. Accepts a text, subject, and a recepient
@@ -310,28 +329,76 @@ exports.getRequestByID = functions.https.onCall(async (input, context) => {
 });
 
 //This function will return the document for a specific day on a business schedule. If that document, doesn't exist,
-//then an empty object will be returned. Accepts a day in YYYY-MM-DD format, along with a businessID
+//then an empty array will be returned. Accepts a day in YYYY-MM-DD format, along with a businessID
 exports.getBusinessCurrentRequestsByDay = functions.https.onCall(async (input, context) => {
 	const { businessID, day } = input;
 
-	const doc = await database.runTransaction(async (transaction) => {
-		const doc = await transaction.get(businesses.doc(businessID).collection('Schedule').doc(day));
-		if (doc.exists === true) {
-			const data = await doc.data();
-			delete data.dateString;
-			//Structures the requests as an array
-			const finalArray = [];
-			for (const objectKey of Object.keys(data)) {
-				finalArray.push(data[objectKey]);
-			}
-			return finalArray;
-		} else {
-			return [];
-		}
-	});
+	const doc = await getBusinessCurrentRequestsByDay(businessID, day);
 
 	return doc;
 });
+
+//This funciton will take in a business ID and a day in the format YYYY-MM-DD and returns the requests for the next 42
+//days including the day that was passed in
+exports.getCurrentRequestsForTheNextMonthByBusinessID = functions.https.onCall(
+	async (input, context) => {
+		const { businessID, day } = input;
+		const startDate = new Date(day);
+		let promises = [];
+		for (let i = 0; i < 43; i++) {
+			const dayToFetch = new Date();
+			dayToFetch.setDate(startDate.getDate() + i);
+			let year = dayToFetch.getFullYear();
+			let month = dayToFetch.getMonth();
+			let day = dayToFetch.getDate();
+			if (month < 10) {
+				month = '0' + month;
+			}
+			if (day < 10) {
+				day = '0' + day;
+			}
+			const dayToFetchString = year + '-' + month + '-' + day;
+			promises.push(getBusinessCurrentRequestsByDay(businessID, dayToFetchString));
+		}
+		const docs = await Promise.all(promises);
+		let finalArray = [];
+		for (const doc of docs) {
+			finalArray = finalArray.concat(doc);
+		}
+		return finalArray;
+	}
+);
+
+//This funciton will take in a business ID and a day in the format YYYY-MM-DD and returns the requests for the next 7
+//days including the day that was passed in
+exports.getCurrentRequestsForTheNextWeekByBusinessID = functions.https.onCall(
+	async (input, context) => {
+		const { businessID, day } = input;
+		const startDate = new Date(day);
+		let promises = [];
+		for (let i = 0; i < 8; i++) {
+			const dayToFetch = new Date();
+			dayToFetch.setDate(startDate.getDate() + i);
+			let year = dayToFetch.getFullYear();
+			let month = dayToFetch.getMonth();
+			let day = dayToFetch.getDate();
+			if (month < 10) {
+				month = '0' + month;
+			}
+			if (day < 10) {
+				day = '0' + day;
+			}
+			const dayToFetchString = year + '-' + month + '-' + day;
+			promises.push(getBusinessCurrentRequestsByDay(businessID, dayToFetchString));
+		}
+		const docs = await Promise.all(promises);
+		let finalArray = [];
+		for (const doc of docs) {
+			finalArray = finalArray.concat(doc);
+		}
+		return finalArray;
+	}
+);
 
 //This method will get the most upcoming request for a spefici date from their request subcollection. If there are no requests,
 //then -1 will be returned
@@ -346,10 +413,16 @@ exports.getUpcomingRequestByBusinessID = functions.https.onCall(async (input, co
 			.limit(1);
 		const docs = (await transaction.get(query)).docs;
 		if (docs.length === 0) {
-			return -1;
+			return [];
 		} else {
 			const doc = await docs[0].data();
-			return doc;
+			delete doc.dateString;
+			const finalArray = [];
+			for (const key of Object.keys(doc)) {
+				finalArray.push(doc[key]);
+			}
+
+			return finalArray;
 		}
 	});
 

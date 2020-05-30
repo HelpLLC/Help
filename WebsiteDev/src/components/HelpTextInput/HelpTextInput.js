@@ -28,6 +28,7 @@ export default function HelpTextInput(props) {
 		keyboardType: PropTypes.string,
 		autoCapitalize: PropTypes.string,
 		additionalIcon: PropTypes.element,
+		isEditable: PropTypes.bool,
 	};
 
 	const {
@@ -43,6 +44,7 @@ export default function HelpTextInput(props) {
 		keyboardType,
 		autoCapitalize,
 		additionalIcon,
+		isEditable,
 	} = props;
 
 	return (
@@ -75,6 +77,7 @@ export default function HelpTextInput(props) {
 				}
 				maxLength={maxLength}
 				blurOnSubmit={true}
+				editable={isEditable}
 			/>
 			{additionalIcon ? additionalIcon : <View />}
 		</View>
