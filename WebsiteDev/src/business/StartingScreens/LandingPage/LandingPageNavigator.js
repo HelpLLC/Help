@@ -16,7 +16,6 @@ import { Login } from '../Authentication/Login/Login';
 import { SignUp } from '../Authentication/SignUp/SignUp';
 import Analytics from '../../BusinessScreens/Analytics/Analytics'
 import EditProfile from '../../BusinessScreens/EditProfile/EditProfile'
-import Analytics from '../../BusinessScreens/Analytics/Analytics';
 import ReactCalendar from '../../BusinessScreens/Calender/Calender';
 import Dispatch from '../../BusinessScreens/Dispatch/Dispatch';
 import Profile from '../../BusinessScreens/Profile/Profile';

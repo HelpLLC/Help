@@ -246,7 +246,7 @@ export default {
 	ConfirmNewPassword: 'Confirm New Password',
 	CompanyInfo: 'Company Info',
 	Business: 'Business',
-	Password: "Password"
+	Password: "Password",
 	CompletedColon: 'Completed:',
 	TotalColonDollar: 'Total: $',
 	PastServicesRequests: 'Past Services Requests'

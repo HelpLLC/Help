@@ -178,7 +178,7 @@ const EditProfile = () => {
 												)}
 											</label>
 										</div>
-										<div className='helpbutton'>
+										<div className='helpbutton4'>
 											<HelpButton
 												title='Edit Profile Picture'
 												width='15vw'
