@@ -30,12 +30,10 @@ export default class FirebaseFunctions {
 		//Tests whether this is a business or a customer & based on that, subscribes to the correct channel
 		const { uid } = account.user;
 		//If the user only has a customer account, an error is returned
-		const customer = (
-			await this.functions.httpsCallable('getCustomerByID')({ customerID: uid })
-		).data;
-		const business = (
-			await this.functions.httpsCallable('getBusinessByID')({ businessID: uid })
-		).data;
+		const customer = (await this.functions.httpsCallable('getCustomerByID')({ customerID: uid }))
+			.data;
+		const business = (await this.functions.httpsCallable('getBusinessByID')({ businessID: uid }))
+			.data;
 		//Logs the event in firebase analytics
 		this.analytics.logEvent('business_log_in');
 		//Subscribes to the business channel
