@@ -21,9 +21,8 @@ const ServiceScreen = (props) => {
 	const [service, setService] = useState('');
 	const [business, setBusiness] = useState('');
 	const [serviceImage, setServiceImage] = useState('');
-	const [fullCurrentRequests, setFullCurrentRequests] = useState('');
-	const [fullCompletedRequests, setFullCompletedRequests] = useState('');
-	const [currentRequestsSnippet, setCurrentRequestsSnippet] = useState('');
+	const [confirmedRequestsSnippet, setConfirmedRequestsSnippet] = useState('');
+	const [unconfirmedRequestsSnippet, setUnconfirmedRequestsSnippet] = useState('');
 	const [requestHistorySnippet, setRequestHistorySnippet] = useState('');
 	const location = useLocation();
 	const history = useHistory();
@@ -40,27 +39,19 @@ const ServiceScreen = (props) => {
 			serviceID: serviceObject.serviceID,
 		});
 		setServiceImage(image);
-		let currentRequests = await FirebaseFunctions.call('getCurrentRequestsByServiceID', {
+		let confirmedRequests = await FirebaseFunctions.call('getConfirmedRequestsByServiceID', {
 			serviceID: serviceObject.serviceID,
+			limit: 3,
+		});
+		let unconfirmedRequests = await FirebaseFunctions.call('getUnconfirmedRequestsByServiceID', {
+			serviceID: serviceObject.serviceID,
+			limit: 3,
 		});
 		let requestHistory = await FirebaseFunctions.call('getCompletedRequestsByServiceID', {
 			serviceID: serviceObject.serviceID,
 		});
-		currentRequests.sort((a, b) => {
-			return new Date(a.date) - new Date(b.date);
-		});
-		requestHistory.sort((a, b) => {
-			return new Date(a.date) - new Date(b.date);
-		});
-		setFullCurrentRequests(currentRequests);
-		setFullCompletedRequests(requestHistory);
-		if (currentRequests.length > 2) {
-			currentRequests = currentRequests.slice(0, 3);
-		}
-		if (requestHistory.length > 2) {
-			requestHistory = requestHistory.slice(0, 3);
-		}
-		setCurrentRequestsSnippet(currentRequests);
+		setConfirmedRequestsSnippet(confirmedRequests);
+		setUnconfirmedRequestsSnippet(unconfirmedRequests);
 		setRequestHistorySnippet(requestHistory);
 		setIsLoading(false);
 	};
@@ -182,10 +173,10 @@ const ServiceScreen = (props) => {
 					</div>
 				</div>
 				<div className='bottomSection'>
-					{currentRequestsSnippet.length > 0 ? (
+					{confirmedRequestsSnippet.length > 0 ? (
 						<div className='currentRequests'>
 							<text className='subTextStyle darkBlue bold'>{strings.CurrentRequests}</text>
-							{currentRequestsSnippet.map((currentRequest) => {
+							{confirmedRequestsSnippet.map((currentRequest) => {
 								return renderRequestCard(
 									currentRequest.customerName,
 									currentRequest.date,

@@ -1,9 +1,23 @@
 /* Container */
 .container {
-	background-color: #ffffff;
-	display: flex;
-	width: 95vw;
+	margin-left: auto;
+	margin-right: auto;
+	height: fit-content;
+	width: 80vw;
+	background-color: #FFFFFF;
 }
+
+.top {
+	width: 100vw;
+	display: flex;
+	flex-direction: row;
+}
+
+.sidebarHolder{
+	width: 20vw;
+	height: 100vh;
+}
+
 .row {
 	display: flex;
 	flex-direction: row;

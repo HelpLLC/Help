@@ -1,7 +1,10 @@
+.sidebarHolder{
+	width: 20vw;
+  height: 100vh;
+}
 .react-calendar {
   height: 700px;
-  width: 200vh;
-  margin-left: 30px;
+  width: 80vw;
   background: white;
   border: 1px solid #a0a096;
   font-family: Arial, Helvetica, sans-serif;
@@ -126,7 +129,9 @@
   display: flex;
   justify-content: center;
 }
-
+.bottom {
+  width: 80vw;
+}
 .dayscontainer {
   margin-bottom: 10px;
 }
@@ -142,7 +147,7 @@ button:hover {
 .header {
   margin-top: -5px;
   justify-content: center;
-  width: 205vh;
+  width: 80vw;
 }
 
 .heading {
@@ -151,7 +156,7 @@ button:hover {
 }
 
 .daysheading {
-  margin: 75px;
+  margin: 2vw;
   margin-bottom: 0px;
   border-width: 0px;
   padding: 10px;
@@ -160,13 +165,13 @@ button:hover {
 }
 
 .divider {
-  width: 130vh;
+  width: 50vw;
   display: inline-flex;
 }
 
 .container {
   height: 250vh;
-  width: 205vh;
+  width: 80vw;
 }
 
 .carddiv {
@@ -180,7 +185,7 @@ button:hover {
 
 .card {
   height: 85vh;
-  width: 30vw;
+  width: 20vw;
   flex-direction: column;
 }
 

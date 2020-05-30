@@ -41,7 +41,7 @@ export function Login(props) {
 			}
 			setLoggingInLoading(false);
 			if (businessID) {
-				history.push({ pathname: '/dashboard', state: { businessID: businessID } });
+				history.push({ pathname: '/dashboard', state: { businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2' } });
 			}
 		} else {
 			setLoggingInLoading(false);

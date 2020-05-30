@@ -1,11 +1,24 @@
 .container {
 	padding-top: 10vh;
-	width: 100vw;
+	width: 80vw;
 	background-color: white;
 	align-items: center;
 	flex-direction: column;
 	display: flex;
 }
+
+.top {
+	flex-direction: row;
+	display: flex;
+}
+
+
+
+.sidebarHolder{
+	width: 20vw;
+	height: 100vh;
+}
+
 .innerContainer {
 	display: flex;
 	width: 80vw;

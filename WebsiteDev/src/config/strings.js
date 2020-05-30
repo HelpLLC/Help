@@ -22,6 +22,14 @@ export default {
 	SmartScheduling: 'Smart Scheduling',
 	SmartSchedulingMessage:
 		'Automate your schedule by having customers schedule a time that works for them, and works for you.',
+	Total: 'Total',
+	Analytics: 'Analytics',
+	Dashboard: 'Dashboard',
+	Calendar: 'Calendar',
+	CancelRequest: 'Cancel Request',
+	CompleteRequest: 'Complete Request',
+	Dispatch: 'Dispatch',
+	Profile: 'Profile',
 	AdvancedAnalytics: 'Advanced Analytics',
 	AdvancedAnalyticsMessage:
 		'Analyze your business over time and make data-driven decisions based on things like Monthly Revenue, Top Services, and Customer Locations.',
@@ -55,7 +63,7 @@ export default {
 	WhatWeDoBest: 'What We Do Best',
 	SmartScheduling: 'Smart Scheduling',
 	SmartSchedulingText:
-		' Automate your schedule by having customers schedule a time that works for them and for you.',
+		'Automate your schedule by having customers schedule a time that works for them and for you.',
 	AdvancedAnalyticsText:
 		'Analyze your business over time and make data-driven decisions based on things like Monthly Revenue, Top Services, and Customer Locations.',
 	PaymentsText:
@@ -67,6 +75,7 @@ export default {
 	Today: 'Today',
 	HelpForBusiness: 'Help for Business',
 	LogIn: 'Log In',
+	LogOut: 'Log Out',
 	SignUp: 'Sign Up',
 	ContactUs: 'Contact Us',
 	HelpEmail: 'helpcocontact@gmail.com',
@@ -93,6 +102,8 @@ export default {
 	CentralizedPayments: 'Centralized Payments',
 	CentralizedPaymentsMessage:
 		'Allow customers to pay through the secure Help platform however they want, and accept it all in one place.',
+	Payment: 'Payment',
+	QuestionResponses: 'Question Responses',
 	EmployeeManagement: 'Employee Management',
 	EmployeeManagementMessage:
 		"If you are a business owner, manage how your employees complete requests through Help's employee management features.",
@@ -236,4 +247,7 @@ export default {
 	CompanyInfo: 'Company Info',
 	Business: 'Business',
 	Password: "Password"
+	CompletedColon: 'Completed:',
+	TotalColonDollar: 'Total: $',
+	PastServicesRequests: 'Past Services Requests'
 };
