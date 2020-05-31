@@ -28,8 +28,9 @@ class serviceCurrentRequestsScreen extends Component {
 			'serviceCurrentRequestsScreen'
 		);
 		const { serviceID, service } = this.props.navigation.state.params;
-		const currentRequests = await FirebaseFunctions.call('getCurrentRequestsByServiceID', {
-			serviceID
+		const currentRequests = await FirebaseFunctions.call('getConfirmedRequestsByServiceID', {
+			serviceID,
+			limit: false
 		});
 		this.setState({
 			isLoading: false,

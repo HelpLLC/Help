@@ -489,7 +489,7 @@ exports.getCompletedRequestsByServiceID = functions.https.onCall(async (input, c
 	const { serviceID } = input;
 
 	const result = await database.runTransaction(async (transaction) => {
-		const docs = await transaction.get(services.doc(serviceID).collection('CompletedRequests'));
+		const docs = await transaction.get(services.doc(serviceID).collection('CompletedRequests').orderBy('date'));
 		const arrayOfData = docs.docs.map((doc) => doc.data());
 		return arrayOfData;
 	});
@@ -497,30 +497,44 @@ exports.getCompletedRequestsByServiceID = functions.https.onCall(async (input, c
 	return result;
 });
 
-//Method is going to fetch current requests for specific service based on the serviceID that is passed into
-//the function. It will do this using firebase SDK where function
-exports.getCurrentRequestsByServiceID = functions.https.onCall(async (input, context) => {
-	const { serviceID } = input;
+//This method is going to fetch the confirmed requests for a specific service. It will take in a service ID parameter
+//and a limit parameter. If that limit parameter is false, then the method will fetch ALL the confirmed requests. If
+//it is a number, then that will be the number of requests it fetches. It will fetch them in order of the nearest date
+exports.getConfirmedRequestsByServiceID = functions.https.onCall(async (input, context) => {
+	const { serviceID, limit } = input;
+	const confirmedRequests = requests
+		.where('serviceID', '==', serviceID)
+		.where('status', '==', 'REQUESTED')
+		.where('confirmed', '==', true)
+		.orderBy('date', 'asc');
+	let query = '';
+	if (limit === false) {
+		query = await confirmedRequests.get();
+	} else {
+		query = await confirmedRequests.limit(limit).get();
+	}
+	const docs = query.docs.map((doc) => doc.data());
+	return docs;
+});
 
-	const result = await database.runTransaction(async (transaction) => {
-		let finalDocs = [];
-
-		//Fetches all the currently requested service given all the possible different statuses
-		const allRequestsForThisService = requests.where('serviceID', '==', serviceID);
-		const requestedRequests = await transaction.get(
-			allRequestsForThisService.where('status', '==', 'REQUESTED')
-		);
-		const inProgressRequests = await transaction.get(
-			allRequestsForThisService.where('status', '==', 'IN_PROGRESS')
-		);
-
-		finalDocs = requestedRequests.docs.concat(inProgressRequests.docs);
-		finalDocs = finalDocs.map((doc) => doc.data());
-
-		return finalDocs;
-	});
-
-	return result;
+//This method is going to fetch the unconfirmed requests for a specific service. It will take in a service ID parameter
+//and a limit parameter. If that limit parameter is false, then the method will fetch ALL the unconfirmed requests. If
+//it is a number, then that will be the number of requests it fetches. It will fetch them in order of the nearest date
+exports.getUnconfirmedRequestsByServiceID = functions.https.onCall(async (input, context) => {
+	const { serviceID, limit } = input;
+	const confirmedRequests = requests
+		.where('serviceID', '==', serviceID)
+		.where('status', '==', 'REQUESTED')
+		.where('confirmed', '==', false)
+		.orderBy('date', 'asc');
+	let query = '';
+	if (limit === false) {
+		query = await confirmedRequests.get();
+	} else {
+		query = await confirmedRequests.limit(limit).get();
+	}
+	const docs = query.docs.map((doc) => doc.data());
+	return docs;
 });
 
 //--------------------------------- Creating Functions ---------------------------------
@@ -880,105 +894,92 @@ exports.deleteService = functions.https.onCall(async (input, context) => {
 	const { serviceID, businessID } = input;
 
 	const result = await database.runTransaction(async (transaction) => {
-		const allInProgressForThisService = await transaction.get(
-			requests.where('serviceID', '==', serviceID).where('status', '==', 'IN_PROGRESS')
-		);
+		const business = (await transaction.get(businesses.doc(businessID))).data();
+		//Fetches the necessary data
+		const allRequestedForThisService = (
+			await transaction.get(
+				requests.where('serviceID', '==', serviceID).where('status', '==', 'REQUESTED')
+			)
+		).docs;
+		let arrayOfCustomers = [];
+		let promises = allRequestedForThisService.map((request) => {
+			const customerID = request.data().customerID;
+			return transaction.get(customers.doc(customerID));
+		});
+		arrayOfCustomers = await Promise.all(promises);
 
-		//If there are any in progress requests for this service, then this function will not delete the service and will
-		//tell the business to complete the service first.
-		if (allInProgressForThisService.docs.length > 0) {
-			return 'IN_PROGRESS_REQUESTS';
-		} else {
-			const business = (await transaction.get(businesses.doc(businessID))).data();
-			//Fetches the necessary data
-			const allRequestedForThisService = (
-				await transaction.get(
-					requests.where('serviceID', '==', serviceID).where('status', '==', 'REQUESTED')
-				)
-			).docs;
-			let arrayOfCustomers = [];
-			let promises = allRequestedForThisService.map((request) => {
-				const customerID = request.data().customerID;
-				return transaction.get(customers.doc(customerID));
+		//Removes each request from the business's schedule
+		promises = allRequestedForThisService.map((requestDoc) => {
+			const request = requestDoc.data();
+			date = new Date(request.date);
+			let year = date.getFullYear();
+			let month = date.getMonth() + 1;
+			let day = date.getDate();
+			if (month < 10) {
+				month = '0' + month;
+			}
+			if (day < 10) {
+				day = '0' + day;
+			}
+			const dateString = year + '-' + month + '-' + day;
+			return transaction.update(businesses.doc(businessID).collection('Schedule').doc(dateString), {
+				[request.requestID]: admin.firestore.FieldValue.delete(),
 			});
-			arrayOfCustomers = await Promise.all(promises);
+		});
+		await Promise.all(promises);
 
-			//Removes each request from the business's schedule
-			promises = allRequestedForThisService.map((requestDoc) => {
-				const request = requestDoc.data();
-				date = new Date(request.date);
-				let year = date.getFullYear();
-				let month = date.getMonth() + 1;
-				let day = date.getDate();
-				if (month < 10) {
-					month = '0' + month;
-				}
-				if (day < 10) {
-					day = '0' + day;
-				}
-				const dateString = year + '-' + month + '-' + day;
-				return transaction.update(
-					businesses.doc(businessID).collection('Schedule').doc(dateString),
-					{
-						[request.requestID]: admin.firestore.FieldValue.delete(),
-					}
-				);
-			});
-			await Promise.all(promises);
-
-			promises = arrayOfCustomers.map((customerDoc) => {
-				const customer = customerDoc.data();
-				//Updates the customer document
-				indexOfRequest = customer.currentRequests.findIndex(
-					(element) => element.serviceID === serviceID
-				);
-				//Notifies the business that the request has been deleted.
-				sendNotification(
-					'b-' + businessID,
-					'Request Cancelled',
-					customer.name +
-						' ' +
-						'has cancelled their request for' +
-						' ' +
-						customer.currentRequests[indexOfRequest].serviceTitle
-				);
-
-				//Notifies the customer that the request has been deleted.
-				sendNotification(
-					'c-' + customer.name,
-					'Request Cancelled',
-					'Your request for ' +
-						customer.currentRequests[indexOfRequest].serviceTitle +
-						' has been cancelled by the business.'
-				);
-
-				customer.currentRequests.splice(indexOfRequest, 1);
-				return transaction.update(customers.doc(customer.customerID), {
-					currentRequests: customer.currentRequests,
-				});
-			});
-			await Promise.all(promises);
-
-			//Deletes the request docments themselves
-			promises = allRequestedForThisService.map((request) => {
-				return transaction.delete(requests.doc(request.data().requestID));
-			});
-			await Promise.all(promises);
-
-			//Updates the service to indicate that it is deleted (simply archives it)
-			await transaction.update(services.doc(serviceID), {
-				isDeleted: true,
-			});
-
-			//Finds the index of the service in the business's document removes it from that array of their services
-			const indexOfService = business.services.findIndex(
-				(eachService) => eachService.serviceID === serviceID
+		promises = arrayOfCustomers.map((customerDoc) => {
+			const customer = customerDoc.data();
+			//Updates the customer document
+			indexOfRequest = customer.currentRequests.findIndex(
+				(element) => element.serviceID === serviceID
 			);
-			business.services.splice(indexOfService, 1);
-			await transaction.update(businesses.doc(businessID), { services: business.services });
+			//Notifies the business that the request has been deleted.
+			sendNotification(
+				'b-' + businessID,
+				'Request Cancelled',
+				customer.name +
+					' ' +
+					'has cancelled their request for' +
+					' ' +
+					customer.currentRequests[indexOfRequest].serviceTitle
+			);
 
-			return 0;
-		}
+			//Notifies the customer that the request has been deleted.
+			sendNotification(
+				'c-' + customer.name,
+				'Request Cancelled',
+				'Your request for ' +
+					customer.currentRequests[indexOfRequest].serviceTitle +
+					' has been cancelled by the business.'
+			);
+
+			customer.currentRequests.splice(indexOfRequest, 1);
+			return transaction.update(customers.doc(customer.customerID), {
+				currentRequests: customer.currentRequests,
+			});
+		});
+		await Promise.all(promises);
+
+		//Deletes the request docments themselves
+		promises = allRequestedForThisService.map((request) => {
+			return transaction.delete(requests.doc(request.data().requestID));
+		});
+		await Promise.all(promises);
+
+		//Updates the service to indicate that it is deleted (simply archives it)
+		await transaction.update(services.doc(serviceID), {
+			isDeleted: true,
+		});
+
+		//Finds the index of the service in the business's document removes it from that array of their services
+		const indexOfService = business.services.findIndex(
+			(eachService) => eachService.serviceID === serviceID
+		);
+		business.services.splice(indexOfService, 1);
+		await transaction.update(businesses.doc(businessID), { services: business.services });
+
+		return 0;
 	});
 
 	return result;
