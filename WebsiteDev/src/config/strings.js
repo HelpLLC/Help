@@ -249,5 +249,8 @@ export default {
 	Password: "Password",
 	CompletedColon: 'Completed:',
 	TotalColonDollar: 'Total: $',
-	PastServicesRequests: 'Past Services Requests'
+	PastServicesRequests: 'Past Services Requests',
+	EditProfilePicture: 'Edit Profile Picture',
+	SaveChanges: 'Save Changes',
+	
 };

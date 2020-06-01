@@ -180,7 +180,7 @@ const EditProfile = () => {
 										</div>
 										<div className='helpbutton4'>
 											<HelpButton
-												title='Edit Profile Picture'
+												title={strings.EditProfilePicture}
 												width='15vw'
 												height='5vh'
 											/>
@@ -269,7 +269,7 @@ const EditProfile = () => {
 								</div>
 							</div>
 							<div className='helpbutton'>
-								<HelpButton title='Save Changes' width='20vw' height='7.5vh' />
+								<HelpButton title={strings.SaveChanges} width='20vw' height='7.5vh' />
 							</div>
 						</div>
 					) : businessScheduleSelected ? (
@@ -419,7 +419,7 @@ const EditProfile = () => {
 							</div>
 
 							<div className='helpbutton3'>
-								<HelpButton title='Save Changes' width='20vw' height='7.5vh' />
+								<HelpButton title={strings.SaveChanges} width='20vw' height='7.5vh' />
 							</div>
 						</div>
 					) : (
@@ -446,7 +446,7 @@ const EditProfile = () => {
 							<div className='secondRow'>
 								<div className='input1'>
 									<text className='subTextStyle darkBlue bold'>
-										{'New Password'}
+										{strings.NewPassword}
 									</text>
 									<div className='inputcontainer'>
 										<HelpTextInput
@@ -460,7 +460,7 @@ const EditProfile = () => {
 							<div className='secondRow'>
 								<div className='input1'>
 									<text className='subTextStyle darkBlue bold'>
-										{'Confirm New Password'}
+										{strings.ConfirmNewPassword}
 									</text>
 									<div className='inputcontainer'>
 										<HelpTextInput
@@ -472,7 +472,7 @@ const EditProfile = () => {
 								</div>
 							</div>
 							<div className='helpbutton2'>
-								<HelpButton title='Save Changes' width='20vw' height='7.5vh' />
+								<HelpButton title={strings.SaveChanges} width='20vw' height='7.5vh' />
 							</div>
 						</div>
 					)}
