@@ -24,7 +24,7 @@ import ViewRequest from '../../BusinessScreens/ViewRequest/ViewRequest';
 export default function LandingPageNavigator() {
 	//The header containing the title, log in, and sign up buttons
 	const header = (
-		<div className={'header'}>
+		<div className={'landingPageHeader'}>
 			<div className={'companyTitle'}>
 				<Link className='mainTextStyle blue bold' style={{ textDecoration: 'none' }} to={'/'}>
 					{strings.HelpForBusiness}
