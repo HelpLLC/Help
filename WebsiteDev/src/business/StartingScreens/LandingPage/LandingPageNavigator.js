@@ -14,7 +14,8 @@ import TermsAndConditions from '../../TermsAndConditions.js';
 import CreateProductScreen from '../../BusinessScreens/CreateProductScreen/CreateProductScreen';
 import { Login } from '../Authentication/Login/Login';
 import { SignUp } from '../Authentication/SignUp/SignUp';
-import Analytics from '../../BusinessScreens/Analytics/Analytics';
+import Analytics from '../../BusinessScreens/Analytics/Analytics'
+import EditProfile from '../../BusinessScreens/EditProfile/EditProfile'
 import ReactCalendar from '../../BusinessScreens/Calender/Calender';
 import Dispatch from '../../BusinessScreens/Dispatch/Dispatch';
 import Profile from '../../BusinessScreens/Profile/Profile';
@@ -122,6 +123,9 @@ export default function LandingPageNavigator() {
 				</Route>
 				<Route path='/dashboard'>
 					<Dashboard />
+				</Route>
+				<Route path='/editprofile'>
+					<EditProfile />
 				</Route>
 				<Route path='/serviceScreen'>
 					<ServiceScreen />
