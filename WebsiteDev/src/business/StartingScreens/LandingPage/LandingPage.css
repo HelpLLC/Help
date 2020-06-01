@@ -21,6 +21,15 @@ h1 span {
 	flex-direction: row;
 }
 
+.handshakeIcon {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
+	font-size: 15vw;
+	margin-right: 15vw;
+}
+
 .landingPageButtonContainer {
 	width: 30vw;
 	margin-left: 15vw;
@@ -58,10 +67,12 @@ section.sec4 {
 
 section.sec2 {
 	position: relative;
+	display: flex;
+	flex-direction: row;
 	margin: 0;
 	background: #00b0f0;
 	width: 100%;
-	height: 48vh;
+	height: 55vh;
 	background-repeat: no-repeat;
 	background-size: cover;
 	padding-top: 5vh;
@@ -79,7 +90,7 @@ section.sec5 {
 }
 
 .titlecontainer3 {
-	width: 60%;
+	width: 70%;
 	margin-left: 5%;
 }
 .titlecontainer5 {
