@@ -106,7 +106,6 @@
 	margin-bottom: 4vh;
 }
 .formContainer {
-	margin-bottom: 5vh;
 	align-items: center;
 	margin-left: 3vh;
 }
@@ -117,9 +116,6 @@
 	width: 95vw;
 	margin-bottom: 5vh;
 }
-.buttonContainer {
-	margin-top: 2vh;
-	margin-bottom: 3vh;
-	align-items: center;
-	align-self: center;
+.submitContactButton {
+	margin-bottom: 5vh;
 }

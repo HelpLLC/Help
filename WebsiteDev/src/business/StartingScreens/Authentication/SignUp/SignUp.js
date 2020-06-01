@@ -237,7 +237,7 @@ export function SignUp(props) {
 						<HelpTextInput
 							height={'7vh'}
 							width={'42vw'}
-							placeholder={strings.BusinessLocation}
+							placeholder={strings.BusinessAddress}
 							isMultiline={false}
 							value={location}
 							onChangeText={(location) => setLocation(location)}
@@ -295,10 +295,10 @@ export function SignUp(props) {
 				<Dialog open={errorOpen} onClose={() => setErrorOpen(false)} aria-labelledby='error-dialog'>
 					<TitleComponent text={strings.Error} isCentered={true} textColor='#00B0F0' />
 					<DialogContent>
-						<DialogContentText>{strings.FieldsError}</DialogContentText>
+						<DialogContentText>{strings.SignUpFieldError}</DialogContentText>
 					</DialogContent>
 					<DialogActions>
-						<HelpButton title={strings.Close} onPress={() => setErrorOpen(false)} width={'44vw'} />
+						<HelpButton title={strings.Close} onPress={() => setErrorOpen(false)} width={'44vw'} height={'7.5vh'} />
 					</DialogActions>
 				</Dialog>
 			</div>
