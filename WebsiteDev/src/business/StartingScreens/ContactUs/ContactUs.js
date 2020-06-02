@@ -85,7 +85,9 @@ export default function ContactUs() {
 
 			<div className='heading2Container'>
 				<text className='bigTitleTextStyle gray'>{strings.LetsGrow}</text>
-				<text className='subtitle2 bigSubTitleTextStyle blue'>{strings.ReadyToStartWorkingTogether}</text>
+				<text className='subtitle2 bigSubTitleTextStyle blue'>
+					{strings.ReadyToStartWorkingTogether}
+				</text>
 			</div>
 			{/* </div> */}
 			<div className='formContainer'>
@@ -114,7 +116,7 @@ export default function ContactUs() {
 					onChangeText={(message) => setMessage(message)}
 				/>
 			</div>
-			<div className='buttonContainer'>
+			<div className='submitContactButton'>
 				<HelpButton
 					title={strings.SubmitCapital}
 					width={'15vw'}

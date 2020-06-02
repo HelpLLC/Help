@@ -14,7 +14,8 @@ import TermsAndConditions from '../../TermsAndConditions.js';
 import CreateProductScreen from '../../BusinessScreens/CreateProductScreen/CreateProductScreen';
 import { Login } from '../Authentication/Login/Login';
 import { SignUp } from '../Authentication/SignUp/SignUp';
-import Analytics from '../../BusinessScreens/Analytics/Analytics';
+import Analytics from '../../BusinessScreens/Analytics/Analytics'
+import EditProfile from '../../BusinessScreens/EditProfile/EditProfile'
 import ReactCalendar from '../../BusinessScreens/Calender/Calender';
 import Dispatch from '../../BusinessScreens/Dispatch/Dispatch';
 import Profile from '../../BusinessScreens/Profile/Profile';
@@ -23,7 +24,7 @@ import ViewRequest from '../../BusinessScreens/ViewRequest/ViewRequest';
 export default function LandingPageNavigator() {
 	//The header containing the title, log in, and sign up buttons
 	const header = (
-		<div className={'header'}>
+		<div className={'landingPageHeader'}>
 			<div className={'companyTitle'}>
 				<Link className='mainTextStyle blue bold' style={{ textDecoration: 'none' }} to={'/'}>
 					{strings.HelpForBusiness}
@@ -122,6 +123,9 @@ export default function LandingPageNavigator() {
 				</Route>
 				<Route path='/dashboard'>
 					<Dashboard />
+				</Route>
+				<Route path='/editprofile'>
+					<EditProfile />
 				</Route>
 				<Route path='/serviceScreen'>
 					<ServiceScreen />
