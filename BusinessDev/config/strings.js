@@ -248,8 +248,6 @@ export default {
 	Cash: 'Cash',
 	CreditDebitCard: 'Credit/Debit Card',
 	SetUpPayment: 'Set Up Payments',
-	WhenTheyOrder: 'When They Order',
-	AfterCompletion: 'After Completion',
 	HowWillYourCustomersPayYou: 'How will your customers pay you?',
 	WhenDoYouWantYourCustomersToPayYou: 'When do you want your customers to pay you?',
 	PaymentTime: 'Payment Time',

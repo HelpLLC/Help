@@ -250,5 +250,8 @@ export default {
 	SortByViews: 'Sort By Views',
 	CompletedColon: 'Completed:',
 	TotalColonDollar: 'Total: $',
-	PastServicesRequests: 'Past Services Requests'
+	PastServicesRequests: 'Past Services Requests',
+	CurrentRequests: 'Current Requests',
+	RequestsHistory: 'Requests History',
+	UnconfirmedRequests: 'Unconfirmed Requests'
 };
