@@ -1373,6 +1373,9 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 
 	const batch = database.batch();
 
+	//since it is new requests it starts off as unconfirmed to allow a business to confirm it
+	let confirmed = false;
+
 	//If this is a request being edited, the old request document will be edited, else it will be added
 	const newRequestDoc = await requests.add({
 		assignedTo,
@@ -1393,6 +1396,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		serviceID,
 		status,
 		time,
+		confirmed
 	});
 
 	const requestID = newRequestDoc.id;
@@ -1495,6 +1499,14 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 
 	return result;
 });
+
+//this function sets the confirmed variable to true in the request doc
+exports.confirmRequest = functions.https.onCall(async (input, context) => {
+	const {requestID} = input;
+	const batch = database.batch(); 
+	batch.update(requests.doc(requestID), { confirmed: true });
+	await batch.commit()
+})
 
 //Method is going to edit a request by it's ID as well as update any fields necessary in the current requests arrays
 //of the customer and the service.
