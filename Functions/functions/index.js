@@ -506,7 +506,7 @@ exports.getConfirmedRequestsByServiceID = functions.https.onCall(async (input, c
 		.where('serviceID', '==', serviceID)
 		.where('status', '==', 'REQUESTED')
 		.where('confirmed', '==', true)
-		.orderBy('date', 'asc');
+		.orderBy('date');
 	let query = '';
 	if (limit === false) {
 		query = await confirmedRequests.get();
@@ -526,7 +526,7 @@ exports.getUnconfirmedRequestsByServiceID = functions.https.onCall(async (input,
 		.where('serviceID', '==', serviceID)
 		.where('status', '==', 'REQUESTED')
 		.where('confirmed', '==', false)
-		.orderBy('date', 'asc');
+		.orderBy('date');
 	let query = '';
 	if (limit === false) {
 		query = await confirmedRequests.get();
