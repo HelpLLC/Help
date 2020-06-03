@@ -501,7 +501,7 @@ exports.getCompletedRequestsByServiceID = functions.https.onCall(async (input, c
 });
 
 //This method is going to fetch the confirmed requests for a specific service. It will take in a service ID parameter
-//and a limit parameter. If that limit parameter is false, then the method will fetch ALL the confirmed requests. If
+//and a limit parameter. If that limit parameter is not a number, then the method will fetch ALL the confirmed requests. If
 //it is a number, then that will be the number of requests it fetches. It will fetch them in order of the nearest date
 exports.getConfirmedRequestsByServiceID = functions.https.onCall(async (input, context) => {
 	const { serviceID, limit } = input;
@@ -510,12 +510,13 @@ exports.getConfirmedRequestsByServiceID = functions.https.onCall(async (input, c
 		.where('status', '==', 'REQUESTED')
 		.where('confirmed', '==', true);
 	let query = '';
-	if (limit === false) {
-		query = await confirmedRequests.get();
-	} else {
+	if (typeof limit === 'number') {
 		query = await confirmedRequests.limit(limit).get();
+	} else {
+		query = await confirmedRequests.get();
 	}
 	const docs = query.docs.map((doc) => doc.data());
+
 	//Sorts the documents by time and date
 	docs.sort((a, b) => {
 		const aDate = new Date(a.date);
@@ -548,11 +549,12 @@ exports.getConfirmedRequestsByServiceID = functions.https.onCall(async (input, c
 			return aDate.getTime() - bDate.getTime();
 		}
 	});
+
 	return docs;
 });
 
 //This method is going to fetch the unconfirmed requests for a specific service. It will take in a service ID parameter
-//and a limit parameter. If that limit parameter is false, then the method will fetch ALL the unconfirmed requests. If
+//and a limit parameter. If that limit parameter is not a number, then the method will fetch ALL the unconfirmed requests. If
 //it is a number, then that will be the number of requests it fetches. It will fetch them in order of the nearest date
 exports.getUnconfirmedRequestsByServiceID = functions.https.onCall(async (input, context) => {
 	const { serviceID, limit } = input;
@@ -561,10 +563,10 @@ exports.getUnconfirmedRequestsByServiceID = functions.https.onCall(async (input,
 		.where('status', '==', 'REQUESTED')
 		.where('confirmed', '==', false);
 	let query = '';
-	if (limit === false) {
-		query = await confirmedRequests.get();
-	} else {
+	if (typeof limit === 'number') {
 		query = await confirmedRequests.limit(limit).get();
+	} else {
+		query = await confirmedRequests.get();
 	}
 	const docs = query.docs.map((doc) => doc.data());
 	//Sorts the documents by time and date
