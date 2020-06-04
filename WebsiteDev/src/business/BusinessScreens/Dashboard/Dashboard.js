@@ -47,7 +47,17 @@ export default function Dashboard(props) {
 				<div className='cardsHolder'>
 					<div>
 						<div className='buttonContainer'>
-							<HelpButton title='Add Service' isSmallButton={true} height={'4vh'} />
+							<HelpButton
+								title='Add Service'
+								isSmallButton={true}
+								height={'4vh'}
+								onPress={() => {
+									history.push({
+										pathname: '/createProductScreen',
+										state: { business: business },
+									});
+								}}
+							/>
 						</div>
 						{loaded
 							? services.map((service) => (
