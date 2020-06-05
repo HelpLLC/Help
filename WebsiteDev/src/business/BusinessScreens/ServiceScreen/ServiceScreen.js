@@ -103,7 +103,7 @@ const ServiceScreen = (props) => {
 						>
 						<FontAwesomeIcon color={colors.blue} size={'3x'} icon='arrow-left' />
 					</div>
-					<text className='mainTextStyle darkBlue bold'>{service.serviceTitle}</text>
+					<text className="mainTextStyle darkBlue bold">{service.serviceTitle}</text>
 					<HelpButton
 						onPress={() => {
 							//Goes to the edit service screen
@@ -220,7 +220,7 @@ const ServiceScreen = (props) => {
 					)}
 					{unconfirmedRequestsSnippet.length > 0 ? (
 							<div className="unconfirmedrequests">
-								<text lassName='subTextStyle darkBlue bold'>{strings.UnconfirmedRequests}</text> 
+								<text className='subTextStyle darkBlue bold'>{strings.UnconfirmedRequests}</text> 
 								{unconfirmedRequestsSnippet.map((unconfirmedRequest) => {
 								return renderRequestCard(
 									unconfirmedRequest.customerName,
