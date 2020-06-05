@@ -121,6 +121,8 @@ export default {
 	HasBeenUnblocked: 'has been unblocked.',
 	History: 'History',
 	Privacy: 'Privacy',
+	WhenTheyOrder: 'When They Order',
+	AfterCompletion: 'After Completion',
 	ReportAnIssue: 'Report an Issue',
 	Notifications: 'Notifications',
 	About: 'About',
