@@ -236,14 +236,7 @@
 	width: 45vw;
 	padding-bottom: 3vh;
 }
-.paymentTimeButtonsDiv {
-	margin-top: 3vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	margin-bottom: 7vh;
-}
+
 .defaultQuestionsRow {
 	display: flex;
 	flex-direction: row;

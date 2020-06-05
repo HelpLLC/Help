@@ -1,330 +1,164 @@
-.sidebarHolder{
-	width: 20vw;
-  height: 100vh;
-}
-.react-calendar {
-  height: 700px;
-  width: 80vw;
-  background: white;
-  border: 1px solid #a0a096;
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.125em;
-}
-.react-calendar--doubleView {
-  width: 700px;
-}
-.react-calendar--doubleView .react-calendar__viewContainer {
-  display: flex;
-  margin: -0.5em;
-}
-.react-calendar--doubleView .react-calendar__viewContainer > * {
-  width: 50vh;
-  margin: 0.5em;
-}
-.react-calendar,
-.react-calendar *,
-.react-calendar *:before,
-.react-calendar *:after {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-.react-calendar button {
-  margin: 0;
-  border: 0;
-  outline: none;
-}
-.react-calendar button:enabled:hover {
-  cursor: pointer;
-}
-.react-calendar__navigation {
-  height: 44px;
-  margin-bottom: 1em;
-}
-.react-calendar__navigation button {
-  min-width: 44px;
-  background: none;
-}
-.react-calendar__navigation button:enabled:hover,
-.react-calendar__navigation button:enabled:focus {
-  background-color: #e6e6e6;
-}
-.react-calendar__navigation button[disabled] {
-  background-color: #f0f0f0;
+.Cheader {
+  margin-left: 13vw;
 }
 
-.react-calendar__month-view__weekdays {
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 0.75em;
-}
-.react-calendar__month-view__weekdays__weekday {
-  padding: 0.5em;
-}
-.react-calendar__month-view__weekNumbers {
-  font-weight: bold;
-}
-.react-calendar__month-view__weekNumbers .react-calendar__tile {
+.headerdiv {
+  flex-direction: row;
   display: flex;
+}
+
+.bell {
+  display: flex;
+  justify-content: right;
   align-items: center;
-  justify-content: center;
-  font-size: 0.75em;
-  padding: calc(0.75em / 0.75) calc(0.5em / 0.75);
+  margin-left: 43vw;
 }
-.react-calendar__month-view__days__day--weekend {
-  color: #d10000;
-}
-.react-calendar__month-view__days__day--neighboringMonth {
-  color: #757575;
-}
-.react-calendar__year-view .react-calendar__tile,
-.react-calendar__decade-view .react-calendar__tile,
-.react-calendar__century-view .react-calendar__tile {
-  padding: 2em 0.5em;
-}
-.react-calendar__tile {
-  padding: 3.5em 0.5em;
-  background: none;
-  flex-direction: column;
+
+.usercircle {
+  display: flex;
+  justify-content: right;
   align-items: center;
+  margin-left: 1vw;
+}
+
+.businessprofilename {
+  margin-left: 1vw;
+}
+
+.screenbody {
   display: flex;
 }
-.react-calendar__tile:disabled {
-  background-color: #f0f0f0;
-}
-.react-calendar__tile:enabled:hover,
-.react-calendar__tile:enabled:focus {
-  background-color: #e6e6e6;
-}
-.react-calendar__tile--now {
-  background: #ffff76;
-}
-.react-calendar__tile--now:enabled:hover,
-.react-calendar__tile--now:enabled:focus {
-  background: #ffffa9;
-}
-.react-calendar__tile--hasActive {
-  background: #76baff;
-}
-.react-calendar__tile--hasActive:enabled:hover,
-.react-calendar__tile--hasActive:enabled:focus {
-  background: #a9d4ff;
+
+.popupmenu {
+  margin-left: 1vw;
+  width: 16.4vw;
+  height: 115vh;
+  margin-top: -15.7vh;
+  background-color: #f3f3f3;
 }
 
-.react-calendar__tile--active {
-  background: #006edc;
-  color: white;
-}
-.react-calendar__tile--active:enabled:hover,
-.react-calendar__tile--active:enabled:focus {
-  background: #1087ff;
-}
-.react-calendar--selectRange .react-calendar__tile--hover {
-  background-color: #e6e6e6;
+.buttonheaders {
+  display: flex;
 }
 
-.divcontainer,
-.dayscontainer {
+.closingbutton {
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  margin: 2vh;
+  margin-top: 3vh;
+  margin-left: 0.5vw;
+}
+
+.backbutton {
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  margin: 2vh;
+  margin-top: 3vh;
+  margin-left: 10vw;
+}
+
+.divwrap {
+  height: auto;
+  float: left;
+  margin-top: 5vh;
+  margin-left: 0.5vw;
+}
+
+.dateSidemenu {
+  margin-top: -2vh;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
-.bottom {
-  width: 80vw;
-}
-.dayscontainer {
-  margin-bottom: 10px;
-}
-
-button {
-  margin-top: 50px;
-}
-
-button:hover {
-  background-color: #00b0f0;
-}
-
-.header {
-  margin-top: -5px;
-  justify-content: center;
-  width: 80vw;
-}
-
-.heading {
-  margin: 25px;
-  background-color: unset;
-}
-
-.daysheading {
-  margin: 2vw;
-  margin-bottom: 0px;
-  border-width: 0px;
-  padding: 10px;
-  font-size: 20px;
-  background-color: unset;
-}
-
-.divider {
-  width: 50vw;
-  display: inline-flex;
-}
-
-.container {
-  height: 250vh;
-  width: 80vw;
-}
-
-.carddiv {
-  float: right;
-  margin-left: .1vw;
-}
-
-.eventdetails {
-  display: flex;
-}
-
-.card {
-  height: 85vh;
-  width: 20vw;
-  flex-direction: column;
-}
-
-.timediv {
+.servicecard {
+  border-radius: 30px;
+  width: 15vw;
   background-color: white;
+  border: 3px solid #00b0f0;
+  box-shadow: 1px #00b0f0;
+  display: block;
+  margin-bottom: 3vh;
+  height: 15vh;
+}
+
+.servicecardinfo {
+  margin-top: -4vh;
+  margin-bottom: -7.5vh;
+}
+
+.servicecardcontents {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-left: 1vw;
+}
+
+.viewmoreinfo {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: left;
 }
 
-.cardheader{
-  margin-left: .5vw;
+.topfourth {
+  margin: -2vh 1vw 1vw 1vh;
+}
+.blueline {
+  border-top: 3px solid #00b0f0;
+  width: 15vw;
 }
 
-.cardtext {
-  margin-top: -2vh;
-  margin-left: .5vw;
-}
-
-.cardtimetext {
+.requesterinformation {
   display: flex;
-  margin: .1vh;
-}
-
-.timetext,
-.timetext2 {
-  font-size: 20px;
-  margin: 2vh 2vw 0vh 1vw;
-}
-
-.timetext2 {
-  font-size: 20px;
-  margin: 2vh 0vw 0vh 2vw;
-}
-
-.cardadjust {
-  margin-top: 1.5vh;
   margin-left: 1vw;
-  float: left;
-}
-
-.arrow,
-.arrow3,
-.arrow4 {
-  margin-top: 2vh;
-  float: right;
-  width: 15px;
-}
-
-.horiline,
-.horiline2,
-.horiline3 {
-  margin-top: 8vh;
-  height: 1px;
-}
-
-.cardrequestdiv {
-  display: flex;}
-
-.requestheaders {
-  margin-top: .2vh;
-  margin-left: .2vw;
-  margin-right: -10vw;
-  font-size: 15px;
-}
-
-.requestername {
-  margin-top: -2vh;
-  font-size: 20px;
-  margin-right: -10vw;
-}
-
-.person {
-  margin-left: 1vw;
-  margin-right: 1vw;
-  margin-top: 1vh;
-}
-
-.arrow2 {
-  margin-top: 2vh;
-  width: 20px;
-}
-.arrow2div{
-  margin-left: 25.5vw;
-}
-
-.horiline2 {
-  margin-top: -20px;
-}
-
-.arraydiv {
-  margin: 20px;
-  margin: 40px;
-}
-
-.timecarddiv {
-  height: 85vh;
-  overflow-y: scroll;
-}
-
-.assignedtext,
-.assignedheader {
-  margin: .5vw;
-}
-
-.assignedheader {
   margin-bottom: 2vh;
 }
 
-.arrow3 {
-  margin-top: -6vh;
+.requestername {
+  margin-left: -1.8vw;
+  margin-top: 8.5vh;
 }
 
-.horiline3 {
-  margin-top: .1vh;
-}
-
-.notesheader,
-.notestext {
-  margin: .5vh;
-}
-
-.notestext {
-  font-size: 12px;
-  width: 300px;
-}
-
-.fullnotesheader {
-  margin: 2vh 0 -.1vh .2vw ;
-}
-
-.arrow4 {
-  margin-top: -2vh;
-}
-
-.helpbutton {
+.assignedemployees {
   display: flex;
+  margin-left: 1vw;
+  margin-bottom: 2vh;
+}
+
+.notes{
+  margin-left: 1vw;
+  margin-bottom: 2vh;
+}
+
+.questions{
+  display: flex;
+}
+
+.shownoteshelpbutton{
+  display: flex;
+  justify-content: left;
+  align-items: left;
+margin-left: 1vw;
+margin-bottom: 1.5vh;
+}
+
+.lasttwobuttons{
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 5vh;
+  margin-left: 1vw;
+}
+
+.markcompletehelpbutton, .adjustjobhelpbutton{
+  margin-top: 2vh;
+}
+
+.servicecardhelpbutton {
+  display: flex;
+  justify-content: center;
+  align-items: right;
+  margin-top: 7vh;
 }

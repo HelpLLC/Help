@@ -36,6 +36,7 @@ export default function HelpButton(props) {
 		height,
 		isSmallButton,
 		isSmallButton2,
+		fontStyle,
 	} = props;
 
 	//sets up what properties the custom component should take in, which in this case
@@ -77,6 +78,8 @@ export default function HelpButton(props) {
 				}>
 				<Text
 					style={
+						props.fontStyle ?
+						props.fontStyle :
 						isLightButton
 							? width < screenWidth * 0.3
 								? {
