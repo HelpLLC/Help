@@ -66,8 +66,6 @@ export default function CreateProductScreen() {
 	const [serviceDescription, setServiceDescription] = useState('');
 	const [cash, setCash] = useState(false);
 	const [card, setCard] = useState(false);
-	const [prepay, setPrepay] = useState(false);
-	const [postpay, setPostpay] = useState(false);
 	const [serviceTitle, setServiceTitle] = useState('');
 	const [fieldsError, setFieldsError] = useState(false);
 	const [descriptionError, setDescriptionError] = useState(false);
@@ -98,7 +96,6 @@ export default function CreateProductScreen() {
 			(cash === true || card === true) &&
 			serviceTitle.trim() !== '' &&
 			!(priceType === strings.Per && pricePerText === '') &&
-			(prepay === true || postpay === true)
 		) {
 			//Adds a pricing field
 			let priceText =
@@ -144,8 +141,6 @@ export default function CreateProductScreen() {
 				serviceDuration: parseFloat(serviceDuration),
 				price,
 				priceText,
-				prepay,
-				postpay,
 				questions: finalQuestions,
 				serviceDescription,
 				serviceTitle,

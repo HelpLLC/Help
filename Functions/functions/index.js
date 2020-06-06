@@ -820,8 +820,6 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 		serviceDuration,
 		price,
 		priceText,
-		prepay,
-		postpay,
 		questions,
 		serviceDescription,
 		serviceTitle,
@@ -841,8 +839,6 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 		serviceDuration,
 		priceText,
 		price,
-		prepay,
-		postpay,
 		questions,
 		serviceDescription,
 		serviceTitle,
@@ -900,8 +896,6 @@ exports.updateServiceInformation = functions.https.onCall(async (input, context)
 		businessID,
 		card,
 		cash,
-		prepay,
-		postpay,
 	} = input;
 
 	const batch = database.batch();
@@ -914,8 +908,6 @@ exports.updateServiceInformation = functions.https.onCall(async (input, context)
 		serviceDescription,
 		card,
 		cash,
-		prepay,
-		postpay,
 		serviceTitle,
 	});
 
