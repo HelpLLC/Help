@@ -10,6 +10,7 @@ library.add(fab, fas);
 
 //Declares the functional component
 const App = () => {
+	/*
 	const testFunction = async () => {
 		const result = await FirebaseFunctions.call('joinClassByClassInviteCode', {
 			classInviteCode: 'jAjBb',
@@ -23,6 +24,8 @@ const App = () => {
 	}, []);
 
 	return <div>HI</div>;
+
+	*/
 };
 
 export default App;
