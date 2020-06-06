@@ -65,6 +65,8 @@
 	margin-top: 4vh;
 	align-items: center;
 	text-align: center;
+	background-color: #ffffff;
+	cursor: pointer;
 	border: 0;
 	text-decoration: none;
 }

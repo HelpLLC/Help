@@ -1,13 +1,13 @@
 import * as firebase from 'firebase';
 var firebaseConfig = {
-	apiKey: "AIzaSyBLegtXhc78nSL0k5xr_6UYzrToVK8UtaI",
-    authDomain: "quranconnect-4e4bc.firebaseapp.com",
-    databaseURL: "https://quranconnect-4e4bc.firebaseio.com",
-    projectId: "quranconnect-4e4bc",
-    storageBucket: "quranconnect-4e4bc.appspot.com",
-    messagingSenderId: "613685750998",
-    appId: "1:613685750998:web:d4b67fef808760e11d6d77",
-    measurementId: "G-CKKZ7H1ETQ"
+	apiKey: 'AIzaSyDOgt8k63g6SUWvrP-dvu4LEUIbGAwsWDc',
+	authDomain: 'help-technologies-e4e1c.firebaseapp.com',
+	databaseURL: 'https://help-technologies-e4e1c.firebaseio.com',
+	projectId: 'help-technologies-e4e1c',
+	storageBucket: 'help-technologies-e4e1c.appspot.com',
+	messagingSenderId: '127668734841',
+	appId: '1:127668734841:web:2e9114165d61025d653da8',
+	measurementId: 'G-DPVW5284H2',
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -50,6 +50,16 @@ export default class FirebaseFunctions {
 			// If successful, return 1 or else return -1
 			await firebase.auth().sendPasswordResetEmail(emailAddress);
 			return 1;
+		} catch (error) {
+			return -1;
+		}
+	}
+
+	// This method will be used to reset the password of a specific user.
+	static async resetPassword(email, oldPassword, newPassword) {
+		try {
+			const account = await firebase.auth().signInWithEmailAndPassword(email, oldPassword);
+			await account.user.updatePassword(newPassword);
 		} catch (error) {
 			return -1;
 		}

@@ -1,7 +1,7 @@
 .editProfileContainer {
 	display: flex;
 	flex-direction: row;
-	height: 120vh;
+	height: 100vh;
 }
 
 .sidebarHolder {
@@ -70,7 +70,7 @@
 }
 
 .editProfileCard {
-	height: 95vh;
+	height: 90vh;
 	width: 70vw;
 	border-width: 10;
 	border-color: #41cbef;
@@ -78,7 +78,7 @@
 	background-size: cover;
 	border-style: solid;
 	margin-left: 5vw;
-	margin-top: 10vh;
+	margin-top: 5vh;
 	flex-direction: row;
 	display: flex;
 	overflow: hidden;
