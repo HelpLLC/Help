@@ -1,0 +1,96 @@
+.content_container {
+	margin-left: 5vw;
+	margin-right: 5vw;
+	position: relative;
+}
+
+#rectangle_4 {
+	margin-top: 5vh;
+	margin-left: 22.5vw;
+	width: 75vw;
+	-ms-border-radius: 30px;
+	-o-border-radius: 30px;
+	-moz-border-radius: 30px;
+	-webkit-border-radius: 30px;
+	border-radius: 30px;
+	border: 2px solid #5cc6bc;
+	-ms-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	-o-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	-webkit-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	-moz-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	z-index: -1;
+}
+
+
+#rectangle_employee_box {
+	margin-top: 5vh;
+	margin-left: 5vw;
+	width: 60vw;
+	-ms-border-radius: 30px;
+	-o-border-radius: 30px;
+	-moz-border-radius: 30px;
+	-webkit-border-radius: 30px;
+	border-radius: 30px;
+	border: 2px solid #5cc6bc;
+	-ms-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	-o-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	-webkit-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	-moz-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	z-index: -1;
+}
+
+.topRow {
+	display: flex;
+	flex-direction: row;
+	margin-top: 3vh;
+	margin-left: 0vw;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+}
+
+.row2 {
+	display: flex;
+	width: 65vw;
+	justify-content: space-between;
+	flex-direction: row;
+}
+
+.profile_pic {
+	margin-left: 0.5vw;
+	margin-top: 0.5vh;
+	margin-bottom: 0.5vh;
+}
+
+.nameText {
+	margin-left: 1vw;
+}
+
+.assignButton {
+	margin-top: -3vh;
+	align-items: center;
+	margin-right: 1vw;
+}
+
+.payment_background {
+	width: 65vw;
+	-ms-border-radius: 30px;
+	-o-border-radius: 30px;
+	-moz-border-radius: 30px;
+	-webkit-border-radius: 30px;
+	border-radius: 30px;
+	border: 2px solid #5cc6bc;
+	-ms-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	-o-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	-webkit-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	-moz-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+}
+
+.confirmRequest {
+	margin-left: -2vw;
+}
