@@ -285,5 +285,6 @@ export default {
 	IncorrectPasswordMessage: 'Your password is incorrect.',
 	YourInfoHasBeenUpdated: 'Your information has been updated',
 	BusinessInformation: 'Business Information',
-	EmailFormattingErrorMessage: 'Please enter a valid email format'
+	EmailFormattingErrorMessage: 'Please enter a valid email format',
+	TimeErrorMessage: 'Your ending hours must be after your starting hours.'
 };

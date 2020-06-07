@@ -794,19 +794,7 @@ exports.updateBusinessInformation = functions.https.onCall(async (input, context
 	} else {
 		const batch = database.batch();
 
-		batch.update(businesses.doc(businessID), {
-			businessName,
-			businessDescription,
-			businessHours,
-			coordinates,
-			location,
-			website,
-			phoneNumber,
-		});
-
-		for (const service of business.services) {
-			batch.update(services.doc(service.serviceID), { businessName });
-		}
+		batch.update(businesses.doc(businessID), updates);
 
 		await batch.commit();
 		return 0;
@@ -1408,7 +1396,6 @@ exports.getProfilePictureByID = functions.https.onCall(async (input, context) =>
 		return { uri: await downloadURL[0] };
 	}
 });
-
 
 //Method will take in a reference to a picture (the same as the business profile ID it is fetching)
 //and return the download URL for the image which is used as an image source

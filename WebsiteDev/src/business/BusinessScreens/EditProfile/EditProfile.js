@@ -76,6 +76,7 @@ const EditProfile = () => {
 	const [passwordTooShortVisible, setPasswordTooShortVisible] = useState(false);
 	const [emailFormattingVisible, setEmailFormattingVisible] = useState(false);
 	const [fieldsErrorVisible, setFieldsErrorVisible] = useState(false);
+	const [timeErrorVisible, setTimeErrorVisible] = useState(false);
 	const [passwordChanged, setPasswordChangedVisible] = useState(false);
 	const [infoUpdated, setInfoUpdated] = useState(false);
 
@@ -93,13 +94,83 @@ const EditProfile = () => {
 		setImagePreview(imageURI.uri);
 		setImage(imageURI);
 		setBusinessName(businessObject.businessName);
-		//setImagePreview(imageURI);
+		setBusiness(businessObject);
 		setEmail(businessObject.email);
 		setWebsite(businessObject.website);
 		setAddress(businessObject.location);
 		setPhoneNumber(businessObject.phoneNumber);
 		setBusinessDescription(businessObject.businessDescription);
+
+		//Calls the function to format and set the business schedulue
+		setBusinessSchedule(businessObject);
+
 		setIsScreenLoading(false);
+	};
+
+	//This helper function is responsible for setting the initial values for the business schedule by converting
+	//the times into date objects, which is what's accepted by the TimePicker component
+	const setBusinessSchedule = (businessObject) => {
+		const { businessHours } = businessObject;
+		for (const day of Object.keys(businessHours)) {
+			const { from, to } = businessHours[day];
+			const start = new Date();
+			const end = new Date();
+
+			const startAMPM = from.split(' ')[1];
+			const endAMPM = to.split(' ')[1];
+
+			let startHours = parseInt(from.split(' ')[0].split(':')[0]);
+			let endHours = parseInt(to.split(' ')[0].split(':')[0]);
+			let startMinutes = parseInt(from.split(' ')[0].split(':')[1]);
+			let endMinutes = parseInt(to.split(' ')[0].split(':')[1]);
+
+			if (startAMPM === 'PM' && startHours !== 12) {
+				startHours += 12;
+			}
+			if (endAMPM === 'PM' && endAMPM !== 12) {
+				endHours += 12;
+			}
+
+			start.setHours(startHours, startMinutes);
+			end.setHours(endHours, endMinutes);
+
+			if (day === 'sunday') {
+				setSunday({
+					start,
+					end,
+				});
+			} else if (day === 'monday') {
+				setMonday({
+					start,
+					end,
+				});
+			} else if (day === 'tuesday') {
+				setTuesday({
+					start,
+					end,
+				});
+			} else if (day === 'wednesday') {
+				setWednesday({
+					start,
+					end,
+				});
+			} else if (day === 'thursday') {
+				setThursday({
+					start,
+					end,
+				});
+			} else if (day === 'friday') {
+				setFriday({
+					start,
+					end,
+				});
+			} else if (day === 'saturday') {
+				setSaturday({
+					start,
+					end,
+				});
+			}
+		}
 	};
 
 	useEffect(() => {
@@ -183,6 +254,65 @@ const EditProfile = () => {
 			setInfoUpdated(true);
 			setIsLoading(false);
 		}
+	};
+
+	//This method is going to handle changing the business schedule. It will check if there's anything that doesn't make
+	//sense, like the to time being earlier than the for time, then it will update the schedule by converting the dates
+	//accordingly
+	const saveBusinessSchedule = async () => {
+		setIsLoading(true);
+		const arrayOfDays = { sunday, monday, tuesday, wednesday, thursday, friday, saturday };
+		const finalSchedule = {};
+		for (const day of Object.keys(arrayOfDays)) {
+			const dayObject = arrayOfDays[day];
+			const { start, end } = dayObject;
+			if (start.getTime() - end.getTime() > 0) {
+				setTimeErrorVisible(true);
+				setIsLoading(false);
+				return;
+			}
+			let fromHours = start.getHours();
+			let fromAMPM = '';
+			let fromMinutes = start.getMinutes();
+			let toHours = end.getHours();
+			let toAMPM = '';
+			let toMinutes = end.getMinutes();
+
+			if (fromHours > 12) {
+				fromHours -= 12;
+				fromAMPM = 'PM';
+			} else {
+				fromAMPM = 'AM';
+			}
+			if (toHours > 12) {
+				toHours -= 12;
+				toAMPM = 'PM';
+			} else {
+				toAMPM = 'AM';
+			}
+
+			if (fromMinutes < 10) {
+				fromMinutes = '0' + fromMinutes;
+			}
+			if (toMinutes < 10) {
+				toMinutes = '0' + toMinutes;
+			}
+
+			let from = fromHours + ':' + fromMinutes + ' ' + fromAMPM;
+			let to = toHours + ':' + toMinutes + ' ' + toAMPM;
+			finalSchedule[day] = {
+				from,
+				to,
+			};
+			await FirebaseFunctions.call('updateBusinessInformation', {
+				businessID: business.businessID,
+				updates: {
+					businessHours: finalSchedule,
+				},
+			});
+		}
+		setIsLoading(false);
+		setInfoUpdated(true);
 	};
 
 	//This method is going to render the time pickers for each time object
@@ -325,7 +455,7 @@ const EditProfile = () => {
 											? 'subTextStyle white bold'
 											: 'subTextStyle darkBlue bold'
 									}>
-									{strings.Business}
+									{strings.BusinessSchedule}
 								</text>
 							</div>
 						</div>
@@ -498,7 +628,13 @@ const EditProfile = () => {
 								strings.Saturday,
 							].map((dayString, index) => renderTimePicker(dayString, index))}
 							<div className='helpbutton3'>
-								<HelpButton title={strings.SaveChanges} width='20vw' height='7.5vh' />
+								<HelpButton
+									title={strings.SaveChanges}
+									width='20vw'
+									height='7.5vh'
+									isLoading={isLoading}
+									onPress={() => saveBusinessSchedule()}
+								/>
 							</div>
 						</div>
 					) : (
@@ -593,6 +729,12 @@ const EditProfile = () => {
 				onClose={() => setInfoUpdated(false)}
 				titleText={strings.Success}
 				messageText={strings.YourInfoHasBeenUpdated}
+			/>
+			<HelpAlert
+				isVisible={timeErrorVisible}
+				onClose={() => setTimeErrorVisible(false)}
+				titleText={strings.Whoops}
+				messageText={strings.TimeErrorMessage}
 			/>
 			<HelpAlert
 				isVisible={fieldsErrorVisible}
