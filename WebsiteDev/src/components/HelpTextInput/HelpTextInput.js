@@ -50,13 +50,16 @@ export default function HelpTextInput(props) {
 	return (
 		//Creates a view that includes the interior TextInput so that the curvature doesn't
 		//impact the text
-		<View>
+		<View style={{
+			...HelpTextInputStyle.row
+		}}>
 			<TextInput
 				style={{
 					...HelpTextInputStyle.textInputContainerStyle,
 					width,
 					height,
 					outline: 'none',
+					paddingLeft: '3vw',
 				}}
 				multiline={isMultiline}
 				keyboardType={keyboardType ? keyboardType : 'default'}
