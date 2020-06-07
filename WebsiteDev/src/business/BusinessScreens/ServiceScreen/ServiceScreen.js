@@ -82,7 +82,7 @@ const ServiceScreen = (props) => {
 		);
 	};
 
-	//Renders the UI of the screen. If the screen is loading, displays a loading state
+	// Renders the UI of the screen. If the screen is loading, displays a loading state
 	if (isLoading === true) {
 		return (
 			<div className='serviceScreen'>
@@ -99,10 +99,11 @@ const ServiceScreen = (props) => {
 						className={'arrowBackButton'}
 						onClick={() =>
 							history.push({ pathname: '/dashboard', state: { businessID: business.businessID } })
-						}>
+						}
+						>
 						<FontAwesomeIcon color={colors.blue} size={'3x'} icon='arrow-left' />
 					</div>
-					<text className='mainTextStyle darkBlue bold'>{service.serviceTitle}</text>
+					<text className="mainTextStyle darkBlue bold">{service.serviceTitle}</text>
 					<HelpButton
 						onPress={() => {
 							//Goes to the edit service screen
@@ -216,6 +217,28 @@ const ServiceScreen = (props) => {
 						</div>
 					) : (
 						<div />
+					)}
+					{unconfirmedRequestsSnippet.length > 0 ? (
+							<div className="unconfirmedrequests">
+								<text className='subTextStyle darkBlue bold'>{strings.UnconfirmedRequests}</text> 
+								{unconfirmedRequestsSnippet.map((unconfirmedRequest) => {
+								return renderRequestCard(
+									unconfirmedRequest.customerName,
+									unconfirmedRequest.date,
+									unconfirmedRequest.time
+								);
+						})}
+						<HelpButton
+						onPress={() => {
+							//Goes to all unconfirmed requests screen
+						}}
+						title={strings.ViewAll}
+						width={'22vw'}
+						height={'4vh'}
+						/>
+					</div>
+					) : (
+						<div/>
 					)}
 				</div>
 			</div>

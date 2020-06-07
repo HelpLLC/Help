@@ -23,6 +23,8 @@
     // Removed rule "disallow mixed spaces and tabs for indentation" from recommended eslint rules
     "no-mixed-spaces-and-tabs": "off",
 
+    "no-useless-escape": "off",
+
     // Removed rule "disallow the use of undeclared variables unless mentioned in /*global */ comments" from recommended eslint rules
     "no-undef": "off",
 
@@ -63,7 +65,7 @@
     "no-floating-decimal": 2,
 
     // Warn against shorthand type conversions
-    "no-implicit-coercion": 1,
+    "no-implicit-coercion": "off",
 
     // Warn against function declarations and expressions inside loop statements
     "no-loop-func": 1,

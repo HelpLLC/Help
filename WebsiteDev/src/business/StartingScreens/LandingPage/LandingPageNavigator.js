@@ -125,6 +125,9 @@ export default function LandingPageNavigator() {
 				<Route path='/dashboard'>
 					<Dashboard />
 				</Route>
+				<Route path='/createProductScreen'>
+					<CreateProductScreen />
+				</Route>
 				<Route path='/editprofile'>
 					<EditProfile />
 				</Route>

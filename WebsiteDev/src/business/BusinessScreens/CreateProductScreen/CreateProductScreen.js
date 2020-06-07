@@ -414,33 +414,6 @@ export default function CreateProductScreen() {
 									width={'20vw'}
 								/>
 							</div>
-							<div className='paymentTypeText'>
-								<div className='spacer' />
-								<text className='mainTextStyle blue'>
-									{strings.WhenDoYouWantYourCustomersToPayYou}
-								</text>
-							</div>
-							<div className='paymentTimeButtonsDiv'>
-								<HelpButton
-									isLightButton={!prepay}
-									onPress={() => {
-										setPrepay(true);
-										setPostpay(false);
-									}}
-									title={strings.WhenTheyOrder}
-									width={'20vw'}
-								/>
-								<div className='spacer' />
-								<HelpButton
-									isLightButton={!postpay}
-									onPress={() => {
-										setPostpay(true);
-										setPrepay(false);
-									}}
-									title={strings.AfterCompletion}
-									width={'20vw'}
-								/>
-							</div>
 						</div>
 					) : (
 						<div>

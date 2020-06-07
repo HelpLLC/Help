@@ -1,3 +1,4 @@
+/*eslint no-useless-escape: "error"*/
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 var serviceAccount = require('./serviceAccountKey.json');
@@ -489,7 +490,9 @@ exports.getCompletedRequestsByServiceID = functions.https.onCall(async (input, c
 	const { serviceID } = input;
 
 	const result = await database.runTransaction(async (transaction) => {
-		const docs = await transaction.get(services.doc(serviceID).collection('CompletedRequests').orderBy('date'));
+		const docs = await transaction.get(
+			services.doc(serviceID).collection('CompletedRequests').orderBy('date')
+		);
 		const arrayOfData = docs.docs.map((doc) => doc.data());
 		return arrayOfData;
 	});
@@ -498,42 +501,106 @@ exports.getCompletedRequestsByServiceID = functions.https.onCall(async (input, c
 });
 
 //This method is going to fetch the confirmed requests for a specific service. It will take in a service ID parameter
-//and a limit parameter. If that limit parameter is false, then the method will fetch ALL the confirmed requests. If
+//and a limit parameter. If that limit parameter is not a number, then the method will fetch ALL the confirmed requests. If
 //it is a number, then that will be the number of requests it fetches. It will fetch them in order of the nearest date
 exports.getConfirmedRequestsByServiceID = functions.https.onCall(async (input, context) => {
 	const { serviceID, limit } = input;
 	const confirmedRequests = requests
 		.where('serviceID', '==', serviceID)
 		.where('status', '==', 'REQUESTED')
-		.where('confirmed', '==', true)
-		.orderBy('date', 'asc');
+		.where('confirmed', '==', true);
 	let query = '';
-	if (limit === false) {
-		query = await confirmedRequests.get();
-	} else {
+	if (typeof limit === 'number') {
 		query = await confirmedRequests.limit(limit).get();
+	} else {
+		query = await confirmedRequests.get();
 	}
 	const docs = query.docs.map((doc) => doc.data());
+
+	//Sorts the documents by time and date
+	docs.sort((a, b) => {
+		const aDate = new Date(a.date);
+		const bDate = new Date(b.date);
+		if (aDate.getTime() - bDate.getTime() === 0) {
+			let aTime = a.time;
+			let bTime = b.time;
+
+			const aTimePeriod = aTime.split(' ')[1];
+			const bTimePeriod = bTime.split(' ')[1];
+			const aTimeString = aTime.split(' ')[0];
+			const bTimeString = bTime.split(' ')[0];
+
+			let aHour = aTimeString.split(':')[0];
+			let aMinute = aTimeString.split(':')[1];
+			let bHour = bTimeString.split(':')[0];
+			let bMinute = bTimeString.split(':')[1];
+
+			if (aTimePeriod === 'PM' && aHour !== '12') {
+				aHour = parseInt(aHour) + 12;
+			}
+			if (bTimePeriod === 'PM' && bHour !== '12') {
+				bHour = parseInt(bHour) + 12;
+			}
+			aTime = aHour * 60 + aMinute;
+			bTime = bHour * 60 + bMinute;
+
+			return aTime - bTime;
+		} else {
+			return aDate.getTime() - bDate.getTime();
+		}
+	});
+
 	return docs;
 });
 
 //This method is going to fetch the unconfirmed requests for a specific service. It will take in a service ID parameter
-//and a limit parameter. If that limit parameter is false, then the method will fetch ALL the unconfirmed requests. If
+//and a limit parameter. If that limit parameter is not a number, then the method will fetch ALL the unconfirmed requests. If
 //it is a number, then that will be the number of requests it fetches. It will fetch them in order of the nearest date
 exports.getUnconfirmedRequestsByServiceID = functions.https.onCall(async (input, context) => {
 	const { serviceID, limit } = input;
 	const confirmedRequests = requests
 		.where('serviceID', '==', serviceID)
 		.where('status', '==', 'REQUESTED')
-		.where('confirmed', '==', false)
-		.orderBy('date', 'asc');
+		.where('confirmed', '==', false);
 	let query = '';
-	if (limit === false) {
-		query = await confirmedRequests.get();
-	} else {
+	if (typeof limit === 'number') {
 		query = await confirmedRequests.limit(limit).get();
+	} else {
+		query = await confirmedRequests.get();
 	}
 	const docs = query.docs.map((doc) => doc.data());
+	//Sorts the documents by time and date
+	docs.sort((a, b) => {
+		const aDate = new Date(a.date);
+		const bDate = new Date(b.date);
+		if (aDate.getTime() - bDate.getTime() === 0) {
+			let aTime = a.time;
+			let bTime = b.time;
+
+			const aTimePeriod = aTime.split(' ')[1];
+			const bTimePeriod = bTime.split(' ')[1];
+			const aTimeString = aTime.split(' ')[0];
+			const bTimeString = bTime.split(' ')[0];
+
+			let aHour = aTimeString.split(':')[0];
+			let aMinute = aTimeString.split(':')[1];
+			let bHour = bTimeString.split(':')[0];
+			let bMinute = bTimeString.split(':')[1];
+
+			if (aTimePeriod === 'PM' && aHour !== '12') {
+				aHour = parseInt(aHour) + 12;
+			}
+			if (bTimePeriod === 'PM' && bHour !== '12') {
+				bHour = parseInt(bHour) + 12;
+			}
+			aTime = aHour * 60 + aMinute;
+			bTime = bHour * 60 + bMinute;
+
+			return aTime - bTime;
+		} else {
+			return aDate.getTime() - bDate.getTime();
+		}
+	});
 	return docs;
 });
 
@@ -1393,6 +1460,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		serviceID,
 		status,
 		time,
+		confirmed: false, //Since it is new requests it starts off as unconfirmed to allow a business to confirm it
 	});
 
 	const requestID = newRequestDoc.id;
@@ -1494,6 +1562,14 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 	);
 
 	return result;
+});
+
+//this function sets the confirmed variable to true in the request doc
+exports.confirmRequest = functions.https.onCall(async (input, context) => {
+	const { requestID } = input;
+	const batch = database.batch();
+	batch.update(requests.doc(requestID), { confirmed: true });
+	await batch.commit();
 });
 
 //Method is going to edit a request by it's ID as well as update any fields necessary in the current requests arrays

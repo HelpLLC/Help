@@ -121,6 +121,8 @@ export default {
 	HasBeenUnblocked: 'has been unblocked.',
 	History: 'History',
 	Privacy: 'Privacy',
+	WhenTheyOrder: 'When They Order',
+	AfterCompletion: 'After Completion',
 	ReportAnIssue: 'Report an Issue',
 	Notifications: 'Notifications',
 	About: 'About',
@@ -248,8 +250,6 @@ export default {
 	Cash: 'Cash',
 	CreditDebitCard: 'Credit/Debit Card',
 	SetUpPayment: 'Set Up Payments',
-	WhenTheyOrder: 'When They Order',
-	AfterCompletion: 'After Completion',
 	HowWillYourCustomersPayYou: 'How will your customers pay you?',
 	WhenDoYouWantYourCustomersToPayYou: 'When do you want your customers to pay you?',
 	PaymentTime: 'Payment Time',
@@ -390,4 +390,5 @@ export default {
 	UnderMaintenance: 'Under Maintenance',
 	AppIsUnderMaintenance:
 		'Help is currently under scheduled maintenance. It should be back up soon.',
+	
 };
