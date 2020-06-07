@@ -132,6 +132,7 @@ export default {
 	MarkasComplete: 'Mark as Complete',
 	RequestFromHeader: 'Request From:',
 	Assign: 'Assign',
+	Assigned: 'Assigned',
 	AssignedEmployeesHeader: 'Assigned Employees',
 	NotesHeader: 'Notes',
 	ShowAllNotesSubHeader: 'Show All Notes',

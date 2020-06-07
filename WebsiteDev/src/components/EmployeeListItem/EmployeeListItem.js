@@ -11,6 +11,7 @@ export default function EmployeeListItem(props) {
 	//Starts out the loading state as true until the image is downloaded from the database
 	const [isImageLoading, setIsImageLoading] = useState(true);
 	const [image, setImage] = useState(props.image);
+	const [assigned, setAssigned] = useState(false);
 	const history = useHistory();
 
 	// const loadImage = async () => {
@@ -44,15 +45,21 @@ export default function EmployeeListItem(props) {
 					</Text>
 				</View>
 				<View style={{ ...EmployeeListItemStyle.assignButton }}>
-					<HelpButton
+					{(!assigned ? (<HelpButton
 						title={strings.Assign}
-						width='20vw'
-						onPress={() =>
+						width='9vw'
+						onPress={() => {
 							history.push({
 								pathname: '/viewrequest',
 							})
+							setAssigned(true);
 						}
-					/>
+						}
+					/>) : (
+						<Text style={{ ...EmployeeListItemStyle.assignedText }}>
+							{strings.Assigned}
+						</Text>
+					))}
 				</View>
 			</View>
 		</View>

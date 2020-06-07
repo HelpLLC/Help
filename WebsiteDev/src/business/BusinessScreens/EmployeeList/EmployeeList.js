@@ -18,36 +18,42 @@ export default function EmployeeList(props) {
 	let history = useHistory();
 
 	const confirmRequest = async () => {
-		// const confirm = await FirebaseFunctions.call('confirmRequest', { requestID: requestID });
-		setConfirmed(true);
+		const confirm = await FirebaseFunctions.call('confirmRequest', { requestID: requestID });
+		// setConfirmed(true);
 	};
-	const cancelRequest = () => {};
+	const cancelRequest = () => {
+		setConfirmed(false);
+	};
 	const completeRequest = () => {};
 
 	return (
 		<div id='container'>
 			<SideMenu />
-			<div id='rectangle_4'>
+			<div id='background'>
 				<div className='content_container'>
 					<div className='service_title bigTitleTextStyle darkBlue'>Assign Employee(s)</div>
-					<div className='topRow'>
+					<div className='searchBar'>
 						<HelpTextInput
 							height={'5vh'}
 							width={'65vw'}
 							placeholder={'Search...'}
 							isMultiline={false}
 							onChangeText={() => setSearch(search)}
-							
-						additionalIcon={
-							<FontAwesomeIcon icon={['fas', 'search']} size='2x' style={{padding: 10, position: "absolute"}} />}></HelpTextInput>
+							additionalIcon={
+								<FontAwesomeIcon
+									icon={['fas', 'search']}
+									size='2x'
+									style={{ padding: 10, position: 'absolute' }}
+								/>
+							}></HelpTextInput>
 					</div>
 
 					<EmployeeListItem name='John Doe' image={profile_pic} />
-					<EmployeeListItem name='John Doe' image={profile_pic} />
-					<EmployeeListItem name='John Doe' image={profile_pic} />
+					<EmployeeListItem name='Anne Ketcheva' image={profile_pic} />
+					<EmployeeListItem name='Tricia Cebotari' image={profile_pic} />
 
 					{confirmed == true ? (
-						<div className='row3'>
+						<div className='confirmedButtons'>
 							<HelpButton title={strings.CancelRequest} onPress={cancelRequest} />
 							<HelpButton title={strings.CompleteRequest} onPress={completeRequest} />
 						</div>

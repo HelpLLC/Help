@@ -34,8 +34,14 @@ export default {
 		marginTop: '2vh',
 	},
 	assignButton: {
-		marginTop: '-4vh',
+		marginTop: '0.5vh',
 		alignItems: 'center',
 		marginRight: '1vw',
+	},
+	assignedText: {
+		...fontStyles.bigSubTitleStyle,
+		...fontStyles.green,
+		marginLeft: '1vw',
+		marginTop: '2vh',
 	},
 };
