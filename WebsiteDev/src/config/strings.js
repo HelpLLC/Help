@@ -131,6 +131,7 @@ export default {
 	AdjustJobHeader: 'Adjust Job',
 	RequestFromHeader: 'Request From:',
 	AssignedEmployeesHeader: 'Assigned Employees:',
+	Assign: 'Assign',
 	NotesHeader: 'Notes',
 	ShowAllNotesSubHeader: 'Show All Notes',
 	CalendarHeader: 'Calendar',
@@ -261,4 +262,5 @@ export default {
 	PastServicesRequests: 'Past Services Requests',
 	EditProfilePicture: 'Edit Profile Picture',
 	SaveChanges: 'Save Changes',
+	ConfirmRequest: 'Confirm Request',
 };
