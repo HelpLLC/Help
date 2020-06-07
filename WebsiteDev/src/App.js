@@ -10,6 +10,7 @@ library.add(fab, fas);
 
 //Declares the functional component
 const App = () => {
+
 	return (
 		<BrowserRouter>
 			<LandingPageNavigator />

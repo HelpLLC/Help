@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import TopBanner from '../../components/TopBanner/TopBanner';
 import strings from 'config/strings';
 import HelpButton from '../../components/HelpButton/HelpButton';
- 
+
 import HelpView from '../../components/HelpView';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { screenWidth, screenHeight } from 'config/dimensions';
@@ -27,7 +27,7 @@ export default class createScheduleScreen extends Component {
 		isToTimeShowing: false,
 		businessUpdated: false,
 		isLoading: false,
-		isTimesErrorVisible: false
+		isTimesErrorVisible: false,
 	};
 
 	//if this screen is to edit existing business, it will fetch the correct fields
@@ -45,7 +45,7 @@ export default class createScheduleScreen extends Component {
 				coordinates,
 				editing,
 				business,
-				businessID
+				businessID,
 			} = this.props.navigation.state.params;
 			this.setState({
 				businessName,
@@ -58,41 +58,41 @@ export default class createScheduleScreen extends Component {
 				business,
 				businessID,
 				isScreenLoading: false,
-				...business.businessHours
+				...business.businessHours,
 			});
 		} else {
 			FirebaseFunctions.setCurrentScreen('CreateScheduleScreen', 'createScheduleScreen');
 			this.setState({
 				monday: {
 					from: '9:00 AM',
-					to: '5:00 PM'
+					to: '5:00 PM',
 				},
 				tuesday: {
 					from: '9:00 AM',
-					to: '5:00 PM'
+					to: '5:00 PM',
 				},
 				wednesday: {
 					from: '9:00 AM',
-					to: '5:00 PM'
+					to: '5:00 PM',
 				},
 				thursday: {
 					from: '9:00 AM',
-					to: '5:00 PM'
+					to: '5:00 PM',
 				},
 				friday: {
 					from: '9:00 AM',
-					to: '5:00 PM'
+					to: '5:00 PM',
 				},
 				saturday: {
 					from: '9:00 AM',
-					to: '5:00 PM'
+					to: '5:00 PM',
 				},
 				sunday: {
 					from: '9:00 AM',
-					to: '5:00 PM'
+					to: '5:00 PM',
 				},
 				editing,
-				isScreenLoading: false
+				isScreenLoading: false,
 			});
 		}
 	}
@@ -117,7 +117,7 @@ export default class createScheduleScreen extends Component {
 				phoneNumber,
 				website,
 				location,
-				coordinates
+				coordinates,
 			} = this.props.navigation.state.params;
 			const { sunday, monday, tuesday, wednesday, thursday, friday, saturday } = this.state;
 			let businessHours = { sunday, monday, tuesday, wednesday, thursday, friday, saturday };
@@ -183,7 +183,7 @@ export default class createScheduleScreen extends Component {
 					website,
 					phoneNumber,
 					isVerified: false,
-					businessID: account.user.uid
+					businessID: account.user.uid,
 				});
 				//Navigates to the screen where it tells the business to wait until their account has been verified
 				this.props.navigation.push('AccountNotVerifiedScreen');
@@ -197,16 +197,17 @@ export default class createScheduleScreen extends Component {
 				}
 				//Adds the business to the databasae
 				await FirebaseFunctions.call('updateBusinessInformation', {
-					//Fields for the business
-					businessName,
-					businessDescription: businessInfo,
-					businessHours,
-					coordinates,
-					location,
-					website,
-					phoneNumber,
 					businessID: this.state.businessID,
-					business: this.state.business
+					updates: {
+						//Fields for the business
+						businessName,
+						businessDescription: businessInfo,
+						businessHours,
+						coordinates,
+						location,
+						website,
+						phoneNumber,
+					},
 				});
 				this.setState({ isLoading: false, businessUpdated: true });
 			}
@@ -247,14 +248,15 @@ export default class createScheduleScreen extends Component {
 					flexDirection: 'row',
 					justifyContent: 'flex-start',
 					alignItems: 'center',
-					width: screenWidth
+					width: screenWidth,
 				}}>
 				<View
 					style={{
 						justifyContent: 'center',
 						alignItems: 'center',
-						marginHorizontal: screenHeight * 0.02
-					}}></View>
+						marginHorizontal: screenHeight * 0.02,
+					}}
+				/>
 
 				<TouchableOpacity
 					onPress={() => {
@@ -263,8 +265,8 @@ export default class createScheduleScreen extends Component {
 								to: this.state[day].to,
 								from: this.state[day].from,
 								isToTimeShowing: false,
-								isFromTimeShowing: true
-							}
+								isFromTimeShowing: true,
+							},
 						});
 					}}
 					style={{
@@ -276,7 +278,7 @@ export default class createScheduleScreen extends Component {
 						justifyContent: 'center',
 						alignItems: 'center',
 						backgroundColor: colors.white,
-						color: colors.black
+						color: colors.black,
 					}}>
 					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>{this.state[day].from}</Text>
 				</TouchableOpacity>
@@ -284,16 +286,18 @@ export default class createScheduleScreen extends Component {
 					style={{
 						justifyContent: 'center',
 						alignItems: 'center',
-						marginHorizontal: screenHeight * 0.02
-					}}></View>
+						marginHorizontal: screenHeight * 0.02,
+					}}
+				/>
 
 				<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{strings.to}</Text>
 				<View
 					style={{
 						justifyContent: 'center',
 						alignItems: 'center',
-						marginHorizontal: screenHeight * 0.02
-					}}></View>
+						marginHorizontal: screenHeight * 0.02,
+					}}
+				/>
 
 				<TouchableOpacity
 					onPress={() => {
@@ -303,8 +307,8 @@ export default class createScheduleScreen extends Component {
 								to: this.state[day].to,
 								from: this.state[day].from,
 								isToTimeShowing: true,
-								isFromTimeShowing: false
-							}
+								isFromTimeShowing: false,
+							},
 						});
 					}}
 					style={{
@@ -316,7 +320,7 @@ export default class createScheduleScreen extends Component {
 						justifyContent: 'center',
 						alignItems: 'center',
 						backgroundColor: colors.white,
-						color: colors.black
+						color: colors.black,
 					}}>
 					<Text style={[fontStyles.subTextStyle, fontStyles.black]}>{this.state[day].to}</Text>
 				</TouchableOpacity>
@@ -333,8 +337,8 @@ export default class createScheduleScreen extends Component {
 								from: this.convertTime(time),
 
 								isFromTimeShowing: false,
-								isToTimeShowing: false
-							}
+								isToTimeShowing: false,
+							},
 						});
 					}}
 					onCancel={() => {
@@ -344,8 +348,8 @@ export default class createScheduleScreen extends Component {
 								to: this.state[day].to,
 								from: this.state[day].from,
 								isToTimeShowing: false,
-								isFromTimeShowing: false
-							}
+								isFromTimeShowing: false,
+							},
 						});
 					}}
 				/>
@@ -360,8 +364,8 @@ export default class createScheduleScreen extends Component {
 								to: this.convertTime(time),
 								from: this.state[day].from,
 								isFromTimeShowing: false,
-								isToTimeShowing: false
-							}
+								isToTimeShowing: false,
+							},
 						});
 					}}
 					onCancel={() => {
@@ -371,8 +375,8 @@ export default class createScheduleScreen extends Component {
 								to: this.state[day].to,
 								from: this.state[day].from,
 								isToTimeShowing: false,
-								isFromTimeShowing: false
-							}
+								isFromTimeShowing: false,
+							},
 						});
 					}}
 				/>
@@ -407,22 +411,23 @@ export default class createScheduleScreen extends Component {
 					style={{
 						// flexDirection: 'column',
 						alignItems: 'center',
-						marginTop: screenHeight * 0.01
+						marginTop: screenHeight * 0.01,
 					}}>
 					<View
 						style={{
 							flexDirection: 'column',
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginVertical: screenHeight * 0.02
-						}}></View>
+							marginVertical: screenHeight * 0.02,
+						}}
+					/>
 
 					<View
 						style={{
 							width: screenWidth,
 							justifyContent: 'flex-end',
 							flexDirection: 'row',
-							marginLeft: screenHeight * 0.15
+							marginLeft: screenHeight * 0.15,
 						}}>
 						<View style={{ marginTop: screenHeight * 0.015 }}>
 							<Text style={[fontStyles.bigTextStyle, fontStyles.gray]}>{strings.Sunday}</Text>
@@ -435,15 +440,16 @@ export default class createScheduleScreen extends Component {
 							flexDirection: 'column',
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginVertical: screenHeight * 0.01
-						}}></View>
+							marginVertical: screenHeight * 0.01,
+						}}
+					/>
 
 					<View
 						style={{
 							width: screenWidth,
 							justifyContent: 'flex-end',
 							flexDirection: 'row',
-							marginLeft: screenHeight * 0.15
+							marginLeft: screenHeight * 0.15,
 						}}>
 						<View style={{ marginTop: screenHeight * 0.015 }}>
 							<Text style={[fontStyles.bigTextStyle, fontStyles.gray]}>{strings.Monday}</Text>
@@ -455,15 +461,16 @@ export default class createScheduleScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginVertical: screenHeight * 0.01
-						}}></View>
+							marginVertical: screenHeight * 0.01,
+						}}
+					/>
 
 					<View
 						style={{
 							width: screenWidth,
 							justifyContent: 'flex-end',
 							flexDirection: 'row',
-							marginLeft: screenHeight * 0.15
+							marginLeft: screenHeight * 0.15,
 						}}>
 						<View style={{ marginTop: screenHeight * 0.015 }}>
 							<Text style={[fontStyles.bigTextStyle, fontStyles.gray]}>{strings.Tuesday}</Text>
@@ -475,15 +482,16 @@ export default class createScheduleScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginVertical: screenHeight * 0.01
-						}}></View>
+							marginVertical: screenHeight * 0.01,
+						}}
+					/>
 
 					<View
 						style={{
 							width: screenWidth,
 							justifyContent: 'flex-end',
 							flexDirection: 'row',
-							marginLeft: screenHeight * 0.15
+							marginLeft: screenHeight * 0.15,
 						}}>
 						<View style={{ marginTop: screenHeight * 0.015 }}>
 							<Text style={[fontStyles.bigTextStyle, fontStyles.gray]}>{strings.Wednesday}</Text>
@@ -495,15 +503,16 @@ export default class createScheduleScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginVertical: screenHeight * 0.01
-						}}></View>
+							marginVertical: screenHeight * 0.01,
+						}}
+					/>
 
 					<View
 						style={{
 							width: screenWidth,
 							justifyContent: 'flex-end',
 							flexDirection: 'row',
-							marginLeft: screenHeight * 0.15
+							marginLeft: screenHeight * 0.15,
 						}}>
 						<View style={{ marginTop: screenHeight * 0.015 }}>
 							<Text style={[fontStyles.bigTextStyle, fontStyles.gray]}>{strings.Thursday}</Text>
@@ -515,15 +524,16 @@ export default class createScheduleScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginVertical: screenHeight * 0.01
-						}}></View>
+							marginVertical: screenHeight * 0.01,
+						}}
+					/>
 
 					<View
 						style={{
 							width: screenWidth,
 							justifyContent: 'flex-end',
 							flexDirection: 'row',
-							marginLeft: screenHeight * 0.15
+							marginLeft: screenHeight * 0.15,
 						}}>
 						<View style={{ marginTop: screenHeight * 0.015 }}>
 							<Text style={[fontStyles.bigTextStyle, fontStyles.gray]}>{strings.Friday}</Text>
@@ -535,15 +545,16 @@ export default class createScheduleScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginVertical: screenHeight * 0.01
-						}}></View>
+							marginVertical: screenHeight * 0.01,
+						}}
+					/>
 
 					<View
 						style={{
 							width: screenWidth,
 							justifyContent: 'flex-end',
 							flexDirection: 'row',
-							marginLeft: screenHeight * 0.15
+							marginLeft: screenHeight * 0.15,
 						}}>
 						<View style={{ marginTop: screenHeight * 0.015 }}>
 							<Text style={[fontStyles.bigTextStyle, fontStyles.gray]}>{strings.Saturday}</Text>
@@ -555,12 +566,13 @@ export default class createScheduleScreen extends Component {
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							marginVertical: screenHeight * 0.02
-						}}></View>
+							marginVertical: screenHeight * 0.02,
+						}}
+					/>
 					<View
 						style={{
 							flexDirection: 'row',
-							alignItems: 'flex-end'
+							alignItems: 'flex-end',
 						}}>
 						<HelpButton
 							title={this.state.editing ? strings.Done : strings.SignUp}
@@ -587,7 +599,7 @@ export default class createScheduleScreen extends Component {
 					onPress={() => {
 						this.setState({ businessUpdated: false });
 						this.props.navigation.push('BusinessScreens', {
-							businessID: this.state.businessID
+							businessID: this.state.businessID,
 						});
 					}}
 					title={strings.BusinessUpdated}

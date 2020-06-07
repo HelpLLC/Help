@@ -1,4 +1,5 @@
 /*eslint no-useless-escape: "error"*/
+/* eslint-disable no-await-in-loop */
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 var serviceAccount = require('./serviceAccountKey.json');
@@ -774,37 +775,42 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 //This function is going to take in fields for a business and a businessID and update that business's information in
 //firestore. It will also update any existing references to the business from existing documents
 exports.updateBusinessInformation = functions.https.onCall(async (input, context) => {
-	const {
-		businessName,
-		businessDescription,
-		businessHours,
-		coordinates,
-		location,
-		website,
-		phoneNumber,
-		businessID,
-		business,
-	} = input;
+	const { businessID, updates } = input;
 
-	const batch = database.batch();
+	if (updates.businessName) {
+		const result = await database.runTransaction(async (transaction) => {
+			const business = (await transaction.get(businesses.doc(businessID))).data();
 
-	batch.update(businesses.doc(businessID), {
-		businessName,
-		businessDescription,
-		businessHours,
-		coordinates,
-		location,
-		website,
-		phoneNumber,
-	});
+			for (const service of business.services) {
+				await transaction.update(services.doc(service.serviceID), {
+					businessName: updates.businessName,
+				});
+			}
 
-	for (const service of business.services) {
-		batch.update(services.doc(service.serviceID), { businessName });
+			await transaction.update(businesses.doc(businessID), updates);
+			return 0;
+		});
+		return result;
+	} else {
+		const batch = database.batch();
+
+		batch.update(businesses.doc(businessID), {
+			businessName,
+			businessDescription,
+			businessHours,
+			coordinates,
+			location,
+			website,
+			phoneNumber,
+		});
+
+		for (const service of business.services) {
+			batch.update(services.doc(service.serviceID), { businessName });
+		}
+
+		await batch.commit();
+		return 0;
 	}
-
-	await batch.commit();
-
-	return 0;
 });
 
 //This method will take information about a new service and add it to the firestore database. It will
@@ -1391,6 +1397,25 @@ exports.getProfilePictureByID = functions.https.onCall(async (input, context) =>
 	const { customerID } = input;
 	//Creates the reference
 	const uri = storage.file('profilePictures/' + customerID);
+	const exists = await uri.exists();
+	if (exists[0] === true) {
+		const downloadURL = await uri.getSignedUrl({ action: 'read', expires: '03-17-2025' });
+		return { uri: await downloadURL[0] };
+	} else {
+		const downloadURL = await storage
+			.file('profilePictures/defaultProfilePic.png')
+			.getSignedUrl({ action: 'read', expires: '03-17-2025' });
+		return { uri: await downloadURL[0] };
+	}
+});
+
+
+//Method will take in a reference to a picture (the same as the business profile ID it is fetching)
+//and return the download URL for the image which is used as an image source
+exports.getBusinessProfilePictureByID = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+	//Creates the reference
+	const uri = storage.file('businessProfilePics/' + businessID);
 	const exists = await uri.exists();
 	if (exists[0] === true) {
 		const downloadURL = await uri.getSignedUrl({ action: 'read', expires: '03-17-2025' });

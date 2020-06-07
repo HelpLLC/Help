@@ -285,4 +285,5 @@ export default {
 	IncorrectPasswordMessage: 'Your password is incorrect.',
 	YourInfoHasBeenUpdated: 'Your information has been updated',
 	BusinessInformation: 'Business Information',
+	EmailFormattingErrorMessage: 'Please enter a valid email format'
 };

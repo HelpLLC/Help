@@ -64,6 +64,8 @@ const EditProfile = () => {
 		end: defaultEnd,
 	});
 	const [image, setImage] = useState('');
+	const [imageUpdated, setImageUpdated] = useState(false);
+	const [imagePreview, setImagePreview] = useState('');
 	const [isScreenLoading, setIsScreenLoading] = useState(true);
 	const [isLoading, setIsLoading] = useState(false);
 	const [oldPassword, setOldPassword] = useState('');
@@ -72,18 +74,26 @@ const EditProfile = () => {
 	const [passwordsMustMatchVisible, setPasswordsMustMatchVisible] = useState(false);
 	const [incorrectPasswordVisible, setIncorrectPasswordVisible] = useState(false);
 	const [passwordTooShortVisible, setPasswordTooShortVisible] = useState(false);
+	const [emailFormattingVisible, setEmailFormattingVisible] = useState(false);
+	const [fieldsErrorVisible, setFieldsErrorVisible] = useState(false);
 	const [passwordChanged, setPasswordChangedVisible] = useState(false);
 	const [infoUpdated, setInfoUpdated] = useState(false);
-	const [imagePreview, setImagePreview] = useState('');
 
 	//This method is going to fetch the information about the business and set the correct states to it
 	const fetchBusinessData = async () => {
 		const { businessID } = location.state;
-		const businessObject = await FirebaseFunctions.call('getBusinessByID', {
-			businessID: businessID,
-		});
-		setBusiness(businessObject);
+		const functionResults = await Promise.all([
+			FirebaseFunctions.call('getBusinessByID', {
+				businessID,
+			}),
+			FirebaseFunctions.call('getBusinessProfilePictureByID', { businessID }),
+		]);
+		const businessObject = functionResults[0];
+		const imageURI = functionResults[1];
+		setImagePreview(imageURI.uri);
+		setImage(imageURI);
 		setBusinessName(businessObject.businessName);
+		//setImagePreview(imageURI);
 		setEmail(businessObject.email);
 		setWebsite(businessObject.website);
 		setAddress(businessObject.location);
@@ -99,8 +109,6 @@ const EditProfile = () => {
 	//This method is going to handle the logic for changing the password for a business
 	const changePassword = async () => {
 		setIsLoading(true);
-		console.log(newPassword);
-		console.log(confirmNewPassword);
 		if (newPassword !== confirmNewPassword) {
 			setPasswordsMustMatchVisible(true);
 		} else if (newPassword.length < 6) {
@@ -118,6 +126,63 @@ const EditProfile = () => {
 			}
 		}
 		setIsLoading(false);
+	};
+
+	//This method is going to adjust any necessary information in the business information section of the edit
+	//profile
+	const saveBusinessInformation = async () => {
+		setIsLoading(true);
+		//Tests if there are any empty feels
+		if (
+			businessName.trim() === '' ||
+			email.trim() === '' ||
+			phoneNumber.trim() === '' ||
+			address.trim() === '' ||
+			businessDescription.trim() === ''
+		) {
+			setFieldsErrorVisible(true);
+			setIsLoading(false);
+		} else {
+			//Constructs the necessary promises
+			const promises = [];
+
+			//The promise to edit the business fields
+			promises.push(
+				FirebaseFunctions.call('updateBusinessInformation', {
+					businessID: business.businessID,
+					updates: {
+						businessName,
+						email,
+						website,
+						phoneNumber,
+						location: address,
+						businessDescription,
+					},
+				})
+			);
+
+			//Checks if the user's image needs to be updated
+			if (imageUpdated === true) {
+				promises.push(
+					FirebaseFunctions.storage.ref('businessProfilePics/' + business.businessID).put(image)
+				);
+			}
+
+			//Checks if the business email needs to be updated
+			if (email !== business.email) {
+				if (email.includes('.') && email.includes('@')) {
+					promises.push(FirebaseFunctions.updateEmail(email));
+				} else {
+					setEmailFormattingVisible(true);
+				}
+			}
+
+			await Promise.all(promises);
+			await fetchBusinessData();
+
+			setInfoUpdated(true);
+			setIsLoading(false);
+		}
 	};
 
 	//This method is going to render the time pickers for each time object
@@ -210,7 +275,6 @@ const EditProfile = () => {
 			</div>
 		);
 	}
-	console.log(business);
 	return (
 		<div className='editProfileContainer'>
 			<div className='sidebarHolder'></div>
@@ -220,7 +284,7 @@ const EditProfile = () => {
 						<div className='infoHolder'>
 							<div className='imageContainer' />
 							<div className='nameContainer'>
-								<text className='subTextStyle black bold'>{business.businessName}</text>
+								<text className='subTextStyle black bold'>{businessName}</text>
 							</div>
 						</div>
 						<div className='titleColumnContainer'>
@@ -292,12 +356,15 @@ const EditProfile = () => {
 									<div className='topRow'>
 										<div>
 											<input
+												disabled={isLoading}
 												type='file'
+												accept='image/png, image/jpeg'
 												id='upload'
 												style={{ display: 'none' }}
 												onChange={(e) => {
-													setImagePreview(URL.createObjectURL(e.target.files[0]));
 													if (e.target.files.length) {
+														setImagePreview(URL.createObjectURL(e.target.files[0]));
+														setImageUpdated(true);
 														Resizer.imageFileResizer(
 															e.target.files[0],
 															400,
@@ -314,23 +381,20 @@ const EditProfile = () => {
 												}}
 											/>
 											<label htmlFor='upload'>
-												{image.preview ? (
-													<img src={image.preview} alt='dummy' width='300' height='300' />
+												{image === '' ? (
+													<div className='imagePickerCircle' id='imagePickerCircle'>
+														<FontAwesomeIcon
+															icon={'camera'}
+															color={colors.fountainBlue}
+															size='7x'
+														/>
+													</div>
 												) : (
-													<>
-														{image === '' ? (
-															<div className='imagePickerCircle' id='imagePickerCircle'>
-																<FontAwesomeIcon icon={'camera'} color='#5cc6bc' size='7x' />
-															</div>
-														) : (
-															<img src={imagePreview} className='serviceImage' />
-														)}
-													</>
+													<div className='imagePickerCircle' id='imagePickerCircle'>
+														<img src={imagePreview} className='serviceImage' />
+													</div>
 												)}
 											</label>
-										</div>
-										<div className='helpbutton4'>
-											<HelpButton title={strings.EditProfilePicture} width='15vw' height='5vh' />
 										</div>
 									</div>
 								</button>
@@ -341,7 +405,7 @@ const EditProfile = () => {
 									<div className='inputcontainer'>
 										<HelpTextInput
 											height={'5vh'}
-											width={'15vw'}
+											width={'20vw'}
 											isMultiline={false}
 											value={businessName}
 											onChangeText={(text) => setBusinessName(text)}
@@ -353,7 +417,7 @@ const EditProfile = () => {
 									<div className='inputcontainer'>
 										<HelpTextInput
 											height={'5vh'}
-											width={'15vw'}
+											width={'20vw'}
 											isMultiline={false}
 											value={email}
 											onChangeText={(text) => setEmail(text)}
@@ -367,7 +431,7 @@ const EditProfile = () => {
 									<div className='inputcontainer'>
 										<HelpTextInput
 											height={'5vh'}
-											width={'15vw'}
+											width={'20vw'}
 											isMultiline={false}
 											value={website}
 											onChangeText={(text) => setWebsite(text)}
@@ -379,7 +443,7 @@ const EditProfile = () => {
 									<div className='inputcontainer'>
 										<HelpTextInput
 											height={'5vh'}
-											width={'15vw'}
+											width={'20vw'}
 											isMultiline={false}
 											value={phoneNumber}
 											onChangeText={(text) => setPhoneNumber(text)}
@@ -393,7 +457,7 @@ const EditProfile = () => {
 									<div className='inputcontainer'>
 										<HelpTextInput
 											height={'5vh'}
-											width={'40vw'}
+											width={'45vw'}
 											isMultiline={false}
 											value={address}
 											onChangeText={(text) => setAddress(text)}
@@ -407,7 +471,7 @@ const EditProfile = () => {
 									<div className='inputcontainer'>
 										<HelpTextInput
 											height={'10vh'}
-											width={'40vw'}
+											width={'45vw'}
 											isMultiline={true}
 											value={businessDescription}
 											onChangeText={(text) => setBusinessDescription(text)}
@@ -416,7 +480,15 @@ const EditProfile = () => {
 								</div>
 							</div>
 							<div className='helpbutton'>
-								<HelpButton title={strings.SaveChanges} width='20vw' height='7.5vh' />
+								<HelpButton
+									title={strings.SaveChanges}
+									isLoading={isLoading}
+									width='20vw'
+									height='7.5vh'
+									onPress={() => {
+										saveBusinessInformation();
+									}}
+								/>
 							</div>
 						</div>
 					) : businessScheduleSelected ? (
@@ -529,6 +601,18 @@ const EditProfile = () => {
 				onClose={() => setInfoUpdated(false)}
 				titleText={strings.Success}
 				messageText={strings.YourInfoHasBeenUpdated}
+			/>
+			<HelpAlert
+				isVisible={fieldsErrorVisible}
+				onClose={() => setFieldsErrorVisible(false)}
+				titleText={strings.Whoops}
+				messageText={strings.PleaseCompleteAllFields}
+			/>
+			<HelpAlert
+				isVisible={emailFormattingVisible}
+				onClose={() => setEmailFormattingVisible(false)}
+				titleText={strings.Whoops}
+				messageText={strings.EmailFormattingErrorMessage}
 			/>
 		</div>
 	);
