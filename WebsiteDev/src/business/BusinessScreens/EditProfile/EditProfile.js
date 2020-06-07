@@ -282,7 +282,9 @@ const EditProfile = () => {
 				<div className='editProfileCard'>
 					<div className='cardSideBarContainer'>
 						<div className='infoHolder'>
-							<div className='imageContainer' />
+							<div className='imageContainer'>
+								<img src={imagePreview} className='businessProfileImageSmall' />
+							</div>
 							<div className='nameContainer'>
 								<text className='subTextStyle black bold'>{businessName}</text>
 							</div>
@@ -381,19 +383,9 @@ const EditProfile = () => {
 												}}
 											/>
 											<label htmlFor='upload'>
-												{image === '' ? (
-													<div className='imagePickerCircle' id='imagePickerCircle'>
-														<FontAwesomeIcon
-															icon={'camera'}
-															color={colors.fountainBlue}
-															size='7x'
-														/>
-													</div>
-												) : (
-													<div className='imagePickerCircle' id='imagePickerCircle'>
-														<img src={imagePreview} className='serviceImage' />
-													</div>
-												)}
+												<div className='imagePickerCircle' id='imagePickerCircle'>
+													<img src={imagePreview} className='businessProfileImage' />
+												</div>
 											</label>
 										</div>
 									</div>

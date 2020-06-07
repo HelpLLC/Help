@@ -45,7 +45,6 @@
 	margin-left: 5vw;
 }
 
-
 .helpbutton4 {
 	display: flex;
 	justify-content: center;
@@ -58,7 +57,6 @@
 	display: flex;
 	flex-direction: row;
 }
-
 
 .helpbutton2 {
 	display: flex;
@@ -100,17 +98,32 @@
 .infoHolder {
 	flex-direction: row;
 	display: flex;
+	align-items: center;
 }
 .imageContainer {
 	height: 6vh;
 	width: 6vh;
-	background-color: lawngreen;
 	background-size: cover;
 	border-radius: 3vh;
 	margin-top: 2vh;
+	background-color: #ffffff;
+	border-color: #5cc6bc;
+	border-width: 0.2vw;
+	border-style: solid;
 	margin-left: 1.5vw;
 }
-
+.businessProfileImage {
+	width: 10vw;
+	height: 10vw;
+	border-radius: 5vw;
+	cursor: pointer;
+}
+.businessProfileImageSmall {
+	height: 6vh;
+	width: 6vh;
+	border-radius: 3vh;
+	cursor: pointer;
+}
 .imageContainer2 {
 	height: 16vh;
 	width: 16vh;
