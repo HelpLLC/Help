@@ -41,7 +41,10 @@ export function Login(props) {
 			}
 			setLoggingInLoading(false);
 			if (businessID) {
-				history.push({ pathname: '/dashboard', state: { businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2' } });
+				history.push({
+					pathname: '/dashboard',
+					state: { businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2' },
+				});
 			}
 		} else {
 			setLoggingInLoading(false);
@@ -98,7 +101,12 @@ export function Login(props) {
 					/>
 				</div>
 				<div id='login_button'>
-					<HelpButton title={strings.LogIn} isLoading={loggingInLoading} width={'40vw'} onPress={login} />
+					<HelpButton
+						title={strings.LogIn}
+						isLoading={loggingInLoading}
+						width={'40vw'}
+						onPress={login}
+					/>
 				</div>
 				<button
 					id='forgot_password_button'
@@ -107,6 +115,7 @@ export function Login(props) {
 					{strings.ForgotPasswordQuestion}
 				</button>
 			</div>
+
 			<div id='gradientBackground'>
 				<div id='descriptionText' className='bigTitleTextStyle white'>
 					{strings.LetUsHelp}
@@ -155,7 +164,12 @@ export function Login(props) {
 				</DialogContent>
 				<DialogActions>
 					<HelpButton title={strings.Cancel} onPress={() => setOpen(false)} width={'22vw'} />
-					<HelpButton title={strings.EmailMe} isLoading={emailSendingLoading} onPress={submit} width={'22vw'} />
+					<HelpButton
+						title={strings.EmailMe}
+						isLoading={emailSendingLoading}
+						onPress={submit}
+						width={'22vw'}
+					/>
 				</DialogActions>
 			</Dialog>
 

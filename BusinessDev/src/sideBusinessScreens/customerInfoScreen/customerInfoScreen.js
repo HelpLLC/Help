@@ -106,8 +106,6 @@ export default function customerInfoScreen(props) {
 			price,
 			isCardSelected,
 			isCashSelected,
-			isPrepaySelected,
-			isPostpaySelected,
 		} = props.navigation.state.params;
 
 		//If the service is being edited, then the information will be updated. If it is new, it will be created
@@ -123,8 +121,6 @@ export default function customerInfoScreen(props) {
 				businessID,
 				card: isCardSelected,
 				cash: isCashSelected,
-				prepay: isPrepaySelected,
-				postpay: isPostpaySelected,
 			});
 
 			if (imageResponse !== '') {
@@ -151,8 +147,6 @@ export default function customerInfoScreen(props) {
 				serviceDuration: parseFloat(serviceDuration),
 				price,
 				priceText,
-				prepay: isPrepaySelected,
-				postpay: isPostpaySelected,
 				questions: finalQuestions,
 				serviceDescription,
 				serviceTitle,

@@ -1,35 +1,410 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './EditProfile.css';
 import '../../../config/fontStyles.css';
 import HelpButton from '../../../components/HelpButton/HelpButton';
 import strings from '../../../config/strings';
 import HelpTextInput from '../../../components/HelpTextInput/HelpTextInput';
 import TimePicker from '../../../components/TimePicker/TimePicker';
+import SideMenu from '../../../components/SideMenu/SideMenu';
+import { useLocation, useHistory } from 'react-router-dom';
+import HelpAlert from '../../../components/HelpAlert/HelpAlert';
 import Resizer from 'react-image-file-resizer';
+import colors from '../../../config/colors';
+import ReactLoading from 'react-loading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import '../CreateProductScreen/CreateProductScreen.css';
 
 const EditProfile = () => {
+	//Global constants
+	const defaultStart = new Date();
+	defaultStart.setHours(9, 0);
+	const defaultEnd = new Date();
+	defaultEnd.setHours(17, 0);
+	const location = useLocation();
+	const history = useHistory();
+
+	//The state for this screen
+	const [business, setBusiness] = useState('');
 	const [companyInfoSelected, setCompanyInfoSelected] = useState(true);
+	const [businessName, setBusinessName] = useState('');
+	const [email, setEmail] = useState('');
+	const [website, setWebsite] = useState('');
+	const [phoneNumber, setPhoneNumber] = useState('');
+	const [address, setAddress] = useState('');
+	const [businessDescription, setBusinessDescription] = useState('');
 	const [businessScheduleSelected, setBusinessInfoSelected] = useState(false);
 	const [passwordSelected, setPasswordSelected] = useState(false);
-	const [mondayStartTime, setMondayStartTime] = useState();
-	const [tuesdayStartTime, setTuesdayStartTime] = useState();
-	const [wednesdayStartTime, setWednesdayStartTime] = useState();
-	const [thursdayStartTime, setThursdayStartTime] = useState();
-	const [fridayStartTime, setFridayStartTime] = useState();
-	const [saturdayStartTime, setSaturdayStartTime] = useState();
-	const [sundayStartTime, setSundayStartTime] = useState();
-	const [mondayEndTime, setMondayEndTime] = useState();
-	const [tuesdayEndTime, setTuesdayEndTime] = useState();
-	const [wednesdayEndTime, setWednesdayEndTime] = useState();
-	const [thursdayEndTime, setThursdayEndTime] = useState();
-	const [fridayEndTime, setFridayEndTime] = useState();
-	const [saturdayEndTime, setSaturdayEndTime] = useState();
-	const [sundayEndTime, setSundayEndTime] = useState();
+	const [sunday, setSunday] = useState({
+		start: defaultStart,
+		end: defaultEnd,
+	});
+	const [monday, setMonday] = useState({
+		start: defaultStart,
+		end: defaultEnd,
+	});
+	const [tuesday, setTuesday] = useState({
+		start: defaultStart,
+		end: defaultEnd,
+	});
+	const [wednesday, setWednesday] = useState({
+		start: defaultStart,
+		end: defaultEnd,
+	});
+	const [thursday, setThursday] = useState({
+		start: defaultStart,
+		end: defaultEnd,
+	});
+	const [friday, setFriday] = useState({
+		start: defaultStart,
+		end: defaultEnd,
+	});
+	const [saturday, setSaturday] = useState({
+		start: defaultStart,
+		end: defaultEnd,
+	});
 	const [image, setImage] = useState('');
+	const [imageUpdated, setImageUpdated] = useState(false);
 	const [imagePreview, setImagePreview] = useState('');
+	const [isScreenLoading, setIsScreenLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
+	const [oldPassword, setOldPassword] = useState('');
+	const [newPassword, setNewPassword] = useState('');
+	const [confirmNewPassword, setConfirmNewPassword] = useState('');
+	const [passwordsMustMatchVisible, setPasswordsMustMatchVisible] = useState(false);
+	const [incorrectPasswordVisible, setIncorrectPasswordVisible] = useState(false);
+	const [passwordTooShortVisible, setPasswordTooShortVisible] = useState(false);
+	const [emailFormattingVisible, setEmailFormattingVisible] = useState(false);
+	const [fieldsErrorVisible, setFieldsErrorVisible] = useState(false);
+	const [timeErrorVisible, setTimeErrorVisible] = useState(false);
+	const [passwordChanged, setPasswordChangedVisible] = useState(false);
+	const [infoUpdated, setInfoUpdated] = useState(false);
 
+	//This method is going to fetch the information about the business and set the correct states to it
+	const fetchBusinessData = async () => {
+		const { businessID } = location.state;
+		const functionResults = await Promise.all([
+			FirebaseFunctions.call('getBusinessByID', {
+				businessID,
+			}),
+			FirebaseFunctions.call('getBusinessProfilePictureByID', { businessID }),
+		]);
+		const businessObject = functionResults[0];
+		const imageURI = functionResults[1];
+		setImagePreview(imageURI.uri);
+		setImage(imageURI);
+		setBusinessName(businessObject.businessName);
+		setBusiness(businessObject);
+		setEmail(businessObject.email);
+		setWebsite(businessObject.website);
+		setAddress(businessObject.location);
+		setPhoneNumber(businessObject.phoneNumber);
+		setBusinessDescription(businessObject.businessDescription);
+
+		//Calls the function to format and set the business schedulue
+		setBusinessSchedule(businessObject);
+
+		setIsScreenLoading(false);
+	};
+
+	//This helper function is responsible for setting the initial values for the business schedule by converting
+	//the times into date objects, which is what's accepted by the TimePicker component
+	const setBusinessSchedule = (businessObject) => {
+		const { businessHours } = businessObject;
+		for (const day of Object.keys(businessHours)) {
+			const { from, to } = businessHours[day];
+			const start = new Date();
+			const end = new Date();
+
+			const startAMPM = from.split(' ')[1];
+			const endAMPM = to.split(' ')[1];
+
+			let startHours = parseInt(from.split(' ')[0].split(':')[0]);
+			let endHours = parseInt(to.split(' ')[0].split(':')[0]);
+			let startMinutes = parseInt(from.split(' ')[0].split(':')[1]);
+			let endMinutes = parseInt(to.split(' ')[0].split(':')[1]);
+
+			if (startAMPM === 'PM' && startHours !== 12) {
+				startHours += 12;
+			}
+			if (endAMPM === 'PM' && endAMPM !== 12) {
+				endHours += 12;
+			}
+
+			start.setHours(startHours, startMinutes);
+			end.setHours(endHours, endMinutes);
+
+			if (day === 'sunday') {
+				setSunday({
+					start,
+					end,
+				});
+			} else if (day === 'monday') {
+				setMonday({
+					start,
+					end,
+				});
+			} else if (day === 'tuesday') {
+				setTuesday({
+					start,
+					end,
+				});
+			} else if (day === 'wednesday') {
+				setWednesday({
+					start,
+					end,
+				});
+			} else if (day === 'thursday') {
+				setThursday({
+					start,
+					end,
+				});
+			} else if (day === 'friday') {
+				setFriday({
+					start,
+					end,
+				});
+			} else if (day === 'saturday') {
+				setSaturday({
+					start,
+					end,
+				});
+			}
+		}
+	};
+
+	useEffect(() => {
+		fetchBusinessData();
+	}, []);
+
+	//This method is going to handle the logic for changing the password for a business
+	const changePassword = async () => {
+		setIsLoading(true);
+		if (newPassword !== confirmNewPassword) {
+			setPasswordsMustMatchVisible(true);
+		} else if (newPassword.length < 6) {
+			setPasswordTooShortVisible(true);
+		} else {
+			const result = await FirebaseFunctions.resetPassword(
+				business.email,
+				oldPassword,
+				newPassword
+			);
+			if (result === -1) {
+				setIncorrectPasswordVisible(true);
+			} else {
+				setPasswordChangedVisible(true);
+			}
+		}
+		setIsLoading(false);
+	};
+
+	//This method is going to adjust any necessary information in the business information section of the edit
+	//profile
+	const saveBusinessInformation = async () => {
+		setIsLoading(true);
+		//Tests if there are any empty feels
+		if (
+			businessName.trim() === '' ||
+			email.trim() === '' ||
+			phoneNumber.trim() === '' ||
+			address.trim() === '' ||
+			businessDescription.trim() === ''
+		) {
+			setFieldsErrorVisible(true);
+			setIsLoading(false);
+		} else {
+			//Constructs the necessary promises
+			const promises = [];
+
+			//The promise to edit the business fields
+			promises.push(
+				FirebaseFunctions.call('updateBusinessInformation', {
+					businessID: business.businessID,
+					updates: {
+						businessName,
+						email,
+						website,
+						phoneNumber,
+						location: address,
+						businessDescription,
+					},
+				})
+			);
+
+			//Checks if the user's image needs to be updated
+			if (imageUpdated === true) {
+				promises.push(
+					FirebaseFunctions.storage.ref('businessProfilePics/' + business.businessID).put(image)
+				);
+			}
+
+			//Checks if the business email needs to be updated
+			if (email !== business.email) {
+				if (email.includes('.') && email.includes('@')) {
+					promises.push(FirebaseFunctions.updateEmail(email));
+				} else {
+					setEmailFormattingVisible(true);
+				}
+			}
+
+			await Promise.all(promises);
+			await fetchBusinessData();
+
+			setInfoUpdated(true);
+			setIsLoading(false);
+		}
+	};
+
+	//This method is going to handle changing the business schedule. It will check if there's anything that doesn't make
+	//sense, like the to time being earlier than the for time, then it will update the schedule by converting the dates
+	//accordingly
+	const saveBusinessSchedule = async () => {
+		setIsLoading(true);
+		const arrayOfDays = { sunday, monday, tuesday, wednesday, thursday, friday, saturday };
+		const finalSchedule = {};
+		for (const day of Object.keys(arrayOfDays)) {
+			const dayObject = arrayOfDays[day];
+			const { start, end } = dayObject;
+			if (start.getTime() - end.getTime() > 0) {
+				setTimeErrorVisible(true);
+				setIsLoading(false);
+				return;
+			}
+			let fromHours = start.getHours();
+			let fromAMPM = '';
+			let fromMinutes = start.getMinutes();
+			let toHours = end.getHours();
+			let toAMPM = '';
+			let toMinutes = end.getMinutes();
+
+			if (fromHours > 12) {
+				fromHours -= 12;
+				fromAMPM = 'PM';
+			} else {
+				fromAMPM = 'AM';
+			}
+			if (toHours > 12) {
+				toHours -= 12;
+				toAMPM = 'PM';
+			} else {
+				toAMPM = 'AM';
+			}
+
+			if (fromMinutes < 10) {
+				fromMinutes = '0' + fromMinutes;
+			}
+			if (toMinutes < 10) {
+				toMinutes = '0' + toMinutes;
+			}
+
+			let from = fromHours + ':' + fromMinutes + ' ' + fromAMPM;
+			let to = toHours + ':' + toMinutes + ' ' + toAMPM;
+			finalSchedule[day] = {
+				from,
+				to,
+			};
+			await FirebaseFunctions.call('updateBusinessInformation', {
+				businessID: business.businessID,
+				updates: {
+					businessHours: finalSchedule,
+				},
+			});
+		}
+		setIsLoading(false);
+		setInfoUpdated(true);
+	};
+
+	//This method is going to render the time pickers for each time object
+	const renderTimePicker = (dayString, index) => {
+		return (
+			<div className='days'>
+				<label id='day_title' className='mainTextStyle gray'>
+					{dayString}
+				</label>
+				<TimePicker
+					widthPercent={'10vw'}
+					marginLeft='20px'
+					value={
+						index === 0
+							? sunday.start
+							: index === 1
+							? monday.start
+							: index === 2
+							? tuesday.start
+							: index === 3
+							? wednesday.start
+							: index === 4
+							? thursday.start
+							: index === 5
+							? friday.start
+							: saturday.start
+					}
+					onChange={(time) =>
+						index === 0
+							? setSunday({ start: time, end: sunday.end })
+							: index === 1
+							? setMonday({ start: time, end: monday.end })
+							: index === 2
+							? setTuesday({ start: time, end: tuesday.end })
+							: index === 3
+							? setWednesday({ start: time, end: wednesday.end })
+							: index === 4
+							? setThursday({ start: time, end: thursday.end })
+							: index === 5
+							? setFriday({ start: time, end: friday.end })
+							: setSaturday({ start: time, end: saturday.end })
+					}
+				/>
+				<label id='to_text' className='mainTextStyle gray'>
+					{strings.to}
+				</label>
+				<TimePicker
+					widthPercent={'10vw'}
+					marginLeft='20px'
+					value={
+						index === 0
+							? sunday.end
+							: index === 1
+							? monday.end
+							: index === 2
+							? tuesday.end
+							: index === 3
+							? wednesday.end
+							: index === 4
+							? thursday.end
+							: index === 5
+							? friday.end
+							: saturday.end
+					}
+					onChange={(time) =>
+						index === 0
+							? setSunday({ end: time, start: sunday.start })
+							: index === 1
+							? setMonday({ end: time, start: monday.start })
+							: index === 2
+							? setTuesday({ end: time, start: tuesday.start })
+							: index === 3
+							? setWednesday({ end: time, start: wednesday.start })
+							: index === 4
+							? setThursday({ end: time, start: thursday.start })
+							: index === 5
+							? setFriday({ end: time, start: friday.start })
+							: setSaturday({ end: time, start: saturday.start })
+					}
+				/>
+			</div>
+		);
+	};
+
+	// Renders the UI of the screen. If the screen is loading, displays a loading state
+	if (isScreenLoading === true) {
+		return (
+			<div className='serviceScreen'>
+				<ReactLoading type={'bars'} color={colors.lightBlue} width='10vw' />
+			</div>
+		);
+	}
 	return (
 		<div className='editProfileContainer'>
 			<div className='sidebarHolder'></div>
@@ -37,32 +412,28 @@ const EditProfile = () => {
 				<div className='editProfileCard'>
 					<div className='cardSideBarContainer'>
 						<div className='infoHolder'>
-							<div className='imageContainer' />
+							<div className='imageContainer'>
+								<img src={imagePreview} className='businessProfileImageSmall' />
+							</div>
 							<div className='nameContainer'>
-								<text className='mainTextStyle black bold'>Business</text>
+								<text className='subTextStyle black bold'>{businessName}</text>
 							</div>
 						</div>
 						<div className='titleColumnContainer'>
 							<div
 								className={
-									companyInfoSelected
-										? 'sectionTitleContainerSelected'
-										: 'sectionTitleContainer'
+									companyInfoSelected ? 'sectionTitleContainerSelected' : 'sectionTitleContainer'
 								}
 								onClick={() => {
 									setBusinessInfoSelected(false);
 									setPasswordSelected(false);
 									setCompanyInfoSelected(true);
-								}}
-							>
+								}}>
 								<div className='textPositioner'>
 									<text
 										className={
-											companyInfoSelected
-												? 'subTextStyle white bold'
-												: 'subTextStyle darkBlue bold'
-										}
-									>
+											companyInfoSelected ? 'subTextStyle white bold' : 'subTextStyle darkBlue bold'
+										}>
 										{strings.CompanyInfo}
 									</text>
 								</div>
@@ -70,48 +441,38 @@ const EditProfile = () => {
 						</div>
 						<div
 							className={
-								businessScheduleSelected
-									? 'sectionTitleContainerSelected'
-									: 'sectionTitleContainer'
+								businessScheduleSelected ? 'sectionTitleContainerSelected' : 'sectionTitleContainer'
 							}
 							onClick={() => {
 								setCompanyInfoSelected(false);
 								setPasswordSelected(false);
 								setBusinessInfoSelected(true);
-							}}
-						>
+							}}>
 							<div className='textPositioner'>
 								<text
 									className={
 										businessScheduleSelected
 											? 'subTextStyle white bold'
 											: 'subTextStyle darkBlue bold'
-									}
-								>
-									{strings.Business}
+									}>
+									{strings.BusinessSchedule}
 								</text>
 							</div>
 						</div>
 						<div
 							className={
-								passwordSelected
-									? 'sectionTitleContainerSelected'
-									: 'sectionTitleContainer'
+								passwordSelected ? 'sectionTitleContainerSelected' : 'sectionTitleContainer'
 							}
 							onClick={() => {
 								setCompanyInfoSelected(false);
 								setBusinessInfoSelected(false);
 								setPasswordSelected(true);
-							}}
-						>
+							}}>
 							<div className='textPositioner'>
 								<text
 									className={
-										passwordSelected
-											? 'subTextStyle white bold'
-											: 'subTextStyle darkBlue bold'
-									}
-								>
+										passwordSelected ? 'subTextStyle white bold' : 'subTextStyle darkBlue bold'
+									}>
 									{strings.Password}
 								</text>
 							</div>
@@ -119,19 +480,23 @@ const EditProfile = () => {
 					</div>
 					{companyInfoSelected ? (
 						<div>
-							<div >
+							<div className='titleContainer'>
+								<text className='bigTextStyle darkBlue bold'>{strings.BusinessInformation}</text>
+							</div>
+							<div>
 								<button className='imagePickerSection2'>
 									<div className='topRow'>
 										<div>
 											<input
+												disabled={isLoading}
 												type='file'
+												accept='image/png, image/jpeg'
 												id='upload'
 												style={{ display: 'none' }}
 												onChange={(e) => {
-													setImagePreview(
-														URL.createObjectURL(e.target.files[0])
-													);
 													if (e.target.files.length) {
+														setImagePreview(URL.createObjectURL(e.target.files[0]));
+														setImageUpdated(true);
 														Resizer.imageFileResizer(
 															e.target.files[0],
 															400,
@@ -148,336 +513,241 @@ const EditProfile = () => {
 												}}
 											/>
 											<label htmlFor='upload'>
-												{image.preview ? (
-													<img
-														src={image.preview}
-														alt='dummy'
-														width='300'
-														height='300'
-													/>
-												) : (
-													<>
-														{image === '' ? (
-															<div
-																className='imagePickerCircle'
-																id='imagePickerCircle'
-															>
-																<FontAwesomeIcon
-																	icon={'camera'}
-																	color='#5cc6bc'
-																	size='7x'
-																/>
-															</div>
-														) : (
-															<img
-																src={imagePreview}
-																className='serviceImage'
-															/>
-														)}
-													</>
-												)}
+												<div className='imagePickerCircle' id='imagePickerCircle'>
+													<img src={imagePreview} className='businessProfileImage' />
+												</div>
 											</label>
-										</div>
-										<div className='helpbutton4'>
-											<HelpButton
-												title={strings.EditProfilePicture}
-												width='15vw'
-												height='5vh'
-											/>
 										</div>
 									</div>
 								</button>
 							</div>
 							<div className='secondRow'>
 								<div className='input1'>
-									<text className='subTextStyle darkBlue bold'>
-										{strings.BusinessName}
-									</text>
+									<text className='subTextStyle darkBlue bold'>{strings.BusinessName}</text>
 									<div className='inputcontainer'>
 										<HelpTextInput
 											height={'5vh'}
-											width={'15vw'}
+											width={'20vw'}
 											isMultiline={false}
+											value={businessName}
+											onChangeText={(text) => setBusinessName(text)}
 										/>
 									</div>
 								</div>
 								<div className='input2'>
-									<text className='subTextStyle darkBlue bold'>
-										{strings.Email}
-									</text>
+									<text className='subTextStyle darkBlue bold'>{strings.Email}</text>
 									<div className='inputcontainer'>
 										<HelpTextInput
 											height={'5vh'}
-											width={'15vw'}
+											width={'20vw'}
 											isMultiline={false}
+											value={email}
+											onChangeText={(text) => setEmail(text)}
 										/>
 									</div>
 								</div>
 							</div>
 							<div className='secondRow'>
 								<div className='input1'>
-									<text className='subTextStyle darkBlue bold'>
-										{strings.Website}
-									</text>
+									<text className='subTextStyle darkBlue bold'>{strings.Website}</text>
 									<div className='inputcontainer'>
 										<HelpTextInput
 											height={'5vh'}
-											width={'15vw'}
+											width={'20vw'}
 											isMultiline={false}
+											value={website}
+											onChangeText={(text) => setWebsite(text)}
 										/>
 									</div>
 								</div>
 								<div className='input2'>
-									<text className='subTextStyle darkBlue bold'>
-										{strings.PhoneNumber}
-									</text>
+									<text className='subTextStyle darkBlue bold'>{strings.PhoneNumber}</text>
 									<div className='inputcontainer'>
 										<HelpTextInput
 											height={'5vh'}
-											width={'15vw'}
+											width={'20vw'}
 											isMultiline={false}
+											value={phoneNumber}
+											onChangeText={(text) => setPhoneNumber(text)}
 										/>
 									</div>
 								</div>
 							</div>
 							<div className='secondRow'>
 								<div className='input1'>
-									<text className='subTextStyle darkBlue bold'>
-										{strings.Address}
-									</text>
+									<text className='subTextStyle darkBlue bold'>{strings.Address}</text>
 									<div className='inputcontainer'>
 										<HelpTextInput
 											height={'5vh'}
-											width={'40vw'}
+											width={'45vw'}
 											isMultiline={false}
+											value={address}
+											onChangeText={(text) => setAddress(text)}
 										/>
 									</div>
 								</div>
 							</div>
 							<div className='secondRow'>
 								<div className='input1'>
-									<text className='subTextStyle darkBlue bold'>
-										{strings.BusinessDescription}
-									</text>
+									<text className='subTextStyle darkBlue bold'>{strings.BusinessDescription}</text>
 									<div className='inputcontainer'>
 										<HelpTextInput
 											height={'10vh'}
-											width={'40vw'}
+											width={'45vw'}
 											isMultiline={true}
+											value={businessDescription}
+											onChangeText={(text) => setBusinessDescription(text)}
 										/>
 									</div>
 								</div>
 							</div>
 							<div className='helpbutton'>
-								<HelpButton title={strings.SaveChanges} width='20vw' height='7.5vh' />
+								<HelpButton
+									title={strings.SaveChanges}
+									isLoading={isLoading}
+									width='20vw'
+									height='7.5vh'
+									onPress={() => {
+										saveBusinessInformation();
+									}}
+								/>
 							</div>
 						</div>
 					) : businessScheduleSelected ? (
 						<div>
-							<div id='business_schedule' className='bigTitleTextStyle gray'>
-								{strings.BusinessSchedule}
+							<div className='titleContainer'>
+								<text className='bigTextStyle darkBlue bold'>{strings.BusinessSchedule}</text>
 							</div>
-							<div className='days'>
-								<label id='day_title' className='mainTextStyle gray'>
-									{strings.Monday}
-								</label>
-								<TimePicker
-									widthPercent={'10vw'}
-									marginLeft='20px'
-									value={mondayStartTime}
-									onChange={(time) => setMondayStartTime(time)}
-								/>
-								<label id='to_text' className='mainTextStyle gray'>
-									{strings.to}
-								</label>
-								<TimePicker
-									widthPercent={'10vw'}
-									marginLeft='20px'
-									value={mondayEndTime}
-									onChange={(time) => setMondayEndTime(time)}
-								/>
-							</div>
-							<div className='days'>
-								<label id='day_title' className='mainTextStyle gray'>
-									{strings.Tuesday}
-								</label>
-								<TimePicker
-									widthPercent={'10vw'}
-									marginLeft='20px'
-									value={tuesdayStartTime}
-									onChange={(time) => setTuesdayStartTime(time)}
-								/>
-								<label id='to_text' className='mainTextStyle gray'>
-									{strings.to}
-								</label>
-								<TimePicker
-									widthPercent={'10vw'}
-									marginLeft='20px'
-									value={tuesdayEndTime}
-									onChange={(time) => setTuesdayEndTime(time)}
-								/>
-							</div>
-							<div className='days'>
-								<label id='day_title' className='mainTextStyle gray'>
-									{strings.Wednesday}
-								</label>
-								<TimePicker
-									widthPercent={'10vw'}
-									marginLeft='20px'
-									value={wednesdayStartTime}
-									onChange={(time) => setWednesdayStartTime(time)}
-								/>
-								<label id='to_text' className='mainTextStyle gray'>
-									{strings.to}
-								</label>
-								<TimePicker
-									widthPercent={'10vw'}
-									marginLeft='20px'
-									value={wednesdayEndTime}
-									onChange={(time) => setWednesdayEndTime(time)}
-								/>
-							</div>
-							<div className='days'>
-								<label id='day_title' className='mainTextStyle gray'>
-									{strings.Thursday}
-								</label>
-								<TimePicker
-									widthPercent={'10vw'}
-									marginLeft='20px'
-									value={thursdayStartTime}
-									onChange={(time) => setThursdayStartTime(time)}
-								/>
-								<label id='to_text' className='mainTextStyle gray'>
-									{strings.to}
-								</label>
-								<TimePicker
-									widthPercent={'10vw'}
-									marginLeft='20px'
-									value={thursdayEndTime}
-									onChange={(time) => setThursdayEndTime(time)}
-								/>
-							</div>
-							<div className='days'>
-								<label id='day_title' className='mainTextStyle gray'>
-									{strings.Friday}
-								</label>
-								<TimePicker
-									widthPercent={'10vw'}
-									marginLeft='20px'
-									value={fridayStartTime}
-									onChange={(time) => setFridayStartTime(time)}
-								/>
-								<label id='to_text' className='mainTextStyle gray'>
-									{strings.to}
-								</label>
-								<TimePicker
-									widthPercent={'10vw'}
-									marginLeft='20px'
-									value={fridayEndTime}
-									onChange={(time) => setFridayEndTime(time)}
-								/>
-							</div>
-							<div className='days'>
-								<label id='day_title' className='mainTextStyle gray'>
-									{strings.Saturday}
-								</label>
-								<TimePicker
-									widthPercent={'10vw'}
-									marginLeft='20px'
-									value={saturdayStartTime}
-									onChange={(time) => setSaturdayStartTime(time)}
-								/>
-								<label id='to_text' className='mainTextStyle gray'>
-									{strings.to}
-								</label>
-								<TimePicker
-									widthPercent={'10vw'}
-									marginLeft='20px'
-									value={saturdayEndTime}
-									onChange={(time) => setSaturdayEndTime(time)}
-								/>
-							</div>
-							<div className='days'>
-								<label id='day_title' className='mainTextStyle gray'>
-									{strings.Sunday}
-								</label>
-								<TimePicker
-									widthPercent={'10vw'}
-									marginLeft='20px'
-									value={sundayStartTime}
-									onChange={(time) => setSundayStartTime(time)}
-								/>
-								<label id='to_text' className='mainTextStyle gray'>
-									{strings.to}
-								</label>
-								<TimePicker
-									widthPercent={'10vw'}
-									marginLeft='20px'
-									value={sundayEndTime}
-									onChange={(time) => setSundayEndTime(time)}
-								/>
-							</div>
-
+							{[
+								strings.Sunday,
+								strings.Monday,
+								strings.Tuesday,
+								strings.Wednesday,
+								strings.Thursday,
+								strings.Friday,
+								strings.Saturday,
+							].map((dayString, index) => renderTimePicker(dayString, index))}
 							<div className='helpbutton3'>
-								<HelpButton title={strings.SaveChanges} width='20vw' height='7.5vh' />
+								<HelpButton
+									title={strings.SaveChanges}
+									width='20vw'
+									height='7.5vh'
+									isLoading={isLoading}
+									onPress={() => saveBusinessSchedule()}
+								/>
 							</div>
 						</div>
 					) : (
 						<div>
 							<div className='titleContainer'>
-								<text className='bigTextStyle darkBlue bold'>
-									{strings.ChangePassword}
-								</text>
+								<text className='bigTextStyle darkBlue bold'>{strings.ChangePassword}</text>
 							</div>
 							<div className='secondRow'>
 								<div className='input1'>
-									<text className='subTextStyle darkBlue bold'>
-										{strings.OldPassword}
-									</text>
+									<text className='subTextStyle darkBlue bold'>{strings.OldPassword}</text>
 									<div className='inputcontainer'>
 										<HelpTextInput
 											height={'5vh'}
 											width={'15vw'}
 											isMultiline={false}
+											value={oldPassword}
+											onChangeText={(text) => setOldPassword(text)}
+											password={true}
 										/>
 									</div>
 								</div>
 							</div>
 							<div className='secondRow'>
 								<div className='input1'>
-									<text className='subTextStyle darkBlue bold'>
-										{strings.NewPassword}
-									</text>
+									<text className='subTextStyle darkBlue bold'>{strings.NewPassword}</text>
 									<div className='inputcontainer'>
 										<HelpTextInput
 											height={'5vh'}
 											width={'15vw'}
 											isMultiline={false}
+											value={newPassword}
+											onChangeText={(text) => setNewPassword(text)}
+											password={true}
 										/>
 									</div>
 								</div>
 							</div>
 							<div className='secondRow'>
 								<div className='input1'>
-									<text className='subTextStyle darkBlue bold'>
-										{strings.ConfirmNewPassword}
-									</text>
+									<text className='subTextStyle darkBlue bold'>{strings.ConfirmNewPassword}</text>
 									<div className='inputcontainer'>
 										<HelpTextInput
 											height={'5vh'}
 											width={'15vw'}
 											isMultiline={false}
+											value={confirmNewPassword}
+											onChangeText={(text) => setConfirmNewPassword(text)}
+											password={true}
 										/>
 									</div>
 								</div>
 							</div>
 							<div className='helpbutton2'>
-								<HelpButton title={strings.SaveChanges} width='20vw' height='7.5vh' />
+								<HelpButton
+									title={strings.SaveChanges}
+									isLoading={isLoading}
+									width='20vw'
+									height='7.5vh'
+									onPress={() => changePassword()}
+								/>
 							</div>
 						</div>
 					)}
 				</div>
 			</div>
+			<HelpAlert
+				isVisible={passwordChanged}
+				onClose={() => setPasswordChangedVisible(false)}
+				titleText={strings.Success}
+				messageText={strings.YourPasswordHasBeenChanged}
+			/>
+			<HelpAlert
+				isVisible={passwordTooShortVisible}
+				onClose={() => setPasswordTooShortVisible(false)}
+				titleText={strings.Whoops}
+				messageText={strings.PasswordLengthMessage}
+			/>
+			<HelpAlert
+				isVisible={passwordsMustMatchVisible}
+				onClose={() => setPasswordsMustMatchVisible(false)}
+				titleText={strings.Whoops}
+				messageText={strings.PasswordsMustMatchMessage}
+			/>
+			<HelpAlert
+				isVisible={incorrectPasswordVisible}
+				onClose={() => setIncorrectPasswordVisible(false)}
+				titleText={strings.Whoops}
+				messageText={strings.IncorrectPasswordMessage}
+			/>
+			<HelpAlert
+				isVisible={infoUpdated}
+				onClose={() => setInfoUpdated(false)}
+				titleText={strings.Success}
+				messageText={strings.YourInfoHasBeenUpdated}
+			/>
+			<HelpAlert
+				isVisible={timeErrorVisible}
+				onClose={() => setTimeErrorVisible(false)}
+				titleText={strings.Whoops}
+				messageText={strings.TimeErrorMessage}
+			/>
+			<HelpAlert
+				isVisible={fieldsErrorVisible}
+				onClose={() => setFieldsErrorVisible(false)}
+				titleText={strings.Whoops}
+				messageText={strings.PleaseCompleteAllFields}
+			/>
+			<HelpAlert
+				isVisible={emailFormattingVisible}
+				onClose={() => setEmailFormattingVisible(false)}
+				titleText={strings.Whoops}
+				messageText={strings.EmailFormattingErrorMessage}
+			/>
 		</div>
 	);
 };

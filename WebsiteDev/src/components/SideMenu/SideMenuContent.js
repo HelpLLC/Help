@@ -74,7 +74,7 @@ export default function SideMenuContent(props) {
 					style={(styles.sidebarLink, { cursor: 'pointer' })}
 					onClick={() =>
 						history.push({
-							pathname: '/profile',
+							pathname: '/editprofile',
 							state: { businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2' },
 						})
 					}>
@@ -84,7 +84,7 @@ export default function SideMenuContent(props) {
 				<div style={styles.divider} />
 
 				<a
-					style={styles.logout, { cursor: 'pointer' }}
+					style={(styles.logout, { cursor: 'pointer' })}
 					onClick={() =>
 						history.push({
 							pathname: '/',

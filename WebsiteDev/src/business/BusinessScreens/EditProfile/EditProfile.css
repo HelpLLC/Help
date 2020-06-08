@@ -1,7 +1,7 @@
 .editProfileContainer {
 	display: flex;
 	flex-direction: row;
-	height: 120vh;
+	height: 100vh;
 }
 
 .sidebarHolder {
@@ -29,7 +29,7 @@
 }
 
 .input2 {
-	margin-left: 7.5vw;
+	margin-left: 5vw;
 	margin-top: 2vh;
 }
 
@@ -41,10 +41,9 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-top: -4vh;
+	margin-top: 2vh;
 	margin-left: 5vw;
 }
-
 
 .helpbutton4 {
 	display: flex;
@@ -54,8 +53,10 @@
 	margin-top: -4vh;
 }
 
-
-
+.imagePickerRow {
+	display: flex;
+	flex-direction: row;
+}
 
 .helpbutton2 {
 	display: flex;
@@ -70,7 +71,7 @@
 }
 
 .editProfileCard {
-	height: 95vh;
+	height: 90vh;
 	width: 70vw;
 	border-width: 10;
 	border-color: #41cbef;
@@ -78,7 +79,7 @@
 	background-size: cover;
 	border-style: solid;
 	margin-left: 5vw;
-	margin-top: 10vh;
+	margin-top: 5vh;
 	flex-direction: row;
 	display: flex;
 	overflow: hidden;
@@ -97,17 +98,32 @@
 .infoHolder {
 	flex-direction: row;
 	display: flex;
+	align-items: center;
 }
 .imageContainer {
 	height: 6vh;
 	width: 6vh;
-	background-color: lawngreen;
 	background-size: cover;
 	border-radius: 3vh;
 	margin-top: 2vh;
+	background-color: #ffffff;
+	border-color: #5cc6bc;
+	border-width: 0.2vw;
+	border-style: solid;
 	margin-left: 1.5vw;
 }
-
+.businessProfileImage {
+	width: 10vw;
+	height: 10vw;
+	border-radius: 5vw;
+	cursor: pointer;
+}
+.businessProfileImageSmall {
+	height: 6vh;
+	width: 6vh;
+	border-radius: 3vh;
+	cursor: pointer;
+}
 .imageContainer2 {
 	height: 16vh;
 	width: 16vh;
@@ -155,7 +171,7 @@
 }
 
 .textPositioner {
-	margin-left: 2vw;
+	margin-left: 1vw;
 }
 
 #content-container {

@@ -90,7 +90,6 @@ const ServiceScreen = (props) => {
 			</div>
 		);
 	}
-	console.log(business.businessHours);
 	return (
 		<div className='serviceScreen'>
 			<div className='serviceScreenContainer'>
