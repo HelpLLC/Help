@@ -18,7 +18,6 @@ import Analytics from '../../BusinessScreens/Analytics/Analytics'
 import EditProfile from '../../BusinessScreens/EditProfile/EditProfile'
 import ReactCalendar from '../../BusinessScreens/Calender/Calender';
 import Dispatch from '../../BusinessScreens/Dispatch/Dispatch';
-import Profile from '../../BusinessScreens/Profile/Profile';
 import ViewRequest from '../../BusinessScreens/ViewRequest/ViewRequest';
 import EmployeeList from '../../BusinessScreens/EmployeeList/EmployeeList';
 
@@ -142,12 +141,6 @@ export default function LandingPageNavigator() {
 				</Route>
 				<Route path='/dispatch'>
 					<Dispatch />
-				</Route>
-				<Route path='/profile'>
-					<Profile />
-				</Route>
-				<Route path='/profile'>
-					<Profile />
 				</Route>
 				<Route path='/viewrequest'>
 					<ViewRequest />

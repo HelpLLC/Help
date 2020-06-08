@@ -195,8 +195,8 @@ export default {
 	Close: 'Close',
 	SignUpFieldError:
 		'Make sure you fill out all required information correctly and have at least 150 characters in the description.',
-		to: 'to',
-		AgreeToPolicies: 'I agree to Help\'s Terms & Conditions and its Privacy Policy',
+	to: 'to',
+	AgreeToPolicies: "I agree to Help's Terms & Conditions and its Privacy Policy",
 	BackWithArrow: '< Back',
 	Create: 'Create',
 	PricingType: 'Pricing Type',
@@ -251,8 +251,9 @@ export default {
 	Close: 'Close',
 	GoToSignUp: 'Go to Sign Up',
 	ErrorSendingEmail: 'Error Sending Email',
-	ErrorSigningUp: 'There was an error signing you up. Make sure you fill out all required information, then try again.',
-	AgreeToPolicies: 'I agree to Help\'s Terms and Conditions and Privacy Policy',
+	ErrorSigningUp:
+		'There was an error signing you up. Make sure you fill out all required information, then try again.',
+	AgreeToPolicies: "I agree to Help's Terms and Conditions and Privacy Policy",
 	BusinessSchedule: 'Business Schedule',
 	SortByMonth: 'Sort By Month',
 	SortByYear: 'Sort By Year',
@@ -283,4 +284,13 @@ export default {
 	RequestAddedToCalendar: 'This request has been added to your Calendar!',
 	CustomerNotified: 'The customer has been notified that you will be able to fulfill this request!',
 	RequestConfirmed: 'Request Confirmed',
+	Success: 'Success',
+	YourPasswordHasBeenChanged: 'Your password has been changed.',
+	PasswordLengthMessage: 'Password must be at least 6 characters.',
+	PasswordsMustMatchMessage: "Passwords don't match.",
+	IncorrectPasswordMessage: 'Your password is incorrect.',
+	YourInfoHasBeenUpdated: 'Your information has been updated',
+	BusinessInformation: 'Business Information',
+	EmailFormattingErrorMessage: 'Please enter a valid email format',
+	TimeErrorMessage: 'Your ending hours must be after your starting hours.'
 };
