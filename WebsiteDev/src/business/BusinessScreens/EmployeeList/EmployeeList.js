@@ -5,21 +5,30 @@ import HelpButton from '../../../components/HelpButton/HelpButton';
 import SideMenu from '../../../components/SideMenu/SideMenu';
 import EmployeeListItem from '../../../components/EmployeeListItem/EmployeeListItem';
 import './EmployeeList.css';
-import '../../../config/fontStyles.css';
+// import '../../../config/fontStyles.css';
 import strings from '../../../config/strings';
+import fontStyles from '../../../config/fontStyles';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import profile_pic from './profile_pic.png'; // Tell webpack this JS file uses this image
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import colors from '../../../config/colors';
+import TitleComponent from '../../../components/TitleComponent.js';
+import DialogActions from '@material-ui/core/DialogActions';
 
 export default function EmployeeList(props) {
 	const [assigned, setAssigned] = useState(false);
 	const [confirmed, setConfirmed] = useState(false);
 	const [search, setSearch] = useState('');
+	const [confirmedDialog, setConfirmedDialog] = useState(false);
 	let history = useHistory();
 
 	const confirmRequest = async () => {
-		const confirm = await FirebaseFunctions.call('confirmRequest', { requestID: requestID });
-		// setConfirmed(true);
+		// const confirm = await FirebaseFunctions.call('confirmRequest', { requestID: requestID });
+		setConfirmed(true);
+		setConfirmedDialog(true);
 	};
 	const cancelRequest = () => {
 		setConfirmed(false);
@@ -64,6 +73,23 @@ export default function EmployeeList(props) {
 					)}
 				</div>
 			</div>
+			<Dialog
+				open={confirmedDialog}
+				onClose={() => {
+					setConfirmedDialog(false);
+				}}>
+				<TitleComponent fontSize={50} text={'Request Confirmed'} isCentered={true} textColor={colors.darkBlue} />
+				<DialogContent className='dialogContent'>
+					<DialogContentText style={{textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue}}>{'The customer has been notified that you will be able to fulfill this request!'}</DialogContentText>
+					<DialogContentText style={{textAlign: 'center', ...fontStyles.mainTextStyle, ...fontStyles.darkBlue, ...fontStyles.bold}}>{'Photography'}</DialogContentText>
+					<DialogContentText style={{textAlign: 'center', ...fontStyles.mainTextStyle, ...fontStyles.darkBlue, ...fontStyles.bold}}>{'WED, Apr 1, 2020'}</DialogContentText>
+					<DialogContentText style={{textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue}}>{'4:00pm - 5:00pm'}</DialogContentText>
+					<DialogContentText style={{textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue}}>{'This request has been added to your Calendar!'}</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<HelpButton title={strings.Ok} onPress={() => setConfirmedDialog(false)} width={'100%'} />
+				</DialogActions>
+			</Dialog>
 		</div>
 	);
 }

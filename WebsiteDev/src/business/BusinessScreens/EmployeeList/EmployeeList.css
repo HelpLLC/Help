@@ -29,13 +29,6 @@
 	margin-left: 0vw;
 }
 
-.row2 {
-	display: flex;
-	width: 65vw;
-	justify-content: space-between;
-	flex-direction: row;
-}
-
 .profile_pic {
 	margin-left: 0.5vw;
 	margin-top: 0.5vh;
@@ -52,26 +45,21 @@
 	margin-right: 1vw;
 }
 
-.payment_background {
-	width: 65vw;
-	-ms-border-radius: 30px;
-	-o-border-radius: 30px;
-	-moz-border-radius: 30px;
-	-webkit-border-radius: 30px;
-	border-radius: 30px;
-	border: 2px solid #5cc6bc;
-	-ms-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
-	-o-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
-	-webkit-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
-	-moz-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
-	box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
-}
-
 .confirmRequest {
 	margin-left: -2vw;
 	margin-top: 2vh;
 }
 
-.row3 {
+.confirmedButtons {
 	margin-top: 2vh;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-bottom: 1vh;
+}
+
+.dialogContent {
+	align-items: center;
+	justify-content: center;
+	align-content: center;
 }
