@@ -280,4 +280,7 @@ export default {
 	EditProfilePicture: 'Edit Profile Picture',
 	SaveChanges: 'Save Changes',
 	ConfirmRequest: 'Confirm Request',
+	RequestAddedToCalendar: 'This request has been added to your Calendar!',
+	CustomerNotified: 'The customer has been notified that you will be able to fulfill this request!',
+	RequestConfirmed: 'Request Confirmed',
 };

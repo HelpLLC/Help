@@ -45,7 +45,6 @@ export default function EmployeeList(props) {
 						<HelpTextInput
 							height={'5vh'}
 							width={'65vw'}
-							placeholder={'Search...'}
 							isMultiline={false}
 							onChangeText={() => setSearch(search)}
 							additionalIcon={
@@ -78,13 +77,13 @@ export default function EmployeeList(props) {
 				onClose={() => {
 					setConfirmedDialog(false);
 				}}>
-				<TitleComponent fontSize={50} text={'Request Confirmed'} isCentered={true} textColor={colors.darkBlue} />
+				<TitleComponent fontSize={50} text={strings.RequestConfirmed} isCentered={true} textColor={colors.darkBlue} />
 				<DialogContent className='dialogContent'>
-					<DialogContentText style={{textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue}}>{'The customer has been notified that you will be able to fulfill this request!'}</DialogContentText>
-					<DialogContentText style={{textAlign: 'center', ...fontStyles.mainTextStyle, ...fontStyles.darkBlue, ...fontStyles.bold}}>{'Photography'}</DialogContentText>
-					<DialogContentText style={{textAlign: 'center', ...fontStyles.mainTextStyle, ...fontStyles.darkBlue, ...fontStyles.bold}}>{'WED, Apr 1, 2020'}</DialogContentText>
-					<DialogContentText style={{textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue}}>{'4:00pm - 5:00pm'}</DialogContentText>
-					<DialogContentText style={{textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue}}>{'This request has been added to your Calendar!'}</DialogContentText>
+					<DialogContentText style={{textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue}}>{strings.CustomerNotified}</DialogContentText>
+					<DialogContentText style={{textAlign: 'center', ...fontStyles.mainTextStyle, ...fontStyles.darkBlue, ...fontStyles.bold}}>{props.service}</DialogContentText>
+					<DialogContentText style={{textAlign: 'center', ...fontStyles.mainTextStyle, ...fontStyles.darkBlue, ...fontStyles.bold}}>{props.date}</DialogContentText>
+					<DialogContentText style={{textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue}}>{props.time}</DialogContentText>
+					<DialogContentText style={{textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue}}>{strings.RequestAddedToCalendar}</DialogContentText>
 				</DialogContent>
 				<DialogActions>
 					<HelpButton title={strings.Ok} onPress={() => setConfirmedDialog(false)} width={'100%'} />
