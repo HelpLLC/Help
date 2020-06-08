@@ -1,131 +1,142 @@
 .content_container {
-   margin-left: 5vw;
-   margin-right: 5vw;
+	margin-left: 5vw;
+	margin-right: 5vw;
+	position: relative;
 }
 
 #rectangle_4 {
-   margin-top: 5vh;
-   margin-left: 22.5vw;
-   width: 75vw;
+	margin-top: 5vh;
+	margin-left: 22.5vw;
+	width: 75vw;
 	-ms-border-radius: 30px;
 	-o-border-radius: 30px;
 	-moz-border-radius: 30px;
 	-webkit-border-radius: 30px;
 	border-radius: 30px;
 	border: 2px solid #5cc6bc;
-	-ms-box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
-	-o-box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
-	-webkit-box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
-	-moz-box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
-	box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
+	-ms-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	-o-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	-webkit-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	-moz-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	z-index: -1;
 }
 
 .topRow {
-   display: flex;
-   justify-content: space-between;
-   flex-direction: row;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
 }
 
 .row3 {
-   display: flex;
-   justify-content: space-between;
-   flex-direction: row;
-   margin-bottom: 2vh;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+	margin-bottom: 2vh;
 }
 
+.confirmRequest {
+	display: flex;
+	margin-bottom: 2vh;
+	width: 70vw;
+	align-self: center;
+	justify-content: center;
+	align-items: center;
+	z-index: 1;
+}
 
 .profile_details {
-   display: flex;
-   flex-direction: row;
-   justify-content: space-evenly;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
 }
 
 .request_from {
-   display: flex;
-   flex-direction: column;
-   margin-top: 3vh;
-   margin-left: 1vw;
+	display: flex;
+	flex-direction: column;
+	margin-top: 3vh;
+	margin-left: 1vw;
 }
 
 .service_title {
-   text-align: center;
+	text-align: center;
 }
 
 .request_details {
-   justify-content: flex-end;
+	justify-content: flex-end;
 }
 
 .details_column {
-   margin-top: 2vh;
-   justify-content: space-evenly;
-   height: 12vh;
-   display: flex;
-   flex-direction: column;
+	margin-top: 2vh;
+	justify-content: space-evenly;
+	height: 12vh;
+	display: flex;
+	flex-direction: column;
 }
 
 .questions {
-   display: flex;
-   flex-direction: column;
-   border-right: #00b0f0;
-   padding-right: 2vw;
-   border-style: solid;
-   border-top: 0;
-   border-left: 0;
-   border-bottom: 0;
+	display: flex;
+	flex-direction: column;
+	border-right: #00b0f0;
+	padding-right: 2vw;
+	border-style: solid;
+	border-top: 0;
+	border-left: 0;
+	border-bottom: 0;
 }
 
 .question_response {
-   margin-top: 1vh;
-   margin-bottom: 2vh;
+	margin-top: 1vh;
+	margin-bottom: 2vh;
 }
 
 .questions_title {
-   margin-top: 3vh;
-   margin-bottom: 2vh;
+	margin-top: 3vh;
+	margin-bottom: 2vh;
 }
 
 .row2 {
-   display: flex;
-   flex-direction: row;
+	display: flex;
+	flex-direction: row;
 }
 
 .payment_background {
-   margin-top: 2vh;
-   width: 28vw;
+	margin-top: 2vh;
+	width: 28vw;
 	-ms-border-radius: 30px;
 	-o-border-radius: 30px;
 	-moz-border-radius: 30px;
 	-webkit-border-radius: 30px;
 	border-radius: 30px;
 	border: 2px solid #5cc6bc;
-	-ms-box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
-	-o-box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
-	-webkit-box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
-	-moz-box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
-	box-shadow:0px 3px 5px 1px rgba(92,198,188,2.55);
+	-ms-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	-o-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	-webkit-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	-moz-box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
+	box-shadow: 0px 3px 5px 1px rgba(92, 198, 188, 2.55);
 }
 
 .payment_container {
-   flex-direction: column;
-   margin-top: 3vh;
-   margin-left: 2vw;
+	flex-direction: column;
+	margin-top: 3vh;
+	margin-left: 2vw;
 }
 
 .payment_column {
-   margin-top: 1vh;
-   margin-left: 1vw;
-   display: flex;
-   flex-direction: column;
+	margin-top: 1vh;
+	margin-left: 1vw;
+	display: flex;
+	flex-direction: column;
 }
 
 .payment_method {
-   display: flex;
-   justify-content: space-between;
-   flex-direction: row;
-   margin-top: 2vh;
-   margin-bottom: 3vh;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+	margin-top: 2vh;
+	margin-bottom: 3vh;
 }
 
 .payment_right {
-   margin-right: 1vw;
+	margin-right: 1vw;
 }
