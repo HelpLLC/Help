@@ -14,17 +14,17 @@ export default function EmployeeListItem(props) {
 	const [assigned, setAssigned] = useState(false);
 	const history = useHistory();
 
-	// const loadImage = async () => {
-	// 	const { imageFunction } = props;
-	// 	const url = await imageFunction();
-	// 	setIsImageLoading(false);
-	// 	setImage(url);
-	// };
+	const loadImage = async () => {
+		const { imageFunction } = props;
+		const url = await imageFunction();
+		setIsImageLoading(false);
+		setImage(url);
+	};
 
-	// // Loads the image (async)
-	// useEffect(() => {
-	// 	loadImage();
-	// }, []);
+	// Loads the image (async)
+	useEffect(() => {
+		loadImage();
+	}, []);
 
 	EmployeeListItem.propTypes = {
 		height: PropTypes.number,

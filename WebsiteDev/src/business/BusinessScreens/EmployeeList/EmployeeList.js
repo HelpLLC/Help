@@ -26,7 +26,7 @@ export default function EmployeeList(props) {
 	let history = useHistory();
 
 	const confirmRequest = async () => {
-		// const confirm = await FirebaseFunctions.call('confirmRequest', { requestID: requestID });
+		const confirm = await FirebaseFunctions.call('confirmRequest', { requestID: requestID });
 		setConfirmed(true);
 		setConfirmedDialog(true);
 	};
