@@ -1,0 +1,55 @@
+/*This will serve as the styling for the InfoScreen*/
+
+.container {
+	height: 100vh;
+	width: 100vw;
+}
+
+.gradientContainer {
+	height: 100vh;
+	line-height: 30px;
+	padding-left: 2vw;
+	padding-right: 2vw;
+	background: url(../assets/gradient.svg);
+	background-size: cover;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
+.whiteContainer {
+	height: 100vh;
+	background-color: #ffffff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.helpLogo {
+	width: 30vw;
+}
+
+.topSpacer {
+	height: 30vh;
+}
+.textSpacer {
+	height: 5vh;
+}
+
+.subscribeRow {
+	margin-top: 2vh;
+	display: flex;
+	flex-direction: row;
+	width: 50vw;
+	justify-content: space-evenly;
+}
+
+.socialMediaRow {
+	padding-top: 20vh;
+	display: flex;
+	flex-direction: row;
+    width: 20vw;
+    margin-bottom: 5vh;
+	justify-content: space-evenly;
+}

@@ -1,7 +1,8 @@
 import React from 'react';
+import ComingSoon from './screens/ComingSoon';
 
 const App = () => {
-	return <div></div>;
+	return <ComingSoon />;
 };
 
 export default App;
