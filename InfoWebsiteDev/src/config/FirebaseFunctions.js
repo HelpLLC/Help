@@ -25,5 +25,4 @@ const addSubscriber = async (email) => {
 	return 0;
 };
 
-
 export { addSubscriber };
