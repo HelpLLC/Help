@@ -21,7 +21,7 @@ const HelpAlert = (props) => {
 
 	return (
 		<Dialog open={isVisible} onClose={() => onClose()}>
-			<TitleComponent text={titleText} isCentered={true} textColor={colors.darkBlue} />
+			<TitleComponent text={titleText} isCentered={true} textColor={colors.blue} />
 			<DialogContent>
 				<DialogContentText>{messageText}</DialogContentText>
 			</DialogContent>

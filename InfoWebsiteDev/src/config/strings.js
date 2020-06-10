@@ -9,4 +9,6 @@ export default {
 	SubscribeMessage: 'Subscribe to get a notification as soon as we launch!',
 	EmailAddress: 'Email Address',
 	NotifyMe: 'Notify Me',
+	Great: 'Great!',
+	EmailAddedMessage: 'We\'ll send you an email when the platform is released!'
 };

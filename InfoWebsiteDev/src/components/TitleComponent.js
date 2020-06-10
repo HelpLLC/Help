@@ -19,12 +19,12 @@ export default function TitleComponent(props) {
 		fontFamily: 'Lucida Grande',
 		textAlign: props.isCentered === true ? 'center' : '',
 		marginLeft: props.marginLeft,
-		fontSize: props.fontSize !== null ? props.fontSize : 30,
+		fontSize:'2.5vw',
 	};
 
 	return (
 		<View>
-			<Text style={mystyle}>{props.text}</Text>
+			<text style={mystyle}>{props.text}</text>
 		</View>
 	);
 }

@@ -11,22 +11,23 @@ import HelpButton from '../components/HelpButton/HelpButton';
 import HelpAlert from '../components/HelpAlert/HelpAlert';
 import fontStyles from '../config/fontStyles';
 import { SocialIcon } from 'react-social-icons';
+import { addSubscriber } from '../config/FirebaseFunctions';
 
 // Creates the functional component
 const ComingSoon = (props) => {
 	// Global fields
 	const { OS } = Platform;
-	console.log(OS);
 
 	// The state fields for the screen
 	const [isLoading, setIsLoading] = useState(false);
 	const [emailAddress, setEmailAddress] = useState('');
+	const [emailAdded, setEmailAdded] = useState(false);
 
-	// This method will subscribe the user by simply sending us an email with their email
+	// This method will subscribe the user by simply add their email to a collection in Firebase
 	const notifyMe = async () => {
-		setIsLoading(true);
-
-		setIsLoading(false);
+		addSubscriber(emailAddress);
+		setEmailAdded(true);
+		setEmailAddress('');
 	};
 
 	// Renders the component
@@ -37,7 +38,7 @@ const ComingSoon = (props) => {
 			<div className='gradientContainer'>
 				<img src={HelpLogo} className='helpLogo' />
 				<text className='subTextStyle white'>{strings.HelpComingSoonMessage}</text>
-                <div className='textSpacer' />
+				<div className='textSpacer' />
 			</div>
 			<div className='whiteContainer'>
 				<div className='topSpacer' />
@@ -70,6 +71,12 @@ const ComingSoon = (props) => {
 					<SocialIcon url={'https://www.linkedin.com/company/helpllc/'} />
 				</div>
 			</div>
+			<HelpAlert
+				isVisible={emailAdded}
+				onClose={() => setEmailAdded(false)}
+				titleText={strings.Great}
+				messageText={strings.EmailAddedMessage}
+			/>
 		</div>
 	);
 };
