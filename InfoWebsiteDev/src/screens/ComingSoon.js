@@ -9,7 +9,6 @@ import '../config/fontStyles.css';
 import HelpTextInput from '../components/HelpTextInput/HelpTextInput';
 import HelpButton from '../components/HelpButton/HelpButton';
 import HelpAlert from '../components/HelpAlert/HelpAlert';
-import fontStyles from '../config/fontStyles';
 import { SocialIcon } from 'react-social-icons';
 import { addSubscriber } from '../config/FirebaseFunctions';
 
@@ -19,7 +18,6 @@ const ComingSoon = (props) => {
 	const { OS } = Platform;
 
 	// The state fields for the screen
-	const [isLoading, setIsLoading] = useState(false);
 	const [emailAddress, setEmailAddress] = useState('');
 	const [emailAdded, setEmailAdded] = useState(false);
 
@@ -36,19 +34,20 @@ const ComingSoon = (props) => {
 			className='container'
 			style={{ display: 'flex', flexDirection: OS === 'web' ? 'row' : 'column' }}>
 			<div className='gradientContainer'>
-				<img src={HelpLogo} className='helpLogo' />
-				<text className='subTextStyle white'>{strings.HelpComingSoonMessage}</text>
+				<img alt={'Help - Get Things Done Logo'}src={HelpLogo} className='helpLogo' />
+				<div className='subTextStyle white'>{strings.HelpComingSoonMessage}</div>
 				<div className='textSpacer' />
 			</div>
 			<div className='whiteContainer'>
 				<div className='topSpacer' />
-				<text className='bigTextStyle darkBlue bold'>{strings.WeAreComingSoon}</text>
+				<div className='bigTextStyle darkBlue bold'>{strings.WeAreComingSoon}</div>
 				<div className='textSpacer' />
-				<text className='smallTextStyle darkBlue'>{strings.SubscribeMessage}</text>
+				<div className='mainTextStyle darkBlue'>{strings.SubscribeMessage}</div>
 				<div className='subscribeRow'>
 					<HelpTextInput
 						height={'8vh'}
 						width={'25vw'}
+						isMultiline={false}
 						placeholder={strings.EmailAddress}
 						fontStyle={'mainTextStyle black bold'}
 						onChangeText={(text) => setEmailAddress(text)}
@@ -57,7 +56,6 @@ const ComingSoon = (props) => {
 					/>
 					<HelpButton
 						title={strings.NotifyMe}
-						isLoading={isLoading}
 						onPress={() => notifyMe()}
 						fontStyle={'mainTextStyle white bold'}
 						width={'15vw'}

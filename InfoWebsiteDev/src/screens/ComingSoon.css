@@ -46,10 +46,10 @@
 }
 
 .socialMediaRow {
-	padding-top: 20vh;
+	margin-top: 20vh;
 	display: flex;
 	flex-direction: row;
-    width: 20vw;
+	width: 40vw;
     margin-bottom: 5vh;
 	justify-content: space-evenly;
 }

@@ -1,13 +1,12 @@
 //This component is the round blue action button that will be used throughout the
 //application
 import React from 'react';
-import { TouchableOpacity, Text, View } from 'react-native-web';
+import { View } from 'react-native-web';
 import '../../config/fontStyles.css';
 import PropTypes from 'prop-types';
 import './HelpButtonGradient.css';
 import HelpButtonStyle from './HelpButtonStyle';
 import colors from '../../config/colors';
-import fontStyles from '../../config/fontStyles';
 import ReactLoading from 'react-loading';
 
 export default function HelpButton(props) {
@@ -36,7 +35,6 @@ export default function HelpButton(props) {
 		height,
 		isSmallButton,
 		isSmallButton2,
-		fontStyle,
 	} = props;
 
 	//sets up what properties the custom component should take in, which in this case
@@ -80,9 +78,9 @@ export default function HelpButton(props) {
 								height: height ? height : '8.78vh',
 						  }
 				}>
-				<text className={props.fontStyle} style={{ textAlign: 'center' }}>
+				<div className={props.fontStyle} style={{ textAlign: 'center' }}>
 					{title}
-				</text>
+				</div>
 			</button>
 		);
 	}

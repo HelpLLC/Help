@@ -16,8 +16,8 @@ export default function HelpTextInput(props) {
 	HelpTextInput.propTypes = {
 		//A height & width is required for this component to render. Along with whether it is multiline, and what
 		//the onChangeText function will return
-		height: PropTypes.number.isRequired,
-		width: PropTypes.number.isRequired,
+		height: PropTypes.string.isRequired,
+		width: PropTypes.string.isRequired,
 		placeHolder: PropTypes.string,
 		onChangeText: PropTypes.func.isRequired,
 		value: PropTypes.string,

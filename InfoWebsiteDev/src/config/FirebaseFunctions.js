@@ -1,5 +1,8 @@
 // This will contain any functions that are responsible with communicating with Firebase
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/analytics';
+import 'firebase/firebase-firestore';
+
 var firebaseConfig = {
 	apiKey: 'AIzaSyDOgt8k63g6SUWvrP-dvu4LEUIbGAwsWDc',
 	authDomain: 'help-technologies-e4e1c.firebaseapp.com',

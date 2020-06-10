@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text } from 'react-native-web';
+import { View } from 'react-native-web';
 
 export default function TitleComponent(props) {
 	TitleComponent.propTypes = {
@@ -24,7 +24,7 @@ export default function TitleComponent(props) {
 
 	return (
 		<View>
-			<text style={mystyle}>{props.text}</text>
+			<div style={mystyle}>{props.text}</div>
 		</View>
 	);
 }
