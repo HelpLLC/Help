@@ -93,6 +93,7 @@
   justify-content: left;
   align-items: center;
   margin-left: 1vw;
+  margin-top: 3vh;
 }
 
 .viewmoreinfo {
@@ -103,7 +104,7 @@
 }
 
 .topfourth {
-  margin: -2vh 1vw 1vw 1vh;
+  margin: 2vh 1vw 1vw 1vh;
 }
 .blueline {
   border-top: 3px solid #00b0f0;
