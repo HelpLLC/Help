@@ -408,7 +408,7 @@ const EditProfile = () => {
 	return (
 		<div className='editProfileContainer'>
 			<section className='sidebarHolder'>
-				<SideMenu title='Dashboard' />
+				<SideMenu title='Profile' />
 			</section>
 			<div className='profileHolder'>
 				<div className='editProfileCard'>
