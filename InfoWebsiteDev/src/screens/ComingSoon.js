@@ -60,7 +60,7 @@ const ComingSoon = (props) => {
 				<div className={isMobile ? 'subscribeRowMobile' : 'subscribeRow'}>
 					<HelpTextInput
 						height={isMobile ? '4vh' : '8vh'}
-						width={isMobile ? '65vw' : '50vw'}
+						width={isMobile ? '65vw' : '30vw'}
 						isMultiline={false}
 						placeholder={strings.EmailAddress}
 						onChangeText={(text) => setEmailAddress(text)}
@@ -72,7 +72,7 @@ const ComingSoon = (props) => {
 						title={strings.NotifyMe}
 						onPress={() => notifyMe()}
 						fontStyle={isMobile ? 'bigTextStyle white bold' : 'mainTextStyle white bold'}
-						width={isMobile ? '45vw' : '30vw'}
+						width={isMobile ? '45vw' : '15vw'}
 						height={isMobile ? '4vh' : '8vh'}
 					/>
 				</div>
