@@ -5,50 +5,41 @@ import colors from '../config/colors';
 //Gets the correct font based on either iOS or Android
 const font = 'Lucida Grande';
 
-//Sets the font size
-let baseFontSize = 20;
-
-const bigFontSize = baseFontSize * 1.2;
-const smallTextFontSize = baseFontSize * 0.6;
-const subTextFontSize = baseFontSize * 0.9;
-const subTitleFontSize = baseFontSize * 2.2;
-const bigTitleFontSize = baseFontSize * 4.4;
-
 export default {
 	//The style for all big text style
 	bigTextStyle: {
 		fontFamily: font,
-		fontSize: bigFontSize,
+		fontSize: '3vw',
 	},
 
 	//The style for all small text style
 	smallTextStyle: {
 		fontFamily: font,
-		fontSize: smallTextFontSize,
+		fontSize: '1.25vw',
 	},
 
 	//The style for all sub text style
 	subTextStyle: {
 		fontFamily: font,
-		fontSize: subTextFontSize,
+		fontSize: '1.25vw',
 	},
 
 	//The style for all the main text style
 	mainTextStyle: {
 		fontFamily: font,
-		fontSize: baseFontSize,
+		fontSize: '1.75vw',
 	},
 
 	//The style for all the big subtitle text style
 	bigSubTitleStyle: {
 		fontFamily: font,
-		fontSize: subTitleFontSize,
+		fontSize: '4vw',
 	},
 
 	//The style for all the big title text style
 	bigTitleStyle: {
 		fontFamily: font,
-		fontSize: bigTitleFontSize,
+		fontSize: '5.5vw',
 	},
 
 	/* The colors for all the different fonts*/

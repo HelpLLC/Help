@@ -32,12 +32,12 @@ const FeatureCard = (props) => {
 			</View>
 			<View style={FeatureCardStyle.cardTitleTextContainer}>
 				<Text
-					style={{ ...fontStyles.bigSubTitleStyle, ...fontStyles.bold, ...fontStyles.darkBlue }}>
+					style={{ ...fontStyles.bigTextStyle, ...fontStyles.bold, ...fontStyles.darkBlue }}>
 					{title}
 				</Text>
 			</View>
 			<View style={FeatureCardStyle.cardTextContainer}>
-				<Text style={{ ...fontStyles.bigTextStyle, ...fontStyles.bold, ...fontStyles.black }}>
+				<Text style={{ ...fontStyles.mainTextStyle, ...fontStyles.bold, ...fontStyles.black }}>
 					{text}
 				</Text>
 			</View>

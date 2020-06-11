@@ -1,9 +1,9 @@
 export default {
 	cardContainer: {
 		width: '22.5vw',
-    height: '72.5vh',
-    paddingTop: '2.5vh',
-    marginVertical: '4vh',
+		height: '72.5vh',
+		paddingTop: '2.5vh',
+		marginVertical: '4vh',
 		borderWidth: 4,
 		borderColor: '#00B0F0',
 		alignItems: 'center',
