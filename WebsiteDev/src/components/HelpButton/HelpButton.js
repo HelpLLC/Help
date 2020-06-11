@@ -2,7 +2,6 @@
 //application
 import React from 'react';
 import { TouchableOpacity, Text, View } from 'react-native-web';
-import { screenWidth, screenHeight } from '../../config/dimensions';
 import PropTypes from 'prop-types';
 import './HelpButtonGradient.css';
 import HelpButtonStyle from './HelpButtonStyle';
@@ -82,26 +81,12 @@ export default function HelpButton(props) {
 				}>
 				<Text
 					style={
-						props.fontStyle
-							? props.fontStyle
+						fontStyle
+							? fontStyle
 							: isLightButton
-							? width < screenWidth * 0.3
-								? {
-										...fontStyles.subTextStyle,
-										...fontStyles.blue,
-										...fontStyles.bold,
-										textAlign: 'center',
-								  }
-								: {
-										...fontStyles.mainTextStyle,
-										...fontStyles.blue,
-										...fontStyles.bold,
-										textAlign: 'center',
-								  }
-							: width < screenWidth * 0.3
 							? {
-									...fontStyles.subTextStyle,
-									...fontStyles.white,
+									...fontStyles.mainTextStyle,
+									...fontStyles.blue,
 									...fontStyles.bold,
 									textAlign: 'center',
 							  }
