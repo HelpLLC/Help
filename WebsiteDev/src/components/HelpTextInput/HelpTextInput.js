@@ -59,7 +59,7 @@ export default function HelpTextInput(props) {
 					width,
 					height,
 					outline: 'none',
-					paddingLeft: '3vw',
+					paddingLeft: '1vw',
 				}}
 				multiline={isMultiline}
 				keyboardType={keyboardType ? keyboardType : 'default'}

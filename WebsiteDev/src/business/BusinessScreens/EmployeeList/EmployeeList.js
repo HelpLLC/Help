@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import HelpTextInput from '../../../components/HelpTextInput/HelpTextInput';
 import HelpButton from '../../../components/HelpButton/HelpButton';
 import SideMenu from '../../../components/SideMenu/SideMenu';
@@ -23,10 +23,13 @@ export default function EmployeeList(props) {
 	const [confirmed, setConfirmed] = useState(false);
 	const [search, setSearch] = useState('');
 	const [confirmedDialog, setConfirmedDialog] = useState(false);
-	let history = useHistory();
+	const history = useHistory();
+	const location = useLocation();
 
 	const confirmRequest = async () => {
-		const confirm = await FirebaseFunctions.call('confirmRequest', { requestID: requestID });
+		const confirm = await FirebaseFunctions.call('confirmRequest', {
+			requestID: location.state.requestID,
+		});
 		setConfirmed(true);
 		setConfirmedDialog(true);
 	};
@@ -77,13 +80,43 @@ export default function EmployeeList(props) {
 				onClose={() => {
 					setConfirmedDialog(false);
 				}}>
-				<TitleComponent fontSize={50} text={strings.RequestConfirmed} isCentered={true} textColor={colors.darkBlue} />
+				<TitleComponent
+					fontSize={50}
+					text={strings.RequestConfirmed}
+					isCentered={true}
+					textColor={colors.darkBlue}
+				/>
 				<DialogContent className='dialogContent'>
-					<DialogContentText style={{textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue}}>{strings.CustomerNotified}</DialogContentText>
-					<DialogContentText style={{textAlign: 'center', ...fontStyles.mainTextStyle, ...fontStyles.darkBlue, ...fontStyles.bold}}>{props.service}</DialogContentText>
-					<DialogContentText style={{textAlign: 'center', ...fontStyles.mainTextStyle, ...fontStyles.darkBlue, ...fontStyles.bold}}>{props.date}</DialogContentText>
-					<DialogContentText style={{textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue}}>{props.time}</DialogContentText>
-					<DialogContentText style={{textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue}}>{strings.RequestAddedToCalendar}</DialogContentText>
+					<DialogContentText
+						style={{ textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue }}>
+						{strings.CustomerNotified}
+					</DialogContentText>
+					<DialogContentText
+						style={{
+							textAlign: 'center',
+							...fontStyles.mainTextStyle,
+							...fontStyles.darkBlue,
+							...fontStyles.bold,
+						}}>
+						{props.service}
+					</DialogContentText>
+					<DialogContentText
+						style={{
+							textAlign: 'center',
+							...fontStyles.mainTextStyle,
+							...fontStyles.darkBlue,
+							...fontStyles.bold,
+						}}>
+						{props.date}
+					</DialogContentText>
+					<DialogContentText
+						style={{ textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue }}>
+						{props.time}
+					</DialogContentText>
+					<DialogContentText
+						style={{ textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue }}>
+						{strings.RequestAddedToCalendar}
+					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
 					<HelpButton title={strings.Ok} onPress={() => setConfirmedDialog(false)} width={'100%'} />
