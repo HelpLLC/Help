@@ -6,11 +6,17 @@
     width: 100vw;
     align-items: center;
 }
+.sidebarHolder {
+	width: 20vw;
+	height: 100vh;
+	z-index: 0;
+}
 .serviceScreenContainer {
     border-style: solid;
     border-radius: 3vw;
     height: 90vh;
     width: 80vw;
+    z-index: 1;
     border-color: #41CBEF;
 }
 .titleSection {
