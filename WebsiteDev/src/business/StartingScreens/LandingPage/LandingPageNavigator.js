@@ -63,14 +63,11 @@ export default function LandingPageNavigator() {
 	const footer = (
 		<div className={'footer'}>
 			<div className={'contactUs'}>
-				<div className='bigTextStyle black'>{strings.ContactUs}</div>
-				<div className='smallTextStyle black'>{strings.HelpEmail}</div>
-				<div className='smallTextStyle black'>{strings.HelpPhoneNumber}</div>
-				<div className='smallTextStyle black'>{strings.HelpAddress}</div>
-				<div className='smallTextStyle black'>{strings.HelpCity}</div>
+				<div className='bigTextStyle white'>{strings.ContactUs}</div>
+				<div className='smallTextStyle white'>{strings.HelpEmail}</div>
 			</div>
 			<div className={'joinHelpFamily'}>
-				<div className='bigTextStyle black'>{strings.JoinHelpFamily}</div>
+				<div className='bigTextStyle white'>{strings.JoinHelpFamily}</div>
 				<div className={'socialMedia'}>
 					<SocialIcon url={'https://twitter.com/llc_help'} />
 					<SocialIcon url={'https://www.instagram.com/realhelpllc/'} />
@@ -79,26 +76,26 @@ export default function LandingPageNavigator() {
 				</div>
 			</div>
 			<div className={'legal'}>
-				<div className='bigTextStyle black'>{strings.Legal}</div>
+				<div className='bigTextStyle white'>{strings.Legal}</div>
 				<div>
 					<Link
-						className='smallTextStyle black'
+						className='smallTextStyle white'
 						style={{ textDecoration: 'none' }}
 						to={'/privacypolicy'}>
 						{strings.PrivacyPolicy}
 					</Link>
 				</div>
 				<div>
-					<Link className='smallTextStyle black' style={{ textDecoration: 'none' }} to={'/terms'}>
+					<Link className='smallTextStyle white' style={{ textDecoration: 'none' }} to={'/terms'}>
 						{strings.TermsAndConditions}
 					</Link>
 				</div>
 				<div>
-					<Link className='smallTextStyle black' style={{ textDecoration: 'none' }} to={'/credits'}>
+					<Link className='smallTextStyle white' style={{ textDecoration: 'none' }} to={'/credits'}>
 						{strings.Credits}
 					</Link>
 				</div>
-				<div className='smallTextStyle black'>&copy;{strings.Copyright}</div>
+				<div className='smallTextStyle white'>&copy;{strings.Copyright}</div>
 			</div>
 		</div>
 	);
