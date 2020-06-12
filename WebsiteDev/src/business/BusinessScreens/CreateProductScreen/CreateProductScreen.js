@@ -66,8 +66,6 @@ export default function CreateProductScreen() {
 	const [serviceDescription, setServiceDescription] = useState('');
 	const [cash, setCash] = useState(false);
 	const [card, setCard] = useState(false);
-	const [prepay, setPrepay] = useState(false);
-	const [postpay, setPostpay] = useState(false);
 	const [serviceTitle, setServiceTitle] = useState('');
 	const [fieldsError, setFieldsError] = useState(false);
 	const [descriptionError, setDescriptionError] = useState(false);
@@ -97,8 +95,7 @@ export default function CreateProductScreen() {
 			serviceDescription.trim() !== '' &&
 			(cash === true || card === true) &&
 			serviceTitle.trim() !== '' &&
-			!(priceType === strings.Per && pricePerText === '') &&
-			(prepay === true || postpay === true)
+			!(priceType === strings.Per && pricePerText === '')
 		) {
 			//Adds a pricing field
 			let priceText =
@@ -144,8 +141,6 @@ export default function CreateProductScreen() {
 				serviceDuration: parseFloat(serviceDuration),
 				price,
 				priceText,
-				prepay,
-				postpay,
 				questions: finalQuestions,
 				serviceDescription,
 				serviceTitle,
@@ -171,201 +166,179 @@ export default function CreateProductScreen() {
 	};
 	return (
 		<div className='top'>
-
-		<section className='sidebarHolder'>
+			<section className='sidebarHolder'>
 				<SideMenu />
 			</section>
-		
-		<div className='container'>
-			<div className='stepsRow'>
-				<div
-					className={currentStep === 1 ? 'leftStep selected' : 'leftStep unselected'}
-					onClick={() => setCurrentStep(1)}>
-					<div className={currentStep === 1 ? 'selectedCircle' : 'unselectedCircle'}>
-						<text
-							className={
-								currentStep === 1 ? 'bigTextStyle gray bold' : 'bigTextStyle lightGray bold'
-							}>
-							{strings.OneNumber}
-						</text>
-					</div>
-					<text
-						className={currentStep === 1 ? 'bigTextStyle white bold' : 'bigTextStyle gray bold'}>
-						{strings.AddNewService}
-					</text>
-				</div>
-				<div
-					className={currentStep === 2 ? 'middleStep selected' : 'middleStep unselected'}
-					onClick={() => setCurrentStep(2)}>
-					<div className={currentStep === 2 ? 'selectedCircle' : 'unselectedCircle'}>
-						<text
-							className={
-								currentStep === 2 ? 'bigTextStyle gray bold' : 'bigTextStyle lightGray bold'
-							}>
-							{strings.TwoNumber}
-						</text>
-					</div>
-					<text
-						className={currentStep === 2 ? 'bigTextStyle white bold' : 'bigTextStyle gray bold'}>
-						{strings.PricingAndPayment}
-					</text>
-				</div>
-				<div
-					className={currentStep === 3 ? 'rightStep selected' : 'rightStep unselected'}
-					onClick={() => setCurrentStep(3)}>
-					<div className={currentStep === 3 ? 'selectedCircle' : 'unselectedCircle'}>
-						<text
-							className={
-								currentStep === 3 ? 'bigTextStyle gray bold' : 'bigTextStyle lightGray bold'
-							}>
-							{strings.ThreeNumber}
-						</text>
-					</div>
-					<text
-						className={currentStep === 3 ? 'bigTextStyle white bold' : 'bigTextStyle gray bold'}>
-						{strings.CustomerInfo}
-					</text>
-				</div>
-			</div>
 
-			<div className='innerContainer'>
-				{
-					//Displays the current UI based on which step the user is currently on
-					currentStep === 1 ? (
-						<div>
-							<div className='stepTopSection'>
-								<text className='bigTextStyle darkBlue'>{strings.StepOne}</text>
-								<text className='bigTextStyle darkBlue bold'>{strings.AddNewService}</text>
+			<div className='container'>
+				<div className='stepsRow'>
+					<div
+						className={currentStep === 1 ? 'leftStep selected' : 'leftStep unselected'}
+						onClick={() => setCurrentStep(1)}>
+						<div className={currentStep === 1 ? 'selectedCircle' : 'unselectedCircle'}>
+							<text
+								className={
+									currentStep === 1 ? 'bigTextStyle gray bold' : 'bigTextStyle lightGray bold'
+								}>
+								{strings.OneNumber}
+							</text>
+						</div>
+						<text
+							className={currentStep === 1 ? 'bigTextStyle white bold' : 'bigTextStyle gray bold'}>
+							{strings.AddNewService}
+						</text>
+					</div>
+					<div
+						className={currentStep === 2 ? 'middleStep selected' : 'middleStep unselected'}
+						onClick={() => setCurrentStep(2)}>
+						<div className={currentStep === 2 ? 'selectedCircle' : 'unselectedCircle'}>
+							<text
+								className={
+									currentStep === 2 ? 'bigTextStyle gray bold' : 'bigTextStyle lightGray bold'
+								}>
+								{strings.TwoNumber}
+							</text>
+						</div>
+						<text
+							className={currentStep === 2 ? 'bigTextStyle white bold' : 'bigTextStyle gray bold'}>
+							{strings.PricingAndPayment}
+						</text>
+					</div>
+					<div
+						className={currentStep === 3 ? 'rightStep selected' : 'rightStep unselected'}
+						onClick={() => setCurrentStep(3)}>
+						<div className={currentStep === 3 ? 'selectedCircle' : 'unselectedCircle'}>
+							<text
+								className={
+									currentStep === 3 ? 'bigTextStyle gray bold' : 'bigTextStyle lightGray bold'
+								}>
+								{strings.ThreeNumber}
+							</text>
+						</div>
+						<text
+							className={currentStep === 3 ? 'bigTextStyle white bold' : 'bigTextStyle gray bold'}>
+							{strings.CustomerInfo}
+						</text>
+					</div>
+				</div>
+
+				<div className='innerContainer'>
+					{
+						//Displays the current UI based on which step the user is currently on
+						currentStep === 1 ? (
+							<div>
+								<div className='stepTopSection'>
+									<text className='bigTextStyle darkBlue'>{strings.StepOne}</text>
+									<text className='bigTextStyle darkBlue bold'>{strings.AddNewService}</text>
+								</div>
+								<div className='stepOneBottomSection'>
+									<button className='imagePickerSection'>
+										<input
+											type='file'
+											id='upload'
+											style={{ display: 'none' }}
+											onChange={(e) => {
+												setImagePreview(URL.createObjectURL(e.target.files[0]));
+												if (e.target.files.length) {
+													Resizer.imageFileResizer(
+														e.target.files[0],
+														400,
+														250,
+														'JPEG',
+														100,
+														0,
+														(uri) => {
+															setImage(uri);
+														},
+														'blob'
+													);
+												}
+											}}
+										/>
+										<label htmlFor='upload'>
+											{image.preview ? (
+												<img src={image.preview} alt='dummy' width='300' height='300' />
+											) : (
+												<>
+													{image === '' ? (
+														<div className='imagePickerCircle' id='imagePickerCircle'>
+															<FontAwesomeIcon icon={'camera'} color='#5cc6bc' size='7x' />
+														</div>
+													) : (
+														<img src={imagePreview} className='serviceImage' />
+													)}
+												</>
+											)}
+										</label>
+										<text className='bigTextStyle darkBlue'>{strings.EditServiceImage}</text>
+									</button>
+									<div className='textInputs'>
+										<text className='bigTextStyle darkBlue'>{strings.ServiceTitle}</text>
+										<HelpTextInput
+											height={'7vh'}
+											width={'45vw'}
+											placeholder={strings.EnterTitleForService}
+											isMultiline={false}
+											onChangeText={(text) => setServiceTitle(text)}
+											value={serviceTitle}
+										/>
+										<text className='bigTextStyle darkBlue'>{strings.ServiceDescription}</text>
+										<HelpTextInput
+											height={'20vh'}
+											width={'45vw'}
+											placeholder={strings.EnterServiceDescription}
+											isMultiline={true}
+											onChangeText={(text) => setServiceDescription(text)}
+											value={serviceDescription}
+										/>
+										<text className='bigTextStyle darkBlue'>{strings.ServiceDuration}</text>
+										<div className='durationRow'>
+											<HelpTextInput
+												height={'7vh'}
+												keyboardType={'numeric'}
+												width={'10vw'}
+												placeholder={'0'}
+												isMultiline={false}
+												onChangeText={(text) => setHours(text)}
+												value={hours}
+											/>
+											<text className='bigTextStyle darkBlue'>{strings.Hrs}</text>
+											<HelpTextInput
+												height={'7vh'}
+												keyboardType={'numeric'}
+												width={'10vw'}
+												placeholder={'0 - 59'}
+												isMultiline={false}
+												onChangeText={(text) => setMinutes(text)}
+												value={minutes}
+											/>
+											<text className='bigTextStyle darkBlue'>{strings.Mins}</text>
+										</div>
+									</div>
+								</div>
 							</div>
-							<div className='stepOneBottomSection'>
-								<button className='imagePickerSection'>
-									<input
-										type='file'
-										id='upload'
-										style={{ display: 'none' }}
-										onChange={(e) => {
-											setImagePreview(URL.createObjectURL(e.target.files[0]));
-											if (e.target.files.length) {
-												Resizer.imageFileResizer(
-													e.target.files[0],
-													400,
-													250,
-													'JPEG',
-													100,
-													0,
-													(uri) => {
-														setImage(uri);
-													},
-													'blob'
-												);
-											}
-										}}
-									/>
-									<label htmlFor='upload'>
-										{image.preview ? (
-											<img src={image.preview} alt='dummy' width='300' height='300' />
-										) : (
-											<>
-												{image === '' ? (
-													<div className='imagePickerCircle' id='imagePickerCircle'>
-														<FontAwesomeIcon icon={'camera'} color='#5cc6bc' size='7x' />
-													</div>
-												) : (
-													<img src={imagePreview} className='serviceImage' />
-												)}
-											</>
-										)}
-									</label>
-									<text className='bigTextStyle darkBlue'>{strings.EditServiceImage}</text>
-								</button>
-								<div className='textInputs'>
-									<text className='bigTextStyle darkBlue'>{strings.ServiceTitle}</text>
-									<HelpTextInput
-										height={'7vh'}
-										width={'45vw'}
-										placeholder={strings.EnterTitleForService}
-										isMultiline={false}
-										onChangeText={(text) => setServiceTitle(text)}
-										value={serviceTitle}
-									/>
-									<text className='bigTextStyle darkBlue'>{strings.ServiceDescription}</text>
-									<HelpTextInput
-										height={'20vh'}
-										width={'45vw'}
-										placeholder={strings.EnterServiceDescription}
-										isMultiline={true}
-										onChangeText={(text) => setServiceDescription(text)}
-										value={serviceDescription}
-									/>
-									<text className='bigTextStyle darkBlue'>{strings.ServiceDuration}</text>
-									<div className='durationRow'>
+						) : currentStep === 2 ? (
+							<div>
+								<div className='stepTopSection'>
+									<text className='bigTextStyle darkBlue'>{strings.StepTwo}</text>
+									<text className='bigTextStyle darkBlue bold'>{strings.PricingAndPayment}</text>
+								</div>
+								<div className='pricingType'>
+									<text className='bigTextStyle darkBlue'>{strings.PricingType}</text>
+								</div>
+								<div className='pricingTypeRow'>
+									<div className='row'>
+										<text className='bigTextStyle darkBlue'>{strings.DollarSign}</text>
 										<HelpTextInput
 											height={'7vh'}
 											keyboardType={'numeric'}
 											width={'10vw'}
 											placeholder={'0'}
 											isMultiline={false}
-											onChangeText={(text) => setHours(text)}
-											value={hours}
+											onChangeText={(text) => setPriceNumber(text)}
+											value={priceNumber}
 										/>
-										<text className='bigTextStyle darkBlue'>{strings.Hrs}</text>
-										<HelpTextInput
-											height={'7vh'}
-											keyboardType={'numeric'}
-											width={'10vw'}
-											placeholder={'0 - 59'}
-											isMultiline={false}
-											onChangeText={(text) => setMinutes(text)}
-											value={minutes}
-										/>
-										<text className='bigTextStyle darkBlue'>{strings.Mins}</text>
 									</div>
-								</div>
-							</div>
-						</div>
-					) : currentStep === 2 ? (
-						<div>
-							<div className='stepTopSection'>
-								<text className='bigTextStyle darkBlue'>{strings.StepTwo}</text>
-								<text className='bigTextStyle darkBlue bold'>{strings.PricingAndPayment}</text>
-							</div>
-							<div className='pricingType'>
-								<text className='bigTextStyle darkBlue'>{strings.PricingType}</text>
-							</div>
-							<div className='pricingTypeRow'>
-								<div className='row'>
-									<text className='bigTextStyle darkBlue'>{strings.DollarSign}</text>
-									<HelpTextInput
-										height={'7vh'}
-										keyboardType={'numeric'}
-										width={'10vw'}
-										placeholder={'0'}
-										isMultiline={false}
-										onChangeText={(text) => setPriceNumber(text)}
-										value={priceNumber}
-									/>
-								</div>
-								<Select
-									className='picker'
-									styles={{
-										control: (provided, state) => ({
-											...provided,
-											border: state.isFocused ? 0 : 0,
-											// This line disable the blue border
-											boxShadow: state.isFocused ? 0 : 0,
-											'&:hover': {
-												border: state.isFocused ? 0 : 0,
-											},
-										}),
-									}}
-									value={{ value: priceType, label: priceType }}
-									onChange={(value) => setPriceType(value.value)}
-									options={[
-										{ value: strings.Fixed, label: strings.Fixed },
-										{ value: strings.Per, label: strings.Per },
-									]}
-								/>
-								{priceType === strings.Per ? (
 									<Select
 										className='picker'
 										styles={{
@@ -379,209 +352,230 @@ export default function CreateProductScreen() {
 												},
 											}),
 										}}
-										value={{ value: pricePerText, label: pricePerText }}
-										onChange={(value) => setPricePerText(value.value)}
-										options={[{ value: strings.Hour, label: strings.Hour }]}
+										value={{ value: priceType, label: priceType }}
+										onChange={(value) => setPriceType(value.value)}
+										options={[
+											{ value: strings.Fixed, label: strings.Fixed },
+											{ value: strings.Per, label: strings.Per },
+										]}
 									/>
-								) : (
-									<div />
-								)}
-							</div>
-							<div className='paymentTypeText'>
-								<text className='bigTextStyle darkBlue'>{strings.PaymentType}</text>
-								<div className='spacer' />
-								<text className='mainTextStyle blue'>{strings.HowWillYourCustomersPayYou}</text>
-							</div>
-							<div className='paymentTypeButtonsDiv'>
-								<HelpButton
-									isLightButton={!cash}
-									onPress={() => {
-										setCash(true);
-										setCard(false);
-									}}
-									title={strings.Cash}
-									width={'20vw'}
-								/>
-								<div className='spacer' />
-								<HelpButton
-									isLightButton={!card}
-									disabled={!business.paymentSetupStatus === 'TRUE'}
-									onPress={() => {
-										setCard(true);
-										setCash(false);
-									}}
-									title={strings.CreditDebitCard}
-									width={'20vw'}
-								/>
-							</div>
-						</div>
-					) : (
-						<div>
-							<div className='stepTopSection'>
-								<text className='bigTextStyle darkBlue'>{strings.StepTwo}</text>
-								<text className='bigTextStyle darkBlue bold'>{strings.CustomerInfo}</text>
-								<text className='bigTextStyle darkBlue'>{strings.CustomQuestions}</text>
-								<text className='mainTextStyle blue'>{strings.WhatInformationDoYouNeed}</text>
-							</div>
-							<div className='defaultQuestionsRow'>
-								{defaultQuestions.map((element, index) => (
+									{priceType === strings.Per ? (
+										<Select
+											className='picker'
+											styles={{
+												control: (provided, state) => ({
+													...provided,
+													border: state.isFocused ? 0 : 0,
+													// This line disable the blue border
+													boxShadow: state.isFocused ? 0 : 0,
+													'&:hover': {
+														border: state.isFocused ? 0 : 0,
+													},
+												}),
+											}}
+											value={{ value: pricePerText, label: pricePerText }}
+											onChange={(value) => setPricePerText(value.value)}
+											options={[{ value: strings.Hour, label: strings.Hour }]}
+										/>
+									) : (
+										<div />
+									)}
+								</div>
+								<div className='paymentTypeText'>
+									<text className='bigTextStyle darkBlue'>{strings.PaymentType}</text>
+									<div className='spacer' />
+									<text className='mainTextStyle blue'>{strings.HowWillYourCustomersPayYou}</text>
+								</div>
+								<div className='paymentTypeButtonsDiv'>
 									<HelpButton
-										key={index}
-										isLightButton={!element.isSelected}
+										isLightButton={!cash}
 										onPress={() => {
-											const newQuestions = defaultQuestions;
-											newQuestions[index].isSelected = !newQuestions[index].isSelected;
-											setDefaultQuestions(newQuestions);
-											setUpdateBoolean(!updateBoolean);
+											setCash(true);
+											setCard(false);
 										}}
-										title={element.name}
+										title={strings.Cash}
 										width={'20vw'}
 									/>
-								))}
+									<div className='spacer' />
+									<HelpButton
+										isLightButton={!card}
+										disabled={!business.paymentSetupStatus === 'TRUE'}
+										onPress={() => {
+											setCard(true);
+											setCash(false);
+										}}
+										title={strings.CreditDebitCard}
+										width={'20vw'}
+									/>
+								</div>
 							</div>
-							{questions.map((element, index) => (
-								<div key={index} className='customQuestionsRow'>
-									<div className='questionInput'>
-										<text className='bigTextStyle darkBlue'>
-											{strings.QuestionNumber} {index + 1}
-										</text>
-										<div className='spacer' />
-										<div className='spacer' />
-										<HelpTextInput
-											height={'15vh'}
-											width={'30vw'}
-											placeholder={strings.EnterQuestionForCustomer}
-											isMultiline={true}
-											onChangeText={(text) => {
-												const newQuestions = questions;
-												newQuestions[index] = text;
-												setQuestions(newQuestions);
+						) : (
+							<div>
+								<div className='stepTopSection'>
+									<text className='bigTextStyle darkBlue'>{strings.StepTwo}</text>
+									<text className='bigTextStyle darkBlue bold'>{strings.CustomerInfo}</text>
+									<text className='bigTextStyle darkBlue'>{strings.CustomQuestions}</text>
+									<text className='mainTextStyle blue'>{strings.WhatInformationDoYouNeed}</text>
+								</div>
+								<div className='defaultQuestionsRow'>
+									{defaultQuestions.map((element, index) => (
+										<HelpButton
+											key={index}
+											isLightButton={!element.isSelected}
+											onPress={() => {
+												const newQuestions = defaultQuestions;
+												newQuestions[index].isSelected = !newQuestions[index].isSelected;
+												setDefaultQuestions(newQuestions);
 												setUpdateBoolean(!updateBoolean);
 											}}
-											value={element}
+											title={element.name}
+											width={'20vw'}
 										/>
-									</div>
-									<div className='horizontalSpacer' />
-									<div className='deleteCustomQuestion'>
-										<FontAwesomeIcon
-											onClick={() => {
-												if (index === 0) {
-													const newQuestions = questions;
-													newQuestions[index] = '';
-													setQuestions(newQuestions);
-													setUpdateBoolean(!updateBoolean);
-												} else {
-													const newQuestions = questions;
-													newQuestions.splice(index, 1);
-													setQuestions(newQuestions);
-													setUpdateBoolean(!updateBoolean);
-												}
-											}}
-											icon={'trash'}
-											color='#808080'
-											size='4x'
-										/>
-									</div>
+									))}
 								</div>
-							))}
-							<div className='addQuestionsButton'>
-								<HelpButton
-									title={'+'}
-									isCircleBlueButton={true}
-									onPress={() => {
-										const newQuestions = questions;
-										questions.push('');
-										setQuestions(newQuestions);
-										setUpdateBoolean(!updateBoolean);
-									}}
-									width={'6vw'}
-								/>
+								{questions.map((element, index) => (
+									<div key={index} className='customQuestionsRow'>
+										<div className='questionInput'>
+											<text className='bigTextStyle darkBlue'>
+												{strings.QuestionNumber} {index + 1}
+											</text>
+											<div className='spacer' />
+											<div className='spacer' />
+											<HelpTextInput
+												height={'15vh'}
+												width={'30vw'}
+												placeholder={strings.EnterQuestionForCustomer}
+												isMultiline={true}
+												onChangeText={(text) => {
+													const newQuestions = questions;
+													newQuestions[index] = text;
+													setQuestions(newQuestions);
+													setUpdateBoolean(!updateBoolean);
+												}}
+												value={element}
+											/>
+										</div>
+										<div className='horizontalSpacer' />
+										<div className='deleteCustomQuestion'>
+											<FontAwesomeIcon
+												onClick={() => {
+													if (index === 0) {
+														const newQuestions = questions;
+														newQuestions[index] = '';
+														setQuestions(newQuestions);
+														setUpdateBoolean(!updateBoolean);
+													} else {
+														const newQuestions = questions;
+														newQuestions.splice(index, 1);
+														setQuestions(newQuestions);
+														setUpdateBoolean(!updateBoolean);
+													}
+												}}
+												icon={'trash'}
+												color='#808080'
+												size='4x'
+											/>
+										</div>
+									</div>
+								))}
+								<div className='addQuestionsButton'>
+									<HelpButton
+										title={'+'}
+										isCircleBlueButton={true}
+										onPress={() => {
+											const newQuestions = questions;
+											questions.push('');
+											setQuestions(newQuestions);
+											setUpdateBoolean(!updateBoolean);
+										}}
+										width={'6vw'}
+									/>
+								</div>
 							</div>
+						)
+					}
+				</div>
+				{
+					//Renders the correct buttons based on the current step
+					currentStep === 1 ? (
+						<div className='rightButton buttonsContainer'>
+							<HelpButton
+								title={strings.NextWithArrow}
+								onPress={() => {
+									setCurrentStep(2);
+								}}
+								width={'8vw'}
+							/>
+						</div>
+					) : currentStep === 2 ? (
+						<div className='buttonsContainer'>
+							<HelpButton
+								title={strings.BackWithArrow}
+								onPress={() => {
+									setCurrentStep(1);
+								}}
+								width={'8vw'}
+							/>
+							<HelpButton
+								title={strings.NextWithArrow}
+								onPress={() => {
+									setCurrentStep(3);
+								}}
+								width={'8vw'}
+							/>
+						</div>
+					) : (
+						<div className='buttonsContainer'>
+							<HelpButton
+								title={strings.BackWithArrow}
+								onPress={() => {
+									setCurrentStep(2);
+								}}
+								width={'8vw'}
+							/>
+							<HelpButton
+								title={strings.Create}
+								isLoading={isLoading}
+								onPress={() => {
+									//Creates the product
+									createProduct();
+								}}
+								width={'8vw'}
+							/>
 						</div>
 					)
 				}
+				<Dialog
+					open={fieldsError}
+					onClose={() => {
+						setFieldsError(false);
+					}}>
+					<TitleComponent text={strings.Whoops} isCentered={true} textColor={colors.darkBlue} />
+					<DialogContent>
+						<DialogContentText>{strings.PleaseCompleteAllFields}</DialogContentText>
+					</DialogContent>
+				</Dialog>
+				<Dialog
+					open={descriptionError}
+					onClose={() => {
+						setDescriptionError(false);
+					}}>
+					<TitleComponent text={strings.Whoops} isCentered={true} textColor={colors.darkBlue} />
+					<DialogContent>
+						<DialogContentText>{strings.DescriptionError}</DialogContentText>
+					</DialogContent>
+				</Dialog>
+				<Dialog
+					open={imageError}
+					onClose={() => {
+						setImageError(false);
+					}}>
+					<TitleComponent text={strings.Whoops} isCentered={true} textColor={colors.darkBlue} />
+					<DialogContent>
+						<DialogContentText>{strings.PleaseAddAnImage}</DialogContentText>
+					</DialogContent>
+				</Dialog>
 			</div>
-			{
-				//Renders the correct buttons based on the current step
-				currentStep === 1 ? (
-					<div className='rightButton buttonsContainer'>
-						<HelpButton
-							title={strings.NextWithArrow}
-							onPress={() => {
-								setCurrentStep(2);
-							}}
-							width={'8vw'}
-						/>
-					</div>
-				) : currentStep === 2 ? (
-					<div className='buttonsContainer'>
-						<HelpButton
-							title={strings.BackWithArrow}
-							onPress={() => {
-								setCurrentStep(1);
-							}}
-							width={'8vw'}
-						/>
-						<HelpButton
-							title={strings.NextWithArrow}
-							onPress={() => {
-								setCurrentStep(3);
-							}}
-							width={'8vw'}
-						/>
-					</div>
-				) : (
-					<div className='buttonsContainer'>
-						<HelpButton
-							title={strings.BackWithArrow}
-							onPress={() => {
-								setCurrentStep(2);
-							}}
-							width={'8vw'}
-						/>
-						<HelpButton
-							title={strings.Create}
-							isLoading={isLoading}
-							onPress={() => {
-								//Creates the product
-								createProduct();
-							}}
-							width={'8vw'}
-						/>
-					</div>
-				)
-			}
-			<Dialog
-				open={fieldsError}
-				onClose={() => {
-					setFieldsError(false);
-				}}>
-				<TitleComponent text={strings.Whoops} isCentered={true} textColor={colors.darkBlue} />
-				<DialogContent>
-					<DialogContentText>{strings.PleaseCompleteAllFields}</DialogContentText>
-				</DialogContent>
-			</Dialog>
-			<Dialog
-				open={descriptionError}
-				onClose={() => {
-					setDescriptionError(false);
-				}}>
-				<TitleComponent text={strings.Whoops} isCentered={true} textColor={colors.darkBlue} />
-				<DialogContent>
-					<DialogContentText>{strings.DescriptionError}</DialogContentText>
-				</DialogContent>
-			</Dialog>
-			<Dialog
-				open={imageError}
-				onClose={() => {
-					setImageError(false);
-				}}>
-				<TitleComponent text={strings.Whoops} isCentered={true} textColor={colors.darkBlue} />
-				<DialogContent>
-					<DialogContentText>{strings.PleaseAddAnImage}</DialogContentText>
-				</DialogContent>
-			</Dialog>
-		</div>
 		</div>
 	);
 }

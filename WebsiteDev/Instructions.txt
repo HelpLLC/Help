@@ -1,5 +1,6 @@
 - To deploy site:
-    1) If firebase-tools is not installed, go install it by following the instructions below, then return step two
+    1) If firebase-tools is not installed, go install it by following the instructions below titled "To install & login 
+    to firebase-tools", then return step two
     2) Navigate to Help/WebsiteDev in the terminal
     3) Run "npm run build"
     4) Run "firebase deploy"

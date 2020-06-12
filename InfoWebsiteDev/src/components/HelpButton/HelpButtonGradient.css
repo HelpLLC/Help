@@ -1,0 +1,64 @@
+/*This is going to contain the css for the gradient color of the HelpButton*/
+.gradientDivSmall {
+	border-radius: 5.12vh;
+	display: flex;
+	align-items: center;
+	align-self: center;
+	justify-content: center;
+	background: linear-gradient(90deg, #5cc6bc, #41cbef);
+	border-style: solid;
+	border-color: #41cbef;
+	cursor: pointer;
+	font-size: xx-large;
+}
+
+.gradientDivSmall2 {
+	border-radius: 2vh;
+	display: flex;
+	align-items: center;
+	align-self: center;
+	cursor: pointer;
+	justify-content: center;
+	background: linear-gradient(90deg, #5cc6bc, #41cbef);
+	border-style: solid;
+	border-color: #41cbef;
+	font-size: 1vh;
+}
+
+.gradientDiv {
+	border-radius: 5.12vh;
+	display: flex;
+	align-items: center;
+	align-self: center;
+	cursor: pointer;
+	justify-content: center;
+	background: linear-gradient(90deg, #5cc6bc, #41cbef);
+	border-style: solid;
+	border-color: #41cbef;
+	font-size: xx-large;
+}
+
+.whiteDiv {
+	border-radius: 5.12vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-self: center;
+	cursor: pointer;
+	border-style: solid;
+	border-color: #41cbef;
+	background: #ffffff;
+	font-size: xx-large;
+}
+.redDiv {
+	border-radius: 5.12vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #df1919;
+	align-self: center;
+	cursor: pointer;
+	font-size: xx-large;
+	outline: 0;
+	border: none;
+}

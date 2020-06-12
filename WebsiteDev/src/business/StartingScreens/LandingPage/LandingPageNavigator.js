@@ -18,8 +18,8 @@ import Analytics from '../../BusinessScreens/Analytics/Analytics'
 import EditProfile from '../../BusinessScreens/EditProfile/EditProfile'
 import ReactCalendar from '../../BusinessScreens/Calender/Calender';
 import Dispatch from '../../BusinessScreens/Dispatch/Dispatch';
-import Profile from '../../BusinessScreens/Profile/Profile';
 import ViewRequest from '../../BusinessScreens/ViewRequest/ViewRequest';
+import EmployeeList from '../../BusinessScreens/EmployeeList/EmployeeList';
 
 export default function LandingPageNavigator() {
 	//The header containing the title, log in, and sign up buttons
@@ -142,14 +142,11 @@ export default function LandingPageNavigator() {
 				<Route path='/dispatch'>
 					<Dispatch />
 				</Route>
-				<Route path='/profile'>
-					<Profile />
-				</Route>
-				<Route path='/profile'>
-					<Profile />
-				</Route>
 				<Route path='/viewrequest'>
 					<ViewRequest />
+				</Route>
+				<Route path='/employees'>
+					<EmployeeList />
 				</Route>
 				<Route path='/analytics'>
 					<Analytics />

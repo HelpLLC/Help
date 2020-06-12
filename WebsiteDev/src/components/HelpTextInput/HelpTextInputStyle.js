@@ -21,6 +21,9 @@ export default {
 		borderWidth: 3,
 		...fontStyles.subTextStyle,
 		...fontStyles.black,
-		padding: 10,
 	},
+	row: {
+		'display': 'flex',
+		flexDirection: 'row',
+	}
 };

@@ -27,8 +27,6 @@ export default function pricingAndPaymentScreen(props) {
 	const [perType, setPerType] = useState(strings.Hour);
 	const [isCashSelected, setIsCashSelected] = useState(false);
 	const [isCardSelected, setIsCardSelected] = useState(false);
-	const [isPrepaySelected, setIsPrepaySelected] = useState(false);
-	const [isPostpaySelected, setIsPostPaySelected] = useState(false);
 	const [fieldsError, setFieldsError] = useState(false);
 	const [paymentMethodError, setPaymentMethodError] = useState(false);
 	const [paymentTimeError, setPaymentTimeError] = useState(false);
@@ -60,8 +58,6 @@ export default function pricingAndPaymentScreen(props) {
 		}
 		setIsCashSelected(service.cash);
 		setIsCardSelected(service.card);
-		setIsPrepaySelected(service.prepay);
-		setIsPostPaySelected(service.postpay);
 	};
 
 	//This method will capture all of the data from this screen, make sure it is completed, then capture all the data
@@ -72,8 +68,6 @@ export default function pricingAndPaymentScreen(props) {
 			setFieldsError(true);
 		} else if (isCardSelected === false && isCashSelected === false) {
 			setPaymentMethodError(true);
-		} else if (isPostpaySelected === false && isPrepaySelected === false) {
-			setPaymentTimeError(true);
 		} else {
 			//Constructs the pricing object and the price text
 			let priceText =
@@ -114,8 +108,6 @@ export default function pricingAndPaymentScreen(props) {
 				price,
 				isCardSelected,
 				isCashSelected,
-				isPrepaySelected,
-				isPostpaySelected,
 				service,
 				serviceID,
 				editing,
@@ -241,35 +233,6 @@ export default function pricingAndPaymentScreen(props) {
 						}
 					}}
 					title={strings.CreditDebitCard}
-					width={screenWidth * 0.65}
-					height={screenHeight * 0.06}
-				/>
-			</View>
-			<View style={styles.paymentTimeSection}>
-				<Text style={fontStyles.bigTextStyleDarkBlue}>{strings.PaymentTime}</Text>
-				<View style={styles.paymentTypeSubText}>
-					<Text style={[fontStyles.mainTextStyle, fontStyles.blue]}>
-						{strings.WhenDoYouWantYourCustomersToPayYou}
-					</Text>
-				</View>
-				<HelpButton
-					isLightButton={!isPrepaySelected}
-					onPress={() => {
-						setIsPrepaySelected(true);
-						setIsPostPaySelected(false);
-					}}
-					title={strings.WhenTheyOrder}
-					width={screenWidth * 0.65}
-					height={screenHeight * 0.06}
-				/>
-				<View style={styles.buttonSeparator} />
-				<HelpButton
-					isLightButton={!isPostpaySelected}
-					onPress={() => {
-						setIsPostPaySelected(true);
-						setIsPrepaySelected(false);
-					}}
-					title={strings.AfterCompletion}
 					width={screenWidth * 0.65}
 					height={screenHeight * 0.06}
 				/>

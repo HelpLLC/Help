@@ -2,7 +2,6 @@
 //application
 import React from 'react';
 import { TouchableOpacity, Text, View } from 'react-native-web';
-import { screenWidth, screenHeight } from '../../config/dimensions';
 import PropTypes from 'prop-types';
 import './HelpButtonGradient.css';
 import HelpButtonStyle from './HelpButtonStyle';
@@ -45,7 +44,11 @@ export default function HelpButton(props) {
 	//doesn't display
 	if (isLoading === true) {
 		//Loading state
-		return <ReactLoading type={'bars'} color={colors.lightBlue} width='5vw' />;
+		return (
+			<View style={{ width, justifyContent: 'center', alignItems: 'center' }}>
+				<ReactLoading type={'bars'} color={colors.lightBlue} width='5vw' />
+			</View>
+		);
 	} else {
 		return (
 			<button
@@ -78,26 +81,12 @@ export default function HelpButton(props) {
 				}>
 				<Text
 					style={
-						props.fontStyle ?
-						props.fontStyle :
-						isLightButton
-							? width < screenWidth * 0.3
-								? {
-										...fontStyles.subTextStyle,
-										...fontStyles.blue,
-										...fontStyles.bold,
-										textAlign: 'center',
-								  }
-								: {
-										...fontStyles.mainTextStyle,
-										...fontStyles.blue,
-										...fontStyles.bold,
-										textAlign: 'center',
-								  }
-							: width < screenWidth * 0.3
+						fontStyle
+							? fontStyle
+							: isLightButton
 							? {
-									...fontStyles.subTextStyle,
-									...fontStyles.white,
+									...fontStyles.mainTextStyle,
+									...fontStyles.blue,
 									...fontStyles.bold,
 									textAlign: 'center',
 							  }
