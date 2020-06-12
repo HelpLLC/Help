@@ -2,6 +2,13 @@
 	margin-left: 5vw;
 	margin-right: 5vw;
 	position: relative;
+	z-index: 1;
+}
+
+.sidebarHolder {
+	width: 20vw;
+	height: 100vh;
+	z-index: 0;
 }
 
 #rectangle_4 {

@@ -5,6 +5,7 @@
 	height: fit-content;
 	width: 80vw;
 	background-color: #FFFFFF;
+	z-index: 1;
 }
 
 .top {
@@ -16,6 +17,7 @@
 .sidebarHolder{
 	width: 20vw;
 	height: 100vh;
+	z-index: 0;
 }
 
 .row {

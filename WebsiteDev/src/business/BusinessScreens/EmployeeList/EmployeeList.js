@@ -39,89 +39,153 @@ export default function EmployeeList(props) {
 	const completeRequest = () => {};
 
 	return (
-		<div id='container'>
-			<SideMenu />
-			<div id='background'>
-				<div className='content_container'>
-					<div className='service_title bigTitleTextStyle darkBlue'>Assign Employee(s)</div>
-					<div className='searchBar'>
-						<HelpTextInput
-							height={'5vh'}
-							width={'65vw'}
-							isMultiline={false}
-							onChangeText={() => setSearch(search)}
-							additionalIcon={
-								<FontAwesomeIcon
-									icon={['fas', 'search']}
-									size='2x'
-									style={{ padding: 10, position: 'absolute' }}
+		<div>
+			<section className='sidebarHolder'>
+				<SideMenu title='EmployeeList' />
+			</section>
+			<div className='content_container'>
+				<SideMenu />
+				<div id='background'>
+					<div className='content_container'>
+						<div className='service_title bigTitleTextStyle darkBlue'>Assign Employee(s)</div>
+						<div className='searchBar'>
+							<HelpTextInput
+								height={'5vh'}
+								width={'65vw'}
+								isMultiline={false}
+								onChangeText={() => setSearch(search)}
+								additionalIcon={
+									<FontAwesomeIcon
+										icon={['fas', 'search']}
+										size='2x'
+										style={{ padding: 10, position: 'absolute' }}
+									/>
+								}></HelpTextInput>
+						</div>
+
+						<EmployeeListItem name='John Doe' image={profile_pic} />
+						<EmployeeListItem name='Anne Ketcheva' image={profile_pic} />
+						<EmployeeListItem name='Tricia Cebotari' image={profile_pic} />
+
+						{confirmed == true ? (
+							<div className='confirmedButtons'>
+								<HelpButton title={strings.CancelRequest} onPress={cancelRequest} />
+								<HelpButton title={strings.CompleteRequest} onPress={completeRequest} />
+							</div>
+						) : (
+							<div className='confirmRequest'>
+								<HelpButton
+									width={'65vw'}
+									title={strings.ConfirmRequest}
+									onPress={confirmRequest}
 								/>
-							}></HelpTextInput>
+							</div>
+						)}
 					</div>
-
-					<EmployeeListItem name='John Doe' image={profile_pic} />
-					<EmployeeListItem name='Anne Ketcheva' image={profile_pic} />
-					<EmployeeListItem name='Tricia Cebotari' image={profile_pic} />
-
-					{confirmed == true ? (
-						<div className='confirmedButtons'>
-							<HelpButton title={strings.CancelRequest} onPress={cancelRequest} />
-							<HelpButton title={strings.CompleteRequest} onPress={completeRequest} />
-						</div>
-					) : (
-						<div className='confirmRequest'>
-							<HelpButton width={'65vw'} title={strings.ConfirmRequest} onPress={confirmRequest} />
-						</div>
-					)}
 				</div>
+				<Dialog
+					open={confirmedDialog}
+					onClose={() => {
+						setConfirmedDialog(false);
+					}}>
+					<TitleComponent
+						fontSize={50}
+						text={strings.RequestConfirmed}
+						isCentered={true}
+						textColor={colors.darkBlue}
+					/>
+					<DialogContent className='dialogContent'>
+						<DialogContentText
+							style={{ textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue }}>
+							{strings.CustomerNotified}
+						</DialogContentText>
+						<DialogContentText
+							style={{
+								textAlign: 'center',
+								...fontStyles.mainTextStyle,
+								...fontStyles.darkBlue,
+								...fontStyles.bold,
+							}}>
+							{props.service}
+						</DialogContentText>
+						<DialogContentText
+							style={{
+								textAlign: 'center',
+								...fontStyles.mainTextStyle,
+								...fontStyles.darkBlue,
+								...fontStyles.bold,
+							}}>
+							{props.date}
+						</DialogContentText>
+						<DialogContentText
+							style={{ textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue }}>
+							{props.time}
+						</DialogContentText>
+						<DialogContentText
+							style={{ textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue }}>
+							{strings.RequestAddedToCalendar}
+						</DialogContentText>
+					</DialogContent>
+					<DialogActions>
+						<HelpButton
+							title={strings.Ok}
+							onPress={() => setConfirmedDialog(false)}
+							width={'100%'}
+						/>
+					</DialogActions>
+				</Dialog>
+				<Dialog
+					open={confirmedDialog}
+					onClose={() => {
+						setConfirmedDialog(false);
+					}}>
+					<TitleComponent
+						fontSize={50}
+						text={strings.RequestConfirmed}
+						isCentered={true}
+						textColor={colors.darkBlue}
+					/>
+					<DialogContent className='dialogContent'>
+						<DialogContentText
+							style={{ textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue }}>
+							{strings.CustomerNotified}
+						</DialogContentText>
+						<DialogContentText
+							style={{
+								textAlign: 'center',
+								...fontStyles.mainTextStyle,
+								...fontStyles.darkBlue,
+								...fontStyles.bold,
+							}}>
+							{props.service}
+						</DialogContentText>
+						<DialogContentText
+							style={{
+								textAlign: 'center',
+								...fontStyles.mainTextStyle,
+								...fontStyles.darkBlue,
+								...fontStyles.bold,
+							}}>
+							{props.date}
+						</DialogContentText>
+						<DialogContentText
+							style={{ textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue }}>
+							{props.time}
+						</DialogContentText>
+						<DialogContentText
+							style={{ textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue }}>
+							{strings.RequestAddedToCalendar}
+						</DialogContentText>
+					</DialogContent>
+					<DialogActions>
+						<HelpButton
+							title={strings.Ok}
+							onPress={() => setConfirmedDialog(false)}
+							width={'100%'}
+						/>
+					</DialogActions>
+				</Dialog>
 			</div>
-			<Dialog
-				open={confirmedDialog}
-				onClose={() => {
-					setConfirmedDialog(false);
-				}}>
-				<TitleComponent
-					fontSize={50}
-					text={strings.RequestConfirmed}
-					isCentered={true}
-					textColor={colors.darkBlue}
-				/>
-				<DialogContent className='dialogContent'>
-					<DialogContentText
-						style={{ textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue }}>
-						{strings.CustomerNotified}
-					</DialogContentText>
-					<DialogContentText
-						style={{
-							textAlign: 'center',
-							...fontStyles.mainTextStyle,
-							...fontStyles.darkBlue,
-							...fontStyles.bold,
-						}}>
-						{props.service}
-					</DialogContentText>
-					<DialogContentText
-						style={{
-							textAlign: 'center',
-							...fontStyles.mainTextStyle,
-							...fontStyles.darkBlue,
-							...fontStyles.bold,
-						}}>
-						{props.date}
-					</DialogContentText>
-					<DialogContentText
-						style={{ textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue }}>
-						{props.time}
-					</DialogContentText>
-					<DialogContentText
-						style={{ textAlign: 'center', ...fontStyles.subTextStyle, ...fontStyles.darkBlue }}>
-						{strings.RequestAddedToCalendar}
-					</DialogContentText>
-				</DialogContent>
-				<DialogActions>
-					<HelpButton title={strings.Ok} onPress={() => setConfirmedDialog(false)} width={'100%'} />
-				</DialogActions>
-			</Dialog>
 		</div>
 	);
 }
