@@ -69,10 +69,10 @@ export default function LandingPageNavigator() {
 			<div className={'joinHelpFamily'}>
 				<div className='bigTextStyle white'>{strings.JoinHelpFamily}</div>
 				<div className={'socialMedia'}>
-					<SocialIcon url={'https://twitter.com/llc_help'} />
-					<SocialIcon url={'https://www.instagram.com/realhelpllc/'} />
-					<SocialIcon url={'https://www.facebook.com/realhelpllc/'} />
-					<SocialIcon url={'https://www.linkedin.com/company/helpllc/'} />
+					<SocialIcon url={'https://twitter.com/llc_help'}  fgColor="#ffffff" />
+					<SocialIcon url={'https://www.instagram.com/realhelpllc/'} fgColor="#ffffff" />
+					<SocialIcon url={'https://www.facebook.com/realhelpllc/'} fgColor="#ffffff"/>
+					<SocialIcon url={'https://www.linkedin.com/company/helpllc/'} fgColor="#ffffff" />
 				</div>
 			</div>
 			<div className={'legal'}>
