@@ -20,33 +20,35 @@ import { duration, Card } from "@material-ui/core";
 
 export default function ReactCalendar() {
   const [arrayOfDisplayedRequests, setArrayOfDisplayedRequests] = useState([]);
-  const [daySelected, setDaySelected] = useState([]);
+  const [daySelected, setDaySelected] = useState("");
   const [startDate, setStartDate] = useState("");
   const [requestsInSidemenu, setRequestsInSidemenu] = useState([]);
+  //this should be set when a specific request in the side menu is clicked
+  const [selectedSideMenuRequest, setSelectedSideMenuRequest] = useState();
   let [open, isOpen] = useState(false);
   let [viewButtonPressed, isViewButtonPressed] = useState(false);
+  let [dayClicked, isDayClicked] = useState(false);
 
-  // const fecthFunc = async () => {
-  //   const upComingRequests = await FirebaseFunctions.call(
-  //     "getUpcomingRequestByBusinessID",
-  //     {
-  //       day: daySelected,
-  //       businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2",
-  //     }
-  //   );
+  const fecthFunc = async () => {
+    const upComingRequests = await FirebaseFunctions.call(
+      "getUpcomingRequestByBusinessID",
+      {
+        day: daySelected,
+        businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2",
+      }
+    );
 
-  //   const fullMonthRequests = await FirebaseFunctions.call(
-  //     "getCurrentRequestsForTheNextMonthByBusinessID",
-  //     {
-  //       day: startDate,
-  //       businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2",
-  //     }
-  //   );
+    const fullMonthRequests = await FirebaseFunctions.call(
+      "getCurrentRequestsForTheNextMonthByBusinessID",
+      {
+        day: startDate,
+        businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2",
+      }
+    );
 
-  //   setArrayOfDisplayedRequests([fullMonthRequests]);
-  //   setRequestsInSidemenu(upComingRequests);
-  //   console.log(upComingRequests);
-  // };
+    setArrayOfDisplayedRequests([fullMonthRequests]);
+    setRequestsInSidemenu(upComingRequests);
+  };
 
   const requests = [
     {
@@ -82,11 +84,24 @@ export default function ReactCalendar() {
     "Dec",
   ];
 
-  const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  const days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+  let selected_datetime = new Date(daySelected);
+  let selected_formatted_date =
+    days[selected_datetime.getDay()] +
+    ", " +
+    months[selected_datetime.getMonth()] +
+    " " +
+    (selected_datetime.getDate() + 1) +
+    ", " +
+    selected_datetime.getFullYear();
 
-  let current_datetime = new Date(requests.map((value) => value.date));
+  //This is for if we want the person to open calendar and have the side menu open to the upcoming requests on that day
+  //reason there are two of the day arrays is beacuse daySelected returns a different string than highlightedday
+  const daysmodified = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  let highlightedDay = Date();
+  let current_datetime = new Date(highlightedDay);
   let formatted_date =
-    days[current_datetime.getDay()] +
+    daysmodified[current_datetime.getDay()] +
     ", " +
     months[current_datetime.getMonth()] +
     " " +
@@ -94,9 +109,24 @@ export default function ReactCalendar() {
     ", " +
     current_datetime.getFullYear();
 
-  // useEffect(() => {
-  //   fecthFunc();
-  // }, []);
+  //when calendar is first opened it will display that days requests
+  const highlightedDayRequests = async () => {
+    const upComingRequests = await FirebaseFunctions.call(
+      "getUpcomingRequestByBusinessID",
+      {
+        day: highlightedDay,
+        businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2",
+      }
+    );
+    setRequestsInSidemenu(upComingRequests);
+  };
+
+  useEffect(() => {
+    fecthFunc();
+    //sets the side menue to open when calendar is deployed and displays the highlighted days requests
+    isOpen(true);
+    highlightedDayRequests();
+  }, []);
 
   return (
     <div>
@@ -131,38 +161,21 @@ export default function ReactCalendar() {
             }}
             dateClick={async (info) => {
               setDaySelected(info.dateStr);
-              const open = true;
-              isOpen(open);
+              isOpen(true);
+              isDayClicked(true);
             }}
-            // events={( fetchInfo, successCallback, failureCallback ) => {
-            //   const theFirstOfTheMonth = new Date(fetchInfo.start.getDate())
-            //   const theDayWereTryingToGet = new Date(theFirstOfTheMonth - theFirstOfTheMonth.getDate())
-            //   setStartDate(theDayWereTryingToGet);
+            events={(fetchInfo, successCallback, failureCallback) => {
+              //   // const theFirstOfTheMonth = Date(fetchInfo.start)
+              //   // console.log(theFirstOfTheMonth);
+              // //   setStartDate(theFirstOfTheMonth);
 
-            //   successCallback(arrayOfDisplayedRequests.map((requestObject) => {
-            //     return {
-            //       title: requestObject.serviceTitle,
-            //       start: new Date(requestObject.date),
-            //     };
-            //   }));
-
-            // }}
-            events={[
-              {
-                title: "Sample Service",
-                start: "2020-05-17",
-              },
-              {
-                title: "event2",
-                start: "2020-05-05",
-                end: "2020-05-07",
-              },
-              {
-                title: "event3",
-                start: "2020-05-09T12:30:00",
-                allDay: false, // will make the time show
-              },
-            ]}
+              // successCallback(fullMonthRequests.map((requestObject) => {
+              //   return {
+              //     title: requestObject.serviceTitle,
+              //     start: new Date(requestObject.date),
+              //   };
+              // }));
+            }}
           />
         </div>
         <div>
@@ -188,11 +201,14 @@ export default function ReactCalendar() {
                     <FontAwesomeIcon icon="arrow-left" size="2x" />
                   </button>
                 </div>
+                {/* change to selectedSideMenuRequest */}
                 {requests.map((value) => (
                   <div className="viewmoreinfo darkBlue bold">
                     <div className="topfourth">
                       <p className="mainTextStyle ">{value.serviceTitle}</p>
-                      <p className="bigSubTitleStyle ">{formatted_date}</p>
+                      <p className="bigSubTitleStyle ">
+                        {selected_formatted_date}
+                      </p>
                       <p className="bigSubTitleStyle">{value.time}</p>
                     </div>
                     <hr className="blueline" />
@@ -261,20 +277,6 @@ export default function ReactCalendar() {
                     </div>
                   </div>
                 ))}
-                {/* {arrayOfDisplayedRequests.map((requestObject) => (
-                  <p
-                    className="servicecardinfo"
-                    style={
-                      (fontStyles.mainTextStyle,
-                      fontStyles.darkBlue,
-                      fontStyles.semiBold)
-                    }
-                  >
-                    {requestObject.serviceTitle} <br />
-                    <br />
-                    {requestObject.time}
-                  </p>
-                ))} */}
               </div>
             ) : (
               <div className="popupmenu">
@@ -290,42 +292,41 @@ export default function ReactCalendar() {
                 <div className="divwrap">
                   {requests.map((value) => (
                     <div>
-                      <p className="dateSidemenu subTextStyle darkBlue bold">
-                        {formatted_date}
-                      </p>
+                      {dayClicked === true ? (
+                        <p className="dateSidemenu subTextStyle darkBlue bold">
+                          {selected_formatted_date}
+                        </p>
+                      ) : (
+                        <p className="dateSidemenu subTextStyle darkBlue bold">
+                          {formatted_date}
+                        </p>
+                      )}
                       <div className="servicecard">
-                        {requests.map((value) => (
-                          <p className="servicecardcontents smallTextStyle darkBlue bold">
-                            <div className="servicecardinfo">
-                              <p>{value.serviceTitle}</p>
-                              <p>{value.time}</p>
-                            </div>
-                          </p>
-                        ))}
-                        {/* {arrayOfDisplayedRequests.map((requestObject) => (
+                        <div className="servicecardcontents smallTextStyle darkBlue bold">
+                          <div className="servicecardinfo">
+                            <p>{value.serviceTitle}</p>
+                            <p>{value.time}</p>
+                          </div>
+                        </div>
+                        {/* {requestsInSidemenu.map((requestObject) => (
                     <div>
                       <p>{requestObject.date}</p>
                       <div className="servicecard">
-                        {arrayOfDisplayedRequests.map((requestObject) => (
-                          <p
-                            className="servicecardinfo"
-                            style={
-                              (fontStyles.mainTextStyle,
-                              fontStyles.darkBlue,
-                              fontStyles.semiBold)
-                            }
-                          >
+                        {requestsInSidemenu.map((requestObject) => (
+                          <div className="servicecardcontents smallTextStyle darkBlue bold">
                             {requestObject.serviceTitle} <br />
                             <br />
                             {requestObject.time}
-                          </p>
+                          </div>
                         ))} */}
                         <div className="servicecardhelpbutton">
                           <HelpButton
                             width={"10vw"}
                             height={"4vh"}
                             title={strings.ViewMore}
-                            onPress={() => isViewButtonPressed(true)}
+                            onPress={
+                              () => isViewButtonPressed(true)
+                            }
                           />
                         </div>
                       </div>

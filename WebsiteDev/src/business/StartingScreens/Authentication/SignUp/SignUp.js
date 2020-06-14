@@ -51,8 +51,7 @@ export function SignUp(props) {
 			password.trim().length > 6 &&
 			confirmPassword == password &&
 			businessDescription.trim().length > 150 &&
-			location &&
-			website.includes('.') &&
+			location.trim() !== "" &&
 			phoneNumber.trim().length == 10 &&
 			phoneNumber.trim().match(/^[0-9]+$/) != null
 		) {
@@ -246,7 +245,7 @@ export function SignUp(props) {
 
 					<div id='edit' className='mainTextStyle gray'>
 						<HelpTextInput
-							height={'7vh'}
+							height={'10vh'}
 							width={'42vw'}
 							placeholder={strings.BusinessDescription}
 							isMultiline={true}
@@ -470,7 +469,7 @@ export function SignUp(props) {
 					<div id='signup_button'>
 						<HelpButton title={strings.SignUp} isLoading={isLoading} width={'42vw'} onPress={signup} />
 					</div>
-					<div id='signup_button'>
+					<div id='back_button'>
 						<HelpButton
 							title={strings.BackWithArrow}
 							width={'10vw'}

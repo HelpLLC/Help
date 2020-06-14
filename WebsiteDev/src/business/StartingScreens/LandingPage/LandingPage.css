@@ -165,7 +165,7 @@ section.sec5 {
 .footer {
 	width: 100vw;
 	height: 20vh;
-	background-color: #dcdcdc;
+	background-color: #1F508B;
 	flex-direction: row;
 	display: flex;
 	justify-content: space-between;
@@ -180,7 +180,7 @@ section.sec5 {
 }
 .joinHelpFamily {
 	height: 20vh;
-	width: 20vw;
+	width: 30vw;
 	align-items: center;
 	display: flex;
 	flex-direction: column;
@@ -209,6 +209,6 @@ section.sec5 {
 	flex: 1;
 }
 .helpLogo {
-	margin-left: 10vw;
-	margin-top: 30vh;
+	margin-top: 10vh;
+	margin-right: 8vw;
 }

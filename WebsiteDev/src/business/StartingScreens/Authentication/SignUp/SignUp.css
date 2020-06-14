@@ -69,7 +69,13 @@
 	justify-content: center;
 	align-items: center;
 }
-
+#back_button{
+	margin-top: 1.5vh;
+	margin-left: 2vw;
+	display: flex;
+	justify-content: left;
+	align-items: left;
+}
 #signup_title {
 	margin-top: 5vh;
 	text-align: center;

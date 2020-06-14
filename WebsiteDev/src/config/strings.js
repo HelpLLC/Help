@@ -117,7 +117,7 @@ export default {
 	Address: 'Address',
 	Website: 'Website',
 	BusinessName: 'Business Name',
-	BusinessDescription: 'Business Description',
+	BusinessDescription: 'Business Description...',
 	WhatIsYourEmailAddressQuestion: 'What is your email address?',
 	WhatIsYourAddressQuestion: 'What is your address?',
 	WhatIsYourPhoneNumberQuestion: 'What is your phone number?',
