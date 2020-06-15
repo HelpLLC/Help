@@ -1,0 +1,34 @@
+/* This is the stylesheet for the HelpCalendar component*/
+.calendarHeader {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-top: 2.5vh;
+	width: 52.5vw;
+	justify-content: space-between;
+}
+.weekMonth {
+	display: flex;
+	flex-direction: row;
+}
+.weekMonthSelector {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	width: 32.5vw;
+}
+.spacer {
+	width: 1vw;
+}
+.clickable {
+	cursor: pointer;
+	background-color: #ffffff;
+	border-width: 0;
+}
+.calendarLoadingScreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+}

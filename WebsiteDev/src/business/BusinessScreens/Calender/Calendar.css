@@ -1,165 +1,17 @@
-.Cheader {
-  margin-left: 13vw;
+/* This is going to contain all of the styles for the Calendar screen */
+.calendarContainer {
+	display: flex;
+	flex-direction: row;
 }
-
-.headerdiv {
-  flex-direction: row;
-  display: flex;
+.sidebarHolder {
+	width: 20vw;
+	height: 100vh;
+	z-index: 0;
 }
-
-.bell {
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  margin-left: 43vw;
-}
-
-.usercircle {
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  margin-left: 1vw;
-}
-
-.businessprofilename {
-  margin-left: 1vw;
-}
-
-.screenbody {
-  display: flex;
-}
-
-.popupmenu {
-  margin-left: 1vw;
-  width: 16.4vw;
-  height: 115vh;
-  margin-top: -15.7vh;
-  background-color: #f3f3f3;
-}
-
-.buttonheaders {
-  display: flex;
-}
-
-.closingbutton {
-  display: flex;
-  justify-content: left;
-  align-items: left;
-  margin: 2vh;
-  margin-top: 3vh;
-  margin-left: 0.5vw;
-}
-
-.backbutton {
-  display: flex;
-  justify-content: right;
-  align-items: right;
-  margin: 2vh;
-  margin-top: 3vh;
-  margin-left: 10vw;
-}
-
-.divwrap {
-  height: auto;
-  float: left;
-  margin-top: 5vh;
-  margin-left: 0.5vw;
-}
-
-.dateSidemenu {
-  margin-top: -2vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.servicecard {
-  border-radius: 30px;
-  width: 15vw;
-  background-color: white;
-  border: 3px solid #00b0f0;
-  box-shadow: 1px #00b0f0;
-  display: block;
-  margin-bottom: 3vh;
-  height: 15vh;
-}
-
-.servicecardinfo {
-  margin-top: -4vh;
-  margin-bottom: -7.5vh;
-}
-
-.servicecardcontents {
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  margin-left: 1vw;
-  margin-top: 3vh;
-}
-
-.viewmoreinfo {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: left;
-}
-
-.topfourth {
-  margin: 2vh 1vw 1vw 1vh;
-}
-.blueline {
-  border-top: 3px solid #00b0f0;
-  width: 15vw;
-}
-
-.requesterinformation {
-  display: flex;
-  margin-left: 1vw;
-  margin-bottom: 2vh;
-}
-
-.requestername {
-  margin-left: -1.8vw;
-  margin-top: 8.5vh;
-}
-
-.assignedemployees {
-  display: flex;
-  margin-left: 1vw;
-  margin-bottom: 2vh;
-}
-
-.notes{
-  margin-left: 1vw;
-  margin-bottom: 2vh;
-}
-
-.questions{
-  display: flex;
-}
-
-.shownoteshelpbutton{
-  display: flex;
-  justify-content: left;
-  align-items: left;
-margin-left: 1vw;
-margin-bottom: 1.5vh;
-}
-
-.lasttwobuttons{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-left: 1vw;
-}
-
-.markcompletehelpbutton, .adjustjobhelpbutton{
-  margin-top: 2vh;
-}
-
-.servicecardhelpbutton {
-  display: flex;
-  justify-content: center;
-  align-items: right;
-  margin-top: 7vh;
+.calendarHolder {
+	height: 100vh;
+	width: 70vw;
+	margin-left: 3vw;
+	margin-top: 3vh;
+	z-index: 1;
 }

@@ -117,8 +117,8 @@ export default function LandingPage() {
               />
             </div>
           </div>
-          <div className="helpLogo">
-            <img alt={"Help - Get Things Done Logo"} src={HelpLogo} />
+          <div className="helpLogoContainer">
+            <img alt={"Help - Get Things Done Logo"} className={'helpLogo'} src={HelpLogo} />
           </div>
         </div>
       </section>

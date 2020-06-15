@@ -346,10 +346,12 @@ exports.getCurrentRequestsForTheNextMonthByBusinessID = functions.https.onCall(
 	async (input, context) => {
 		const { businessID, day } = input;
 		const startDate = new Date(day);
+		console.log('Start Date: ' + startDate);
 		let promises = [];
 		for (let i = 0; i < 43; i++) {
 			const dayToFetch = new Date();
 			dayToFetch.setDate(startDate.getDate() + i);
+
 			let year = dayToFetch.getFullYear();
 			let month = dayToFetch.getMonth();
 			let day = dayToFetch.getDate();
@@ -360,6 +362,7 @@ exports.getCurrentRequestsForTheNextMonthByBusinessID = functions.https.onCall(
 				day = '0' + day;
 			}
 			const dayToFetchString = year + '-' + month + '-' + day;
+			console.log('Fetching Date: ' + dayToFetchString);
 			promises.push(getBusinessCurrentRequestsByDay(businessID, dayToFetchString));
 		}
 		const docs = await Promise.all(promises);
