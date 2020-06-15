@@ -13,6 +13,8 @@ import { Image } from 'react-native-web';
 import HelpButton from '../../../components/HelpButton/HelpButton';
 import StarRatings from 'react-star-ratings';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import fontStyles from '../../../config/fontStyles';
+import SideMenu from '../../../components/SideMenu/SideMenu';
 
 //Declares the functional component
 const ServiceScreen = (props) => {
@@ -41,14 +43,15 @@ const ServiceScreen = (props) => {
 		setServiceImage(image);
 		let confirmedRequests = await FirebaseFunctions.call('getConfirmedRequestsByServiceID', {
 			serviceID: serviceObject.serviceID,
-			limit: 3,
+			limit: 2,
 		});
 		let unconfirmedRequests = await FirebaseFunctions.call('getUnconfirmedRequestsByServiceID', {
 			serviceID: serviceObject.serviceID,
-			limit: 3,
+			limit: 2,
 		});
 		let requestHistory = await FirebaseFunctions.call('getCompletedRequestsByServiceID', {
 			serviceID: serviceObject.serviceID,
+			limit: 2,
 		});
 		setConfirmedRequestsSnippet(confirmedRequests);
 		setUnconfirmedRequestsSnippet(unconfirmedRequests);
@@ -74,9 +77,13 @@ const ServiceScreen = (props) => {
 					onPress={() => {
 						//Goes to the specific request screen
 					}}
-					title={strings.View}
+					title={strings.ViewMore}
 					width={'8vw'}
 					height={'4vh'}
+					fontStyle={{
+					  ...fontStyles.smallTextStyle,
+					  ...fontStyles.white,
+					}}
 				/>
 			</div>
 		);
@@ -92,6 +99,9 @@ const ServiceScreen = (props) => {
 	}
 	return (
 		<div className='serviceScreen'>
+			<section className='sidebarHolder'>
+				<SideMenu title='Service' />
+			</section>
 			<div className='serviceScreenContainer'>
 				<div className='titleSection'>
 					<div
@@ -188,7 +198,7 @@ const ServiceScreen = (props) => {
 									//Goes to all current requests screen
 								}}
 								title={strings.ViewAll}
-								width={'22vw'}
+								width={'18vw'}
 								height={'4vh'}
 							/>
 						</div>
@@ -210,7 +220,7 @@ const ServiceScreen = (props) => {
 									//Goes to all current requests screen
 								}}
 								title={strings.ViewAll}
-								width={'22vw'}
+								width={'18vw'}
 								height={'4vh'}
 							/>
 						</div>
@@ -232,7 +242,7 @@ const ServiceScreen = (props) => {
 							//Goes to all unconfirmed requests screen
 						}}
 						title={strings.ViewAll}
-						width={'22vw'}
+						width={'18vw'}
 						height={'4vh'}
 						/>
 					</div>
