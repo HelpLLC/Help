@@ -3,11 +3,23 @@ import React, { useState, useEffect } from 'react';
 import '../../config/fontStyles.css';
 import './HelpCalendar.css';
 import strings from '../../config/strings';
+import PropTypes from 'prop-types';
 import colors from '../../config/colors';
 import ReactLoading from 'react-loading';
+import MonthView from './MonthView';
+import WeekView from './WeekView';
 
 // Declares the functional component
 const HelpCalendar = (props) => {
+	// The prop types for this component to allow manipulation of the calendar
+	HelpCalendar.propTypes = {
+		onWeekChange: PropTypes.func,
+		onMonthChange: PropTypes.func,
+	};
+
+	// Fetches the props used for this component
+	const { onWeekChange, onMonthChange, onDaySelected } = props;
+
 	// Global variables used through out the calendar
 	const monthList = [
 		'JAN',
@@ -43,9 +55,13 @@ const HelpCalendar = (props) => {
 		const initialDate = new Date();
 		setCurrentMonth(initialDate);
 		const initialWeek = new Date();
+
+		// Sets the date of the initial week to be the sunday of the week
+		initialWeek.setDate(initialWeek.getDate() - initialWeek.getDay());
+
 		setCurrentWeekStart(initialWeek);
 		const oneWeekAwayDate = new Date();
-		oneWeekAwayDate.setDate(initialDate.getDate() + 7);
+		oneWeekAwayDate.setDate(initialWeek.getDate() + 6);
 		setCurrentWeekEnd(oneWeekAwayDate);
 		setIsLoading(false);
 	};
@@ -143,6 +159,7 @@ const HelpCalendar = (props) => {
 								const newMonth = currentMonth;
 								newMonth.setMonth(currentMonth.getMonth() + 1);
 								setCurrentMonth(newMonth);
+								onMonthChange(newMonth);
 								setUpdateBoolean(!updateBoolen);
 							} else {
 								const newWeekStart = currentWeekStart;
@@ -151,6 +168,7 @@ const HelpCalendar = (props) => {
 								newWeekEnd.setDate(currentWeekEnd.getDate() + 7);
 								setCurrentWeekStart(newWeekStart);
 								setCurrentWeekEnd(newWeekEnd);
+								onWeekChange(newWeekStart, newWeekEnd);
 								setUpdateBoolean(!updateBoolen);
 							}
 						}}
@@ -159,8 +177,19 @@ const HelpCalendar = (props) => {
 					</button>
 				</div>
 			</div>
+			<div className={'monthWeekView'}>
+				{currentView === 'MONTH' ? (
+					<MonthView
+						monthSelected={currentMonth}
+						onDaySelected={(day) => {
+							onDaySelected(day);
+						}}
+					/>
+				) : (
+					<WeekView startDate={currentWeekStart} />
+				)}
+			</div>
 		</div>
-        
 	);
 };
 

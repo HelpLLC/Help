@@ -9,6 +9,7 @@ export default {
     black: '#000000',
     red: '#DF1919',
     gray: '#808080',
+    lightGreen: '#8ED0AC',
     green: '#5CC6BC',
     fountainBlue: '#5cc6bc',
     darkGray: '#707070'

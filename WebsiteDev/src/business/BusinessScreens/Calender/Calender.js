@@ -22,9 +22,7 @@ const Calendar = (props) => {
 	}, []);
 
 	// The helper function for the useEffect method
-	const fetchInfo = async () => {
-		
-	};
+	const fetchInfo = async () => {};
 
 	// Renders the UI of the screen based on the state of the "currentView" field which renders either a week view or a
 	// month view
@@ -37,7 +35,17 @@ const Calendar = (props) => {
 				<div>
 					<text className='darkGreen bold bigTextStyle'>{strings.Calendar}</text>
 				</div>
-				<HelpCalendar />
+				<HelpCalendar
+					onWeekChange={(weekStart, weekEnd) => {
+						// console.log('Week Start: ' + weekStart);
+					}}
+					onMonthChange={(month) => {
+						// console.log('Month: ' + month);
+					}}
+					onDaySelected={(day) => {
+						// console.log('Day Selected: ' + day);
+					}}
+				/>
 			</section>
 		</div>
 	);

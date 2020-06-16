@@ -4,7 +4,7 @@
 	flex-direction: row;
 	align-items: center;
 	margin-top: 2.5vh;
-	width: 52.5vw;
+	width: 50vw;
 	justify-content: space-between;
 }
 .weekMonth {
@@ -27,8 +27,92 @@
 	border-width: 0;
 }
 .calendarLoadingScreen {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-self: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-self: center;
+}
+.monthViewContainer {
+	width: 50vw;
+	height: 75vh;
+	margin-top: 2.5vh;
+	border-radius: 20px;
+	border-style: solid;
+	box-shadow: 0 0px 7px 0 #5cc6bc, 0 0px 0px 0 #41cbef;
+	border-color: #41cbef;
+	border-width: 0.5vh;
+}
+.flexRow {
+	display: flex;
+	flex-direction: row;
+}
+.dayTitleTileContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-right-width: 0.01vw;
+	border-bottom-width: 0.01vw;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-right-color: #567681;
+	border-bottom-color: #567681;
+	width: 7.14vw;
+	height: 5vh;
+}
+.dayTileContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-right-width: 0.01vw;
+	border-bottom-width: 0.01vw;
+	border-left-width: 0;
+	border-top-width: 0;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-right-color: #567681;
+	border-bottom-color: #567681;
+	width: 10vw;
+	cursor: pointer;
+}
+.whiteBackground {
+	background-color: #ffffff;
+}
+.grayBackground {
+	background-color: #C8C8C8;
+}
+.daySelectedTall {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #8ed0ac;
+	width: 6vw;
+	height: 12vh;
+	border-radius: 5px;
+}
+.daySelectedShort {
+	display: flex;
+	background-color: #8ed0ac;
+	justify-content: center;
+	align-items: center;
+	width: 6vw;
+	height: 9.65vh;
+	border-radius: 5px;
+}
+.short {
+	height: 11.55vh;
+}
+.tall {
+	height: 13.875vh;
+}
+.noRightBorder {
+	border-right-width: 0;
+}
+.noBottomBorder {
+	border-bottom-width: 0;
+}
+.bottomLeftRadius {
+	border-bottom-left-radius: 15px;
+}
+.bottomRightRadius {
+	border-bottom-right-radius: 15px;
 }
