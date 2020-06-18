@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import './CreateProductScreen.css';
+import './CreateServiceScreen.css';
 import '../../../config/fontStyles.css';
 import HelpButton from '../../../components/HelpButton/HelpButton';
 import strings from '../../../config/strings';
@@ -17,7 +17,7 @@ import TitleComponent from '../../../components/TitleComponent.js';
 import Select from 'react-select';
 import SideMenu from '../../../components/SideMenu/SideMenu';
 
-export default function CreateProductScreen() {
+export default function CreateServiceScreen() {
 	//Declares the hooks
 	const location = useLocation();
 	const onDrop = useCallback((file) => {
@@ -37,7 +37,7 @@ export default function CreateProductScreen() {
 	//Declares the state
 	const [business, setBusiness] = useState(location.state.business);
 	const [currentStep, setCurrentStep] = useState(1);
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 	const [image, setImage] = useState('');
 	const [imagePreview, setImagePreview] = useState('');
 	const [hours, setHours] = useState('');
@@ -178,13 +178,13 @@ export default function CreateProductScreen() {
 						<div className={currentStep === 1 ? 'selectedCircle' : 'unselectedCircle'}>
 							<text
 								className={
-									currentStep === 1 ? 'bigTextStyle gray bold' : 'bigTextStyle lightGray bold'
+									currentStep === 1 ? 'mainTextStyle gray bold' : 'mainTextStyle lightGray bold'
 								}>
 								{strings.OneNumber}
 							</text>
 						</div>
 						<text
-							className={currentStep === 1 ? 'bigTextStyle white bold' : 'bigTextStyle gray bold'}>
+							className={currentStep === 1 ? 'mainTextStyle white bold' : 'mainTextStyle gray bold'}>
 							{strings.AddNewService}
 						</text>
 					</div>
@@ -194,13 +194,13 @@ export default function CreateProductScreen() {
 						<div className={currentStep === 2 ? 'selectedCircle' : 'unselectedCircle'}>
 							<text
 								className={
-									currentStep === 2 ? 'bigTextStyle gray bold' : 'bigTextStyle lightGray bold'
+									currentStep === 2 ? 'mainTextStyle gray bold' : 'mainTextStyle lightGray bold'
 								}>
 								{strings.TwoNumber}
 							</text>
 						</div>
 						<text
-							className={currentStep === 2 ? 'bigTextStyle white bold' : 'bigTextStyle gray bold'}>
+							className={currentStep === 2 ? 'mainTextStyle white bold' : 'mainTextStyle gray bold'}>
 							{strings.PricingAndPayment}
 						</text>
 					</div>
@@ -210,13 +210,13 @@ export default function CreateProductScreen() {
 						<div className={currentStep === 3 ? 'selectedCircle' : 'unselectedCircle'}>
 							<text
 								className={
-									currentStep === 3 ? 'bigTextStyle gray bold' : 'bigTextStyle lightGray bold'
+									currentStep === 3 ? 'mainTextStyle gray bold' : 'mainTextStyle lightGray bold'
 								}>
 								{strings.ThreeNumber}
 							</text>
 						</div>
 						<text
-							className={currentStep === 3 ? 'bigTextStyle white bold' : 'bigTextStyle gray bold'}>
+							className={currentStep === 3 ? 'mainTextStyle white bold' : 'mainTextStyle gray bold'}>
 							{strings.CustomerInfo}
 						</text>
 					</div>
@@ -273,36 +273,36 @@ export default function CreateProductScreen() {
 										<text className='bigTextStyle darkBlue'>{strings.EditServiceImage}</text>
 									</button>
 									<div className='textInputs'>
-										<text className='bigTextStyle darkBlue'>{strings.ServiceTitle}</text>
+										<text className='mainTextStyle darkBlue'>{strings.ServiceTitle}</text>
 										<HelpTextInput
 											height={'7vh'}
-											width={'45vw'}
+											width={'43vw'}
 											placeholder={strings.EnterTitleForService}
 											isMultiline={false}
 											onChangeText={(text) => setServiceTitle(text)}
 											value={serviceTitle}
 										/>
-										<text className='bigTextStyle darkBlue'>{strings.ServiceDescription}</text>
+										<text className='mainTextStyle darkBlue'>{strings.ServiceDescription}</text>
 										<HelpTextInput
 											height={'20vh'}
-											width={'45vw'}
+											width={'43vw'}
 											placeholder={strings.EnterServiceDescription}
 											isMultiline={true}
 											onChangeText={(text) => setServiceDescription(text)}
 											value={serviceDescription}
 										/>
-										<text className='bigTextStyle darkBlue'>{strings.ServiceDuration}</text>
+										<text className='mainTextStyle darkBlue'>{strings.ServiceDuration}</text>
 										<div className='durationRow'>
 											<HelpTextInput
 												height={'7vh'}
 												keyboardType={'numeric'}
-												width={'10vw'}
+												width={'6vw'}
 												placeholder={'0'}
 												isMultiline={false}
 												onChangeText={(text) => setHours(text)}
 												value={hours}
 											/>
-											<text className='bigTextStyle darkBlue'>{strings.Hrs}</text>
+											<text className='subTextStyle darkBlue'>{strings.Hours}</text>
 											<HelpTextInput
 												height={'7vh'}
 												keyboardType={'numeric'}
@@ -312,7 +312,7 @@ export default function CreateProductScreen() {
 												onChangeText={(text) => setMinutes(text)}
 												value={minutes}
 											/>
-											<text className='bigTextStyle darkBlue'>{strings.Mins}</text>
+											<text className='subTextStyle darkBlue'>{strings.Minutes}</text>
 										</div>
 									</div>
 								</div>
@@ -411,11 +411,11 @@ export default function CreateProductScreen() {
 							</div>
 						) : (
 							<div>
-								<div className='stepTopSection'>
+								<div className='stepTopSection3'>
 									<text className='bigTextStyle darkBlue'>{strings.StepTwo}</text>
 									<text className='bigTextStyle darkBlue bold'>{strings.CustomerInfo}</text>
 									<text className='bigTextStyle darkBlue'>{strings.CustomQuestions}</text>
-									<text className='mainTextStyle blue'>{strings.WhatInformationDoYouNeed}</text>
+									<text className='infoNeededHeader mainTextStyle blue'>{strings.WhatInformationDoYouNeed}</text>
 								</div>
 								<div className='defaultQuestionsRow'>
 									{defaultQuestions.map((element, index) => (
@@ -442,7 +442,7 @@ export default function CreateProductScreen() {
 											<div className='spacer' />
 											<div className='spacer' />
 											<HelpTextInput
-												height={'15vh'}
+												height={'10vh'}
 												width={'30vw'}
 												placeholder={strings.EnterQuestionForCustomer}
 												isMultiline={true}

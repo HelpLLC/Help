@@ -53,7 +53,7 @@ export default function Dashboard(props) {
 								height={'4vh'}
 								onPress={() => {
 									history.push({
-										pathname: '/createProductScreen',
+										pathname: '/CreateServiceScreen',
 										state: { business: business },
 									});
 								}}

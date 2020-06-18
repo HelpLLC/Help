@@ -13,7 +13,7 @@ import colors from '../../../config/colors';
 import ReactLoading from 'react-loading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
-import '../CreateProductScreen/CreateProductScreen.css';
+import '../CreateServiceScreen/CreateServiceScreen.css';
 
 const EditProfile = () => {
 	//Global constants
