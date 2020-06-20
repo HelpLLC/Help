@@ -14,10 +14,12 @@ const MonthView = (props) => {
 	MonthView.propTypes = {
 		monthSelected: PropTypes.object.isRequired,
 		onDaySelected: PropTypes.func,
+		width: PropTypes.string,
+		height: PropTypes.string
 	};
 
 	// Fetches the props for the component
-	const { monthSelected, onDaySelected } = props;
+	const { monthSelected, onDaySelected, width, height } = props;
 
 	// The state fields of this component
 	const [currentDaySelected, setCurrentDaySelected] = useState('');
@@ -26,6 +28,12 @@ const MonthView = (props) => {
 	// This next function is going to set the array of dates that are going to be displayed on the calendar. The function
 	// is set to get called after every state update from HelpCalendar.js
 	useEffect(() => {
+		const allDates = constructDates();
+	}, [monthSelected.getMonth()]);
+
+	// This is a helper method for the useEffect method that's going to construct that date objects in order to show them
+	// on the calendar. The function will return the array of dates
+	const constructDates = () => {
 		const currentMonth = monthSelected.getMonth();
 		let allDates = [];
 		let eachDate = new Date();
@@ -67,7 +75,8 @@ const MonthView = (props) => {
 			k++;
 		}
 		setDates(allDates);
-	}, [monthSelected.getMonth()]);
+		return allDates;
+	}
 
 	// This method is going to render the grid of tiles in the MonthView that each represent a day
 	const renderDays = () => {
@@ -87,7 +96,7 @@ const MonthView = (props) => {
 
 	// Renders the UI of this screen
 	return (
-		<div className='monthViewContainer'>
+		<div className='monthViewContainer' style={{ height, width}}>
 			<div className={'flexRow'}>
 				{days.map((day, index) => (
 					<div

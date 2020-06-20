@@ -340,46 +340,12 @@ exports.getBusinessCurrentRequestsByDay = functions.https.onCall(async (input, c
 	return doc;
 });
 
-//This funciton will take in a business ID and a day in the format YYYY-MM-DD and returns the requests for the next 42
-//days including the day that was passed in
-exports.getCurrentRequestsForTheNextMonthByBusinessID = functions.https.onCall(
-	async (input, context) => {
-		const { businessID, day } = input;
-		const startDate = new Date(day);
-		console.log('Start Date: ' + startDate);
-		let promises = [];
-		for (let i = 0; i < 43; i++) {
-			const dayToFetch = new Date();
-			dayToFetch.setDate(startDate.getDate() + i);
-
-			let year = dayToFetch.getFullYear();
-			let month = dayToFetch.getMonth();
-			let day = dayToFetch.getDate();
-			if (month < 10) {
-				month = '0' + month;
-			}
-			if (day < 10) {
-				day = '0' + day;
-			}
-			const dayToFetchString = year + '-' + month + '-' + day;
-			console.log('Fetching Date: ' + dayToFetchString);
-			promises.push(getBusinessCurrentRequestsByDay(businessID, dayToFetchString));
-		}
-		const docs = await Promise.all(promises);
-		let finalArray = [];
-		for (const doc of docs) {
-			finalArray = finalArray.concat(doc);
-		}
-		return finalArray;
-	}
-);
-
-//This funciton will take in a business ID and a day in the format YYYY-MM-DD and returns the requests for the next 7
+//This funciton will take in a business ID and a date object and returns the requests for the next 7
 //days including the day that was passed in
 exports.getCurrentRequestsForTheNextWeekByBusinessID = functions.https.onCall(
 	async (input, context) => {
 		const { businessID, day } = input;
-		const startDate = new Date(day);
+		const startDate = day;
 		let promises = [];
 		for (let i = 0; i < 8; i++) {
 			const dayToFetch = new Date();

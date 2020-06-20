@@ -14,11 +14,13 @@ const HelpCalendar = (props) => {
 	// The prop types for this component to allow manipulation of the calendar
 	HelpCalendar.propTypes = {
 		onWeekChange: PropTypes.func,
-		onMonthChange: PropTypes.func,
+		onDaySelected: PropTypes.func,
+		width: PropTypes.string,
+		height: PropTypes.string,
 	};
 
 	// Fetches the props used for this component
-	const { onWeekChange, onMonthChange, onDaySelected } = props;
+	const { onWeekChange, onDaySelected, width, height } = props;
 
 	// Global variables used through out the calendar
 	const monthList = [
@@ -78,7 +80,7 @@ const HelpCalendar = (props) => {
 	// Renders the UI
 	return (
 		<div>
-			<div className={'calendarHeader'}>
+			<div style={{ width }} className={'calendarHeader'}>
 				<div className={'weekMonth'}>
 					<button
 						onClick={() => {
@@ -159,7 +161,6 @@ const HelpCalendar = (props) => {
 								const newMonth = currentMonth;
 								newMonth.setMonth(currentMonth.getMonth() + 1);
 								setCurrentMonth(newMonth);
-								onMonthChange(newMonth);
 								setUpdateBoolean(!updateBoolen);
 							} else {
 								const newWeekStart = currentWeekStart;
@@ -180,13 +181,15 @@ const HelpCalendar = (props) => {
 			<div className={'monthWeekView'}>
 				{currentView === 'MONTH' ? (
 					<MonthView
+						width={width}
+						height={height}
 						monthSelected={currentMonth}
 						onDaySelected={(day) => {
 							onDaySelected(day);
 						}}
 					/>
 				) : (
-					<WeekView startDate={currentWeekStart} />
+					<WeekView width={width} height={height} startDate={currentWeekStart} />
 				)}
 			</div>
 		</div>
