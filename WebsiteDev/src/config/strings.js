@@ -128,12 +128,11 @@ export default {
 	Thursday: 'Thu',
 	Friday: 'Fri',
 	Saturday: 'Sat',
-	AdjustJobHeader: 'Adjust Job',
 	MarkasComplete: 'Mark as Complete',
-	RequestFromHeader: 'Request From:',
+	RequestFrom: 'Request From:',
 	Assign: 'Assign',
 	Assigned: 'Assigned',
-	AssignedEmployeesHeader: 'Assigned Employees',
+	AssignedEmployees: 'Assigned Employees',
 	NotesHeader: 'Notes',
 	ShowAllNotesSubHeader: 'Show All Notes',
 	CalendarHeader: 'Calendar',
@@ -292,5 +291,5 @@ export default {
 	YourInfoHasBeenUpdated: 'Your information has been updated',
 	BusinessInformation: 'Business Information',
 	EmailFormattingErrorMessage: 'Please enter a valid email format',
-	TimeErrorMessage: 'Your ending hours must be after your starting hours.'
+	TimeErrorMessage: 'Your ending hours must be after your starting hours.',
 };

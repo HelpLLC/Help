@@ -8,6 +8,7 @@ import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import HelpCalendar from '../../../components/HelpCalendar/HelpCalendar';
 import { convertDateToString } from '../../../config/basicFunctions';
 import ReactLoading from 'react-loading';
+import { useLocation, useHistory } from 'react-router-dom';
 import HelpButton from '../../../components/HelpButton/HelpButton';
 import colors from '../../../config/colors';
 import fontStyles from '../../../config/fontStyles';
@@ -30,24 +31,16 @@ const Calendar = (props) => {
 		'Nov',
 		'Dec',
 	];
+	const location = useLocation();
+	const history = useHistory();
 
 	// Declares the state fields used in this screen
 	const [businessID, setBusinessID] = useState('zjCzqSiCpNQELwU3ETtGBANz7hY2');
-	const [dayClicked, setDayClicked] = useState('');
+	const [dayClicked, setDayClicked] = useState(new Date());
 	const [requestClicked, setRequestClicked] = useState('');
 	const [arrayOfDayRequests, setArrayOfDayRequests] = useState([]);
 	const [isRightMenuLoading, setIsRightMenuLoading] = useState(false);
-
-	// The useEffect method will fetch the business's current schedule and will set all the corresponding state
-	// fields above. It will call a helper function becuase it can't be async
-	useEffect(() => {
-		fetchInfo();
-	}, []);
-
-	// The helper function for the useEffect method
-	const fetchInfo = async () => {};
-
-	console.log(arrayOfDayRequests);
+	const [imagePreview, setImagePreview] = useState('');
 
 	// Renders the UI of the screen based on the state of the "currentView" field which renders either a week view or a
 	// month view
@@ -63,8 +56,21 @@ const Calendar = (props) => {
 				<HelpCalendar
 					width={'50vw'}
 					height={'75vh'}
-					onWeekChange={(weekStart, weekEnd) => {
-						// console.log('Week Start: ' + weekStart);
+					weekEventLoader={(startDate, endDate) =>
+						FirebaseFunctions.call('getBusinessCurrentRequestsByTimeFrame', {
+							businessID: businessID,
+							start: startDate,
+							limit: endDate,
+						})
+					}
+					onEventClick={async (request) => {
+						setIsRightMenuLoading(true);
+						setRequestClicked(request);
+						const image = await FirebaseFunctions.call('getProfilePictureByID', {
+							customerID: requestClicked.customerID,
+						});
+						setImagePreview(image.uri);
+						setIsRightMenuLoading(false);
 					}}
 					onDaySelected={async (day) => {
 						setIsRightMenuLoading(true);
@@ -78,6 +84,7 @@ const Calendar = (props) => {
 							}
 						);
 						setArrayOfDayRequests(requestsForThisDay);
+						setRequestClicked('');
 						setIsRightMenuLoading(false);
 					}}
 				/>
@@ -88,7 +95,7 @@ const Calendar = (props) => {
 						<ReactLoading type={'bars'} color={colors.lightBlue} width='5vw' />
 					</div>
 				) : requestClicked !== '' ? (
-					<div>
+					<div className={'column'}>
 						<div className={'mainTextStyle darkBlue bold alignStart'}>
 							{dayStrings[dayClicked.getDay()] +
 								', ' +
@@ -98,6 +105,59 @@ const Calendar = (props) => {
 								', ' +
 								dayClicked.getFullYear()}
 						</div>
+						<div className={'spacer'} />
+						<div className={'subTextStyle darkBlue bold alignStart'}>{requestClicked.time}</div>
+						<div className={'blueSpacer'} />
+						<div className={'subTextStyle darkBlue bold alignStart'}>{strings.RequestFrom}</div>
+						<div className={'spacer'} />
+						<div className={'customerInformationContainer'}>
+							<img src={imagePreview} className={'customerImageContainer'} />
+							<div className={'spacer'} />
+							<div className={'spacer'} />
+							<div className={'subTextStyle darkBlue bold'}>{requestClicked.customerName}</div>
+						</div>
+						<div className={'spacer'} />
+						<div className={'blueSpacer'} />
+						{requestClicked.assignedTo ? (
+							<div>
+								<div className={'mainTextStyle darkBlue bold alignStart'}>
+									{strings.AssignedEmployees}
+								</div>
+								{requestClicked.assignedTo.map((employee) => (
+									<div>
+										<div className={'spacer'} />
+										<div className={'subTextStyle darkBlue bold'}>{employee.employeeName}</div>
+									</div>
+								))}
+							</div>
+						) : (
+							<div />
+						)}
+						<div className={'bigSpacer'} />
+						<HelpButton
+							title={strings.ViewMore}
+							onClick={() => {}}
+							width={'22.5vw'}
+							height={'5vh'}
+							fontStyle={{
+								...fontStyles.white,
+								...fontStyles.mainTextStyle,
+								...fontStyles.bold,
+							}}
+						/>
+						<div className={'spacer'} />
+						<div className={'spacer'} />
+						<HelpButton
+							title={strings.MarkasComplete}
+							onClick={() => {}}
+							width={'22.5vw'}
+							height={'5vh'}
+							fontStyle={{
+								...fontStyles.white,
+								...fontStyles.mainTextStyle,
+								...fontStyles.bold,
+							}}
+						/>
 					</div>
 				) : dayClicked !== '' ? (
 					<div>
@@ -126,7 +186,10 @@ const Calendar = (props) => {
 										...fontStyles.bold,
 									}}
 									onPress={() => {
-										setRequestClicked(request);
+										history.push({
+											pathname: '/viewrequest',
+											state: { businessID: businessID, requestID: request.requestID },
+										});
 									}}
 								/>
 							</div>

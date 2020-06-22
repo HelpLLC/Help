@@ -8,6 +8,7 @@ import colors from '../../config/colors';
 import ReactLoading from 'react-loading';
 import MonthView from './MonthView';
 import WeekView from './WeekView';
+import { convertDateToString } from '../../config/basicFunctions';
 
 // Declares the functional component
 const HelpCalendar = (props) => {
@@ -17,10 +18,12 @@ const HelpCalendar = (props) => {
 		onDaySelected: PropTypes.func,
 		width: PropTypes.string,
 		height: PropTypes.string,
+		weekEventLoader: PropTypes.func,
+		onEventClick: PropTypes.func,
 	};
 
 	// Fetches the props used for this component
-	const { onWeekChange, onDaySelected, width, height } = props;
+	const { onDaySelected, width, height, weekEventLoader, onEventClick } = props;
 
 	// Global variables used through out the calendar
 	const monthList = [
@@ -45,6 +48,10 @@ const HelpCalendar = (props) => {
 	const [currentWeekStart, setCurrentWeekStart] = useState('');
 	const [currentWeekEnd, setCurrentWeekEnd] = useState('');
 	const [updateBoolen, setUpdateBoolean] = useState(false);
+	const [eventsObject, setEventsObject] = useState('');
+	const [eventsArray, setEventsArray] = useState('');
+	const [fetched, setFetched] = useState([]);
+	const [isLoadingWeek, setIsLoadingWeek] = useState(true);
 
 	// UseEffect method will call a helper method to set the initial dates
 	useEffect(() => {
@@ -61,11 +68,107 @@ const HelpCalendar = (props) => {
 		// Sets the date of the initial week to be the sunday of the week
 		initialWeek.setDate(initialWeek.getDate() - initialWeek.getDay());
 
+		// Gets the events for that week
+		onWeekChange(initialWeek, 'FRONT');
+
 		setCurrentWeekStart(initialWeek);
 		const oneWeekAwayDate = new Date();
 		oneWeekAwayDate.setDate(initialWeek.getDate() + 6);
 		setCurrentWeekEnd(oneWeekAwayDate);
 		setIsLoading(false);
+	};
+
+	// This helper function handles the event logic behind loading a specific week. It loads the previous week and the week
+	// afterwards too in order to reduce loading speeds and show a better UI
+	const onWeekChange = async (weekStart, direction) => {
+		if (
+			!fetched.find(
+				(eachObject) =>
+					eachObject.direction === direction &&
+					eachObject.weekStart === convertDateToString(weekStart)
+			)
+		) {
+			setIsLoadingWeek(true);
+			if (eventsObject === '') {
+				const twoWeeksBefore = new Date();
+				twoWeeksBefore.setMonth(weekStart.getMonth());
+				twoWeeksBefore.setDate(weekStart.getDate() - 14);
+				const twoWeekBeforeDateString = convertDateToString(twoWeeksBefore);
+
+				const twoWeeksAfter = new Date();
+				twoWeeksAfter.setMonth(weekStart.getMonth());
+				twoWeeksAfter.setDate(weekStart.getDate() + 14);
+				const twoWeekAfterDateString = convertDateToString(twoWeeksAfter);
+
+				const finalArray = await weekEventLoader(twoWeekBeforeDateString, twoWeekAfterDateString);
+
+				const finalObject = {};
+				// Constructs the final array as an object with dates as the key and the object as the value
+				for (const day of finalArray) {
+					finalObject[day[0].date] = day;
+				}
+
+				setEventsArray(finalArray);
+				setEventsObject(finalObject);
+			} else {
+				let newEvents = '';
+				if (direction === 'FRONT') {
+					newEvents = eventsArray;
+
+					const twoWeekAfter = new Date();
+					twoWeekAfter.setMonth(weekStart.getMonth());
+					twoWeekAfter.setDate(weekStart.getDate() + 14);
+					const twoWeekAfterDateString = convertDateToString(twoWeekAfter);
+
+					const threeWeekAfter = new Date();
+					threeWeekAfter.setMonth(weekStart.getMonth());
+					threeWeekAfter.setDate(weekStart.getDate() + 21);
+					const threeWeekAfterDateString = convertDateToString(threeWeekAfter);
+
+					const result = await weekEventLoader(twoWeekAfterDateString, threeWeekAfterDateString);
+
+					const finalArray = newEvents.concat(result);
+
+					const finalObject = {};
+					// Constructs the final array as an object with dates as the key and the object as the value
+					for (const day of finalArray) {
+						finalObject[day[0].date] = day;
+					}
+
+					setEventsArray(finalArray);
+					setEventsObject(finalObject);
+				} else {
+					newEvents = eventsArray;
+
+					const twoWeekBefore = new Date();
+					twoWeekBefore.setMonth(weekStart.getMonth());
+					twoWeekBefore.setDate(weekStart.getDate() - 14);
+					const twoWeekBeforeDateString = convertDateToString(twoWeekBefore);
+
+					const threeWeekBefore = new Date();
+					threeWeekBefore.setMonth(weekStart.getMonth());
+					threeWeekBefore.setDate(weekStart.getDate() - 21);
+					const threeWeekBeforeDateString = convertDateToString(threeWeekBefore);
+
+					const result = await weekEventLoader(threeWeekBeforeDateString, twoWeekBeforeDateString);
+					const finalArray = result.concat(newEvents);
+
+					const finalObject = {};
+					// Constructs the final array as an object with dates as the key and the object as the value
+					for (const day of finalArray) {
+						if (day.length > 0) {
+							finalObject[day[0].date] = day;
+						}
+					}
+
+					setEventsArray(finalArray);
+					setEventsObject(finalObject);
+				}
+			}
+			const newFetched = fetched.concat({ weekStart: convertDateToString(weekStart), direction });
+			setFetched(newFetched);
+			setIsLoadingWeek(false);
+		}
 	};
 
 	// Renders a loading spinner if the screen is still loading
@@ -124,6 +227,7 @@ const HelpCalendar = (props) => {
 								newWeekEnd.setDate(currentWeekEnd.getDate() - 7);
 								setCurrentWeekStart(newWeekStart);
 								setCurrentWeekEnd(newWeekEnd);
+								onWeekChange(newWeekStart, 'BACK');
 								setUpdateBoolean(!updateBoolen);
 							}
 						}}>
@@ -169,7 +273,7 @@ const HelpCalendar = (props) => {
 								newWeekEnd.setDate(currentWeekEnd.getDate() + 7);
 								setCurrentWeekStart(newWeekStart);
 								setCurrentWeekEnd(newWeekEnd);
-								onWeekChange(newWeekStart, newWeekEnd);
+								onWeekChange(newWeekStart, 'FRONT');
 								setUpdateBoolean(!updateBoolen);
 							}
 						}}
@@ -189,7 +293,14 @@ const HelpCalendar = (props) => {
 						}}
 					/>
 				) : (
-					<WeekView width={width} height={height} startDate={currentWeekStart} />
+					<WeekView
+						width={width}
+						height={height}
+						startDate={currentWeekStart}
+						events={eventsObject}
+						onEventClick={(request) => onEventClick(request)}
+						isLoadingWeek={isLoadingWeek}
+					/>
 				)}
 			</div>
 		</div>

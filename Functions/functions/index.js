@@ -74,6 +74,22 @@ const sendNotification = async (topic, title, body) => {
 	return 0;
 };
 
+// This function will take in a date object and will convert it to a string in a YYYY-MM-DD format
+const convertDateToString = (dateObject) => {
+	let year = dateObject.getFullYear();
+	let month = dateObject.getMonth() + 1;
+	let day = dateObject.getDate();
+	if (month < 10) {
+		month = '0' + month;
+	}
+	if (day < 10) {
+		day = '0' + day;
+	}
+	const dateString = year + '-' + month + '-' + day;
+
+	return dateString;
+};
+
 //Sends an automatic email to a specified email. Takes in the email subject, the recepient, and the text
 const sendEmail = async (recepient, subject, text) => {
 	//Configures the email subject, to, and from
@@ -340,36 +356,49 @@ exports.getBusinessCurrentRequestsByDay = functions.https.onCall(async (input, c
 	return doc;
 });
 
-//This funciton will take in a business ID and a date object and returns the requests for the next 7
-//days including the day that was passed in
-exports.getCurrentRequestsForTheNextWeekByBusinessID = functions.https.onCall(
-	async (input, context) => {
-		const { businessID, day } = input;
-		const startDate = day;
-		let promises = [];
-		for (let i = 0; i < 8; i++) {
-			const dayToFetch = new Date();
-			dayToFetch.setDate(startDate.getDate() + i);
-			let year = dayToFetch.getFullYear();
-			let month = dayToFetch.getMonth();
-			let day = dayToFetch.getDate();
-			if (month < 10) {
-				month = '0' + month;
-			}
-			if (day < 10) {
-				day = '0' + day;
-			}
-			const dayToFetchString = year + '-' + month + '-' + day;
-			promises.push(getBusinessCurrentRequestsByDay(businessID, dayToFetchString));
-		}
-		const docs = await Promise.all(promises);
-		let finalArray = [];
-		for (const doc of docs) {
-			finalArray = finalArray.concat(doc);
-		}
-		return finalArray;
+// This function will take in a start date in the format YYYY-MM-DD and will fetch requests for the amount
+// of timeframe which will be the limit parameter. The limit parameter is non-inclusive
+exports.getBusinessCurrentRequestsByTimeFrame = functions.https.onCall(async (input, context) => {
+	const { businessID, start, limit } = input;
+
+	const startDate = new Date(start);
+	const endDate = new Date(limit);
+
+	const promises = [];
+
+	const scheduleDocumentIDs = (
+		await businesses.doc(businessID).collection('Schedule').listDocuments()
+	).map((doc) => doc.id);
+
+	const indexToStartAt = scheduleDocumentIDs.findIndex((ID) => {
+		return new Date(ID).getTime() - startDate.getTime() >= 0;
+	});
+
+	let indexToEndAt = scheduleDocumentIDs.findIndex((ID) => {
+		return new Date(ID).getTime() - endDate.getTime() >= 0;
+	});
+
+	const IDsToFetch = scheduleDocumentIDs.slice(indexToStartAt, indexToEndAt);
+
+	for (const ID of IDsToFetch) {
+		promises.push(businesses.doc(businessID).collection('Schedule').doc(ID).get());
 	}
-);
+
+	let result = await Promise.all(promises);
+	const finalArray = [];
+	for (const eachDay of result) {
+		const dayArray = [];
+
+		const finalDoc = eachDay.data();
+		delete finalDoc.dateString;
+		for (const requestID of Object.keys(finalDoc)) {
+			dayArray.push(finalDoc[requestID]);
+		}
+		finalArray.push(dayArray);
+	}
+
+	return finalArray;
+});
 
 //This method will get the most upcoming request for a spefici date from their request subcollection. If there are no requests,
 //then -1 will be returned

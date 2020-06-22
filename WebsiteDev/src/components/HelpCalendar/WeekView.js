@@ -1,8 +1,12 @@
 // This is going to represent the specific week view component for the HelpCalendar component
 import React, { useState, useEffect } from 'react';
 import './HelpCalendar.css';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import '../../config/fontStyles.css';
+import { convertDateToString } from '../../config/basicFunctions';
+import HelpButton from '../HelpButton/HelpButton';
+import strings from '../../config/strings';
+import fontStyles from '../../config/fontStyles';
 
 // Creates the functional component
 const WeekView = (props) => {
@@ -13,11 +17,14 @@ const WeekView = (props) => {
 	WeekView.propTypes = {
 		startDate: PropTypes.object.isRequired,
 		width: PropTypes.string,
-		height: PropTypes.string
+		height: PropTypes.string,
+		events: PropTypes.object,
+		onEventClick: PropTypes.func,
+		isLoadingWeek: PropTypes.bool
 	};
 
 	// Declares the props that will be used in this view
-	const { startDate, width, height } = props;
+	const { startDate, width, height, events, onEventClick, isLoadingWeek } = props;
 
 	// The state variables that will be used in the component
 	const [dates, setDates] = useState([]);
@@ -49,12 +56,52 @@ const WeekView = (props) => {
 				))}
 			</div>
 			<div className={'flexRow'}>
-				{dates.map((date, index) => (
-					<div
-						className={
-							index === 6 ? 'weekdayTileContainer noRightBorder' : 'weekdayTileContainer'
-						}></div>
-				))}
+				{dates.map((date, index) => {
+					const dateString = convertDateToString(date);
+					if (isLoadingWeek === false && events[dateString]) {
+						const dayEvents = events[dateString];
+						return (
+							<div
+								className={
+									index === 6 ? 'weekdayTileContainer noRightBorder' : 'weekdayTileContainer'
+								}>
+								{dayEvents.map((event, index) => {
+									// Renders only the first 4 events for space
+									if (index < 4) {
+										return (
+											<button className={'eventTile'} key={index} onClick={() => onEventClick(event)}>
+												<div className={'tinyTextStyle darkBlue bold'}>{event.serviceTitle}</div>
+												<div className={'tinyTextStyle darkBlue bold'}>{event.time}</div>
+												<div className={'alignSelf'}>
+													<HelpButton
+														title={strings.ViewMore}
+														onPress={() => onEventClick(event)}
+														isLightButton={true}
+														width={'6vw'}
+														height={'3vh'}
+														fontStyle={{
+															...fontStyles.tinyTextStyle,
+															...fontStyles.darkBlue,
+															...fontStyles.bold,
+														}}
+													/>
+												</div>
+											</button>
+										);
+									} else {
+										return <div />;
+									}
+								})}
+							</div>
+						);
+					}
+					return (
+						<div
+							className={
+								index === 6 ? 'weekdayTileContainer noRightBorder' : 'weekdayTileContainer'
+							}></div>
+					);
+				})}
 			</div>
 		</div>
 	);

@@ -69,10 +69,8 @@ export default class FirebaseFunctions {
 	static async updateEmail(newEmail) {
 		try {
 			await firebase.auth().currentUser.updateEmail(newEmail);
-			console.log('Yessir');
 			return 0;
 		} catch (error) {
-			console.log(error);
 			return -1;
 		}
 	}

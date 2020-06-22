@@ -49,3 +49,29 @@
 .alignStart {
 	align-self: flex-start;
 }
+.blueSpacer {
+	width: 22.5vw;
+	margin-top: 3vh;
+	margin-bottom: 3vh;
+	height: 0.25vh;
+	background-color: #00B0F0;
+}
+.spacer {
+	height: 1vh;
+	width: 1vw;
+}
+.customerImageContainer {
+	width: 6vw;
+	height: 6vw;
+	border-radius: 3vw;
+}
+.customerInformationContainer {
+	display: flex;
+	height: 10vw;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+}
+.bigSpacer {
+	height: 17.5vh;
+}
