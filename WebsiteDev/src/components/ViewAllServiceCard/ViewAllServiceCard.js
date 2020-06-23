@@ -6,7 +6,6 @@ import fontStyles from '../../config/fontStyles';
 import strings from '../../config/strings';
 import { useHistory } from 'react-router-dom';
 import UnconfirmedServiceCardStyle from './ViewAllServiceCardStyle';
-import guy from './guy.png';
 
 export default function UnconfirmedServiceCard(props) {
 	//Starts out the loading state as true until the image is downloaded from the database
