@@ -131,6 +131,7 @@ export default {
 	AdjustJobHeader: 'Adjust Job',
 	MarkasComplete: 'Mark as Complete',
 	RequestFromHeader: 'Request From:',
+	RequestFrom: 'Request From',
 	Assign: 'Assign',
 	Assigned: 'Assigned',
 	AssignedEmployeesHeader: 'Assigned Employees',
