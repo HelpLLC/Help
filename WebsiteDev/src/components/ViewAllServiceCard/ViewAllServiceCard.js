@@ -74,7 +74,7 @@ export default function UnconfirmedServiceCard(props) {
 				</View>
 				<View style={{ ...UnconfirmedServiceCardStyle.viewMoreButton }}>
 					<HelpButton
-						title='View More'
+						title={strings.ViewMore}
 						width='16.5vw'
 						onPress={() =>
 							history.push({

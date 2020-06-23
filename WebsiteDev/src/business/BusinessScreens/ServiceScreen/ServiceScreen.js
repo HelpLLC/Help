@@ -199,7 +199,7 @@ const ServiceScreen = (props) => {
 									//Goes to all current requests screen
 											history.push({
 												pathname: '/viewAll',
-												state: { business: business, service: service, data: confirmedRequestsSnippet, title: 'Confirmed Requests' },
+												state: { business: business, service: service, data: confirmedRequestsSnippet, title: strings.ConfirmedRequests },
 											});
 								}}
 								title={strings.ViewAll}
@@ -225,7 +225,7 @@ const ServiceScreen = (props) => {
 									//Goes to all current requests screen
 											history.push({
 												pathname: '/viewAll',
-												state: { business: business, service: service, data: requestHistorySnippet, title: 'Request History'},
+												state: { business: business, service: service, data: requestHistorySnippet, title: strings.RequestsHistory},
 											});
 								}}
 								title={strings.ViewAll}
@@ -251,7 +251,7 @@ const ServiceScreen = (props) => {
 							//Goes to all current requests screen
 									history.push({
 										pathname: '/viewAll',
-										state: { business: business, service: service, data: unconfirmedRequestsSnippet, title: 'Unconfirmed Requests' },
+										state: { business: business, service: service, data: unconfirmedRequestsSnippet, title: strings.UnconfirmedRequests },
 									});
 						}}
 						title={strings.ViewAll}

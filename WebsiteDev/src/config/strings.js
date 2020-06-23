@@ -284,6 +284,7 @@ export default {
 	CurrentRequests: 'Current Requests',
 	RequestsHistory: 'Requests History',
 	UnconfirmedRequests: 'Unconfirmed Requests',
+	ConfirmedRequests: 'Confirmed Requests',
 	EditProfilePicture: 'Edit Profile Picture',
 	SaveChanges: 'Save Changes',
 	ConfirmRequest: 'Confirm Request',
