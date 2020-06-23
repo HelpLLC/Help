@@ -15,6 +15,7 @@ import StarRatings from 'react-star-ratings';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import fontStyles from '../../../config/fontStyles';
 import SideMenu from '../../../components/SideMenu/SideMenu';
+import ViewAllService from '../ViewAllService/ViewAllService';
 
 //Declares the functional component
 const ServiceScreen = (props) => {
@@ -196,6 +197,10 @@ const ServiceScreen = (props) => {
 							<HelpButton
 								onPress={() => {
 									//Goes to all current requests screen
+											history.push({
+												pathname: '/viewAll',
+												state: { business: business, service: service, data: confirmedRequestsSnippet, title: strings.ConfirmedRequests },
+											});
 								}}
 								title={strings.ViewAll}
 								width={'18vw'}
@@ -218,6 +223,10 @@ const ServiceScreen = (props) => {
 							<HelpButton
 								onPress={() => {
 									//Goes to all current requests screen
+											history.push({
+												pathname: '/viewAll',
+												state: { business: business, service: service, data: requestHistorySnippet, title: strings.RequestsHistory},
+											});
 								}}
 								title={strings.ViewAll}
 								width={'18vw'}
@@ -239,7 +248,11 @@ const ServiceScreen = (props) => {
 						})}
 						<HelpButton
 						onPress={() => {
-							//Goes to all unconfirmed requests screen
+							//Goes to all current requests screen
+									history.push({
+										pathname: '/viewAll',
+										state: { business: business, service: service, data: unconfirmedRequestsSnippet, title: strings.UnconfirmedRequests },
+									});
 						}}
 						title={strings.ViewAll}
 						width={'18vw'}

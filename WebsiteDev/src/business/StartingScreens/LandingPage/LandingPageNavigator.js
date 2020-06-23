@@ -11,7 +11,7 @@ import PrivacyPolicy from '../../PrivacyPolicy.js';
 import Credits from '../../Credits.js';
 import ContactUs from '../ContactUs/ContactUs';
 import TermsAndConditions from '../../TermsAndConditions.js';
-import CreateProductScreen from '../../BusinessScreens/CreateProductScreen/CreateProductScreen';
+import CreateProductScreen from '../../BusinessScreens/CreateServiceScreen/CreateServiceScreen';
 import { Login } from '../Authentication/Login/Login';
 import { SignUp } from '../Authentication/SignUp/SignUp';
 import Analytics from '../../BusinessScreens/Analytics/Analytics'
@@ -20,6 +20,7 @@ import ReactCalendar from '../../BusinessScreens/Calender/Calender';
 import Dispatch from '../../BusinessScreens/Dispatch/Dispatch';
 import ViewRequest from '../../BusinessScreens/ViewRequest/ViewRequest';
 import EmployeeList from '../../BusinessScreens/EmployeeList/EmployeeList';
+import ViewAllService from '../../BusinessScreens/ViewAllService/ViewAllService';
 
 export default function LandingPageNavigator() {
 	//The header containing the title, log in, and sign up buttons
@@ -147,6 +148,9 @@ export default function LandingPageNavigator() {
 				</Route>
 				<Route path='/analytics'>
 					<Analytics />
+				</Route>
+				<Route path='/viewall'>
+					<ViewAllService />
 				</Route>
 				<Route path='/contactus'>
 					<div className={'bodyOuter'}>

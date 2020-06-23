@@ -1,0 +1,81 @@
+/*This contains the styling for the service screen where the business views a specific service*/
+.ViewAllScreen {
+	display: flex;
+	justify-content: center;
+	height: 100vh;
+	width: 100vw;
+	align-items: center;
+}
+.sidebarHolder {
+  width: 20vw;
+  height: 100vh;
+}
+.ViewAllContainer {
+	height: 90vh;
+	width: 75vw;
+}
+.titleSection {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding-left: 1vw;
+	padding-right: 1vw;
+	margin-top: 1vw;
+}
+.arrowBackButton {
+	cursor: pointer;
+}
+.middleSection {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-left: 1vw;
+	margin-top: 2vw;
+}
+.daysOfferedSection {
+	display: flex;
+	flex-direction: column;
+	height: 30vh;
+	justify-content: space-between;
+	margin-left: 3vw;
+	text-align: left;
+}
+.bottomSection {
+	display: flex;
+	flex-direction: row;
+	width: 75vw;
+	justify-content: space-evenly;
+	margin-right: 2vw;
+	margin-top: 3vh;
+}
+.currentRequests {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+.requestCardInformation {
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+	height: 13vh;
+	justify-content: space-evenly;
+}
+.requestHistory {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	margin-left: 7vw;
+}
+
+.titleText {
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
+.unconfirmedrequests{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
