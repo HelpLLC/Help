@@ -4,20 +4,15 @@ import React, { useState } from 'react';
 import './ComingSoon.css';
 import HelpLogo from '../assets/Logo1PNG.png';
 import strings from '../config/strings';
-import { Platform } from 'react-native-web';
 import '../config/fontStyles.css';
 import HelpTextInput from '../components/HelpTextInput/HelpTextInput';
 import HelpButton from '../components/HelpButton/HelpButton';
 import HelpAlert from '../components/HelpAlert/HelpAlert';
-import { isMobile } from 'react-device-detect';
 import { SocialIcon } from 'react-social-icons';
 import { addSubscriber } from '../config/FirebaseFunctions';
 
 // Creates the functional component
 const ComingSoon = (props) => {
-	// Global fields
-	const { OS } = Platform;
-
 	// The state fields for the screen
 	const [emailAddress, setEmailAddress] = useState('');
 	const [emailAdded, setEmailAdded] = useState(false);
@@ -31,52 +26,38 @@ const ComingSoon = (props) => {
 
 	// Renders the component
 	return (
-		<div
-			className='container'
-			style={{ display: 'flex', flexDirection: !isMobile ? 'row' : 'column' }}>
-			<div className={isMobile ? 'gradientContainerMobile' : 'gradientContainer'}>
-				<img
-					alt={'Help - Get Things Done Logo'}
-					src={HelpLogo}
-					className={isMobile ? 'helpLogoMobile' : 'helpLogo'}
-				/>
-				<div className={isMobile ? 'bigTextStyle white' : 'subTextStyle white'}>
-					{strings.HelpComingSoonMessage}
-				</div>
-				<div className={isMobile ? 'textSpacerMobile' : 'textSpacer'} />
+		<div className='container'>
+			<div className={'gradientContainer'}>
+				<img alt={'Help - Get Things Done Logo'} src={HelpLogo} className={'helpLogo'} />
+				<div className={'subTextStyle white'}>{strings.HelpComingSoonMessage}</div>
+				<div className={'textSpacer'} />
 			</div>
-			<div className={isMobile ? 'whiteContainerMobile' : 'whiteContainer'}>
-				<div className={isMobile ? 'topSpacerMobile' : 'topSpacer'} />
-				<div
-					className={
-						isMobile ? 'bigSubTitleTextStyle darkBlue bold' : 'bigTextStyle darkBlue bold'
-					}>
-					{strings.WeAreComingSoon}
-				</div>
-				<div className={isMobile ? 'textSpacer' : 'textSpacerMobile'} />
-				<div className={isMobile ? 'bigTextStyle darkBlue' : 'mainTextStyle darkBlue'}>
+			<div className={'whiteContainer'}>
+				<div className={'topSpacer'} />
+				<div className={'bigTextStyle darkBlue bold'}>{strings.WeAreComingSoon}</div>
+				<div className={'textSpacer'} />
+				<div className={'mainTextStyle darkBlue'}>
 					{strings.SubscribeMessage}
 				</div>
-				<div className={isMobile ? 'subscribeRowMobile' : 'subscribeRow'}>
+				<div className={'subscribeRow'}>
 					<HelpTextInput
-						height={isMobile ? '4vh' : '8vh'}
-						width={isMobile ? '65vw' : '30vw'}
+						height={'8vh'}
+						width={'30vw'}
 						isMultiline={false}
 						placeholder={strings.EmailAddress}
 						onChangeText={(text) => setEmailAddress(text)}
 						value={emailAddress}
 						autoCompleteType='email'
 					/>
-					{isMobile ? <div className={'textSpacerMobile'} /> : <div />}
 					<HelpButton
 						title={strings.NotifyMe}
 						onPress={() => notifyMe()}
-						fontStyle={isMobile ? 'bigTextStyle white bold' : 'mainTextStyle white bold'}
-						width={isMobile ? '45vw' : '15vw'}
-						height={isMobile ? '4vh' : '8vh'}
+						fontStyle={'mainTextStyle white bold'}
+						width={'15vw'}
+						height={'8vh'}
 					/>
 				</div>
-				<div className={isMobile ? 'socialMediaRowMobile' : 'socialMediaRow'}>
+				<div className={'socialMediaRow'}>
 					<SocialIcon url={'https://twitter.com/llc_help'} />
 					<SocialIcon url={'https://www.instagram.com/realhelpllc/'} />
 					<SocialIcon url={'https://www.facebook.com/realhelpllc/'} />

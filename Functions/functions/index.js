@@ -1440,6 +1440,23 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		time,
 	} = input;
 
+	// Calculates the end time field for requests
+	let startHours = parseInt(time.split(' ')[0].split(':')[0]);
+	const startMinutes = parseInt(time.split(' ')[0].split(':')[1]);
+
+	if (startHours !== 12 && time.split(' ')[1] === 'PM') {
+		startHours += 12;
+	}
+
+	let endHours = startHours + Math.floor(serviceDuration);
+	let endMinutes = Math.floor(startMinutes + 60 * (serviceDuration - Math.floor(serviceDuration)));
+	let amPM = endHours >= 12 ? 'PM' : 'AM';
+	if (amPM === 'PM' && endHours > 12) {
+		endHours -= 12;
+	}
+
+	let endTime = endHours + ':' + endMinutes + ' ' + amPM;
+
 	const batch = database.batch();
 
 	//If this is a request being edited, the old request document will be edited, else it will be added
@@ -1462,6 +1479,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		serviceID,
 		status,
 		time,
+		endTime,
 		confirmed: false, //Since it is new requests it starts off as unconfirmed to allow a business to confirm it
 	});
 
@@ -1478,6 +1496,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 			serviceTitle,
 			status,
 			time,
+			endTime,
 		}),
 	});
 
@@ -1523,6 +1542,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 				[requestID]: {
 					date,
 					time,
+					endTime,
 					requestID,
 					serviceDuration,
 					serviceTitle,
@@ -1536,6 +1556,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 				[requestID]: {
 					date,
 					time,
+					endTime,
 					requestID,
 					serviceDuration,
 					serviceTitle,
@@ -1592,6 +1613,23 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 		customerName,
 	} = input;
 
+	// Calculates the end time for the service
+	let startHours = parseInt(time.split(' ')[0].split(':')[0]);
+	const startMinutes = parseInt(time.split(' ')[0].split(':')[1]);
+
+	if (startHours !== 12 && time.split(' ')[1] === 'PM') {
+		startHours += 12;
+	}
+
+	let endHours = startHours + Math.floor(serviceDuration);
+	let endMinutes = Math.floor(startMinutes + 60 * (serviceDuration - Math.floor(serviceDuration)));
+	let amPM = endHours >= 12 ? 'PM' : 'AM';
+	if (amPM === 'PM' && endHours > 12) {
+		endHours -= 12;
+	}
+
+	let endTime = endHours + ':' + endMinutes + ' ' + amPM;
+
 	const result = await database.runTransaction(async (transaction) => {
 		//updates the request within the customer
 		let customer = (await transaction.get(customers.doc(customerID))).data();
@@ -1604,6 +1642,7 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 			serviceID,
 			serviceTitle,
 			status,
+			endTime,
 			time,
 		};
 		await transaction.update(customers.doc(customerID), {
@@ -1614,6 +1653,7 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 			date,
 			questions,
 			customerLocation,
+			endTime,
 			time,
 		});
 
@@ -1633,6 +1673,7 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 			[requestID]: {
 				date,
 				time,
+				endTime,
 				requestID,
 				serviceDuration,
 				serviceTitle,
@@ -1688,6 +1729,7 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 					requestID,
 					serviceID: request.serviceID,
 					serviceTitle: request.serviceTitle,
+					endTime: request.endTime,
 					time: request.time,
 					billedAmount,
 				}
@@ -1710,6 +1752,7 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 					date: request.date,
 					requestID,
 					time: request.time,
+					endTime: request.endTime,
 					billedAmount,
 				}
 			);
