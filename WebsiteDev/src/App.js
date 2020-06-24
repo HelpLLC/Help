@@ -10,26 +10,6 @@ library.add(fab, fas);
 
 //Declares the functional component
 const App = () => {
-	// useEffect(() => {
-	// 	fetchFunc();
-	// }, []);
-
-	// const fetchFunc = async () => {
-	// 	await FirebaseFunctions.call('updateCustomerRequest', {
-	// 		requestID,
-	// 		customerID,
-	// 		businessID,
-	// 		date,
-	// 		customerLocation,
-	// 		serviceDuration,
-	// 		questions,
-	// 		time,
-	// 		serviceTitle,
-	// 		status,
-	// 		serviceID,
-	// 		customerName,
-	// 	});
-	// };
 
 	return (
 		<BrowserRouter>
