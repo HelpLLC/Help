@@ -107,18 +107,18 @@ const sendEmail = async (recepient, subject, text) => {
 
 //Method will take in a service ID and a customer ID and a requestID and a businessID and then delete that customer's request
 //from the service's current requests.
-const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
+const deleteRequest = async (requestID) => {
 	await database.runTransaction(async (transaction) => {
 		let request = (await transaction.get(requests.doc(requestID))).data();
-		let business = (await transaction.get(businesses.doc(businessID))).data();
-		const customer = (await transaction.get(customers.doc(customerID))).data();
+		let business = (await transaction.get(businesses.doc(request.businessID))).data();
+		const customer = (await transaction.get(customers.doc(request.customerID))).data();
 
 		const indexOfService = business.services.findIndex(
-			(element) => element.serviceID === serviceID
+			(element) => element.serviceID === request.serviceID
 		);
 		business.services[indexOfService].numCurrentRequests =
 			business.services[indexOfService].numCurrentRequests - 1;
-		await transaction.update(businesses.doc(businessID), {
+		await transaction.update(businesses.doc(request.businessID), {
 			services: business.services,
 		});
 
@@ -134,7 +134,7 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 			day = '0' + day;
 		}
 		const dateString = year + '-' + month + '-' + day;
-		await transaction.update(businesses.doc(businessID).collection('Schedule').doc(dateString), {
+		await transaction.update(businesses.doc(request.businessID).collection('Schedule').doc(dateString), {
 			[requestID]: admin.firestore.FieldValue.delete(),
 		});
 
@@ -143,7 +143,7 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 			(element) => element.requestID === requestID
 		);
 		customer.currentRequests.splice(indexOfRequest, 1);
-		await transaction.update(customers.doc(customerID), {
+		await transaction.update(customers.doc(request.customerID), {
 			currentRequests: customer.currentRequests,
 		});
 
@@ -177,10 +177,10 @@ const deleteRequest = async (serviceID, customerID, requestID, businessID) => {
 		const dateString = year + '-' + month + '-' + day;
 		//Tests if this document should be deleted all together
 		const scheduleDoc = (
-			await transaction.get(businesses.doc(businessID).collection('Schedule').doc(dateString))
+			await transaction.get(businesses.doc(request.businessID).collection('Schedule').doc(dateString))
 		).data();
 		if (Object.keys(scheduleDoc).length === 1) {
-			await transaction.delete(businesses.doc(businessID).collection('Schedule').doc(dateString));
+			await transaction.delete(businesses.doc(request.businessID).collection('Schedule').doc(dateString));
 		}
 		await transaction.delete(requests.doc(requestID));
 	});
@@ -1879,8 +1879,8 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 //Method will take in a service ID and a customer ID and then delete that customer's request from the collection and
 //the corresponding array.
 exports.deleteRequest = functions.https.onCall(async (input, context) => {
-	const { serviceID, customerID, requestID, businessID } = input;
-	const deleted = await deleteRequest(serviceID, customerID, requestID, businessID);
+	const { requestID } = input;
+	const deleted = await deleteRequest(requestID);
 	return deleted;
 });
 
