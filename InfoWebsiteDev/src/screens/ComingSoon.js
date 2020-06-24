@@ -29,14 +29,11 @@ const ComingSoon = (props) => {
 		<div className='container'>
 			<div className={'gradientContainer'}>
 				<img alt={'Help - Get Things Done Logo'} src={HelpLogo} className={'helpLogo'} />
+				<div className={'bigTextStyle white bold moveUp'}>{strings.WeAreComingSoon}</div>
+				<div className={'textSpacer'} />
 				<div className={'subTextStyle white'}>{strings.HelpComingSoonMessage}</div>
 				<div className={'textSpacer'} />
-			</div>
-			<div className={'whiteContainer'}>
-				<div className={'topSpacer'} />
-				<div className={'bigTextStyle darkBlue bold'}>{strings.WeAreComingSoon}</div>
-				<div className={'textSpacer'} />
-				<div className={'mainTextStyle darkBlue'}>
+				<div className={'mainTextStyle white'}>
 					{strings.SubscribeMessage}
 				</div>
 				<div className={'subscribeRow'}>
@@ -51,8 +48,9 @@ const ComingSoon = (props) => {
 					/>
 					<HelpButton
 						title={strings.NotifyMe}
+						isLightButton={true}
 						onPress={() => notifyMe()}
-						fontStyle={'mainTextStyle white bold'}
+						fontStyle={'mainTextStyle blue bold'}
 						width={'15vw'}
 						height={'8vh'}
 					/>
