@@ -208,7 +208,10 @@ section.sec5 {
 .bodyInner {
 	flex: 1;
 }
-.helpLogo {
+.helpLogoContainer {
 	margin-top: 10vh;
 	margin-right: 8vw;
+}
+.helpLogo {
+	width: 50vw;
 }

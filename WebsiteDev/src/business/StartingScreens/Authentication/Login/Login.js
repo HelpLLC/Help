@@ -36,7 +36,6 @@ export function Login(props) {
 			try {
 				businessID = await FirebaseFunctions.logIn(email, password);
 			} catch (error) {
-				console.log(error);
 				setCredentialsError(true);
 			}
 			setLoggingInLoading(false);

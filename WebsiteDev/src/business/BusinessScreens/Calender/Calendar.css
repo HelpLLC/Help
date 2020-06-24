@@ -1,165 +1,77 @@
-.Cheader {
-  margin-left: 13vw;
+/* This is going to contain all of the styles for the Calendar screen */
+.calendarContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 }
-
-.headerdiv {
-  flex-direction: row;
-  display: flex;
+.sidebarHolder {
+	width: 20vw;
+	height: 100vh;
+	z-index: 0;
 }
-
-.bell {
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  margin-left: 43vw;
+.calendarHolder {
+	height: 97vh;
+	margin-top: 3vh;
+	z-index: 1;
 }
-
-.usercircle {
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  margin-left: 1vw;
+.rightMenuContainer {
+	height: 100vh;
+	width: 25vw;
+	z-index: 1;
+	background-color: #F3F3F3;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	padding-top: 10vh;
+	align-items: center;
 }
-
-.businessprofilename {
-  margin-left: 1vw;
+.rightMenuLoading {
+	height: 80vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
-
-.screenbody {
-  display: flex;
+.requestCard {
+	margin-top: 5vh;
+	width: 17vw;
+	display: flex;
+	flex-direction: column;
+	background-color: #ffffff;
+	height: 13vh;
+	border-style: solid;
+	box-shadow: 0 0px 7px 0 #5cc6bc, 0 0px 0px 0 #41cbef;
+	border-color: #41cbef;
+	border-width: 0.5vh;
+	padding-top: 1vh;
+	padding-bottom: 1vh;
+	padding-left: 1vw;
 }
-
-.popupmenu {
-  margin-left: 1vw;
-  width: 16.4vw;
-  height: 115vh;
-  margin-top: -15.7vh;
-  background-color: #f3f3f3;
+.alignStart {
+	align-self: flex-start;
 }
-
-.buttonheaders {
-  display: flex;
+.blueSpacer {
+	width: 22.5vw;
+	margin-top: 3vh;
+	margin-bottom: 3vh;
+	height: 0.25vh;
+	background-color: #00B0F0;
 }
-
-.closingbutton {
-  display: flex;
-  justify-content: left;
-  align-items: left;
-  margin: 2vh;
-  margin-top: 3vh;
-  margin-left: 0.5vw;
+.spacer {
+	height: 1vh;
+	width: 1vw;
 }
-
-.backbutton {
-  display: flex;
-  justify-content: right;
-  align-items: right;
-  margin: 2vh;
-  margin-top: 3vh;
-  margin-left: 10vw;
+.customerImageContainer {
+	width: 6vw;
+	height: 6vw;
+	border-radius: 3vw;
 }
-
-.divwrap {
-  height: auto;
-  float: left;
-  margin-top: 5vh;
-  margin-left: 0.5vw;
+.customerInformationContainer {
+	display: flex;
+	height: 10vw;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
 }
-
-.dateSidemenu {
-  margin-top: -2vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.servicecard {
-  border-radius: 30px;
-  width: 15vw;
-  background-color: white;
-  border: 3px solid #00b0f0;
-  box-shadow: 1px #00b0f0;
-  display: block;
-  margin-bottom: 3vh;
-  height: 15vh;
-}
-
-.servicecardinfo {
-  margin-top: -4vh;
-  margin-bottom: -7.5vh;
-}
-
-.servicecardcontents {
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  margin-left: 1vw;
-  margin-top: 3vh;
-}
-
-.viewmoreinfo {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: left;
-}
-
-.topfourth {
-  margin: 2vh 1vw 1vw 1vh;
-}
-.blueline {
-  border-top: 3px solid #00b0f0;
-  width: 15vw;
-}
-
-.requesterinformation {
-  display: flex;
-  margin-left: 1vw;
-  margin-bottom: 2vh;
-}
-
-.requestername {
-  margin-left: -1.8vw;
-  margin-top: 8.5vh;
-}
-
-.assignedemployees {
-  display: flex;
-  margin-left: 1vw;
-  margin-bottom: 2vh;
-}
-
-.notes{
-  margin-left: 1vw;
-  margin-bottom: 2vh;
-}
-
-.questions{
-  display: flex;
-}
-
-.shownoteshelpbutton{
-  display: flex;
-  justify-content: left;
-  align-items: left;
-margin-left: 1vw;
-margin-bottom: 1.5vh;
-}
-
-.lasttwobuttons{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-left: 1vw;
-}
-
-.markcompletehelpbutton, .adjustjobhelpbutton{
-  margin-top: 2vh;
-}
-
-.servicecardhelpbutton {
-  display: flex;
-  justify-content: center;
-  align-items: right;
-  margin-top: 7vh;
+.bigSpacer {
+	height: 17.5vh;
 }
