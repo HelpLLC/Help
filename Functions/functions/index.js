@@ -486,13 +486,52 @@ exports.getCompletedRequestsByCustomerID = functions.https.onCall(async (input, 
 //Method is going to take in an ID of a service & return all of the completed request object that are
 //associated with this service
 exports.getCompletedRequestsByServiceID = functions.https.onCall(async (input, context) => {
-	const { serviceID } = input;
+	const { serviceID, limit } = input;
 
 	const result = await database.runTransaction(async (transaction) => {
-		const docs = await transaction.get(
-			services.doc(serviceID).collection('CompletedRequests').orderBy('date')
-		);
+		// Limits the amount of responses if we need to
+		let query = '';
+		if (typeof limit === 'number') {
+			query = services.doc(serviceID).collection('CompletedRequests').orderBy('date').limit(limit);
+		} else {
+			query = services.doc(serviceID).collection('CompletedRequests').orderBy('date');
+		}
+
+		const docs = await transaction.get(query);
 		const arrayOfData = docs.docs.map((doc) => doc.data());
+
+		//Sorts the documents by time and date
+		arrayOfData.sort((a, b) => {
+			const aDate = new Date(a.date);
+			const bDate = new Date(b.date);
+			if (aDate.getTime() - bDate.getTime() === 0) {
+				let aTime = a.time;
+				let bTime = b.time;
+
+				const aTimePeriod = aTime.split(' ')[1];
+				const bTimePeriod = bTime.split(' ')[1];
+				const aTimeString = aTime.split(' ')[0];
+				const bTimeString = bTime.split(' ')[0];
+
+				let aHour = aTimeString.split(':')[0];
+				let aMinute = aTimeString.split(':')[1];
+				let bHour = bTimeString.split(':')[0];
+				let bMinute = bTimeString.split(':')[1];
+
+				if (aTimePeriod === 'PM' && aHour !== '12') {
+					aHour = parseInt(aHour) + 12;
+				}
+				if (bTimePeriod === 'PM' && bHour !== '12') {
+					bHour = parseInt(bHour) + 12;
+				}
+				aTime = aHour * 60 + aMinute;
+				bTime = bHour * 60 + bMinute;
+
+				return aTime - bTime;
+			} else {
+				return aDate.getTime() - bDate.getTime();
+			}
+		});
 		return arrayOfData;
 	});
 
