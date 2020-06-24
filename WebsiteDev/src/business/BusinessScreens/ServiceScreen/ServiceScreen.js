@@ -68,7 +68,7 @@ const ServiceScreen = (props) => {
 
 	//This function is going to take in three parameters. A customer name, a date, and a time, and then
 	//will render a request card displaying that information
-	const renderRequestCard = (customerName, date, time) => {
+	const renderRequestCard = (customerName, date, time, requestID) => {
 		return (
 			<div className='requestCard'>
 				<div className={'requestCardInformation'}>
@@ -78,7 +78,11 @@ const ServiceScreen = (props) => {
 				</div>
 				<HelpButton
 					onPress={() => {
-						//Goes to the specific request screen
+            //Goes to the specific request screen
+            history.push({
+              pathname: "/viewrequest",
+              state: { requestID: requestID },
+            });
 					}}
 					title={strings.ViewMore}
 					width={'8vw'}
@@ -126,16 +130,22 @@ const ServiceScreen = (props) => {
 					/>
 				</div>
 				<div className='middleSection'>
-					<img className={'serviceScreenImage'} src={serviceImage.uri} />
-					<div className={'serviceScreenDescriptionRating'}>
-						<div className={'serviceScreenDescriptionRatingSection'}>
-							<text className='subTextStyle darkBlue bold'>{strings.ServiceDescription}</text>
-							<div className='spacer' />
-							<text className='tinyTextStyle darkBlue'>{service.serviceDescription}</text>
-						</div>
-						<div className={'serviceScreenDescriptionRatingSection'}>
-							<text className='subTextStyle darkBlue bold'>{strings.Rating}</text>
-							<div className='spacer' />
+        <img className={"serviceScreenImage"} src={serviceImage.uri} />
+          <div className={"serviceScreenDescriptionRating"}>
+            <div className="serviceScreenDescriptionSection">
+              <text className="subTextStyle darkBlue bold">
+                {strings.ServiceDescription}
+              </text>
+              <div className="spacer" />
+              <text className="tinyTextStyle darkBlue">
+                {service.serviceDescription}
+              </text>
+            </div>
+            <div className="serviceScreenRatingSection">
+              <text className="subTextStyle darkBlue bold">
+                {strings.Rating}
+              </text>
+              <div className="spacer" />
 							<StarRatings
 								rating={service.averageRating}
 								numberOfStars={5}
@@ -146,38 +156,44 @@ const ServiceScreen = (props) => {
 						</div>
 					</div>
 					<div className='daysOfferedSection'>
-						<text className='subTextStyle darkBlue bold'>{strings.DaysOffered}</text>
-						<div className={'spacer'} />
+					<text className="daysofferedtitle subTextStyle darkBlue bold">{strings.DaysOffered}</text>
+          <div className={"spacer"} />
 						<text className='tinyTextStyle darkBlue bold'>
 							{strings.Sunday} {business.businessHours['sunday'].from}
 							{' - '}
 							{business.businessHours['sunday'].to}
 						</text>
+            <br />
 						<text className='tinyTextStyle darkBlue bold'>
 							{strings.Monday} {business.businessHours['monday'].from}
 							{' - '}
 							{business.businessHours['monday'].to}
 						</text>
+            <br />
 						<text className='tinyTextStyle darkBlue bold'>
 							{strings.Tuesday} {business.businessHours['tuesday'].from}
 							{' - '}
 							{business.businessHours['tuesday'].to}
 						</text>
+            <br />
 						<text className='tinyTextStyle darkBlue bold'>
 							{strings.Wednesday} {business.businessHours['wednesday'].from}
 							{' - '}
 							{business.businessHours['wednesday'].to}
 						</text>
+            <br />
 						<text className='tinyTextStyle darkBlue bold'>
 							{strings.Thursday} {business.businessHours['thursday'].from}
 							{' - '}
 							{business.businessHours['thursday'].to}
 						</text>
+            <br />
 						<text className='tinyTextStyle darkBlue bold'>
 							{strings.Friday} {business.businessHours['friday'].from}
 							{' - '}
 							{business.businessHours['friday'].to}
 						</text>
+            <br />
 						<text className='tinyTextStyle darkBlue bold'>
 							{strings.Saturday} {business.businessHours['saturday'].from}
 							{' - '}
@@ -193,7 +209,8 @@ const ServiceScreen = (props) => {
 								return renderRequestCard(
 									currentRequest.customerName,
 									currentRequest.date,
-									currentRequest.time
+                  currentRequest.time,
+                  currentRequest.requestID
 								);
 							})}
 							<HelpButton
@@ -212,6 +229,7 @@ const ServiceScreen = (props) => {
 					) : (
 						<div />
 					)}
+          <div className="vl"/>
 					{requestHistorySnippet.length > 0 ? (
 						<div className='requestHistory'>
 							<text className='subTextStyle darkBlue bold'>{strings.RequestsHistory}</text>
@@ -219,7 +237,8 @@ const ServiceScreen = (props) => {
 								return renderRequestCard(
 									historyRequest.customerName,
 									historyRequest.date,
-									historyRequest.time
+                  historyRequest.time,
+                  historyRequest.requestID
 								);
 							})}
 							<HelpButton
@@ -245,7 +264,8 @@ const ServiceScreen = (props) => {
 								return renderRequestCard(
 									unconfirmedRequest.customerName,
 									unconfirmedRequest.date,
-									unconfirmedRequest.time
+                  unconfirmedRequest.time,
+                  unconfirmedRequest.requestID
 								);
 						})}
 						<HelpButton

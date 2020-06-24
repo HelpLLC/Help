@@ -48,8 +48,10 @@
   flex-direction: column;
   justify-content: space-between;
   height: 30vh;
+  margin-top: -10vh;
   margin-left: 3vw;
   width: 22vw;
+  margin-right: 8vw;
 }
 .serviceScreenDescriptionSection {
   display: flex;
@@ -71,7 +73,6 @@
   flex-direction: column;
   height: 30vh;
   text-align: left;
-  margin-left: 15vw;
 }
 .daysofferedtitle {
   margin-top: 3vh;
@@ -84,6 +85,12 @@
     justify-content: space-evenly;
     margin-right: 2vw;
     margin-top: 3vh;
+}
+.vl {
+    margin-right: -6vw;
+    border-left: 6px solid #5cc6bc;
+    margin-top: 5vh;
+    height: 35vh;
 }
 .currentRequests {
   display: flex;
