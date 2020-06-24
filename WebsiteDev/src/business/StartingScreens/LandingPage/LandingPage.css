@@ -208,7 +208,13 @@ section.sec5 {
 .bodyInner {
 	flex: 1;
 }
-.helpLogo {
-	margin-top: 10vh;
-	margin-right: 8vw;
+.NewHelpLogoDiv {
+margin-top: 10vh;
+margin-left: -2vw;
+}
+
+.NewHelpLogo{
+	width: 45vw;
+	height: 45vh;
+	border-radius: 0px;
 }

@@ -2,7 +2,7 @@ import React from "react";
 import "./LandingPage.css";
 import { useHistory } from "react-router-dom";
 import strings from "../../../config/strings";
-import HelpLogo from '../LandingPage/assets/HelpLogo.png'
+import NewHelpLogo from '../LandingPage/assets/HelpLogo.png'
 import HelpButton from "../../../components/HelpButton/HelpButton";
 import "../../../config/fontStyles.css";
 import fontStyles from "../../../config/fontStyles"
@@ -117,8 +117,8 @@ export default function LandingPage() {
               />
             </div>
           </div>
-          <div className="helpLogo">
-            <img alt={"Help - Get Things Done Logo"} src={HelpLogo} />
+          <div className="NewHelpLogoDiv">
+            <img alt={"Help - Get Things Done Logo"} src={NewHelpLogo} className="NewHelpLogo"/>
           </div>
         </div>
       </section>

@@ -27,6 +27,7 @@ export default {
 	Dashboard: 'Dashboard',
 	Calendar: 'Calendar',
 	CancelRequest: 'Cancel Request',
+	CancelRequestMessage: 'Are you sure you want to cancel this request?',
 	CompleteRequest: 'Complete Request',
 	Dispatch: 'Dispatch',
 	Profile: 'Profile',
@@ -102,8 +103,8 @@ export default {
 	CentralizedPayments: 'Centralized Payments',
 	CentralizedPaymentsMessage:
 		'Allow customers to pay through the secure Help platform however they want, and accept it all in one place.',
-	Payment: 'Payment',
-	QuestionResponses: 'Question Responses',
+	Payment: 'Payment:',
+	QuestionResponses: 'Question Responses:',
 	EmployeeManagement: 'Employee Management',
 	EmployeeManagementMessage:
 		"If you are a business owner, manage how your employees complete requests through Help's employee management features.",
@@ -292,5 +293,14 @@ export default {
 	YourInfoHasBeenUpdated: 'Your information has been updated',
 	BusinessInformation: 'Business Information',
 	EmailFormattingErrorMessage: 'Please enter a valid email format',
-	TimeErrorMessage: 'Your ending hours must be after your starting hours.'
+	TimeErrorMessage: 'Your ending hours must be after your starting hours.',
+	EditProfile: 'Edit Profile',
+	Card: 'Card',
+	Cash: 'Cash',
+	View: 'View',
+	EditService: 'Edit Service',
+	ServiceDescription: 'Service Description',
+	Rating: 'Rating',
+	DaysOffered: 'Days Offered',
+	ViewAll: 'View All',
 };
