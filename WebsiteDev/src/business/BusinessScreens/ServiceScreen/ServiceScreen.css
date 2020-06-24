@@ -15,7 +15,7 @@
   border-style: solid;
   border-radius: 3vw;
   height: 90vh;
-  width: 80vw;
+  width: 75vw;
   z-index: 1;
   border-color: #41cbef;
 }
@@ -78,16 +78,12 @@
   margin-bottom: 2vh;
 }
 .bottomSection {
-  display: flex;
-  flex-direction: row;
-  margin-left: 1vw;
-  margin-top: 3vh;
-}
-.vl {
-  margin-left: 3vw;
-  border-left: 6px solid #5cc6bc;
-  margin-top: 5vh;
-  height: 40vh;
+    display: flex;
+    flex-direction: row;
+    width: 75vw;
+    justify-content: space-evenly;
+    margin-right: 2vw;
+    margin-top: 3vh;
 }
 .currentRequests {
   display: flex;
@@ -95,20 +91,20 @@
   align-items: flex-start;
 }
 .requestCard {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  border-style: solid;
-  border-width: 2px;
-  border-color: #41cbef;
-  border-radius: 2vw;
-  padding-left: 2vw;
-  padding-right: 2vw;
-  margin-top: 1vh;
-  margin-bottom: 1vh;
-  width: 18vw;
-  height: 13vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #41CBEF;
+    border-radius: 2vw;
+    padding-left: 2vw;
+    padding-right: 1vw;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    width: 20vw;
+    height: 10vh;
 }
 .requestCardInformation {
   display: flex;
@@ -118,15 +114,14 @@
   justify-content: space-evenly;
 }
 .requestHistory {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-left: 3vw;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 7vw;
 }
 
-.unconfirmedrequests {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-left: 3vw;
+.unconfirmedrequests{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
