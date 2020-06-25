@@ -1,6 +1,6 @@
 // This screen will be the one where users will be displayed with some information about Help and what we do, then
 // they will be able to stay notified to know when the app will be released by subscribing to a newsletter
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ComingSoonMobile.css';
 import HelpLogo from '../assets/Logo1PNG.png';
 import strings from '../config/strings';
@@ -10,6 +10,7 @@ import HelpButton from '../components/HelpButton/HelpButton';
 import HelpAlert from '../components/HelpAlert/HelpAlert';
 import { SocialIcon } from 'react-social-icons';
 import FeatureCardMobile from '../components/FeatureCardMobile/FeatureCardMobile';
+import { useOrientation } from 'react-use';
 import { addSubscriber } from '../config/FirebaseFunctions';
 
 // Creates the functional component
@@ -17,6 +18,7 @@ const ComingSoonMobile = (props) => {
   // The state fields for the screen
   const [emailAddress, setEmailAddress] = useState('');
   const [emailAdded, setEmailAdded] = useState(false);
+  const orientation = useOrientation();
 
   // This method will subscribe the user by simply add their email to a collection in Firebase
   const notifyMe = async () => {
@@ -24,6 +26,10 @@ const ComingSoonMobile = (props) => {
     setEmailAdded(true);
     setEmailAddress('');
   };
+
+  useEffect(() => {
+    addSubscriber(orientation);
+  }, [])
 
   // Renders the component
   return (
@@ -37,8 +43,8 @@ const ComingSoonMobile = (props) => {
         <div className={'biggerBigTextStyle white lineSpacer'}>{strings.SubscribeMessage}</div>
         <div className={'subscribeRow'}>
           <HelpTextInput
-            height={'5vh'}
-            width={'30vw'}
+            height={'6.5vh'}
+            width={'48vw'}
             isMultiline={false}
             placeholder={strings.EmailAddress}
             onChangeText={(text) => setEmailAddress(text)}
@@ -50,8 +56,8 @@ const ComingSoonMobile = (props) => {
             isLightButton={true}
             onPress={() => notifyMe()}
             fontStyle={'bigTextStyle blue bold'}
-            width={'32.5vw'}
-            height={'4vh'}
+            width={'30vw'}
+            height={'6.5vh'}
           />
         </div>
         <div className={'socialMediaRow'}>

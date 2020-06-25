@@ -36,7 +36,7 @@ const FeatureCardMobile = (props) => {
 				</Text>
 			</View>
 			<View style={FeatureCardMobileStyle.cardTextContainer}>
-				<Text style={{ ...fontStyles.bigSubTitleStyle, ...fontStyles.bold, ...fontStyles.black }}>
+				<Text style={{ ...fontStyles.bigSubTitleStyle, ...fontStyles.darkBlue }}>
 					{text}
 				</Text>
 			</View>

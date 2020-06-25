@@ -1,7 +1,7 @@
 export default {
 	cardContainer: {
 		width: '83vw',
-		height: '40vh',
+		height: '45vh',
 		paddingTop: '2vh',
 		paddingLeft: '2.5vw',
 		paddingRight: '2.5vw',

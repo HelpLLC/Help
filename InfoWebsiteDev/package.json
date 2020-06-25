@@ -16,10 +16,14 @@
     "react": "^16.13.1",
     "react-device-detect": "^1.12.1",
     "react-dom": "^16.13.1",
+    "react-hook-screen-orientation": "^1.0.1",
     "react-loading": "^2.0.3",
     "react-native-web": "^0.12.3",
+    "react-orientation": "^1.0.4",
+    "react-screen-orientation": "0.0.4",
     "react-scripts": "3.4.1",
-    "react-social-icons": "^4.1.0"
+    "react-social-icons": "^4.1.0",
+    "react-use": "^15.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
