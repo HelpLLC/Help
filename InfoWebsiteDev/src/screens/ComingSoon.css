@@ -21,19 +21,18 @@
 }
 
 .helpLogo {
-	height: 40vh;
+	margin-top: 5vh;
+	margin-bottom: 5vh;
+	height: 20vh;
 }
 
 .textSpacer {
-	margin-top: 5vh;
+	margin-top: 3.5vh;
 }
 
-.moveUp {
-	margin-top: -5vh;
-}
 
 .subscribeRow {
-	margin-top: 2vh;
+	margin-top: 5vh;
 	display: flex;
 	flex-direction: row;
 	width: 50vw;
@@ -41,8 +40,21 @@
 	align-items: center;
 }
 
+.featureCardTitle {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 5vh;
+}
+
+.featureRow {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+
 .socialMediaRow {
-	margin-top: 20vh;
+	margin-top: 5vh;
 	display: flex;
 	flex-direction: row;
 	width: 40vw;
