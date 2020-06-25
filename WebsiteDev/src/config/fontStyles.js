@@ -18,6 +18,12 @@ export default {
 		fontSize: '1.25vw',
 	},
 
+	// The style for all tiny text style
+	tinyTextStyle: {
+		fontFamily: font,
+		fontSize: '0.85vw',
+	},
+
 	//The style for all sub text style
 	subTextStyle: {
 		fontFamily: font,
