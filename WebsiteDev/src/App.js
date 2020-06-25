@@ -5,33 +5,14 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import FirebaseFunctions from './config/FirebaseFunctions';
+import ViewRequest from './business/BusinessScreens/ViewRequest/ViewRequest';
+import DropdownHeader from './components/DropdownHeader/DropdownHeader';
 
 library.add(fab, fas);
 
 //Declares the functional component
 const App = () => {
-	// useEffect(() => {
-	// 	fetchFunc();
-	// }, []);
-
-	// const fetchFunc = async () => {
-	// 	await FirebaseFunctions.call('updateCustomerRequest', {
-	// 		requestID,
-	// 		customerID,
-	// 		businessID,
-	// 		date,
-	// 		customerLocation,
-	// 		serviceDuration,
-	// 		questions,
-	// 		time,
-	// 		serviceTitle,
-	// 		status,
-	// 		serviceID,
-	// 		customerName,
-	// 	});
-	// };
-
-	return (
+	return (		
 		<BrowserRouter>
 			<LandingPageNavigator />
 		</BrowserRouter>

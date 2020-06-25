@@ -309,4 +309,5 @@ export default {
 	Rating: 'Rating',
 	DaysOffered: 'Days Offered',
 	ViewAll: 'View All',
+	Total: 'Total:'
 };

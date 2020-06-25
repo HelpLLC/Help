@@ -5,7 +5,7 @@ import colors from "../../config/colors";
 
 export default StyleSheet.create({
   cardcontainer: {
-    width: "47vw",
+    width: "50vw",
     height: "25vh",
     borderWidth: 6,
     borderColor: colors.green,

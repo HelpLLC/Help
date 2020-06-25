@@ -1,6 +1,7 @@
 /*This contains the styling for the service screen where the business views a specific service*/
 .serviceScreen {
   display: flex;
+
   justify-content: center;
   height: 100vh;
   width: 100vw;
@@ -9,15 +10,18 @@
 .sidebarHolder {
   width: 20vw;
   height: 100vh;
-  z-index: 0;
+  z-index: -1;
+}
+.dropdownheader{
+ 
 }
 .serviceScreenContainer {
   border-style: solid;
   border-radius: 3vw;
   height: 90vh;
   width: 75vw;
-  z-index: 1;
   border-color: #41cbef;
+  margin-top: 10vh;
 }
 .titleSection {
   display: flex;
@@ -67,12 +71,14 @@
   align-items: flex-start;
   justify-content: space-between;
   text-align: left;
+  margin-top: 3vh;
 }
 .daysOfferedSection {
   display: flex;
   flex-direction: column;
   height: 30vh;
   text-align: left;
+  margin-top: -8vh;
 }
 .daysofferedtitle {
   margin-top: 3vh;
@@ -82,9 +88,7 @@
     display: flex;
     flex-direction: row;
     width: 75vw;
-    justify-content: space-evenly;
     margin-right: 2vw;
-    margin-top: 3vh;
 }
 .vl {
     margin-right: -6vw;
@@ -96,6 +100,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-top: -1vh;
 }
 .requestCard {
     display: flex;
@@ -108,10 +113,13 @@
     border-radius: 2vw;
     padding-left: 2vw;
     padding-right: 1vw;
-    margin-top: 1vh;
-    margin-bottom: 1vh;
+    margin-bottom: -3.5vh;
     width: 20vw;
     height: 10vh;
+}
+.largeviewallbutton{
+    margin-left: 1vw;
+    margin-top: 4vh;
 }
 .requestCardInformation {
   display: flex;
@@ -120,15 +128,26 @@
   height: 13vh;
   justify-content: space-evenly;
 }
+.confirmedrequestscards{
+    margin-top: -3vh;
+}
 .requestHistory {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin-left: 7vw;
+    margin-top: -1vh;
+}
+.requesthistorycards{
+    margin-top: -3vh;
 }
 
 .unconfirmedrequests{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin-top: -1vh;
+}
+.unconfirmedrequestscards{
+    margin-top: -3vh;
 }

@@ -9,6 +9,7 @@ import strings from "../../../config/strings";
 import FirebaseFunctions from "../../../config/FirebaseFunctions";
 import profile_pic from "./profile_pic.png"; // Tell webpack this JS file uses this image
 import HelpAlert from "../../../components/HelpAlert/HelpAlert";
+import { requestJson } from "@fullcalendar/core";
 
 export default function ViewRequest(props) {
   const [isLoading, setIsLoading] = useState(true);
@@ -33,6 +34,16 @@ export default function ViewRequest(props) {
 
   const completeRequest = () => {};
 
+  const cancelRequest = async () => {
+    const cancel = await FirebaseFunctions.call("deleteRequest", {
+      requestID: requestID,
+    });
+    history.push({
+      pathname: "/dashboard",
+      state: { businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2"},
+    });
+  };
+
   const displayRequestObject = async () => {
     const requestObject = await FirebaseFunctions.call("getRequestByID", {
       requestID: requestID,
@@ -42,14 +53,7 @@ export default function ViewRequest(props) {
     setIsLoading(false);
   };
 
-  const cancelRequest = async () => {
-    const cancel = await FirebaseFunctions.call("deleteRequest", {
-      serviceID: request.serviceID,
-      customerID: request.customerID,
-      requestID: requestID,
-      businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2",
-    });
-  };
+
 
   const months = [
     "Jan",
@@ -113,7 +117,7 @@ export default function ViewRequest(props) {
                   <text className="mainTextStyle darkBlue">
                     {formatted_date}
                     <br />
-                    {request.time}
+                    {request.time} - {request.endTime}
                   </text>
                 </div>
               </div>
@@ -166,7 +170,7 @@ export default function ViewRequest(props) {
                     </div>
                     <div className="payment_method">
                       <text className="smallTextStyle darkBlue bold">
-                        {strings.total}
+                        {strings.Total}
                       </text>
                       <text className="payment_right smallTextStyle darkBlue">
                         {total}

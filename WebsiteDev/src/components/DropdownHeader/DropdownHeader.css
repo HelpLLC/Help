@@ -1,7 +1,8 @@
 .toprightcontainer {
   display: flex;
-  float: right;
-  margin-bottom: 5vh;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .toprightcontainercalendar{
@@ -40,9 +41,10 @@ img {
   position: fixed;
   top: 0;
   right: 0;
-  margin-right: 2vw;
+  margin-right: 3vw;
   width: 10vw;
   margin-top: 3vh;
+  z-index: 1;
 }
 
 .calendarmodal {
