@@ -5,7 +5,7 @@ import colors from "../../config/colors";
 
 export default StyleSheet.create({
   cardcontainer: {
-    width: "50vw",
+    width: "45vw",
     height: "25vh",
     borderWidth: 6,
     borderColor: colors.green,
@@ -39,7 +39,7 @@ export default StyleSheet.create({
     color: colors.darkBlue,
   },
   starsContainer: { marginTop: "1vh" },
-  bottomSectionContainer: { marginTop: "13vh", marginLeft: '4vw' },
+  bottomSectionContainer: { marginTop: "13vh" },
   priceContainer: { width: "12vw" },
   priceText: {
     fontFamily: "Lucida Grande",
@@ -52,6 +52,5 @@ export default StyleSheet.create({
     width: "12.5vw",
     marginTop: "1.5vh",
     marginBottom: "1vh",
-    
   },
 });

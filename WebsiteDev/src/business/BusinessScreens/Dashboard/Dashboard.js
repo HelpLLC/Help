@@ -49,7 +49,7 @@ export default function Dashboard(props) {
 						<div className='buttonContainer'>
 							<HelpButton
 								title='Add Service'
-								width={'50vw'}
+								width={'45vw'}
 								height={'4vh'}
 								onPress={() => {
 									history.push({
