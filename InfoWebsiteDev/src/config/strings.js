@@ -8,7 +8,22 @@ export default {
 	WeAreComingSoon: 'We are coming soon!',
 	SubscribeMessage: 'Subscribe to get a notification as soon as we launch!',
 	EmailAddress: 'Email Address',
-	NotifyMe: 'Notify Me',
+	NotifyMe: 'Notify',
 	Great: 'Great!',
-	EmailAddedMessage: 'We\'ll send you an email when the platform is released!'
+	EmailAddedMessage: 'We\'ll send you an email when the platform is released!',
+	OurServices: 'Our Services',
+	WhatWeDoBest: 'What We Do Best',
+	SmartScheduling: 'Smart Scheduling',
+	AdvancedAnalytics: 'Advanced Analytics',
+	CentralizedPayments: 'Centralized Payments',
+	EmployeeManagement: 'Employee Management',
+	SmartSchedulingText:
+		'Automate your schedule by having customers schedule a time that works for them and for you.',
+	AdvancedAnalyticsText:
+		'Analyze your business over time and make data-driven decisions based on things like Monthly Revenue, Top Services, and Customer Locations.',
+	PaymentsText:
+		'Allow customers to pay through the secure Help platform however they want and accept it all in one place.',
+	EmployeeText:
+		'Manage how your employees complete requests through Help’s employee management features.',
+	ConnectText: 'Connect with your customers and take your business to the next level today.',
 };
