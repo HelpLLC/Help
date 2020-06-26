@@ -8,7 +8,7 @@ export default {
 	WeAreComingSoon: 'We are coming soon!',
 	SubscribeMessage: 'Subscribe to get a notification as soon as we launch!',
 	EmailAddress: 'Email Address',
-	NotifyMe: 'Notify Me',
+	NotifyMe: 'Notify',
 	Great: 'Great!',
 	EmailAddedMessage: 'We\'ll send you an email when the platform is released!',
 	OurServices: 'Our Services',

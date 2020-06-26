@@ -55,8 +55,8 @@ const ComingSoonMobile = (props) => {
             title={strings.NotifyMe}
             isLightButton={true}
             onPress={() => notifyMe()}
-            fontStyle={'bigTextStyle blue bold'}
-            width={'30vw'}
+            fontStyle={'bigSubTitleTextStyle blue bold'}
+            width={'21vw'}
             height={'6.5vh'}
           />
         </div>

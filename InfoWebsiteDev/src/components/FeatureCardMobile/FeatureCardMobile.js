@@ -12,11 +12,11 @@ const FeatureCardMobile = (props) => {
 			<View
 				style={{
 					background: '#00B0F0',
-					width: '30vw',
-					height: '30vw',
+					width: '150px',
+					height: '150px',
 					justifyContent: 'center',
 					alignItems: 'center',
-					borderRadius: '15vw',
+					borderRadius: '75px',
 					alignContent: 'center',
 				}}>
 				<FontAwesomeIcon
@@ -24,19 +24,30 @@ const FeatureCardMobile = (props) => {
 					color={colors.black}
 					style={{
 						overflow: 'hidden',
-						fontSize: '15vw',
+						fontSize: '75px',
 						textAlign: 'left',
 					}}
 				/>
 			</View>
 			<View style={FeatureCardMobileStyle.cardTitleTextContainer}>
 				<Text
-					style={{ ...fontStyles.bigTitleStyle, ...fontStyles.bold, ...fontStyles.darkBlue }}>
+					style={{
+						...fontStyles.bigTitleStyle,
+						...fontStyles.bold,
+						...fontStyles.darkBlue,
+						fontSize: '25px',
+					}}>
 					{title}
 				</Text>
 			</View>
 			<View style={FeatureCardMobileStyle.cardTextContainer}>
-				<Text style={{ ...fontStyles.bigSubTitleStyle, ...fontStyles.darkBlue }}>
+				<Text
+					style={{
+						...fontStyles.bigSubTitleStyle,
+						...fontStyles.darkBlue,
+						fontSize: '20px',
+						lineHeight: '30px',
+					}}>
 					{text}
 				</Text>
 			</View>

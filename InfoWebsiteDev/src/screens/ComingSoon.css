@@ -54,10 +54,9 @@
 }
 
 .socialMediaRow {
-	margin-top: 5vh;
+	margin-top: 10vh;
 	display: flex;
 	flex-direction: row;
 	width: 40vw;
-    margin-bottom: 5vh;
 	justify-content: space-evenly;
 }
