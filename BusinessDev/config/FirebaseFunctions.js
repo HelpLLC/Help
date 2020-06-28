@@ -20,6 +20,7 @@ export default class FirebaseFunctions {
 	//The collections & references that will be used by this class
 	static fcm = firebase.messaging();
 	static analytics = firebase.analytics();
+	static auth = firebase.auth();
 	static functions = firebase.functions();
 	static storage = firebase.storage();
 	//Method calls a firebase function by taking the functions name as a parameter, the parameters of the cloud function

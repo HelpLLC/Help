@@ -55,7 +55,7 @@ export default class billCustomerScreen extends Component {
 
 	//Completes the request based on whether it is cash or card, and the price type
 	async completeRequest() {
-		const { requestID, cash, card, billedAmount, units, price } = this.state;
+		const { requestID, cash, card, billedAmount, units, price, request } = this.state;
 		this.setState({ isLoading: true });
 		if (cash === true) {
 			if (billedAmount === '') {
@@ -63,11 +63,10 @@ export default class billCustomerScreen extends Component {
 				return;
 			}
 
-			await FirebaseFunctions.call('completeRequest', {
-				cash: true,
-				requestID,
-				billedAmount,
-			});
+			this.props.navigation.push('ConfirmPaymentScreen', {
+				request,
+				billedAmount
+			})
 
 			this.setState({ requestCompleted: true, isLoading: false });
 		}
