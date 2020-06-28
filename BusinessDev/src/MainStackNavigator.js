@@ -22,6 +22,7 @@ import BusinessScreensNavigator from './bottomTabScreens/businessScreensNavigato
 import CreditsScreen from './settingsScreens/creditsScreen';
 import ServiceCurrentRequestsScreen from './sideBusinessScreens/serviceCurrentRequestsScreen';
 import CreateScheduleScreen from './firstScreens/signUp/createScheduleScreen';
+import ConfirmPaymentScreen from './sideBusinessScreens/confirmPaymentScreen/confirmPaymentScreen';
 import { fadeIn, fromRight } from 'react-navigation-transitions';
 import PricingAndPaymentScreen from './sideBusinessScreens/pricingAndPaymentScreen/pricingAndPaymentScreen';
 import { createAppContainer } from 'react-navigation';
@@ -155,6 +156,11 @@ const routeConfig = {
 	//The route going to the bill customer screen
 	BillCustomerScreen: {
 		screen: BillCustomerScreen,
+	},
+
+	// The route going to the confirm payment screen
+	ConfirmPaymentScreen: {
+		screen: ConfirmPaymentScreen
 	},
 
 	//The route going to the product screen
