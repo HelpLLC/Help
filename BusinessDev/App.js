@@ -6,8 +6,6 @@ import { YellowBox } from 'react-native';
 import codePush from 'react-native-code-push';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import stripe from 'tipsi-stripe';
-import ConfirmPaymentScreen from './src/sideBusinessScreens/confirmPaymentScreen/confirmPaymentScreen';
-import SplashScreen from 'react-native-splash-screen';
 
 //Launches the app with the persisted store
 class App extends Component {
@@ -17,11 +15,6 @@ class App extends Component {
 			publishableKey: 'pk_test_RP4GxbKwMWbM3NN5XMo3qzKz00lEiD2Fe1',
 		});
 	}
-
-	componentWillMount() {
-		SplashScreen.hide();
-	}
-
 	render() {
 		Icon.loadFont();
 		//Ignores a specific warning
@@ -30,7 +23,7 @@ class App extends Component {
 			'componentWillMount',
 			'componentWillReceiveProps',
 		]);
-		return <ConfirmPaymentScreen />;
+		return <MainStackNavigator />;
 	}
 }
 
