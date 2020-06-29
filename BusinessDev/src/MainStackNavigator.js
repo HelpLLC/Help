@@ -30,6 +30,9 @@ import CreatePaymentMethodScreen from './sideBusinessScreens/createPaymentMethod
 import { createStackNavigator } from 'react-navigation-stack';
 import CustomerInfoScreen from './sideBusinessScreens/customerInfoScreen/customerInfoScreen';
 import ViewPaymentMethodScreen from './sideBusinessScreens/viewPaymentMethodScreen';
+import BussinessOrEmployeeScreen from './firstScreens/signUp/BusinessOrEmployee'
+import waitingForVerification from './firstScreens/signUp/EmployeeSignUp/waitingForVerification'
+import EmployeeVerification from './firstScreens/signUp/EmployeeSignUp/employeeVerification'
 
 //The route config for all of the screens
 const routeConfig = {
@@ -59,6 +62,13 @@ const routeConfig = {
 		}),
 	},
 
+	BussinessOrEmployeeScreen: {
+		screen: BussinessOrEmployeeScreen,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false,
+		}),
+	},
+
 	//Takes you to the sign up screen of the app
 	EmailPasswordScreen: {
 		screen: EmailPasswordScreen,
@@ -70,6 +80,13 @@ const routeConfig = {
 	//Takes you to the forgot password screen of the app
 	ForgotPasswordScreen: {
 		screen: ForgotPasswordScreen,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false,
+		}),
+	},
+
+	EmployeeVerification: {
+		screen: EmployeeVerification,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false,
 		}),
@@ -102,6 +119,13 @@ const routeConfig = {
 	//Takes you to the screen which will display if a business account has not yet been approved
 	AccountNotVerifiedScreen: {
 		screen: AccountNotVerifiedScreen,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false,
+		}),
+	},
+
+	waitingForVerification: {
+		screen: waitingForVerification,
 		navigationOptions: ({ navigation }) => ({
 			gesturesEnabled: false,
 		}),
