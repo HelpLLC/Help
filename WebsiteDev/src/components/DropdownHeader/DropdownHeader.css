@@ -6,9 +6,11 @@
 }
 
 .toprightcontainercalendar{
-    display: flex;
-    float: right;
-    margin-right: 26vw;
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 25vw;
 }
 
 
@@ -44,14 +46,13 @@ img {
   margin-right: 3vw;
   width: 10vw;
   margin-top: 3vh;
-  z-index: 1;
 }
 
 .calendarmodal {
   position: fixed;
   top: 0;
   right: 0;
-  margin-right: 27vw;
+  margin-right: 25vw;
   width: 10vw;
   margin-top: 3vh;
 }

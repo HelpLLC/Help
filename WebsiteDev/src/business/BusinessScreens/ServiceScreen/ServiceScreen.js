@@ -17,6 +17,7 @@ import fontStyles from "../../../config/fontStyles";
 import SideMenu from "../../../components/SideMenu/SideMenu";
 import ViewAllService from "../ViewAllService/ViewAllService";
 import DropdownHeader from "../../../components/DropdownHeader/DropdownHeader";
+import SideMenuCard from "../../../components/SideMenu/SideMenuCard";
 
 //Declares the functional component
 const ServiceScreen = (props) => {
@@ -24,6 +25,7 @@ const ServiceScreen = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [service, setService] = useState("");
   const [business, setBusiness] = useState("");
+  const [businessName, setBusinessName] = useState();
   const [serviceImage, setServiceImage] = useState("");
   const [confirmedRequestsSnippet, setConfirmedRequestsSnippet] = useState("");
   const [unconfirmedRequestsSnippet, setUnconfirmedRequestsSnippet] = useState(
@@ -41,9 +43,11 @@ const ServiceScreen = (props) => {
     const businessObject = location.state.business;
     setService(serviceObject);
     setBusiness(businessObject);
+    setBusinessName(businessObject.businessName);
     const image = await FirebaseFunctions.call("getServiceImageByID", {
       serviceID: serviceObject.serviceID,
     });
+  
     setServiceImage(image);
     let confirmedRequests = await FirebaseFunctions.call(
       "getConfirmedRequestsByServiceID",
@@ -116,14 +120,16 @@ const ServiceScreen = (props) => {
   }
   return (
     <div>
-
       <div className="serviceScreen">
-      <section className="dropdownheader">
-      <DropdownHeader businessName="Magic Hands LLC"  modalClassName="modal" divClassName="toprightcontainer"/>
-      </section>
-      {/* <section className="sidebarHolder">
-          <SideMenu title="Service" />
-        </section> */}
+        <section className="dropdownheader">
+          <DropdownHeader
+                  businessID={business}
+                  businessName={businessName}
+            modalClassName="modal"
+            divClassName="toprightcontainer"
+          />
+        </section>
+
         <div className="serviceScreenContainer">
           <div className="titleSection">
             <div

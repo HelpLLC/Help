@@ -17,12 +17,17 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import colors from '../../../config/colors';
 import TitleComponent from '../../../components/TitleComponent.js';
 import DialogActions from '@material-ui/core/DialogActions';
+import SideMenuCard from '../../../components/SideMenu/SideMenuCard';
+import DropdownHeader from "../../../components/DropdownHeader/DropdownHeader";
 
 export default function EmployeeList(props) {
 	const [assigned, setAssigned] = useState(false);
+	const [businessID, setBusinessID] = useState("zjCzqSiCpNQELwU3ETtGBANz7hY2");
+  const [businessName, setBusinessName] = useState();
 	const [confirmed, setConfirmed] = useState(false);
 	const [search, setSearch] = useState('');
 	const [confirmedDialog, setConfirmedDialog] = useState(false);
+	const [loaded, setLoaded] = useState(false);
 	const history = useHistory();
 	const location = useLocation();
 
@@ -38,11 +43,31 @@ export default function EmployeeList(props) {
 	};
 	const completeRequest = () => {};
 
+
+ 
+	const getBusinessName = async () => {
+		const business = await FirebaseFunctions.call("getBusinessByID", {
+		  businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2"
+		});
+		setBusinessID(business);
+		setBusinessName(business.businessName);
+		setLoaded(true);
+	  };
+	
+	  if (loaded === false) {
+		getBusinessName();
+	  }
+
 	return (
 		<div>
-			<section className='sidebarHolder'>
-				<SideMenu title='EmployeeList' />
-			</section>
+			  <section className="dropdownheader">
+          <DropdownHeader
+              businessID={businessID}
+			  businessName={businessName}
+            modalClassName="modal"
+            divClassName="toprightcontainer"
+          />
+		  </section>
 			<div className='content_container'>
 				<SideMenu />
 				<div id='background'>

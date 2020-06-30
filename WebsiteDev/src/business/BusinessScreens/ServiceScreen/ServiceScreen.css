@@ -1,19 +1,15 @@
 /*This contains the styling for the service screen where the business views a specific service*/
 .serviceScreen {
   display: flex;
-
-  justify-content: center;
   height: 100vh;
   width: 100vw;
+  justify-content: center;
   align-items: center;
 }
 .sidebarHolder {
   width: 20vw;
   height: 100vh;
-  z-index: -1;
-}
-.dropdownheader{
- 
+  margin-right: 3vw;
 }
 .serviceScreenContainer {
   border-style: solid;
@@ -21,7 +17,7 @@
   height: 90vh;
   width: 75vw;
   border-color: #41cbef;
-  margin-top: 10vh;
+  margin-top: 5vh;
 }
 .titleSection {
   display: flex;

@@ -10,6 +10,8 @@ import FirebaseFunctions from "../../../config/FirebaseFunctions";
 import profile_pic from "./profile_pic.png"; // Tell webpack this JS file uses this image
 import HelpAlert from "../../../components/HelpAlert/HelpAlert";
 import { requestJson } from "@fullcalendar/core";
+import SideMenuCard from "../../../components/SideMenu/SideMenuCard";
+import DropdownHeader from "../../../components/DropdownHeader/DropdownHeader";
 
 export default function ViewRequest(props) {
   const [isLoading, setIsLoading] = useState(true);
@@ -17,6 +19,8 @@ export default function ViewRequest(props) {
   const [total, setTotal] = useState(props.total);
   const [confirmed, setConfirmed] = useState();
   const [clicked, isClicked] = useState(false);
+  const [businessID, setBusinessID] = useState();
+  const [businessName, setBusinessName] = useState();
   let location = useLocation();
   let history = useHistory();
 
@@ -43,6 +47,17 @@ export default function ViewRequest(props) {
       state: { businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2"},
     });
   };
+
+   
+  const getBusinessName = async () => {
+    const business = await FirebaseFunctions.call("getBusinessByID", {
+      businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2"
+    });
+    setBusinessID(business);
+    setBusinessName(business.businessName);
+    setIsLoading(false);
+  };
+
 
   const displayRequestObject = async () => {
     const requestObject = await FirebaseFunctions.call("getRequestByID", {
@@ -83,6 +98,7 @@ export default function ViewRequest(props) {
 
   useEffect(() => {
     displayRequestObject();
+    getBusinessName();
   }, []);
 
   if (isLoading === true) {
@@ -90,10 +106,17 @@ export default function ViewRequest(props) {
   }
 
   return (
+    <div>
+              <section className="dropdownheader">
+          <DropdownHeader
+               businessID={businessID}
+               businessName={businessName}
+            modalClassName="modal"
+            divClassName="toprightcontainer"
+          />
+        </section>
+
     <div id="container">
-      <section className="sidebarHolder">
-        <SideMenu title="Request" />
-      </section>
       <div className="content_container">
         <div id="rectangle_4">
           <div className="content_container">
@@ -209,6 +232,7 @@ export default function ViewRequest(props) {
             />
         </div>
       </div>
+    </div>
     </div>
   );
 }

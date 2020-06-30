@@ -16,7 +16,7 @@ export default {
       ...fontStyles.mainTextStyle,
 	},
 	divider: {
-		margin: '2.5vh 0vw',
+		marginTop: "49vh",
 		height: 1,
 		backgroundColor: colors.white,
 	},
@@ -25,14 +25,14 @@ export default {
 		height: '100vh',
 		backgroundColor: colors.blue,
 		color: colors.white,
-	},
+    },
+    contenttext: {
+        ...fontStyles.mainTextStyle
+    },
 	contentHeaderMenuLink: {
 		textDecoration: 'none',
 		color: 'white',
 		padding: 8,
-	},
-	content: {
-		padding: '2vh',
 	},
 	root: {
 		...fontStyles.mainTextStyle
@@ -43,6 +43,7 @@ export default {
 		...fontStyles.white,
 	},
 	logout: {
+		marginTop: "2.5vh",
 		display: 'block',
       color: colors.white,
       ...fontStyles.mainTextStyle,

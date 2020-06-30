@@ -12,32 +12,44 @@ import '../../../config/fontStyles.css';
 import HelpButton from '../../../components/HelpButton/HelpButton';
 import UpcomingRequests from '../../../components/UpcomingRequests/UpcomingRequests';
 import SideMenu from '../../../components/SideMenu/SideMenu';
+import SideMenuCard from '../../../components/SideMenu/SideMenuCard';
+import DropdownHeader from "../../../components/DropdownHeader/DropdownHeader";
 
 export default function Dispatch(props) {
 	const [business, setBusiness] = React.useState();
+	const [businessName, setBusinessName] = React.useState();
 	const [services, setServices] = React.useState();
 	const [loaded, setLoaded] = React.useState(false);
 	const [image, setImage] = React.useState('');
 	const location = useLocation();
 
-	// const componentDidMount = async () => {
-	// 	const businessID = location.state.businessID;
-	// 	const business = await FirebaseFunctions.call('getBusinessByID', {
-	// 		businessID,
-	// 	});
-	// 	setBusiness(business);
-	// 	setServices(business.services);
-	// 	setLoaded(true);
-	// };
+	const componentDidMount = async () => {
+		const businessID = location.state.businessID;
+		const business = await FirebaseFunctions.call('getBusinessByID', {
+			businessID,
+		});
+		setBusiness(business);
+		setBusinessName(business.businessName);
+		setServices(business.services);
+		setLoaded(true);
+	};
 
-	// if (loaded === false) {
-	// 	componentDidMount();
-	// }
+	if (loaded === false) {
+		componentDidMount();
+	}
 
 	return (
 		<div className='dispatchContainer'>
+			  <section className="dropdownheader">
+          <DropdownHeader
+                businessID={business}
+				businessName={businessName}
+            modalClassName="modal"
+            divClassName="toprightcontainer"
+          />
+        </section>
 			<section className='sidebarHolder'>
-				<SideMenu title='Dispatch' />
+				<SideMenuCard title="Help"/>
 			</section>
 			<section className='dispatchHolder'>
 				<div className='dispatchTitleContainer'>
