@@ -400,7 +400,9 @@ export default {
 	RecipientEmail: 'Recipient Email',
 	PleaseAddACustomerSignature: 'Please add a customer signature.',
 	PleaseAddARecipientEmail: 'Please add a recipient email.',
-	Confirm: 'Confirm'
-	
-	
+	Confirm: 'Confirm',
+	Employee: 'Employee',
+	ConfirmPassword: 'Confirm Password',
+	PleaseEnterPhoneNumber: 'Please enter a valid phone number...',
+	Join: 'Join',
 };
