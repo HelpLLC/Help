@@ -29,7 +29,6 @@ export default function pricingAndPaymentScreen(props) {
 	const [isCardSelected, setIsCardSelected] = useState(false);
 	const [fieldsError, setFieldsError] = useState(false);
 	const [paymentMethodError, setPaymentMethodError] = useState(false);
-	const [paymentTimeError, setPaymentTimeError] = useState(false);
 	const [cardPaymentMethodError, setCardPaymentMethodError] = useState(false);
 
 	//This the method that is called when the component mounts. Sets the screen in firebase, and fetches the data
@@ -262,14 +261,6 @@ export default function pricingAndPaymentScreen(props) {
 				}}
 				title={strings.Whoops}
 				message={strings.PleaseSelectAPaymentMethod}
-			/>
-			<HelpAlert
-				isVisible={paymentTimeError}
-				onPress={() => {
-					setPaymentTimeError(false);
-				}}
-				title={strings.Whoops}
-				message={strings.PleaseSelectPaymentTime}
 			/>
 			<HelpAlert
 				isVisible={cardPaymentMethodError}
