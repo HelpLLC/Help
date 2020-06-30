@@ -8,7 +8,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import stripe from 'tipsi-stripe';
 import ConfirmPaymentScreen from './src/sideBusinessScreens/confirmPaymentScreen/confirmPaymentScreen';
 import SplashScreen from 'react-native-splash-screen';
-
+import EmployeeVerification from './src/firstScreens/signUp/EmployeeSignUp/employeeVerification.js'
+import WaitingForVerification from './src/firstScreens/signUp/EmployeeSignUp/waitingForVerification'
 //Launches the app with the persisted store
 class App extends Component {
 	//Initializes stripe for payments
@@ -30,7 +31,7 @@ class App extends Component {
 			'componentWillMount',
 			'componentWillReceiveProps',
 		]);
-		return <ConfirmPaymentScreen />;
+		return <MainStackNavigator/>;
 	}
 }
 

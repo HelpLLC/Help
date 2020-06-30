@@ -14,14 +14,24 @@ import logo from '../../../../assets/WhiteLogo.png';
 function waitingForVerification() {
 	return (
 		<View style={screenStyle.container}>
-			<View style={{ flex:1 }}>
-				<Image
-					style={{ width: screenWidth * 0.8, resizeMode: 'contain' }}
-					source={logo}
-				/>
-			</View>
-			<View style={{flex:1 , width: screenWidth*.8, marginTop: screenHeight*.2, }}>
-				<Text style={[fontStyles.bigSubTitleStyle, fontStyles.blue, {textAlign: 'center'}]}>
+			<Image
+				style={{ flex: 1, width: screenWidth * 0.8, resizeMode: 'contain' }}
+				source={logo}
+			/>
+			<View
+				style={{
+					flex: 1,
+					width: screenWidth * 0.8,
+					marginTop: screenHeight * 0.2,
+				}}
+			>
+				<Text
+					style={[
+						fontStyles.bigSubTitleStyle,
+						fontStyles.blue,
+						{ textAlign: 'center' },
+					]}
+				>
 					Please wait until the business confirms you as their employee!
 				</Text>
 			</View>
