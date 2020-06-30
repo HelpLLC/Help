@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "./PastRequests.css";
 import ServiceHistoryCard from "../../../components/ServiceHistoryCard/ServiceHistoryCard";
-import SideMenu from "../../../components/SideMenu/SideMenu";
 import "../../../config/fontStyles.css";
 import "./PastRequests.css";
 import FirebaseFunctions from "../../../config/FirebaseFunctions";

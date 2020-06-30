@@ -11,7 +11,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import "../../../config/fontStyles.css";
 import { View } from "react-native-web";
-import SideMenu from "../../../components/SideMenu/SideMenu";
+
 import SideMenuCard from "../../../components/SideMenu/SideMenuCard";
 import DropdownHeader from "../../../components/DropdownHeader/DropdownHeader";
 

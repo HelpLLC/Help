@@ -8,7 +8,6 @@ import '../../../config/fontStyles.css';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import ReactLoading from 'react-loading';
 import colors from '../../../config/colors';
-import SideMenu from '../../../components/SideMenu/SideMenu';
 import ViewAllServiceCard from '../../../components/ViewAllServiceCard/ViewAllServiceCard';
 import SideMenuCard from '../../../components/SideMenu/SideMenuCard';
 import DropdownHeader from "../../../components/DropdownHeader/DropdownHeader";

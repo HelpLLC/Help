@@ -5,7 +5,6 @@ import HelpButton from "../../../components/HelpButton/HelpButton";
 import strings from "../../../config/strings";
 import HelpTextInput from "../../../components/HelpTextInput/HelpTextInput";
 import TimePicker from "../../../components/TimePicker/TimePicker";
-import SideMenu from "../../../components/SideMenu/SideMenu";
 import { useLocation, useHistory } from "react-router-dom";
 import HelpAlert from "../../../components/HelpAlert/HelpAlert";
 import Resizer from "react-image-file-resizer";

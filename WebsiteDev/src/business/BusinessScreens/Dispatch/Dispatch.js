@@ -11,7 +11,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import '../../../config/fontStyles.css';
 import HelpButton from '../../../components/HelpButton/HelpButton';
 import UpcomingRequests from '../../../components/UpcomingRequests/UpcomingRequests';
-import SideMenu from '../../../components/SideMenu/SideMenu';
 import SideMenuCard from '../../../components/SideMenu/SideMenuCard';
 import DropdownHeader from "../../../components/DropdownHeader/DropdownHeader";
 

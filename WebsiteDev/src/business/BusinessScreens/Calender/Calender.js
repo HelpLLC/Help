@@ -1,6 +1,5 @@
 // This is going to be the screen where the calendar will be presented to the business with their events
 import React, { useState, useEffect } from "react";
-import SideMenu from "../../../components/SideMenu/SideMenu";
 import "./Calendar.css";
 import strings from "../../../config/strings";
 import "../../../config/fontStyles.css";

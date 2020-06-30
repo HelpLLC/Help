@@ -15,7 +15,6 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import colors from "../../../config/colors";
 import TitleComponent from "../../../components/TitleComponent.js";
 import Select from "react-select";
-import SideMenu from "../../../components/SideMenu/SideMenu";
 import SideMenuCard from "../../../components/SideMenu/SideMenuCard";
 import DropdownHeader from "../../../components/DropdownHeader/DropdownHeader";
 

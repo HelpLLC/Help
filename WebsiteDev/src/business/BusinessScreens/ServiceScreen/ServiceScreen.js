@@ -14,7 +14,6 @@ import HelpButton from "../../../components/HelpButton/HelpButton";
 import StarRatings from "react-star-ratings";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import fontStyles from "../../../config/fontStyles";
-import SideMenu from "../../../components/SideMenu/SideMenu";
 import ViewAllService from "../ViewAllService/ViewAllService";
 import DropdownHeader from "../../../components/DropdownHeader/DropdownHeader";
 import SideMenuCard from "../../../components/SideMenu/SideMenuCard";

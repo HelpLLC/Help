@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import HelpTextInput from '../../../components/HelpTextInput/HelpTextInput';
 import HelpButton from '../../../components/HelpButton/HelpButton';
-import SideMenu from '../../../components/SideMenu/SideMenu';
 import EmployeeListItem from '../../../components/EmployeeListItem/EmployeeListItem';
 import './EmployeeList.css';
 // import '../../../config/fontStyles.css';
@@ -69,7 +68,6 @@ export default function EmployeeList(props) {
           />
 		  </section>
 			<div className='content_container'>
-				<SideMenu />
 				<div id='background'>
 					<div className='content_container'>
 						<div className='service_title bigTitleTextStyle darkBlue'>Assign Employee(s)</div>

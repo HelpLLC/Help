@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import HelpTextInput from "../../../components/HelpTextInput/HelpTextInput";
 import HelpButton from "../../../components/HelpButton/HelpButton";
-import SideMenu from "../../../components/SideMenu/SideMenu";
 import "./ViewRequest.css";
 import "../../../config/fontStyles.css";
 import strings from "../../../config/strings";
