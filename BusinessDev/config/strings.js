@@ -390,5 +390,17 @@ export default {
 	UnderMaintenance: 'Under Maintenance',
 	AppIsUnderMaintenance:
 		'Help is currently under scheduled maintenance. It should be back up soon.',
+	Confirmation: 'Confirmation',
+	CompletionDate: 'Completion Date',
+	Recipient: 'Recipient',
+	Total: 'Total',
+	Signature: 'Signature',
+	Clear: 'Clear',
+	SendEmailConfirmation: 'Send email confirmation',
+	RecipientEmail: 'Recipient Email',
+	PleaseAddACustomerSignature: 'Please add a customer signature.',
+	PleaseAddARecipientEmail: 'Please add a recipient email.',
+	Confirm: 'Confirm'
+	
 	
 };

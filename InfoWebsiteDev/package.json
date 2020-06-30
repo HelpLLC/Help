@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.29",
+    "@fortawesome/free-brands-svg-icons": "^5.13.1",
+    "@fortawesome/free-solid-svg-icons": "^5.13.1",
+    "@fortawesome/react-fontawesome": "^0.1.11",
     "@material-ui/core": "^4.10.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
@@ -12,10 +16,14 @@
     "react": "^16.13.1",
     "react-device-detect": "^1.12.1",
     "react-dom": "^16.13.1",
+    "react-hook-screen-orientation": "^1.0.1",
     "react-loading": "^2.0.3",
     "react-native-web": "^0.12.3",
+    "react-orientation": "^1.0.4",
+    "react-screen-orientation": "0.0.4",
     "react-scripts": "3.4.1",
-    "react-social-icons": "^4.1.0"
+    "react-social-icons": "^4.1.0",
+    "react-use": "^15.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
