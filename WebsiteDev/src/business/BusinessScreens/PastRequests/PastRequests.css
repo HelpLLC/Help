@@ -3,6 +3,7 @@
   height: 100vh;
   display: flex;
   flex-direction: row;
+
 }
 
 .title {
@@ -11,7 +12,7 @@
 
 .sidebarHolder {
   width: 20vw;
-  z-index: 0;
+
 }
 
 .cards {
@@ -24,5 +25,4 @@
   height: 100vh;
   margin-left: 5vw;
   flex-direction: column;
-  z-index: 1;
 }

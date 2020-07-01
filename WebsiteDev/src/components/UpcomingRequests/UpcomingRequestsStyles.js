@@ -4,8 +4,9 @@ import colors from "../../config/colors";
 export default StyleSheet.create({
   //Default button size to use
   Container: {
-    width: "27vw",
+    width: "30vw",
     height: "80vh",
+    marginTop: "5vh",
     borderWidth: 6,
     borderColor: colors.green,
     borderRadius: "2.5vh",
@@ -22,7 +23,7 @@ export default StyleSheet.create({
 
   //The style for a perfect round button that is small
   CardContainer: {
-    width: "24vw",
+    width: "27vw",
     height: "20vh",
     borderWidth: 5,
     borderColor: colors.green,
@@ -38,19 +39,27 @@ export default StyleSheet.create({
     marginTop: "3vh",
     borderRadius: "1vh",
   },
-  CardTitleContainer: { marginLeft: "1vw", marginTop: "3vh", width: "13vw" },
+  CardTitleContainer: { marginLeft: "2vw", marginTop: "3vh", width: "13vw" },
   CardTitle: {
     color: colors.darkGray,
     fontSize: "1.5vw",
     fontFamily: "Lucida Grande",
     fontWeight: "bold",
+    marginTop: "-2vh"
   },
-  DateContainer: { marginLeft: "1vw", marginTop: "1vh" },
+  DateContainer: { marginLeft: "2vw", marginTop: "2vh" },
   Date: {
     color: colors.darkGray,
     fontSize: "1.25vw",
     fontFamily: "Lucida Grande",
     fontWeight: "bold",
   },
-  ButtonContainer:{ marginLeft: "1vw", marginTop: "4vh" },
+  TimeContainer: {marginLeft: "2vw", marginTop: "1vh"},
+  Time: {
+    color: colors.darkGray,
+    fontSize: "1.25vw",
+    fontFamily: "Lucida Grande",
+    fontWeight: "bold",
+  },
+  ButtonContainer:{ marginLeft: "2vw", marginTop: "2vh" },
 });
