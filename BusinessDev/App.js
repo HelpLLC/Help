@@ -15,7 +15,6 @@ class App extends Component {
 			publishableKey: 'pk_test_RP4GxbKwMWbM3NN5XMo3qzKz00lEiD2Fe1',
 		});
 	}
-
 	render() {
 		Icon.loadFont();
 		//Ignores a specific warning

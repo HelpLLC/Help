@@ -1,0 +1,109 @@
+.toprightcontainer {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.toprightcontainercalendar{
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 25vw;
+}
+
+
+img {
+  border-radius: 50%;
+  width: 4vw;
+  margin-top: 1vh;
+  margin-right: 1vw;
+  height: 6vh;
+}
+
+.nameandarrow {
+  display: flex;
+}
+.downarrow {
+  margin-top: 2vh;
+  margin-right: 4vw;
+}
+.businessname {
+  margin-top: 2vh;
+  margin-right: 1vw;
+  color: #567681;
+}
+.bell {
+  margin-right: 1vw;
+  margin-top: 1vh;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin-right: 3vw;
+  width: 10vw;
+  margin-top: 3vh;
+}
+
+.calendarmodal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin-right: 25vw;
+  width: 10vw;
+  margin-top: 3vh;
+}
+
+.modaloptions {
+  margin-top: 3vh;
+  display: flex;
+  flex-direction: column;
+  width: 11vw;
+  border: 2px solid #41cbef;
+}
+
+.editprofile {
+  display: flex;
+  width: 12vw;
+  margin-top: 1vh;
+}
+
+.user {
+  margin-right: 1vw;
+  margin-left: 1vw;
+}
+
+.logout {
+  display: flex;
+  width: 10vw;
+  margin-bottom: 1vh;
+}
+
+.signoutalt {
+  margin-right: 1vw;
+  margin-left: 1vw;
+}
+
+.logoutbutton {
+  border: none;
+  background-color: white;
+}
+
+.editprofilebutton {
+  border: none;
+  background-color: white;
+}
+
+.hr {
+  width: 10vw;
+}
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
