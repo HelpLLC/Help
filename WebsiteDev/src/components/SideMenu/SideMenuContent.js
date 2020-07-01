@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import strings from '../../config/strings';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SideMenuStyle from './SideMenuStyle';
+import FirebaseFunctions from '../../config/FirebaseFunctions';
 
 const styles = SideMenuStyle;
 
@@ -85,10 +86,12 @@ export default function SideMenuContent(props) {
 
 				<a
 					style={(styles.logout, { cursor: 'pointer' })}
-					onClick={() =>
+					onClick={async() => {
+						await FirebaseFunctions.logOut();
 						history.push({
 							pathname: '/',
-						})
+						});
+					}
 					}>
 					<FontAwesomeIcon icon='sign-out-alt' size='1x' />
 					&ensp; {strings.LogOut}
