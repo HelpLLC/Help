@@ -8,7 +8,7 @@ import strings from "../../../config/strings";
 import FirebaseFunctions from "../../../config/FirebaseFunctions";
 import profile_pic from "./profile_pic.png"; // Tell webpack this JS file uses this image
 import HelpAlert from "../../../components/HelpAlert/HelpAlert";
-import { requestJson } from "@fullcalendar/core";
+// import { requestJson } from "@fullcalendar/core";
 import SideMenuCard from "../../../components/SideMenu/SideMenuCard";
 import DropdownHeader from "../../../components/DropdownHeader/DropdownHeader";
 
