@@ -299,4 +299,5 @@ export default {
 	BusinessInformation: 'Business Information',
 	EmailFormattingErrorMessage: 'Please enter a valid email format',
 	TimeErrorMessage: 'Your ending hours must be after your starting hours.',
+	RememberMe: 'Remember Me',
 };
