@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./LandingPage.css";
 import { useHistory } from "react-router-dom";
 import strings from "../../../config/strings";
@@ -10,10 +10,26 @@ import { Image } from "react-native-web";
 import FeatureCard from "../../../components/FeatureCard/FeatureCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import colors from "../../../config/colors";
+import * as firebase from 'firebase';
 
 export default function LandingPage() {
   //To save code, this generates each reduntant section in the landing page
   const history = useHistory();
+
+  useEffect(() => {
+		async function authPersistence() {
+		const persist = await firebase.auth().onAuthStateChanged((user) => {
+			if (user) {
+				history.push({
+					pathname: '/dashboard',
+					state: { businessID: user.uid },
+				});
+			} 
+		 });
+		 return persist;
+		}
+		authPersistence();
+	 }, []);
 
   return (
     <div>
