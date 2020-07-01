@@ -12,7 +12,6 @@ import ReactLoading from 'react-loading';
 import colors from '../../../config/colors';
 
 export default function Dashboard(props) {
-
 	// The state variables for this screen
 	const [business, setBusiness] = useState();
 	const [services, setServices] = useState();
@@ -36,7 +35,7 @@ export default function Dashboard(props) {
 			FirebaseFunctions.call('getUnconfirmedRequestsByBusinessID', { businessID, limit: 3 }),
 		]);
 		const business = results[0];
-		const unconfirmedRequests = results[1]; 
+		const unconfirmedRequests = results[1];
 		setBusiness(business);
 		setUnconfirmedRequests(unconfirmedRequests);
 		setServices(business.services);
@@ -54,8 +53,16 @@ export default function Dashboard(props) {
 
 	return (
 		<div className='dashboardContainer'>
+			<section className='dropdownheader'>
+				<DropdownHeader
+					businessID={business}
+					businessName={businessName}
+					modalClassName='modal'
+					divClassName='toprightcontainer'
+				/>
+			</section>
 			<section className='sidebarHolder'>
-				<SideMenu title='Dashboard' />
+				<SideMenuCard title='Help' />
 			</section>
 			<section className='dashboardHolder'>
 				<div className='dashboardTitleContainer'>
@@ -66,7 +73,7 @@ export default function Dashboard(props) {
 						<div className='buttonContainer'>
 							<HelpButton
 								title='Add Service'
-								isSmallButton={true}
+								width={'45vw'}
 								height={'4vh'}
 								onPress={() => {
 									history.push({
@@ -76,28 +83,30 @@ export default function Dashboard(props) {
 								}}
 							/>
 						</div>
-						{services.map((service) => (
-							<BusinessServiceCard
-								title={service.serviceTitle}
-								totalReviews={service.totalReviews}
-								averageRating={service.averageRating}
-								priceText={service.priceText}
-								serviceDescription={service.serviceDescription}
-								numCurrentRequests={service.numCurrentRequests}
-								image={async () => {
-									//Passes in the function to retrieve the image of this product
-									return await FirebaseFunctions.call('getServiceImageByID', {
-										serviceID: service.serviceID,
-									});
-								}}
-								onPress={() => {
-									history.push({
-										pathname: '/serviceScreen',
-										state: { business: business, service: service },
-									});
-								}}
-							/>
-						))}
+						{loaded
+							? services.map((service) => (
+									<BusinessServiceCard
+										title={service.serviceTitle}
+										totalReviews={service.totalReviews}
+										averageRating={service.averageRating}
+										priceText={service.priceText}
+										serviceDescription={service.serviceDescription}
+										numCurrentRequests={service.numCurrentRequests}
+										image={async () => {
+											//Passes in the function to retrieve the image of this product
+											return await FirebaseFunctions.call('getServiceImageByID', {
+												serviceID: service.serviceID,
+											});
+										}}
+										onPress={() => {
+											history.push({
+												pathname: '/serviceScreen',
+												state: { business: business, service: service },
+											});
+										}}
+									/>
+							  ))
+							: null}
 					</div>
 					<div className='upcomingRequestsContainer'>
 						<UpcomingRequests />

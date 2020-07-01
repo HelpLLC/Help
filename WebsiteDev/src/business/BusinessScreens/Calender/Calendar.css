@@ -7,17 +7,16 @@
 .sidebarHolder {
 	width: 20vw;
 	height: 100vh;
-	z-index: 0;
+	margin-left: 0.005vw;
 }
 .calendarHolder {
 	height: 97vh;
-	margin-top: 3vh;
-	z-index: 1;
+	margin-top: 10vh;
+	margin-right: 2vw;
 }
 .rightMenuContainer {
 	height: 100vh;
 	width: 25vw;
-	z-index: 1;
 	background-color: #F3F3F3;
 	display: flex;
 	flex-direction: column;

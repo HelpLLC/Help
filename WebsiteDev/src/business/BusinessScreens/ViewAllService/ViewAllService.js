@@ -8,8 +8,9 @@ import '../../../config/fontStyles.css';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import ReactLoading from 'react-loading';
 import colors from '../../../config/colors';
-import SideMenu from '../../../components/SideMenu/SideMenu';
 import ViewAllServiceCard from '../../../components/ViewAllServiceCard/ViewAllServiceCard';
+import SideMenuCard from '../../../components/SideMenu/SideMenuCard';
+import DropdownHeader from "../../../components/DropdownHeader/DropdownHeader";
 
 //Declares the functional component
 const ViewAllService = (props) => {
@@ -18,6 +19,8 @@ const ViewAllService = (props) => {
 	const [service, setService] = useState('');
 	const [serviceData, setServiceData] = useState('');
 	const [title, setTitle] = useState('');
+	const [businessID, setBusinessID] = useState();
+	const [businessName, setBusinessName] = useState();
 	const location = useLocation();
 	const history = useHistory();
 
@@ -35,6 +38,12 @@ const ViewAllService = (props) => {
 		setServiceData(location.state.data);
 		setTitle(location.state.title);
 		setIsLoading(false);
+
+		const business = await FirebaseFunctions.call("getBusinessByID", {
+			businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2"
+		  });
+		  setBusinessID(business);
+		  setBusinessName(business.businessName);
 	};
 
 	useEffect(() => {
@@ -51,9 +60,14 @@ const ViewAllService = (props) => {
 	}
 	return (
 		<div className='ViewAllScreen'>
-			<section className='sidebarHolder'>
-				<SideMenu title='Service' />
-			</section>
+			  <section className="dropdownheader">
+          <DropdownHeader
+              businessID={businessID}
+			  businessName={businessName}
+            modalClassName="modal"
+            divClassName="toprightcontainer"
+          />
+        </section>
 			<div className='ViewAllContainer'>
 				<text className='mainTextStyle darkBlue bold'>{title}</text>
 				<div className='bottomSection'>
