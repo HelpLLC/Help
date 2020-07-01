@@ -25,7 +25,13 @@ export default class FirebaseFunctions {
 	}
 
 	//Logs the user in and subscribes to the notification service associated with his/her account
-	static async logIn(email, password) {
+	static async logIn(email, password, rememberMe) {
+		// if user has checked remember me, save in local storage or else save it for the current tab
+		if (rememberMe) {
+			await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+		} else {
+			await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+		}
 		const account = await firebase.auth().signInWithEmailAndPassword(email, password);
 		//Tests whether this is a business or a customer & based on that, subscribes to the correct channel
 		const { uid } = account.user;
@@ -40,8 +46,15 @@ export default class FirebaseFunctions {
 		if (customer !== -1 && business === -1) {
 			return -1;
 		}
+
 		return business.businessID;
 	}
+
+	//Logs the user out
+	static async logOut() {
+		await firebase.auth().signOut();
+	}
+
 	// This method emails the user a link to go ahead and reset their password if they have forgotten their password
 	// Used in Login.js
 	// @param email: the email that the link needs to be sent to
