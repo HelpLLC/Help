@@ -48,6 +48,18 @@
 	text-align: left;
 }
 
+#login_checkbox {
+	text-align: left;
+}
+
+#checkbox_row {
+	display: flex;
+	flex-direction: row;
+	width: 20vw;
+	margin-top: 2vh;
+	margin-left: 5vw;
+}
+
 #login_button {
 	margin-top: 3vh;
 	display: flex;

@@ -13,7 +13,8 @@ import ReactLoading from 'react-loading';
 import strings from '../../../config/strings';
 import fontStyles from '../../../config/fontStyles';
 
-export default function Dashboard(props) {
+// Declares the functional component
+const Dashboard = (props) => {
 	const [business, setBusiness] = useState();
 	const [services, setServices] = useState();
 	const [isLoading, setIsLoading] = useState(true);
@@ -200,3 +201,6 @@ export default function Dashboard(props) {
 		</div>
 	);
 }
+
+// Exports the component
+export default Dashboard;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FirebaseFunctions from '../../../../config/FirebaseFunctions';
 import HelpButton from '../../../../components/HelpButton/HelpButton.js';
 import TitleComponent from '../../../../components/TitleComponent.js';
@@ -12,6 +12,7 @@ import { screenWidth, screenHeight } from '../../../../config/dimensions';
 import HelpTextInput from '../../../../components/HelpTextInput/HelpTextInput';
 import './Login.css';
 import '../../../../config/fontStyles.css';
+import * as firebase from 'firebase/auth';
 
 export function Login(props) {
 	const [email, setEmail] = useState('');
@@ -22,6 +23,7 @@ export function Login(props) {
 	const [loggingInLoading, setLoggingInLoading] = useState(false);
 	const [emailSendingLoading, setEmailSendingLoading] = useState(false);
 	const [errorOpen, setErrorOpen] = useState(false);
+	const [rememberMe, setRememberMe] = useState(false);
 	let history = useHistory();
 
 	const login = async () => {
@@ -34,7 +36,7 @@ export function Login(props) {
 		) {
 			let businessID = '';
 			try {
-				businessID = await FirebaseFunctions.logIn(email, password);
+				businessID = await FirebaseFunctions.logIn(email, password, rememberMe);
 			} catch (error) {
 				setCredentialsError(true);
 			}
@@ -99,6 +101,15 @@ export function Login(props) {
 						onChangeText={(password) => setPassword(password)}
 					/>
 				</div>
+
+				<div id='checkbox_row'>
+					<div id='login_checkbox'>
+						<input type='checkbox' value='RememberMe' onChange={(value) => setRememberMe(value)} />
+					</div>
+
+					<div className='smallTextStyle'>{strings.RememberMe}</div>
+				</div>
+
 				<div id='login_button'>
 					<HelpButton
 						title={strings.LogIn}
