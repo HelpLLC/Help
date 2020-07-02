@@ -24,12 +24,13 @@ class serviceQuestionsScreen extends Component {
 		questions: [],
 		isFillOutAllFieldsVisible: false,
 		isErrorVisible: false,
-		isRequestSucess: false
+		isRequestSucess: false,
 	};
 
 	//Sets the initial state with the questions and the array of empty answers
 	async componentDidMount() {
 		const { service, customer, isEditing } = this.props.navigation.state.params;
+		console.log('customer user = ' + JSON.stringify(customer));
 		let { questions } = service;
 		let answers = [];
 		//If this screen is to edit a previous request, then the answer that was previously put down will be set
@@ -40,10 +41,30 @@ class serviceQuestionsScreen extends Component {
 		} else {
 			FirebaseFunctions.setCurrentScreen('NewServiceQuestionsScreen', 'serviceQuestionsScreen');
 			answers = questions.map((element) => {
-				return {
-					question: element,
-					answer: ''
-				};
+				if (element.trim().toLowerCase().includes(strings.WhatIsYourPhoneNumberQuestion)) {
+					return {
+						question: element,
+						answer: customer.phoneNumber,
+					};
+				} else if (
+					element.trim().toLowerCase().includes(strings.WhatIsYourEDashMailAddressQuestion) ||
+					element.trim().toLowerCase().includes(strings.WhatIsYourEmailAddressQuestion)
+				) {
+					return {
+						question: element,
+						answer: customer.email,
+					};
+				} else if (element.trim().toLowerCase().includes(strings.WhatIsYourAddressQuestion)) {
+					return {
+						question: element,
+						answer: customer.address,
+					};
+				} else {
+					return {
+						question: element,
+						answer: '',
+					};
+				}
 			});
 		}
 		this.setState({
@@ -52,7 +73,7 @@ class serviceQuestionsScreen extends Component {
 			questions,
 			answers,
 			service,
-			customer
+			customer,
 		});
 	}
 
@@ -77,7 +98,7 @@ class serviceQuestionsScreen extends Component {
 			service,
 			customer,
 			isEditing: isEditing,
-			request: this.props.navigation.state.params.request
+			request: this.props.navigation.state.params.request,
 		});
 	}
 
@@ -120,27 +141,27 @@ class serviceQuestionsScreen extends Component {
 							style={{
 								marginTop: screenHeight * 0.05,
 								alignItems: 'flex-start',
-								flexDirection: 'column'
+								flexDirection: 'column',
 							}}>
 							<View
 								style={{
-									marginBottom: screenHeight * 0.025
+									marginBottom: screenHeight * 0.025,
 								}}>
 								<Text style={[fontStyles.mainTextStyle, fontStyles.black]}>{item}</Text>
 							</View>
 							<View>
 								<HelpTextInput
-								isMultiline={true}
+									isMultiline={true}
 									width={screenWidth * 0.8}
 									height={screenHeight * 0.08}
 									placeholder={strings.AnswerHereDotDotDot}
 									onChangeText={(input) => {
 										answers[index] = {
 											question: item,
-											answer: input
+											answer: input,
 										};
 										this.setState({
-											answers
+											answers,
 										});
 									}}
 									value={answers[index].answer}
