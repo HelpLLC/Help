@@ -14,12 +14,6 @@
 	margin-left: -2vw;
 	margin-top: 7vh;
 }
-.loadingContainer {
-	display: flex;
-	height: 100vh;
-	justify-content: center;
-	align-items: center;
-}
 
 .buttonContainer {
 	margin-top: 5vh;
@@ -32,5 +26,57 @@
 }
 
 .upcomingRequestsContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	margin-left: 2vw;
+	width: 30vw;
+	height: 55vh;
+	margin-top: 5vh;
+	border-width: 6;
+	border-color: #5cc6bc;
+	border-radius: 2.5vh;
+	border-style: solid;
+	box-shadow: 0 0px 7px 0 #5cc6bc, 0 0px 0px 0 #41cbef;
+}
+
+.unconfirmedInfoCard {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	height: 20vh;
+}
+
+.loadingContainer {
+	display: flex;
+	height: 100vh;
+	justify-content: center;
+	align-items: center;
+}
+
+.viewAllButton {
+	margin-top: 2.5vh;
+}
+
+.cardContainer {
+	width: 27vw;
+	height: 20vh;
+	border-width: 5;
+	border-style: solid;
+	align-self: center;
+	border-color: #5cc6bc;
+	margin-right: 1.5vw;
+	border-radius: 2.5vh;
+	margin-left: 1.25vw;
+	margin-top: 2vh;
+	display: flex;
+	flex-direction: row;
+}
+
+.imageStyle {
+	height: 14vh;
+	width: 10vw;
+	margin-left: 1vw;
+	margin-top: 3vh;
+	border-radius: 1vh;
 }
