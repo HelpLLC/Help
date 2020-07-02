@@ -30,7 +30,6 @@ class serviceQuestionsScreen extends Component {
 	//Sets the initial state with the questions and the array of empty answers
 	async componentDidMount() {
 		const { service, customer, isEditing } = this.props.navigation.state.params;
-		console.log('customer user = ' + JSON.stringify(customer));
 		let { questions } = service;
 		let answers = [];
 		//If this screen is to edit a previous request, then the answer that was previously put down will be set
