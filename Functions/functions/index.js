@@ -134,9 +134,12 @@ const deleteRequest = async (requestID) => {
 			day = '0' + day;
 		}
 		const dateString = year + '-' + month + '-' + day;
-		await transaction.update(businesses.doc(request.businessID).collection('Schedule').doc(dateString), {
-			[requestID]: admin.firestore.FieldValue.delete(),
-		});
+		await transaction.update(
+			businesses.doc(request.businessID).collection('Schedule').doc(dateString),
+			{
+				[requestID]: admin.firestore.FieldValue.delete(),
+			}
+		);
 
 		//Updates the customer document
 		indexOfRequest = customer.currentRequests.findIndex(
@@ -177,10 +180,14 @@ const deleteRequest = async (requestID) => {
 		const dateString = year + '-' + month + '-' + day;
 		//Tests if this document should be deleted all together
 		const scheduleDoc = (
-			await transaction.get(businesses.doc(request.businessID).collection('Schedule').doc(dateString))
+			await transaction.get(
+				businesses.doc(request.businessID).collection('Schedule').doc(dateString)
+			)
 		).data();
 		if (Object.keys(scheduleDoc).length === 1) {
-			await transaction.delete(businesses.doc(request.businessID).collection('Schedule').doc(dateString));
+			await transaction.delete(
+				businesses.doc(request.businessID).collection('Schedule').doc(dateString)
+			);
 		}
 		await transaction.delete(requests.doc(requestID));
 	});
@@ -605,6 +612,56 @@ exports.getUnconfirmedRequestsByServiceID = functions.https.onCall(async (input,
 		query = await confirmedRequests.limit(limit).get();
 	} else {
 		query = await confirmedRequests.get();
+	}
+	const docs = query.docs.map((doc) => doc.data());
+	//Sorts the documents by time and date
+	docs.sort((a, b) => {
+		const aDate = new Date(a.date);
+		const bDate = new Date(b.date);
+		if (aDate.getTime() - bDate.getTime() === 0) {
+			let aTime = a.time;
+			let bTime = b.time;
+
+			const aTimePeriod = aTime.split(' ')[1];
+			const bTimePeriod = bTime.split(' ')[1];
+			const aTimeString = aTime.split(' ')[0];
+			const bTimeString = bTime.split(' ')[0];
+
+			let aHour = aTimeString.split(':')[0];
+			let aMinute = aTimeString.split(':')[1];
+			let bHour = bTimeString.split(':')[0];
+			let bMinute = bTimeString.split(':')[1];
+
+			if (aTimePeriod === 'PM' && aHour !== '12') {
+				aHour = parseInt(aHour) + 12;
+			}
+			if (bTimePeriod === 'PM' && bHour !== '12') {
+				bHour = parseInt(bHour) + 12;
+			}
+			aTime = aHour * 60 + aMinute;
+			bTime = bHour * 60 + bMinute;
+
+			return aTime - bTime;
+		} else {
+			return aDate.getTime() - bDate.getTime();
+		}
+	});
+	return docs;
+});
+
+// This method is going to return an array of upcoming unconfirmed requests based on the businessID. It will
+// also take in a limit parameter that returns only a set amount of those unconfirmed requests
+exports.getUnconfirmedRequestsByBusinessID = functions.https.onCall(async (input, context) => {
+	const { businessID, limit } = input;
+
+	const unconfirmedRequests = requests
+		.where('businessID', '==', businessID)
+		.where('confirmed', '==', false);
+	let query = '';
+	if (typeof limit === 'number') {
+		query = await unconfirmedRequests.limit(limit).get();
+	} else {
+		query = await unconfirmedRequests.get();
 	}
 	const docs = query.docs.map((doc) => doc.data());
 	//Sorts the documents by time and date
