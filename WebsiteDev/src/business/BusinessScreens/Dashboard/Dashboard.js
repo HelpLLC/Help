@@ -120,6 +120,9 @@ const Dashboard = (props) => {
 						))}
 					</div>
 					<div className='upcomingRequestsContainer'>
+						<div className={'mainTextStyle darkBlue bold unconfirmedTitle'}>
+							{strings.UnconfirmedRequests}
+						</div>
 						{unconfirmedRequests.map((eachRequest, index) => {
 							let date = new Date(eachRequest.date);
 							date =

@@ -31,7 +31,7 @@
 	align-items: center;
 	margin-left: 2vw;
 	width: 30vw;
-	height: 55vh;
+	height: 60vh;
 	margin-top: 5vh;
 	border-width: 6;
 	border-color: #5cc6bc;
@@ -45,6 +45,12 @@
 	flex-direction: column;
 	justify-content: space-evenly;
 	height: 20vh;
+}
+
+.unconfirmedTitle {
+	align-self: flex-start;
+	margin-left: 1.5vw;
+	margin-top: 2vh;
 }
 
 .loadingContainer {
