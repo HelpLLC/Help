@@ -16,18 +16,19 @@ export default function LandingPage() {
 	//To save code, this generates each reduntant section in the landing page
 	const history = useHistory();
 
-	useEffect(() => {
-		async function authPersistence() {
-			const persist = await firebase.auth().onAuthStateChanged((user) => {
-				if (user) {
-					history.push({
-						pathname: '/dashboard',
-						state: { businessID: user.uid },
-					});
-				}
-			});
-			return persist;
-		}
+	async function authPersistence() {
+		const persist = await firebase.auth().onAuthStateChanged((user) => {
+			if (user) {
+				history.push({
+					pathname: '/dashboard',
+					state: { businessID: user.uid },
+				});
+			}
+		});
+		return persist;
+	}
+
+	useEffect(() => {	
 		authPersistence();
 	}, []);
 
