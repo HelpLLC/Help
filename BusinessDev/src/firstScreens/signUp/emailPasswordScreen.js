@@ -284,7 +284,7 @@ class emailPasswordScreen extends Component {
 							width={screenWidth * 0.7}
 							height={screenHeight * 0.06}
 							placeholder={strings.PleaseEnterPhoneNumber}
-							onChangeText={(input) => this.setState({ PhoneNumber: input })}
+							onChangeText={(input) => this.setState({ phoneNumber: input })}
 							value={this.state.PhoneNumber}
 							autoCompleteType={'tel'}
 						/>

@@ -25,11 +25,16 @@ function EmployeeVerification(props) {
 		value,
 		setValue,
 	});
-	const { email, name, phoneNumber} = props.navigation.state.params;
+	
 
 	const signUp = async() => {
 		firebase.auth().signInAnonymously();
-		const { password } = this.props.navigation.state.params;
+		const { email, name, phoneNumber} = props.navigation.state.params;
+		const { password } = props.navigation.state.params;
+		console.log(email)
+		console.log(password)
+		console.log(name)
+		console.log(phoneNumber)
 		//Fetches the account information based on whether the business also has a customer account
 		let account = '';
 		account = await firebase.auth().createUserWithEmailAndPassword(email, password);
@@ -40,7 +45,7 @@ function EmployeeVerification(props) {
 			phoneNumber,
 			employeeID: account.user.uid
 		});
-		props.navigation.push('waitingForVerification')
+		props.navigation.push('waitingFaorVerification')
 
 	};
 
