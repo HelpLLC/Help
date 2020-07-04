@@ -11,7 +11,6 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import "../../../config/fontStyles.css";
 import { View } from "react-native-web";
-
 import SideMenuCard from "../../../components/SideMenu/SideMenuCard";
 import DropdownHeader from "../../../components/DropdownHeader/DropdownHeader";
 
@@ -29,15 +28,18 @@ export default function Analytics(props) {
 
   const revenueChange = (event) => {
     setRevenueBy(event.target.value);
-    setRevenueChart(generateRevenueChartData());
+    setRevenueChart(generateRevenueChartData(revenueData, event.target.value));
+
   };
   const servicesChange = (event) => {
     setTopServicesBy(event.target.value);
-    setServicesChart(generateTopServicesChartData());
+    setServicesChart(generateTopServicesChartData(topServicesData, event.target.value));
+
   };
   const locationsChange = (event) => {
     setCustomerLocationsBy(event.target.value);
-    setLocationsChart(generateTopLocationsChartData());
+    setLocationsChart(generateTopLocationsChartData(customerLocationsBy, event.target.value));
+
   };
 
   // Once the elements are rendered, retrieve analytics data from firebasse and differentiate them
@@ -56,22 +58,15 @@ export default function Analytics(props) {
     setRevenueData(revenueDataConst);
     setTopServicesData(topServicesDataConst);
     setCustomerLocationData(customerLocationDataConst);
+    setRevenueChart(generateRevenueChartData(revenueDataConst, "Month"));
+    setServicesChart(generateTopServicesChartData(topServicesDataConst, "Revenue"));
+    setLocationsChart(generateTopLocationsChartData(customerLocationDataConst, "City"));
 
-    // ensures all data is loaded, then format the data for the chart
-    if (revenueData !== undefined) {
-      setRevenueChart(generateRevenueChartData());
-    }
-    if (topServicesData !== undefined) {
-      setServicesChart(generateTopServicesChartData());
-    }
-    if (customerLocationData !== undefined) {
-      setLocationsChart(generateTopLocationsChartData());
-    }
     setIsScreenLoading(false);
   };
 
   //Generates the chart data for the revenue graph
-  const generateRevenueChartData = () => {
+  const generateRevenueChartData = (revenueData, dataType) => {
     const monthStrings = [
       "Jan",
       "Feb",
@@ -89,10 +84,11 @@ export default function Analytics(props) {
 
     // Only get the months out of the data
     let months = Object.keys(revenueData);
+    
     months.sort();
     months.reverse();
     let chartData = [["Month", "Revenue ($)"]];
-    if (revenueBy === "Month") {
+    if (dataType === "Month") {
       months = months.filter((value) => value.includes("-"));
     } else {
       months = months.filter((value) => !value.includes("-"));
@@ -110,7 +106,7 @@ export default function Analytics(props) {
     // Combine the date and revenue into one 2d array
     for (let i = months.length - 1; i >= 0; i--) {
       const month = months[i];
-      if (revenueBy === "Month") {
+      if (dataType === "Month") {
         const xAxisValue =
           monthStrings[parseInt(month.substring(month.indexOf("-") + 1)) - 1] +
           " " +
@@ -125,7 +121,7 @@ export default function Analytics(props) {
   };
 
   //Generates the chart data for the services graph
-  const generateTopServicesChartData = () => {
+  const generateTopServicesChartData = (topServicesData, dataType) => {
     // Get the services' data from firebase
     let services = Object.keys(topServicesData);
     services = services.filter((value) => !(value === ""));
@@ -133,7 +129,7 @@ export default function Analytics(props) {
     // Set up a 2d array with the axes' titles
     let chartData = [["Services", "Requests"]];
 
-    if (topServicesBy === "Revenue") {
+    if (dataType === "Revenue") {
       chartData = [["Services", "Revenue ($)"]];
       services.sort((a, b) => {
         return (
@@ -150,7 +146,7 @@ export default function Analytics(props) {
           );
         }
       }
-    } else if (topServicesBy === "Requests") {
+    } else if (dataType === "Requests") {
       services.sort((a, b) => {
         return (
           topServicesData[b].totalRequests - topServicesData[a].totalRequests
@@ -166,7 +162,7 @@ export default function Analytics(props) {
           );
         }
       }
-    } else if (topServicesBy === "Views") {
+    } else if (dataType === "Views") {
       chartData = [["Services", "Views"]];
       services.sort((a, b) => {
         return topServicesData[b].totalViews - topServicesData[a].totalViews;
@@ -186,11 +182,11 @@ export default function Analytics(props) {
   };
 
   //Generates the chart data for the customer locations graph
-  const generateTopLocationsChartData = () => {
+  const generateTopLocationsChartData = (customerLocationData, dataType) => {
     // Set up a 2d array with the axes' titles
     let chartData = [["Cities", "Requests"]];
 
-    if (customerLocationsBy === "City") {
+    if (dataType === "City") {
       // Get the cities, order them by the number of orders, and add them to a 2d array
       const { Cities } = customerLocationData;
       let cityKeys = Object.keys(Cities);
@@ -200,7 +196,7 @@ export default function Analytics(props) {
           chartData.push(new Array(cityKeys[i], Cities[cityKeys[i]]));
         }
       }
-    } else if (customerLocationsBy === "State") {
+    } else if (dataType === "State") {
       chartData = [["States", "Requests"]];
       const { States } = customerLocationData;
       let stateKeys = Object.keys(States);
@@ -210,7 +206,7 @@ export default function Analytics(props) {
           chartData.push(new Array(stateKeys[i], States[stateKeys[i]]));
         }
       }
-    } else if (customerLocationsBy === "Country") {
+    } else if (dataType === "Country") {
       chartData = [["Countries", "Requests"]];
       const { Countries } = customerLocationData;
       let countryKeys = Object.keys(Countries);
@@ -224,9 +220,13 @@ export default function Analytics(props) {
     return { chartData };
   };
 
+
+
   useEffect(() => {
     componentDidMount();
   }, []);
+
+console.log(customerLocationData)
 
   if (isScreenLoading === true) {
     return (
@@ -253,8 +253,8 @@ export default function Analytics(props) {
     );
   } else {
     return (
-      <div className="top">
-        <section className="dropdownheader">
+      <div>
+          <section className="dropdownheader">
           <DropdownHeader
             businessName="Magic Hands LLC"
             modalClassName="modal"
@@ -264,7 +264,6 @@ export default function Analytics(props) {
         <section className="sidebarHolder">
           <SideMenuCard title="Help" />
         </section>
-        <div>
           <div className="container">
             <div className="titlecontainer">
               <text className="biggerBigTextStyle blue bold">
@@ -283,8 +282,8 @@ export default function Analytics(props) {
                         native
                         value={revenueBy}
                         onChange={revenueChange}
-                        label="Sort By"
-                        style={{ borderBottomWidth: 0 }}
+                        label={strings.SortBy}
+                        style={{ ...fontStyles.white}}
                       >
                         <option value={"Month"}>{strings.SortByMonth}</option>
                         <option value={"Year"}>{strings.SortByYear}</option>
@@ -309,7 +308,7 @@ export default function Analytics(props) {
                       vAxis: {
                         title: strings.RevenueDollarSign,
                       },
-                      legend: "none",
+                      legend: {position: 'none'},
                       colors: [colors.lightBlue],
                     }}
                   />
@@ -318,7 +317,7 @@ export default function Analytics(props) {
               <div className="section2">
                 <div className="chart2container">
                   <div className="row chart2">
-                    <text className="title2 smallerBigTextStyle blue bold">
+                    <text className="title2 subTextStyle blue bold">
                       {strings.TopServices}
                     </text>
                     <div className="right">
@@ -328,6 +327,7 @@ export default function Analytics(props) {
                           value={topServicesBy}
                           onChange={servicesChange}
                           label={strings.SortBy}
+                          style={{ ...fontStyles.white}}
                         >
                           <option value={"Revenue"}>
                             {strings.SortByRevenue}
@@ -342,19 +342,20 @@ export default function Analytics(props) {
                   </div>
                   <Chart
                     className="chart2"
-                    width={"35vw"}
+                    width={"25vw"}
                     height={"20vh"}
                     chartType="Bar"
                     loader={<div>{strings.LoadingChart}</div>}
                     data={servicesChart.chartData}
                     options={{
                       colors: [colors.lightBlue],
+                      legend: {position: 'none'}
                     }}
                   />
                 </div>
                 <div className="chart3container">
                   <div className="row chart3">
-                    <text className="title2 smallerBigTextStyle blue bold">
+                    <text className="title2 subTextStyle blue bold">
                       {strings.TopLocations}
                     </text>
                     <div className="right">
@@ -364,6 +365,7 @@ export default function Analytics(props) {
                           value={customerLocationsBy}
                           onChange={locationsChange}
                           label={strings.SortBy}
+                          style={{ ...fontStyles.white}}
                         >
                           <option value={"City"}>{strings.SortByCity}</option>
                           <option value={"State"}>{strings.SortByState}</option>
@@ -376,20 +378,20 @@ export default function Analytics(props) {
                   </div>
                   <Chart
                     className="chart3"
-                    width={"30vw"}
+                    width={"25vw"}
                     height={"20vh"}
                     chartType="Bar"
                     loader={<div>{strings.LoadingChart}</div>}
                     data={locationsChart.chartData}
                     options={{
                       colors: [colors.lightBlue],
+                      legend: {position: 'none'}
                     }}
                   />
                 </div>
               </div>
             </div>
           </div>
-        </div>
       </div>
     );
   }
