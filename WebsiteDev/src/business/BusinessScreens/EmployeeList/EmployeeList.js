@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import HelpTextInput from '../../../components/HelpTextInput/HelpTextInput';
 import HelpButton from '../../../components/HelpButton/HelpButton';
 import EmployeeListItem from '../../../components/EmployeeListItem/EmployeeListItem';
 import './EmployeeList.css';
-// import '../../../config/fontStyles.css';
 import strings from '../../../config/strings';
 import fontStyles from '../../../config/fontStyles';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
@@ -15,58 +14,69 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import colors from '../../../config/colors';
 import TitleComponent from '../../../components/TitleComponent.js';
+import ReactLoading from 'react-loading';
 import DialogActions from '@material-ui/core/DialogActions';
-import SideMenuCard from '../../../components/SideMenu/SideMenuCard';
-import DropdownHeader from "../../../components/DropdownHeader/DropdownHeader";
+import DropdownHeader from '../../../components/DropdownHeader/DropdownHeader';
 
 export default function EmployeeList(props) {
+	// Declares the global variables
+	const history = useHistory();
+	const location = useLocation();
+	const { businessID } = location.state;
+
+	// Declares the state fields
 	const [assigned, setAssigned] = useState(false);
-	const [businessID, setBusinessID] = useState("zjCzqSiCpNQELwU3ETtGBANz7hY2");
-  const [businessName, setBusinessName] = useState();
+	const [business, setBusiness] = useState('');
 	const [confirmed, setConfirmed] = useState(false);
 	const [search, setSearch] = useState('');
 	const [confirmedDialog, setConfirmedDialog] = useState(false);
-	const [loaded, setLoaded] = useState(false);
-	const history = useHistory();
-	const location = useLocation();
+	const [isLoading, setIsLoading] = useState(true);
+
+	// The useEffect method which loads the business information
+	useEffect(() => {
+		fetchFunc();
+	}, []);
+
+	// The helper function for the useEffect method becuase it can't be async
+	const fetchFunc = async () => {
+		const business = await FirebaseFunctions.call('getBusinessByID', {
+			businessID: businessID,
+		});
+		setBusiness(business);
+		setIsLoading(false);
+	};
 
 	const confirmRequest = async () => {
-		const confirm = await FirebaseFunctions.call('confirmRequest', {
+		await FirebaseFunctions.call('confirmRequest', {
 			requestID: location.state.requestID,
 		});
 		setConfirmed(true);
 		setConfirmedDialog(true);
 	};
+
 	const cancelRequest = () => {
 		setConfirmed(false);
 	};
-	const completeRequest = () => {};
 
-
- 
-	const getBusinessName = async () => {
-		const business = await FirebaseFunctions.call("getBusinessByID", {
-		  businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2"
-		});
-		setBusinessID(business);
-		setBusinessName(business.businessName);
-		setLoaded(true);
-	  };
+	// Shows a loading spinner if the method is still loading
+	if (isLoading === true) {
+		return (
+			<div className='content_container'>
+				<ReactLoading type={'bars'} color={colors.lightBlue} width='10vw' />
+			</div>
+		);
+	}
 	
-	  if (loaded === false) {
-		getBusinessName();
-	  }
-
 	return (
 		<div>
-			  <section className="dropdownheader">
-          <DropdownHeader
-              businessID={businessID}
-			  businessName={businessName}
-            modalClassName="modal"
-            divClassName="toprightcontainer"
-          />
-		  </section>
+			<section className='dropdownheader'>
+				<DropdownHeader
+					businessID={business.businessID}
+					businessName={business.businessName}
+					modalClassName='modal'
+					divClassName='toprightcontainer'
+				/>
+			</section>
 			<div className='content_container'>
 				<div id='background'>
 					<div className='content_container'>

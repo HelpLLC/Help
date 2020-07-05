@@ -21,9 +21,9 @@ export default function Dispatch(props) {
 	const [loaded, setLoaded] = React.useState(false);
 	const [image, setImage] = React.useState('');
 	const location = useLocation();
+	const businessID = location.state.businessID;
 
 	const componentDidMount = async () => {
-		const businessID = location.state.businessID;
 		const business = await FirebaseFunctions.call('getBusinessByID', {
 			businessID,
 		});
@@ -48,7 +48,7 @@ export default function Dispatch(props) {
           />
         </section>
 			<section className='sidebarHolder'>
-				<SideMenuCard title="Help"/>
+				<SideMenuCard title="Help" businessID={businessID}/>
 			</section>
 			<section className='dispatchHolder'>
 				<div className='dispatchTitleContainer'>

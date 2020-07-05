@@ -15,12 +15,12 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import colors from "../../../config/colors";
 import TitleComponent from "../../../components/TitleComponent.js";
 import Select from "react-select";
-import SideMenuCard from "../../../components/SideMenu/SideMenuCard";
 import DropdownHeader from "../../../components/DropdownHeader/DropdownHeader";
 
 export default function CreateServiceScreen() {
   //Declares the hooks
   const location = useLocation();
+  const history = useHistory();
   const onDrop = useCallback((file) => {
     const imageFile = file[0];
     //Makes sure that the file uploaded is an actual image
@@ -33,10 +33,10 @@ export default function CreateServiceScreen() {
   }, []);
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
-  const history = useHistory();
+  // Declares the global variables
+  const { business } = location.state;
 
   //Declares the state
-  const [business, setBusiness] = useState(location.state.business);
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState("");
@@ -72,37 +72,17 @@ export default function CreateServiceScreen() {
   ]);
   const [serviceDescription, setServiceDescription] = useState("");
   const [cash, setCash] = useState(false);
-  const [businessName, setBusinessName] = useState();
-  const [businessID, setBusinessID] = useState();
   const [card, setCard] = useState(false);
   const [serviceTitle, setServiceTitle] = useState("");
   const [fieldsError, setFieldsError] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [updateBoolean, setUpdateBoolean] = useState(true);
-  const [loaded, setLoaded] = useState(false);
 
   let minutesArray = [];
   for (let i = 0; i < 60; i++) {
     minutesArray.push(i + "");
   }
-
-  const getBusinessName = async () => {
-    const business = await FirebaseFunctions.call("getBusinessByID", {
-      businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2"
-    });
-    setBusinessID(business);
-    setBusinessName(business.businessName);
-    setLoaded(true);
-  };
-
-  if (loaded === false) {
-    getBusinessName();
-  }
-
-
-  //The useEffect method that renders when the page is loaded
-  useEffect(() => {}, []);
 
   //This function goes and creates the product in Firebase, then fetches the correct updates business object,
   //and navigates back to the Dashboard screen
@@ -160,8 +140,8 @@ export default function CreateServiceScreen() {
       //Creates the product in firebase (Currently hardcoded, shouldn't be eventually)
       const serviceID = await FirebaseFunctions.call("addServiceToDatabase", {
         averageRating: 0,
-        businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2",
-        businessName: "Example Businesses",
+        businessID: business.businessID,
+        businessName: business.businessName,
         category: "Cleaning",
         coordinates: { lat: -122.2054452, long: 47.76011099999999 },
         displayedReviews: [],
@@ -179,7 +159,7 @@ export default function CreateServiceScreen() {
       //Uploads the image to firebase as the image for this product
       await FirebaseFunctions.storage.ref("services/" + serviceID).put(image);
       setIsLoading(false);
-      history.push({ pathname: "/dashboard", state: { businessID: "" } });
+      history.push({ pathname: "/dashboard", state: { businessID: business.businessID } });
     } else {
       if (image === "") {
         setImageError(true);
@@ -198,8 +178,8 @@ export default function CreateServiceScreen() {
     <div className="top">
       <section className="dropdownheader">
         <DropdownHeader
-          businessID={businessID}
-          businessName={businessName}
+          businessID={business.businessID}
+          businessName={business.businessName}
           modalClassName="modal"
           divClassName="toprightcontainer"
         />
