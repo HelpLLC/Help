@@ -25,41 +25,37 @@ function EmployeeVerification(props) {
 		value,
 		setValue,
 	});
-	
 
-	const signUp = async() => {
-		firebase.auth().signInAnonymously();
-		const { email, name, phoneNumber} = props.navigation.state.params;
-		const { password } = props.navigation.state.params;
-		console.log(email)
-		console.log(password)
-		console.log(name)
-		console.log(phoneNumber)
-		//Fetches the account information based on whether the business also has a customer account
-		let account = '';
-		account = await firebase.auth().createUserWithEmailAndPassword(email, password);
-		await FirebaseFunctions.logIn(email, password);
-		await FirebaseFunctions.call('AddEmployeeToDatabase', {
-			name,
-			email,
-			phoneNumber,
-			employeeID: account.user.uid
-		});
-		props.navigation.push('waitingFaorVerification')
-
+	const signUp = async () => {
+		try {
+			await firebase.auth().signInAnonymously();
+			const { email, name, phoneNumber } = props.navigation.state.params;
+			const { password } = props.navigation.state.params;
+			//Fetches the account information based on whether the business also has a customer account
+			account = await firebase.auth().createUserWithEmailAndPassword(email, password);
+			await Promise.all([
+				FirebaseFunctions.logIn(email, password),
+				FirebaseFunctions.call('addEmployeeToDatabase', {
+					name,
+					email,
+					phoneNumber,
+					employeeID: account.user.uid,
+				}),
+			]);
+		} catch (error) {
+			await FirebaseFunctions.call('logIssue', {
+				userID: 'EX',
+				error,
+			});
+		}
+		props.navigation.push('waitingForVerification');
 	};
 
 	return (
 		<View style={screenStyle.container}>
 			<View style={{ marginTop: screenHeight * 0.1 }}>
 				<View>
-					<Text
-						style={[
-							fontStyles.darkBlue,
-							fontStyles.bigSubTitleStyle,
-							{ textAlign: 'center' },
-						]}
-					>
+					<Text style={[fontStyles.darkBlue, fontStyles.bigSubTitleStyle, { textAlign: 'center' }]}>
 						Join a Business
 					</Text>
 				</View>
@@ -77,20 +73,13 @@ function EmployeeVerification(props) {
 							<Text
 								key={index}
 								style={[styles.cell, isFocused && styles.focusCell]}
-								onLayout={getCellOnLayoutHandler(index)}
-							>
+								onLayout={getCellOnLayoutHandler(index)}>
 								{symbol || (isFocused ? <Cursor /> : null)}
 							</Text>
 						)}
 					/>
 					<View style={{ marginTop: screenHeight * 0.05 }}>
-						<Text
-							style={[
-								fontStyles.darkBlue,
-								fontStyles.bigTextStyle,
-								{ textAlign: 'center' },
-							]}
-						>
+						<Text style={[fontStyles.darkBlue, fontStyles.bigTextStyle, { textAlign: 'center' }]}>
 							Enter a 5 digit code given by your employer
 						</Text>
 					</View>
@@ -100,18 +89,12 @@ function EmployeeVerification(props) {
 							width={screenWidth * 0.4356}
 							height={screenHeight * 0.0566}
 							onPress={() => {
-								signUp()
+								signUp();
 							}}
 						/>
 					</View>
 					<View style={{ marginTop: screenHeight * 0.2 }}>
-						<Text
-							style={[
-								fontStyles.darkBlue,
-								fontStyles.bigTextStyle,
-								{ textAlign: 'center' },
-							]}
-						>
+						<Text style={[fontStyles.darkBlue, fontStyles.bigTextStyle, { textAlign: 'center' }]}>
 							Don't have a code? Contact your employer and get one!
 						</Text>
 					</View>

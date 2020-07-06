@@ -841,7 +841,7 @@ exports.updateBusinessInformation = functions.https.onCall(async (input, context
 
 exports.addEmployeeToDatabase = functions.https.onCall(async (input, context) => {
 	const {
-		//Fields for the business
+		//Fields for the employee
 		name,
 		email,
 		phoneNumber,
@@ -856,6 +856,10 @@ exports.addEmployeeToDatabase = functions.https.onCall(async (input, context) =>
 		phoneNumber,
 		employeeID
 	});
+
+	// Commits the batch
+	await batch.commit();
+	return 0;
 });
 
 //This method will take information about a new service and add it to the firestore database. It will
