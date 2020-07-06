@@ -26,13 +26,31 @@ const ServiceScreen = (props) => {
   const [business, setBusiness] = useState("");
   const [businessName, setBusinessName] = useState();
   const [serviceImage, setServiceImage] = useState("");
-  const [confirmedRequestsSnippet, setConfirmedRequestsSnippet] = useState("");
+  const [confirmedRequestsSnippet, setConfirmedRequestsSnippet] = useState();
   const [unconfirmedRequestsSnippet, setUnconfirmedRequestsSnippet] = useState(
     ""
   );
   const [requestHistorySnippet, setRequestHistorySnippet] = useState("");
   const location = useLocation();
   const history = useHistory();
+
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+  const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+
+
 
   //The useEffect method & the fetchData method will both fetch the correct data about the specific service that has
   //been clicked on based on the service ID, the current requests snippet, the request history snippet,
@@ -46,8 +64,10 @@ const ServiceScreen = (props) => {
     const image = await FirebaseFunctions.call("getServiceImageByID", {
       serviceID: serviceObject.serviceID,
     });
-  
+
     setServiceImage(image);
+
+
     let confirmedRequests = await FirebaseFunctions.call(
       "getConfirmedRequestsByServiceID",
       {
@@ -55,6 +75,7 @@ const ServiceScreen = (props) => {
         limit: 2,
       }
     );
+
     let unconfirmedRequests = await FirebaseFunctions.call(
       "getUnconfirmedRequestsByServiceID",
       {
@@ -62,6 +83,7 @@ const ServiceScreen = (props) => {
         limit: 2,
       }
     );
+
     let requestHistory = await FirebaseFunctions.call(
       "getCompletedRequestsByServiceID",
       {
@@ -69,26 +91,32 @@ const ServiceScreen = (props) => {
         limit: 2,
       }
     );
+
+
     setConfirmedRequestsSnippet(confirmedRequests);
     setUnconfirmedRequestsSnippet(unconfirmedRequests);
     setRequestHistorySnippet(requestHistory);
     setIsLoading(false);
   };
-
+   
   useEffect(() => {
     fetchData();
   }, []);
 
   //This function is going to take in three parameters. A customer name, a date, and a time, and then
   //will render a request card displaying that information
-  const renderRequestCard = (customerName, date, time, requestID) => {
+  const renderRequestCard = (customerName, date, time, endTime, requestID) => {
     return (
       <div className="requestCard">
+        <div className="requestcardcontent">
+        <div className="textinrequestcard">
         <div className={"requestCardInformation"}>
           <text className={"smallTextStyle darkBlue bold"}>{customerName}</text>
-          <text className={"smallTextStyle darkBlue"}>{date}</text>
-          <text className={"smallTextStyle darkBlue"}>{time}</text>
+          <text className={"tinyTextStyle darkBlue"}>{ days[new Date(date).getDay()] + ', ' + months[new Date(date).getMonth()] + ' ' + (new Date(date).getDate() + 1) + ', ' + new Date(date).getFullYear()}</text>
+          <text className={"tinyTextStyle darkBlue"}>{time + ' - ' + endTime}</text>
         </div>
+        </div>
+        <div className="buttoninrequestcard">
         <HelpButton
           onPress={() => {
             //Goes to the specific request screen
@@ -105,6 +133,8 @@ const ServiceScreen = (props) => {
             ...fontStyles.white,
           }}
         />
+        </div>
+        </div>
       </div>
     );
   };
@@ -117,10 +147,11 @@ const ServiceScreen = (props) => {
       </div>
     );
   }
+
+  console.log(confirmedRequestsSnippet[1].date);
   return (
-    <div>
-      <div className="serviceScreen">
-        <section className="dropdownheader">
+    <div className="wholeservicescreen">
+              <section className="dropdownheader">
           <DropdownHeader
                   businessID={business}
                   businessName={businessName}
@@ -128,7 +159,10 @@ const ServiceScreen = (props) => {
             divClassName="toprightcontainer"
           />
         </section>
-
+        <section className="sidebarHolder">
+        <SideMenuCard title="Help" />
+      </section>
+      <div className="serviceScreen">
         <div className="serviceScreenContainer">
           <div className="titleSection">
             <div
@@ -159,7 +193,7 @@ const ServiceScreen = (props) => {
             />
           </div>
           <div className="middleSection">
-            <img className={"serviceScreenImage"} src={serviceImage.uri} />
+            <img className={"serviceScreenImage"} src={serviceImage.uri}/>
             <div className={"serviceScreenDescriptionRating"}>
               <div className="serviceScreenDescriptionSection">
                 <text className="subTextStyle darkBlue bold">
@@ -244,6 +278,7 @@ const ServiceScreen = (props) => {
                       currentRequest.customerName,
                       currentRequest.date,
                       currentRequest.time,
+                      currentRequest.endTime,
                       currentRequest.requestID
                     );
                   })}
@@ -283,6 +318,7 @@ const ServiceScreen = (props) => {
                       historyRequest.customerName,
                       historyRequest.date,
                       historyRequest.time,
+                      historyRequest.endTime,
                       historyRequest.requestID
                     );
                   })}
@@ -321,6 +357,7 @@ const ServiceScreen = (props) => {
                       unconfirmedRequest.customerName,
                       unconfirmedRequest.date,
                       unconfirmedRequest.time,
+                      unconfirmedRequest.endTime,
                       unconfirmedRequest.requestID
                     );
                   })}
