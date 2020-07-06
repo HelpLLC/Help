@@ -36,6 +36,7 @@ const services = database.collection('services');
 const requests = database.collection('requests');
 const issues = database.collection('issues');
 const helpDev = database.collection('helpDev');
+const employees = database.collection('employees')
 
 //--------------------------------- Global Functions ---------------------------------
 
@@ -893,6 +894,29 @@ exports.updateBusinessInformation = functions.https.onCall(async (input, context
 		await batch.commit();
 		return 0;
 	}
+});
+
+exports.addEmployeeToDatabase = functions.https.onCall(async (input, context) => {
+	const {
+		//Fields for the employee
+		name,
+		email,
+		phoneNumber,
+		employeeID
+	} = input;
+
+	const batch = database.batch();
+
+	batch.set(businesses.doc(businessID), {
+		name,
+		email,
+		phoneNumber,
+		employeeID
+	});
+
+	// Commits the batch
+	await batch.commit();
+	return 0;
 });
 
 //This method will take information about a new service and add it to the firestore database. It will

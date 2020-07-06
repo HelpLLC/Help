@@ -6,7 +6,6 @@ import { YellowBox } from 'react-native';
 import codePush from 'react-native-code-push';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import stripe from 'tipsi-stripe';
-
 //Launches the app with the persisted store
 class App extends Component {
 	//Initializes stripe for payments
