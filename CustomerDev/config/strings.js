@@ -246,4 +246,9 @@ export default {
 	UnderMaintenance: 'Under Maintenance',
 	AppIsUnderMaintenance:
 		'Help is currently under scheduled maintenance. It should be back up soon.',
+	WhatIsYourPhoneNumberQuestion: 'what is your phone number?',
+	WhatIsYourEDashMailAddressQuestion: 'what is your e-mail address?',
+	WhatIsYourEmailAddressQuestion: 'what is your email address?',
+	WhatIsYourAddressQuestion: 'what is your address?',
+
 };
