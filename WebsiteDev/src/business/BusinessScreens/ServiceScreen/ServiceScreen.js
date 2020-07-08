@@ -1,54 +1,54 @@
 //This is going to be the screen where a specific service will be displayed for the business. It will render all the information
 //about it, such as the name, description, and image. It will also display a snippet of both the request history of the service
 //as well as a snippet of current requests. There will also be a button that allows the business to edit the service
-import React, { useState, useEffect } from "react";
-import { useLocation, useHistory } from "react-router-dom";
-import "./ServiceScreen.css";
-import "../../../config/fontStyles.css";
-import strings from "../../../config/strings";
-import FirebaseFunctions from "../../../config/FirebaseFunctions";
-import ReactLoading from "react-loading";
-import colors from "../../../config/colors";
-import { Image } from "react-native-web";
-import HelpButton from "../../../components/HelpButton/HelpButton";
-import StarRatings from "react-star-ratings";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import fontStyles from "../../../config/fontStyles";
-import ViewAllService from "../ViewAllService/ViewAllService";
-import DropdownHeader from "../../../components/DropdownHeader/DropdownHeader";
-import SideMenuCard from "../../../components/SideMenu/SideMenuCard";
+import React, { useState, useEffect } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
+import './ServiceScreen.css';
+import '../../../config/fontStyles.css';
+import strings from '../../../config/strings';
+import FirebaseFunctions from '../../../config/FirebaseFunctions';
+import ReactLoading from 'react-loading';
+import colors from '../../../config/colors';
+import { Image } from 'react-native-web';
+import HelpButton from '../../../components/HelpButton/HelpButton';
+import StarRatings from 'react-star-ratings';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import fontStyles from '../../../config/fontStyles';
+import ViewAllService from '../ViewAllService/ViewAllService';
+import DropdownHeader from '../../../components/DropdownHeader/DropdownHeader';
+import SideMenuCard from '../../../components/SideMenu/SideMenuCard';
 
 //Declares the functional component
 const ServiceScreen = (props) => {
   //Declares all the state variables that will be used in this screen
   const [isLoading, setIsLoading] = useState(true);
-  const [service, setService] = useState("");
-  const [business, setBusiness] = useState("");
+  const [service, setService] = useState('');
+  const [business, setBusiness] = useState('');
   const [businessName, setBusinessName] = useState();
-  const [serviceImage, setServiceImage] = useState("");
+  const [serviceImage, setServiceImage] = useState('');
   const [confirmedRequestsSnippet, setConfirmedRequestsSnippet] = useState();
   const [unconfirmedRequestsSnippet, setUnconfirmedRequestsSnippet] = useState(
-    ""
+    ''
   );
-  const [requestHistorySnippet, setRequestHistorySnippet] = useState("");
+  const [requestHistorySnippet, setRequestHistorySnippet] = useState('');
   const location = useLocation();
   const history = useHistory();
 
   const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
-  const days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+  const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
   //The useEffect method & the fetchData method will both fetch the correct data about the specific service that has
   //been clicked on based on the service ID, the current requests snippet, the request history snippet,
@@ -59,14 +59,14 @@ const ServiceScreen = (props) => {
     setService(serviceObject);
     setBusiness(businessObject);
     setBusinessName(businessObject.businessName);
-    const image = await FirebaseFunctions.call("getServiceImageByID", {
+    const image = await FirebaseFunctions.call('getServiceImageByID', {
       serviceID: serviceObject.serviceID,
     });
 
     setServiceImage(image);
 
     let confirmedRequests = await FirebaseFunctions.call(
-      "getConfirmedRequestsByServiceID",
+      'getConfirmedRequestsByServiceID',
       {
         serviceID: serviceObject.serviceID,
         limit: 2,
@@ -74,7 +74,7 @@ const ServiceScreen = (props) => {
     );
 
     let unconfirmedRequests = await FirebaseFunctions.call(
-      "getUnconfirmedRequestsByServiceID",
+      'getUnconfirmedRequestsByServiceID',
       {
         serviceID: serviceObject.serviceID,
         limit: 2,
@@ -82,7 +82,7 @@ const ServiceScreen = (props) => {
     );
 
     let requestHistory = await FirebaseFunctions.call(
-      "getCompletedRequestsByServiceID",
+      'getCompletedRequestsByServiceID',
       {
         serviceID: serviceObject.serviceID,
         limit: 2,
@@ -107,20 +107,20 @@ const ServiceScreen = (props) => {
         <div className='requestcardcontent'>
           <div className='textinrequestcard'>
             <div className='requestCardInformation'>
-              <text className={"smallTextStyle darkBlue bold"}>
+              <text className={'smallTextStyle darkBlue bold'}>
                 {customerName}
               </text>
-              <text className={"tinyTextStyle darkBlue dateText"}>
+              <text className={'tinyTextStyle darkBlue dateText'}>
                 {days[new Date(date).getDay()] +
-                  ", " +
+                  ', ' +
                   months[new Date(date).getMonth()] +
-                  " " +
+                  ' ' +
                   (new Date(date).getDate() + 1) +
-                  ", " +
+                  ', ' +
                   new Date(date).getFullYear()}
               </text>
-              <text className={"tinyTextStyle darkBlue"}>
-                {time + " - " + endTime}
+              <text className={'tinyTextStyle darkBlue'}>
+                {time + ' - ' + endTime}
               </text>
             </div>
           </div>
@@ -129,13 +129,13 @@ const ServiceScreen = (props) => {
               onPress={() => {
                 //Goes to the specific request screen
                 history.push({
-                  pathname: "/viewrequest",
+                  pathname: '/viewrequest',
                   state: { requestID: requestID },
                 });
               }}
               title={strings.ViewMore}
-              width={"8vw"}
-              height={"4vh"}
+              width={'8vw'}
+              height={'4vh'}
               fontStyle={{
                 ...fontStyles.smallTextStyle,
                 ...fontStyles.white,
@@ -151,7 +151,7 @@ const ServiceScreen = (props) => {
   if (isLoading === true) {
     return (
       <div className='serviceScreen'>
-        <ReactLoading type={"bars"} color={colors.lightBlue} width='10vw' />
+        <ReactLoading type={'bars'} color={colors.lightBlue} width='10vw' />
       </div>
     );
   }
@@ -173,17 +173,17 @@ const ServiceScreen = (props) => {
         <div className='serviceScreenContainer'>
           <div className='titleSection'>
             <div
-              className={"arrowBackButton"}
+              className={'arrowBackButton'}
               onClick={() =>
                 history.push({
-                  pathname: "/dashboard",
+                  pathname: '/dashboard',
                   state: { businessID: business.businessID },
                 })
               }
             >
               <FontAwesomeIcon
                 color={colors.blue}
-                size={"3x"}
+                size={'3x'}
                 icon='arrow-left'
               />
             </div>
@@ -195,13 +195,13 @@ const ServiceScreen = (props) => {
                 //Goes to the edit service screen
               }}
               title={strings.EditService}
-              width={"17vw"}
-              height={"5vh"}
+              width={'17vw'}
+              height={'5vh'}
             />
           </div>
           <div className='middleSection'>
-            <img className={"serviceScreenImage"} src={serviceImage.uri} />
-            <div className={"serviceScreenDescriptionRating"}>
+            <img className={'serviceScreenImage'} src={serviceImage.uri} />
+            <div className={'serviceScreenDescriptionRating'}>
               <div className='serviceScreenDescriptionSection'>
                 <text className='subTextStyle darkBlue bold'>
                   {strings.ServiceDescription}
@@ -220,8 +220,8 @@ const ServiceScreen = (props) => {
                   rating={service.averageRating}
                   numberOfStars={5}
                   starRatedColor={colors.yellow}
-                  starDimension={"2vw"}
-                  starSpacing={"0.25vw"}
+                  starDimension={'2vw'}
+                  starSpacing={'0.25vw'}
                 />
               </div>
             </div>
@@ -229,47 +229,47 @@ const ServiceScreen = (props) => {
               <text className='daysofferedtitle subTextStyle darkBlue bold'>
                 {strings.DaysOffered}
               </text>
-              <div className={"spacer"} />
+              <div className={'spacer'} />
               <text className='tinyTextStyle darkBlue bold'>
-                {strings.Sunday} {business.businessHours["sunday"].from}
-                {" - "}
-                {business.businessHours["sunday"].to}
+                {strings.Sunday} {business.businessHours['sunday'].from}
+                {' - '}
+                {business.businessHours['sunday'].to}
               </text>
               <br />
               <text className='tinyTextStyle darkBlue bold'>
-                {strings.Monday} {business.businessHours["monday"].from}
-                {" - "}
-                {business.businessHours["monday"].to}
+                {strings.Monday} {business.businessHours['monday'].from}
+                {' - '}
+                {business.businessHours['monday'].to}
               </text>
               <br />
               <text className='tinyTextStyle darkBlue bold'>
-                {strings.Tuesday} {business.businessHours["tuesday"].from}
-                {" - "}
-                {business.businessHours["tuesday"].to}
+                {strings.Tuesday} {business.businessHours['tuesday'].from}
+                {' - '}
+                {business.businessHours['tuesday'].to}
               </text>
               <br />
               <text className='tinyTextStyle darkBlue bold'>
-                {strings.Wednesday} {business.businessHours["wednesday"].from}
-                {" - "}
-                {business.businessHours["wednesday"].to}
+                {strings.Wednesday} {business.businessHours['wednesday'].from}
+                {' - '}
+                {business.businessHours['wednesday'].to}
               </text>
               <br />
               <text className='tinyTextStyle darkBlue bold'>
-                {strings.Thursday} {business.businessHours["thursday"].from}
-                {" - "}
-                {business.businessHours["thursday"].to}
+                {strings.Thursday} {business.businessHours['thursday'].from}
+                {' - '}
+                {business.businessHours['thursday'].to}
               </text>
               <br />
               <text className='tinyTextStyle darkBlue bold'>
-                {strings.Friday} {business.businessHours["friday"].from}
-                {" - "}
-                {business.businessHours["friday"].to}
+                {strings.Friday} {business.businessHours['friday'].from}
+                {' - '}
+                {business.businessHours['friday'].to}
               </text>
               <br />
               <text className='tinyTextStyle darkBlue bold'>
-                {strings.Saturday} {business.businessHours["saturday"].from}
-                {" - "}
-                {business.businessHours["saturday"].to}
+                {strings.Saturday} {business.businessHours['saturday'].from}
+                {' - '}
+                {business.businessHours['saturday'].to}
               </text>
             </div>
           </div>
@@ -295,7 +295,7 @@ const ServiceScreen = (props) => {
                     onPress={() => {
                       //Goes to all current requests screen
                       history.push({
-                        pathname: "/viewAll",
+                        pathname: '/viewAll',
                         state: {
                           business: business,
                           service: service,
@@ -305,8 +305,8 @@ const ServiceScreen = (props) => {
                       });
                     }}
                     title={strings.ViewAll}
-                    width={"22vw"}
-                    height={"4vh"}
+                    width={'22vw'}
+                    height={'4vh'}
                   />
                 </div>
               </div>
@@ -335,7 +335,7 @@ const ServiceScreen = (props) => {
                     onPress={() => {
                       //Goes to all current requests screen
                       history.push({
-                        pathname: "/viewAll",
+                        pathname: '/viewAll',
                         state: {
                           business: business,
                           service: service,
@@ -345,8 +345,8 @@ const ServiceScreen = (props) => {
                       });
                     }}
                     title={strings.ViewAll}
-                    width={"22vw"}
-                    height={"4vh"}
+                    width={'22vw'}
+                    height={'4vh'}
                   />
                 </div>
               </div>
@@ -374,7 +374,7 @@ const ServiceScreen = (props) => {
                     onPress={() => {
                       //Goes to all current requests screen
                       history.push({
-                        pathname: "/viewAll",
+                        pathname: '/viewAll',
                         state: {
                           business: business,
                           service: service,
@@ -384,8 +384,8 @@ const ServiceScreen = (props) => {
                       });
                     }}
                     title={strings.ViewAll}
-                    width={"22vw"}
-                    height={"4vh"}
+                    width={'22vw'}
+                    height={'4vh'}
                   />
                 </div>
               </div>
