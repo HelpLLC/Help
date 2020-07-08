@@ -1,17 +1,17 @@
-
-#container{
+.wholeviewrequestscreen{
 	display: flex;
-	height: 100vh;
-	justify-content: center;
-	align-items: center;
 }
+.container{
+	display: flex;
+	margin-top: 10vh;
+}
+
 .sidebarHolder {
 	width: 20vw;
 	height: 100vh;
 }
 
-#rectangle_4 {
-	margin-top: 10vh;
+.rectangle_4 {
 	width: 75vw;
 	-ms-border-radius: 30px;
 	-o-border-radius: 30px;

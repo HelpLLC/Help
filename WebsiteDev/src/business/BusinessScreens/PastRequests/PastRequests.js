@@ -50,8 +50,8 @@ export default function PastRequests(props) {
   };
 
   return (
-    <div className="container">
-      <section className="dropdownheader">
+    <div className="wholepastrequestsscreen">
+       <section className="dropdownheader">
         <DropdownHeader
                 businessID={businessID}
                 businessName={businessName}
@@ -59,6 +59,16 @@ export default function PastRequests(props) {
           divClassName="toprightcontainer"
         />
       </section>
+      <section className="dropdownheader">
+        <DropdownHeader
+          businessID={businessID}
+          businessName={businessName}
+          modalClassName="modal"
+          divClassName="toprightcontainer"
+        />
+      </section>
+    <div className="container">
+     
       <div className="pageContent">
         <div className="title bigTextStyle darkBlue">
           <text>{strings.PastServicesRequests}</text>
@@ -84,6 +94,7 @@ export default function PastRequests(props) {
           ))}
         </ul>
       </div>
+    </div>
     </div>
   );
 }

@@ -1,4 +1,7 @@
 /*This contains the styling for the service screen where the business views a specific service*/
+.wholeservicescreen{
+  display: flex;
+}
 .serviceScreen {
   display: flex;
   height: 100vh;
@@ -51,7 +54,7 @@
   margin-top: -10vh;
   margin-left: 3vw;
   width: 22vw;
-  margin-right: 8vw;
+  margin-right: 3vw;
 }
 .serviceScreenDescriptionSection {
   display: flex;
@@ -70,6 +73,7 @@
   margin-top: 3vh;
 }
 .daysOfferedSection {
+  margin-right: 5vw;
   display: flex;
   flex-direction: column;
   height: 30vh;
@@ -85,57 +89,62 @@
     flex-direction: row;
     width: 75vw;
     margin-right: 2vw;
-}
+  } 
+ 
 .vl {
     margin-right: -6vw;
     border-left: 6px solid #5cc6bc;
-    margin-top: 5vh;
+    margin-top: 3vh;
     height: 35vh;
 }
+
 .currentRequests {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-top: -1vh;
 }
-.requestCard {
-    display: flex;
+
+.serviceScreenRequestCard {
+  display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
-    border-style: solid;
-    border-width: 2px;
-    border-color: #41CBEF;
+    border: 2px solid #41CBEF;
+    box-shadow: 0 0px 7px 0 #5cc6bc, 0 0px 0px 0 #41cbef;
     border-radius: 2vw;
     padding-left: 2vw;
     padding-right: 1vw;
-    margin-bottom: -3.5vh;
-    width: 20vw;
-    height: 10vh;
+    margin-top: 2vh;
+    margin-bottom: 3vh;
+    width: 18vw;
+    height: 11vh;
 }
-.largeviewallbutton{
-    margin-left: 1vw;
-    margin-top: 4vh;
+.requestcardcontent{
+  display: flex;
+  margin-top: -2vh;
 }
+.buttoninrequestcard{
+  margin-top: 6vh;
+  margin-right: -2vw;
+}
+.textinrequestcard{
+  margin-top: 1.5vh;
+  margin-right: 1.5vw;
+  margin-left: -0.5vw;
+}
+
 .requestCardInformation {
   display: flex;
   flex-direction: column;
   text-align: left;
-  height: 13vh;
-  justify-content: space-evenly;
 }
-.confirmedrequestscards{
-    margin-top: -3vh;
-}
+
 .requestHistory {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin-left: 7vw;
     margin-top: -1vh;
-}
-.requesthistorycards{
-    margin-top: -3vh;
 }
 
 .unconfirmedrequests{
@@ -144,6 +153,9 @@
     align-items: flex-start;
     margin-top: -1vh;
 }
-.unconfirmedrequestscards{
-    margin-top: -3vh;
+
+.dateText{
+  margin-top: -1vh;
+  margin-bottom:-1vh;
 }
+
