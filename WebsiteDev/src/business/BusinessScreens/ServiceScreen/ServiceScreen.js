@@ -107,15 +107,15 @@ const ServiceScreen = (props) => {
   //will render a request card displaying that information
   const renderRequestCard = (customerName, date, time, endTime, requestID) => {
     return (
-      <div className="requestCard">
+      <div className="serviceScreenRequestCard">
         <div className="requestcardcontent">
         <div className="textinrequestcard">
-        <div className={"requestCardInformation"}>
+        <div className="requestCardInformation">
           <text className={"smallTextStyle darkBlue bold"}>{customerName}</text>
-          <text className={"tinyTextStyle darkBlue"}>{ days[new Date(date).getDay()] + ', ' + months[new Date(date).getMonth()] + ' ' + (new Date(date).getDate() + 1) + ', ' + new Date(date).getFullYear()}</text>
+          <text className={"tinyTextStyle darkBlue dateText"}>{ days[new Date(date).getDay()] + ', ' + months[new Date(date).getMonth()] + ' ' + (new Date(date).getDate() + 1) + ', ' + new Date(date).getFullYear()}</text>
           <text className={"tinyTextStyle darkBlue"}>{time + ' - ' + endTime}</text>
         </div>
-        </div>
+       </div>
         <div className="buttoninrequestcard">
         <HelpButton
           onPress={() => {
@@ -148,7 +148,6 @@ const ServiceScreen = (props) => {
     );
   }
 
-  console.log(confirmedRequestsSnippet[1].date);
   return (
     <div className="wholeservicescreen">
               <section className="dropdownheader">
@@ -268,6 +267,7 @@ const ServiceScreen = (props) => {
           </div>
           <div className="bottomSection">
             {confirmedRequestsSnippet.length > 0 ? (
+              
               <div className="currentRequests">
                 <text className="subTextStyle darkBlue bold">
                   {strings.CurrentRequests}
@@ -298,11 +298,12 @@ const ServiceScreen = (props) => {
                       });
                     }}
                     title={strings.ViewAll}
-                    width={"18vw"}
+                    width={"22vw"}
                     height={"4vh"}
                   />
                 </div>
               </div>
+       
             ) : (
               <div />
             )}
@@ -338,7 +339,7 @@ const ServiceScreen = (props) => {
                       });
                     }}
                     title={strings.ViewAll}
-                    width={"18vw"}
+                    width={"22vw"}
                     height={"4vh"}
                   />
                 </div>
@@ -377,7 +378,7 @@ const ServiceScreen = (props) => {
                       });
                     }}
                     title={strings.ViewAll}
-                    width={"18vw"}
+                    width={"22vw"}
                     height={"4vh"}
                   />
                 </div>
