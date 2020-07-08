@@ -35,22 +35,20 @@ const ServiceScreen = (props) => {
   const history = useHistory();
 
   const months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
-  const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
-
-
+  const days = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
 
   //The useEffect method & the fetchData method will both fetch the correct data about the specific service that has
   //been clicked on based on the service ID, the current requests snippet, the request history snippet,
@@ -66,7 +64,6 @@ const ServiceScreen = (props) => {
     });
 
     setServiceImage(image);
-
 
     let confirmedRequests = await FirebaseFunctions.call(
       "getConfirmedRequestsByServiceID",
@@ -92,13 +89,12 @@ const ServiceScreen = (props) => {
       }
     );
 
-
     setConfirmedRequestsSnippet(confirmedRequests);
     setUnconfirmedRequestsSnippet(unconfirmedRequests);
     setRequestHistorySnippet(requestHistory);
     setIsLoading(false);
   };
-   
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -107,33 +103,45 @@ const ServiceScreen = (props) => {
   //will render a request card displaying that information
   const renderRequestCard = (customerName, date, time, endTime, requestID) => {
     return (
-      <div className="serviceScreenRequestCard">
-        <div className="requestcardcontent">
-        <div className="textinrequestcard">
-        <div className="requestCardInformation">
-          <text className={"smallTextStyle darkBlue bold"}>{customerName}</text>
-          <text className={"tinyTextStyle darkBlue dateText"}>{ days[new Date(date).getDay()] + ', ' + months[new Date(date).getMonth()] + ' ' + (new Date(date).getDate() + 1) + ', ' + new Date(date).getFullYear()}</text>
-          <text className={"tinyTextStyle darkBlue"}>{time + ' - ' + endTime}</text>
-        </div>
-       </div>
-        <div className="buttoninrequestcard">
-        <HelpButton
-          onPress={() => {
-            //Goes to the specific request screen
-            history.push({
-              pathname: "/viewrequest",
-              state: { requestID: requestID },
-            });
-          }}
-          title={strings.ViewMore}
-          width={"8vw"}
-          height={"4vh"}
-          fontStyle={{
-            ...fontStyles.smallTextStyle,
-            ...fontStyles.white,
-          }}
-        />
-        </div>
+      <div className='serviceScreenRequestCard'>
+        <div className='requestcardcontent'>
+          <div className='textinrequestcard'>
+            <div className='requestCardInformation'>
+              <text className={"smallTextStyle darkBlue bold"}>
+                {customerName}
+              </text>
+              <text className={"tinyTextStyle darkBlue dateText"}>
+                {days[new Date(date).getDay()] +
+                  ", " +
+                  months[new Date(date).getMonth()] +
+                  " " +
+                  (new Date(date).getDate() + 1) +
+                  ", " +
+                  new Date(date).getFullYear()}
+              </text>
+              <text className={"tinyTextStyle darkBlue"}>
+                {time + " - " + endTime}
+              </text>
+            </div>
+          </div>
+          <div className='buttoninrequestcard'>
+            <HelpButton
+              onPress={() => {
+                //Goes to the specific request screen
+                history.push({
+                  pathname: "/viewrequest",
+                  state: { requestID: requestID },
+                });
+              }}
+              title={strings.ViewMore}
+              width={"8vw"}
+              height={"4vh"}
+              fontStyle={{
+                ...fontStyles.smallTextStyle,
+                ...fontStyles.white,
+              }}
+            />
+          </div>
         </div>
       </div>
     );
@@ -142,28 +150,28 @@ const ServiceScreen = (props) => {
   // Renders the UI of the screen. If the screen is loading, displays a loading state
   if (isLoading === true) {
     return (
-      <div className="serviceScreen">
-        <ReactLoading type={"bars"} color={colors.lightBlue} width="10vw" />
+      <div className='serviceScreen'>
+        <ReactLoading type={"bars"} color={colors.lightBlue} width='10vw' />
       </div>
     );
   }
 
   return (
-    <div className="wholeservicescreen">
-              <section className="dropdownheader">
-          <DropdownHeader
-                  businessID={business}
-                  businessName={businessName}
-            modalClassName="modal"
-            divClassName="toprightcontainer"
-          />
-        </section>
-        <section className="sidebarHolder">
-        <SideMenuCard title="Help" />
+    <div className='wholeservicescreen'>
+      <section className='dropdownheader'>
+        <DropdownHeader
+          businessID={business}
+          businessName={businessName}
+          modalClassName='modal'
+          divClassName='toprightcontainer'
+        />
       </section>
-      <div className="serviceScreen">
-        <div className="serviceScreenContainer">
-          <div className="titleSection">
+      <section className='sidebarHolder'>
+        <SideMenuCard title='Help' />
+      </section>
+      <div className='serviceScreen'>
+        <div className='serviceScreenContainer'>
+          <div className='titleSection'>
             <div
               className={"arrowBackButton"}
               onClick={() =>
@@ -176,10 +184,10 @@ const ServiceScreen = (props) => {
               <FontAwesomeIcon
                 color={colors.blue}
                 size={"3x"}
-                icon="arrow-left"
+                icon='arrow-left'
               />
             </div>
-            <text className="mainTextStyle darkBlue bold">
+            <text className='mainTextStyle darkBlue bold'>
               {service.serviceTitle}
             </text>
             <HelpButton
@@ -191,23 +199,23 @@ const ServiceScreen = (props) => {
               height={"5vh"}
             />
           </div>
-          <div className="middleSection">
-            <img className={"serviceScreenImage"} src={serviceImage.uri}/>
+          <div className='middleSection'>
+            <img className={"serviceScreenImage"} src={serviceImage.uri} />
             <div className={"serviceScreenDescriptionRating"}>
-              <div className="serviceScreenDescriptionSection">
-                <text className="subTextStyle darkBlue bold">
+              <div className='serviceScreenDescriptionSection'>
+                <text className='subTextStyle darkBlue bold'>
                   {strings.ServiceDescription}
                 </text>
-                <div className="spacer" />
-                <text className="tinyTextStyle darkBlue">
+                <div className='spacer' />
+                <text className='tinyTextStyle darkBlue'>
                   {service.serviceDescription}
                 </text>
               </div>
-              <div className="serviceScreenRatingSection">
-                <text className="subTextStyle darkBlue bold">
+              <div className='serviceScreenRatingSection'>
+                <text className='subTextStyle darkBlue bold'>
                   {strings.Rating}
                 </text>
-                <div className="spacer" />
+                <div className='spacer' />
                 <StarRatings
                   rating={service.averageRating}
                   numberOfStars={5}
@@ -217,62 +225,61 @@ const ServiceScreen = (props) => {
                 />
               </div>
             </div>
-            <div className="daysOfferedSection">
-              <text className="daysofferedtitle subTextStyle darkBlue bold">
+            <div className='daysOfferedSection'>
+              <text className='daysofferedtitle subTextStyle darkBlue bold'>
                 {strings.DaysOffered}
               </text>
               <div className={"spacer"} />
-              <text className="tinyTextStyle darkBlue bold">
+              <text className='tinyTextStyle darkBlue bold'>
                 {strings.Sunday} {business.businessHours["sunday"].from}
                 {" - "}
                 {business.businessHours["sunday"].to}
               </text>
               <br />
-              <text className="tinyTextStyle darkBlue bold">
+              <text className='tinyTextStyle darkBlue bold'>
                 {strings.Monday} {business.businessHours["monday"].from}
                 {" - "}
                 {business.businessHours["monday"].to}
               </text>
               <br />
-              <text className="tinyTextStyle darkBlue bold">
+              <text className='tinyTextStyle darkBlue bold'>
                 {strings.Tuesday} {business.businessHours["tuesday"].from}
                 {" - "}
                 {business.businessHours["tuesday"].to}
               </text>
               <br />
-              <text className="tinyTextStyle darkBlue bold">
+              <text className='tinyTextStyle darkBlue bold'>
                 {strings.Wednesday} {business.businessHours["wednesday"].from}
                 {" - "}
                 {business.businessHours["wednesday"].to}
               </text>
               <br />
-              <text className="tinyTextStyle darkBlue bold">
+              <text className='tinyTextStyle darkBlue bold'>
                 {strings.Thursday} {business.businessHours["thursday"].from}
                 {" - "}
                 {business.businessHours["thursday"].to}
               </text>
               <br />
-              <text className="tinyTextStyle darkBlue bold">
+              <text className='tinyTextStyle darkBlue bold'>
                 {strings.Friday} {business.businessHours["friday"].from}
                 {" - "}
                 {business.businessHours["friday"].to}
               </text>
               <br />
-              <text className="tinyTextStyle darkBlue bold">
+              <text className='tinyTextStyle darkBlue bold'>
                 {strings.Saturday} {business.businessHours["saturday"].from}
                 {" - "}
                 {business.businessHours["saturday"].to}
               </text>
             </div>
           </div>
-          <div className="bottomSection">
+          <div className='bottomSection'>
             {confirmedRequestsSnippet.length > 0 ? (
-              
-              <div className="currentRequests">
-                <text className="subTextStyle darkBlue bold">
+              <div className='currentRequests'>
+                <text className='subTextStyle darkBlue bold'>
                   {strings.CurrentRequests}
                 </text>
-                <div className="confirmedrequestscards">
+                <div className='confirmedrequestscards'>
                   {confirmedRequestsSnippet.map((currentRequest) => {
                     return renderRequestCard(
                       currentRequest.customerName,
@@ -283,7 +290,7 @@ const ServiceScreen = (props) => {
                     );
                   })}
                 </div>
-                <div className="largeviewallbutton">
+                <div className='largeviewallbutton'>
                   <HelpButton
                     onPress={() => {
                       //Goes to all current requests screen
@@ -303,17 +310,16 @@ const ServiceScreen = (props) => {
                   />
                 </div>
               </div>
-       
             ) : (
               <div />
             )}
-            <div className="vl" />
+            <div className='vl' />
             {requestHistorySnippet.length > 0 ? (
-              <div className="requestHistory">
-                <text className="subTextStyle darkBlue bold">
+              <div className='requestHistory'>
+                <text className='subTextStyle darkBlue bold'>
                   {strings.RequestsHistory}
                 </text>
-                <div className="requesthistorycards">
+                <div className='requesthistorycards'>
                   {requestHistorySnippet.map((historyRequest) => {
                     return renderRequestCard(
                       historyRequest.customerName,
@@ -324,7 +330,7 @@ const ServiceScreen = (props) => {
                     );
                   })}
                 </div>
-                <div className="largeviewallbutton">
+                <div className='largeviewallbutton'>
                   <HelpButton
                     onPress={() => {
                       //Goes to all current requests screen
@@ -348,11 +354,11 @@ const ServiceScreen = (props) => {
               <div />
             )}
             {unconfirmedRequestsSnippet.length > 0 ? (
-              <div className="unconfirmedrequests">
-                <text className="subTextStyle darkBlue bold">
+              <div className='unconfirmedrequests'>
+                <text className='subTextStyle darkBlue bold'>
                   {strings.UnconfirmedRequests}
                 </text>
-                <div className="unconfirmedrequestscards">
+                <div className='unconfirmedrequestscards'>
                   {unconfirmedRequestsSnippet.map((unconfirmedRequest) => {
                     return renderRequestCard(
                       unconfirmedRequest.customerName,
@@ -363,7 +369,7 @@ const ServiceScreen = (props) => {
                     );
                   })}
                 </div>
-                <div className="largeviewallbutton">
+                <div className='largeviewallbutton'>
                   <HelpButton
                     onPress={() => {
                       //Goes to all current requests screen
