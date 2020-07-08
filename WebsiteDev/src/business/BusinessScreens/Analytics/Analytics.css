@@ -1,9 +1,9 @@
 /* Container */
-.container {
+.wholeAnalyticsScreen{
   display: flex;
-  float: right;
-  margin-top: -100vh;
-  background-color: #ffffff;
+}
+.analyticsContainer {
+  width: 70vw;
 }
 
 .sidebarHolder {
@@ -28,7 +28,6 @@
   border-color: #41cbef;
   border-radius: 2vh;
   background-size: cover;
-  margin-left: 24vw;
   border-style: solid;
 }
 .chart2container {
