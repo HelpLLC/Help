@@ -68,9 +68,6 @@ const ViewAllService = (props) => {
           divClassName="toprightcontainer"
         />
       </section>
-      <section className="sidebarHolder">
-        <SideMenuCard title="Help" />
-      </section>
       <div className="ViewAllScreen">
         <div className="ViewAllContainer">
           <text className="mainTextStyle darkBlue bold">{title}</text>
