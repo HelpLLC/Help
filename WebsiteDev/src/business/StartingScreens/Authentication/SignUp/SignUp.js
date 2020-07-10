@@ -134,7 +134,8 @@ export function SignUp(props) {
 					},
 				};
 				let account = '';
-				const generatedCode = Date.now().toString().substring(0, 5);
+				const currentMilliseconds = Date.now().toString();
+				const generatedCode = currentMilliseconds.substring(currentMilliseconds.length-5, currentMilliseconds.length);
 				account = await firebase.auth().createUserWithEmailAndPassword(email, password);
 				const businessID = await FirebaseFunctions.logIn(email, password);
 				await FirebaseFunctions.call('addBusinessToDatabase', {
