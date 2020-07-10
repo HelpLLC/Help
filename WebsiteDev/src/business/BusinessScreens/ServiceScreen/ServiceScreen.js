@@ -23,7 +23,7 @@ const ServiceScreen = (props) => {
   //Declares all the state variables that will be used in this screen
   const [isLoading, setIsLoading] = useState(true);
   const [service, setService] = useState("");
-  const [business, setBusiness] = useState("");
+  const [business, setBusiness] = useState();
   const [businessName, setBusinessName] = useState();
   const [serviceImage, setServiceImage] = useState("");
   const [confirmedRequestsSnippet, setConfirmedRequestsSnippet] = useState("");
@@ -122,7 +122,7 @@ const ServiceScreen = (props) => {
       <div className="serviceScreen">
         <section className="dropdownheader">
           <DropdownHeader
-                  businessID={business}
+                  businessID={business.businessID}
                   businessName={businessName}
             modalClassName="modal"
             divClassName="toprightcontainer"
@@ -257,7 +257,7 @@ const ServiceScreen = (props) => {
                         state: {
                           business: business,
                           service: service,
-                          data: confirmedRequestsSnippet,
+                          // data: getAllConfirmedRequests(),
                           title: strings.ConfirmedRequests,
                         },
                       });
@@ -296,7 +296,7 @@ const ServiceScreen = (props) => {
                         state: {
                           business: business,
                           service: service,
-                          data: requestHistorySnippet,
+                          // data: getAllCompletedRequests(),
                           title: strings.RequestsHistory,
                         },
                       });
@@ -334,7 +334,7 @@ const ServiceScreen = (props) => {
                         state: {
                           business: business,
                           service: service,
-                          data: unconfirmedRequestsSnippet,
+                          // data: getAllUnconfirmedRequests(),
                           title: strings.UnconfirmedRequests,
                         },
                       });
