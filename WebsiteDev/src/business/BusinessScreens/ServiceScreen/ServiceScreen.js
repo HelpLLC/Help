@@ -299,7 +299,7 @@ const ServiceScreen = (props) => {
                         state: {
                           business: business,
                           service: service,
-                          data: confirmedRequestsSnippet,
+                          // data: getAllConfirmedRequests(),
                           title: strings.ConfirmedRequests,
                         },
                       });
@@ -339,7 +339,7 @@ const ServiceScreen = (props) => {
                         state: {
                           business: business,
                           service: service,
-                          data: requestHistorySnippet,
+                          // data: getAllCompletedRequests(),
                           title: strings.RequestsHistory,
                         },
                       });
@@ -378,7 +378,7 @@ const ServiceScreen = (props) => {
                         state: {
                           business: business,
                           service: service,
-                          data: unconfirmedRequestsSnippet,
+                          // data: getAllUnconfirmedRequests(),
                           title: strings.UnconfirmedRequests,
                         },
                       });
