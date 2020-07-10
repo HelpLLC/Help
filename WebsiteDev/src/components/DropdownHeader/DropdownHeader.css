@@ -16,7 +16,7 @@
 
 img {
   border-radius: 50%;
-  width: 4vw;
+  width: 3.6vw;
   margin-top: 1vh;
   margin-right: 1vw;
   height: 6vh;
@@ -36,7 +36,7 @@ img {
 }
 .bell {
   margin-right: 1vw;
-  margin-top: 1vh;
+  margin-top: 1.5vh;
 }
 
 .modal {
@@ -55,14 +55,16 @@ img {
   margin-right: 25vw;
   width: 10vw;
   margin-top: 3vh;
+  background-repeat: no-repeat;
+  background-size: 100vw 100vh;
 }
-
 .modaloptions {
   margin-top: 3vh;
   display: flex;
   flex-direction: column;
   width: 11vw;
   border: 2px solid #41cbef;
+  background-color: white;
 }
 
 .editprofile {
