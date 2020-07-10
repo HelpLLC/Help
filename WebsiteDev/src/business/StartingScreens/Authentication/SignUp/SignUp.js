@@ -134,6 +134,7 @@ export function SignUp(props) {
 					},
 				};
 				let account = '';
+				const generatedCode = Date.now().toString().substring(0, 5);
 				account = await firebase.auth().createUserWithEmailAndPassword(email, password);
 				const businessID = await FirebaseFunctions.logIn(email, password);
 				await FirebaseFunctions.call('addBusinessToDatabase', {
@@ -154,6 +155,7 @@ export function SignUp(props) {
 						lat: 3,
 						lng: 3,
 					},
+					employeeCode: generatedCode,
 				});
 				setIsLoading(false);
 				history.push({ pathname: '/dashboard', state: { businessID: businessID } });
@@ -166,6 +168,7 @@ export function SignUp(props) {
 			setIsLoading(false);
 			setErrorOpen(true);
 		}
+
 	};
 	if (step1) {
 		return (
