@@ -6,14 +6,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import colors from '../../config/colors';
 import TitleComponent from '../../components/TitleComponent';
+import '../../config/fontStyles.css'
 
 const HelpAlert = (props) => {
 	//These are the prop types that will be passed into this component
 	HelpAlert.propTypes = {
 		isVisible: PropTypes.bool.isRequired,
 		onClose: PropTypes.func.isRequired,
-		titleText: PropTypes.string.isRequired,
-		messageText: PropTypes.string.isRequired,
 	};
 
 	//Fetches the passed in props
