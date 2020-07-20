@@ -8,7 +8,7 @@ export default {
 	listItem: {
 		marginTop: '2vh',
 		display: 'flex',
-		width: '65vw',
+		width: '45vw',
 		justifyContent: 'space-between',
 		flexDirection: 'row',
 		borderRadius: '30px',
@@ -27,11 +27,11 @@ export default {
 		height: '5vw',
 	},
 	nameText: {
-		...fontStyles.bigSubTitleStyle,
+		...fontStyles.mainTextStyle,
 		...fontStyles.darkBlue,
 		...fontStyles.bold,
 		marginLeft: '1vw',
-		marginTop: '2vh',
+		marginTop: '3vh',
 	},
 	assignButton: {
 		marginTop: '0.5vh',
