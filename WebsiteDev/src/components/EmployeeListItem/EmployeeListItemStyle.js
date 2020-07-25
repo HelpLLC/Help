@@ -6,12 +6,14 @@ import fontStyles from '../../config/fontStyles';
 
 export default {
 	listItem: {
-		marginTop: '2vh',
+		marginTop: '3vh',
 		display: 'flex',
 		width: '45vw',
+		height: '15vh',
+		alignItems: 'center',
 		justifyContent: 'space-between',
 		flexDirection: 'row',
-		borderRadius: '30px',
+		borderRadius: '10px',
 		border: '2px solid #5cc6bc',
 		'box-shadow': '0px 3px 5px 1px rgba(92, 198, 188, 2.55)',
 	},
@@ -34,7 +36,7 @@ export default {
 		marginTop: '3vh',
 	},
 	assignButton: {
-		marginTop: '0.5vh',
+		marginTop: '0.75vh',
 		alignItems: 'center',
 		marginRight: '1vw',
 	},
