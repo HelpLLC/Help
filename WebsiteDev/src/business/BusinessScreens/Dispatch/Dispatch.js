@@ -127,6 +127,7 @@ export default function Dispatch(props) {
 							name='John Doe'
 							buttonText='View More'
 							buttonWidth={'15vw'}
+							style={{marginVertical: '3vh'}}
 							image={profile_pic}
 						/>
 						<EmployeeListItem
@@ -154,10 +155,12 @@ export default function Dispatch(props) {
 						</div>
             <div className='cardContainer'>
 									<div className='unconfirmedInfoCard'>
+									<div className='unconfirmedText'>
 										<div className={'darkBlue bold mainTextStyle'}>{'Name'}</div>
 										<div className={'darkBlue bold smallTextStyle'}>{'Date'}</div>
 										<div className={'darkBlue bold smallTextStyle'}>
 											{'START'} - {'END'}
+										</div>
 										</div>
                     <div className="approveButtons">
                       <div className="statusButton">

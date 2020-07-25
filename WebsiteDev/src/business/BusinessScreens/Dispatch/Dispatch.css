@@ -64,6 +64,10 @@
 	height: 20vh;
 }
 
+.unconfirmedText {
+	margin-left: 2vw;
+}
+
 .approveButtons {
 	display: flex;
   flex-direction: row;
