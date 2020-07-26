@@ -23,43 +23,42 @@ export default function EmployeeListItem(props) {
 
 	// Loads the image (async)
 	useEffect(() => {
-		loadImage();
+		// loadImage();
 	}, []);
 
 	EmployeeListItem.propTypes = {
 		height: PropTypes.number,
-		width: PropTypes.number,
+		widthEntered: PropTypes.string,
 		image: PropTypes.string,
 		name: PropTypes.string,
+		buttonText: PropTypes.string,
+		buttonWidth: PropTypes.string,
 	};
 
-	const { width, height, name } = props;
+	const { widthEntered, height, name, buttonText, buttonWidth } = props;
 
 	return (
 		<View>
 			<View style={{ ...EmployeeListItemStyle.listItem }}>
 				<View style={{ ...EmployeeListItemStyle.row }}>
 					<Image style={{ ...EmployeeListItemStyle.profileImage }} source={image} />
-					<Text style={{ ...EmployeeListItemStyle.nameText }}>
-						{props.name}
-					</Text>
+					<Text style={{ ...EmployeeListItemStyle.nameText }}>{props.name}</Text>
 				</View>
 				<View style={{ ...EmployeeListItemStyle.assignButton }}>
-					{(!assigned ? (<HelpButton
-						title={strings.Assign}
-						width='9vw'
-						onPress={() => {
-							history.push({
-								pathname: '/viewrequest',
-							})
-							setAssigned(true);
-						}
-						}
-					/>) : (
-						<Text style={{ ...EmployeeListItemStyle.assignedText }}>
-							{strings.Assigned}
-						</Text>
-					))}
+					{!assigned ? (
+						<HelpButton
+							title={buttonText != null ? buttonText : strings.Assign}
+							width={buttonWidth != null ? buttonWidth : '9vw'}
+							onPress={() => {
+								history.push({
+									pathname: '/viewrequest',
+								});
+								setAssigned(true);
+							}}
+						/>
+					) : (
+						<Text style={{ ...EmployeeListItemStyle.assignedText }}>{strings.Assigned}</Text>
+					)}
 				</View>
 			</View>
 		</View>

@@ -317,5 +317,7 @@ export default {
 	Dispatch: 'Dispatch', 
 	JoinCodeForEmployees: 'Join Code For Your Employees',
 	ShareTheCode: 'Share this 5-digit code with your employees',
-	
+	TimeOffRequests: 'Time Off Request(s)',
+	Approve: 'Approve',
+	Deny: 'Deny'
 };

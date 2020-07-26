@@ -111,9 +111,10 @@ class logInScreen extends Component {
 						justifyContent: 'flex-end',
 						alignItems: 'flex-start',
 						width: screenWidth * 0.6,
-						marginVertical: screenHeight * 0.05,
+						marginTop: screenHeight*0.05,
+						marginVertical: screenHeight * 0.02,
 					}}>
-					<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.Email}</Text>
+					<Text style={[fontStyles.bigTextStyle, fontStyles.darkBlue, fontStyles.bold]}>{strings.Email}</Text>
 				</View>
 
 				<View style={{ justifyContent: 'center' }}>
@@ -135,9 +136,9 @@ class logInScreen extends Component {
 						justifyContent: 'flex-end',
 						alignItems: 'flex-start',
 						width: screenWidth * 0.6,
-						marginVertical: screenHeight * 0.05,
+						marginVertical: screenHeight * 0.02,
 					}}>
-					<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.Password}</Text>
+					<Text style={[fontStyles.bigTextStyle, fontStyles.darkBlue, fontStyles.bold]}>{strings.Password}</Text>
 				</View>
 
 				<View style={{ justifyContent: 'center' }}>
@@ -179,21 +180,13 @@ class logInScreen extends Component {
 				</View>
 				<View
 					style={{
-						justifyContent: 'center',
-						marginVertical: screenHeight * 0.05,
+						justifyContent: 'flex-end',
+						alignItems: 'flex-start',
+						marginTop: screenHeight * 0.03,
 					}}>
-					<TouchableOpacity
-						onPress={() => {
-							//Navigates to the Forgot Password screen
-							this.props.navigation.push('ForgotPasswordScreen');
-						}}>
-						<Text style={[fontStyles.mainTextStyle, fontStyles.blue , { flexWrap: 'wrap' }]}>
-							{strings.ForgotPassword}
-						</Text>
-					</TouchableOpacity>
-				</View>
 				<HelpButton
 					title={strings.LogIn}
+					
 					width={screenWidth * 0.39}
 					isLoading={this.state.isLoading}
 					//Method logs the person in based on what is entered into the text
@@ -203,6 +196,22 @@ class logInScreen extends Component {
 					}}
 					disabled={this.state.isLoading}
 				/>
+				</View>
+				<View
+					style={{
+						justifyContent: 'center',
+						marginVertical: screenHeight * 0.05,
+					}}>
+					<TouchableOpacity
+						onPress={() => {
+							//Navigates to the Forgot Password screen
+							this.props.navigation.push('ForgotPasswordScreen');
+						}}>
+						<Text style={[fontStyles.bigTextStyle, fontStyles.blue, fontStyles.bold, { flexWrap: 'wrap' }]}>
+							{strings.ForgotPassword}
+						</Text>
+					</TouchableOpacity>
+				</View>
 				<HelpAlert
 					isVisible={this.state.isErrorVisible}
 					onPress={() => {
