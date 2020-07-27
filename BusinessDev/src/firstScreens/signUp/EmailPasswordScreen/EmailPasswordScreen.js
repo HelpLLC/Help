@@ -1,6 +1,6 @@
-//This is the screen that will pop up when users first come to sign up for the app, it will
-//ask for an email and a password, and what type of account they want to create
-import React, { Component } from 'react';
+// This is the screen that will pop up when users first come to sign up for the app, it will
+// ask for an email and a password and some other basic information
+import React, { Component, useEffect, useState } from 'react';
 import {
 	View,
 	Text,
@@ -14,15 +14,14 @@ import strings from 'config/strings';
 import CheckBox from 'react-native-check-box';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
-
-import HelpButton from '../../components/HelpButton/HelpButton';
-import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
-import HelpView from '../../components/HelpView';
+import HelpButton from '../../../components/HelpButton/HelpButton';
+import HelpTextInput from '../../../components/HelpTextInput/HelpTextInput';
+import HelpView from '../../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
-import FirebaseFunctions from '../../../config/FirebaseFunctions';
-import TopBanner from '../../components/TopBanner/TopBanner';
+import FirebaseFunctions from '../../../../config/FirebaseFunctions';
+import TopBanner from '../../../components/TopBanner/TopBanner';
 import { Icon } from 'react-native-elements';
-import HelpAlert from '../../components/HelpAlert';
+import HelpAlert from '../../../components/HelpAlert';
 
 //The class that will create the look of this screen
 class emailPasswordScreen extends Component {

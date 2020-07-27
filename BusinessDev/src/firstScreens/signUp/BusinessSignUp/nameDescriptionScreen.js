@@ -7,14 +7,14 @@ import fontStyles from 'config/styles/fontStyles';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
  
-import HelpButton from '../../components/HelpButton/HelpButton';
-import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
-import LoadingSpinner from '../../components/LoadingSpinner';
+import HelpButton from '../../../components/HelpButton/HelpButton';
+import HelpTextInput from '../../../components/HelpTextInput/HelpTextInput';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 import { screenWidth, screenHeight } from 'config/dimensions';
-import HelpView from '../../components/HelpView';
+import HelpView from '../../../components/HelpView';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import HelpAlert from '../../components/HelpAlert';
-import TopBanner from '../../components/TopBanner/TopBanner';
+import HelpAlert from '../../../components/HelpAlert';
+import TopBanner from '../../../components/TopBanner/TopBanner';
 
 //The class that will create the look of this screen
 class nameDescriptionScreen extends Component {
