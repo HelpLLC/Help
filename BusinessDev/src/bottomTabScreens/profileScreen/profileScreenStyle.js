@@ -48,6 +48,14 @@ export default StyleSheet.create({
         marginLeft: 5,
     },
 
+    LogoutContainer:{
+        borderWidth: 0,
+        backgroundColor: colors.red
+    },
+    LogoutText:{
+        color: colors.white,
+    },
+
     Footer:{
         position:'absolute',
         bottom:-2,
