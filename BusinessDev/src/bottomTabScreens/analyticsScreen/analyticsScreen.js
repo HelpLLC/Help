@@ -9,7 +9,7 @@ import style from './analyticsScreenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { BarChart, Grid, LineChart, YAxis, XAxis, Path } from 'react-native-svg-charts';
-import { Svg, Rect, Line, Text as SvgText } from 'react-native-svg';
+import { Svg, G, Rect, Line, Text as SvgText } from 'react-native-svg';
 import {Picker} from '@react-native-community/picker';
 import * as scale from 'd3-scale'
 import * as array from 'd3-array'
@@ -327,6 +327,30 @@ export default function analyticsScreen(props) {
         const ticks = getTicks(data[parseInt(currentTab+'')], 3);
         const tickWidthMultiplier = (ticks[ticks.length-1] / array.extent(data[parseInt(currentTab+'')])[1])
 
+        function gridLines(leftInset, rightInset){
+            let elements = [];
+            let spacing = (style.BarChart.width- leftInset - rightInset) * tickWidthMultiplier / (ticks.length - 1);
+            for(let i in ticks)
+                elements.push(
+                    <View key={i}>
+                        <Line
+                            x1={leftInset + spacing * i}
+                            y1={0}
+                            x2={leftInset + spacing * i}
+                            y2={style.BarChart.height}
+                            stroke={colors.darkBlue}
+                            strokeWidth="2"/>
+                        <SvgText
+                            fill={colors.darkBlue}
+                            fontSize='15'
+                            x={leftInset + spacing * i}
+                            y={style.BarChart.height + 15}
+                            textAnchor='middle'>{formatLabel(ticks[i])}</SvgText>
+                    </View>
+                )
+            return elements;
+        }
+
         switch(currentTab+''){
             case '0': return(
                 <View>
@@ -441,32 +465,27 @@ export default function analyticsScreen(props) {
                             contentInset={barChartContentInset}
                             formatLabel={(value, index) => formatSpacing(topServicesChart.xAxis[index])}
                         />
-                        <BarChart
-                            style={style.BarChart}
-                            data={topServicesChart.chartData}
-                            numberOfTicks={3}
-                            horizontal={true}
-                            gridMin={0}
-                            spacingInner={0.4}
-                            spacingOuter={0}
-                            svg={{
-                                fill: colors.blue,
-                                spacingInner:0.05,
-                                spacingOuter:0.05,
-                            }}
-                            contentInset={barChartContentInset}>
-                            <Grid 
-                            svg={{stroke:colors.darkBlue, strokeWidth:2}}
-                            direction={Grid.Direction.VERTICAL}
-                            />
-                            <XAxis
-                                style={[style.BarChartXaxis, {bottom: -style.BarChart.height - 35, width: style.BarChart.width * tickWidthMultiplier}]}
+                        <View style={style.BarChart}>
+                            <Svg 
+                                height={style.BarChart.height + 20} 
+                                width={style.BarChart.width}
+                                style={{position:'absolute'}}>{gridLines(barChartContentInset.left,barChartContentInset.right)}</Svg>
+                            <BarChart
+                                style={style.BarChart}
                                 data={topServicesChart.chartData}
-                                contentInset={{left: barChartContentInset.left * tickWidthMultiplier, right: barChartContentInset.right * tickWidthMultiplier}}
-                                svg={{fill: colors.darkBlue , fontSize:10, scale:1.5}}
-                                formatLabel={(value, index) => formatLabel(ticks[index])}
-                            />
-                        </BarChart>
+                                numberOfTicks={3}
+                                horizontal={true}
+                                gridMin={0}
+                                spacingInner={0.4}
+                                spacingOuter={0}
+                                svg={{
+                                    fill: colors.blue,
+                                    spacingInner:0.05,
+                                    spacingOuter:0.05,
+                                }}
+                                contentInset={barChartContentInset}>
+                            </BarChart>
+                        </View>
                     </View>
                     <View style={style.KeyMainContainer}>
                         <View style={style.KeySubContainer}>
@@ -506,32 +525,27 @@ export default function analyticsScreen(props) {
                             contentInset={barChartContentInset}
                             formatLabel={(value, index) => formatSpacing(customerLocationData.xAxis[index])}
                         />
-                        <BarChart
-                            style={style.BarChart}
-                            data={customerLocationData.chartData}
-                            numberOfTicks={3}
-                            horizontal={true}
-                            gridMin={0}
-                            spacingInner={0.4}
-                            spacingOuter={0}
-                            svg={{
-                                fill: colors.blue,
-                                spacingInner:0.05,
-                                spacingOuter:0.05,
-                            }}
-                            contentInset={barChartContentInset}>
-                            <Grid 
-                            svg={{stroke:colors.darkBlue, strokeWidth:2}}
-                            direction={Grid.Direction.VERTICAL}
-                            />
-                            <XAxis
-                                style={[style.BarChartXaxis, {bottom: -style.BarChart.height - 35, width: style.BarChart.width * tickWidthMultiplier}]}
+                        <View style={style.BarChart}>
+                            <Svg 
+                                height={style.BarChart.height + 20} 
+                                width={style.BarChart.width}
+                                style={{position:'absolute'}}>{gridLines(barChartContentInset.left,barChartContentInset.right)}</Svg>
+                            <BarChart
+                                style={style.BarChart}
                                 data={customerLocationData.chartData}
-                                contentInset={{left: barChartContentInset.left * tickWidthMultiplier, right: barChartContentInset.right * tickWidthMultiplier}}
-                                svg={{fill: colors.darkBlue , fontSize:10, scale:1.5}}
-                                formatLabel={(value, index) => formatLabel(ticks[index])}
-                            />
+                                numberOfTicks={3}
+                                horizontal={true}
+                                gridMin={0}
+                                spacingInner={0.4}
+                                spacingOuter={0}
+                                svg={{
+                                    fill: colors.blue,
+                                    spacingInner:0.05,
+                                    spacingOuter:0.05,
+                                }}
+                                contentInset={barChartContentInset}>
                         </BarChart>
+                        </View>
                     </View>
                     <View style={style.KeyMainContainer}>
                         <View style={style.KeySubContainer}>
