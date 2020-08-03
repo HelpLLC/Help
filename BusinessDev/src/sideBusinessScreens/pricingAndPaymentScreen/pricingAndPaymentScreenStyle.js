@@ -24,7 +24,8 @@ export default StyleSheet.create({
 	},
 	pickerStyle: {
 		borderRadius: 20,
-		marginLeft: screenWidth * 0.075,
+		marginLeft: screenWidth * 0.03,
+		marginRight: screenWidth * 0.03,
 		paddingLeft: 10,
 		width: screenWidth * 0.25,
 		height: screenHeight * 0.06,
@@ -43,8 +44,8 @@ export default StyleSheet.create({
 	paymentMethodSection: {
 		width: screenWidth * 0.85,
 		alignSelf: 'center',
-		borderBottomColor: colors.lightBlue,
-		borderBottomWidth: 2,
+		// borderBottomColor: colors.lightBlue,
+		// borderBottomWidth: 2,
 		paddingBottom: screenHeight * 0.025,
 		marginBottom: screenHeight * 0.025,
 	},
@@ -54,6 +55,12 @@ export default StyleSheet.create({
 	buttonSeparator: { height: screenHeight * 0.025 },
 	paymentTimeSection: { width: screenWidth * 0.85, alignSelf: 'center' },
 	buttonSection: {
-		marginTop: screenHeight * 0.025,
+		flexDirection:'row',
+		justifyContent:'space-between',
+		alignItems:'center',
+		width: screenWidth,
+		position: 'absolute',
+		bottom:30,
+		paddingHorizontal: 15,
 	},
 });

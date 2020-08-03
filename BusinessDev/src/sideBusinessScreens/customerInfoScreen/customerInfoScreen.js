@@ -19,6 +19,7 @@ import { Icon } from 'react-native-elements';
 
 //Creates and exports the functional component
 export default function customerInfoScreen(props) {
+	props = {navigation:{state:{params:{}}}}
 	const { service, editing, serviceID } = props.navigation.state.params;
 	//The state declarations that will be used in this screen
 	const [defaultQuestions, setDefaultQuestions] = useState([
@@ -38,7 +39,7 @@ export default function customerInfoScreen(props) {
 			isSelected: service && service.questions.includes(strings.WhatIsYourAddressQuestion),
 		},
 	]);
-	const [customQuestions, setCustomQuestions] = useState(['']);
+	const [customQuestions, setCustomQuestions] = useState([]);
 	const [emptyQuestionError, setEmptyQuestionError] = useState(false);
 	const [updateBoolean, setUpdateBoolean] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -47,9 +48,9 @@ export default function customerInfoScreen(props) {
 	//if this service is being edited
 	useEffect(() => {
 		FirebaseFunctions.setCurrentScreen('BusinessCreateCustomerInfoScreen', 'customerInfoScreen');
-		if (editing === true) {
-			setData();
-		}
+		// if (editing === true) {
+		// 	setData();
+		// }
 	}, []);
 
 	//This method is going to set the data for this screen if this is editing an exisitng prodct
@@ -189,8 +190,8 @@ export default function customerInfoScreen(props) {
 				ListHeaderComponent={
 					<View style={styles.customQuestionsContainer}>
 						<View style={styles.customQuestionsText}>
-							<Text style={fontStyles.bigTextStyleDarkBlue}>{strings.CustomQuestions}</Text>
-							<View style={styles.textSpacer} />
+							<Text style={[fontStyles.bigTextStyle, fontStyles.darkBlue]}>{strings.CustomQuestions}</Text>
+							{/* <View style={styles.textSpacer} /> */}
 							<Text style={[fontStyles.mainTextStyle, fontStyles.blue]}>{strings.CustomQuestionsDescription}</Text>
 						</View>
 						<FlatList
@@ -201,7 +202,7 @@ export default function customerInfoScreen(props) {
 							extraData={updateBoolean}
 							showsVerticalScrollIndicator={false}
 							renderItem={({ item, index }) => (
-								<View style={styles.defaultQuestionRow}>
+								<View style={styles.contactQuestionRow}>
 									<CheckBox
 										onClick={() => {
 											const newDefaultQuestions = defaultQuestions;
@@ -210,6 +211,8 @@ export default function customerInfoScreen(props) {
 											setDefaultQuestions(newDefaultQuestions);
 											setUpdateBoolean(!updateBoolean); //Used for react to know to update the screen because it can't detect changes to state arrays
 										}}
+										containerStyle={styles.checkboxStyle}
+										checkedColor={colors.darkBlue}
 										checked={item.isSelected}
 										size={40}
 										uncheckedColor={colors.lightBlue}
@@ -225,7 +228,7 @@ export default function customerInfoScreen(props) {
 											setUpdateBoolean(!updateBoolean); //Used for react to know to update the screen because it can't detect changes to state arrays
 										}}
 										isLightButton={!item.isSelected}
-										width={screenWidth * 0.65}
+										width={screenWidth * 0.5}
 										height={screenHeight * 0.06}
 									/>
 								</View>
@@ -235,7 +238,7 @@ export default function customerInfoScreen(props) {
 				}
 				renderItem={({ item, index }) => (
 					<View style={styles.questionContainer}>
-						<Text style={fontStyles.bigTextStyleDarkBlue}>
+						<Text style={[fontStyles.bigTextStyle, fontStyles.darkBlue]}>
 							{strings.Question} #{index + 1}
 						</Text>
 						<View style={styles.questionSpacer} />
@@ -257,17 +260,10 @@ export default function customerInfoScreen(props) {
 							<TouchableOpacity
 								style={styles.deleteCustomQuestion}
 								onPress={() => {
-									if (index === 0) {
-										const newCustomQuestions = customQuestions;
-										newCustomQuestions[0] = '';
-										setCustomQuestions(newCustomQuestions);
-										setUpdateBoolean(!updateBoolean);
-									} else {
-										const newCustomQuestions = customQuestions;
-										newCustomQuestions.splice(index, 1);
-										setCustomQuestions(newCustomQuestions);
-										setUpdateBoolean(!updateBoolean);
-									}
+									const newCustomQuestions = customQuestions;
+									newCustomQuestions.splice(index, 1);
+									setCustomQuestions(newCustomQuestions);
+									setUpdateBoolean(!updateBoolean);
 								}}>
 								<Icon name={'trash'} type='font-awesome' size={30} color={colors.gray} />
 							</TouchableOpacity>
@@ -275,26 +271,24 @@ export default function customerInfoScreen(props) {
 					</View>
 				)}
 				ListFooterComponent={
-					<View>
+					<View style={styles.footer}>
 						<HelpButton
 							title={strings.PlusSign}
 							isCircleBlueButton={true}
+							
+							bigText={true}
 							onPress={() => {
 								setCustomQuestions(customQuestions.concat(''));
 							}}
 						/>
-						<View style={styles.buttonSection}>
-							<HelpButton
-								title={editing ? strings.Done : strings.Create}
-								width={screenWidth * 0.39}
-								isLoading={isLoading}
-								disabled={isLoading}
-								onPress={() => {
-									//Saves the service
-									saveService();
-								}}
-							/>
-						</View>
+						<TouchableOpacity 
+							style={styles.addQuestion}
+							onPress={() => {
+								setCustomQuestions(customQuestions.concat(''));
+							}}>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.darkBlue]}>{strings.AddQuestion}</Text>
+						</TouchableOpacity>
+						
 						<HelpAlert
 							isVisible={emptyQuestionError}
 							onPress={() => {
@@ -306,6 +300,36 @@ export default function customerInfoScreen(props) {
 					</View>
 				}
 			/>
+			<View style={styles.buttonSection}>
+				<HelpButton
+					title={strings.Back}
+					width={screenWidth * 0.2}
+					height={screenWidth * 0.07}
+					isLoading={isLoading}
+					disabled={isLoading}
+					bigText={true}
+					bold={true}
+					style={styles.button}
+					onPress={() => {
+						//Navigates to the next screen
+						props.navigation.goBack();
+					}}
+				/>
+				<HelpButton
+					title={editing ? strings.Done : strings.Create}
+					width={screenWidth * 0.2}
+					height={screenWidth * 0.07}
+					isLoading={isLoading}
+					disabled={isLoading}
+					bigText={true}
+					bold={true}
+					style={styles.button}
+					onPress={() => {
+						//Navigates to the next screen
+						saveService();
+					}}
+				/>
+			</View>
 		</View>
 	);
 }

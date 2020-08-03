@@ -114,6 +114,7 @@ export default {
 	InvalidPhoneNumberError: 'Please enter a valid 10 digit phone number',
 	BusinessSignUp: 'Business Sign Up',
 	Next: 'Next',
+	Back: 'Back',
 	City: 'City',
 	Name: 'Name',
 	EnterCityDotDotDot: 'Enter city...',
