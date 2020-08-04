@@ -19,7 +19,6 @@ import { Icon } from 'react-native-elements';
 
 //Creates and exports the functional component
 export default function customerInfoScreen(props) {
-	props = {navigation:{state:{params:{}}}}
 	const { service, editing, serviceID } = props.navigation.state.params;
 	//The state declarations that will be used in this screen
 	const [defaultQuestions, setDefaultQuestions] = useState([
@@ -48,9 +47,9 @@ export default function customerInfoScreen(props) {
 	//if this service is being edited
 	useEffect(() => {
 		FirebaseFunctions.setCurrentScreen('BusinessCreateCustomerInfoScreen', 'customerInfoScreen');
-		// if (editing === true) {
-		// 	setData();
-		// }
+		if (editing === true) {
+			setData();
+		}
 	}, []);
 
 	//This method is going to set the data for this screen if this is editing an exisitng prodct
