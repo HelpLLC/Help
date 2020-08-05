@@ -18,9 +18,12 @@ export default StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderColor: colors.lightBlue,
-		borderWidth: (screenWidth * 0.25) / 17,
+		borderWidth: (screenWidth * 0.25) / 18,
 		borderRadius: (screenWidth * 0.25) / 2,
 		backgroundColor: colors.white,
+	},
+	imageLabel:{
+		marginTop:-10
 	},
 	inputSection: {
 		width: screenWidth * 0.85,
@@ -59,8 +62,12 @@ export default StyleSheet.create({
 		borderWidth: 3,
 	},
 	buttonSection: {
-		justifyContent: 'center',
-		alignItems: 'center',
-		marginTop: screenHeight * 0.1,
+		flexDirection:'row',
+		justifyContent:'space-between',
+		alignItems:'center',
+		width: screenWidth,
+		position: 'absolute',
+		bottom:30,
+		paddingHorizontal: 15,
 	},
 });

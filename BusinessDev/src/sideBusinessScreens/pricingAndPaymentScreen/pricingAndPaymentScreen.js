@@ -124,11 +124,11 @@ export default function pricingAndPaymentScreen(props) {
 			/>
 			<View style={styles.pricingTypeSection}>
 				<View style={styles.pricingTypeText}>
-					<Text style={fontStyles.bigTextStyleDarkBlue}>{strings.PricingType}</Text>
+					<Text style={[fontStyles.bigTextStyle, fontStyles.darkBlue]}>{strings.PricingType}</Text>
 				</View>
 				<View style={styles.pricingRow}>
 					<View style={styles.dollarSignText}>
-						<Text style={fontStyles.mainTextStyleDarkBlue}>{strings.DollarSign}</Text>
+						<Text style={[fontStyles.bigTextStyle, fontStyles.darkBlue]}>{strings.DollarSign}</Text>
 					</View>
 					<HelpTextInput
 						isMultiline={false}
@@ -170,44 +170,26 @@ export default function pricingAndPaymentScreen(props) {
 					</View>
 					{//Shows the per selected if the per type is selected
 					priceType === strings.Per ? (
-						<View style={styles.pickerStyle}>
-							<RNPickerSelect
-								onValueChange={(value) => setPerType(value)}
-								items={[{ label: strings.Hour, value: strings.Hour }]}
+							<HelpTextInput
+								isMultiline={false}
+								width={screenWidth * 0.3}
+								height={screenHeight * 0.06}
+								placeholder={'E.g. Hour'}
+								onChangeText={(input) => setPerType(input)}
 								value={perType}
-								style={{
-									iconContainer: {
-										top: screenHeight * 0.0175,
-										right: screenWidth * 0.01,
-									},
-									inputIOS: [
-										fontStyles.subTextStyle,
-										fontStyles.black,
-										{ width: screenWidth * 0.25, height: screenHeight * 0.06 },
-									],
-									inputAndroid: [
-										fontStyles.subTextStyle,
-										fontStyles.black,
-										{ width: screenWidth * 0.25, height: screenHeight * 0.06 },
-									],
-								}}
-								Icon={() => (
-									<Icon type='font-awesome' name='arrow-down' color={colors.lightBlue} size={20} />
-								)}
 							/>
-						</View>
 					) : (
 						<View />
 					)}
 				</View>
 			</View>
 			<View style={styles.paymentMethodSection}>
-				<Text style={fontStyles.bigTextStyleDarkBlue}>{strings.PaymentMethod}</Text>
-				<View style={styles.paymentTypeSubText}>
+				<Text style={[fontStyles.bigTextStyle, fontStyles.darkBlue, {marginBottom:10}]}>{strings.PaymentMethod}</Text>
+				{/* <View style={styles.paymentTypeSubText}>
 					<Text style={[fontStyles.mainTextStyle, fontStyles.blue]}>
 						{strings.HowWillYourCustomersPayYou}
 					</Text>
-				</View>
+				</View> */}
 				<HelpButton
 					isLightButton={!isCashSelected}
 					onPress={() => {
@@ -238,12 +220,28 @@ export default function pricingAndPaymentScreen(props) {
 			</View>
 			<View style={styles.buttonSection}>
 				<HelpButton
+					title={strings.Back}
+					width={screenWidth * 0.2}
+					height={screenWidth * 0.07}
+					bigText={true}
+					bold={true}
+					style={styles.button}
 					onPress={() => {
-						//Attemps to navigate to the next screen
+						//Navigates to the next screen
+						props.navigation.goBack();
+					}}
+				/>
+				<HelpButton
+					title={strings.Next}
+					width={screenWidth * 0.2}
+					height={screenWidth * 0.07}
+					bigText={true}
+					bold={true}
+					style={styles.button}
+					onPress={() => {
+						//Navigates to the next screen
 						goToNextScreen();
 					}}
-					title={strings.Next}
-					width={screenWidth * 0.39}
 				/>
 			</View>
 			<HelpAlert

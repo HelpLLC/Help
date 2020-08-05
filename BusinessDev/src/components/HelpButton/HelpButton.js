@@ -18,6 +18,8 @@ export default function HelpButton(props) {
 		title: PropTypes.string.isRequired,
 		isLoading: PropTypes.bool,
 		disabled: PropTypes.bool,
+		bold: PropTypes.bool,
+		bigText: PropTypes.bool,
 		onPress: PropTypes.func,
 		isLightButton: PropTypes.bool,
 		isRedButton: PropTypes.bool,
@@ -31,6 +33,8 @@ export default function HelpButton(props) {
 		onPress,
 		width,
 		height,
+		bold,
+		bigText,
 		isLightButton,
 		isRedButton,
 		isCircleBlueButton,
@@ -41,6 +45,12 @@ export default function HelpButton(props) {
 	//should do when clicked. Will also take an optional isLoading to show if the screen is loading so the button
 	//doesn't display
 	//If button is loading, LoadingSpinner will appear
+	const textStyle = [];
+	if(bigText != undefined) textStyle.push(bigText ? fontStyles.bigTextStyle : fontStyles.mainTextStyle);
+	else textStyle.push(width < screenWidth * 0.3 ? fontStyles.mainTextStyle : fontStyles.bigTextStyle);
+	textStyle.push(isLightButton ? fontStyles.darkBlue : fontStyles.white);
+	if(bold) textStyle.push(fontStyles.bold);
+
 	if (isLoading === true) {
 		return <LoadingSpinner isVisible={true} />;
 	} else {
@@ -67,7 +77,7 @@ export default function HelpButton(props) {
 							: HelpButtonStyle.BlueButton,
 					],
 				]}
-				colors={isLightButton ? [] : isRedButton ? [] : [colors.green, colors.lightBlue]}>
+				colors={isLightButton ? [colors.white,colors.white] : isRedButton ? [colors.red,colors.red] : [colors.green, colors.lightBlue]}>
 				<TouchableOpacity
 					style={[
 						[
@@ -91,15 +101,7 @@ export default function HelpButton(props) {
 					onPress={onPress}
 					disabled={disabled ? disabled : false}>
 					<Text
-						style={
-							isLightButton
-								? width < screenWidth * 0.3
-									? [fontStyles.mainTextStyle, fontStyles.blue]
-									: [fontStyles.bigTextStyle, fontStyles.blue]
-								: width < screenWidth * 0.3
-								? [fontStyles.mainTextStyle, fontStyles.white]
-								: [fontStyles.bigTextStyle, fontStyles.white]
-						}>
+						style={textStyle}>
 						{title}
 					</Text>
 				</TouchableOpacity>
