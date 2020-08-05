@@ -67,7 +67,7 @@ export default function HelpButton(props) {
 							: HelpButtonStyle.BlueButton,
 					],
 				]}
-				colors={isLightButton ? [] : isRedButton ? [] : [colors.green, colors.lightBlue]}>
+				colors={isLightButton ? [] : isRedButton ? [] : [colors.green, colors.blue]}>
 				<TouchableOpacity
 					style={[
 						[
@@ -94,11 +94,11 @@ export default function HelpButton(props) {
 						style={
 							isLightButton
 								? width < screenWidth * 0.3
-									? [fontStyles.mainTextStyle, fontStyles.blue]
-									: [fontStyles.bigTextStyle, fontStyles.blue]
+									? [fontStyles.mainTextStyle, fontStyles.blue, fontStyles.bold]
+									: [fontStyles.bigTextStyle, fontStyles.blue, fontStyles.bold]
 								: width < screenWidth * 0.3
-								? [fontStyles.mainTextStyle, fontStyles.white]
-								: [fontStyles.bigTextStyle, fontStyles.white]
+								? [fontStyles.mainTextStyle, fontStyles.white, fontStyles.bold]
+								: [fontStyles.bigTextStyle, fontStyles.white, fontStyles.bold]
 						}>
 						{title}
 					</Text>

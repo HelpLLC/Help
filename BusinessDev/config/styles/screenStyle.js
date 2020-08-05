@@ -6,7 +6,7 @@ export default {
     container: {
         flexDirection: 'column',
         alignItems: 'center',
-        backgroundColor: colors.lightGray,
+        backgroundColor: colors.white,
         flex: 1
     }
 };

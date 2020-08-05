@@ -2,6 +2,7 @@
 //Each new defined string must be defined and accessed through this object
 export default {
 	SomethingWentWrong: 'Something went wrong, please try again later',
+	Dispatch: 'Dispatch',
 	Analytics: 'Analytics',
 	Payments: 'Payments',
 	Home: 'Home',
@@ -400,7 +401,9 @@ export default {
 	RecipientEmail: 'Recipient Email',
 	PleaseAddACustomerSignature: 'Please add a customer signature.',
 	PleaseAddARecipientEmail: 'Please add a recipient email.',
-	Confirm: 'Confirm'
+	Confirm: 'Confirm',
+	Approve: 'Approve',
+	Deny: 'Deny'
 	
 	
 };
