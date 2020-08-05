@@ -18,6 +18,7 @@ export default function HelpTextInput(props) {
 		//the onChangeText function will return
 		height: PropTypes.number.isRequired,
 		width: PropTypes.number.isRequired,
+		borderColor: PropTypes.string,
 		placeHolder: PropTypes.string,
 		onChangeText: PropTypes.func.isRequired,
 		value: PropTypes.string,
@@ -33,6 +34,7 @@ export default function HelpTextInput(props) {
 	const {
 		width,
 		height,
+		borderColor,
 		placeholder,
 		onChangeText,
 		value,
@@ -54,6 +56,7 @@ export default function HelpTextInput(props) {
 				{
 					width: width,
 					height: height,
+					borderColor: borderColor,
 				},
 			]}>
 			<TextInput

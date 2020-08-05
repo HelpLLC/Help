@@ -49,10 +49,13 @@ export default function dispatchScreen(props) {
                 <HelpTextInput
                     height={screenHeight*0.05}
                     width={screenWidth * 0.93}
+                    borderColor={colors.darkBlue}
                     isMultiline={false}
                     onChangeText={() => setSearch(search)}
                     additionalIcon={
-                        <Icon type='font-awesome' name='search' color={colors.darkBlue} size={20}/>
+                        <View style={{marginLeft: screenWidth * 0.08}}>
+                            <Icon type='font-awesome' name='search' color={colors.darkBlue} size={20}/>
+                        </View>
                     }></HelpTextInput>
                 <View style={{ ...style.button }}>
                     <HelpButton 
