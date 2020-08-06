@@ -114,12 +114,12 @@ export default function createServiceScreen(props) {
 					) : (
 						<FastImage source={imageSource} style={styles.imagePicker} />
 					)}
-					<Text style={fontStyles.mainTextStyleDarkBlue}>{strings.EditServiceImage}</Text>
+					<Text style={[fontStyles.mainTextStyle, fontStyles.darkBlue, styles.imageLabel]}>{strings.EditServiceImage}</Text>
 				</TouchableOpacity>
 			</View>
 			<View style={styles.inputSection}>
 				<View style={styles.inputTitleStyle}>
-					<Text style={fontStyles.bigTextStyleDarkBlue}>{strings.ServiceTitle}</Text>
+					<Text style={[fontStyles.bigTextStyle, fontStyles.darkBlue]}>{strings.ServiceTitle}</Text>
 				</View>
 				<HelpTextInput
 					isMultiline={false}
@@ -133,7 +133,7 @@ export default function createServiceScreen(props) {
 			</View>
 			<View style={styles.inputSection}>
 				<View style={styles.inputTitleStyle}>
-					<Text style={fontStyles.bigTextStyleDarkBlue}>{strings.ServiceDescription}</Text>
+					<Text style={[fontStyles.bigTextStyle, fontStyles.darkBlue]}>{strings.ServiceDescription}</Text>
 				</View>
 				<HelpTextInput
 					isMultiline={true}
@@ -147,7 +147,7 @@ export default function createServiceScreen(props) {
 			</View>
 			<View style={styles.inputSection}>
 				<View style={styles.inputTitleStyle}>
-					<Text style={fontStyles.bigTextStyleDarkBlue}>{strings.ServiceDuration}</Text>
+					<Text style={[fontStyles.bigTextStyle, fontStyles.darkBlue]}>{strings.ServiceDuration}</Text>
 				</View>
 				<View style={styles.serviceDurationRow}>
 					<HelpTextInput
@@ -160,7 +160,7 @@ export default function createServiceScreen(props) {
 						value={serviceDurationHours}
 					/>
 					<View style={styles.hoursText}>
-						<Text style={fontStyles.mainTextStyleDarkBlue}>{strings.Hours}</Text>
+						<Text style={[fontStyles.mainTextStyle, fontStyles.darkBlue]}>{strings.Hours}</Text>
 					</View>
 					<View style={styles.pickerStyle}>
 						<RNPickerSelect
@@ -190,13 +190,18 @@ export default function createServiceScreen(props) {
 							)}
 						/>
 					</View>
-					<Text style={fontStyles.mainTextStyleDarkBlue}>{strings.Minutes}</Text>
+					<Text style={[fontStyles.mainTextStyle, fontStyles.darkBlue]}>{strings.Minutes}</Text>
 				</View>
 			</View>
 			<View style={styles.buttonSection}>
+				<View></View>
 				<HelpButton
 					title={strings.Next}
-					width={screenWidth * 0.39}
+					width={screenWidth * 0.2}
+					height={screenWidth * 0.07}
+					bigText={true}
+					bold={true}
+					style={styles.button}
 					onPress={() => {
 						//Navigates to the next screen
 						goToNextScreen();

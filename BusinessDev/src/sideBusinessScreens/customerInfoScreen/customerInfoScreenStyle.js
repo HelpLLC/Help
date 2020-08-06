@@ -11,14 +11,27 @@ export default StyleSheet.create({
 	},
 	customQuestionsText: {
 		width: screenWidth * 0.85,
-		marginVertical: screenHeight * 0.025,
+		marginTop: screenHeight * 0.025,
 	},
 	textSpacer: {
 		height: screenHeight * 0.025,
 	},
+	checkboxStyle:{
+		borderRadius:0,
+	},
+	addQuestion:{
+		alignSelf: 'center',
+	},
+	contactQuestionRow:{
+		marginBottom: -15,
+		marginRight: screenHeight * 0.025,
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		alignItems: 'center',
+	},
 	defaultQuestionRow: {
 		width: screenWidth * 0.85,
-		marginBottom: screenHeight * 0.01,
+		marginVertical: screenHeight * 0.005,
 		marginRight: screenHeight * 0.025,
 		flexDirection: 'row',
 		justifyContent: 'space-evenly',
@@ -42,8 +55,15 @@ export default StyleSheet.create({
 		height: screenHeight * 0.015,
 	},
 	buttonSection: {
-		marginVertical: screenHeight * 0.05,
-		justifyContent: 'center',
-		alignItems: 'center',
+		flexDirection:'row',
+		justifyContent:'space-between',
+		alignItems:'center',
+		width: '100%',
+		position: 'absolute',
+		bottom:30,
+		paddingHorizontal: 15,
+	},
+	footer:{
+		marginTop:10,
 	},
 });
