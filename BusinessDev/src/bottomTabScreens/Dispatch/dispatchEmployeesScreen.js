@@ -62,6 +62,7 @@ export default function dispatchScreen(props) {
                         title={'Invite Employee(s)'}
                         width={screenWidth * 0.93}
                         height={screenHeight * 0.045}
+                        bold={true}
                     />
                 </View>
             </View>

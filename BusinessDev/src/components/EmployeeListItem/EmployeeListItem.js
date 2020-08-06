@@ -37,6 +37,7 @@ export default function EmployeeListItem(props) {
                             title={buttonText}
                             width={buttonWidth}
                             height={buttonHeight}
+                            bold={true}
                             style={{ ...EmployeeListItemStyle.assignButton }}
                         />
                     </View>

@@ -36,7 +36,7 @@ export default function TimeOffInfoCard(props) {
                             title={strings.Approve}
                             width={screenWidth * 0.29}
                             height={screenHeight * 0.04}
-                            style={{ ...TimeOffInfoCardStyle.requestButton }}
+                            bold={true}
                         />
                     </View>
                     <View style={{ ...TimeOffInfoCardStyle.requestButton }}>
@@ -44,6 +44,7 @@ export default function TimeOffInfoCard(props) {
                             title={strings.Deny}
                             width={screenWidth * 0.29}
                             height={screenHeight * 0.04}
+                            bold={true}
                         />
                     </View>
                 </View>
