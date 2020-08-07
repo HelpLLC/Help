@@ -313,6 +313,15 @@ export default {
 	BilledAmount: 'Billed Amount',
 	Date: 'Date',
 	Time: 'Time',
+	Employee: 'Employee',
+	Customer: 'Customer',
+	Payment: 'Payment',
+	Address: 'Address',
+	PhoneNumber: 'Phone Number',
+	Email: 'Email',
+	AssignEmployees: 'Assign Employees',
+	Assign: 'Assign',
+	AdditionalInformation: 'Additional Information',
 	PaymentType: 'Payment Type',
 	Price: 'Price',
 	RequestID: 'Request ID',
@@ -413,5 +422,7 @@ export default {
 	ProfileBusinessSchedule: 'Business Schedule',
 	ProfilePassword: 'Password',
 	ProfileLogout: 'Logout',
+
+	Loading:'Loading...',
 	
 };
