@@ -16,40 +16,33 @@ export default function confirmServiceScreen(props) {
 	
     //The intial state of the screen
 	const [requestTitle, setRequestTitle] = useState(strings.Loading);
-	const [requestID, setRequestID] = useState('');
 	const [requestData, setRequestData] = useState({});
-	const [customerData, setCustomerData] = useState({});
 	const [employees, setEmployees] = useState([]);
 	const [employeeData, setEmployeeData] = useState([]);
+	const [assignedEmployee, setAssignedEmployee] = useState('');
+	const [popupVisible, setPopupVisible] = useState(false);
 	
 	async function getData(){ //TODO: get employees associated with the business
         //Declares the screen name in Firebase
 
-        //only for testing
-		props = {navigation:{state:{params:{requestID:'EKY0Winhxxb85GlXy1WX', employees:['Rick Astley', 'Jared Diamond', 'James Olson', 'Tim Burton']}}}};
-        const {
-            requestID,
-            employees,
-	 	} = props.navigation.state.params;
-        //gets the firebase data and initalizes the state
-        const requestData = await FirebaseFunctions.call('getRequestByID', {
-            requestID
-        });
-        const customerData = await FirebaseFunctions.call('getCustomerByID', {
-            customerID:requestData.customerID
-        });
-        
+        // //only for testing
+		// props = {navigation:{state:{params:{requestID:'EKY0Winhxxb85GlXy1WX', employees:['Rick Astley', 'Jared Diamond', 'James Olson', 'Tim Burton']}}}};
         // const {
         //     requestID,
-        //     requestData,
-        //     customerData,
         //     employees,
 	 	// } = props.navigation.state.params;
+        // //gets the firebase data and initalizes the state
+        // const requestData = await FirebaseFunctions.call('getRequestByID', {
+        //     requestID
+        // });
+        
+        const {
+            requestData,
+            employees,
+	 	} = props.navigation.state.params;
 
-        setRequestID(requestID)
 		setRequestTitle(requestData.serviceTitle);
         setRequestData(requestData);
-        setCustomerData(customerData);
         setEmployees(employees.sort((a, b) => {
             let res = a.substring(a.lastIndexOf(' ')).localeCompare(b.substring(b.lastIndexOf(' ')));
             return res != 0 ? res : a.localeCompare(b);
@@ -90,6 +83,29 @@ export default function confirmServiceScreen(props) {
             <View style={style.Footer}>
                 {/*TODO: add footer here*/}
             </View>
+            {popupVisible ? (
+                <View style={style.PopupContainer}> 
+                    <View style={style.PopupTextContainer}>
+                        <Text style={[fontStyles.bigTextStyle, style.PopupTitle]}>{strings.EmployeeAssigned}</Text>
+                        <Text style={[fontStyles.mainTextStyle, style.PopupText]}>{strings.EmployeeAssignedMessage.replace(/NAME/, assignedEmployee)}</Text>
+
+                        <Text style={[fontStyles.bigTextStyle, style.PopupDetails]}>{requestData.serviceTitle}</Text>
+                        <Text style={[fontStyles.bigTextStyle, style.PopupDetails]}>{getDateString()}</Text>
+                        <Text style={[fontStyles.bigTextStyle, style.PopupDetails]}>{`${formatTime(requestData.time)} - ${formatTime(requestData.endTime)}`}</Text>
+
+                        <Text style={[fontStyles.mainTextStyle, style.PopupText]}>{strings.EmployeeAssignedCalenderMessage.replace(/NAME/, assignedEmployee)}</Text>
+                        <HelpButton
+                            title={strings.Close}
+                            isLightButton={true}
+                            width={100}
+                            height={45}
+                            bigText={true}
+                            bold={true}
+                            onPress={() => setPopupVisible(false)}
+                        />
+                    </View>
+                </View>
+            ) : null}
         </View>
     );
     
@@ -111,20 +127,39 @@ export default function confirmServiceScreen(props) {
                 />
                 <View style={style.ItemTextContainer}>
                     <Text style={[fontStyles.bigTextStyle, style.ItemText]}>{item}</Text>
-                    <HelpButton
+                    {item == assignedEmployee ? 
+                    <Text style={[fontStyles.bigTextStyle, style.ItemAssignedText]}>{strings.Assigned}</Text>
+                    : <HelpButton
 						title={strings.Assign}
 						width={125}
 						height={35}
 						bigText={true}
 						bold={true}
-						onPress={() => {
-							//Navigates to the next screen
-							//TODO: this
-						}}
-					/>
+						onPress={() => assignEmployee(item)}
+					/>}
                 </View>
             </View>
         );
+    }
+
+    function assignEmployee(employee){
+
+        //TODO: fill out the backend for this method
+
+        setAssignedEmployee(employee);
+        setPopupVisible(true);
+    }
+
+    function getDateString(){
+        let out = new Date(requestData.date).toDateString();
+        out = out.substring(0,3).toUpperCase() + out.substring(3);
+        out = out.substring(0,out.indexOf(' ')) + ',' + out.substring(out.indexOf(' '));
+        out = out.substring(0,out.lastIndexOf(' ')) + ',' + out.substring(out.lastIndexOf(' '));
+        return out;
+    }
+
+    function formatTime(str){
+        return str.toLowerCase().replace(/\s/g, '');
     }
 }
 

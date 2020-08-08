@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default StyleSheet.create({
     Body:{
@@ -61,6 +60,43 @@ export default StyleSheet.create({
         color:colors.darkBlue,
         fontWeight:'bold',
         marginBottom:10,
+    },
+    ItemAssignedText:{
+        color:colors.blue,
+        fontWeight:'bold',
+    },
+
+    PopupContainer:{
+        backgroundColor:colors.lightGray+'80',
+        width:screenWidth,
+        height:screenHeight,
+        position:'absolute',
+        justifyContent:'center',
+        alignItems:'center',
+    },
+    PopupTextContainer:{
+        backgroundColor:colors.blue,
+        width:screenWidth*.65,
+        padding:20,
+        borderRadius:10,
+        flexDirection:'column',
+        alignItems:'center',
+    },
+    PopupTitle:{
+        color:colors.white,
+        fontWeight:'bold',
+        textAlign:'center',
+    },
+    PopupText:{
+        color:colors.white,
+        marginVertical:15,
+        textAlign:'center',
+    },
+    PopupDetails:{
+        color:colors.white,
+        fontWeight:'bold',
+        marginVertical:5,
+        textAlign:'center',
     },
 
     Footer:{
