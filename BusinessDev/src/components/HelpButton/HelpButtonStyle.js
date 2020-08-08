@@ -25,7 +25,7 @@ export default StyleSheet.create({
 	LightButton: {
 		alignItems: 'center',
 		backgroundColor: colors.white,
-		borderColor: colors.lightBlue,
+		borderColor: colors.blue,
 		justifyContent: 'center',
 		alignSelf: 'center',
 		borderWidth: 2.5,
