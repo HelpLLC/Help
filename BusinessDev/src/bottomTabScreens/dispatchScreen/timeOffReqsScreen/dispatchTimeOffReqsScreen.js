@@ -10,7 +10,7 @@ import colors from 'config/colors';
 import TimeOffInfoCard from '../../components/TimeOffInfoCard/TimeOffInfoCard';
 
 //exports the dispatchScreen class
-export default function dispatchScreen(props) {
+export default function dispatchTimeOffReqsScreen(props) {
 
     //initial state of the screen
     const [business, setBusiness] = useState();

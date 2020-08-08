@@ -15,7 +15,7 @@ import EmployeeListItem from '../../components/EmployeeListItem/EmployeeListItem
 import HelpButton from '../../components/HelpButton/HelpButton';
 
 //exports the dispatchScreen class
-export default function dispatchScreen(props) {
+export default function dispatchEmployeesScreen(props) {
 
     //initial state of the screen
     const [business, setBusiness] = useState();
