@@ -400,7 +400,8 @@ export default {
 	RecipientEmail: 'Recipient Email',
 	PleaseAddACustomerSignature: 'Please add a customer signature.',
 	PleaseAddARecipientEmail: 'Please add a recipient email.',
-	Confirm: 'Confirm'
-	
-	
+	Confirm: 'Confirm',
+	Dashboard: 'Dasboard',
+	AddServices: 'Add Services',
+	Edit: 'Edit'
 };

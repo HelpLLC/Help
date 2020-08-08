@@ -648,29 +648,24 @@ DEPENDENCIES:
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://cdn.cocoapods.org/:
+  trunk:
+    - abseil
     - Base64
     - boost-for-react-native
-    - Fabric
-    - Firebase
-    - FirebaseCore
-    - FirebaseCoreDiagnosticsInterop
-    - FirebaseInstanceID
-    - GoogleUtilities
-    - nanopb
-    - SDWebImage
-  https://github.com/cocoapods/specs.git:
-    - abseil
     - BoringSSL-GRPC
     - Crashlytics
+    - Fabric
     - Firebase
     - FirebaseAnalytics
     - FirebaseAnalyticsInterop
     - FirebaseAuth
     - FirebaseAuthInterop
+    - FirebaseCore
     - FirebaseCoreDiagnostics
+    - FirebaseCoreDiagnosticsInterop
     - FirebaseFirestore
     - FirebaseFunctions
+    - FirebaseInstanceID
     - FirebaseMessaging
     - FirebaseStorage
     - GoogleAppMeasurement
@@ -861,4 +856,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 76e97eb68e5ef33810ac87048b6f06f86268d25b
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.9.3
