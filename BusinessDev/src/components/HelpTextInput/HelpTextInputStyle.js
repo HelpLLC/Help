@@ -9,13 +9,6 @@ export default StyleSheet.create({
 		borderRadius: 20,
 		backgroundColor: colors.white,
 		borderColor: colors.lightBlue,
-		shadowOffset: {
-            width: 0,
-            height: 0
-        },
-        shadowRadius: 5,
-        shadowOpacity: 10,
-		shadowColor: colors.lightBlue,
 		alignItems: 'center',
 		flexDirection: 'row',
 		borderWidth: 3,

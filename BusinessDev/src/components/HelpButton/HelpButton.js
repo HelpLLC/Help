@@ -77,7 +77,7 @@ export default function HelpButton(props) {
 							: HelpButtonStyle.BlueButton,
 					],
 				]}
-				colors={isLightButton ? [colors.white,colors.white] : isRedButton ? [colors.red,colors.red] : [colors.green, colors.lightBlue]}>
+				colors={isLightButton ? [colors.white,colors.white] : isRedButton ? [colors.red,colors.red] : [colors.green, colors.blue]}>
 				<TouchableOpacity
 					style={[
 						[
