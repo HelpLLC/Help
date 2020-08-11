@@ -2,7 +2,7 @@
 //This includes font families, sizes, and colors.
 import colors from '../colors';
 import { StyleSheet, Platform, PixelRatio } from 'react-native';
-import { screenWidth, screenHeight } from 'config/dimensions';
+import { screenWidth, screenHeight } from '../dimensions';
 
 //Gets the correct font based on either iOS or Android
 const font = 'Lucida Grande';
