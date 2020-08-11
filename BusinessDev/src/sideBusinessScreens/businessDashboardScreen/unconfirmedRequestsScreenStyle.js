@@ -10,7 +10,7 @@ export default StyleSheet.create({
   },
   ServiceCard: {
     width: screenWidth * 0.95,
-    height: screenHeight * 0.25,
+    height: screenHeight * 0.22,
     borderColor: colors.lightBlue,
     borderWidth: 3,
     borderRadius: 25,
@@ -26,13 +26,11 @@ export default StyleSheet.create({
   },
   TextPlusButton: {
     marginTop: screenHeight * 0.05,
-    marginLeft: screenWidth * 0.05
   },
   MiddleText: {
-    marginTop: screenHeight * 0.03,
+    marginTop: screenHeight * 0.02,
   },
   ImageandTitle: {
-    marginLeft: screenWidth * -0.1,
     marginTop: screenHeight * 0.02,
   },
   BottomSpacer: {
@@ -43,9 +41,5 @@ export default StyleSheet.create({
   },
   TopSpacer: {
     marginTop: screenHeight * 0.005,
-  },
-  EditButton: {
-    marginRight: screenWidth * -0.3,
-    marginTop: screenHeight * 0.03,
   },
 });

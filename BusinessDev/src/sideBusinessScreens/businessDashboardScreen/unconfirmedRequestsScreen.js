@@ -7,9 +7,9 @@ import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpButton from '../../components/HelpButton/HelpButton';
-import dashboardScreenStyle from './dashboardScreenStyle';
+import unconfirmedRequestsScreenStyle from './unconfirmedRequestsScreenStyle';
 
-const dashboardScreen = (props) => {
+const unconfirmedScreen = (props) => {
   let image = {
     uri:
       'https://www.adorama.com/alc/wp-content/uploads/2018/07/shutterstock_170815865-1024x563.jpg',
@@ -23,47 +23,39 @@ const dashboardScreen = (props) => {
           size={30}
           leftOnPress={() => props.navigation.goBack()}
         />
-        <View style={dashboardScreenStyle.AddServiceButton}>
-          <HelpButton
-            title={strings.AddServices}
-            onPress={() => {}}
-            width={screenWidth * 0.9}
-            height={screenHeight * 0.05}
-          />
-        </View>
-        <View style={dashboardScreenStyle.ServiceCard}>
-          <View style={dashboardScreenStyle.ImageandTitle}>
+        <View style={unconfirmedRequestsScreenStyle.ServiceCard}>
+          <View style={[unconfirmedRequestsScreenStyle.ImageandTitle, unconfirmedRequestsScreenStyle.RightSpacer]}>
             <Text
               style={
                 ([
                   fontStyles.darkBlue,
                   fontStyles.bold,
                   fontStyles.mainTextStyle,
-                  dashboardScreenStyle.BottomSpacer
+                  unconfirmedRequestsScreenStyle.BottomSpacer
                 ])
               }
             >
-               {/* replace with firbase input */}
+                      {/* replace with firbase input */}
               Photography
             </Text>
-            <Image source={image} style={dashboardScreenStyle.imageStyle } />
+            <Image source={image} style={unconfirmedRequestsScreenStyle.imageStyle } />
           </View>
 
-          <View style={dashboardScreenStyle.TextPlusButton}>
-            <View style={dashboardScreenStyle.MiddleText}>
-            <Text
+          <View style={unconfirmedRequestsScreenStyle.TextPlusButton}>
+              <View style={unconfirmedRequestsScreenStyle.MiddleText}>
+            <Text 
               style={
                 ([
                   fontStyles.darkBlue,
                   fontStyles.bold,
                   fontStyles.subTextStyle,
-                   dashboardScreenStyle.BottomSpacer
+                   unconfirmedRequestsScreenStyle.BottomSpacer
                 ]
                )
               }
             >
-               {/* replace with firbase input */}
-              M/W/T
+              Wed, APR 1, 2020 
+              {/* replace with firbase input */}
             </Text>
             <Text
               style={
@@ -71,20 +63,20 @@ const dashboardScreen = (props) => {
                   fontStyles.darkBlue,
                   fontStyles.bold,
                   fontStyles.mainTextStyle,
-                  dashboardScreenStyle.BottomSpacer
+                  unconfirmedRequestsScreenStyle.BottomSpacer
                 ])
                 
               }
             >
-               {/* replace with firbase input */}
-              $120 per Hour
+                      {/* replace with firbase input */}
+             4:00 PM - 5:00 PM
             </Text>
             </View>
-            <View style={dashboardScreenStyle.EditButton}>
+            <View>
               <HelpButton
-                title={strings.Edit}
+                title={strings.ConfirmRequest}
                 onPress={() => {}}
-                width={screenWidth * 0.25}
+                width={screenWidth * 0.5}
                 height={screenHeight * 0.04}
               />
             </View>
@@ -95,4 +87,4 @@ const dashboardScreen = (props) => {
   );
 };
 
-export default dashboardScreen;
+export default unconfirmedScreen;

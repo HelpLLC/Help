@@ -418,5 +418,5 @@ export default {
 	ProfileBusinessSchedule: 'Business Schedule',
 	ProfilePassword: 'Password',
 	ProfileLogout: 'Logout',
-	
+	ConfirmRequest: 'Confirm Request'
 };
