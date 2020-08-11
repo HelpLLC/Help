@@ -64,7 +64,7 @@ export default function employeeInfoScreen(props) {
                 <View style={style.SubSectionContainer}>
                     <View style={style.SectionIcon}>
                         <Icon 
-                            name='clock'
+                            name='clock-o'
                             type='font-awesome'
                             size={60}
                             color={colors.darkBlue}
