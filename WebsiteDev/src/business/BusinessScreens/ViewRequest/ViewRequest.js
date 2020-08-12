@@ -9,8 +9,9 @@ import strings from '../../../config/strings';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import profile_pic from './profile_pic.png'; // Tell webpack this JS file uses this image
 import HelpAlert from '../../../components/HelpAlert/HelpAlert';
-import DropdownHeader from '../../../components/DropdownHeader/DropdownHeader';
+import DropdownHeader from "../../../components/DropdownHeader/DropdownHeader";
 import ReactLoading from 'react-loading';
+import SideMenuCard from "../../../components/SideMenu/SideMenuCard"
 
 // Creates the functional component
 const ViewRequest = (props) => {
@@ -110,7 +111,7 @@ const ViewRequest = (props) => {
 
 	// Returns the UI of the screen
 	return (
-		<div>
+		<div className="wholeviewrequestscreen">
 			<section className='dropdownheader'>
 				<DropdownHeader
 					businessID={business.businessID}
@@ -119,10 +120,12 @@ const ViewRequest = (props) => {
 					divClassName='toprightcontainer'
 				/>
 			</section>
-
-			<div id='container'>
+			<section className="sidebarHolder">
+        <SideMenuCard title="Help" />
+      </section>
+			<div className="container">
 				<div className='content_container'>
-					<div id='rectangle_4'>
+					<div className='rectangle_4'>
 						<div className='content_container'>
 							<div className='service_title bigTextStyle darkBlue'>{request.serviceTitle}</div>
 							<div className='topRow'>

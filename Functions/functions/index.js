@@ -802,6 +802,7 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		paymentSetupStatus,
 		phoneNumber,
 		isVerified,
+		employeeCode,
 	} = input;
 
 	const batch = database.batch();
@@ -819,6 +820,7 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		website,
 		phoneNumber,
 		isVerified,
+		employeeCode,
 	});
 
 	//Adds analytics documents
@@ -848,6 +850,9 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 			'\n\n' +
 			'Business Site: ' +
 			website +
+			'\n\n' +
+			'Business Employee Code: ' +
+			employeeCode +
 			'\n\n' +
 			'To approve this business, click this link: \n' +
 			'https://us-central1-help-technologies-e4e1c.cloudfunctions.net/verifyBusiness?businessEmail=' +

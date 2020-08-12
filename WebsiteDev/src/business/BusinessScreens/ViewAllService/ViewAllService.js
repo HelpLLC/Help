@@ -10,45 +10,77 @@ import ReactLoading from 'react-loading';
 import colors from '../../../config/colors';
 import ViewAllServiceCard from '../../../components/ViewAllServiceCard/ViewAllServiceCard';
 import SideMenuCard from '../../../components/SideMenu/SideMenuCard';
-import DropdownHeader from "../../../components/DropdownHeader/DropdownHeader";
+import DropdownHeader from '../../../components/DropdownHeader/DropdownHeader';
+import strings from '../../../config/strings';
 
 //Declares the functional component
 const ViewAllService = (props) => {
 	//Declares all the state variables that will be used in this screen
 	const [isLoading, setIsLoading] = useState(true);
-	const [service, setService] = useState('');
-	const [serviceData, setServiceData] = useState('');
-	const [title, setTitle] = useState('');
-	const [businessID, setBusinessID] = useState();
-	const [businessName, setBusinessName] = useState();
+	const [service, setService] = useState();
+	const [serviceData, setServiceData] = useState();
+	const [title, setTitle] = useState();
+	const [business, setBusiness] = useState();
+	// const [businessID, setBusinessID] = useState();
+	// const [businessName, setBusinessName] = useState();
 	const location = useLocation();
 	const history = useHistory();
+	let serviceObject = null;
 
 	//The useEffect method & the fetchData method will both fetch the correct data about the specific service that has
 	//been clicked on based on the service ID, the current requests snippet, the request history snippet,
 	//and will also fetch the image of the service.
-	const fetchData = async () => {
-		const serviceObject = location.state.service;
-		// const businessObject = location.state.business;
+	const fetchData = () => {
+		serviceObject = location.state.service;
+		const businessObject = location.state.business;
+		console.log('service all object = ' + JSON.stringify(serviceObject));
+		console.log('business all object = ' + JSON.stringify(businessObject));
 		setService(serviceObject);
-		// setBusiness(businessObject);
-		const image = await FirebaseFunctions.call('getServiceImageByID', {
-			serviceID: serviceObject.serviceID,
-		});
-		setServiceData(location.state.data);
+		setBusiness(businessObject);
 		setTitle(location.state.title);
 		setIsLoading(false);
-
-		const business = await FirebaseFunctions.call("getBusinessByID", {
-			businessID: "zjCzqSiCpNQELwU3ETtGBANz7hY2"
-		  });
-		  setBusinessID(business);
-		  setBusinessName(business.businessName);
 	};
 
 	useEffect(() => {
 		fetchData();
+
+		async function getData() {
+			if (title == strings.ConfirmedRequests) {
+				await getAllConfirmedRequests();
+			} else if (title == strings.UnconfirmedRequests) {
+				await getAllUnconfirmedRequests();
+			} else {
+				await getAllCompletedRequests();
+			}
+		}
+		getData();
+		console.log('service all = ' + JSON.stringify(service));
+		console.log('business all = ' + JSON.stringify(business));
 	}, []);
+
+	async function getAllConfirmedRequests() {
+		const data = await FirebaseFunctions.call('getConfirmedRequestsByServiceID', {
+			serviceID: serviceObject.serviceID,
+		});
+		setServiceData(data);
+		console.log('data = ' + JSON.stringify(data));
+	}
+
+	async function getAllUnconfirmedRequests() {
+		const data = await FirebaseFunctions.call('getUnconfirmedRequestsByServiceID', {
+			serviceID: serviceObject.serviceID,
+		});
+		setServiceData(data);
+		console.log('data = ' + JSON.stringify(data));
+	}
+
+	async function getAllCompletedRequests() {
+		const data = await FirebaseFunctions.call('getCompletedRequestsByServiceID', {
+			serviceID: serviceObject.serviceID,
+		});
+		setServiceData(data);
+		console.log('data = ' + JSON.stringify(data));
+	}
 
 	// Renders the UI of the screen. If the screen is loading, displays a loading state
 	if (isLoading === true) {
@@ -60,14 +92,14 @@ const ViewAllService = (props) => {
 	}
 	return (
 		<div className='ViewAllScreen'>
-			  <section className="dropdownheader">
-          <DropdownHeader
-              businessID={businessID}
-			  businessName={businessName}
-            modalClassName="modal"
-            divClassName="toprightcontainer"
-          />
-        </section>
+			<section className='dropdownheader'>
+				<DropdownHeader
+					businessID={business.businessID}
+					businessName={business.businessName}
+					modalClassName='modal'
+					divClassName='toprightcontainer'
+				/>
+			</section>
 			<div className='ViewAllContainer'>
 				<text className='mainTextStyle darkBlue bold'>{title}</text>
 				<div className='bottomSection'>
@@ -79,10 +111,12 @@ const ViewAllService = (props) => {
 										name={currentRequest.customerName}
 										service={currentRequest.serviceTitle}
 										date={currentRequest.date}
-										time={currentRequest.time}
-										imageFunction={async() => await FirebaseFunctions.call('getServiceImageByID', {
-											serviceID: service.serviceID,
-										})}
+										time={currentRequest.time + 'to' + currentRequest.endTime}
+										imageFunction={async () =>
+											await FirebaseFunctions.call('getServiceImageByID', {
+												serviceID: serviceObject.serviceID,
+											})
+										}
 									/>
 								);
 							})}

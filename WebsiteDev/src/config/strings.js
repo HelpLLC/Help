@@ -311,4 +311,13 @@ export default {
 	DaysOffered: 'Days Offered',
 	ViewAll: 'View All',
 	Total: 'Total:',
+	GreetingMessageFirstPart:  'Hi, follow this link to sign up with Help and join the',
+	GreetingMessageSecondPart: 'using this code:', 
+	InviteEmployees: 'Invite Employee(s)',
+	Dispatch: 'Dispatch', 
+	JoinCodeForEmployees: 'Join Code For Your Employees',
+	ShareTheCode: 'Share this 5-digit code with your employees',
+	TimeOffRequests: 'Time Off Request(s)',
+	Approve: 'Approve',
+	Deny: 'Deny'
 };

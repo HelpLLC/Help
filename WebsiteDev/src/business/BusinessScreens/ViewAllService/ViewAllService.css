@@ -1,4 +1,7 @@
 /*This contains the styling for the service screen where the business views a specific service*/
+.wholeviewallscreen{
+	display: flex;
+}
 .ViewAllScreen {
 	display: flex;
 	height: 100vh;
@@ -9,8 +12,6 @@
 .ViewAllContainer {
 	height: 90vh;
 	width: 75vw;
-	margin-top: 10vh;
-
 }
 .titleSection {
 	display: flex;

@@ -32,13 +32,15 @@ export default class analyticsScreen extends Component {
 	//Declares the screen name in Firebase
 	async componentDidMount() {
 		FirebaseFunctions.setCurrentScreen('AnalyticsScreen', 'analyticsScreen');
-		const { businessID } = this.props.navigation.state.params;
+		//const { businessID } = this.props.navigation.state.params;
+		const businessID = 'zjCzqSiCpNQELwU3ETtGBANz7hY2';
 		const analyticsData = await FirebaseFunctions.call('getBusinessAnalyticsByBusinessID', {
 			businessID,
 		});
 		const revenueData = analyticsData[0];
 		const topServicesData = analyticsData[1];
 		const customerLocationData = analyticsData[2];
+		console.log(analyticsData)
 		this.setState({
 			revenueData,
 			businessID,

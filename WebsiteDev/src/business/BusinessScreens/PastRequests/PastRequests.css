@@ -1,0 +1,31 @@
+.wholepastrequestsscreen{
+  display: flex;
+}
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+
+}
+
+.title {
+  margin-bottom: 3vh;
+}
+
+.sidebarHolder {
+  width: 20vw;
+
+}
+
+.cards {
+  margin-bottom: 1vh; 
+}
+
+.pageContent {
+  margin-top: -20vh;
+  width: 75vw;
+  height: 100vh;
+  margin-left: 5vw;
+  flex-direction: column;
+}

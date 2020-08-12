@@ -1,3 +1,6 @@
+.wholecreateservicescreen{
+	display: flex;
+}
 .container {
 	width: 75vw;
 	background-color: white;
