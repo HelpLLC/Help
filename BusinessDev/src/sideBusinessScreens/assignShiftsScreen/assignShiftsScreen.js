@@ -17,11 +17,15 @@ export default function assignShiftsScreen(props) {
     const [loaded, setLoaded] = useState(false);
     const [popupVisible, setPopupVisible] = useState(false);
 
-    const componentDidMount = async () => {
+    async function getData() {
         //Declares the screen name in Firebase
         FirebaseFunctions.setCurrentScreen('AssignShiftsScreen', 'assignShiftsScreen');
 		setLoaded(true);
     };
+
+    useEffect(() => {
+        getData();
+	}, []);
 
     return (
         <View style={screenStyle.container}>

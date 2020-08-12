@@ -16,11 +16,15 @@ export default function employeeInfoScreen(props) {
     //The intial state of the screen
     const [loaded, setLoaded] = useState(false);
 
-    const componentDidMount = async () => {
+    async function getData() {
         //Declares the screen name in Firebase
         FirebaseFunctions.setCurrentScreen('EmployeeInfoScreen', 'employeeInfoScreen');
 		setLoaded(true);
     };
+
+    useEffect(() => {
+        getData();
+	}, []);
 
     return (
         <View style={screenStyle.container}>

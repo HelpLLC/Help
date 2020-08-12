@@ -17,7 +17,7 @@ export default function dispatchTimeOffReqsScreen(props) {
 	const [businessName, setBusinessName] = useState();
 	const [loaded, setLoaded] = useState(false);
     
-    const componentDidMount = async () => {
+    async function getData() {
         FirebaseFunctions.setCurrentScreen('DispatchScreen', 'dispatchScreen');
         const businessID = props.navigation.state.params;
         const business = await FirebaseFunctions.call('getBusinessByID', {
@@ -28,9 +28,9 @@ export default function dispatchTimeOffReqsScreen(props) {
 		setLoaded(true);
     };
 
-    if (loaded === false) {
-		componentDidMount();
-	}
+    useEffect(() => {
+        getData();
+	}, []);
 
     return (
         <View style={screenStyle.container}>
