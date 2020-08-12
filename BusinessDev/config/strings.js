@@ -221,6 +221,7 @@ export default {
 	PleaseSelectADayForYourService: 'Please select a day for your service.',
 	RequestedBy: 'Requested By',
 	BusinessHours: 'Business Hours',
+	WorkingHours: 'Working Hours',
 	ToTimeMustBeAfterFromTime: "The 'To' time needs to be after the 'from' time.",
 	Monday: 'Mon',
 	Tuesday: 'Tue',
