@@ -427,6 +427,9 @@ export default {
 	ConfirmPassword: 'Confirm Password',
 	PleaseEnterPhoneNumber: 'Please enter a valid phone number...',
 	Join: 'Join',
+	Dashboard: 'Dasboard',
+	AddServices: 'Add Services',
+	Edit: 'Edit',
 	Approve: 'Approve',
 	Deny: 'Deny',
 	ProfileDefaultBusinessName: 'Business',
@@ -434,7 +437,7 @@ export default {
 	ProfileBusinessSchedule: 'Business Schedule',
 	ProfilePassword: 'Password',
 	ProfileLogout: 'Logout',
-
+	ConfirmRequest: 'Confirm Request',
 	Loading:'Loading...',
 	
 };
