@@ -21,6 +21,7 @@
     "react-native-calendars": "^1.264.0",
     "react-native-check-box": "^2.1.7",
     "react-native-code-push": "^6.0.0",
+    "react-native-confirmation-code-field": "^6.4.0",
     "react-native-elements": "^1.2.7",
     "react-native-fast-image": "^7.0.2",
     "react-native-firebase": "^5.5.6",

@@ -36,6 +36,7 @@ const services = database.collection('services');
 const requests = database.collection('requests');
 const issues = database.collection('issues');
 const helpDev = database.collection('helpDev');
+const employees = database.collection('employees')
 
 //--------------------------------- Global Functions ---------------------------------
 
@@ -272,11 +273,43 @@ exports.getAllRequests = functions.https.onCall(async (input, context) => {
 	return array;
 });
 
-//Method fetches a service by ID & returns the service as an object. If the service does not exist, returns -1
+//Method fetches a business by ID & returns the business as an object. If the business does not exist, returns -1
 exports.getBusinessByID = functions.https.onCall(async (input, context) => {
 	const { businessID } = input;
 	const doc = await database.runTransaction(async (transaction) => {
 		const ref = businesses.doc(businessID + '');
+		const doc = await transaction.get(ref);
+
+		if (doc.exists) {
+			return doc.data();
+		} else {
+			return -1;
+		}
+	});
+	return doc;
+});
+
+//Method fetches all employees from a business
+exports.getEmployeesByBusinessID = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+	const doc = await database.runTransaction(async (transaction) => {
+		const ref = businesses.doc(businessID + '');
+		const doc = await transaction.get(ref);
+
+		if (doc.exists) {
+			return doc.data().employees;
+		} else {
+			return -1;
+		}
+	});
+	return doc;
+});
+
+//Method fetches an employee by ID
+exports.getEmployeeByID = functions.https.onCall(async (input, context) => {
+	const { employeeID } = input;
+	const doc = await database.runTransaction(async (transaction) => {
+		const ref = employees.doc(employeeID + '');
 		const doc = await transaction.get(ref);
 
 		if (doc.exists) {
@@ -820,6 +853,7 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		phoneNumber,
 		isVerified,
 		employeeCode,
+		employees:{}
 	});
 
 	//Adds analytics documents
@@ -898,6 +932,56 @@ exports.updateBusinessInformation = functions.https.onCall(async (input, context
 		await batch.commit();
 		return 0;
 	}
+});
+
+exports.addEmployeeToDatabase = functions.https.onCall(async (input, context) => {
+	const {
+		//Fields for the employee
+		name,
+		email,
+		phoneNumber,
+		employeeID,
+		businessID,
+	} = input;
+
+	const batch = database.batch();
+
+	batch.set(employees.doc(employeeID), {
+		name,
+		email,
+		phoneNumber,
+		employeeID,
+		isVerified:false,
+		businessID,
+	});
+
+
+	// Commits the batch
+	await batch.commit();
+	return 0;
+});
+
+//method to verify that an employee is part of a business
+exports.verifyEmployeeForBusiness = functions.https.onCall(async (input, context) => {
+	const {
+		//Fields for the employee
+		employeeID,
+		businessID,
+	} = input;
+
+	const batch = database.batch();
+
+	batch.update(businesses.doc(businessID), new FieldPath('employees'), {
+		[employeeID]: name
+	});
+
+	batch.update(employees.doc(employeeID), {
+		isVerified: true
+	});
+
+	// Commits the batch
+	await batch.commit();
+	return 0;
 });
 
 //This method will take information about a new service and add it to the firestore database. It will

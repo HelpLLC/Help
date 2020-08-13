@@ -18,7 +18,6 @@ const ViewRequest = (props) => {
   // The global variables used in this screen
 	let location = useLocation();
 	let history = useHistory();
-	const requestID = location.state.requestID;
 	const months = [
 		'Jan',
 		'Feb',
@@ -34,6 +33,7 @@ const ViewRequest = (props) => {
 		'Dec',
 	];
 	const days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+	const { businessID, requestID } = location;
 
 	// The state fields that are used in this screen
 	const [isLoading, setIsLoading] = useState(true);
@@ -41,7 +41,6 @@ const ViewRequest = (props) => {
 	const [confirmed, setConfirmed] = useState();
 	const [clicked, isClicked] = useState(false);
 	const [business, setBusiness] = useState();
-	const [businessName, setBusinessName] = useState();
 	const [formattedDate, setFormattedDate] = useState('');
 
 	// The useEffect method that will be called when this screen is navigated to
@@ -56,7 +55,7 @@ const ViewRequest = (props) => {
 				requestID: requestID,
 			}),
 			FirebaseFunctions.call('getBusinessByID', {
-				businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2',
+				businessID: businessID,
 			}),
 		]);
 		let datetime = new Date(results[0].date);
@@ -73,7 +72,6 @@ const ViewRequest = (props) => {
 		setRequest(results[0]);
 		setConfirmed(results[0].confirmed);
 		setBusiness(results[1]);
-		setBusinessName(results[1].businessName);
 		setIsLoading(false);
 	};
 
@@ -84,7 +82,7 @@ const ViewRequest = (props) => {
 		});
 		history.push({
 			pathname: '/employees',
-			state: { businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2' },
+			state: { businessID },
 		});
 	};
 
@@ -98,7 +96,7 @@ const ViewRequest = (props) => {
 		});
 		history.push({
 			pathname: '/dashboard',
-			state: { businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2' },
+			state: { businessID },
 		});
 	};
 
@@ -116,10 +114,10 @@ const ViewRequest = (props) => {
 		<div className="wholeviewrequestscreen">
 			<section className='dropdownheader'>
 				<DropdownHeader
-					businessID={business}
-					businessName={businessName}
-					modalClassName="modal"
-					divClassName="toprightcontainer"
+					businessID={business.businessID}
+					businessName={business.businessName}
+					modalClassName='modal'
+					divClassName='toprightcontainer'
 				/>
 			</section>
 			<section className="sidebarHolder">

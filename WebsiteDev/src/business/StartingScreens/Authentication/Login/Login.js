@@ -39,12 +39,13 @@ export function Login(props) {
 				businessID = await FirebaseFunctions.logIn(email, password, rememberMe);
 			} catch (error) {
 				setCredentialsError(true);
+				setLoggingInLoading(false);
 			}
 			setLoggingInLoading(false);
 			if (businessID) {
 				history.push({
 					pathname: '/dashboard',
-					state: { businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2' },
+					state: { businessID },
 				});
 			}
 		} else {

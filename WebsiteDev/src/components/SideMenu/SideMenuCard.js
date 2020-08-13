@@ -11,9 +11,10 @@ const styles = SideMenuContainer;
 export default function SideMenuCard(props) {
 	SideMenuCard.propTypes = {
 		title: PropTypes.string.isRequired,
+		businessID: PropTypes.string.isRequired
 	};
 
-	const { title } = props;
+	const { title, businessID } = props;
 
 	const history = useHistory();
 
@@ -33,7 +34,7 @@ export default function SideMenuCard(props) {
 					onClick={() =>
 						history.push({
 							pathname: '/dashboard',
-							state: { businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2' },
+							state: { businessID },
 						})
 					}>
 					<div style={styles.contenttext}>
@@ -48,7 +49,7 @@ export default function SideMenuCard(props) {
 					onClick={() =>
 						history.push({
 							pathname: '/calendar',
-							state: { businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2' },
+							state: { businessID },
 						})
 					}>
 					<div style={styles.contenttext}>
@@ -63,7 +64,7 @@ export default function SideMenuCard(props) {
 					onClick={() =>
 						history.push({
 							pathname: '/analytics',
-							state: { businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2' },
+							state: { businessID },
 						})
 					}>
 					<div style={styles.contenttext}>
@@ -78,7 +79,7 @@ export default function SideMenuCard(props) {
 					onClick={() =>
 						history.push({
 							pathname: '/dispatch',
-							state: { businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2' },
+							state: { businessID },
 						})
 					}>
 					<div style={styles.contenttext}>
@@ -93,7 +94,7 @@ export default function SideMenuCard(props) {
 					onClick={() =>
 						history.push({
 							pathname: '/editprofile',
-							state: { businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2' },
+							state: { businessID },
 						})
 					}>
 					<div style={styles.contenttext}>
