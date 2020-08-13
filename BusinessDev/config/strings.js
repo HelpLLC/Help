@@ -423,6 +423,9 @@ export default {
 	PleaseAddACustomerSignature: 'Please add a customer signature.',
 	PleaseAddARecipientEmail: 'Please add a recipient email.',
 	Confirm: 'Confirm',
+	Dashboard: 'Dasboard',
+	AddServices: 'Add Services',
+	Edit: 'Edit',
 	Approve: 'Approve',
 	Deny: 'Deny',
 	ProfileDefaultBusinessName: 'Business',
@@ -430,7 +433,7 @@ export default {
 	ProfileBusinessSchedule: 'Business Schedule',
 	ProfilePassword: 'Password',
 	ProfileLogout: 'Logout',
-
+	ConfirmRequest: 'Confirm Request',
 	Loading:'Loading...',
 	
 };
