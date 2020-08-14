@@ -7,7 +7,7 @@ import strings from '../../../../config/strings';
 import fontStyles from '../../../../config/styles/fontStyles';
 import HelpView from '../../../components/HelpView';
 import screenStyle from '../../../../config/styles/screenStyle';
-import logo from '../../../assets/WhiteLogo.png';
+import logo from '../../../../assets/WhiteLogo.png';
 import BusinessOrEmployeeStyle from './BusinessOrEmployeeStyle';
 
 // Declares the functional component

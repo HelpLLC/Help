@@ -439,5 +439,7 @@ export default {
 	ProfileLogout: 'Logout',
 	ConfirmRequest: 'Confirm Request',
 	Loading:'Loading...',
-	
+	AddNewService: 'Add New Service',
+	ServiceTitlePlaceholder: 'Enter a title for your service...',
+	DescriptionPlaceholder: 'Enter a description for your customers to see...'
 };

@@ -7,7 +7,7 @@ import { screenWidth, screenHeight } from 'config/dimensions';
 import strings from 'config/strings';
 import HelpView from '../../components/HelpView';
 import screenStyle from 'config/styles/screenStyle';
-import logo from '../../assets/WhiteLogo.png';
+import logo from '../../../assets/WhiteLogo.png';
 import SplashScreenStyle from './SplashScreenStyle';
 
 // Declares the functional component
