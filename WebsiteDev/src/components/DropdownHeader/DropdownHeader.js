@@ -72,7 +72,7 @@ export default function DropdownHeader(props) {
 								onClick={() =>
 									history.push({
 										pathname: '/editprofile',
-										state: { businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2' },
+										state: { businessID: businessID },
 									})
 								}
 								className='editprofile'>

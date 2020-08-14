@@ -39,9 +39,13 @@ export default function confirmServiceScreen(props) {
         const customerData = await FirebaseFunctions.call('getCustomerByID', {
             customerID:requestData.customerID
 		});
+        const employeeData = await FirebaseFunctions.call('getEmployeesByBusinessID', {
+            businessID:requestData.businessID
+		});
 		setRequestTitle(requestData.serviceTitle);
         setRequestData(requestData);
-        setCustomerData(customerData);
+		setCustomerData(customerData);
+		setEmployees(employeeData)
         setIsScreenLoading(false);
     }
     useEffect(() => {

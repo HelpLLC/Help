@@ -9,7 +9,7 @@ export default StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		alignSelf: 'center',
-		borderRadius: screenHeight * 0.0512,
+		borderRadius: screenHeight * 0.0186,
 	},
 
 	//Default button size to use but the red version

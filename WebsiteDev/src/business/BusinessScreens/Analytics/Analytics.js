@@ -100,13 +100,13 @@ export default function Analytics(props) {
     }
     months = months.filter((value, index) => index <= 11);
 
-    // Store the revenue in an array and inverse it to match the order of the months
-    var data = [];
-    for (let i = months.length; i >= 0; i--) {
-      const month = months[i];
-      data.push(parseInt(revenueData[month]));
-    }
-    data.reverse();
+		// Store the revenue in an array and inverse it to match the order of the months
+		var data = [];
+		for (let i = months.length; i >= 0; i--) {
+			const month = months[i];
+			data.push(parseInt(revenueData[month]));
+		}
+		data.reverse();
 
     // Combine the date and revenue into one 2d array
     for (let i = months.length - 1; i >= 0; i--) {
@@ -117,13 +117,13 @@ export default function Analytics(props) {
           ' ' +
           month.substring(0, month.indexOf('-'));
 
-        chartData.push(new Array(xAxisValue, data[i]));
-      } else {
-        chartData.push(new Array(month, data[i]));
-      }
-    }
-    return { chartData };
-  };
+				chartData.push(new Array(xAxisValue, data[i]));
+			} else {
+				chartData.push(new Array(month, data[i]));
+			}
+		}
+		return { chartData };
+	};
 
   //Generates the chart data for the services graph
   const generateTopServicesChartData = (topServicesData, dataType) => {

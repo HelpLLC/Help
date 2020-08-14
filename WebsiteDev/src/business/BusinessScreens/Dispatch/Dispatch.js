@@ -56,7 +56,6 @@ export default function Dispatch(props) {
 	const [search, setSearch] = React.useState('');
 
 	const componentDidMount = async () => {
-		const businessID = location.state.businessID;
 		const business = await FirebaseFunctions.call('getBusinessByID', {
 			businessID,
 		});

@@ -22,6 +22,7 @@ const Dashboard = (props) => {
 	const [unconfirmedRequestsImages, setUnconfirmedRequestsImages] = useState('');
 	const location = useLocation();
 	const history = useHistory();
+	const businessID = location.state.businessID;
 
 	// The useEffect method fetches the correct information
 	useEffect(() => {
@@ -30,7 +31,6 @@ const Dashboard = (props) => {
 
 	// Helper method for the useEffect method
 	const fetchFunc = async () => {
-		const businessID = location.state.businessID;
 		const results = await Promise.all([
 			FirebaseFunctions.call('getBusinessByID', {
 				businessID,
@@ -75,7 +75,7 @@ const Dashboard = (props) => {
 				/>
 			</section>
 			<section className='sidebarHolder'>
-				<SideMenuCard title='Help' />
+				<SideMenuCard title='Help'  businessID={businessID}/>
 			</section>
 			<section className='dashboardHolder'>
 				<div className='dashboardTitleContainer'>
