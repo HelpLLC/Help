@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import stripe from 'tipsi-stripe';
 import confirmPaymentScreen from './src/sideBusinessScreens/confirmPaymentScreen/confirmPaymentScreen'
 import SplashScreen from 'react-native-splash-screen';
-import ServiceScreen from './src/sideBusinessScreens/businessDashboardScreen/addNewServiceSrceen/addNewServiceScreen'
+
 
 
 //Launches the app with the persisted store
@@ -29,7 +29,7 @@ class App extends Component {
 			'componentWillMount',
 			'componentWillReceiveProps',
 		]);
-		return <ServiceScreen/>;
+		return <MainStackNavigator/>;
 	}
 }
 
