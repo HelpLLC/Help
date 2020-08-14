@@ -148,6 +148,12 @@ const newServiceScreen = (props) => {
         </View>
       </View>
       <View>
+      <HelpButton
+          title={strings.Back}
+          onPress={() => {}}
+          width={screenWidth * 0.25}
+          height={screenHeight * 0.04}
+        />
         <HelpButton
           title={strings.Next}
           onPress={() => {}}
