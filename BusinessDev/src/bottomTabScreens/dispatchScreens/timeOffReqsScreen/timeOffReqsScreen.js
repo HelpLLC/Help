@@ -1,16 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import { View, ScrollView } from 'react-native';
-import style from './dispatchEmployeesScreenStyle';
-import TopBanner from '../../components/TopBanner/TopBanner';
+import TopBanner from '../../../components/TopBanner/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import colors from 'config/colors';
-import TimeOffInfoCard from '../../components/TimeOffInfoCard/TimeOffInfoCard';
+import TimeOffInfoCard from '../../../components/TimeOffInfoCard/TimeOffInfoCard';
 
 //exports the dispatchScreen class
-export default function dispatchTimeOffReqsScreen(props) {
+export default function timeOffReqsScreen(props) {
 
     //initial state of the screen
     const [business, setBusiness] = useState();
@@ -18,7 +17,7 @@ export default function dispatchTimeOffReqsScreen(props) {
 	const [loaded, setLoaded] = useState(false);
     
     async function getData() {
-        FirebaseFunctions.setCurrentScreen('DispatchScreen', 'dispatchScreen');
+        FirebaseFunctions.setCurrentScreen('TimeOffReqsScreen', 'timeOffReqsScreen');
         const businessID = props.navigation.state.params;
         const business = await FirebaseFunctions.call('getBusinessByID', {
 			businessID,

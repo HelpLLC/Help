@@ -5,9 +5,12 @@ export default {
 	Dispatch: 'Dispatch',
 	Analytics: 'Analytics',
 	Payments: 'Payments',
+	Calendar: 'Calendar',
 	Home: 'Home',
 	Schedule: 'Schedule',
 	Settings: 'Settings',
+	Employees: 'Employees',
+	TimeOffReqs: 'Time Off Request(s)',
 	PaymentVerification: 'Payment Verification',
 	PaymentVerificationMessage:
 		'Help needs some additional information from you in order to accept card payments from customers.',

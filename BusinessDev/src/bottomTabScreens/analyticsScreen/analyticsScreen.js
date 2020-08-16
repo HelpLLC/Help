@@ -262,9 +262,6 @@ export default function analyticsScreen(props) {
                 <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                     <LoadingSpinner isVisible={true} />
                 </View>
-                <View style={style.Footer}>
-                    {/*TODO: add footer here*/}
-                </View>
             </View>
         );
     }
@@ -279,9 +276,6 @@ export default function analyticsScreen(props) {
             </View>
             <View style={style.ChartMainContainer}>
                 {renderGraph()}
-            </View>
-            <View style={style.Footer}>
-                {/*TODO: add footer here*/}
             </View>
         </View>
     );
