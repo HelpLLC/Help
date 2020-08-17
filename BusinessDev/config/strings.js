@@ -11,6 +11,8 @@ export default {
 	Settings: 'Settings',
 	Employees: 'Employees',
 	TimeOffReqs: 'Time Off Request(s)',
+	Services: 'Services',
+	UnconfirmedReqs: 'Unconfirmed Requests',
 	PaymentVerification: 'Payment Verification',
 	PaymentVerificationMessage:
 		'Help needs some additional information from you in order to accept card payments from customers.',
