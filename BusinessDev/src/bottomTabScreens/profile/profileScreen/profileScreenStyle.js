@@ -18,29 +18,34 @@ export default StyleSheet.create({
     },
 
     ContentContainer:{
-        
+        flexGrow:1
     },
     MainContainer:{
         flexDirection: 'row',
         alignItems: 'center',
-        padding:15
+        justifyContent: 'center',
+        padding:15,
+        width: '100%',
     },
     OptionContainer:{
         flexDirection: 'row',
-        borderColor: colors.blue,
         width:screenWidth + 4,
         height: 60,
         padding: 10,
         alignItems:'center',
         borderWidth: 2,
         marginBottom: -2,
+    },
+    OptionNormal:{
+        borderColor: colors.blue,
         justifyContent:'space-between'
     },
 
     MainText:{
         color: colors.darkBlue,
         fontWeight:'bold',
-        margin:10
+        margin:10,
+        flexShrink:1,
     },
     OptionText:{
         color: colors.darkBlue,
@@ -48,17 +53,19 @@ export default StyleSheet.create({
         marginLeft: 5,
     },
 
+    LogoutPositioning:{
+        position:'absolute',
+        bottom:20,
+    },
     LogoutContainer:{
-        borderWidth: 0,
-        backgroundColor: colors.red
+        borderColor: colors.red,
+        justifyContent:'flex-start',
     },
     LogoutText:{
-        color: colors.white,
+        color: colors.red,
     },
 
     Footer:{
-        position:'absolute',
-        bottom:-2,
         width:screenWidth + 4,
         height:80,
         borderWidth:2,
