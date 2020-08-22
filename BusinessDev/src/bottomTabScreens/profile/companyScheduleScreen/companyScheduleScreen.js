@@ -85,15 +85,15 @@ export default function profileScreen(props) {
 
     async function getData(){
         FirebaseFunctions.setCurrentScreen('CompanyInfoScreen', 'companyInfoScreen');
-        // const {
-        //     businessID:BID,
-        //     businessData:businessObj
-        // } = props.navigation.state.params;
+        const {
+            businessID:BID,
+            businessData:businessObj
+        } = props.navigation.state.params;
         
-        const BID = 'zjCzqSiCpNQELwU3ETtGBANz7hY2'; //NOTE: this is just for testing purposes
-        const businessObj = await FirebaseFunctions.call('getBusinessByID', {
-            businessID:BID
-        });
+        // const BID = 'zjCzqSiCpNQELwU3ETtGBANz7hY2'; //NOTE: this is just for testing purposes
+        // const businessObj = await FirebaseFunctions.call('getBusinessByID', {
+        //     businessID:BID
+        // });
 
         setBusinessID(BID);
         setBusinessData(businessObj);
@@ -147,7 +147,8 @@ export default function profileScreen(props) {
                     mode='time'
                     onConfirm={(time) => {
                         //Sets the selected date, and makes the picker go away
-                        changeTime(pickerDay, pickerTo, convertTime(time))
+                        changeTime(pickerDay, pickerTo, convertTime(time));
+                        setPickerActive(false);
                     }}
                     onCancel={() => {
                         //Makes the picker go away
