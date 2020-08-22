@@ -455,5 +455,7 @@ export default {
 	SaveChanges:'Save Changes',
 	ChangesSaved:'Changes Saved',
 	To:'to',
-	
+	AddNewService: 'Add New Service',
+	ServiceTitlePlaceholder: 'Enter a title for your service...',
+	DescriptionPlaceholder: 'Enter a description for your customers to see...'
 };

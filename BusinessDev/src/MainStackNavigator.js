@@ -1,14 +1,14 @@
 //This stack navigator will contain all of the screens & navigators that will be accessed with the
 //default slide right transition
 import CreateServiceScreen from './sideBusinessScreens/createServiceScreen/createServiceScreen';
-import NameDescriptionScreen from './firstScreens/signUp/nameDescriptionScreen';
-import AdditionalInformationScreen from './firstScreens/signUp/additionalInformationScreen';
+import NameDescriptionScreen from './firstScreens/signUp/BusinessSignUp/nameDescriptionScreen';
+import AdditionalInformationScreen from './firstScreens/signUp/BusinessSignUp/additionalInformationScreen';
 import ServiceScreen from './sideBusinessScreens/serviceScreen';
 import LaunchScreen from './firstScreens/launchScreen';
-import SplashScreen from './firstScreens/splashScreen';
+import SplashScreen from './firstScreens/SplashScreen/SplashScreen';
 import React from 'react';
 import LogInScreen from './firstScreens/logIn/logInScreen';
-import EmailPasswordScreen from './firstScreens/signUp/emailPasswordScreen';
+import EmailPasswordScreen from './firstScreens/signUp/EmailPasswordScreen/EmailPasswordScreen';
 import AccountNotVerifiedScreen from './firstScreens/logIn/accountNotVerifiedScreen';
 import CustomerRequestScreen from './sideBusinessScreens/customerRequestScreen';
 import BillCustomerScreen from './sideBusinessScreens/billCustomerScreen';
@@ -21,7 +21,7 @@ import ReportIssueScreensNavigator from './settingsScreens/reportIssue/reportScr
 import BusinessScreensNavigator from './bottomTabScreens/businessScreensNavigator';
 import CreditsScreen from './settingsScreens/creditsScreen';
 import ServiceCurrentRequestsScreen from './sideBusinessScreens/serviceCurrentRequestsScreen';
-import CreateScheduleScreen from './firstScreens/signUp/createScheduleScreen';
+import CreateScheduleScreen from './firstScreens/signUp/BusinessSignUp/createScheduleScreen';
 import ConfirmPaymentScreen from './sideBusinessScreens/confirmPaymentScreen/confirmPaymentScreen';
 import { fadeIn, fromRight } from 'react-navigation-transitions';
 import PricingAndPaymentScreen from './sideBusinessScreens/pricingAndPaymentScreen/pricingAndPaymentScreen';
@@ -31,7 +31,7 @@ import CreatePaymentMethodScreen from './sideBusinessScreens/createPaymentMethod
 import { createStackNavigator } from 'react-navigation-stack';
 import CustomerInfoScreen from './sideBusinessScreens/customerInfoScreen/customerInfoScreen';
 import ViewPaymentMethodScreen from './sideBusinessScreens/viewPaymentMethodScreen';
-import BussinessOrEmployeeScreen from './firstScreens/signUp/BusinessOrEmployee'
+import BussinessOrEmployeeScreen from './firstScreens/signUp//BusinessOrEmployee/BusinessOrEmployee'
 import waitingForVerification from './firstScreens/signUp/EmployeeSignUp/waitingForVerification'
 import EmployeeVerification from './firstScreens/signUp/EmployeeSignUp/employeeVerification'
 

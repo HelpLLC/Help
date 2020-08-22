@@ -1,6 +1,6 @@
 // This is going to contain the StyleSheet for the BusinessOrEmployee screen
 import { StyleSheet } from 'react-native';
-import { screenHeight, screenWidth } from 'config/dimesions';
+import { screenHeight, screenWidth } from 'config/dimensions';
 
 export default StyleSheet.create({
 	logoImage: {
