@@ -16,7 +16,7 @@ export default {
       ...fontStyles.mainTextStyle,
 	},
 	divider: {
-		marginTop: "49vh",
+		marginTop: "43vh",
 		height: 1,
 		backgroundColor: colors.white,
 	},

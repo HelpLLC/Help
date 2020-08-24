@@ -24,6 +24,7 @@ const EditProfile = () => {
   defaultEnd.setHours(17, 0);
   const location = useLocation();
   const history = useHistory();
+  const { businessID } = location.state;
 
   //The state for this screen
   const [business, setBusiness] = useState("");
@@ -87,7 +88,6 @@ const EditProfile = () => {
 
   //This method is going to fetch the information about the business and set the correct states to it
   const fetchBusinessData = async () => {
-    const { businessID } = location.state;
     const functionResults = await Promise.all([
       FirebaseFunctions.call("getBusinessByID", {
         businessID,
@@ -431,7 +431,7 @@ const EditProfile = () => {
         />
       </section>
       <section className="sidebarHolder">
-        <SideMenuCard title="Help" />
+        <SideMenuCard title="Help" businessID={businessID} />
       </section>
       <div className="profileHolder">
         <div className="editProfileCard">

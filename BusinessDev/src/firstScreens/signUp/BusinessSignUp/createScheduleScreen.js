@@ -1,21 +1,21 @@
 //This screen is going to be navigated in the first screens. It'll be used to set the business schedule. It is accessed from
 //the providerAdditionalInformationScreen
 import React, { Component } from 'react';
-import TopBanner from '../../components/TopBanner/TopBanner';
+import TopBanner from '../../../components/TopBanner/TopBanner';
 import strings from 'config/strings';
-import HelpButton from '../../components/HelpButton/HelpButton';
+import HelpButton from '../../../components/HelpButton/HelpButton';
 
-import HelpView from '../../components/HelpView';
+import HelpView from '../../../components/HelpView';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import screenStyle from 'config/styles/screenStyle';
 import colors from 'config/colors';
 import fontStyles from 'config/styles/fontStyles';
-import HelpAlert from '../../components/HelpAlert';
+import HelpAlert from '../../../components/HelpAlert';
 import { View, Text, Dimensions, TouchableOpacity, Keyboard } from 'react-native';
 import firebase from 'react-native-firebase';
 import FirebaseFunctions from 'config/FirebaseFunctions';
-import LoadingSpinner from '../../components/LoadingSpinner';
+import LoadingSpinner from '../../../components/LoadingSpinner';
 
 //exports and creates the class
 export default class createScheduleScreen extends Component {

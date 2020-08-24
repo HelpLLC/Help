@@ -7,17 +7,23 @@ import codePush from 'react-native-code-push';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import stripe from 'tipsi-stripe';
 import Calendar from './src/bottomTabScreens/Calendar/Calendar'
+import confirmPaymentScreen from './src/sideBusinessScreens/confirmPaymentScreen/confirmPaymentScreen'
+import SplashScreen from 'react-native-splash-screen';
+
+
 
 //Launches the app with the persisted store
 class App extends Component {
 	//Initializes stripe for payments
 	componentDidMount() {
+
 		stripe.setOptions({
 			publishableKey: 'pk_test_RP4GxbKwMWbM3NN5XMo3qzKz00lEiD2Fe1',
 		});
 	}
 	render() {
 		Icon.loadFont();
+		SplashScreen.hide();
 		//Ignores a specific warning
 		YellowBox.ignoreWarnings([
 			'ViewPagerAndroid',

@@ -221,6 +221,7 @@ export default {
 	PleaseSelectADayForYourService: 'Please select a day for your service.',
 	RequestedBy: 'Requested By',
 	BusinessHours: 'Business Hours',
+	WorkingHours: 'Working Hours',
 	ToTimeMustBeAfterFromTime: "The 'To' time needs to be after the 'from' time.",
 	Monday: 'Mon',
 	Tuesday: 'Tue',
@@ -422,6 +423,13 @@ export default {
 	PleaseAddACustomerSignature: 'Please add a customer signature.',
 	PleaseAddARecipientEmail: 'Please add a recipient email.',
 	Confirm: 'Confirm',
+	Employee: 'Employee',
+	ConfirmPassword: 'Confirm Password',
+	PleaseEnterPhoneNumber: 'Please enter a valid phone number...',
+	Join: 'Join',
+	Dashboard: 'Dasboard',
+	AddServices: 'Add Services',
+	Edit: 'Edit',
 	Approve: 'Approve',
 	Deny: 'Deny',
 	ProfileDefaultBusinessName: 'Business',
@@ -429,7 +437,9 @@ export default {
 	ProfileBusinessSchedule: 'Business Schedule',
 	ProfilePassword: 'Password',
 	ProfileLogout: 'Logout',
-
+	ConfirmRequest: 'Confirm Request',
 	Loading:'Loading...',
-	
+	AddNewService: 'Add New Service',
+	ServiceTitlePlaceholder: 'Enter a title for your service...',
+	DescriptionPlaceholder: 'Enter a description for your customers to see...'
 };
