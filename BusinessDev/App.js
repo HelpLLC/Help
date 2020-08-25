@@ -8,7 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import stripe from 'tipsi-stripe';
 import confirmPaymentScreen from './src/sideBusinessScreens/confirmPaymentScreen/confirmPaymentScreen'
 import SplashScreen from 'react-native-splash-screen';
-import WorkerMgmt from './src/bottomTabScreens/dashboardScreens/mainDashboardScreens/services/workerManagement/workerManagement'
+
 
 
 
@@ -30,7 +30,7 @@ class App extends Component {
 			'componentWillMount',
 			'componentWillReceiveProps',
 		]);
-		return <WorkerMgmt/>;
+		return <MainStackNavigator/>;
 	}
 }
 
