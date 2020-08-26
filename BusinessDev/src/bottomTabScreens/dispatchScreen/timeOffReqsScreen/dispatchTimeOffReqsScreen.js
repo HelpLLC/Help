@@ -51,12 +51,14 @@ export default function dispatchTimeOffReqsScreen(props) {
                         approve={()=>{
                             FirebaseFunctions.call('approveTimeOffRequest', {
                                 businessID,
+                                employeeID:timeOffRequests[i].employeeID,
                                 index:i
                             });
                         }}
                         deny={()=>{
                             FirebaseFunctions.call('denyTimeOffRequest', {
                                 businessID,
+                                employeeID:timeOffRequests[i].employeeID,
                                 index:i
                             });
                         }}

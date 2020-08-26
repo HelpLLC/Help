@@ -969,6 +969,8 @@ exports.addEmployeeToDatabase = functions.https.onCall(async (input, context) =>
 		employeeID,
 		isVerified:false,
 		businessID,
+		timeOff:[],
+		currentRequests:[],
 	});
 
 
@@ -1025,6 +1027,16 @@ exports.createTimeOffRequest = functions.https.onCall(async (input, context) => 
 		}),
 	});
 
+	batch.update(employees.doc(employeeID), {
+		timeOff: admin.firestore.FieldValue.arrayUnion({
+			businessID,
+			date,
+			startTime,
+			endTime,
+			status:'pending'
+		}),
+	});
+
 	// Commits the batch
 	await batch.commit();
 	return 0;
@@ -1035,12 +1047,17 @@ exports.approveTimeOffRequest = functions.https.onCall(async (input, context) =>
 	const {
 		//Fields for the employee
 		businessID,
+		employeeID,
 		index,
 	} = input;
 
 	const batch = database.batch();
 
 	batch.update(businesses.doc(businessID), new FieldPath('timeOff', index+""), {
+		status:'approved'
+	});
+
+	batch.update(employees.doc(employeeID), new FieldPath('timeOff', index+""), {
 		status:'approved'
 	});
 
@@ -1054,12 +1071,17 @@ exports.denyTimeOffRequest = functions.https.onCall(async (input, context) => {
 	const {
 		//Fields for the employee
 		businessID,
+		employeeID,
 		index,
 	} = input;
 
 	const batch = database.batch();
 
 	batch.update(businesses.doc(businessID), new FieldPath('timeOff', index+""), {
+		status:'denied'
+	});
+
+	batch.update(employees.doc(employeeID), new FieldPath('timeOff', index+""), {
 		status:'denied'
 	});
 
