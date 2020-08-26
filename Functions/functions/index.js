@@ -321,6 +321,22 @@ exports.getEmployeeByID = functions.https.onCall(async (input, context) => {
 	return doc;
 });
 
+//Method fetches all time off requests
+exports.getTimeOffRequestsByBusinessID = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+	const doc = await database.runTransaction(async (transaction) => {
+		const ref = businesses.doc(businessID + '');
+		const doc = await transaction.get(ref);
+
+		if (doc.exists) {
+			return doc.data().timeOff;
+		} else {
+			return -1;
+		}
+	});
+	return doc;
+});
+
 //This method is going to return an array of the documents which are the analytics for this specific business. Each piece of
 //data analytic will be in its own seperate document
 exports.getBusinessAnalyticsByBusinessID = functions.https.onCall(async (input, context) => {
@@ -977,6 +993,74 @@ exports.verifyEmployeeForBusiness = functions.https.onCall(async (input, context
 
 	batch.update(employees.doc(employeeID), {
 		isVerified: true
+	});
+
+	// Commits the batch
+	await batch.commit();
+	return 0;
+});
+
+//method to submit a time off request
+exports.createTimeOffRequest = functions.https.onCall(async (input, context) => {
+	const {
+		//Fields for the employee
+		employeeID,
+		businessID,
+		employeeName,
+		date,
+		startTime,
+		endTime,
+	} = input;
+
+	const batch = database.batch();
+
+	batch.update(businesses.doc(businessID), {
+		timeOff: admin.firestore.FieldValue.arrayUnion({
+			employeeID,
+			employeeName,
+			date,
+			startTime,
+			endTime,
+			status:'pending'
+		}),
+	});
+
+	// Commits the batch
+	await batch.commit();
+	return 0;
+});
+
+//method to approve a time off request
+exports.approveTimeOffRequest = functions.https.onCall(async (input, context) => {
+	const {
+		//Fields for the employee
+		businessID,
+		index,
+	} = input;
+
+	const batch = database.batch();
+
+	batch.update(businesses.doc(businessID), new FieldPath('timeOff', index+""), {
+		status:'approved'
+	});
+
+	// Commits the batch
+	await batch.commit();
+	return 0;
+});
+
+//method to approve a time off request
+exports.denyTimeOffRequest = functions.https.onCall(async (input, context) => {
+	const {
+		//Fields for the employee
+		businessID,
+		index,
+	} = input;
+
+	const batch = database.batch();
+
+	batch.update(businesses.doc(businessID), new FieldPath('timeOff', index+""), {
+		status:'denied'
 	});
 
 	// Commits the batch
