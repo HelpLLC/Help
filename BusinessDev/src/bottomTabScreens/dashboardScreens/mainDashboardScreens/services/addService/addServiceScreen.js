@@ -7,18 +7,18 @@ import {
   ScrollView,
   ShadowPropTypesIOS,
 } from 'react-native';
-import TopBanner from '../../../components/TopBanner/TopBanner';
-import HelpView from '../../../components/HelpView';
-import HelpTextInput from '../../../components/HelpTextInput/HelpTextInput';
+import TopBanner from '../../../../../components/TopBanner/TopBanner';
+import HelpView from '../../../../../components/HelpView';
+import HelpTextInput from '../../../../../components/HelpTextInput/HelpTextInput';
 import screenStyle from 'config/styles/screenStyle';
 import strings from 'config/strings';
-import colors from '../../../../config/colors';
+import colors from '../../../../../../config/colors';
 import fontStyles from 'config/styles/fontStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
-import ImagePicker from '../../../components/ImagePicker';
-import HelpButton from '../../../components/HelpButton/HelpButton';
+import ImagePicker from '../../../../../components/ImagePicker';
+import HelpButton from '../../../../../components/HelpButton/HelpButton';
 import { Icon } from 'react-native-elements';
-import addNewServiceScreenStyle from './addNewServiceScreenStyle';
+import addServiceScreenStyle from './addServiceScreenStyle';
 
 const newServiceScreen = (props) => {
   const [serviceTitle, setServiceTitle] = useState();
@@ -37,10 +37,10 @@ const newServiceScreen = (props) => {
         leftOnPress={() => props.navigation.goBack()}
       />
       <View>
-        <View style={addNewServiceScreenStyle.imageSection}>
+        <View style={addServiceScreenStyle.imageSection}>
           <TouchableOpacity onPress={() => setIsImagePickerShowing(true)}>
             {imageSource === '' ? (
-              <View style={addNewServiceScreenStyle.imagePicker}>
+              <View style={addServiceScreenStyle.imagePicker}>
                 <Icon
                   name={'camera'}
                   type={'font-awesome'}
@@ -51,14 +51,14 @@ const newServiceScreen = (props) => {
             ) : (
               <FastImage
                 source={imageSource}
-                style={addNewServiceScreenStyle.imagePicker}
+                style={addServiceScreenStyle.imagePicker}
               />
             )}
             <Text
               style={[
                 fontStyles.mainTextStyle,
                 fontStyles.darkBlue,
-                addNewServiceScreenStyle.imageLabel,
+                addServiceScreenStyle.imageLabel,
               ]}
             >
               {strings.EditServiceImage}
@@ -86,11 +86,11 @@ const newServiceScreen = (props) => {
           isShowing={isImagePickerShowing}
         />
       </View>
-      <View style={addNewServiceScreenStyle.ServiceTitleView}>
+      <View style={addServiceScreenStyle.ServiceTitleView}>
         <Text style={[fontStyles.darkBlue, fontStyles.mainTextStyle]}>
           {strings.ServiceTitle}
         </Text>
-        <View style={addNewServiceScreenStyle.ServiceTitleInput}>
+        <View style={addServiceScreenStyle.ServiceTitleInput}>
           <HelpTextInput
             height={screenHeight * 0.05}
             width={screenWidth * 0.93}
@@ -101,11 +101,11 @@ const newServiceScreen = (props) => {
           />
         </View>
       </View>
-      <View style={addNewServiceScreenStyle.ServiceDescriptionView}>
+      <View style={addServiceScreenStyle.ServiceDescriptionView}>
         <Text style={[fontStyles.darkBlue, fontStyles.mainTextStyle]}>
           {strings.ServiceDescription}
         </Text>
-        <View style={addNewServiceScreenStyle.ServiceDescriptionInput}>
+        <View style={addServiceScreenStyle.ServiceDescriptionInput}>
           <HelpTextInput
             height={screenHeight * 0.1}
             width={screenWidth * 0.93}
@@ -116,12 +116,12 @@ const newServiceScreen = (props) => {
           />
         </View>
       </View>
-      <View style={addNewServiceScreenStyle.ServiceDurationView}>
+      <View style={addServiceScreenStyle.ServiceDurationView}>
         <Text style={[fontStyles.darkBlue, fontStyles.mainTextStyle]}>
           {strings.ServiceDuration}
         </Text>
-        <View style={addNewServiceScreenStyle.ServiceDurationInputsView}>
-          <View style={addNewServiceScreenStyle.DurationHours}>
+        <View style={addServiceScreenStyle.ServiceDurationInputsView}>
+          <View style={addServiceScreenStyle.DurationHours}>
             <HelpTextInput
               height={screenHeight * 0.05}
               width={screenWidth * 0.2}
@@ -129,11 +129,11 @@ const newServiceScreen = (props) => {
               isMultiline={false}
               onChangeText={(input) => setHours(input)}
             />
-            <Text style={[fontStyles.darkBlue, , fontStyles.mainTextStyle]}>
+            <Text style={[fontStyles.darkBlue, , fontStyles.mainTextStyle, addServiceScreenStyle.HoursandMinutes]}>
               {strings.Hours}
             </Text>
           </View>
-          <View style={addNewServiceScreenStyle.DurationMinutes}>
+          <View style={addServiceScreenStyle.DurationMinutes}>
             <HelpTextInput
               height={screenHeight * 0.05}
               width={screenWidth * 0.2}
@@ -141,19 +141,13 @@ const newServiceScreen = (props) => {
               isMultiline={false}
               onChangeText={(input) => setMinutes(input)}
             />
-            <Text style={[fontStyles.darkBlue, fontStyles.mainTextStyle]}>
+            <Text style={[fontStyles.darkBlue, fontStyles.mainTextStyle, addServiceScreenStyle.HoursandMinutes]}>
               {strings.Minutes}
             </Text>
           </View>
         </View>
       </View>
-      <View>
-      <HelpButton
-          title={strings.Back}
-          onPress={() => {}}
-          width={screenWidth * 0.25}
-          height={screenHeight * 0.04}
-        />
+      <View style={addServiceScreenStyle.NextButton}>
         <HelpButton
           title={strings.Next}
           onPress={() => {}}
