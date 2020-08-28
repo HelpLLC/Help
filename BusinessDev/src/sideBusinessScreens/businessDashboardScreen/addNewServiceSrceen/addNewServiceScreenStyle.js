@@ -16,7 +16,7 @@ export default StyleSheet.create({
     marginTop: screenHeight * 0.05,
   },
   imageSection: {
-      marginLeft: screenWidth * 0.3,
+      marginLeft: screenWidth * 0.25,
     flexDirection: 'column',
     marginTop: screenHeight * 0.025,
     alignItems: 'center',
@@ -74,15 +74,5 @@ export default StyleSheet.create({
     marginLeft: screenWidth * 0.05,
     display: 'flex',
     flexDirection: "row",
-  },
-  NextButton:{
-      marginTop: screenHeight * 0.08,
-      position: 'absolute',
-      left: screenWidth * 0.7,
-      top: screenHeight * 0.75
-  },
-  HoursandMinutes: {
-      marginTop: screenHeight * 0.015,
-      marginLeft: screenWidth * 0.02
   }
 });

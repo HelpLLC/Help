@@ -32,7 +32,7 @@ export default class FirebaseFunctions {
 
 	//Logs the user in and subscribes to the notification service associated with his/her account
 	static async logIn(email, password) {
-		const account = await this.auth.signInWithEmailAndPassword(email, password);
+		const account = await firebase.auth().signInWithEmailAndPassword(email, password);
 		//Tests whether this is a provider or a requester & based on that, subscribes to the correct channel
 		const { uid } = account.user;
 		//If the user only has a requester account, an error is returned
@@ -53,7 +53,7 @@ export default class FirebaseFunctions {
 	//this user
 	static async logOut(uid) {
 		//Logs the event in firebase analytics & unsubcribes from the notification service
-		await this.auth.signOut();
+		await firebase.auth().signOut();
 		this.analytics.logEvent('provider_log_out');
 		this.fcm.unsubscribeFromTopic('b-' + uid);
 		return 0;
@@ -63,28 +63,10 @@ export default class FirebaseFunctions {
 	// Used in forgotPasswordScreen.js
 	// @param email: the email that the link needs to be sent to
 	static async forgotPassword(email) {
-		await this.auth.sendPasswordResetEmail(email);
+		await firebase.auth().sendPasswordResetEmail(email);
 
 		this.analytics.logEvent('forgot_password_email_sent');
 		return 0;
-	}
-
-	//changes the password of the current user
-	static async changePassword(oldPassword, newPassword){
-		//refreshes the credential of the current user
-		this.auth.currentUser.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(this.auth.currentUser.email, oldPassword))
-		.then(()=>{
-			//if the old password was correct, changes the new pasword
-			this.auth.currentUser.updatePassword(newPassword)
-			.then(()=>{
-				return 0;
-			}).catch(e=>{
-				return e;
-			});
-		}).catch(e => {
-			return e;
-		});
-		
 	}
 
 	//This method will set the current screen to a specific name in firebase analytics

@@ -15,6 +15,7 @@ import HelpButton from '../../components/HelpButton/HelpButton';
 //exporting the confirmServiceScreen function
 export default function confirmServiceScreen(props) {
 	
+	
     //The intial state of the screen
 	const [isScreenLoading, setIsScreenLoading] = useState(true);
 	const [requestTitle, setRequestTitle] = useState(strings.Loading);
@@ -23,7 +24,7 @@ export default function confirmServiceScreen(props) {
 	const [customerData, setCustomerData] = useState({});
 	const [employees, setEmployees] = useState([]);
 	
-	async function getData(){
+	async function getData(){ //TODO: get employees associated with the business
 		//Declares the screen name in Firebase
 		// props = {navigation:{state:{params:{requestID:'EKY0Winhxxb85GlXy1WX'}}}}; //NOTE: this line is only for testing
         FirebaseFunctions.setCurrentScreen('ConfirmServiceScreen', 'confirmServiceScreen');
