@@ -12,6 +12,7 @@ import SplashScreen from 'react-native-splash-screen';
 
 
 
+
 //Launches the app with the persisted store
 class App extends Component {
 	//Initializes stripe for payments
@@ -40,9 +41,4 @@ App = codePush(codePushOptions)(App);
 export default App;
 
 
-// import SplashScreen from 'react-native-splash-screen';
 
-// import confirmRequestScreen from './src/sideBusinessScreens/confirmRequestScreen/confirmRequestScreen';
-// SplashScreen.hide();
-
-// export default confirmRequestScreen;
