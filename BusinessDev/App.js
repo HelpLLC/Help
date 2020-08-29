@@ -11,6 +11,7 @@ import SplashScreen from 'react-native-splash-screen';
 
 
 
+
 //Launches the app with the persisted store
 class App extends Component {
 	//Initializes stripe for payments

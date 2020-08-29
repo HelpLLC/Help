@@ -256,9 +256,9 @@ export default {
 	AddNewService: 'Add New Service',
 	AmountOfServicesAtATime: 'How many requests can you do at a time?',
 	Requests: 'Requests',
-	SimultaneousRequests: 'Simultaneous Requests',
+	SimultaneousRequests: '# of Simultaneous Requests',
 	SimultaneousRequestsMessage:
-		'This means how many requests of this service can you do at the same time. For example, if you had two people, and it only takes one person to complete the request, then you could do two requests at the same time.',
+		'How many employees could your company send out to complete this request at the same time?',
 	HowWillCustomersPay: 'How will customers pay for this service?',
 	Cash: 'Cash',
 	CreditDebitCard: 'Credit/Debit Card',
@@ -462,5 +462,9 @@ export default {
 	To:'to',
 	AddNewService: 'Add New Service',
 	ServiceTitlePlaceholder: 'Enter a title for your service...',
-	DescriptionPlaceholder: 'Enter a description for your customers to see...'
+	DescriptionPlaceholder: 'Enter a description for your customers to see...',
+	PricingAndPayment: 'Pricing & Payment',
+	ExampleHourPlaceholder: 'E.g Hour',
+	NumberPlaceholder: '#',
+	Employees: 'Employees'
 };
