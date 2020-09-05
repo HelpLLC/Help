@@ -13,6 +13,8 @@ export default function TimeOffInfoCard(props) {
         date: PropTypes.string,
         timeBegin: PropTypes.string,
         timeEnd: PropTypes.string,
+        approve: PropTypes.func,
+        deny: PropTypes.func,
     };
 
     const {
@@ -20,6 +22,8 @@ export default function TimeOffInfoCard(props) {
         date,
         timeBegin,
         timeEnd,
+        approve,
+        deny,
     } = props;
 
     return (
@@ -37,6 +41,7 @@ export default function TimeOffInfoCard(props) {
                             width={screenWidth * 0.29}
                             height={screenHeight * 0.04}
                             bold={true}
+                            onPress={approve}
                         />
                     </View>
                     <View style={{ ...TimeOffInfoCardStyle.requestButton }}>
@@ -45,6 +50,7 @@ export default function TimeOffInfoCard(props) {
                             width={screenWidth * 0.29}
                             height={screenHeight * 0.04}
                             bold={true}
+                            onPress={deny}
                         />
                     </View>
                 </View>
