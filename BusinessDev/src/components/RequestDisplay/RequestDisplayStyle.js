@@ -32,6 +32,7 @@ export default StyleSheet.create({
         flexDirection:'column',
         alignItems:'flex-start',
         justifyContent:'flex-start',
+        flex:1,
         marginLeft:20,
         paddingTop:5,
     },
@@ -51,5 +52,30 @@ export default StyleSheet.create({
         borderColor: colors.blue,
         paddingHorizontal:10,
         paddingTop:5,
+    },
+
+    RowContainer:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'flex-start',
+        flex:1,
+        width:screenWidth - (5 * 2 + 30 + 60 + 20),
+    },
+    PaymentMarker:{
+        ...fontStyles.mainTextStyle,
+        fontWeight:'bold',
+        color:colors.white,
+        borderWidth:1,
+        borderRadius: 10,
+        overflow:'hidden',
+        paddingHorizontal:8,
+    },
+    SucceededMarker:{
+        borderColor:colors.green,
+        backgroundColor:colors.green,
+    },
+    RefundMarker:{
+        borderColor:colors.red,
+        backgroundColor:colors.red,
     },
 })

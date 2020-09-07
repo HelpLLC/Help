@@ -461,5 +461,22 @@ export default {
 	PricingAndPayment: 'Pricing & Payment',
 	ExampleHourPlaceholder: 'E.g Hour',
 	NumberPlaceholder: '#',
-	Employees: 'Employees'
+	Employees: 'Employees',
+
+	TotalBalance:'Total USD Balance',
+	ViewDetails:'View Details',
+	All:'All',
+	ViewMore:'View More',
+	RefundRequest:'Refund Request',
+	Succeeded:'Succeeded',
+	Amount:'Amount',
+	Customer:'Customer',
+	Date:'Date',
+	PaymentSuccessful:'Payment Successful',
+	RefundRequested:'Refund Requested',
+	AccountBalance:'Account Balance',
+	PendingFunds:'Funds On The Way To Your Bank',
+	CurrentFunds:'Current Funds',
+	TotalBalance2:'Total Balance',
+	RecentTransactions:'Recent Transactions',
 };
