@@ -34,6 +34,7 @@ import ViewPaymentMethodScreen from './sideBusinessScreens/viewPaymentMethodScre
 import BussinessOrEmployeeScreen from './firstScreens/signUp//BusinessOrEmployee/BusinessOrEmployee'
 import waitingForVerification from './firstScreens/signUp/EmployeeSignUp/waitingForVerification'
 import EmployeeVerification from './firstScreens/signUp/EmployeeSignUp/employeeVerification'
+import WorkerManagement from './bottomTabScreens/dashboardScreens/mainDashboardScreens/services/workerManagement/workerManagement'
 
 //The route config for all of the screens
 const routeConfig = {
@@ -151,6 +152,11 @@ const routeConfig = {
 	//This is where businesses will view their exisitng payment method
 	ViewPaymentMethodScreen: {
 		screen: ViewPaymentMethodScreen,
+	},
+
+	//This is where a business will go to add number of simultaneous requests
+	WorkerManagement: {
+		screen: WorkerManagement
 	},
 
 	//This is the screen where a business will add the payment information for customers
