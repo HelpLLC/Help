@@ -462,7 +462,6 @@ export default {
 	ExampleHourPlaceholder: 'E.g Hour',
 	NumberPlaceholder: '#',
 	Employees: 'Employees',
-
 	TotalBalance:'Total USD Balance',
 	ViewDetails:'View Details',
 	All:'All',
@@ -479,4 +478,15 @@ export default {
 	CurrentFunds:'Current Funds',
 	TotalBalance2:'Total Balance',
 	RecentTransactions:'Recent Transactions',
+	ServiceInfo:'Service Info',
+	Requests:'Requests',
+	RequestsHistory:'Request History',
+	UnconfirmedRequests:'Unconfirmed Requests',
+
+	Description:'Description',
+	DaysOffered:'Days Offered',
+	ServiceDuration:'Service Duration',
+	PricingAndPayment:'Pricing & Payment Type',
+	EditServiceImage:'Edit Service Image',
+	Ratings:'Ratings',
 };
