@@ -18,6 +18,7 @@ export default function confirmServiceScreen(props) {
 	const [requestTitle, setRequestTitle] = useState(strings.Loading);
 	const [requestData, setRequestData] = useState({});
 	const [employees, setEmployees] = useState([]);
+	const [employeeNames, setEmployeeNames] = useState([]);
 	const [employeeData, setEmployeeData] = useState([]);
 	const [assignedEmployee, setAssignedEmployee] = useState('');
 	const [popupVisible, setPopupVisible] = useState(false);
@@ -43,11 +44,15 @@ export default function confirmServiceScreen(props) {
 
 		setRequestTitle(requestData.serviceTitle);
         setRequestData(requestData);
-        setEmployees(employees.sort((a, b) => {
+        setEmployees(employees);
+        let names = [];
+        for(let i in employees)
+            names.push(i);
+        setEmployeeNames(names.sort((a, b) => {
             let res = a.substring(a.lastIndexOf(' ')).localeCompare(b.substring(b.lastIndexOf(' ')));
             return res != 0 ? res : a.localeCompare(b);
         }));
-        setEmployeeData(employees)
+        setEmployeeData(names)
     }
     useEffect(() => {
         getData();
@@ -111,9 +116,9 @@ export default function confirmServiceScreen(props) {
     
     function filterData(input){
         let data = [];
-        for(let i in employees)
-            if(employees[i].toLowerCase().includes(input.toLowerCase()))
-                data.push(employees[i]);
+        for(let i in employeeNames)
+            if(employeeNames[i].toLowerCase().includes(input.toLowerCase()))
+                data.push(employeeNames[i]);
         setEmployeeData(data);
     }
 
@@ -142,9 +147,12 @@ export default function confirmServiceScreen(props) {
         );
     }
 
-    function assignEmployee(employee){
+    async function assignEmployee(employee){
 
-        //TODO: fill out the backend for this method
+        await FirebaseFunctions.call('addEmployeeToRequest', {
+            requestID:requestData.requestID,
+            employeeID:employees[employee]
+        });
 
         setAssignedEmployee(employee);
         setPopupVisible(true);

@@ -482,7 +482,6 @@ export default {
 	Requests:'Requests',
 	RequestsHistory:'Request History',
 	UnconfirmedRequests:'Unconfirmed Requests',
-
 	Description:'Description',
 	DaysOffered:'Days Offered',
 	ServiceDuration:'Service Duration',
