@@ -305,6 +305,51 @@ exports.getEmployeesByBusinessID = functions.https.onCall(async (input, context)
 	return doc;
 });
 
+//Method fetches all employees from a business
+exports.getEmployeesAvailableForRequest = functions.https.onCall(async (input, context) => {
+	const { 
+		businessID,
+		startTime,
+		endTime,
+		date
+	} = input;
+	const startString = date + 'T'+startTime;
+	const endString = date + 'T'+endTime;
+	const doc = await database.runTransaction(async (transaction) => {
+		const doc = await transaction.get(businesses.doc(businessID + ''));
+
+		if (doc.exists) {
+			const employees = doc.data().employees;
+			let availableEmployees = {};
+			for(const i in employees){
+				const employee = await transaction.get(employees.doc(i + '')).data();
+				let bottomIndex = -1;
+				let topIndex = employee.timesAvailible.length;
+				let currentIndex = (topIndex - bottomIndex) / 2 + bottomIndex;
+				while(currentIndex != bottomIndex){
+					if(startTime > employee.timesAvailible[currentIndex])
+						bottomIndex = currentIndex;
+					else if(startTime < employee.timesAvailible[currentIndex])
+						topIndex = currentIndex;
+					else break;
+					currentIndex = (topIndex - bottomIndex) / 2 + bottomIndex;
+				}
+				bottomIndex = ++currentIndex;
+				topIndex = currentIndex;
+				while(endTime > employee.timesAvailible[topIndex])
+					topIndex++;
+				if(bottomIndex != topIndex) continue;
+				else if(currentIndex % 2 == 1) continue;
+				else availableEmployees[i] = employees[i];
+			}
+			return availableEmployees;
+		} else {
+			return -1;
+		}
+	});
+	return doc;
+});
+
 //Method fetches an employee by ID
 exports.getEmployeeByID = functions.https.onCall(async (input, context) => {
 	const { employeeID } = input;
@@ -970,6 +1015,7 @@ exports.addEmployeeToDatabase = functions.https.onCall(async (input, context) =>
 		isVerified:false,
 		businessID,
 		timeOff:[],
+		timesAvailible:[],
 		currentRequests:[],
 	});
 
@@ -1052,6 +1098,59 @@ exports.approveTimeOffRequest = functions.https.onCall(async (input, context) =>
 	} = input;
 
 	const batch = database.batch();
+
+	const doc = await database.runTransaction(async (transaction) => {
+		const doc = await transaction.get(employees.doc(employeeID + ''));
+		const doc2 = await transaction.get(businesses.doc(businessID + ''));
+
+		if (doc.exists && doc2.exists) {
+			const employee = doc.data();
+			const request = doc2.data().timeOff[index];
+			const startTime = request.date + 'T' + request.startTime;
+			const endTime = request.date + 'T' + request.endTime;
+			let bottomIndex = -1;
+			let topIndex = employee.timesAvailible.length;
+			let currentIndex = (topIndex - bottomIndex) / 2 + bottomIndex;
+			while(currentIndex != bottomIndex){
+				if(startTime > employee.timesAvailible[currentIndex])
+					bottomIndex = currentIndex;
+				else if(startTime < employee.timesAvailible[currentIndex])
+					topIndex = currentIndex;
+				else break;
+				currentIndex = (topIndex - bottomIndex) / 2 + bottomIndex;
+			}
+			bottomIndex = ++currentIndex;
+			topIndex = currentIndex;
+			while(endTime > employee.timesAvailible[topIndex])
+				topIndex++;
+			if((bottomIndex - 1) % 2 == 0 && (topIndex) % 2 == 1){ //even = start, odd = finish
+				employee.timesAvailible.splice(bottomIndex, topIndex - bottomIndex);
+			}
+			else{
+				if(bottomIndex % 2 == 1){
+					employee.timesAvailible.splice(bottomIndex, 1);
+					employee.timesAvailible.splice(--topIndex, 0, endTime);
+				}
+				else if((topIndex - 1) % 2 == 0){
+					employee.timesAvailible.splice(bottomIndex++, 0, startTime);
+					employee.timesAvailible.splice(topIndex, 1);
+				}
+				else{
+					employee.timesAvailible.splice(bottomIndex++, 0, startTime);
+					employee.timesAvailible.splice(++topIndex, 0, endTime);
+				}
+				employee.timesAvailible.splice(bottomIndex, topIndex - bottomIndex);
+			}
+
+			batch.update(employees.doc(employeeID), {
+				timesAvailible: employee.timesAvailible
+			});
+			return 0;
+		} else {
+			return -1;
+		}
+	});
+	if(doc != 0) return doc;
 
 	batch.update(businesses.doc(businessID), new FieldPath('timeOff', index+""), {
 		status:'approved'
@@ -1884,6 +1983,40 @@ exports.confirmRequest = functions.https.onCall(async (input, context) => {
 	const batch = database.batch();
 	batch.update(requests.doc(requestID), { confirmed: true });
 	await batch.commit();
+});
+
+//this function sets the confirmed variable to true in the request doc
+exports.addEmployeeToRequest = functions.https.onCall(async (input, context) => {
+	const { employeeID, requestID } = input;
+	const batch = database.batch();
+	await database.runTransaction(async (transaction) => {
+		const employee = await (await transaction.get(employees.doc(employeeID + ''))).data();
+		const request = await (await transaction.get(requests.doc(requestID + ''))).data();
+
+		batch.update(employee.doc(employeeID), {
+			currentRequests: admin.firestore.FieldValue.arrayUnion({
+				date: request.date,
+				requestID: request.requestID,
+				serviceID: request.serviceID,
+				customerID: request.customerID,
+				customerName: request.customerName,
+				questions: request.questions,
+				serviceTitle: request.serviceTitle,
+				status: request.status,
+				time: request.time,
+				endTime: request.endTime
+			})
+		});
+
+		batch.update(requests.doc(requestID), {
+			assignedTo: employee.name,
+			employeeID,
+		});
+
+	});
+	batch.update(requests.doc(requestID), { confirmed: true });
+	await batch.commit();
+	return 0;
 });
 
 //Method is going to edit a request by it's ID as well as update any fields necessary in the current requests arrays
