@@ -488,4 +488,13 @@ export default {
 	PricingAndPayment:'Pricing & Payment Type',
 	EditServiceImage:'Edit Service Image',
 	Ratings:'Ratings',
+
+	RequestTimeOff:'Request Time Off',
+	AllDay:'All Day',
+	Comments:'Comments',
+	SelectDate:'Select Date',
+	SelectDateAndTime:'Select Date & Time',
+	From:'From',
+	To:'To',
+	SendRequest:'Send request',
 };
