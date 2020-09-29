@@ -74,7 +74,7 @@ export default function requestDisplay(props) {
 
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-    const { //NOTE: the request and customer objects passed into this function are standard firebase objects
+    let { //NOTE: the request and customer objects passed into this function are standard firebase objects
         request,
         customer,
         onRefund,
