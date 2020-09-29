@@ -488,7 +488,6 @@ export default {
 	PricingAndPayment:'Pricing & Payment Type',
 	EditServiceImage:'Edit Service Image',
 	Ratings:'Ratings',
-
 	RequestTimeOff:'Request Time Off',
 	AllDay:'All Day',
 	Comments:'Comments',
@@ -497,4 +496,16 @@ export default {
 	From:'From',
 	To:'To',
 	SendRequest:'Send request',
+
+	OnMyWay:'On My Way',
+	Start:'Start',
+	Done:'Done',
+	Finish:'Finish',
+	EnrouteText:'Send en-route text?',
+	StartJob:'Start this job?',
+	FinishJob:'Finish this job?',
+	Cance:'Cancel',
+	Send:'Send',
+	ContinueToPayment:'Continue to Payment',
+	JobCompleted:'Job completed.\nYour employer has\nbeen notified.',
 };
