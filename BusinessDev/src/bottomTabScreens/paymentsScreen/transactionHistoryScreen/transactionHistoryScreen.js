@@ -9,9 +9,8 @@ import LoadingSpinner from '../../../components/LoadingSpinner';
 import TopBanner from '../../../components/TopBanner/TopBanner';
 import RequestDisplay from '../../../components/RequestDisplay/RequestDisplay';
 import HelpButton from '../../../components/HelpButton/HelpButton';
-import style from './viewDetailsScreenStyle';
+import style from './transactionHistoryScreenStyle';
 import fontStyles from 'config/styles/fontStyles';
-import {Picker} from '@react-native-community/picker';
 import requestDisplay from '../../../components/RequestDisplay/RequestDisplay';
 
 //exporting the profileScreen class
@@ -27,6 +26,8 @@ export default function viewDetailsScreen(props) {
     async function getData(){
 		//Declares the screen name in Firebase
         FirebaseFunctions.setCurrentScreen('ViewDetailsScreen', 'viewDetailsScreen');
+
+        //TODO: add backend requests for this data
 
         const {
 			businessID:BID
@@ -139,40 +140,11 @@ export default function viewDetailsScreen(props) {
     else return (
         <View style={style.Body}>
             <TopBanner
-                title={strings.AccountBalance}
+                title={strings.TransactionHistory}
                 size={30}
 				leftIconName='angle-left'
 				leftOnPress={() => props.navigation.goBack()}
 			/>
-
-            <View style={style.HeaderContainer}>
-                <View style={style.RowContainer}>
-                    <View style={style.RowObject}>
-                        <Text style={style.HeaderSubject}>{strings.PendingFunds}</Text>
-                    </View>
-                    <View style={style.RowObject}>
-                        <Text style={style.HeaderField}>{formatCurrency(balance.pending, true)}</Text>
-                    </View>
-                </View>
-                <View style={style.RowContainer}>
-                    <View style={style.RowObject}>
-                        <Text style={style.HeaderSubject}>{strings.CurrentFunds}</Text>
-                    </View>
-                    <View style={style.RowObject}>
-                        <Text style={style.HeaderField}>{formatCurrency(balance.current)}</Text>
-                    </View>
-                </View>
-                <View style={style.RowContainer}>
-                    <View style={style.RowObject}>
-                        <Text style={style.MainHeaderSubject}>{strings.TotalBalance2}</Text>
-                    </View>
-                    <View style={style.RowObject}>
-                        <Text style={style.HeaderField}>{formatCurrency(balance.pending + balance.current)}</Text>
-                    </View>
-                </View>
-            </View>
-
-            <Text style={style.RecentTransactions}>{strings.RecentTransactions}</Text>
 
             <FlatList data={transactions}
                 renderItem={({item}) => renderItem(item)}
