@@ -1,79 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, Image, TouchableOpacity, FlatList, TextInput, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
 import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import LoadingSpinner from '../../../components/LoadingSpinner';
+import TopBanner from '../../../components/TopBanner/TopBanner';
+import RequestDisplay from '../../../components/RequestDisplay/RequestDisplay';
 import HelpButton from '../../../components/HelpButton/HelpButton';
 import style from './paymentsScreenStyle';
-import fontStyles from 'config/styles/fontStyles';
 import {Picker} from '@react-native-community/picker';
+import fontStyles from 'config/styles/fontStyles';
+import HelpAlert from '../../../components/HelpAlert';
+import requestDisplay from '../../../components/RequestDisplay/RequestDisplay';
+import ModalSelector from 'react-native-modal-selector';
 
 //exporting the profileScreen class
-export default function paymentsScreen(props) {
+export default function viewDetailsScreen(props) {
     props = {navigation:{push:()=>{},state:{params:{businessID:'zjCzqSiCpNQELwU3ETtGBANz7hY2'}}}}; //NOTE: this line is only for testing
 
     //the state of the function
     const [businessID, setBusinessID] = useState('');
-    const [paymentData, setPaymentData] = useState([]);
     const [balance, setBalance] = useState(0);
-    const [isScreenLoading, setIsScreenLoading] = useState(true);
+    const [payoutInterval, setPayoutInterval] = useState('m');
+    const [accountNumber, setAccountNumber] = useState('');
+    const [screenState, setScreenState] = useState(-1);
+    const [invalidBAN, setInvalidBAN] = useState(false);
+    const [selectPI, setSelectPI] = useState(false);
     
     async function getData(){
 		//Declares the screen name in Firebase
-        FirebaseFunctions.setCurrentScreen('PaymentsScreen', 'paymentsScreen');
+        FirebaseFunctions.setCurrentScreen('ViewDetailsScreen', 'viewDetailsScreen');
+
+        //TODO: add backend requests for this data
+
         const {
 			businessID:BID
         } = props.navigation.state.params;
-        
-        // const businessObj = await FirebaseFunctions.call('getBusinessByID', {
-        //     businessID:BID
-        // });
 
-        let data = [{ //NOTE: these variable initalizations are for testing purposes only
-            amount:35,
-            customer:'John Doe',
-            date:'08/06/20',
-            refund:false,
-            requestID:''
-        }, {
-            amount:73,
-            customer:'James Olson',
-            date:'08/05/20',
-            refund:true,
-            requestID:''
-        }, {
-            amount:41,
-            customer:'Henry Cavil',
-            date:'08/02/20',
-            refund:false,
-            requestID:''
-        }, {
-            amount:80,
-            customer:'Kevin Conroy',
-            date:'07/25/20',
-            refund:true,
-            requestID:''
-        }, {
-            amount:20,
-            customer:'Ezio Auditore Da Firenze',
-            date:'07/19/20',
-            refund:false,
-            requestID:''
-        }];
-        let bal = 145789.45;
+        let funds = 150150;
+        let number = '3957239520581879';
 
         setBusinessID(BID);
-        setPaymentData(data);
-        setBalance(bal);
-        setIsScreenLoading(false);
+        setBalance(funds);
+        setAccountNumber(number);
+        setScreenState(0);
     }
     useEffect(() => {
         getData();
     }, []);
-    
+
     function formatCurrency(number, explicit = false){
         let sign = number < 0 ? '-' : '+';
         let arr = (number+'').split('.');
@@ -95,43 +72,47 @@ export default function paymentsScreen(props) {
         return sign + '$' + num + dec;
     }
 
-    function renderItem(item){
-        return (
-            <View style={style.ItemContainer}>
-                <View style={style.RowContainer}>
-                    <HelpButton
-                        title={strings.ViewMore}
-                        isLightButton={false}
-                        width={110}
-                        height={30}
-                        bigText={true}
-                        bold={true}
-                        onPress={() => {
-                            props.navigation.push('viewMoreScreen', {requestID:item.requestID});
-                        }}
-                    />
-                    <Text style={[style.ItemMarker, item.refund ? style.RefundMarker : style.SucceededMarker]}>{item.refund ? strings.RefundRequest : strings.Succeeded}</Text>
-                </View>
-                <View style={style.RowContainer}>
-                    <View style={style.ColumnContainer}>
-                        <Text style={style.ItemSubject}>{strings.Amount}</Text>
-                        <Text style={style.ItemField}>{formatCurrency(item.amount)}</Text>
-                    </View>
-                    <View style={{...style.ColumnContainer, flexShrink:1}}>
-                        <Text style={style.ItemSubject}>{strings.Customer}</Text>
-                        <Text style={style.ItemField}>{item.customer}</Text>
-                    </View>
-                    <View style={style.ColumnContainer}>
-                        <Text style={style.ItemSubject}>{strings.Date}</Text>
-                        <Text style={style.ItemField}>{item.date}</Text>
-                    </View>
-                </View>
-            </View>
-        );
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    function getNextPayout(){
+        let date = new Date();
+        switch(payoutInterval){
+            case 'd':
+                date.setDate(date.getDate()+1);
+            break;
+            case 'w':
+                date.setDate(date.getDate()+(7 - date.getDay()));
+            break;
+            case 'm':
+                date.setDate(1);
+                date.setMonth(date.getMonth()+1);
+            break;
+            case 'y':
+                date.setDate(1);
+                date.setMonth(0);
+                date.setFullYear(date.getFullYear()+1);
+            break;
+        }
+        return `Next Payout: ${months[date.getMonth()]} ${date.getDate()+''}, ${date.getFullYear()}`;
     }
 
+    function getPayoutInfo(){
+        switch(payoutInterval){
+            case 'd': return strings.DPayout;
+            case 'w': return strings.WPayout;
+            case 'm': return strings.MPayout;
+            case 'y': return strings.YPayout;
+        }
+
+    }
+    const payoutData = [
+        {key:'d', label:'Daily'},
+        {key:'w', label:'Weekly'},
+        {key:'m', label:'Monthly'},
+        {key:'y', label:'Yearly'},
+    ];
+
     //rendering the screen
-    if(isScreenLoading) return (
+    if(screenState == -1) return (
         <View style={style.Body}>
             <View style={style.Header}>
                 {/*TODO: add header here*/}
@@ -144,42 +125,108 @@ export default function paymentsScreen(props) {
             </View>
         </View>
     );
-    else return (
+    else if(screenState == 0) return (
         <View style={style.Body}>
-            <View style={style.Header}>
-                {/*TODO: add header here*/}
-            </View>
-            <View style={style.ContentContainer}>
-                <View style={style.HeaderContainer}>
-                    <Text style={style.HeaderText}>{strings.TotalBalance}</Text>
-                    <View style={style.HeaderDetailsContainer}>
-                        <Text style={style.HeaderBalance}>{formatCurrency(balance)}</Text>
-                        <TouchableOpacity onPress={()=>{
-                            props.navigation.push('viewDetailsScreen', {businessID});
-                        }}>
-                            <Text style={style.HeaderViewDetails}>{strings.ViewDetails}</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View style={style.DropdownContainer}>
-                    <Picker
-                        selectedValue={strings.All}
-                        style={style.Dropdown}
-                        onValueChange={(itemValue, itemIndex) =>{
-                            //TODO: this
+            <View style={style.HeaderContainer}>
+                <Text style={style.AccountNumber}>{'**** **** **** '+accountNumber.substring(12)}</Text>
+                <Text style={style.Balance}>{formatCurrency(balance)}</Text>
+                <View style={style.RowContainer}>
+                    <Text style={style.Content}>{getNextPayout()}</Text>
+                    <HelpButton
+                        title={strings.Edit}
+                        isLightButton={false}
+                        width={80}
+                        height={30}
+                        bigText={true}
+                        bold={true}
+                        onPress={() => {
+                            setScreenState(1);
                         }}
-                        mode='dropdown'>
-                        <Picker.Item label={'Show '+strings.All} value={strings.All} />
-                    </Picker>
+                    />
                 </View>
-                <FlatList data={paymentData}
-                    renderItem={({item}) => renderItem(item)}
-                    style={style.ListContainer}
+            </View>
+            <View style={style.Spacer}/>
+            <View>
+                <HelpButton
+                    title={'View '+strings.PayoutHistory}
+                    isLightButton={false}
+                    width={200}
+                    height={30}
+                    bigText={true}
+                    bold={true}
+                    onPress={() => {
+                        props.navigation.push('payoutHistoryScreen', {businessID});
+                    }}
                 />
             </View>
-            <View style={style.Footer}>
-                {/*TODO: add footer here*/}
+            <View style={style.Spacer}/>
+            <View>
+                <HelpButton
+                    title={'View '+strings.TransactionHistory}
+                    isLightButton={false}
+                    width={240}
+                    height={30}
+                    bigText={true}
+                    bold={true}
+                    onPress={() => {
+                        props.navigation.push('transactionHistoryScreen', {businessID});
+                    }}
+                />
             </View>
+        </View>
+    );
+    else if(screenState == 1) return (
+        <View style={{...style.Body, paddingLeft:25}}>
+            <Text style={style.Subject}>{strings.BAN}</Text>
+            <TextInput style={style.AccountInput}
+                onChangeText={text=>setAccountNumber(text.replace(/[\D]/g, ''))}
+                keyboardType='number-pad'
+                maxLength={16}>{accountNumber}</TextInput>
+            <Text style={style.Subject}>{strings.PayoutSchedule}</Text>
+            <Text style={style.Content}>{getNextPayout()}</Text>
+            <View style={{...style.RowContainer, marginVertical:10}}>
+                <Text style={{...style.Content, marginRight:40}}>{getPayoutInfo()}</Text>
+                <HelpButton
+                    title={strings.Change}
+                    isLightButton={false}
+                    width={80}
+                    height={25}
+                    bigText={true}
+                    bold={true}
+                    onPress={() => {
+                        setSelectPI(true)
+                    }}
+                /> 
+            </View>
+            <View style={{marginTop:5}}>
+                <HelpButton
+                    title={strings.Done}
+                    isLightButton={false}
+                    width={80}
+                    height={30}
+                    bigText={true}
+                    bold={true}
+                    onPress={() => {
+                        if(accountNumber.length == 16){
+                            //TODO: send data to the backend
+                            setScreenState(0);
+                        }
+                        else setInvalidBAN(true);
+                    }}
+                />
+            </View>
+            <HelpAlert
+                isVisible={invalidBAN}
+                title={strings.Error}
+                message={strings.InvalidBAN}
+                onPress={()=>{setInvalidBAN(false)}}/>
+            <ModalSelector
+                visible={selectPI}
+                data={payoutData}
+                onChange={(option)=>{ setPayoutInterval(option.key) }}
+                onModalClose={()=>{setSelectPI(false)}}
+                disabled={true}
+                touchableStyle={{opacity:0}} />
         </View>
     );
 }

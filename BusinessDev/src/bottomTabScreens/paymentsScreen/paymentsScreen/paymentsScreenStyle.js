@@ -6,132 +6,60 @@ import colors from 'config/colors';
 export default StyleSheet.create({
     Body:{
         flexDirection: 'column',
-        alignItems: 'center',
         backgroundColor: colors.white,
-        height: '100%'
+        alignItems:'flex-start',
+        height: '100%',
+        paddingHorizontal:10,
     },
     
-    Header:{
-        width:'100%',
-        height:80,
-        backgroundColor:colors.blue
-    },
-
-    ContentContainer:{
-        width:'100%',
-        flex:1,
-        padding: 15,
-    },
     HeaderContainer:{
         borderColor: colors.green,
         borderWidth:2,
         borderRadius: 10,
         flexDirection:'column',
-        alignItems:'flex-start',
-        padding: 15,
-    },
-    HeaderText:{
-        ...fontStyles.biggerTextStyle,
-        fontWeight:'bold',
-        color: colors.darkBlue,
-        padding:0
-    },
-    HeaderDetailsContainer:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        alignItems:'flex-end',
-        width:'100%',
-        marginTop:5,
-        marginBottom:-5
-    },
-    HeaderBalance:{
-        ...fontStyles.biggerTextStyle,
-        color: colors.darkBlue,
-        padding:0,
-    },
-    HeaderViewDetails:{
-        ...fontStyles.bigTextStyle,
-        color: colors.blue,
-        padding:0
-    },
-    DropdownContainer:{
-        borderRadius:15,
-        borderColor:colors.white,
-        borderWidth:1,
-        height: 30,
-        width:80,
-        padding:0,
-        overflow:'hidden',
-        alignSelf:'flex-end',
-        margin:10,
-    },
-    Dropdown:{
-        color:colors.white,
-        backgroundColor: colors.blue,
-        height: 30,
-        fontWeight:'bold',
-        width:80,
-        marginTop:-2,
-        marginBottom:-5,
-    },
-    ListContainer:{
-        flex:1,
-    },
-
-    ItemContainer:{
-        borderColor: colors.green,
-        borderWidth:2,
-        borderRadius: 10,
-        flexDirection:'column',
-        padding: 10,
-        marginVertical:5,
-        paddingBottom:-3,
+        marginTop:10,
+        paddingVertical:5,
+        paddingHorizontal:10,
+        width:screenWidth - (2 * 10),
     },
     RowContainer:{
         flexDirection:'row',
         justifyContent:'space-between',
-        alignItems:'flex-start',
-        marginBottom:5
     },
-    ItemMarker:{
-        ...fontStyles.bigTextStyle,
+    AccountNumber:{
+        ...fontStyles.mainTextStyle,
+        color:colors.darkBlue,
         fontWeight:'bold',
-        color:colors.white,
-        borderWidth:1,
-        borderRadius: 10,
-        overflow:'hidden',
-        paddingHorizontal:8,
     },
-    SucceededMarker:{
-        borderColor:colors.green,
-        backgroundColor:colors.green,
+    Balance:{
+        ...fontStyles.biggerTextStyle,
+        color:colors.darkBlue,
+        marginVertical:5
     },
-    RefundMarker:{
-        borderColor:colors.red,
-        backgroundColor:colors.red,
-    },
-    ColumnContainer:{
-        flexDirection:'column',
-        justifyContent:'space-between',
-        alignItems:'center',
-        marginHorizontal:10
-    },
-    ItemSubject:{
+    Subject:{
         ...fontStyles.mainTextStyle,
         color:colors.darkBlue,
         fontWeight:'bold',
         marginBottom:5,
     },
-    ItemField:{
-        ...fontStyles.bigTextStyle,
+    Content:{
+        ...fontStyles.mainTextStyle,
         color:colors.darkBlue,
-        textAlign:'center',
     },
-
-    Footer:{
-        width:screenWidth + 4,
-        height:80,
+    Spacer:{
+        marginBottom:15
+    },
+    AccountInput:{
+        ...fontStyles.mainTextStyle,
+        color:colors.darkBlue,
+        fontWeight:'bold',
+        borderColor:colors.blue,
         borderWidth:2,
-        borderColor: colors.gray
-    }
+        borderRadius:25,
+        width:200,
+        paddingVertical:5,
+        paddingHorizontal:10,
+        marginBottom:15,
+    },
+    
 })

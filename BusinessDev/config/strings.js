@@ -496,7 +496,6 @@ export default {
 	From:'From',
 	To:'To',
 	SendRequest:'Send request',
-
 	OnMyWay:'On My Way',
 	Start:'Start',
 	Done:'Done',
@@ -508,4 +507,15 @@ export default {
 	Send:'Send',
 	ContinueToPayment:'Continue to Payment',
 	JobCompleted:'Job completed.\nYour employer has\nbeen notified.',
+	TransactionHistory:'Transaction History',
+	PayoutHistory:'Payout History',
+	BAN:'Bank Account Number',
+	PayoutSchedule:'Payout Schedule',
+	DPayout:'Daily Payout',
+	WPayout:'Weekly Payout',
+	MPayout:'Monthly Payout',
+	YPayout:'Yearly Payout',
+	Change:'Change',
+	Error:'Error',
+	InvalidBAN:'Please enter a valid bank account number',
 };
