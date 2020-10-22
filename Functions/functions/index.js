@@ -1431,47 +1431,127 @@ exports.deleteService = functions.https.onCall(async (input, context) => {
 //This function will create a stripe customer and attach a payment method to that customer. It will then return
 //the information for that specific stripe customer in the form of an object containing the IDs
 exports.createStripeCustomerPaymentInformtion = functions.https.onCall(async (input, context) => {
-	const { paymentInformation, customerID } = input;
+	const { paymentSource, paymentToken, cardData, checkingAccount, customerID } = input;
 
-	const customerObject = (await customers.doc(customerID).get()).data();
+	// example credit card
+	// card = {
+	// 	number: '4242424242424242',
+	// 	exp_month: 10,
+	// 	exp_year: 2021,
+	// 	cvc: '314',
+	// }
 
-	//Creates the stripe customer
-	const stripeCustomer = await stripe.customers.create({
-		email: customerObject.email,
-		name: customerObject.name,
-		metadata: {
-			firestoreDocumentID: customerID,
-		},
-	});
+	//example bank account
+	// account = {
+	// 	country: 'US',
+	// 	currency: 'usd',
+	// 	account_number: '3497216841356',
+	//	routing_number: '000000000'
+	// }
 
-	//Creates the credit card information and connects it with the customer in stripe
-	await stripe.customers.createSource(stripeCustomer.id, {
-		source: paymentInformation,
-	});
+	try{
+		const customerObject = (await customers.doc(customerID).get()).data();
 
-	const stripeCustomerObject = await stripe.customers.retrieve(stripeCustomer.id);
+		let finalSource;
+		if(paymentSource) finalSource = {id:paymentSource};
+		else{
+			let finalToken;
+			if(paymentToken) finalToken = {id:paymentToken};
+			else if(cardData) finalToken = await stripe.tokens.create({card:cardData});
+			else if(checkingAccount) finalToken = await stripe.tokens.create({bank_account:checkingAccount});
+			else throw {code:'invalid_card_type'};
 
-	const source = stripeCustomerObject.sources.data[0];
+			finalSource = await stripe.sources.create({
+				type: 'ach_credit_transfer',
+				currency: 'usd',
+				token: finalToken.id,
+				owner: {
+					email: customerObject.email
+				},
+				usage: 'reusable'
+			});
+		}
 
-	//Writes this payment information to the customer's document for future references
-	await customers.doc(customerID).update({
-		stripeCustomerID: stripeCustomer.id,
-		paymentInformation: source,
-	});
+		//Creates the stripe customer
+		const stripeCustomer = await stripe.customers.create({
+			email: customerObject.email,
+			name: customerObject.name,
+			metadata: {
+				firestoreDocumentID: customerID,
+			},
+		});
 
-	return { sourceID: source.id, stripeCustomerID: stripeCustomer.id };
+		//Creates the credit card information and connects it with the customer in stripe
+		await stripe.customers.createSource(stripeCustomer.id, {
+			source: finalSource.id,
+		});
+
+		const stripeCustomerObject = await stripe.customers.retrieve(stripeCustomer.id);
+
+		const source = stripeCustomerObject.sources.data[0];
+
+		//Writes this payment information to the customer's document for future references
+		await customers.doc(customerID).update({
+			stripeCustomerID: stripeCustomer.id,
+			paymentInformation: source,
+		});
+
+		return { sourceID: source.id, stripeCustomerID: stripeCustomer.id };
+	} catch (error) {
+		if (error.code === 'invalid_card_type') {
+			return 'invalid_card_type';
+		} else {
+			throw error;
+		}
+	}
 });
 
 //This function takes in an existing stripe customer and updates their payment information both in firebase
 //and in the Stripe API
 exports.updateStripeCustomerPaymentInformtion = functions.https.onCall(async (input, context) => {
-	try {
-		const { paymentInformation, customerID } = input;
+	const { paymentSource, paymentToken, cardData, checkingAccount, customerID } = input;
 
-		const stripeCustomerID = (await customers.doc(customerID).get()).data().stripeCustomerID;
+	// example credit card
+	// card = {
+	// 	number: '4242424242424242',
+	// 	exp_month: 10,
+	// 	exp_year: 2021,
+	// 	cvc: '314',
+	// }
 
-		const newCustomer = await stripe.customers.update(stripeCustomerID, {
-			source: paymentInformation,
+	//example bank account
+	// account = {
+	// 	country: 'US',
+	// 	currency: 'usd',
+	// 	account_number: '3497216841356',
+	//	routing_number: '000000000'
+	// }
+
+	try{
+		const customerObject = (await customers.doc(customerID).get()).data();
+
+		let finalSource;
+		if(paymentSource) finalSource = {id:paymentSource};
+		else{
+			let finalToken;
+			if(paymentToken) finalToken = {id:paymentToken};
+			else if(cardData) finalToken = await stripe.tokens.create({card:cardData});
+			else if(checkingAccount) finalToken = await stripe.tokens.create({bank_account:checkingAccount});
+			else throw {code:'invalid_card_type'};
+
+			finalSource = await stripe.sources.create({
+				type: 'ach_credit_transfer',
+				currency: 'usd',
+				token: finalToken.id,
+				owner: {
+					email: customerObject.email
+				},
+				usage: 'reusable'
+			});
+		}
+
+		const newCustomer = await stripe.customers.update(customerObject.stripeCustomerID, {
+			source: finalSource.id,
 		});
 
 		const source = newCustomer.sources.data[0];
@@ -1482,7 +1562,11 @@ exports.updateStripeCustomerPaymentInformtion = functions.https.onCall(async (in
 		});
 		return 0;
 	} catch (error) {
-		return -1;
+		if (error.code === 'invalid_card_type') {
+			return 'invalid_card_type';
+		} else {
+			throw error;
+		}
 	}
 });
 
@@ -1509,14 +1593,61 @@ exports.deleteCustomerPaymentInformation = functions.https.onCall(async (input, 
 	}
 });
 
+//This function deletes a certain stripe connect account
+//NOTE: this function is only for testing purposes
+exports.deleteStripeConnectAccount = functions.https.onCall(async (input, context) => {
+	const {accountID} = input;
+	try{
+		const deleted = await stripe.accounts.del(
+			accountID
+		);
+		return deleted;
+	}
+	catch(err){
+		return err;
+	}
+});
+
 //This function is going to take in a set of required information and create a Custom Account with Stripe Connect
 //for businesses. It will return the account information. It will take in links that  stripe will redirect to
 //once the OnBoarding process is complete
 exports.createStripeConnectAccountForBusiness = functions.https.onCall(async (input, context) => {
-	const { businessID, tos_acceptance, paymentToken } = input;
+	const { businessID, tos_acceptance, businessProfile, paymentToken, cardData, checkingAccount } = input;
+
+	//NOTE: for a fully functional connect account, these fields must be present and completly filled out: 
+	// businessID, tod_acceptance, businessProfile, and either paymentToken, cardData, or checkingAccount
+
+	// example business profile
+	// profile = {
+	// 	name: 'Help',
+	// 	url: 'https://helptechnologies.net'
+	// }
+
+	// example credit card
+	// card = {
+	// 	number: '4242424242424242',
+	// 	exp_month: 10,
+	// 	exp_year: 2021,
+	// 	cvc: '314',
+	// }
+
+	//example bank account
+	// account = {
+	// 	country: 'US',
+	// 	currency: 'usd',
+	// 	account_number: '3497216841356',
+	//	routing_number: '000000000'
+	// }
+
 
 	try {
 		const business = (await businesses.doc(businessID).get()).data();
+
+		let finalToken;
+		if(paymentToken) finalToken = {id:paymentToken};
+		else if(cardData) finalToken = await stripe.tokens.create({card:cardData});
+		else if(checkingAccount) finalToken = await stripe.tokens.create({bank_account:checkingAccount});
+		else throw {code:'invalid_card_type'};
 
 		const connectAccount = await stripe.accounts.create({
 			type: 'custom',
@@ -1528,7 +1659,8 @@ exports.createStripeConnectAccountForBusiness = functions.https.onCall(async (in
 				firestoreDocumentID: businessID,
 			},
 			tos_acceptance,
-			external_account: paymentToken,
+			external_account: finalToken.id,
+			business_profile: businessProfile
 		});
 
 		const accountLinks = await stripe.accountLinks.create({
@@ -1563,13 +1695,36 @@ exports.createStripeConnectAccountForBusiness = functions.https.onCall(async (in
 //This function is going to update a business's payment information for their Stripe connect account that they've already
 //created. They don't need to reonboard or anything
 exports.updateStripeConnectAccountPayment = functions.https.onCall(async (input, context) => {
-	const { businessID, paymentToken } = input;
+	const { businessID, paymentToken, cardData, checkingAccount } = input;
+
+	// example credit card
+	// card = {
+	// 	number: '4242424242424242',
+	// 	exp_month: 10,
+	// 	exp_year: 2021,
+	// 	cvc: '314',
+	// }
+
+	//example bank account
+	// account = {
+	// 	country: 'US',
+	// 	currency: 'usd',
+	// 	account_number: '3497216841356',
+	//	routing_number: '000000000'
+	// }
 
 	try {
 		const business = (await businesses.doc(businessID).get()).data();
+
+		let finalToken;
+		if(paymentToken) finalToken = {id:paymentToken};
+		else if(cardData) finalToken = await stripe.tokens.create({card:cardData});
+		else if(checkingAccount) finalToken = await stripe.tokens.create({bank_account:checkingAccount});
+		else throw {code:'invalid_card_type'};
+
 		//Updates the card in stripe
 		const connectAccount = await stripe.accounts.update(business.stripeBusinessID, {
-			external_account: paymentToken,
+			external_account: finalToken.id,
 		});
 
 		//updates the firestore payment information
@@ -1740,7 +1895,7 @@ exports.chargeCustomerForRequest = functions.https.onCall(async (input, context)
 
 		return 0;
 	} catch (error) {
-		return -1;
+		throw error;
 	}
 });
 
