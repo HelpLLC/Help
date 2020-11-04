@@ -137,6 +137,16 @@ async function main(){
     //     businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2'
     // });
 
+    // const data = await FirebaseFunctions.call('retrieveConnectAccountPayoutHistory', {
+    //     businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2'
+    // });
+
+    // const data = await FirebaseFunctions.call('SetConnectAccountPayoutSchedule', {
+    //     businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2',
+    //     interval: 'w',
+    //     weekly_anchor: 'monday'
+    // });
+
     console.log(data);
 }
 

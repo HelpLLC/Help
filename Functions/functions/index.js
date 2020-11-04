@@ -1929,6 +1929,44 @@ exports.retrieveConnectAccountTransactionHistory = functions.https.onCall(async 
 	});
 });
 
+//The method retrieves the business's payout history
+exports.retrieveConnectAccountPayoutHistory = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+
+	const business = await businesses.doc(businessID).get();
+
+	return await stripe.payouts.list({
+		stripeAccount: business.data().stripeBusinessID
+	});
+});
+
+//The method retrieves the business's payout history
+exports.SetConnectAccountPayoutSchedule = functions.https.onCall(async (input, context) => {
+	const { businessID, interval, weekly_anchor, monthly_anchor } = input;
+
+	let payoutInterval;
+	switch(interval){
+		case 'd': payoutInterval = 'daily'; break;
+		case 'w': payoutInterval = 'weekly'; if(!weekly_anchor) return -1; break;
+		case 'm': payoutInterval = 'monthly'; if(!monthly_anchor) return -1; break;
+		default: return -1;
+	}
+
+	const business = await businesses.doc(businessID).get();
+
+	await stripe.accounts.update(
+		business.data().stripeBusinessID, {
+		settings:{payouts:{schedule:{
+			delay_days: 'minimum',
+			interval: payoutInterval,
+			monthly_anchor,
+			weekly_anchor
+		}}}
+	});
+
+	return 0;
+});
+
 //--------------------------------- Image Functions ---------------------------------
 
 //Method will take in an ID of a category image and download it from Firebase Storage, storing its URI.
