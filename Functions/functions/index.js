@@ -1435,10 +1435,11 @@ exports.createStripeCustomerPaymentInformtion = functions.https.onCall(async (in
 
 	// example credit card
 	// card = {
-	// 	number: '4242424242424242',
+	// 	number: '4000056655665556',
 	// 	exp_month: 10,
 	// 	exp_year: 2021,
 	// 	cvc: '314',
+    // 	currency: 'usd',
 	// }
 
 	//example bank account
@@ -1513,10 +1514,11 @@ exports.updateStripeCustomerPaymentInformtion = functions.https.onCall(async (in
 
 	// example credit card
 	// card = {
-	// 	number: '4242424242424242',
+	// 	number: '4000056655665556',
 	// 	exp_month: 10,
 	// 	exp_year: 2021,
 	// 	cvc: '314',
+    // 	currency: 'usd',
 	// }
 
 	//example bank account
@@ -1625,10 +1627,11 @@ exports.createStripeConnectAccountForBusiness = functions.https.onCall(async (in
 
 	// example credit card
 	// card = {
-	// 	number: '4242424242424242',
+	// 	number: '4000056655665556',
 	// 	exp_month: 10,
 	// 	exp_year: 2021,
 	// 	cvc: '314',
+    // 	currency: 'usd',
 	// }
 
 	//example bank account
@@ -1699,10 +1702,11 @@ exports.updateStripeConnectAccountPayment = functions.https.onCall(async (input,
 
 	// example credit card
 	// card = {
-	// 	number: '4242424242424242',
+	// 	number: '4000056655665556',
 	// 	exp_month: 10,
 	// 	exp_year: 2021,
 	// 	cvc: '314',
+    // 	currency: 'usd',
 	// }
 
 	//example bank account
@@ -1897,6 +1901,32 @@ exports.chargeCustomerForRequest = functions.https.onCall(async (input, context)
 	} catch (error) {
 		throw error;
 	}
+});
+
+//The method retrieves the business's balance from their stripe account
+exports.retrieveConnectAccountBalance = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+
+	const business = await businesses.doc(businessID).get();
+
+	return await (new Promise( (res, rej) => {
+		stripe.balance.retrieve({stripeAccount:business.data().stripeBusinessID}, (err, balance) => {
+			if(balance) res(balance);
+			else res(err);
+		});
+	}));
+});
+
+//The method retrieves the business's transaction history (not including payouts)
+exports.retrieveConnectAccountTransactionHistory = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+
+	const business = await businesses.doc(businessID).get();
+
+	return await stripe.balanceTransactions.list({
+		stripeAccount: business.data().stripeBusinessID,
+		type: 'payment',
+	});
 });
 
 //--------------------------------- Image Functions ---------------------------------
