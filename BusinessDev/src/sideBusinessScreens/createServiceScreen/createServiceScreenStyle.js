@@ -4,13 +4,25 @@ import colors from 'config/colors';
 import { screenHeight, screenWidth } from 'config/dimensions';
 
 export default StyleSheet.create({
-	imageSection: {
-		justifyContent: 'space-evenly',
+	ServiceCard: {
+		width: screenWidth * 0.95,
+		height: screenHeight * 0.25,
+		borderColor: colors.lightBlue,
+		borderWidth: 3,
+		borderRadius: 25,
+		flexDirection: 'row',
+		alignSelf: 'center',
+		justifyContent: 'center',
+		marginTop: screenHeight * 0.05,
+	  },
+	  imageSection: {
+		  marginLeft: screenWidth * 0.3,
 		flexDirection: 'column',
 		marginTop: screenHeight * 0.025,
 		alignItems: 'center',
+		justifyContent: 'center'
 	},
-	imagePicker: {
+	  imagePicker: {
 		alignSelf: 'center',
 		width: screenWidth * 0.25,
 		marginBottom: screenHeight * 0.02,
@@ -22,52 +34,55 @@ export default StyleSheet.create({
 		borderRadius: (screenWidth * 0.25) / 2,
 		backgroundColor: colors.white,
 	},
-	imageLabel:{
-		marginTop:-10
-	},
-	inputSection: {
-		width: screenWidth * 0.85,
-		alignItems: 'flex-start',
-		alignSelf: 'center',
-	},
-	inputTitleStyle: {
-		marginVertical: screenHeight * 0.015,
-	},
-	serviceDurationRow: {
-		flexDirection: 'row',
-		width: screenWidth * 0.85,
-		justifyContent: 'flex-start',
-		alignItems: 'center',
-		alignSelf: 'flex-start'
-	},
-	hoursText: {
-		marginHorizontal: screenWidth * 0.05
-	},
-	pickerStyle: {
-		borderRadius: 20,
-		marginHorizontal: screenWidth * 0.05,
-		paddingLeft: 10,
-		width: screenWidth * 0.22,
-		height: screenHeight * 0.06,
-		backgroundColor: colors.white,
-		borderColor: colors.lightBlue,
-		shadowOffset: {
-			width: 0,
-			height: 0,
-		},
-		shadowRadius: 5,
-		shadowOpacity: 10,
-		justifyContent: 'center',
-		shadowColor: colors.lightBlue,
-		borderWidth: 3,
-	},
-	buttonSection: {
-		flexDirection:'row',
-		justifyContent:'space-between',
-		alignItems:'center',
-		width: screenWidth,
-		position: 'absolute',
-		bottom:30,
-		paddingHorizontal: 15,
-	},
-});
+	  imageStyle: {
+		width: screenWidth * 0.4 - 3,
+		height: screenHeight * 0.13 - 3,
+		borderRadius: 25,
+	  },
+	  ServiceTitleView: {
+		  marginTop: screenHeight * 0.05,
+		  marginBottom: screenHeight * 0.05,
+		  marginLeft: screenWidth * 0.05
+	  },
+	  ServiceTitleInput: {
+		  marginTop: screenHeight * 0.01,
+		  marginLeft: screenWidth * -0.02
+	  },
+	  ServiceDescriptionView: {
+		marginTop: screenHeight * 0.005,
+		marginBottom: screenHeight * 0.05,
+		marginLeft: screenWidth * 0.05
+	  },
+	  ServiceDescriptionInput:{
+		marginTop: screenHeight * 0.01,
+		marginLeft: screenWidth * -0.02
+	  },
+	  ServiceDurationView: {
+		marginLeft: screenWidth * 0.05
+	  },
+	  ServiceDurationInputsView:{
+		marginTop: screenHeight * 0.03,
+		display: 'flex',
+		flexDirection: "row",
+	  },
+	  DurationHours: {
+		  marginLeft: screenWidth * 0.05,
+		  display: 'flex',
+		  flexDirection: "row",
+	  },
+	  DurationMinutes: {
+		marginLeft: screenWidth * 0.05,
+		display: 'flex',
+		flexDirection: "row",
+	  },
+	  NextButton:{
+		  marginTop: screenHeight * 0.08,
+		  position: 'absolute',
+		  left: screenWidth * 0.7,
+		  top: screenHeight * 0.75
+	  },
+	  HoursandMinutes: {
+		  marginTop: screenHeight * 0.015,
+		  marginLeft: screenWidth * 0.02
+	  }
+	});

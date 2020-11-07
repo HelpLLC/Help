@@ -15,12 +15,19 @@ if (pixelRatio < 3) {
 }
 
 const bigFontSize = baseFontSize * 1.2;
+const biggerFontSize = baseFontSize * 1.5;
 const smallTextFontSize = baseFontSize * 0.6;
 const subTextFontSize = baseFontSize * 0.9;
 const subTitleFontSize = baseFontSize * 2.2;
 const bigTitleFontSize = baseFontSize * 4.4;
 
 export default StyleSheet.create({
+	//The style for all bigger text style
+	biggerTextStyle: {
+		fontFamily: font,
+		fontSize: biggerFontSize,
+	},
+
 	//The style for all big text style
 	bigTextStyle: {
 		fontFamily: font,

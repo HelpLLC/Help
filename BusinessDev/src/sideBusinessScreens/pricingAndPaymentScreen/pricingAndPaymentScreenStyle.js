@@ -4,63 +4,53 @@ import { screenHeight, screenWidth } from 'config/dimensions';
 import colors from 'config/colors';
 
 export default StyleSheet.create({
-	pricingTypeSection: {
-		marginTop: screenHeight * 0.025,
-		marginBottom: screenHeight * 0.025,
-		width: screenWidth * 0.85,
-		alignSelf: 'center',
-	},
-	pricingTypeText: {
-		marginBottom: screenHeight * 0.015,
-	},
-	pricingRow: {
+	PricingTitleView: {
+		marginTop: screenHeight * 0.05,
+		marginBottom: screenHeight * 0.05,
+		marginLeft: screenWidth * 0.05,
+	  },
+	  PricingTitleInputsView: {
+		marginTop: screenHeight * 0.03,
+		display: 'flex',
 		flexDirection: 'row',
-		width: screenWidth * 0.85,
-		alignSelf: 'center',
-		alignItems: 'center',
-	},
-	dollarSignText: {
-		marginRight: screenWidth * 0.025,
-	},
-	pickerStyle: {
-		borderRadius: 20,
-		marginLeft: screenWidth * 0.03,
+	  },
+	  IconandInputView: {
+		display: 'flex',
+		flexDirection: 'row',
+		marginRight: screenWidth * 0.05,
+	  },
+	  Icon: {
+		marginTop: screenHeight * 0.005,
+		marginRight: screenWidth * 0.05,
+	  },
+	  Per: {
 		marginRight: screenWidth * 0.03,
-		paddingLeft: 10,
-		width: screenWidth * 0.25,
-		height: screenHeight * 0.06,
-		backgroundColor: colors.white,
-		borderColor: colors.lightBlue,
-		shadowOffset: {
-			width: 0,
-			height: 0,
-		},
-		shadowRadius: 5,
-		shadowOpacity: 10,
+		marginTop: screenHeight * -0.005,
+	  },
+	  PaymentTiteleView: {
+		marginBottom: screenHeight * 0.05,
+		marginLeft: screenWidth * 0.05,
+	  },
+	  PaymentTypeButtons: {
+		marginTop: screenHeight * 0.03,
+		marginLeft: screenWidth * 0.2,
 		justifyContent: 'center',
-		shadowColor: colors.lightBlue,
-		borderWidth: 3,
-	},
-	paymentMethodSection: {
-		width: screenWidth * 0.85,
-		alignSelf: 'center',
-		// borderBottomColor: colors.lightBlue,
-		// borderBottomWidth: 2,
-		paddingBottom: screenHeight * 0.025,
-		marginBottom: screenHeight * 0.025,
-	},
-	paymentTypeSubText: {
-		marginVertical: screenHeight * 0.025,
-	},
-	buttonSeparator: { height: screenHeight * 0.025 },
-	paymentTimeSection: { width: screenWidth * 0.85, alignSelf: 'center' },
-	buttonSection: {
-		flexDirection:'row',
-		justifyContent:'space-between',
-		alignItems:'center',
-		width: screenWidth,
+		alignContent: 'center',
+		flexDirection: 'column',
+	  },
+	  CashButton: {
+		marginBottom: screenHeight * 0.02,
+	  },
+	  NextButton: {
+		marginTop: screenHeight * 0.08,
 		position: 'absolute',
-		bottom:30,
-		paddingHorizontal: 15,
-	},
-});
+		left: screenWidth * 0.7,
+		top: screenHeight * 0.75,
+	  },
+	  BackButton: {
+		marginTop: screenHeight * 0.08,
+		position: 'absolute',
+		marginLeft: screenWidth * 0.02,
+		top: screenHeight * 0.75,
+	  },
+	});

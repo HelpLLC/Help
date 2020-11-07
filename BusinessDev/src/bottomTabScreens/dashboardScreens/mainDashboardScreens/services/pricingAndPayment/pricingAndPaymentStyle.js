@@ -5,51 +5,52 @@ import colors from 'config/colors';
 
 export default StyleSheet.create({
   PricingTitleView: {
-      marginTop: screenHeight * 0.05,
-      marginBottom: screenHeight * 0.05,
-      marginLeft: screenWidth * 0.05
+    marginTop: screenHeight * 0.05,
+    marginBottom: screenHeight * 0.05,
+    marginLeft: screenWidth * 0.05,
   },
-  PricingTitleInputsView:{
+  PricingTitleInputsView: {
     marginTop: screenHeight * 0.03,
     display: 'flex',
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   IconandInputView: {
     display: 'flex',
-    flexDirection: "row",
-    marginRight: screenWidth * 0.05
+    flexDirection: 'row',
+    marginRight: screenWidth * 0.05,
   },
   Icon: {
-marginRight: screenWidth * 0.05
-  },
-  Per:{
+    marginTop: screenHeight * 0.005,
     marginRight: screenWidth * 0.05,
-    marginTop: screenHeight * 0.01,
+  },
+  Per: {
+    marginRight: screenWidth * 0.03,
+    marginTop: screenHeight * -0.005,
   },
   PaymentTiteleView: {
     marginBottom: screenHeight * 0.05,
-    marginLeft: screenWidth * 0.05
-},
-PaymentTypeButtons: {
+    marginLeft: screenWidth * 0.05,
+  },
+  PaymentTypeButtons: {
     marginTop: screenHeight * 0.03,
     marginLeft: screenWidth * 0.2,
     justifyContent: 'center',
     alignContent: 'center',
-    flexDirection: 'column'
-},
-CashButton: {
-    marginBottom: screenHeight * 0.02
-},
-NextButton:{
+    flexDirection: 'column',
+  },
+  CashButton: {
+    marginBottom: screenHeight * 0.02,
+  },
+  NextButton: {
     marginTop: screenHeight * 0.08,
     position: 'absolute',
     left: screenWidth * 0.7,
-    top: screenHeight * 0.75
-},
-BackButton:{
+    top: screenHeight * 0.75,
+  },
+  BackButton: {
     marginTop: screenHeight * 0.08,
     position: 'absolute',
-   marginLeft: screenWidth * 0.02,
-    top: screenHeight * 0.75
-},
+    marginLeft: screenWidth * 0.02,
+    top: screenHeight * 0.75,
+  },
 });
