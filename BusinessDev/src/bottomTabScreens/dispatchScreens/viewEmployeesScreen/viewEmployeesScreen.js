@@ -45,14 +45,7 @@ export default function viewEmployeesScreen(props) {
 
     return (
         <View style={screenStyle.container}>
-            <View>
-                <TopBanner
-                    title={strings.Dispatch}
-                    leftIconName='bell'
-                    size={30}
-                    leftOnPress={() => props.navigation.goBack()}
-                    />
-            </View>
+            
             <View style={{ ...style.body}}>
                 <HelpTextInput
                     height={screenHeight*0.05}

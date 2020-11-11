@@ -6,7 +6,6 @@ import { YellowBox } from 'react-native';
 import codePush from 'react-native-code-push';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import stripe from 'tipsi-stripe';
-import confirmPaymentScreen from './src/sideBusinessScreens/confirmPaymentScreen/confirmPaymentScreen'
 import SplashScreen from 'react-native-splash-screen';
 
 

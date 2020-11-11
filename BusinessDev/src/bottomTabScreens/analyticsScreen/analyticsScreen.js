@@ -268,9 +268,6 @@ export default function analyticsScreen(props) {
     
     return (
         <View style={style.Body}>
-            <View style={style.Header}>
-                {/*TODO: add header here*/}
-            </View>
             <View style={style.MainTabContainer}>
                 {renderTabs()}
             </View>

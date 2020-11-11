@@ -11,12 +11,6 @@ export default StyleSheet.create({
         backgroundColor: colors.white,
         height: '100%'
     },
-    
-    Header:{
-        width:'100%',
-        height:80,
-        backgroundColor:colors.blue
-    },
 
     MainTabContainer:{
         width:'100%',

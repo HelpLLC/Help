@@ -37,7 +37,7 @@ export default function timeOffReqsScreen(props) {
         getData();
 	}, []);
 
-    function timeOffRequests(){
+    function timeOffRequests2(){
         let elements = [];
         for(let i in timeOffRequests)
             if(timeOffRequests[i].status == 'pending')
@@ -68,11 +68,8 @@ export default function timeOffReqsScreen(props) {
 
     return (
         <View style={screenStyle.container}>
-            <View>
-                <TopBanner size={30} title={strings.Dispatch} />
-            </View>
             <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
-                {loaded ? timeOffRequests() : 
+                {loaded ? timeOffRequests2() : 
                 <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                     <LoadingSpinner isVisible={true} />
                 </View>}

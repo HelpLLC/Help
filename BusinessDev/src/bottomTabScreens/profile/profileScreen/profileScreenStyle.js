@@ -10,12 +10,6 @@ export default StyleSheet.create({
         backgroundColor: colors.white,
         height: '100%'
     },
-    
-    Header:{
-        width:'100%',
-        height:80,
-        backgroundColor:colors.lightBlue
-    },
 
     ContentContainer:{
         flexGrow:1
@@ -64,11 +58,4 @@ export default StyleSheet.create({
     LogoutText:{
         color: colors.red,
     },
-
-    Footer:{
-        width:screenWidth + 4,
-        height:80,
-        borderWidth:2,
-        borderColor: colors.gray
-    }
 })

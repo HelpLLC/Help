@@ -2,6 +2,7 @@
 //Each new defined string must be defined and accessed through this object
 export default {
 	SomethingWentWrong: 'Something went wrong, please try again later',
+	Notifications: 'Notifications',
 	Dispatch: 'Dispatch',
 	Analytics: 'Analytics',
 	Payments: 'Payments',
@@ -10,6 +11,7 @@ export default {
 	Schedule: 'Schedule',
 	Settings: 'Settings',
 	Employees: 'Employees',
+	Customers: 'Customers',
 	TimeOffReqs: 'Time Off Request(s)',
 	Services: 'Services',
 	UnconfirmedReqs: 'Unconfirmed Requests',
@@ -438,7 +440,7 @@ export default {
 	Approve: 'Approve',
 	Deny: 'Deny',
 	ProfileDefaultBusinessName: 'Business',
-	ProfileCompanyInfo: 'Company Info',
+	ProfileEditCompanyInfo: 'Edit Company Info',
 	ProfileBusinessSchedule: 'Business Schedule',
 	ProfilePassword: 'Change Password',
 	ProfileLogout: 'Log Out',
