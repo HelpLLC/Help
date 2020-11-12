@@ -147,6 +147,18 @@ async function main(){
     //     weekly_anchor: 'monday'
     // });
 
+    // const data = await FirebaseFunctions.call('retrieveConnectAccountTransactionStatistics', {
+    //     businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2'
+    // });
+
+    // const data = await FirebaseFunctions.call('retrieveConnectAccountRefundStatistics', {
+    //     businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2'
+    // });
+
+    // const data = await FirebaseFunctions.call('retrieveConnectAccountStatistics', {
+    //     businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2'
+    // });
+
     console.log(data);
 }
 

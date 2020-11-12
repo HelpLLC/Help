@@ -39,5 +39,5 @@ App = codePush(codePushOptions)(App);
 
 export default App;
 
-
-
+// import stripeTesting from './stripeTesting';
+// export default stripeTesting;
