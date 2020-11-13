@@ -14,11 +14,12 @@ export default function profileScreen(props) {
     // props = {navigation:{push:()=>{},state:{params:{businessID:'zjCzqSiCpNQELwU3ETtGBANz7hY2'}}}}; //NOTE: this line is only for testing
 
     //a list of the options availible to click
-    const options = [strings.ProfileEditCompanyInfo, strings.ProfileBusinessSchedule, strings.ProfilePassword, strings.ProfileLogout];
+    const options = [strings.ProfileEditCompanyInfo, strings.ProfileBusinessSchedule, strings.ProfilePassword, strings.ProfileTermsPrivacyCredits, strings.ProfileLogout];
     const functions = [
-        ()=>{props.navigation.push('companyInfoScreen', {businessID, businessData});}, 
-        ()=>{props.navigation.push('companyScheduleScreen', {businessID, businessData});}, 
-        ()=>{props.navigation.push('changePasswordScreen', {businessID, businessData});}, 
+        ()=>{props.navigation.push('CompanyInfoScreen', {businessID, businessData});}, 
+        ()=>{props.navigation.push('CompanyScheduleScreen', {businessID, businessData});}, 
+        ()=>{props.navigation.push('ChangePasswordScreen', {businessID, businessData});}, 
+        ()=>{props.navigation.push('TermsPrivacyCreditsScreen');}, 
         ()=>{FirebaseFunctions.logOut(businessID); props.navigation.push('splashScreen',{});}
     ];
 
@@ -27,7 +28,7 @@ export default function profileScreen(props) {
         let elements = [];
         for(let i in options)
             elements.push(
-                <TouchableOpacity style={options[i]==strings.ProfileLogout?style.LogoutPositioning:null} onPress={functions[i]()} key={options[i]}>
+                <TouchableOpacity style={options[i]==strings.ProfileLogout?style.LogoutPositioning:null} onPress={functions[i]} key={options[i]}>
                     <View style={[style.OptionContainer, options[i]==strings.ProfileLogout?style.LogoutContainer:style.OptionNormal]}>
                         <Text style={[fontStyles.bigTextStyle, style.OptionText, options[i]==strings.ProfileLogout?style.LogoutText:{}]}>{options[i]}</Text>
                         {options[i]==strings.ProfileLogout ? null : <Icon

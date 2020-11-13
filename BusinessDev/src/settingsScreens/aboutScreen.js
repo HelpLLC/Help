@@ -20,11 +20,6 @@ class aboutScreen extends Component {
 	render() {
 		return (
 			<HelpView style={screenStyle.container}>
-				<TopBanner
-					title={strings.About}
-					leftIconName='angle-left'
-					leftOnPress={() => this.props.navigation.goBack()}
-				/>
 				<View>
 					<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 						<Text style={[fontStyles.bigTitleStyle, fontStyles.blue]}>{strings.Help}</Text>

@@ -2,7 +2,7 @@
 //screen to screen. The tabs will be "Analytics", "Payments", "Home", "Schedule", "Settings"
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation-tabs';
-import profileScreen from './profileScreen/profileScreen';
+import profileScreen from './profile/profileScreen/profileScreen';
 import analyticsScreen from './analyticsScreen/analyticsScreen';
 import viewEmployeesScreen from './dispatchScreens/viewEmployeesScreen/viewEmployeesScreen';
 import timeOffReqsScreen from './dispatchScreens/timeOffReqsScreen/timeOffReqsScreen';
@@ -13,6 +13,8 @@ import strings from 'config/strings';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import { Icon } from 'react-native-elements';
 import React from 'react';
+import { View } from 'react-native';
+import TopBanner from '../components/TopBanner/TopBanner';
 import colors from 'config/colors';
 
 //will configure the routes of each top tab to go to the correct screen when clicked on.
@@ -64,10 +66,10 @@ const dashboardNavigatorConfig = {
 		//This styles the tabBar itself; the color, height, etc.
 		style: {
 			backgroundColor: colors.blue,
-			height: screenHeight * 0.1
+			height: screenHeight * 0.06
 		},
 		showLabel: true,
-		showIcon: true
+		showIcon: false
 	}
 };
 
@@ -132,10 +134,10 @@ const analyticsNavigatorConfig = {
 		//This styles the tabBar itself; the color, height, etc.
 		style: {
 			backgroundColor: colors.blue,
-			height: screenHeight * 0.1
+			height: screenHeight * 0.06
 		},
 		showLabel: true,
-		showIcon: true
+		showIcon: false
 	}
 };
 
@@ -190,10 +192,10 @@ const dispatchNavigatorConfig = {
 		//This styles the tabBar itself; the color, height, etc.
 		style: {
 			backgroundColor: colors.blue,
-			height: screenHeight * 0.1
+			height: screenHeight * 0.06
 		},
 		showLabel: true,
-		showIcon: true
+		showIcon: false
 	}
 };
 
@@ -250,6 +252,19 @@ const routeConfig = {
 			tabBarIcon: ({ tintColor, focused }) => (
 				<Icon name='users' size={40} type='font-awesome' color={tintColor} />
 			)
+		})
+	},
+
+	//Route connecting to the payments screen
+	PaymentsScreen: {
+		//connects the object with the help screen component
+		screen: profileScreen,
+		//sets up what the tab will be titled
+		navigationOptions: ({ navigation }) => ({
+			tabBarLabel: strings.Payments,
+			tabBarIcon: ({ tintColor, focused }) => (
+				<Icon name='dollar' size={40} type='font-awesome' color={tintColor} />
+			),
 		})
 	},
 

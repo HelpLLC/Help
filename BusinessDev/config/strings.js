@@ -443,6 +443,7 @@ export default {
 	ProfileEditCompanyInfo: 'Edit Company Info',
 	ProfileBusinessSchedule: 'Business Schedule',
 	ProfilePassword: 'Change Password',
+	ProfileTermsPrivacyCredits: 'Terms/Privacy/Credits',
 	ProfileLogout: 'Log Out',
 	ConfirmRequest: 'Confirm Request',
 	Loading:'Loading...',
@@ -525,4 +526,5 @@ export default {
 	Change:'Change',
 	Error:'Error',
 	InvalidBAN:'Please enter a valid bank account number',
+	TermsPrivacyCredits: 'Terms/Privacy/Credits'
 };
