@@ -1917,16 +1917,118 @@ exports.retrieveConnectAccountBalance = functions.https.onCall(async (input, con
 	}));
 });
 
-//The method retrieves the business's transaction history (not including payouts)
+//The method retrieves the business's transaction history (only including payments)
 exports.retrieveConnectAccountTransactionHistory = functions.https.onCall(async (input, context) => {
 	const { businessID } = input;
 
 	const business = await businesses.doc(businessID).get();
 
 	return await stripe.balanceTransactions.list({
-		stripeAccount: business.data().stripeBusinessID,
 		type: 'payment',
+	}, {stripeAccount: business.data().stripeBusinessID});
+});
+
+//The method retrieves the business's payout history
+exports.retrieveConnectAccountPayoutHistory = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+
+	const business = await businesses.doc(businessID).get();
+
+	return await stripe.payouts.list({
+		type:'payout'
+	}, {stripeAccount: business.data().stripeBusinessID});
+});
+
+//The method retrieves the business's payout history
+exports.SetConnectAccountPayoutSchedule = functions.https.onCall(async (input, context) => {
+	const { businessID, interval, weekly_anchor, monthly_anchor } = input;
+
+	let payoutInterval;
+	switch(interval){
+		case 'd': payoutInterval = 'daily'; break;
+		case 'w': payoutInterval = 'weekly'; if(!weekly_anchor) return -1; break;
+		case 'm': payoutInterval = 'monthly'; if(!monthly_anchor) return -1; break;
+		default: return -1;
+	}
+
+	const business = await businesses.doc(businessID).get();
+
+	await stripe.accounts.update(
+		business.data().stripeBusinessID, {
+		settings:{payouts:{schedule:{
+			delay_days: 'minimum',
+			interval: payoutInterval,
+			monthly_anchor,
+			weekly_anchor
+		}}}
 	});
+
+	return 0;
+});
+
+//The method retrieves the business's transaction statistics (not including payouts)
+exports.retrieveConnectAccountTransactionStatistics = functions.https.onCall(async (input, context) => {
+	const { businessID, filterDate } = input;
+
+	const business = await businesses.doc(businessID).get();
+
+	const transactions = await stripe.balanceTransactions.list({
+		type: 'payment',
+		created:{gte:filterDate ? (new Date(filterDate)).getTime()/1000 : 0}
+	}, {stripeAccount: business.data().stripeBusinessID});
+
+	let statistics = {
+		count: transactions.data.length,
+		gross: 0
+	};
+	
+	for(let i in transactions.data)
+		statistics.gross += transactions.data[i].amount;
+
+	return statistics;
+});
+
+//The method retrieves the business's transaction statistics (not including payouts)
+exports.retrieveConnectAccountRefundStatistics = functions.https.onCall(async (input, context) => {
+	const { businessID, filterDate } = input;
+
+	const business = await businesses.doc(businessID).get();
+
+	const transactions = await stripe.balanceTransactions.list({
+		type: 'refund',
+		created:{gte:filterDate ? (new Date(filterDate)).getTime()/1000 : 0}
+	}, {stripeAccount: business.data().stripeBusinessID});
+
+	let statistics = {
+		count: transactions.data.length,
+		gross: 0
+	};
+	
+	for(let i in transactions.data)
+		statistics.gross += transactions.data[i].amount;
+
+	return statistics;
+});
+
+//The method retrieves the business's transaction statistics (not including payouts)
+exports.retrieveConnectAccountStatistics = functions.https.onCall(async (input, context) => {
+	const { businessID, filterDate } = input;
+
+	const business = await businesses.doc(businessID).get();
+
+	const transactions = await stripe.balanceTransactions.list({
+		created:{gte:filterDate ? (new Date(filterDate)).getTime()/1000 : 0}
+	}, {stripeAccount: business.data().stripeBusinessID});
+
+	let statistics = {
+		count: transactions.data.length,
+		net: 0
+	};
+	
+	for(let i in transactions.data)
+		statistics.net += transactions.data[i].amount;
+
+	return statistics;
 });
 
 //--------------------------------- Image Functions ---------------------------------
