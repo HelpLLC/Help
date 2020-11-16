@@ -98,14 +98,6 @@ class logInScreen extends Component {
 	render() {
 		return (
 			<HelpView style={screenStyle.container}>
-				<TopBanner
-					title={strings.LogIn}
-					leftIconName='angle-left'
-					leftOnPress={() => {
-						//Method will go back to the splash screen
-						this.props.navigation.goBack();
-					}}
-				/>
 				<View
 					style={{
 						justifyContent: 'flex-end',
@@ -128,6 +120,7 @@ class logInScreen extends Component {
 						password={false}
 						autoCompleteType={'email'}
 						keyboardType={'email-address'}
+						borderColor={colors.lightBlue}
 					/>
 				</View>
 
@@ -176,6 +169,7 @@ class logInScreen extends Component {
 						}
 						password={!this.state.isPasswordVisible}
 						autoCompleteType={'password'}
+						borderColor={colors.lightBlue}
 					/>
 				</View>
 				<View

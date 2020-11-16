@@ -36,11 +36,4 @@ export default StyleSheet.create({
         paddingVertical:3,
         paddingHorizontal:10,
     },
-
-    Footer:{
-        width:screenWidth + 4,
-        height:80,
-        borderWidth:2,
-        borderColor: colors.gray
-    }
 })

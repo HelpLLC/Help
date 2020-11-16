@@ -17,12 +17,7 @@ const serviceScreen = (props) => {
   return (
     <ScrollView>
       <HelpView style={[screenStyle.container, { alignItems: 'flex-start' }]}>
-        <TopBanner
-          title={strings.Dashboard}
-          leftIconName='bell'
-          size={30}
-          leftOnPress={() => props.navigation.goBack()}
-        />
+        
         <View style={serviceScreenStyle.AddServiceButton}>
           <HelpButton
             title={strings.AddServices}
