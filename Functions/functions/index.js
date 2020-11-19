@@ -1923,9 +1923,15 @@ exports.retrieveConnectAccountTransactionHistory = functions.https.onCall(async 
 
 	const business = await businesses.doc(businessID).get();
 
-	return await stripe.balanceTransactions.list({
-		type: 'payment',
+	let result = await stripe.balanceTransactions.list({
+		//type: 'payment',
 	}, {stripeAccount: business.data().stripeBusinessID});
+
+	for(let i = result.data.length - 1; i >= 0; i--)
+		if(result.data[i].type == "payout")
+			result.data.splice(i, 1);
+	
+	return result;
 });
 
 //The method retrieves the business's payout history
