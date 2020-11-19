@@ -106,11 +106,6 @@ export default function profileScreen(props) {
     //rendering the screen
     return (
         <View style={style.Body}>
-            <TopBanner
-				title={strings.ProfileBusinessSchedule}
-				leftIconName='angle-left'
-				leftOnPress={() => props.navigation.goBack()}
-			/>
             <View style={style.ContentContainer}>
                 <ScrollView style={style.ScrollContainer}>
                     <View style={style.ScrollContent}>
@@ -137,9 +132,6 @@ export default function profileScreen(props) {
                         });
                         return true;
                     }}/>
-            </View>
-            <View style={style.Footer}>
-                {/*TODO: add footer here*/}
             </View>
                 <DateTimePickerModal
                     is24Hour={false}

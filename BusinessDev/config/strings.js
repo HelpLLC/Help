@@ -2,12 +2,19 @@
 //Each new defined string must be defined and accessed through this object
 export default {
 	SomethingWentWrong: 'Something went wrong, please try again later',
+	Notifications: 'Notifications',
 	Dispatch: 'Dispatch',
 	Analytics: 'Analytics',
 	Payments: 'Payments',
+	Calendar: 'Calendar',
 	Home: 'Home',
 	Schedule: 'Schedule',
 	Settings: 'Settings',
+	Employees: 'Employees',
+	Customers: 'Customers',
+	TimeOffReqs: 'Time Off Request(s)',
+	Services: 'Services',
+	UnconfirmedReqs: 'Unconfirmed Requests',
 	PaymentVerification: 'Payment Verification',
 	PaymentVerificationMessage:
 		'Help needs some additional information from you in order to accept card payments from customers.',
@@ -433,9 +440,10 @@ export default {
 	Approve: 'Approve',
 	Deny: 'Deny',
 	ProfileDefaultBusinessName: 'Business',
-	ProfileCompanyInfo: 'Company Info',
+	ProfileEditCompanyInfo: 'Edit Company Info',
 	ProfileBusinessSchedule: 'Business Schedule',
 	ProfilePassword: 'Change Password',
+	ProfileTermsPrivacyCredits: 'Terms/Privacy/Credits',
 	ProfileLogout: 'Log Out',
 	ConfirmRequest: 'Confirm Request',
 	Loading:'Loading...',
@@ -518,4 +526,5 @@ export default {
 	Change:'Change',
 	Error:'Error',
 	InvalidBAN:'Please enter a valid bank account number',
+	TermsPrivacyCredits: 'Terms/Privacy/Credits'
 };

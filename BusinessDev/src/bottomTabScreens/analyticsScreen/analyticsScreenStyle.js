@@ -11,12 +11,6 @@ export default StyleSheet.create({
         backgroundColor: colors.white,
         height: '100%'
     },
-    
-    Header:{
-        width:'100%',
-        height:80,
-        backgroundColor:colors.blue
-    },
 
     MainTabContainer:{
         width:'100%',
@@ -130,15 +124,5 @@ export default StyleSheet.create({
     KeyText:{
         color:colors.darkBlue,
         margin:5,
-    },
-
-
-    Footer:{
-        position:'absolute',
-        bottom:-2,
-        width:screenWidth + 4,
-        height:80,
-        borderWidth:2,
-        borderColor: colors.gray
     }
 })

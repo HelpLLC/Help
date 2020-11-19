@@ -13,6 +13,7 @@ import screenStyle from 'config/styles/screenStyle';
 import TopBanner from '../../components/TopBanner/TopBanner';
 import FirebaseFunctions from '../../../config/FirebaseFunctions';
 import HelpAlert from '../../components/HelpAlert';
+import colors from 'config/colors';
 
 //The class that will create the look of this screen
 class forgotPasswordScreen extends Component {
@@ -37,14 +38,6 @@ class forgotPasswordScreen extends Component {
 		return (
 			//View that dismisses the keyboard when clicked anywhere else
 			<HelpView style={screenStyle.container}>
-				<TopBanner
-					title={strings.ForgotPasswordNoQuestionMark}
-					leftIconName='angle-left'
-					leftOnPress={() => {
-						//Method will go back to the splash screen
-						this.props.navigation.goBack();
-					}}
-				/>
 				<View style={{ justifyContent: 'center', alignSelf: 'center' }}>
 					<View
 						style={{
@@ -64,6 +57,7 @@ class forgotPasswordScreen extends Component {
 							password={false}
 							autoCompleteType={'email'}
 							keyboardType={'email-address'}
+							borderColor={colors.lightBlue}
 						/>
 					</View>
 				</View>

@@ -14,13 +14,6 @@ export default StyleSheet.create({
     ContentContainer:{
         flexGrow:1
     },
-    MainContainer:{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding:15,
-        width: '100%',
-    },
     OptionContainer:{
         flexDirection: 'row',
         width:screenWidth + 4,
@@ -34,28 +27,9 @@ export default StyleSheet.create({
         borderColor: colors.blue,
         justifyContent:'space-between'
     },
-
-    MainText:{
-        color: colors.darkBlue,
-        fontWeight:'bold',
-        margin:10,
-        flexShrink:1,
-    },
     OptionText:{
         color: colors.darkBlue,
         fontWeight:'bold',
         marginLeft: 5,
-    },
-
-    LogoutPositioning:{
-        position:'absolute',
-        bottom:20,
-    },
-    LogoutContainer:{
-        borderColor: colors.red,
-        justifyContent:'flex-start',
-    },
-    LogoutText:{
-        color: colors.red,
     },
 })

@@ -31,10 +31,18 @@ import CreatePaymentMethodScreen from './sideBusinessScreens/createPaymentMethod
 import { createStackNavigator } from 'react-navigation-stack';
 import CustomerInfoScreen from './sideBusinessScreens/customerInfoScreen/customerInfoScreen';
 import ViewPaymentMethodScreen from './sideBusinessScreens/viewPaymentMethodScreen';
-import BussinessOrEmployeeScreen from './firstScreens/signUp//BusinessOrEmployee/BusinessOrEmployee'
-import waitingForVerification from './firstScreens/signUp/EmployeeSignUp/waitingForVerification'
-import EmployeeVerification from './firstScreens/signUp/EmployeeSignUp/employeeVerification'
-import WorkerManagement from './bottomTabScreens/dashboardScreens/mainDashboardScreens/services/workerManagement/workerManagement'
+import CompanyInfoScreen from './bottomTabScreens/profile/companyInfoScreen/companyInfoScreen';
+import CompanyScheduleScreen from './bottomTabScreens/profile/companyScheduleScreen/companyScheduleScreen';
+import ChangePasswordScreen from './bottomTabScreens/profile/changePasswordScreen/changePasswordScreen';
+import TermsPrivacyCreditsScreen from './bottomTabScreens/profile/termsPrivacyCreditsScreen/termsPrivacyCreditsScreen';
+import BussinessOrEmployeeScreen from './firstScreens/signUp//BusinessOrEmployee/BusinessOrEmployee';
+import waitingForVerification from './firstScreens/signUp/EmployeeSignUp/waitingForVerification';
+import EmployeeVerification from './firstScreens/signUp/EmployeeSignUp/employeeVerification';
+import WorkerManagement from './bottomTabScreens/dashboardScreens/mainDashboardScreens/services/workerManagement/workerManagement';
+import AlertsScreen from './sideBusinessScreens/alertsScreen/alertsScreen';
+import { View } from 'react-native';
+import TopBanner from './components/TopBanner/TopBanner';
+import strings from 'config/strings';
 
 //The route config for all of the screens
 const routeConfig = {
@@ -52,6 +60,9 @@ const routeConfig = {
 	SplashScreen: {
 		screen: SplashScreen,
 		navigationOptions: ({ navigation }) => ({
+			header: props => (
+				<View></View>
+			),
 			gesturesEnabled: false,
 		}),
 	},
@@ -60,6 +71,16 @@ const routeConfig = {
 	LogInScreen: {
 		screen: LogInScreen,
 		navigationOptions: ({ navigation }) => ({
+			header: props => (
+				<View>
+					<TopBanner
+						title={strings.LogIn}
+						leftIconName='angle-left'
+						size={30}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
 			gesturesEnabled: false,
 		}),
 	},
@@ -67,6 +88,15 @@ const routeConfig = {
 	BussinessOrEmployeeScreen: {
 		screen: BussinessOrEmployeeScreen,
 		navigationOptions: ({ navigation }) => ({
+			header: props => (
+				<View>
+					<TopBanner
+						leftIconName='angle-left'
+						size={30}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
 			gesturesEnabled: false,
 		}),
 	},
@@ -75,6 +105,16 @@ const routeConfig = {
 	EmailPasswordScreen: {
 		screen: EmailPasswordScreen,
 		navigationOptions: ({ navigation }) => ({
+			header: props => (
+				<View>
+					<TopBanner
+						title={strings.SignUp}
+						leftIconName='angle-left'
+						size={30}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
 			gesturesEnabled: false,
 		}),
 	},
@@ -83,6 +123,16 @@ const routeConfig = {
 	ForgotPasswordScreen: {
 		screen: ForgotPasswordScreen,
 		navigationOptions: ({ navigation }) => ({
+			header: props => (
+				<View>
+					<TopBanner
+						title={strings.ForgotPasswordNoQuestionMark}
+						leftIconName='angle-left'
+						size={30}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
 			gesturesEnabled: false,
 		}),
 	},
@@ -90,6 +140,15 @@ const routeConfig = {
 	EmployeeVerification: {
 		screen: EmployeeVerification,
 		navigationOptions: ({ navigation }) => ({
+			header: props => (
+				<View>
+					<TopBanner
+						leftIconName='angle-left'
+						size={30}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
 			gesturesEnabled: false,
 		}),
 	},
@@ -139,9 +198,35 @@ const routeConfig = {
 	BusinessScreens: {
 		screen: BusinessScreensNavigator,
 		navigationOptions: ({ navigation }) => ({
+			header: props => (
+				<View>
+					<TopBanner
+						title={strings.Home}
+						leftIconName='bell'
+						size={27}
+						leftOnPress={() => props.navigation.push('AlertsScreen', {})}
+					/>
+				</View>
+			),
 			gesturesEnabled: false,
 		}),
 		path: 'BusinessScreens/:businessID/:stripeConnectStatus',
+	},
+
+	AlertsScreen: {
+		screen: AlertsScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<View>
+					<TopBanner
+						title={strings.Notifications}
+						leftIconName='arrow-left'
+						size={25}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+		}),
 	},
 
 	//The route going to the create product screen
@@ -205,9 +290,89 @@ const routeConfig = {
 
 	//--------------------------- Settings Screen ---------------------------
 
+	//Takes you to the company info screen
+	CompanyInfoScreen: {
+		screen: CompanyInfoScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<View>
+					<TopBanner
+						title={strings.ProfileEditCompanyInfo}
+						leftIconName='arrow-left'
+						size={25}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+		}),
+	},
+
+	//Takes you to the company schedule screen
+	CompanyScheduleScreen: {
+		screen: CompanyScheduleScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<View>
+					<TopBanner
+						title={strings.ProfileBusinessSchedule}
+						leftIconName='arrow-left'
+						size={25}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+		}),
+	},
+
+	//Takes you to the change password screen
+	ChangePasswordScreen: {
+		screen: ChangePasswordScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<View>
+					<TopBanner
+						title={strings.ProfilePassword}
+						leftIconName='arrow-left'
+						size={25}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+		}),
+	},
+
+	//Takes you to the terms/privacy/credits screen
+	TermsPrivacyCreditsScreen: {
+		screen: TermsPrivacyCreditsScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<View>
+					<TopBanner
+						title={strings.TermsPrivacyCredits}
+						leftIconName='arrow-left'
+						size={25}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+		}),
+	},
+
 	//Takes you to the about screen
 	AboutScreen: {
 		screen: AboutScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<View>
+					<TopBanner
+						title={strings.About}
+						leftIconName='arrow-left'
+						size={25}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+		}),
 	},
 
 	//Takes you to the report an issue screen
@@ -218,16 +383,52 @@ const routeConfig = {
 	//Takes you to the screen containing the privacy policy
 	PrivacyScreen: {
 		screen: PrivacyScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<View>
+					<TopBanner
+						title={strings.PrivacyPolicy}
+						leftIconName='arrow-left'
+						size={25}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+		}),
 	},
 
 	//Takes you to the terms and conditions screen
 	TermsAndConditionsScreen: {
 		screen: TermsAndConditionsScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<View>
+					<TopBanner
+						title={strings.TermsAndConditions}
+						leftIconName='arrow-left'
+						size={25}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+		}),
 	},
 
 	//Takes you to the credits screen
 	CreditsScreen: {
 		screen: CreditsScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<View>
+					<TopBanner
+						title={strings.Credits}
+						leftIconName='arrow-left'
+						size={25}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+		}),
 	},
 };
 
@@ -245,7 +446,7 @@ const handleCustomTransition = ({ scenes }) => {
 //The navigation config containing the initial route name
 const navigatorConfig = {
 	initialRouteName: 'LaunchScreen',
-	headerMode: 'none',
+	headerMode: 'float',
 	transitionConfig: (nav) => handleCustomTransition(nav),
 };
 

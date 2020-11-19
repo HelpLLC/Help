@@ -5,10 +5,10 @@ import { View, ScrollView, Text } from 'react-native';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import fontStyles from 'config/styles/fontStyles';
 import style from './assignShiftsScreenStyle';
-import TopBanner from '../../components/TopBanner/TopBanner';
+import TopBanner from '../../../../components/TopBanner/TopBanner';
 import strings from 'config/strings';
-import ServiceInfoCard from '../../components/ServiceInfoCard/ServiceInfoCard';
-import HelpButton from '../../components/HelpButton/HelpButton';
+import ServiceInfoCard from '../../../../components/ServiceInfoCard/ServiceInfoCard';
+import HelpButton from '../../../../components/HelpButton/HelpButton';
 
 //exporting the assignShiftsScreen function
 export default function assignShiftsScreen(props) {

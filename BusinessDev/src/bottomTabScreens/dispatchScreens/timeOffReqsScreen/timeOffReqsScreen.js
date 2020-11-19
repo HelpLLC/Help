@@ -1,17 +1,16 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import { View, ScrollView } from 'react-native';
-import style from './dispatchEmployeesScreenStyle';
-import TopBanner from '../../components/TopBanner/TopBanner';
+import TopBanner from '../../../components/TopBanner/TopBanner';
 import fontStyles from 'config/styles/fontStyles';
 import strings from 'config/strings';
 import colors from 'config/colors';
-import LoadingSpinner from '../../components/LoadingSpinner';
-import TimeOffInfoCard from '../../components/TimeOffInfoCard/TimeOffInfoCard';
+import LoadingSpinner from '../../../components/LoadingSpinner';
+import TimeOffInfoCard from '../../../components/TimeOffInfoCard/TimeOffInfoCard';
 
 //exports the dispatchScreen class
-export default function dispatchTimeOffReqsScreen(props) {
+export default function timeOffReqsScreen(props) {
 
     //initial state of the screen
     const [business, setBusiness] = useState();
@@ -20,7 +19,7 @@ export default function dispatchTimeOffReqsScreen(props) {
 	const [loaded, setLoaded] = useState(false);
     
     async function getData() {
-        FirebaseFunctions.setCurrentScreen('DispatchScreen', 'dispatchScreen');
+        FirebaseFunctions.setCurrentScreen('TimeOffReqsScreen', 'timeOffReqsScreen');
         const businessID = props.navigation.state.params;
         const business = await FirebaseFunctions.call('getBusinessByID', {
 			businessID,
@@ -38,7 +37,7 @@ export default function dispatchTimeOffReqsScreen(props) {
         getData();
 	}, []);
 
-    function timeOffRequests(){
+    function timeOffRequests2(){
         let elements = [];
         for(let i in timeOffRequests)
             if(timeOffRequests[i].status == 'pending')
@@ -69,11 +68,8 @@ export default function dispatchTimeOffReqsScreen(props) {
 
     return (
         <View style={screenStyle.container}>
-            <View>
-                <TopBanner size={30} title={strings.Dispatch} />
-            </View>
             <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
-                {loaded ? timeOffRequests() : 
+                {loaded ? timeOffRequests2() : 
                 <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                     <LoadingSpinner isVisible={true} />
                 </View>}
