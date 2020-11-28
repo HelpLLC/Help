@@ -60,9 +60,7 @@ const routeConfig = {
 	SplashScreen: {
 		screen: SplashScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: props => (
-				<View></View>
-			),
+			header: (props) => <View></View>,
 			gesturesEnabled: false,
 		}),
 	},
@@ -71,7 +69,7 @@ const routeConfig = {
 	LogInScreen: {
 		screen: LogInScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: props => (
+			header: (props) => (
 				<View>
 					<TopBanner
 						title={strings.LogIn}
@@ -88,13 +86,9 @@ const routeConfig = {
 	BussinessOrEmployeeScreen: {
 		screen: BussinessOrEmployeeScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: props => (
+			header: (props) => (
 				<View>
-					<TopBanner
-						leftIconName='angle-left'
-						size={30}
-						leftOnPress={() => navigation.goBack()}
-					/>
+					<TopBanner leftIconName='angle-left' size={30} leftOnPress={() => navigation.goBack()} />
 				</View>
 			),
 			gesturesEnabled: false,
@@ -105,7 +99,7 @@ const routeConfig = {
 	EmailPasswordScreen: {
 		screen: EmailPasswordScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: props => (
+			header: (props) => (
 				<View>
 					<TopBanner
 						title={strings.SignUp}
@@ -123,7 +117,7 @@ const routeConfig = {
 	ForgotPasswordScreen: {
 		screen: ForgotPasswordScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: props => (
+			header: (props) => (
 				<View>
 					<TopBanner
 						title={strings.ForgotPasswordNoQuestionMark}
@@ -140,13 +134,9 @@ const routeConfig = {
 	EmployeeVerification: {
 		screen: EmployeeVerification,
 		navigationOptions: ({ navigation }) => ({
-			header: props => (
+			header: (props) => (
 				<View>
-					<TopBanner
-						leftIconName='angle-left'
-						size={30}
-						leftOnPress={() => navigation.goBack()}
-					/>
+					<TopBanner leftIconName='angle-left' size={30} leftOnPress={() => navigation.goBack()} />
 				</View>
 			),
 			gesturesEnabled: false,
@@ -198,7 +188,7 @@ const routeConfig = {
 	BusinessScreens: {
 		screen: BusinessScreensNavigator,
 		navigationOptions: ({ navigation }) => ({
-			header: props => (
+			header: (props) => (
 				<View>
 					<TopBanner
 						title={strings.Home}
@@ -234,14 +224,14 @@ const routeConfig = {
 		screen: CreateServiceScreen,
 	},
 
-	//This is where businesses will view their exisitng payment method
+	//This is where businesses will view their existing payment method
 	ViewPaymentMethodScreen: {
 		screen: ViewPaymentMethodScreen,
 	},
 
 	//This is where a business will go to add number of simultaneous requests
 	WorkerManagement: {
-		screen: WorkerManagement
+		screen: WorkerManagement,
 	},
 
 	//This is the screen where a business will add the payment information for customers
@@ -249,7 +239,7 @@ const routeConfig = {
 		screen: PricingAndPaymentScreen,
 	},
 
-	//this is the screen where businesses will create questions to collect cuustomer info on request
+	//This is the screen where businesses will create questions to collect cuustomer info on request
 	CustomerInfoScreen: {
 		screen: CustomerInfoScreen,
 	},
@@ -275,7 +265,7 @@ const routeConfig = {
 
 	// The route going to the confirm payment screen
 	ConfirmPaymentScreen: {
-		screen: ConfirmPaymentScreen
+		screen: ConfirmPaymentScreen,
 	},
 
 	//The route going to the product screen
