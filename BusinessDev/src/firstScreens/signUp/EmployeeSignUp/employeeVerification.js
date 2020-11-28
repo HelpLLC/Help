@@ -16,7 +16,7 @@ import strings from '../../../../config/strings';
 import firebase from 'react-native-firebase';
 import FirebaseFunctions from '../../../../config/FirebaseFunctions';
 
-const CELL_COUNT = 6;
+const CELL_COUNT = 5;
 
 function EmployeeVerification(props) {
 	const [value, setValue] = useState('');
@@ -28,21 +28,28 @@ function EmployeeVerification(props) {
 
 	const signUp = async () => {
 		try {
-			await firebase.auth().signInAnonymously();
+			console.log("RANDOM");
 			const { email, name, phoneNumber } = props.navigation.state.params;
 			const { password } = props.navigation.state.params;
 			//Fetches the account information based on whether the business also has a customer account
+			console.log("1")
 			account = await firebase.auth().createUserWithEmailAndPassword(email, password);
+			console.log("2")
+			//call function that gets businessID verification code 
+			const businessID = await FirebaseFunctions.call('getBusinessByEmployeeCode')
+			console.log(businessID);
 			await Promise.all([
 				FirebaseFunctions.logIn(email, password),
 				FirebaseFunctions.call('addEmployeeToDatabase', {
 					name,
 					email,
 					phoneNumber,
+					businessID,
 					employeeID: account.user.uid,
 				}),
 			]);
 		} catch (error) {
+			console.log("SOMETHINGELSE");
 			await FirebaseFunctions.call('logIssue', {
 				userID: 'EX',
 				error,

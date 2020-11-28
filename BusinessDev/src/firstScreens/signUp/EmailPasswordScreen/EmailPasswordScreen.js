@@ -114,6 +114,7 @@ class emailPasswordScreen extends Component {
 							this.state.requesterAccountExists === true ? true : false,
 					});
 				} else {
+					console.log("EmailPasswordScreen");
 					this.setState({ isLoading: false, isErrorVisible: true });
 					FirebaseFunctions.call('logIssue', {
 						error,
