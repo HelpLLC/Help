@@ -1,6 +1,6 @@
 //This is the "main method" for the Help! applications. This component is launched and with it,
 //the FirstScreenNavigator which connects to the rest of the screens.
-import React, { Component } from 'react';
+/*import React, { Component } from 'react';
 import MainStackNavigator from './src/MainStackNavigator';
 import { YellowBox } from 'react-native';
 import codePush from 'react-native-code-push';
@@ -36,7 +36,19 @@ class App extends Component {
 let codePushOptions = { checkFrequency: codePush.CheckFrequency.MANUAL };
 App = codePush(codePushOptions)(App);
 
-export default App;
+export default App;*/
 
 // import stripeTesting from './stripeTesting';
 // export default stripeTesting;
+
+import SplashScreen from 'react-native-splash-screen';
+//import Analytics from './src/bottomTabScreens/analyticsScreen/analyticsScreen';
+import AnalyticsRevenue from './src/bottomTabScreens/analyticsScreen/viewRevenueScreen';
+import AnalyticsTop from './src/bottomTabScreens/analyticsScreen/viewTopServicesScreen';
+
+import serviceRequests from './src/bottomTabScreens/dashboardScreens/mainDashboardScreens/editService/requestsScreen/serviceRequestsScreen.js';
+
+//import BusinessHome from './src/bottomTabScreens/homeScreen';
+import About from './src/settingsScreens/privacyScreen';
+SplashScreen.hide();
+export default AnalyticsRevenue;
