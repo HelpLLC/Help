@@ -3,7 +3,6 @@
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import profileScreen from './profile/profileScreen/profileScreen';
-import analyticsScreen from './analyticsScreen/analyticsScreen';
 import viewEmployeesScreen from './dispatchScreens/viewEmployeesScreen/viewEmployeesScreen';
 import timeOffReqsScreen from './dispatchScreens/timeOffReqsScreen/timeOffReqsScreen';
 import viewServicesScreen from './dashboardScreens/mainDashboardScreens/services/serviceScreen';
@@ -16,6 +15,10 @@ import React from 'react';
 import { View } from 'react-native';
 import TopBanner from '../components/TopBanner/TopBanner';
 import colors from 'config/colors';
+//import analyticsScreen from './analyticsScreens/analyticsScreen';
+import viewRevenueScreen from './analyticsScreens/viewRevenueScreen/viewRevenueScreen';
+import viewTopServicesScreen from './analyticsScreens/viewTopServicesScreen/viewTopServicesScreen';
+import viewTopLocationsScreen from './analyticsScreens/viewTopLocationsScreen/viewTopLocationsScreen';
 
 //will configure the routes of each top tab to go to the correct screen when clicked on.
 const dashboardRouteConfig = {
@@ -25,8 +28,8 @@ const dashboardRouteConfig = {
 		screen: viewServicesScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
-			tabBarLabel: strings.Services
-		})
+			tabBarLabel: strings.Services,
+		}),
 	},
 
 	//Route connecting to the unconfirmed requests screen
@@ -35,9 +38,9 @@ const dashboardRouteConfig = {
 		screen: unconfirmedReqsScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
-			tabBarLabel: strings.UnconfirmedReqs
-		})
-	}
+			tabBarLabel: strings.UnconfirmedReqs,
+		}),
+	},
 };
 
 //This sets up the configurations for the tabNavigator colors, initial route, etc.
@@ -57,55 +60,58 @@ const dashboardNavigatorConfig = {
 		inactiveTintColor: colors.white,
 		//This styles the line at the bottom of the tab
 		indicatorStyle: {
-			backgroundColor: colors.white
+			backgroundColor: colors.white,
 		},
 		//This styles the object for the tab label
 		labelStyle: {
-			fontFamily: 'Lucida Grande'
+			fontFamily: 'Lucida Grande',
 		},
 		//This styles the tabBar itself; the color, height, etc.
 		style: {
 			backgroundColor: colors.blue,
-			height: screenHeight * 0.06
+			height: screenHeight * 0.06,
 		},
 		showLabel: true,
-		showIcon: false
-	}
+		showIcon: false,
+	},
 };
 
-const dashboardTopTabNavigator = createMaterialTopTabNavigator(dashboardRouteConfig, dashboardNavigatorConfig);
+const dashboardTopTabNavigator = createMaterialTopTabNavigator(
+	dashboardRouteConfig,
+	dashboardNavigatorConfig
+);
 
 //will configure the routes of each top tab to go to the correct screen when clicked on.
 const analyticsRouteConfig = {
 	//Route connecting to the monthly revenue screen
 	MonthlyRevenueScreen: {
 		//connects the object with the help screen component
-		screen: analyticsScreen,
+		screen: viewRevenueScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
-			tabBarLabel: strings.Revenue
-		})
+			tabBarLabel: strings.Revenue,
+		}),
 	},
 
 	//Route connecting to the top services screen
 	TopServicesScreen: {
 		//connects the object with the help screen component
-		screen: analyticsScreen,
+		screen: viewTopServicesScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
-			tabBarLabel: strings.TopServices
-		})
+			tabBarLabel: strings.TopServices,
+		}),
 	},
 
 	//Route connecting to the top locations screen
 	TopLocationsScreen: {
 		//connects the object with the help screen component
-		screen: analyticsScreen,
+		screen: viewTopLocationsScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
-			tabBarLabel: strings.CustomerLocations
-		})
-	}
+			tabBarLabel: strings.CustomerLocations,
+		}),
+	},
 };
 
 //This sets up the configurations for the tabNavigator colors, initial route, etc.
@@ -125,23 +131,26 @@ const analyticsNavigatorConfig = {
 		inactiveTintColor: colors.white,
 		//This styles the line at the bottom of the tab
 		indicatorStyle: {
-			backgroundColor: colors.white
+			backgroundColor: colors.white,
 		},
 		//This styles the object for the tab label
 		labelStyle: {
-			fontFamily: 'Lucida Grande'
+			fontFamily: 'Lucida Grande',
 		},
 		//This styles the tabBar itself; the color, height, etc.
 		style: {
 			backgroundColor: colors.blue,
-			height: screenHeight * 0.06
+			height: screenHeight * 0.06,
 		},
 		showLabel: true,
-		showIcon: false
-	}
+		showIcon: false,
+	},
 };
 
-const analyticsTopTabNavigator = createMaterialTopTabNavigator(analyticsRouteConfig, analyticsNavigatorConfig);
+const analyticsTopTabNavigator = createMaterialTopTabNavigator(
+	analyticsRouteConfig,
+	analyticsNavigatorConfig
+);
 
 //will configure the routes of each top tab to go to the correct screen when clicked on.
 const dispatchRouteConfig = {
@@ -151,8 +160,8 @@ const dispatchRouteConfig = {
 		screen: viewEmployeesScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
-			tabBarLabel: strings.Employees
-		})
+			tabBarLabel: strings.Employees,
+		}),
 	},
 
 	//Route connecting to the time off requests screen
@@ -161,9 +170,9 @@ const dispatchRouteConfig = {
 		screen: timeOffReqsScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
-			tabBarLabel: strings.TimeOffReqs
-		})
-	}
+			tabBarLabel: strings.TimeOffReqs,
+		}),
+	},
 };
 
 //This sets up the configurations for the tabNavigator colors, initial route, etc.
@@ -183,23 +192,26 @@ const dispatchNavigatorConfig = {
 		inactiveTintColor: colors.white,
 		//This styles the line at the bottom of the tab
 		indicatorStyle: {
-			backgroundColor: colors.white
+			backgroundColor: colors.white,
 		},
 		//This styles the object for the tab label
 		labelStyle: {
-			fontFamily: 'Lucida Grande'
+			fontFamily: 'Lucida Grande',
 		},
 		//This styles the tabBar itself; the color, height, etc.
 		style: {
 			backgroundColor: colors.blue,
-			height: screenHeight * 0.06
+			height: screenHeight * 0.06,
 		},
 		showLabel: true,
-		showIcon: false
-	}
+		showIcon: false,
+	},
 };
 
-const dispatchTopTabNavigator = createMaterialTopTabNavigator(dispatchRouteConfig, dispatchNavigatorConfig);
+const dispatchTopTabNavigator = createMaterialTopTabNavigator(
+	dispatchRouteConfig,
+	dispatchNavigatorConfig
+);
 
 //will configure the routes of each screen title to go to the correct screen when clicked on.
 const routeConfig = {
@@ -212,8 +224,8 @@ const routeConfig = {
 			tabBarLabel: strings.Dashboard,
 			tabBarIcon: ({ tintColor, focused }) => (
 				<Icon name='home' size={45} type='entypo' color={tintColor} />
-			)
-		})
+			),
+		}),
 	},
 
 	//Route connecting to the calendar screen
@@ -225,10 +237,10 @@ const routeConfig = {
 			tabBarLabel: strings.Calendar,
 			tabBarIcon: ({ tintColor, focused }) => (
 				<Icon name='calendar' size={40} type='font-awesome' color={tintColor} />
-			)
-		})
+			),
+		}),
 	},
-	
+
 	//Route connecting to the analytics screen
 	AnalyticsScreen: {
 		//connects the object with the help screen component
@@ -238,8 +250,8 @@ const routeConfig = {
 			tabBarLabel: strings.Analytics,
 			tabBarIcon: ({ tintColor, focused }) => (
 				<Icon name='chart-line' size={45} type='material-community' color={tintColor} />
-			)
-		})
+			),
+		}),
 	},
 
 	//Route connecting to the dispatch screen
@@ -251,8 +263,8 @@ const routeConfig = {
 			tabBarLabel: strings.Dispatch,
 			tabBarIcon: ({ tintColor, focused }) => (
 				<Icon name='users' size={40} type='font-awesome' color={tintColor} />
-			)
-		})
+			),
+		}),
 	},
 
 	//Route connecting to the payments screen
@@ -265,7 +277,7 @@ const routeConfig = {
 			tabBarIcon: ({ tintColor, focused }) => (
 				<Icon name='dollar' size={40} type='font-awesome' color={tintColor} />
 			),
-		})
+		}),
 	},
 
 	//Route connecting to the settings screen
@@ -277,9 +289,9 @@ const routeConfig = {
 			tabBarLabel: strings.Settings,
 			tabBarIcon: ({ tintColor, focused }) => (
 				<Icon name='cogs' size={40} type='font-awesome' color={tintColor} />
-			)
-		})
-	}
+			),
+		}),
+	},
 };
 
 //This sets up the configurations for the tabNavigator colors, initial route, etc.
@@ -303,8 +315,8 @@ const navigatorConfig = {
 			height: screenHeight * 0.1,
 		},
 		showLabel: true,
-		showIcon: true
-	}
+		showIcon: true,
+	},
 };
 
 //This links the route configurations and the navigator configurations together to create
