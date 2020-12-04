@@ -33,52 +33,61 @@ export default function viewDetailsScreen(props) {
 			businessID:BID
         } = props.navigation.state.params;
 
+        const balance = await FirebaseFunctions.call('retrieveConnectAccountBalance', {
+            businessID: BID
+        });
+
         let funds = {
-            current:150000,
-            pending:150,
+            current:balance.available[0].amount,
+            pending:balance.pending[0].amount,
         };
 
-        let transfers = [
-            {
-                amount:80,
-                total:530.2,
-                service:'Photography',
-                customer:'John Doe',
-                date:'Sep 2, 2020'
-            },
-            {
-                amount:150.2,
-                total:450.2,
-                service:'Cleaning',
-                customer:'Patricia Cebotari',
-                date:'Aug 1, 2020'
-            },
-            {
-                amount:200,
-                total:300,
-                service:'Cleaning',
-                customer:'Patricia Cebotari',
-                date:'Jul 18, 2020'
-            },
-            {
-                amount:50,
-                total:100,
-                service:'Photography',
-                customer:'John Doe',
-                date:'Jun 20, 2020'
-            },
-            {
-                amount:50,
-                total:50,
-                service:'Cleaning',
-                customer:'John Doe',
-                date:'Mar 5, 2020'
-            },
-        ];
+        const transactions = await FirebaseFunctions.call('retrieveConnectAccountTransactionHistory', {
+            businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2'
+        });
+
+        // //test data
+        // let transfers = [
+        //     {
+        //         amount:80,
+        //         total:530.2,
+        //         service:'Photography',
+        //         customer:'John Doe',
+        //         date:'Sep 2, 2020'
+        //     },
+        //     {
+        //         amount:150.2,
+        //         total:450.2,
+        //         service:'Cleaning',
+        //         customer:'Patricia Cebotari',
+        //         date:'Aug 1, 2020'
+        //     },
+        //     {
+        //         amount:200,
+        //         total:300,
+        //         service:'Cleaning',
+        //         customer:'Patricia Cebotari',
+        //         date:'Jul 18, 2020'
+        //     },
+        //     {
+        //         amount:50,
+        //         total:100,
+        //         service:'Photography',
+        //         customer:'John Doe',
+        //         date:'Jun 20, 2020'
+        //     },
+        //     {
+        //         amount:50,
+        //         total:50,
+        //         service:'Cleaning',
+        //         customer:'John Doe',
+        //         date:'Mar 5, 2020'
+        //     },
+        // ];
 
         setBusinessID(BID);
         setBalance(funds);
-        setTransactions(transfers);
+        setTransactions(transactions);
         setIsScreenLoading(false);
     }
     useEffect(() => {
@@ -106,10 +115,17 @@ export default function viewDetailsScreen(props) {
         return sign + '$' + num + dec;
     }
 
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    function formatDate(date){
+        date = new Date(date/1000);
+        return `${months[date.getMonth()]} ${date.getDate()+''}, ${date.getFullYear()}`;
+    }
+
     function renderItem(item){
+        if(item.service == undefined) return null;
         return (
             <View style={style.ItemContainer}>
-                <Text style={style.ItemDate}>{item.date}</Text>
+                <Text style={style.ItemDate}>{formatDate(item.date)}</Text>
                 <View style={style.RowContainer}>
                     <View style={style.SubjectRowObject}>
                         <Text style={style.ItemSubjectText}>{item.service + ' Service for ' + item.customer}</Text>
