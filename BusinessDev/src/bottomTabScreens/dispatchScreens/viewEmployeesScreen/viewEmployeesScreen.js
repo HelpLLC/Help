@@ -1,21 +1,21 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import screenStyle from 'config/styles/screenStyle';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import { View, ScrollView } from 'react-native';
-import style from './dispatchEmployeesScreenStyle';
-import TopBanner from '../../components/TopBanner/TopBanner';
+import style from './viewEmployeesScreenStyle';
+import TopBanner from '../../../components/TopBanner/TopBanner';
 import { Icon } from 'react-native-elements';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import fontStyles from 'config/styles/fontStyles';
 import profile_pic from './profile_pic.png';
 import strings from 'config/strings';
 import colors from 'config/colors';
-import HelpTextInput from '../../components/HelpTextInput/HelpTextInput';
-import EmployeeListItem from '../../components/EmployeeListItem/EmployeeListItem';
-import HelpButton from '../../components/HelpButton/HelpButton';
+import HelpTextInput from '../../../components/HelpTextInput/HelpTextInput';
+import EmployeeListItem from '../../../components/EmployeeListItem/EmployeeListItem';
+import HelpButton from '../../../components/HelpButton/HelpButton';
 
 //exports the dispatchScreen class
-export default function dispatchEmployeesScreen(props) {
+export default function viewEmployeesScreen(props) {
 
     //initial state of the screen
     const [business, setBusiness] = useState();
@@ -26,7 +26,7 @@ export default function dispatchEmployeesScreen(props) {
 	const [displayEmployees, setDisplayEmployees] = useState({});
     
     async function getData() {
-        FirebaseFunctions.setCurrentScreen('DispatchScreen', 'dispatchScreen');
+        FirebaseFunctions.setCurrentScreen('ViewEmployeesScreen', 'viewEmployeesScreen');
         const businessID = props.navigation.state.params;
         const business = await FirebaseFunctions.call('getBusinessByID', {
 			businessID,
@@ -45,9 +45,7 @@ export default function dispatchEmployeesScreen(props) {
 
     return (
         <View style={screenStyle.container}>
-            <View>
-                <TopBanner size={30} title={strings.Dispatch} />
-            </View>
+            
             <View style={{ ...style.body}}>
                 <HelpTextInput
                     height={screenHeight*0.05}

@@ -39,11 +39,6 @@ export default function profileScreen(props) {
     //rendering the screen
     return (
         <View style={style.Body}>
-            <TopBanner
-				title={strings.ProfilePassword}
-				leftIconName='angle-left'
-				leftOnPress={() => props.navigation.goBack()}
-			/>
             <View style={style.ContentContainer}>
                 {renderField(strings.OldPassword, (text)=>{setOldPassword(text)})}
                 {renderField(strings.NewPassword, (text)=>{setNewPassword(text)})}
@@ -66,9 +61,6 @@ export default function profileScreen(props) {
                             return false;
                         }
                     }}/>
-            </View>
-            <View style={style.Footer}>
-                {/*TODO: add footer here*/}
             </View>
             <HelpAlert
 				isVisible={passwordMatchError}

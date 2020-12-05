@@ -65,11 +65,4 @@ export default StyleSheet.create({
         textAlign:'center',
         marginVertical:0,
     },
-
-    Footer:{
-        width:screenWidth + 4,
-        height:80,
-        borderWidth:2,
-        borderColor: colors.gray,
-    }
 })

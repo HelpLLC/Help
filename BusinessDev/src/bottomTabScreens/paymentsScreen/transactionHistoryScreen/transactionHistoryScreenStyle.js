@@ -68,6 +68,7 @@ export default StyleSheet.create({
     ListContainer:{
         flex:1,
         marginHorizontal:10,
+        marginVertical:10,
     },
     ItemContainer:{
         borderColor: colors.green,

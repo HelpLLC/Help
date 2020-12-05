@@ -262,26 +262,17 @@ export default function analyticsScreen(props) {
                 <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                     <LoadingSpinner isVisible={true} />
                 </View>
-                <View style={style.Footer}>
-                    {/*TODO: add footer here*/}
-                </View>
             </View>
         );
     }
     
     return (
         <View style={style.Body}>
-            <View style={style.Header}>
-                {/*TODO: add header here*/}
-            </View>
             <View style={style.MainTabContainer}>
                 {renderTabs()}
             </View>
             <View style={style.ChartMainContainer}>
                 {renderGraph()}
-            </View>
-            <View style={style.Footer}>
-                {/*TODO: add footer here*/}
             </View>
         </View>
     );

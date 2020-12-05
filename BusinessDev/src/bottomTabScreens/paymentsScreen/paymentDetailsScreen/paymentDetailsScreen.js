@@ -9,7 +9,7 @@ import LoadingSpinner from '../../../components/LoadingSpinner';
 import TopBanner from '../../../components/TopBanner/TopBanner';
 import RequestDisplay from '../../../components/RequestDisplay/RequestDisplay';
 import HelpButton from '../../../components/HelpButton/HelpButton';
-import style from './viewMoreScreenStyle';
+import style from './paymentDetailsScreenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import {Picker} from '@react-native-community/picker';
 import requestDisplay from '../../../components/RequestDisplay/RequestDisplay';

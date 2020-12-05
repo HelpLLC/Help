@@ -17,12 +17,6 @@ const unconfirmedScreen = (props) => {
   return (
     <ScrollView>
       <HelpView style={[screenStyle.container, { alignItems: 'flex-start' }]}>
-        <TopBanner
-          title={strings.Dashboard}
-          leftIconName='bell'
-          size={30}
-          leftOnPress={() => props.navigation.goBack()}
-        />
         <View style={unconfirmedRequestsScreenStyle.ServiceCard}>
           <View style={[unconfirmedRequestsScreenStyle.ImageandTitle, unconfirmedRequestsScreenStyle.RightSpacer]}>
             <Text

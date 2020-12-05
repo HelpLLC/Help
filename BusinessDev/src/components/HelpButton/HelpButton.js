@@ -20,6 +20,7 @@ export default function HelpButton(props) {
 		disabled: PropTypes.bool,
 		bold: PropTypes.bool,
 		bigText: PropTypes.bool,
+		biggerText: PropTypes.bool,
 		onPress: PropTypes.func,
 		isLightButton: PropTypes.bool,
 		isRedButton: PropTypes.bool,
@@ -35,6 +36,7 @@ export default function HelpButton(props) {
 		height,
 		bold,
 		bigText,
+		biggerText,
 		isLightButton,
 		isRedButton,
 		isCircleBlueButton,
@@ -46,7 +48,8 @@ export default function HelpButton(props) {
 	//doesn't display
 	//If button is loading, LoadingSpinner will appear
 	const textStyle = [];
-	if(bigText != undefined) textStyle.push(bigText ? fontStyles.bigTextStyle : fontStyles.mainTextStyle);
+	if(biggerText) textStyle.push(fontStyles.biggerTextStyle);
+	else if(bigText) textStyle.push(fontStyles.bigTextStyle);
 	else textStyle.push(width < screenWidth * 0.3 ? fontStyles.mainTextStyle : fontStyles.bigTextStyle);
 	textStyle.push(isLightButton ? fontStyles.darkBlue : fontStyles.white);
 	if(bold) textStyle.push(fontStyles.bold);

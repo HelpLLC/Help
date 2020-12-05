@@ -305,6 +305,51 @@ exports.getEmployeesByBusinessID = functions.https.onCall(async (input, context)
 	return doc;
 });
 
+//Method fetches all employees from a business
+exports.getEmployeesAvailableForRequest = functions.https.onCall(async (input, context) => {
+	const { 
+		businessID,
+		startTime,
+		endTime,
+		date
+	} = input;
+	const startString = date + 'T'+startTime;
+	const endString = date + 'T'+endTime;
+	const doc = await database.runTransaction(async (transaction) => {
+		const doc = await transaction.get(businesses.doc(businessID + ''));
+
+		if (doc.exists) {
+			const employees = doc.data().employees;
+			let availableEmployees = {};
+			for(const i in employees){
+				const employee = await transaction.get(employees.doc(i + '')).data();
+				let bottomIndex = -1;
+				let topIndex = employee.timesAvailible.length;
+				let currentIndex = (topIndex - bottomIndex) / 2 + bottomIndex;
+				while(currentIndex != bottomIndex){
+					if(startTime > employee.timesAvailible[currentIndex])
+						bottomIndex = currentIndex;
+					else if(startTime < employee.timesAvailible[currentIndex])
+						topIndex = currentIndex;
+					else break;
+					currentIndex = (topIndex - bottomIndex) / 2 + bottomIndex;
+				}
+				bottomIndex = ++currentIndex;
+				topIndex = currentIndex;
+				while(endTime > employee.timesAvailible[topIndex])
+					topIndex++;
+				if(bottomIndex != topIndex) continue;
+				else if(currentIndex % 2 == 1) continue;
+				else availableEmployees[i] = employees[i];
+			}
+			return availableEmployees;
+		} else {
+			return -1;
+		}
+	});
+	return doc;
+});
+
 //Method fetches an employee by ID
 exports.getEmployeeByID = functions.https.onCall(async (input, context) => {
 	const { employeeID } = input;
@@ -970,6 +1015,7 @@ exports.addEmployeeToDatabase = functions.https.onCall(async (input, context) =>
 		isVerified:false,
 		businessID,
 		timeOff:[],
+		timesAvailible:[],
 		currentRequests:[],
 	});
 
@@ -1061,6 +1107,59 @@ exports.approveTimeOffRequest = functions.https.onCall(async (input, context) =>
 	} = input;
 
 	const batch = database.batch();
+
+	const doc = await database.runTransaction(async (transaction) => {
+		const doc = await transaction.get(employees.doc(employeeID + ''));
+		const doc2 = await transaction.get(businesses.doc(businessID + ''));
+
+		if (doc.exists && doc2.exists) {
+			const employee = doc.data();
+			const request = doc2.data().timeOff[index];
+			const startTime = request.date + 'T' + request.startTime;
+			const endTime = request.date + 'T' + request.endTime;
+			let bottomIndex = -1;
+			let topIndex = employee.timesAvailible.length;
+			let currentIndex = (topIndex - bottomIndex) / 2 + bottomIndex;
+			while(currentIndex != bottomIndex){
+				if(startTime > employee.timesAvailible[currentIndex])
+					bottomIndex = currentIndex;
+				else if(startTime < employee.timesAvailible[currentIndex])
+					topIndex = currentIndex;
+				else break;
+				currentIndex = (topIndex - bottomIndex) / 2 + bottomIndex;
+			}
+			bottomIndex = ++currentIndex;
+			topIndex = currentIndex;
+			while(endTime > employee.timesAvailible[topIndex])
+				topIndex++;
+			if((bottomIndex - 1) % 2 == 0 && (topIndex) % 2 == 1){ //even = start, odd = finish
+				employee.timesAvailible.splice(bottomIndex, topIndex - bottomIndex);
+			}
+			else{
+				if(bottomIndex % 2 == 1){
+					employee.timesAvailible.splice(bottomIndex, 1);
+					employee.timesAvailible.splice(--topIndex, 0, endTime);
+				}
+				else if((topIndex - 1) % 2 == 0){
+					employee.timesAvailible.splice(bottomIndex++, 0, startTime);
+					employee.timesAvailible.splice(topIndex, 1);
+				}
+				else{
+					employee.timesAvailible.splice(bottomIndex++, 0, startTime);
+					employee.timesAvailible.splice(++topIndex, 0, endTime);
+				}
+				employee.timesAvailible.splice(bottomIndex, topIndex - bottomIndex);
+			}
+
+			batch.update(employees.doc(employeeID), {
+				timesAvailible: employee.timesAvailible
+			});
+			return 0;
+		} else {
+			return -1;
+		}
+	});
+	if(doc != 0) return doc;
 
 	batch.update(businesses.doc(businessID), new FieldPath('timeOff', index+""), {
 		status:'approved'
@@ -1341,47 +1440,129 @@ exports.deleteService = functions.https.onCall(async (input, context) => {
 //This function will create a stripe customer and attach a payment method to that customer. It will then return
 //the information for that specific stripe customer in the form of an object containing the IDs
 exports.createStripeCustomerPaymentInformtion = functions.https.onCall(async (input, context) => {
-	const { paymentInformation, customerID } = input;
+	const { paymentSource, paymentToken, cardData, checkingAccount, customerID } = input;
 
-	const customerObject = (await customers.doc(customerID).get()).data();
+	// example credit card
+	// card = {
+	// 	number: '4000056655665556',
+	// 	exp_month: 10,
+	// 	exp_year: 2021,
+	// 	cvc: '314',
+    // 	currency: 'usd',
+	// }
 
-	//Creates the stripe customer
-	const stripeCustomer = await stripe.customers.create({
-		email: customerObject.email,
-		name: customerObject.name,
-		metadata: {
-			firestoreDocumentID: customerID,
-		},
-	});
+	//example bank account
+	// account = {
+	// 	country: 'US',
+	// 	currency: 'usd',
+	// 	account_number: '3497216841356',
+	//	routing_number: '000000000'
+	// }
 
-	//Creates the credit card information and connects it with the customer in stripe
-	await stripe.customers.createSource(stripeCustomer.id, {
-		source: paymentInformation,
-	});
+	try{
+		const customerObject = (await customers.doc(customerID).get()).data();
 
-	const stripeCustomerObject = await stripe.customers.retrieve(stripeCustomer.id);
+		let finalSource;
+		if(paymentSource) finalSource = {id:paymentSource};
+		else{
+			let finalToken;
+			if(paymentToken) finalToken = {id:paymentToken};
+			else if(cardData) finalToken = await stripe.tokens.create({card:cardData});
+			else if(checkingAccount) finalToken = await stripe.tokens.create({bank_account:checkingAccount});
+			else throw {code:'invalid_card_type'};
 
-	const source = stripeCustomerObject.sources.data[0];
+			finalSource = await stripe.sources.create({
+				type: 'ach_credit_transfer',
+				currency: 'usd',
+				token: finalToken.id,
+				owner: {
+					email: customerObject.email
+				},
+				usage: 'reusable'
+			});
+		}
 
-	//Writes this payment information to the customer's document for future references
-	await customers.doc(customerID).update({
-		stripeCustomerID: stripeCustomer.id,
-		paymentInformation: source,
-	});
+		//Creates the stripe customer
+		const stripeCustomer = await stripe.customers.create({
+			email: customerObject.email,
+			name: customerObject.name,
+			metadata: {
+				firestoreDocumentID: customerID,
+			},
+		});
 
-	return { sourceID: source.id, stripeCustomerID: stripeCustomer.id };
+		//Creates the credit card information and connects it with the customer in stripe
+		await stripe.customers.createSource(stripeCustomer.id, {
+			source: finalSource.id,
+		});
+
+		const stripeCustomerObject = await stripe.customers.retrieve(stripeCustomer.id);
+
+		const source = stripeCustomerObject.sources.data[0];
+
+		//Writes this payment information to the customer's document for future references
+		await customers.doc(customerID).update({
+			stripeCustomerID: stripeCustomer.id,
+			paymentInformation: source,
+		});
+
+		return { sourceID: source.id, stripeCustomerID: stripeCustomer.id };
+	} catch (error) {
+		if (error.code === 'invalid_card_type') {
+			return 'invalid_card_type';
+		} else {
+			throw error;
+		}
+	}
 });
 
 //This function takes in an existing stripe customer and updates their payment information both in firebase
 //and in the Stripe API
 exports.updateStripeCustomerPaymentInformtion = functions.https.onCall(async (input, context) => {
-	try {
-		const { paymentInformation, customerID } = input;
+	const { paymentSource, paymentToken, cardData, checkingAccount, customerID } = input;
 
-		const stripeCustomerID = (await customers.doc(customerID).get()).data().stripeCustomerID;
+	// example credit card
+	// card = {
+	// 	number: '4000056655665556',
+	// 	exp_month: 10,
+	// 	exp_year: 2021,
+	// 	cvc: '314',
+    // 	currency: 'usd',
+	// }
 
-		const newCustomer = await stripe.customers.update(stripeCustomerID, {
-			source: paymentInformation,
+	//example bank account
+	// account = {
+	// 	country: 'US',
+	// 	currency: 'usd',
+	// 	account_number: '3497216841356',
+	//	routing_number: '000000000'
+	// }
+
+	try{
+		const customerObject = (await customers.doc(customerID).get()).data();
+
+		let finalSource;
+		if(paymentSource) finalSource = {id:paymentSource};
+		else{
+			let finalToken;
+			if(paymentToken) finalToken = {id:paymentToken};
+			else if(cardData) finalToken = await stripe.tokens.create({card:cardData});
+			else if(checkingAccount) finalToken = await stripe.tokens.create({bank_account:checkingAccount});
+			else throw {code:'invalid_card_type'};
+
+			finalSource = await stripe.sources.create({
+				type: 'ach_credit_transfer',
+				currency: 'usd',
+				token: finalToken.id,
+				owner: {
+					email: customerObject.email
+				},
+				usage: 'reusable'
+			});
+		}
+
+		const newCustomer = await stripe.customers.update(customerObject.stripeCustomerID, {
+			source: finalSource.id,
 		});
 
 		const source = newCustomer.sources.data[0];
@@ -1392,7 +1573,11 @@ exports.updateStripeCustomerPaymentInformtion = functions.https.onCall(async (in
 		});
 		return 0;
 	} catch (error) {
-		return -1;
+		if (error.code === 'invalid_card_type') {
+			return 'invalid_card_type';
+		} else {
+			throw error;
+		}
 	}
 });
 
@@ -1419,14 +1604,62 @@ exports.deleteCustomerPaymentInformation = functions.https.onCall(async (input, 
 	}
 });
 
+//This function deletes a certain stripe connect account
+//NOTE: this function is only for testing purposes
+exports.deleteStripeConnectAccount = functions.https.onCall(async (input, context) => {
+	const {accountID} = input;
+	try{
+		const deleted = await stripe.accounts.del(
+			accountID
+		);
+		return deleted;
+	}
+	catch(err){
+		return err;
+	}
+});
+
 //This function is going to take in a set of required information and create a Custom Account with Stripe Connect
 //for businesses. It will return the account information. It will take in links that  stripe will redirect to
 //once the OnBoarding process is complete
 exports.createStripeConnectAccountForBusiness = functions.https.onCall(async (input, context) => {
-	const { businessID, tos_acceptance, paymentToken } = input;
+	const { businessID, tos_acceptance, businessProfile, paymentToken, cardData, checkingAccount } = input;
+
+	//NOTE: for a fully functional connect account, these fields must be present and completly filled out: 
+	// businessID, tod_acceptance, businessProfile, and either paymentToken, cardData, or checkingAccount
+
+	// example business profile
+	// profile = {
+	// 	name: 'Help',
+	// 	url: 'https://helptechnologies.net'
+	// }
+
+	// example credit card
+	// card = {
+	// 	number: '4000056655665556',
+	// 	exp_month: 10,
+	// 	exp_year: 2021,
+	// 	cvc: '314',
+    // 	currency: 'usd',
+	// }
+
+	//example bank account
+	// account = {
+	// 	country: 'US',
+	// 	currency: 'usd',
+	// 	account_number: '3497216841356',
+	//	routing_number: '000000000'
+	// }
+
 
 	try {
 		const business = (await businesses.doc(businessID).get()).data();
+
+		let finalToken;
+		if(paymentToken) finalToken = {id:paymentToken};
+		else if(cardData) finalToken = await stripe.tokens.create({card:cardData});
+		else if(checkingAccount) finalToken = await stripe.tokens.create({bank_account:checkingAccount});
+		else throw {code:'invalid_card_type'};
 
 		const connectAccount = await stripe.accounts.create({
 			type: 'custom',
@@ -1438,7 +1671,8 @@ exports.createStripeConnectAccountForBusiness = functions.https.onCall(async (in
 				firestoreDocumentID: businessID,
 			},
 			tos_acceptance,
-			external_account: paymentToken,
+			external_account: finalToken.id,
+			business_profile: businessProfile
 		});
 
 		const accountLinks = await stripe.accountLinks.create({
@@ -1473,13 +1707,37 @@ exports.createStripeConnectAccountForBusiness = functions.https.onCall(async (in
 //This function is going to update a business's payment information for their Stripe connect account that they've already
 //created. They don't need to reonboard or anything
 exports.updateStripeConnectAccountPayment = functions.https.onCall(async (input, context) => {
-	const { businessID, paymentToken } = input;
+	const { businessID, paymentToken, cardData, checkingAccount } = input;
+
+	// example credit card
+	// card = {
+	// 	number: '4000056655665556',
+	// 	exp_month: 10,
+	// 	exp_year: 2021,
+	// 	cvc: '314',
+    // 	currency: 'usd',
+	// }
+
+	//example bank account
+	// account = {
+	// 	country: 'US',
+	// 	currency: 'usd',
+	// 	account_number: '3497216841356',
+	//	routing_number: '000000000'
+	// }
 
 	try {
 		const business = (await businesses.doc(businessID).get()).data();
+
+		let finalToken;
+		if(paymentToken) finalToken = {id:paymentToken};
+		else if(cardData) finalToken = await stripe.tokens.create({card:cardData});
+		else if(checkingAccount) finalToken = await stripe.tokens.create({bank_account:checkingAccount});
+		else throw {code:'invalid_card_type'};
+
 		//Updates the card in stripe
 		const connectAccount = await stripe.accounts.update(business.stripeBusinessID, {
-			external_account: paymentToken,
+			external_account: finalToken.id,
 		});
 
 		//updates the firestore payment information
@@ -1650,8 +1908,142 @@ exports.chargeCustomerForRequest = functions.https.onCall(async (input, context)
 
 		return 0;
 	} catch (error) {
-		return -1;
+		throw error;
 	}
+});
+
+//The method retrieves the business's balance from their stripe account
+exports.retrieveConnectAccountBalance = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+
+	const business = await businesses.doc(businessID).get();
+
+	return await (new Promise( (res, rej) => {
+		stripe.balance.retrieve({stripeAccount:business.data().stripeBusinessID}, (err, balance) => {
+			if(balance) res(balance);
+			else res(err);
+		});
+	}));
+});
+
+//The method retrieves the business's transaction history (only including payments)
+exports.retrieveConnectAccountTransactionHistory = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+
+	const business = await businesses.doc(businessID).get();
+
+	let result = await stripe.balanceTransactions.list({
+		//type: 'payment',
+	}, {stripeAccount: business.data().stripeBusinessID});
+
+	for(let i = result.data.length - 1; i >= 0; i--)
+		if(result.data[i].type == "payout")
+			result.data.splice(i, 1);
+	
+	return result;
+});
+
+//The method retrieves the business's payout history
+exports.retrieveConnectAccountPayoutHistory = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+
+	const business = await businesses.doc(businessID).get();
+
+	return await stripe.payouts.list({
+		type:'payout'
+	}, {stripeAccount: business.data().stripeBusinessID});
+});
+
+//The method retrieves the business's payout history
+exports.SetConnectAccountPayoutSchedule = functions.https.onCall(async (input, context) => {
+	const { businessID, interval, weekly_anchor, monthly_anchor } = input;
+
+	let payoutInterval;
+	switch(interval){
+		case 'd': payoutInterval = 'daily'; break;
+		case 'w': payoutInterval = 'weekly'; if(!weekly_anchor) return -1; break;
+		case 'm': payoutInterval = 'monthly'; if(!monthly_anchor) return -1; break;
+		default: return -1;
+	}
+
+	const business = await businesses.doc(businessID).get();
+
+	await stripe.accounts.update(
+		business.data().stripeBusinessID, {
+		settings:{payouts:{schedule:{
+			delay_days: 'minimum',
+			interval: payoutInterval,
+			monthly_anchor,
+			weekly_anchor
+		}}}
+	});
+
+	return 0;
+});
+
+//The method retrieves the business's transaction statistics (not including payouts)
+exports.retrieveConnectAccountTransactionStatistics = functions.https.onCall(async (input, context) => {
+	const { businessID, filterDate } = input;
+
+	const business = await businesses.doc(businessID).get();
+
+	const transactions = await stripe.balanceTransactions.list({
+		type: 'payment',
+		created:{gte:filterDate ? (new Date(filterDate)).getTime()/1000 : 0}
+	}, {stripeAccount: business.data().stripeBusinessID});
+
+	let statistics = {
+		count: transactions.data.length,
+		gross: 0
+	};
+	
+	for(let i in transactions.data)
+		statistics.gross += transactions.data[i].amount;
+
+	return statistics;
+});
+
+//The method retrieves the business's transaction statistics (not including payouts)
+exports.retrieveConnectAccountRefundStatistics = functions.https.onCall(async (input, context) => {
+	const { businessID, filterDate } = input;
+
+	const business = await businesses.doc(businessID).get();
+
+	const transactions = await stripe.balanceTransactions.list({
+		type: 'refund',
+		created:{gte:filterDate ? (new Date(filterDate)).getTime()/1000 : 0}
+	}, {stripeAccount: business.data().stripeBusinessID});
+
+	let statistics = {
+		count: transactions.data.length,
+		gross: 0
+	};
+	
+	for(let i in transactions.data)
+		statistics.gross += transactions.data[i].amount;
+
+	return statistics;
+});
+
+//The method retrieves the business's transaction statistics (not including payouts)
+exports.retrieveConnectAccountStatistics = functions.https.onCall(async (input, context) => {
+	const { businessID, filterDate } = input;
+
+	const business = await businesses.doc(businessID).get();
+
+	const transactions = await stripe.balanceTransactions.list({
+		created:{gte:filterDate ? (new Date(filterDate)).getTime()/1000 : 0}
+	}, {stripeAccount: business.data().stripeBusinessID});
+
+	let statistics = {
+		count: transactions.data.length,
+		net: 0
+	};
+	
+	for(let i in transactions.data)
+		statistics.net += transactions.data[i].amount;
+
+	return statistics;
 });
 
 //--------------------------------- Image Functions ---------------------------------
@@ -1893,6 +2285,40 @@ exports.confirmRequest = functions.https.onCall(async (input, context) => {
 	const batch = database.batch();
 	batch.update(requests.doc(requestID), { confirmed: true });
 	await batch.commit();
+});
+
+//this function sets the confirmed variable to true in the request doc
+exports.addEmployeeToRequest = functions.https.onCall(async (input, context) => {
+	const { employeeID, requestID } = input;
+	const batch = database.batch();
+	await database.runTransaction(async (transaction) => {
+		const employee = await (await transaction.get(employees.doc(employeeID + ''))).data();
+		const request = await (await transaction.get(requests.doc(requestID + ''))).data();
+
+		batch.update(employee.doc(employeeID), {
+			currentRequests: admin.firestore.FieldValue.arrayUnion({
+				date: request.date,
+				requestID: request.requestID,
+				serviceID: request.serviceID,
+				customerID: request.customerID,
+				customerName: request.customerName,
+				questions: request.questions,
+				serviceTitle: request.serviceTitle,
+				status: request.status,
+				time: request.time,
+				endTime: request.endTime
+			})
+		});
+
+		batch.update(requests.doc(requestID), {
+			assignedTo: employee.name,
+			employeeID,
+		});
+
+	});
+	batch.update(requests.doc(requestID), { confirmed: true });
+	await batch.commit();
+	return 0;
 });
 
 //Method is going to edit a request by it's ID as well as update any fields necessary in the current requests arrays
