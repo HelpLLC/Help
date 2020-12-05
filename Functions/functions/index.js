@@ -1005,10 +1005,10 @@ exports.verifyEmployeeForBusiness = functions.https.onCall(async (input, context
 //This method will return all the services associated with a certain category which will be passed in as a parameter
 exports.getBusinessByEmployeeCode = functions.https.onCall(async (input, context) => {
 	const { employeeCode } = input;
+	
 	//creates the new array
 	const allFilteredDocs = await businesses.where('employeeCode', '==', employeeCode).get();
-
-	return allFilteredDocs[0];
+	return allFilteredDocs;
 });
 
 //method to submit a time off request
