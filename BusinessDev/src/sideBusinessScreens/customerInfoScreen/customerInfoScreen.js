@@ -148,11 +148,6 @@ const customerInfoScreen = (props) => {
   //Renders the UI
   return (
     <HelpView>
-      <TopBanner
-        title={strings.CustomerInfo}
-        leftIconName='angle-left'
-        leftOnPress={() => props.navigation.goBack()}
-      />
       <KeyboardAwareFlatList
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}

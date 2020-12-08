@@ -13,8 +13,6 @@ import strings from 'config/strings';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import { Icon } from 'react-native-elements';
 import React from 'react';
-import { View } from 'react-native';
-import TopBanner from '../components/TopBanner/TopBanner';
 import colors from 'config/colors';
 
 //will configure the routes of each top tab to go to the correct screen when clicked on.

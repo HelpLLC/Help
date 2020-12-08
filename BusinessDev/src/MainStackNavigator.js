@@ -3,6 +3,7 @@
 import CreateServiceScreen from './sideBusinessScreens/createServiceScreen/createServiceScreen';
 import NameDescriptionScreen from './firstScreens/signUp/BusinessSignUp/nameDescriptionScreen';
 import AdditionalInformationScreen from './firstScreens/signUp/BusinessSignUp/additionalInformationScreen';
+import EditServiceScreensNavigator from './bottomTabScreens/dashboardScreens/mainDashboardScreens/editService/editServiceScreensNavigator';
 import ServiceScreen from './sideBusinessScreens/serviceScreen';
 import LaunchScreen from './firstScreens/launchScreen';
 import SplashScreen from './firstScreens/SplashScreen/SplashScreen';
@@ -194,6 +195,7 @@ const routeConfig = {
 
 	//--------------------------- Side Business Screens ---------------------------
 
+	// TODO EDIT HOME
 	//The provider screen's default route (The bottom tab navigator)
 	BusinessScreens: {
 		screen: BusinessScreensNavigator,
@@ -201,7 +203,7 @@ const routeConfig = {
 			header: props => (
 				<View>
 					<TopBanner
-						title={strings.Home}
+						title={"Home"}
 						leftIconName='bell'
 						size={27}
 						leftOnPress={() => props.navigation.push('AlertsScreen', {})}
@@ -211,6 +213,24 @@ const routeConfig = {
 			gesturesEnabled: false,
 		}),
 		path: 'BusinessScreens/:businessID/:stripeConnectStatus',
+	},
+
+	// TODO EDIT PHOTOGRAPHY
+	EditServiceSreens: {
+		screen: EditServiceScreensNavigator,
+		navigationOptions: ({ navigation }) => ({
+			header: props => (
+				<View>
+					<TopBanner
+						title={"Photography"}
+						leftIconName='angle-left'
+						size={30}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+			gesturesEnabled: false,
+		}),
 	},
 
 	AlertsScreen: {
@@ -232,6 +252,18 @@ const routeConfig = {
 	//The route going to the create product screen
 	CreateServiceScreen: {
 		screen: CreateServiceScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<View>
+					<TopBanner
+						title={strings.AddNewService}
+						leftIconName='arrow-left'
+						size={25}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+		}),
 	},
 
 	//This is where businesses will view their exisitng payment method
@@ -241,17 +273,53 @@ const routeConfig = {
 
 	//This is where a business will go to add number of simultaneous requests
 	WorkerManagement: {
-		screen: WorkerManagement
+		screen: WorkerManagement,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<View>
+					<TopBanner
+						title={strings.WorkerManagement}
+						leftIconName='arrow-left'
+						size={25}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+		}),
 	},
 
 	//This is the screen where a business will add the payment information for customers
 	PricingAndPaymentScreen: {
 		screen: PricingAndPaymentScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<View>
+					<TopBanner
+						title={strings.PricingAndPayment}
+						leftIconName='arrow-left'
+						size={25}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+		}),
 	},
 
 	//this is the screen where businesses will create questions to collect cuustomer info on request
 	CustomerInfoScreen: {
 		screen: CustomerInfoScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<View>
+					<TopBanner
+						title={strings.CustomerInfo}
+						leftIconName='arrow-left'
+						size={25}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+		}),
 	},
 
 	CreatePaymentMethodScreen: {

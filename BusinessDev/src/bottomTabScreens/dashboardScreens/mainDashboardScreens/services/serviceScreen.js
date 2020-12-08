@@ -21,7 +21,7 @@ const serviceScreen = (props) => {
         <View style={serviceScreenStyle.AddServiceButton}>
           <HelpButton
             title={strings.AddServices}
-            onPress={() => {}}
+            onPress={()=>{props.navigation.push('CreateServiceScreen', {});}}
             width={screenWidth * 0.9}
             height={screenHeight * 0.05}
           />
@@ -78,7 +78,7 @@ const serviceScreen = (props) => {
             <View style={serviceScreenStyle.EditButton}>
               <HelpButton
                 title={strings.Edit}
-                onPress={() => {}}
+                onPress={()=>{props.navigation.push('EditServiceSreens', {});}}
                 width={screenWidth * 0.25}
                 height={screenHeight * 0.04}
               />

@@ -104,12 +104,6 @@ const createServiceScreen = (props) => {
 
   return (
     <HelpView style={[screenStyle.container, { alignItems: 'flex-start' }]}>
-      <TopBanner
-        title={strings.AddNewService}
-        leftIconName='angle-left'
-        size={30}
-        leftOnPress={() => props.navigation.goBack()}
-      />
       <View>
         <View style={addServiceScreenStyle.imageSection}>
           <TouchableOpacity onPress={() => setIsImagePickerShowing(true)}>
