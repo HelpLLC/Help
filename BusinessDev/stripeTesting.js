@@ -133,6 +133,10 @@ async function main(){
     //     businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2'
     // });
 
+    // const data = await FirebaseFunctions.call('retrieveConnectAccountDetails', {
+    //     businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2'
+    // });
+
     // const data = await FirebaseFunctions.call('retrieveConnectAccountTransactionHistory', {
     //     businessID: 'zjCzqSiCpNQELwU3ETtGBANz7hY2'
     // });

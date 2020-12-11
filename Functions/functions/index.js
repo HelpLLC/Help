@@ -10,6 +10,7 @@ admin.initializeApp({
 });
 //Configures email for automated emails
 const nodemailer = require('nodemailer');
+const { firestore } = require('firebase-admin');
 const mailTransport = nodemailer.createTransport({
 	service: 'gmail',
 	auth: {
@@ -923,6 +924,10 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 	batch.create(analytics.doc('Revenue'), {});
 	batch.create(analytics.doc('TopServices'), {});
 
+	//add doc for storing transactions
+	const transactions = businesses.doc(businessID).collection('Transactions');
+	batch.set(transactions.doc(new Date().getTime()), {}); 
+
 	sendEmail(
 		'helpcocontact@gmail.com',
 		'New Business',
@@ -1046,6 +1051,15 @@ exports.verifyEmployeeForBusiness = functions.https.onCall(async (input, context
 	// Commits the batch
 	await batch.commit();
 	return 0;
+});
+
+//This method will return all the services associated with a certain category which will be passed in as a parameter
+exports.getBusinessByEmployeeCode = functions.https.onCall(async (input, context) => {
+	const { employeeCode } = input;
+	
+	//creates the new array
+	const allFilteredDocs = await businesses.where('employeeCode', '==', employeeCode).get();
+	return allFilteredDocs;
 });
 
 //method to submit a time off request
@@ -1837,9 +1851,11 @@ exports.chargeCustomerForRequest = functions.https.onCall(async (input, context)
 		const promises = await Promise.all([
 			businesses.doc(businessID).get(),
 			customers.doc(customerID).get(),
+			requests.doc(requestID).get(),
 		]);
 		const business = promises[0].data();
 		const customer = promises[1].data();
+		const request = promises[2].data();
 
 		const { stripeBusinessID } = business;
 		const stripeCustomerID = isCardSaved === true ? customer.stripeCustomerID : isCardSaved;
@@ -1873,6 +1889,20 @@ exports.chargeCustomerForRequest = functions.https.onCall(async (input, context)
 			});
 		}
 
+		let balance = await (new Promise( (res, rej) => {
+			stripe.balance.retrieve({stripeAccount:business.data().stripeBusinessID}, (err, balance) => {
+				if(balance) res(balance);
+				else res(err);
+			});
+		}));
+		let transaction = {
+			amount: chargedAmountToCustomer,
+			total: balance.available[0].amount + balance.pending[0].amount,
+			service: request.serviceTitle,
+			customer: customer.name,
+			date: new Date().getTime(),
+		}
+
 		//Updates the request document with information about the completed request. Also updates the CompletedRequest
 		//subcollection documents within the service and the customer just in case it needs to be referenced.
 		const { id, payment_method, receipt_url } = charge;
@@ -1888,6 +1918,7 @@ exports.chargeCustomerForRequest = functions.https.onCall(async (input, context)
 		};
 
 		const batch = database.batch();
+		batch.set(businesses.doc(businessID).collection('Transactions').doc(transaction.date), transaction);
 		batch.update(requests.doc(requestID), { paymentInformation });
 		batch.update(customers.doc(customerID).collection('CompletedRequests').doc(requestID), {
 			paymentInformation,
@@ -1917,21 +1948,35 @@ exports.retrieveConnectAccountBalance = functions.https.onCall(async (input, con
 	}));
 });
 
-//The method retrieves the business's transaction history (only including payments)
-exports.retrieveConnectAccountTransactionHistory = functions.https.onCall(async (input, context) => {
+//The method retrieves the business's bank account details
+exports.retrieveConnectAccountDetails = functions.https.onCall(async (input, context) => {
 	const { businessID } = input;
 
 	const business = await businesses.doc(businessID).get();
 
-	let result = await stripe.balanceTransactions.list({
-		//type: 'payment',
-	}, {stripeAccount: business.data().stripeBusinessID});
+	return (await stripe.accounts.listExternalAccounts(business.data().stripeBusinessID, {
+		limit:1
+	})).data[0];
+});
 
-	for(let i = result.data.length - 1; i >= 0; i--)
-		if(result.data[i].type == "payout")
-			result.data.splice(i, 1);
+//The method retrieves the business's transaction history (only including payments)
+exports.retrieveConnectAccountTransactionHistory = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+
+	return await admin.firestore().getAll( ...(await businesses.doc(businessID).collection('Transactions').listDocuments()));
+
 	
-	return result;
+	//this is old stripe syntax, before we realized we needed to store transactions locally
+
+	// let result = await stripe.balanceTransactions.list({
+	// 	//type: 'payment',
+	// }, {stripeAccount: business.data().stripeBusinessID});
+
+	// for(let i = result.data.length - 1; i >= 0; i--)
+	// 	if(result.data[i].type == "payout")
+	// 		result.data.splice(i, 1);
+	
+	// return result;
 });
 
 //The method retrieves the business's payout history
@@ -1940,9 +1985,7 @@ exports.retrieveConnectAccountPayoutHistory = functions.https.onCall(async (inpu
 
 	const business = await businesses.doc(businessID).get();
 
-	return await stripe.payouts.list({
-		type:'payout'
-	}, {stripeAccount: business.data().stripeBusinessID});
+	return await stripe.payouts.list({}, {stripeAccount: business.data().stripeBusinessID});
 });
 
 //The method retrieves the business's payout history

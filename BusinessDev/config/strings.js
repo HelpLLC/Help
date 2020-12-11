@@ -518,6 +518,7 @@ export default {
 	TransactionHistory:'Transaction History',
 	PayoutHistory:'Payout History',
 	BAN:'Bank Account Number',
+	RN:'Routing Number',
 	PayoutSchedule:'Payout Schedule',
 	DPayout:'Daily Payout',
 	WPayout:'Weekly Payout',

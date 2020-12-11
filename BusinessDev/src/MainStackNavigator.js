@@ -40,6 +40,7 @@ import BussinessOrEmployeeScreen from './firstScreens/signUp//BusinessOrEmployee
 import waitingForVerification from './firstScreens/signUp/EmployeeSignUp/waitingForVerification';
 import EmployeeVerification from './firstScreens/signUp/EmployeeSignUp/employeeVerification';
 import WorkerManagement from './bottomTabScreens/dashboardScreens/mainDashboardScreens/services/workerManagement/workerManagement';
+import EmployeeScreensNavigator from './employeeScreens/employeeBottomScreensNavigator';
 import AlertsScreen from './sideBusinessScreens/alertsScreen/alertsScreen';
 import { View } from 'react-native';
 import TopBanner from './components/TopBanner/TopBanner';
@@ -47,27 +48,23 @@ import strings from 'config/strings';
 
 //The route config for all of the screens
 const routeConfig = {
-	//--------------------------- First Screens ---------------------------
+  //--------------------------- First Screens ---------------------------
 
-	//Takes you to the launch screen which is the blue logo
-	LaunchScreen: {
-		screen: LaunchScreen,
-		navigationOptions: ({ navigation }) => ({
-			gesturesEnabled: false,
-		}),
-	},
+  //Takes you to the launch screen which is the blue logo
+  LaunchScreen: {
+    screen: LaunchScreen,
+    navigationOptions: ({ navigation }) => ({
+      gesturesEnabled: false,
+    }),
+  },
 
-	//Takes you to the splash screen of the app
-	SplashScreen: {
-		screen: SplashScreen,
-		navigationOptions: ({ navigation }) => ({
-			header: props => (
-				<View></View>
-			),
-			gesturesEnabled: false,
-		}),
-	},
-
+  //Takes you to the splash screen of the app
+  SplashScreen: {
+    screen: SplashScreen,
+    navigationOptions: ({ navigation }) => ({
+      gesturesEnabled: false,
+    }),
+  },
 	//Takes you to the log in screen of the app
 	LogInScreen: {
 		screen: LogInScreen,
@@ -101,7 +98,6 @@ const routeConfig = {
 			gesturesEnabled: false,
 		}),
 	},
-
 	//Takes you to the sign up screen of the app
 	EmailPasswordScreen: {
 		screen: EmailPasswordScreen,
@@ -120,6 +116,7 @@ const routeConfig = {
 		}),
 	},
 
+
 	//Takes you to the forgot password screen of the app
 	ForgotPasswordScreen: {
 		screen: ForgotPasswordScreen,
@@ -137,7 +134,6 @@ const routeConfig = {
 			gesturesEnabled: false,
 		}),
 	},
-
 	EmployeeVerification: {
 		screen: EmployeeVerification,
 		navigationOptions: ({ navigation }) => ({
@@ -498,17 +494,28 @@ const routeConfig = {
 			),
 		}),
 	},
-};
+
+  //--------------------------- Employee Screens ---------------------------
+  //The provider screen's default route (The bottom tab navigator)
+  EmployeeScreens: {
+    screen: EmployeeScreensNavigator,
+    navigationOptions: ({ navigation }) => ({
+      gesturesEnabled: false,
+    }),
+  },
+}
+
+
 
 //Makes the zoom in transition for the initial LaunchScreen that opens
 const handleCustomTransition = ({ scenes }) => {
-	const prevScene = scenes[scenes.length - 2];
+  const prevScene = scenes[scenes.length - 2];
 
-	if (prevScene && prevScene.route.routeName === 'LaunchScreen') {
-		return fadeIn(750);
-	} else {
-		return fromRight();
-	}
+  if (prevScene && prevScene.route.routeName === 'LaunchScreen') {
+    return fadeIn(750);
+  } else {
+    return fromRight();
+  }
 };
 
 //The navigation config containing the initial route name
@@ -519,6 +526,9 @@ const navigatorConfig = {
 };
 
 //Creates & exports the stack navigator
-const MainStackStackNavigator = createStackNavigator(routeConfig, navigatorConfig);
+const MainStackStackNavigator = createStackNavigator(
+  routeConfig,
+  navigatorConfig
+);
 const MainStackNavigator = createAppContainer(MainStackStackNavigator);
 export default () => <MainStackNavigator uriPrefix={'helpbusiness://'} />;

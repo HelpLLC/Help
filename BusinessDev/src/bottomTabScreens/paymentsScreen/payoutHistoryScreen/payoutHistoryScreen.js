@@ -28,34 +28,20 @@ export default function viewDetailsScreen(props) {
 		//Declares the screen name in Firebase
         FirebaseFunctions.setCurrentScreen('ViewDetailsScreen', 'viewDetailsScreen');
 
-        //TODO: add backend requests for this data
-
         const {
 			businessID:BID
         } = props.navigation.state.params;
 
-        let funds = {
-            current:150000,
-            pending:150,
-        };
+        const balance = await FirebaseFunctions.call('retrieveConnectAccountBalance', {
+            businessID: BID
+        });
 
-        let transfers = [
-            {
-                date:'09/1/20',
-                amount:80
-            },
-            {
-                date:'08/1/20',
-                amount:150.2
-            },
-            {
-                date:'07/1/20',
-                amount:201
-            }
-        ];
+        const transfers = await FirebaseFunctions.call('retrieveConnectAccountPayoutHistory', {
+            businessID: BID
+        });
 
         setBusinessID(BID);
-        setBalance(funds);
+        setBalance(balance);
         setPayouts(transfers);
         setIsScreenLoading(false);
     }
@@ -85,15 +71,15 @@ export default function viewDetailsScreen(props) {
     }
 
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    function formatDate (date){
-        let arr = date.split('/');
-        return `${months[parseInt(arr[0],10)-1]} ${parseInt(arr[1],10)+''}, 20${arr[2]}`;
+    function formatDate (d){
+        let date = new Date(d);
+        return `${months[date.getMonth()]} ${date.getDate()+''}, ${date.getFullYear()+''}`;
     }
 
     function renderItem(item){
         return (
-            <View style={style.ItemContainer} key={item.date}>
-                <Text style={style.ItemDate}>{formatDate(item.date)}</Text>
+            <View style={style.ItemContainer} key={item.arrival_date}>
+                <Text style={style.ItemDate}>{formatDate(item.created)}</Text>
                 <Text style={style.ItemTranfer}>{formatCurrency(item.amount, true)}</Text>
             </View>
         );
@@ -122,7 +108,7 @@ export default function viewDetailsScreen(props) {
 				leftOnPress={() => props.navigation.goBack()}
 			/>
 
-            <FlatList data={payouts}
+            <FlatList data={payouts.data}
                 renderItem={({item}) => renderItem(item)}
                 style={style.ListContainer}
             />

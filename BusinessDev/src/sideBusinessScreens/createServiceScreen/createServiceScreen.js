@@ -214,7 +214,7 @@ const createServiceScreen = (props) => {
               {strings.Hours}
             </Text>
           </View>
-		  <View style={addServiceScreenStyle.DurationMinutes}>
+          <View style={addServiceScreenStyle.DurationMinutes}>
             <HelpTextInput
               height={screenHeight * 0.05}
               width={screenWidth * 0.2}
@@ -222,8 +222,8 @@ const createServiceScreen = (props) => {
               isMultiline={false}
               keyboardType={'numeric'}
               placeholder={'0'}
-              value={serviceDurationMinutes}
               onChangeText={(input) => setServiceDurationMinutes(input)}
+              value={serviceDurationMinutes}
             />
             <Text
               style={[
@@ -237,7 +237,7 @@ const createServiceScreen = (props) => {
           </View>
         </View>
       </View>
-      <View  style={addServiceScreenStyle.NextButton}>
+      <View style={addServiceScreenStyle.NextButton}>
         <HelpButton
           title={strings.Next}
           width={screenWidth * 0.25}
