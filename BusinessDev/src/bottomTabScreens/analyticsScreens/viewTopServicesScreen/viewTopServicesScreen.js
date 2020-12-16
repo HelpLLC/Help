@@ -21,29 +21,11 @@ export default function viewTopServicesScreen(props) {
 	const [topServicesBy, setTopServicesBy] = useState(strings.ByTotalRequests);
 	const [topServicesData, setTopServicesData] = useState('');
 	const [businessID, setBusinessID] = useState('');
-	const currentTab = 1;
-
-	const navigationFunctions = [
-		() => {
-			props.navigation.push('MonthlyRevenueScreen', {
-				businessID: businessID,
-			});
-		},
-		() => {
-			props.navigation.push('TopServicesScreen', {
-				businessID: businessID,
-			});
-		},
-		() => {
-			props.navigation.push('TopLocationsScreen', {
-				businessID: businessID,
-			});
-		},
-	];
 
 	async function getData() {
 		try {
 			//Declares the screen name in Firebase
+			// To-do: edit Firebase Function
 			FirebaseFunctions.setCurrentScreen('AnalyticsScreen', 'analyticsScreen');
 			let BID = props.navigation.state.params;
 			//let BID = 'zjCzqSiCpNQELwU3ETtGBANz7hY2'; //NOTE: this line is only for testing
@@ -100,39 +82,6 @@ export default function viewTopServicesScreen(props) {
 		return { chartData, xAxis };
 	}
 
-	//TODO: possibly add an animation here
-	//Render the starting tabs (navigation bar)
-	function renderTabs() {
-		const Tabs = [strings.Revenue, strings.TopServices, strings.CustomerLocations];
-		let elements = [];
-
-		for (let i in Tabs)
-			elements.push(
-				<TouchableWithoutFeedback
-					onPress={() => {
-						if (i != currentTab) navigationFunctions[i]();
-					}}
-					key={i}>
-					<View
-						style={[
-							style.TabContainer,
-							i == currentTab ? style.SelectedTab : style.UnselectedTab,
-							{ width: screenWidth / Tabs.length },
-						]}>
-						<Text
-							style={[
-								fontStyles.subTextStyle,
-								style.TabText,
-								i == currentTab ? style.SelectedTabText : style.UnselectedTabText,
-							]}>
-							{Tabs[i]}
-						</Text>
-					</View>
-				</TouchableWithoutFeedback>
-			);
-		return elements;
-	}
-
 	// Format numerical labels correctly
 	function formatLabel(input) {
 		let output;
@@ -150,7 +99,7 @@ export default function viewTopServicesScreen(props) {
 		return output;
 	}
 
-	//rendering the screen
+	//Rendering the screen
 	if (isScreenLoading === true) {
 		return (
 			<View style={style.Body}>
@@ -164,7 +113,7 @@ export default function viewTopServicesScreen(props) {
 
 	return (
 		<View style={style.Body}>
-			<View style={style.MainTabContainer}>{renderTabs()}</View>
+			{/*<View style={style.MainTabContainer}>{renderTabs()}</View>-->*/}
 			<View style={style.ChartMainContainer}>{renderGraph()}</View>
 		</View>
 	);

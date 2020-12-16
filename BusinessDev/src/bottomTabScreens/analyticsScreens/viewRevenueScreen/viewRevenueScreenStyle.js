@@ -45,6 +45,7 @@ export default StyleSheet.create({
 		width: screenWidth * 0.9,
 		paddingLeft: 28,
 		paddingVertical: 10,
+		marginTop: 10,
 		justifyContent: 'center',
 		alignContent: 'center',
 	},

@@ -18,34 +18,16 @@ export default function viewRevenue(props) {
 	const [revenueBy, setRevenueBy] = useState(strings.ByMonth);
 	const [revenueData, setRevenueData] = useState('');
 	const [businessID, setBusinessID] = useState('');
-	const currentTab = 0;
-
-	const navigationFunctions = [
-		() => {
-			props.navigation.push('MonthlyRevenueScreen', {
-				businessID: businessID,
-			});
-		},
-		() => {
-			props.navigation.push('TopServicesScreen', {
-				businessID: businessID,
-			});
-		},
-		() => {
-			props.navigation.push('TopLocationsScreen', {
-				businessID: businessID,
-			});
-		},
-	];
 
 	async function getData() {
 		try {
 			// Declares the screen name in Firebase
+			// To-do: edit Firebase Function
 			FirebaseFunctions.setCurrentScreen('AnalyticsScreen', 'analyticsScreen');
 			let BID = props.navigation.state.params;
-			// let BID = 'zjCzqSiCpNQELwU3ETtGBANz7hY2'; //NOTE: this line is only for testing
+			//let BID = 'zjCzqSiCpNQELwU3ETtGBANz7hY2'; //NOTE: this line is only for testing
 			setBusinessID(BID);
-			// Gets the firebase data and initalizes the state
+			// Gets the Firebase data and initalizes the state
 			const analyticsData = await FirebaseFunctions.call('getBusinessAnalyticsByBusinessID', {
 				businessID: BID,
 			});
@@ -137,39 +119,6 @@ export default function viewRevenue(props) {
 		return { chartData, xAxis, xAxis2 };
 	}
 
-	// TODO: possibly add an animation when switching tabs
-	// Render the starting tabs (navigation bar)
-	function renderTabs() {
-		const Tabs = [strings.Revenue, strings.TopServices, strings.CustomerLocations];
-		let elements = [];
-
-		for (let i in Tabs)
-			elements.push(
-				<TouchableWithoutFeedback
-					onPress={() => {
-						if (i != currentTab) navigationFunctions[i]();
-					}}
-					key={i}>
-					<View
-						style={[
-							style.TabContainer,
-							i == currentTab ? style.SelectedTab : style.UnselectedTab,
-							{ width: screenWidth / Tabs.length },
-						]}>
-						<Text
-							style={[
-								fontStyles.subTextStyle,
-								style.TabText,
-								i == currentTab ? style.SelectedTabText : style.UnselectedTabText,
-							]}>
-							{Tabs[i]}
-						</Text>
-					</View>
-				</TouchableWithoutFeedback>
-			);
-		return elements;
-	}
-
 	// Format numerical labels correctly
 	function formatLabel(input) {
 		let output;
@@ -202,14 +151,12 @@ export default function viewRevenue(props) {
 	// Show graph here
 	return (
 		<View style={style.Body}>
-			<View style={style.MainTabContainer}>{renderTabs()}</View>
+			{/*<View style={style.MainTabContainer}>{renderTabs()}</View>-->*/}
 			<View style={style.ChartMainContainer}>{renderGraph()}</View>
 		</View>
 	);
 
 	function renderGraph() {
-		console.log('viewRevenueScreen');
-		console.log('Current Tab: ' + currentTab);
 		// A shadow component for the linechart
 		const Shadow = ({ line }) => (
 			<Path

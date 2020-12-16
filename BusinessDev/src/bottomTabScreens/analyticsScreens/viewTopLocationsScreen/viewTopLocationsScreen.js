@@ -20,32 +20,18 @@ export default function viewTopLocationsScreen(props) {
 	const [customerLocationsBy, setCustomerLocationsBy] = useState(strings.ByCity);
 	const [customerLocationData, setCustomerLocationData] = useState('');
 	const [businessID, setBusinessID] = useState('');
-	const currentTab = 2;
-
-	const navigationFunctions = [
-		() => {
-			props.navigation.push('MonthlyRevenueScreen', {
-				businessID: businessID,
-			});
-		},
-		() => {
-			props.navigation.push('TopServicesScreen', {
-				businessID: businessID,
-			});
-		},
-		() => {
-			props.navigation.push('TopLocationsScreen', {
-				businessID: businessID,
-			});
-		},
-	];
 
 	async function getData() {
 		try {
 			// Declares the screen name in Firebase
+			/* To-do: edit Firebase Function
+			 * https://firebase.google.com/docs/analytics/screenviews#kotlin+ktx
+			 * Previous methods of logging screen names using `setScreenName` on iOS and
+			 * `setCurrentScreen` on Android will be deprecated and removed in a future major release.
+			 */
 			FirebaseFunctions.setCurrentScreen('AnalyticsScreen', 'analyticsScreen');
 			let BID = props.navigation.state.params;
-			//let BID = 'zjCzqSiCpNQELwU3ETtGBANz7hY2'; //NOTE: this line is only for testing
+			// let BID = 'zjCzqSiCpNQELwU3ETtGBANz7hY2'; //NOTE: this line is only for testing
 			setBusinessID(BID);
 			// Gets the firebase data and initalizes the state
 			const analyticsData = await FirebaseFunctions.call('getBusinessAnalyticsByBusinessID', {
@@ -93,39 +79,6 @@ export default function viewTopLocationsScreen(props) {
 		return { chartData, xAxis };
 	}
 
-	// TODO: possibly add an animation here (when switching tabs)
-	// Render the starting tabs (navigation bar)
-	function renderTabs() {
-		const Tabs = [strings.Revenue, strings.TopServices, strings.CustomerLocations];
-		let elements = [];
-
-		for (let i in Tabs)
-			elements.push(
-				<TouchableWithoutFeedback
-					onPress={() => {
-						if (i != currentTab) navigationFunctions[i]();
-					}}
-					key={i}>
-					<View
-						style={[
-							style.TabContainer,
-							i == currentTab ? style.SelectedTab : style.UnselectedTab,
-							{ width: screenWidth / Tabs.length },
-						]}>
-						<Text
-							style={[
-								fontStyles.subTextStyle,
-								style.TabText,
-								i == currentTab ? style.SelectedTabText : style.UnselectedTabText,
-							]}>
-							{Tabs[i]}
-						</Text>
-					</View>
-				</TouchableWithoutFeedback>
-			);
-		return elements;
-	}
-
 	// Format numerical labels correctly
 	function formatLabel(input) {
 		let output;
@@ -157,7 +110,7 @@ export default function viewTopLocationsScreen(props) {
 
 	return (
 		<View style={style.Body}>
-			<View style={style.MainTabContainer}>{renderTabs()}</View>
+			{/*<View style={style.MainTabContainer}>{renderTabs()}</View>-->*/}
 			<View style={style.ChartMainContainer}>{renderGraph()}</View>
 		</View>
 	);
@@ -228,7 +181,9 @@ export default function viewTopLocationsScreen(props) {
 		return (
 			<View>
 				<View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-					<Text style={[fontStyles.bigTextStyle, style.ChartTitleText]}>{strings.TopServices}</Text>
+					<Text style={[fontStyles.bigTextStyle, style.ChartTitleText]}>
+						{strings.CustomerLocations}
+					</Text>
 					<View style={[style.ChartDropdownContainer, { width: 130 }]}>
 						<Picker
 							selectedValue={customerLocationsBy}
