@@ -15,7 +15,6 @@ import React from 'react';
 import { View } from 'react-native';
 import TopBanner from '../components/TopBanner/TopBanner';
 import colors from 'config/colors';
-//import analyticsScreen from './analyticsScreens/analyticsScreen';
 import viewRevenueScreen from './analyticsScreens/viewRevenueScreen/viewRevenueScreen';
 import viewTopServicesScreen from './analyticsScreens/viewTopServicesScreen/viewTopServicesScreen';
 import viewTopLocationsScreen from './analyticsScreens/viewTopLocationsScreen/viewTopLocationsScreen';
@@ -140,7 +139,7 @@ const analyticsNavigatorConfig = {
 		//This styles the tabBar itself; the color, height, etc.
 		style: {
 			backgroundColor: colors.blue,
-			height: screenHeight * 0.06,
+			height: screenHeight * 0.08,
 		},
 		showLabel: true,
 		showIcon: false,
@@ -249,7 +248,8 @@ const routeConfig = {
 		navigationOptions: ({ navigation }) => ({
 			tabBarLabel: strings.Analytics,
 			tabBarIcon: ({ tintColor, focused }) => (
-				<Icon name='chart-line' size={45} type='material-community' color={tintColor} />
+				// <Icon name='chart-line' size={45} type='material-community' color={tintColor} />
+				<Icon name='line-chart' size={45} type='font-awesome' color={tintColor} />
 			),
 		}),
 	},

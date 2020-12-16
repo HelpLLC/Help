@@ -22,9 +22,9 @@ export default {
 		"Give Stripe some time to verify your details, and we'll notify you once you are able to accept card payments from customers.",
 	PaymentsVerifiedSuccss: 'You can now accept card payments from customers!',
 
-	Revenue: 'Monthly\nRevenue',
-	TopServices: 'Top\nServices',
-	CustomerLocations: 'Top\nLocations',
+	Revenue: 'Revenue',
+	TopServices: 'Services',
+	CustomerLocations: 'Locations',
 	ByMonth: 'by Month',
 	ByYear: 'by Year',
 	ByCity: 'by City',
