@@ -12,8 +12,6 @@ import strings from 'config/strings';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import { Icon } from 'react-native-elements';
 import React from 'react';
-import { View } from 'react-native';
-import TopBanner from '../components/TopBanner/TopBanner';
 import colors from 'config/colors';
 import viewRevenueScreen from './analyticsScreens/viewRevenueScreen/viewRevenueScreen';
 import viewTopServicesScreen from './analyticsScreens/viewTopServicesScreen/viewTopServicesScreen';

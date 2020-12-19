@@ -119,11 +119,6 @@ const pricingAndPaymentScreen = (props) => {
   //The UI rendering
   return (
     <HelpView style={[screenStyle.container, { alignItems: 'flex-start' }]}>
-      <TopBanner
-        title={strings.PricingAndPayment}
-        leftIconName='angle-left'
-        leftOnPress={() => props.navigation.goBack()}
-      />
       <View style={pricingAndPaymentStyle.PricingTitleView}>
         <Text style={[fontStyles.darkBlue, fontStyles.mainTextStyle]}>
           {strings.PricingType}
