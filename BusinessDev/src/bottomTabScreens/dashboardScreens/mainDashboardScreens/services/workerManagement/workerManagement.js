@@ -148,11 +148,6 @@ const workerManagement = (props) => {
   };
   return (
     <HelpView>
-      <TopBanner
-        title={strings.WorkerManagement}
-        leftIconName='angle-left'
-        leftOnPress={() => props.navigation.goBack()}
-      />
       <View>
         <Text
           style={[

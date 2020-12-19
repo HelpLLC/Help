@@ -135,11 +135,6 @@ export default function profileScreen(props) {
     //rendering the screen
     if(isScreenLoading) return (
         <View style={style.Body}>
-            <TopBanner
-                title={strings.Loading}
-                leftIconName='angle-left'
-                leftOnPress={() => props.navigation.goBack()}
-            />
             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                 <LoadingSpinner isVisible={true} />
             </View>
@@ -147,11 +142,6 @@ export default function profileScreen(props) {
     );
     else return (
         <View style={style.Body}>
-            <TopBanner
-				title={serviceInfo.serviceTitle}
-				leftIconName='angle-left'
-				leftOnPress={() => props.navigation.goBack()}
-			/>
             <View style={style.MainTabContainer}>
                 {renderTabs()}
             </View>

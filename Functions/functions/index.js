@@ -276,9 +276,9 @@ exports.getAllRequests = functions.https.onCall(async (input, context) => {
 
 //Method fetches a business by ID & returns the business as an object. If the business does not exist, returns -1
 exports.getBusinessByID = functions.https.onCall(async (input, context) => {
-	const { businessID } = input;
+	const { documentID } = input;
 	const doc = await database.runTransaction(async (transaction) => {
-		const ref = businesses.doc(businessID + '');
+		const ref = businesses.doc(documentID + '');
 		const doc = await transaction.get(ref);
 
 		if (doc.exists) {
@@ -292,9 +292,9 @@ exports.getBusinessByID = functions.https.onCall(async (input, context) => {
 
 //Method fetches all employees from a business
 exports.getEmployeesByBusinessID = functions.https.onCall(async (input, context) => {
-	const { businessID } = input;
+	const { documentID } = input;
 	const doc = await database.runTransaction(async (transaction) => {
-		const ref = businesses.doc(businessID + '');
+		const ref = businesses.doc(documentID + '');
 		const doc = await transaction.get(ref);
 
 		if (doc.exists) {
@@ -901,7 +901,7 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 
 	const batch = database.batch();
 
-	batch.set(businesses.doc(businessID), {
+	const newBusinessDoc = await businesses.add({
 		businessName,
 		businessDescription,
 		businessHours,
@@ -917,15 +917,19 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		employeeCode,
 		employees:{}
 	});
+	
+	const documentID = newBusinessDoc.id;
+
+	batch.update(requests.doc(documentID), { documentID });
 
 	//Adds analytics documents
-	const analytics = businesses.doc(businessID).collection('Analytics');
+	const analytics = businesses.doc(documentID).collection('Analytics');
 	batch.set(analytics.doc('CustomerLocations'), { Cities: {}, States: {}, Countries: {} });
 	batch.create(analytics.doc('Revenue'), {});
 	batch.create(analytics.doc('TopServices'), {});
 
 	//add doc for storing transactions
-	const transactions = businesses.doc(businessID).collection('Transactions');
+	const transactions = businesses.doc(documentID).collection('Transactions');
 	batch.set(transactions.doc(new Date().getTime()), {}); 
 
 	sendEmail(
