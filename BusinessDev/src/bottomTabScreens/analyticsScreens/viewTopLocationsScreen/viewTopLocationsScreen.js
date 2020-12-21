@@ -1,13 +1,13 @@
 import { Picker } from '@react-native-community/picker';
 import colors from 'config/colors';
-import { screenHeight, screenWidth } from 'config/dimensions';
+import { screenHeight } from 'config/dimensions';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import strings from 'config/strings';
 import fontStyles from 'config/styles/fontStyles';
 import * as array from 'd3-array';
 import * as scale from 'd3-scale';
 import React, { useEffect, useState } from 'react';
-import { Text, TouchableWithoutFeedback, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { Line, Svg, Text as SvgText } from 'react-native-svg';
 import { BarChart, Path, YAxis } from 'react-native-svg-charts';
 import LoadingSpinner from '../../../components/LoadingSpinner';

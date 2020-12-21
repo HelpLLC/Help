@@ -1,8 +1,6 @@
 import { StyleSheet } from 'react-native';
-import fontStyles from 'config/styles/fontStyles';
-import { screenWidth, screenHeight } from 'config/dimensions';
+import { screenWidth } from 'config/dimensions';
 import colors from 'config/colors';
-import { color } from 'react-native-reanimated';
 
 export default StyleSheet.create({
 	Body: {

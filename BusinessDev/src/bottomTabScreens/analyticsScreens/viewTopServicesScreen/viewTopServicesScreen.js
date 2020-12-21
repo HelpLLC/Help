@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TouchableWithoutFeedback, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
@@ -9,7 +9,7 @@ import style from './viewTopServicesScreenStyle';
 import fontStyles from 'config/styles/fontStyles';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import { BarChart, Grid, LineChart, YAxis, XAxis, Path } from 'react-native-svg-charts';
-import { Svg, G, Rect, Line, Text as SvgText } from 'react-native-svg';
+import { Svg, Line, Text as SvgText } from 'react-native-svg';
 import { Picker } from '@react-native-community/picker';
 import * as scale from 'd3-scale';
 import * as array from 'd3-array';
