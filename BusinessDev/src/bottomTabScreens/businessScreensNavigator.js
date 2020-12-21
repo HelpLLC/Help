@@ -137,7 +137,8 @@ const analyticsNavigatorConfig = {
 		//This styles the tabBar itself; the color, height, etc.
 		style: {
 			backgroundColor: colors.blue,
-			height: screenHeight * 0.08,
+			height: screenHeight * 0.07,
+			justifyContent: 'center',
 		},
 		showLabel: true,
 		showIcon: false,
