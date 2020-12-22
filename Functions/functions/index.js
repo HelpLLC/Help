@@ -348,6 +348,30 @@ exports.getAllRequests = functions.https.onCall(async (input, context) => {
 	return array;
 });
 
+//Method fetches a notifications for a business by business ID
+exports.getBusinessNotifications = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+	const doc = await database.runTransaction(async (transaction) => {
+		const query1 = await employees
+			.where('businessID', '==', businessID)
+			.where('isVerified', '==', false);
+		const newEmployees = (await transaction.get(query1)).docs;
+		for(let i in newEmployees)
+			newEmployees[i].type = 'employeeRequest';
+
+		const query2 = await requests
+			.where('businessID', '==', businessID)
+			.where('confirmed', '==', false);
+		const newRequests = (await transaction.get(query2)).docs;
+		for(let i in newRequests)
+			newRequests[i].type = 'serviceRequest';
+
+		return [...newEmployees, ...newRequests];
+	});
+
+	return doc;
+});
+
 //Method fetches a business by ID & returns the business as an object. If the business does not exist, returns -1
 exports.getBusinessByID = functions.https.onCall(async (input, context) => {
 	const { businessID } = input;
@@ -1150,6 +1174,29 @@ exports.addEmployeeToDatabase = functions.https.onCall(async (input, context) =>
 	return 0;
 });
 
+//Adds information to the employee that makes them eligable for business verification
+//afterwords, the getBusinessNotifications function should return this employee as unverified for that business
+exports.employeeRequestVerification = functions.https.onCall(async (input, context) => {
+	const {
+		//Fields for the employee
+		employeeID,
+		employeeCode,
+	} = input;
+	
+	//creates the new array
+	const business = await businesses.where('employeeCode', '==', employeeCode).get();
+
+	const batch = database.batch();
+
+	batch.update(employees.doc(employeeID), {
+		businessID: business.businessID,
+	});
+
+	// Commits the batch
+	await batch.commit();
+	return 0;
+});
+
 //method to verify that an employee is part of a business
 exports.verifyEmployeeForBusiness = functions.https.onCall(async (input, context) => {
 	const {
@@ -1165,7 +1212,7 @@ exports.verifyEmployeeForBusiness = functions.https.onCall(async (input, context
 	});
 
 	batch.update(employees.doc(employeeID), {
-		isVerified: true
+		isVerified: true,
 	});
 
 	// Commits the batch
