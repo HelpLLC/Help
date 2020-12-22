@@ -48,28 +48,30 @@ import strings from 'config/strings';
 
 //The route config for all of the screens
 const routeConfig = {
-  //--------------------------- First Screens ---------------------------
+	//--------------------------- First Screens ---------------------------
 
-  //Takes you to the launch screen which is the blue logo
-  LaunchScreen: {
-    screen: LaunchScreen,
-    navigationOptions: ({ navigation }) => ({
-      gesturesEnabled: false,
-    }),
-  },
+	//Takes you to the launch screen which is the blue logo
+	LaunchScreen: {
+		screen: LaunchScreen,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false,
+		}),
+	},
 
-  //Takes you to the splash screen of the app
-  SplashScreen: {
-    screen: SplashScreen,
-    navigationOptions: ({ navigation }) => ({
-      gesturesEnabled: false,
-    }),
-  },
+	//Takes you to the splash screen of the app
+	SplashScreen: {
+		screen: SplashScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (props) => <View></View>,
+			gesturesEnabled: false,
+		}),
+	},
+
 	//Takes you to the log in screen of the app
 	LogInScreen: {
 		screen: LogInScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: props => (
+			header: (props) => (
 				<View>
 					<TopBanner
 						title={strings.LogIn}
@@ -86,13 +88,9 @@ const routeConfig = {
 	BussinessOrEmployeeScreen: {
 		screen: BussinessOrEmployeeScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: props => (
+			header: (props) => (
 				<View>
-					<TopBanner
-						leftIconName='angle-left'
-						size={30}
-						leftOnPress={() => navigation.goBack()}
-					/>
+					<TopBanner leftIconName='angle-left' size={30} leftOnPress={() => navigation.goBack()} />
 				</View>
 			),
 			gesturesEnabled: false,
@@ -102,7 +100,7 @@ const routeConfig = {
 	EmailPasswordScreen: {
 		screen: EmailPasswordScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: props => (
+			header: (props) => (
 				<View>
 					<TopBanner
 						title={strings.SignUp}
@@ -121,7 +119,7 @@ const routeConfig = {
 	ForgotPasswordScreen: {
 		screen: ForgotPasswordScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: props => (
+			header: (props) => (
 				<View>
 					<TopBanner
 						title={strings.ForgotPasswordNoQuestionMark}
@@ -137,13 +135,9 @@ const routeConfig = {
 	EmployeeVerification: {
 		screen: EmployeeVerification,
 		navigationOptions: ({ navigation }) => ({
-			header: props => (
+			header: (props) => (
 				<View>
-					<TopBanner
-						leftIconName='angle-left'
-						size={30}
-						leftOnPress={() => navigation.goBack()}
-					/>
+					<TopBanner leftIconName='angle-left' size={30} leftOnPress={() => navigation.goBack()} />
 				</View>
 			),
 			gesturesEnabled: false,
@@ -196,7 +190,7 @@ const routeConfig = {
 	BusinessScreens: {
 		screen: BusinessScreensNavigator,
 		navigationOptions: ({ navigation }) => ({
-			header: props => (
+			header: (props) => (
 				<View>
 					<TopBanner
 						title={"Home"}
@@ -262,7 +256,7 @@ const routeConfig = {
 		}),
 	},
 
-	//This is where businesses will view their exisitng payment method
+	//This is where businesses will view their existing payment method
 	ViewPaymentMethodScreen: {
 		screen: ViewPaymentMethodScreen,
 	},
@@ -301,7 +295,7 @@ const routeConfig = {
 		}),
 	},
 
-	//this is the screen where businesses will create questions to collect cuustomer info on request
+	//This is the screen where businesses will create questions to collect cuustomer info on request
 	CustomerInfoScreen: {
 		screen: CustomerInfoScreen,
 		navigationOptions: ({ navigation }) => ({
@@ -339,7 +333,7 @@ const routeConfig = {
 
 	// The route going to the confirm payment screen
 	ConfirmPaymentScreen: {
-		screen: ConfirmPaymentScreen
+		screen: ConfirmPaymentScreen,
 	},
 
 	//The route going to the product screen
