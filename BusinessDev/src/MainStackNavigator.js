@@ -41,7 +41,7 @@ import waitingForVerification from './firstScreens/signUp/EmployeeSignUp/waiting
 import EmployeeVerification from './firstScreens/signUp/EmployeeSignUp/employeeVerification';
 import WorkerManagement from './bottomTabScreens/dashboardScreens/mainDashboardScreens/services/workerManagement/workerManagement';
 import EmployeeScreensNavigator from './employeeScreens/employeeBottomScreensNavigator';
-import AlertsScreen from './sideBusinessScreens/alertsScreen/alertsScreen';
+//import AlertsScreen from './sideBusinessScreens/alertsScreen/alertsScreen';
 import { View } from 'react-native';
 import TopBanner from './components/TopBanner/TopBanner';
 import strings from 'config/strings';
@@ -229,7 +229,7 @@ const routeConfig = {
 		}),
 	},
 
-	AlertsScreen: {
+	/*AlertsScreen: {
 		screen: AlertsScreen,
 		navigationOptions: ({ navigation }) => ({
 			header: (
@@ -243,7 +243,7 @@ const routeConfig = {
 				</View>
 			),
 		}),
-	},
+	},*/
 
 	//The route going to the create product screen
 	CreateServiceScreen: {
