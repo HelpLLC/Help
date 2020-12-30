@@ -3,6 +3,7 @@
 import CreateServiceScreen from './sideBusinessScreens/createServiceScreen/createServiceScreen';
 import NameDescriptionScreen from './firstScreens/signUp/BusinessSignUp/nameDescriptionScreen';
 import AdditionalInformationScreen from './firstScreens/signUp/BusinessSignUp/additionalInformationScreen';
+import EditServiceScreensNavigator from './bottomTabScreens/dashboardScreens/mainDashboardScreens/editService/editServiceScreensNavigator';
 import ServiceScreen from './sideBusinessScreens/serviceScreen';
 import LaunchScreen from './firstScreens/launchScreen';
 import SplashScreen from './firstScreens/SplashScreen/SplashScreen';
@@ -47,28 +48,30 @@ import strings from 'config/strings';
 
 //The route config for all of the screens
 const routeConfig = {
-  //--------------------------- First Screens ---------------------------
+	//--------------------------- First Screens ---------------------------
 
-  //Takes you to the launch screen which is the blue logo
-  LaunchScreen: {
-    screen: LaunchScreen,
-    navigationOptions: ({ navigation }) => ({
-      gesturesEnabled: false,
-    }),
-  },
+	//Takes you to the launch screen which is the blue logo
+	LaunchScreen: {
+		screen: LaunchScreen,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false,
+		}),
+	},
 
-  //Takes you to the splash screen of the app
-  SplashScreen: {
-    screen: SplashScreen,
-    navigationOptions: ({ navigation }) => ({
-      gesturesEnabled: false,
-    }),
-  },
+	//Takes you to the splash screen of the app
+	SplashScreen: {
+		screen: SplashScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (props) => <View></View>,
+			gesturesEnabled: false,
+		}),
+	},
+
 	//Takes you to the log in screen of the app
 	LogInScreen: {
 		screen: LogInScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: props => (
+			header: (props) => (
 				<View>
 					<TopBanner
 						title={strings.LogIn}
@@ -85,13 +88,9 @@ const routeConfig = {
 	BussinessOrEmployeeScreen: {
 		screen: BussinessOrEmployeeScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: props => (
+			header: (props) => (
 				<View>
-					<TopBanner
-						leftIconName='angle-left'
-						size={30}
-						leftOnPress={() => navigation.goBack()}
-					/>
+					<TopBanner leftIconName='angle-left' size={30} leftOnPress={() => navigation.goBack()} />
 				</View>
 			),
 			gesturesEnabled: false,
@@ -101,7 +100,7 @@ const routeConfig = {
 	EmailPasswordScreen: {
 		screen: EmailPasswordScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: props => (
+			header: (props) => (
 				<View>
 					<TopBanner
 						title={strings.SignUp}
@@ -120,7 +119,7 @@ const routeConfig = {
 	ForgotPasswordScreen: {
 		screen: ForgotPasswordScreen,
 		navigationOptions: ({ navigation }) => ({
-			header: props => (
+			header: (props) => (
 				<View>
 					<TopBanner
 						title={strings.ForgotPasswordNoQuestionMark}
@@ -136,9 +135,84 @@ const routeConfig = {
 	EmployeeVerification: {
 		screen: EmployeeVerification,
 		navigationOptions: ({ navigation }) => ({
+			header: (props) => (
+				<View>
+					<TopBanner leftIconName='angle-left' size={30} leftOnPress={() => navigation.goBack()} />
+				</View>
+			),
+			gesturesEnabled: false,
+		}),
+	},
+
+	//Takes you to the screen where businesses will create their initial profile
+	NameDescriptionScreen: {
+		screen: NameDescriptionScreen,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false,
+		}),
+	},
+
+	//Takes you to the screen which will allow businesses to add more information about themselves
+	AdditionalInformationScreen: {
+		screen: AdditionalInformationScreen,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false,
+		}),
+	},
+
+	//Takes you to the screen which will allow providers to add their schedule
+	CreateScheduleScreen: {
+		screen: CreateScheduleScreen,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false,
+		}),
+	},
+
+	//Takes you to the screen which will display if a business account has not yet been approved
+	AccountNotVerifiedScreen: {
+		screen: AccountNotVerifiedScreen,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false,
+		}),
+	},
+
+	waitingForVerification: {
+		screen: waitingForVerification,
+		navigationOptions: ({ navigation }) => ({
+			gesturesEnabled: false,
+		}),
+	},
+
+	//--------------------------- Side Business Screens ---------------------------
+
+	// TODO EDIT HOME
+	//The provider screen's default route (The bottom tab navigator)
+	BusinessScreens: {
+		screen: BusinessScreensNavigator,
+		navigationOptions: ({ navigation }) => ({
+			header: (props) => (
+				<View>
+					<TopBanner
+						title={"Home"}
+						leftIconName='bell'
+						size={27}
+						leftOnPress={() => props.navigation.push('AlertsScreen', {})}
+					/>
+				</View>
+			),
+			gesturesEnabled: false,
+		}),
+		path: 'BusinessScreens/:businessID/:stripeConnectStatus',
+	},
+
+	// TODO EDIT PHOTOGRAPHY
+	EditServiceSreens: {
+		screen: EditServiceScreensNavigator,
+		navigationOptions: ({ navigation }) => ({
 			header: props => (
 				<View>
 					<TopBanner
+						title={"Photography"}
 						leftIconName='angle-left'
 						size={30}
 						leftOnPress={() => navigation.goBack()}
@@ -148,141 +222,131 @@ const routeConfig = {
 			gesturesEnabled: false,
 		}),
 	},
-  //Takes you to the screen where businesses will create their initial profile
-  NameDescriptionScreen: {
-    screen: NameDescriptionScreen,
-    navigationOptions: ({ navigation }) => ({
-      gesturesEnabled: false,
-    }),
-  },
 
-  //Takes you to the screen which will allow businesses to add more information about themselves
-  AdditionalInformationScreen: {
-    screen: AdditionalInformationScreen,
-    navigationOptions: ({ navigation }) => ({
-      gesturesEnabled: false,
-    }),
-  },
+	AlertsScreen: {
+		screen: AlertsScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<View>
+					<TopBanner
+						title={strings.Notifications}
+						leftIconName='arrow-left'
+						size={25}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+		}),
+	},
 
-  //Takes you to the screen which will allow providers to add their schedule
-  CreateScheduleScreen: {
-    screen: CreateScheduleScreen,
-    navigationOptions: ({ navigation }) => ({
-      gesturesEnabled: false,
-    }),
-  },
+	//The route going to the create product screen
+	CreateServiceScreen: {
+		screen: CreateServiceScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<View>
+					<TopBanner
+						title={strings.AddNewService}
+						leftIconName='arrow-left'
+						size={25}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+		}),
+	},
 
-  //Takes you to the screen which will display if a business account has not yet been approved
-  AccountNotVerifiedScreen: {
-    screen: AccountNotVerifiedScreen,
-    navigationOptions: ({ navigation }) => ({
-      gesturesEnabled: false,
-    }),
-  },
+	//This is where businesses will view their existing payment method
+	ViewPaymentMethodScreen: {
+		screen: ViewPaymentMethodScreen,
+	},
 
-  waitingForVerification: {
-    screen: waitingForVerification,
-    navigationOptions: ({ navigation }) => ({
-      gesturesEnabled: false,
-    }),
-  },
+	//This is where a business will go to add number of simultaneous requests
+	WorkerManagement: {
+		screen: WorkerManagement,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<View>
+					<TopBanner
+						title={strings.WorkerManagement}
+						leftIconName='arrow-left'
+						size={25}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+		}),
+	},
 
-  //--------------------------- Side Business Screens ---------------------------
+	//This is the screen where a business will add the payment information for customers
+	PricingAndPaymentScreen: {
+		screen: PricingAndPaymentScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<View>
+					<TopBanner
+						title={strings.PricingAndPayment}
+						leftIconName='arrow-left'
+						size={25}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+		}),
+	},
 
-  //The provider screen's default route (The bottom tab navigator)
-  BusinessScreens: {
-	screen: BusinessScreensNavigator,
-	navigationOptions: ({ navigation }) => ({
-		header: props => (
-			<View>
-				<TopBanner
-					title={strings.Home}
-					leftIconName='bell'
-					size={27}
-					leftOnPress={() => props.navigation.push('AlertsScreen', {})}
-				/>
-			</View>
-		),
-		gesturesEnabled: false,
-	}),
-	path: 'BusinessScreens/:businessID/:stripeConnectStatus',
-},
+	//This is the screen where businesses will create questions to collect cuustomer info on request
+	CustomerInfoScreen: {
+		screen: CustomerInfoScreen,
+		navigationOptions: ({ navigation }) => ({
+			header: (
+				<View>
+					<TopBanner
+						title={strings.CustomerInfo}
+						leftIconName='arrow-left'
+						size={25}
+						leftOnPress={() => navigation.goBack()}
+					/>
+				</View>
+			),
+		}),
+	},
 
-AlertsScreen: {
-	screen: AlertsScreen,
-	navigationOptions: ({ navigation }) => ({
-		header: (
-			<View>
-				<TopBanner
-					title={strings.Notifications}
-					leftIconName='arrow-left'
-					size={25}
-					leftOnPress={() => navigation.goBack()}
-				/>
-			</View>
-		),
-	}),
-},
-  //The route going to the create product screen
-  CreateServiceScreen: {
-    screen: CreateServiceScreen,
-  },
+	CreatePaymentMethodScreen: {
+		screen: CreatePaymentMethodScreen,
+	},
 
-  //This is where businesses will view their exisitng payment method
-  ViewPaymentMethodScreen: {
-    screen: ViewPaymentMethodScreen,
-  },
+	//Takes you to the screen where businesses see current requests for a specific service
+	ServiceCurrentRequestsScreen: {
+		screen: ServiceCurrentRequestsScreen,
+	},
 
-  //This is where a business will go to add number of simultaneous requests
-  WorkerManagement: {
-    screen: WorkerManagement,
-  },
+	//The route going to the screen for a specific request
+	CustomerRequestScreen: {
+		screen: CustomerRequestScreen,
+	},
 
-  //This is the screen where a business will add the payment information for customers
-  PricingAndPaymentScreen: {
-    screen: PricingAndPaymentScreen,
-  },
+	//The route going to the bill customer screen
+	BillCustomerScreen: {
+		screen: BillCustomerScreen,
+	},
 
-  //this is the screen where businesses will create questions to collect cuustomer info on request
-  CustomerInfoScreen: {
-    screen: CustomerInfoScreen,
-  },
+	// The route going to the confirm payment screen
+	ConfirmPaymentScreen: {
+		screen: ConfirmPaymentScreen,
+	},
 
-  CreatePaymentMethodScreen: {
-    screen: CreatePaymentMethodScreen,
-  },
+	//The route going to the product screen
+	ServiceScreen: {
+		screen: ServiceScreen,
+	},
 
-  //Takes you to the screen where businesses see current requests for a specific service
-  ServiceCurrentRequestsScreen: {
-    screen: ServiceCurrentRequestsScreen,
-  },
+	//The route going to the product history screen
+	ServiceHistoryScreen: {
+		screen: ServiceHistoryScreen,
+	},
 
-  //The route going to the screen for a specific request
-  CustomerRequestScreen: {
-    screen: CustomerRequestScreen,
-  },
-
-  //The route going to the bill customer screen
-  BillCustomerScreen: {
-    screen: BillCustomerScreen,
-  },
-
-  // The route going to the confirm payment screen
-  ConfirmPaymentScreen: {
-    screen: ConfirmPaymentScreen,
-  },
-
-  //The route going to the product screen
-  ServiceScreen: {
-    screen: ServiceScreen,
-  },
-
-  //The route going to the product history screen
-  ServiceHistoryScreen: {
-    screen: ServiceHistoryScreen,
-  },
-
-  //--------------------------- Settings Screen ---------------------------
+	//--------------------------- Settings Screen ---------------------------
 
 	//Takes you to the company info screen
 	CompanyInfoScreen: {

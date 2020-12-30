@@ -25,6 +25,8 @@ export default function viewDetailsScreen(props) {
     const [balance, setBalance] = useState(0);
     const [payoutInterval, setPayoutInterval] = useState('m');
     const [accountNumber, setAccountNumber] = useState('');
+    const [accountNumberLast4, setAccountNumberLast4] = useState('');
+    const [routingNumber, setRoutingNumber] = useState('');
     const [screenState, setScreenState] = useState(-1);
     const [invalidBAN, setInvalidBAN] = useState(false);
     const [selectPI, setSelectPI] = useState(false);
@@ -33,18 +35,22 @@ export default function viewDetailsScreen(props) {
 		//Declares the screen name in Firebase
         FirebaseFunctions.setCurrentScreen('ViewDetailsScreen', 'viewDetailsScreen');
 
-        //TODO: add backend requests for this data
-
         const {
 			businessID:BID
         } = props.navigation.state.params;
 
-        let funds = 150150;
-        let number = '3957239520581879';
+        const balance = await FirebaseFunctions.call('retrieveConnectAccountBalance', {
+            businessID: BID
+        });
+
+        const account = await FirebaseFunctions.call('retrieveConnectAccountDetails', {
+            businessID: BID
+        });
 
         setBusinessID(BID);
-        setBalance(funds);
-        setAccountNumber(number);
+        setBalance(balance.available[0].amount + balance.pending[0].amount);
+        setAccountNumberLast4(account.last4);
+        setRoutingNumber(account.routing_number);
         setScreenState(0);
     }
     useEffect(() => {
@@ -128,7 +134,7 @@ export default function viewDetailsScreen(props) {
     else if(screenState == 0) return (
         <View style={style.Body}>
             <View style={style.HeaderContainer}>
-                <Text style={style.AccountNumber}>{'**** **** **** '+accountNumber.substring(12)}</Text>
+                <Text style={style.AccountNumber}>{'**** **** **** '+accountNumberLast4}</Text>
                 <Text style={style.Balance}>{formatCurrency(balance)}</Text>
                 <View style={style.RowContainer}>
                     <Text style={style.Content}>{getNextPayout()}</Text>
@@ -182,6 +188,11 @@ export default function viewDetailsScreen(props) {
                 onChangeText={text=>setAccountNumber(text.replace(/[\D]/g, ''))}
                 keyboardType='number-pad'
                 maxLength={16}>{accountNumber}</TextInput>
+            <Text style={style.Subject}>{strings.RN}</Text>
+            <TextInput style={style.AccountInput}
+                onChangeText={text=>setRoutingNumber(text.replace(/[\D]/g, ''))}
+                keyboardType='number-pad'
+                maxLength={9}>{routingNumber}</TextInput>
             <Text style={style.Subject}>{strings.PayoutSchedule}</Text>
             <Text style={style.Content}>{getNextPayout()}</Text>
             <View style={{...style.RowContainer, marginVertical:10}}>
@@ -207,11 +218,33 @@ export default function viewDetailsScreen(props) {
                     bigText={true}
                     bold={true}
                     onPress={() => {
-                        if(accountNumber.length == 16){
-                            //TODO: send data to the backend
-                            setScreenState(0);
+                        async function apply(){
+                            if(accountNumber.length == 16){
+
+                                await FirebaseFunctions.call('SetConnectAccountPayoutSchedule', {
+                                    businessID: businessID,
+                                    interval: payoutInterval,
+                                    weekly_anchor: 'monday',
+                                    monthly_anchor: 1,
+                                });
+
+                                await FirebaseFunctions.call('updateStripeConnectAccountPayment', {
+                                    businessID: businessID,
+                                    checkingAccount: {
+                                        country: 'US',
+                                        currency: 'usd',
+                                        account_number: accountNumber,
+                                        routing_number: routingNumber
+                                    }
+                                });
+
+                                setAccountNumberLast4(accountNumber.substring(12));
+                                
+                                setScreenState(0);
+                            }
+                            else setInvalidBAN(true);
                         }
-                        else setInvalidBAN(true);
+                        apply();
                     }}
                 />
             </View>
