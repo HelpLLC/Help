@@ -248,7 +248,6 @@ const routeConfig = {
 		navigationOptions: ({ navigation }) => ({
 			tabBarLabel: strings.Analytics,
 			tabBarIcon: ({ tintColor, focused }) => (
-				// <Icon name='chart-line' size={45} type='material-community' color={tintColor} />
 				<Icon name='line-chart' size={45} type='font-awesome' color={tintColor} />
 			),
 		}),
