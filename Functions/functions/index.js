@@ -35,6 +35,7 @@ const businesses = database.collection('businesses');
 const customers = database.collection('customers');
 const services = database.collection('services');
 const requests = database.collection('requests');
+const customRequests = database.collection('customRequests');
 const issues = database.collection('issues');
 const helpDev = database.collection('helpDev');
 const employees = database.collection('employees')
@@ -197,6 +198,79 @@ const deleteRequest = async (requestID) => {
 	return 0;
 };
 
+//Method will take in a service ID and a customer ID and a requestID and a businessID and then delete that customer's request
+//from the service's current requests.
+const deleteCustomRequest = async (requestID) => {
+	await database.runTransaction(async (transaction) => {
+		let request = (await transaction.get(customRequests.doc(requestID))).data();
+		let business = (await transaction.get(businesses.doc(request.businessID))).data();
+
+		const indexOfService = business.services.findIndex(
+			(element) => element.serviceID === request.serviceID
+		);
+		business.services[indexOfService].numCurrentRequests =
+			business.services[indexOfService].numCurrentRequests - 1;
+		await transaction.update(businesses.doc(request.businessID), {
+			services: business.services,
+		});
+
+		//Fetches the date from the business and formats it in a way so scheduling could be deleted within business as well
+		date = new Date(request.date);
+		let year = date.getFullYear();
+		let month = date.getMonth() + 1;
+		let day = date.getDate();
+		if (month < 10) {
+			month = '0' + month;
+		}
+		if (day < 10) {
+			day = '0' + day;
+		}
+		const dateString = year + '-' + month + '-' + day;
+		await transaction.update(
+			businesses.doc(request.businessID).collection('Schedule').doc(dateString),
+			{
+				[requestID]: admin.firestore.FieldValue.delete(),
+			}
+		);
+
+		//Notifies the business that the request has been deleted.
+		sendNotification(
+			'b-' + request.businessID,
+			'Request Cancelled',
+			'You have cancelled '+request.customerName+'\'s request for' + ' ' + request.serviceTitle
+		);
+	});
+
+	await database.runTransaction(async (transaction) => {
+		let request = (await transaction.get(requests.doc(requestID))).data();
+		date = new Date(request.date);
+		let year = date.getFullYear();
+		let month = date.getMonth() + 1;
+		let day = date.getDate();
+		if (month < 10) {
+			month = '0' + month;
+		}
+		if (day < 10) {
+			day = '0' + day;
+		}
+		const dateString = year + '-' + month + '-' + day;
+		//Tests if this document should be deleted all together
+		const scheduleDoc = (
+			await transaction.get(
+				businesses.doc(request.businessID).collection('Schedule').doc(dateString)
+			)
+		).data();
+		if (Object.keys(scheduleDoc).length === 1) {
+			await transaction.delete(
+				businesses.doc(request.businessID).collection('Schedule').doc(dateString)
+			);
+		}
+		await transaction.delete(requests.doc(requestID));
+	});
+
+	return 0;
+};
+
 const getBusinessCurrentRequestsByDay = async (businessID, day) => {
 	const doc = await database.runTransaction(async (transaction) => {
 		const doc = await transaction.get(businesses.doc(businessID).collection('Schedule').doc(day));
@@ -272,6 +346,30 @@ exports.getAllRequests = functions.https.onCall(async (input, context) => {
 
 	//Returns the array which contains all of the docs
 	return array;
+});
+
+//Method fetches a notifications for a business by business ID
+exports.getBusinessNotifications = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+	const doc = await database.runTransaction(async (transaction) => {
+		const query1 = await employees
+			.where('businessID', '==', businessID)
+			.where('isVerified', '==', false);
+		const newEmployees = (await transaction.get(query1)).docs;
+		for(let i in newEmployees)
+			newEmployees[i].type = 'employeeRequest';
+
+		const query2 = await requests
+			.where('businessID', '==', businessID)
+			.where('confirmed', '==', false);
+		const newRequests = (await transaction.get(query2)).docs;
+		for(let i in newRequests)
+			newRequests[i].type = 'serviceRequest';
+
+		return [...newEmployees, ...newRequests];
+	});
+
+	return doc;
 });
 
 //Method fetches a business by ID & returns the business as an object. If the business does not exist, returns -1
@@ -448,6 +546,22 @@ exports.getRequestByID = functions.https.onCall(async (input, context) => {
 	return doc;
 });
 
+//Method fetches a request by ID & returns the request as an object. If the request does not exist, returns -1
+exports.getCustomRequestByID = functions.https.onCall(async (input, context) => {
+	const { requestID } = input;
+	const doc = await database.runTransaction(async (transaction) => {
+		const ref = customRequests.doc(requestID + '');
+		const doc = await transaction.get(ref);
+
+		if (doc.exists) {
+			return doc.data();
+		} else {
+			return -1;
+		}
+	});
+	return doc;
+});
+
 //This function will return the document for a specific day on a business schedule. If that document, doesn't exist,
 //then an empty array will be returned. Accepts a day in YYYY-MM-DD format, along with a businessID
 exports.getBusinessCurrentRequestsByDay = functions.https.onCall(async (input, context) => {
@@ -513,6 +627,36 @@ exports.getUpcomingRequestByBusinessID = functions.https.onCall(async (input, co
 			.collection('Schedule')
 			.orderBy('dateString')
 			.limit(1);
+		const docs = (await transaction.get(query)).docs;
+		if (docs.length === 0) {
+			return [];
+		} else {
+			const doc = await docs[0].data();
+			delete doc.dateString;
+			const finalArray = [];
+			for (const key of Object.keys(doc)) {
+				finalArray.push(doc[key]);
+			}
+
+			return finalArray;
+		}
+	});
+
+	return doc;
+});
+
+//This method will get the most upcoming request for a spefici date from their request subcollection. If there are no requests,
+//then -1 will be returned
+exports.getUpcomingCustomRequestsByBusinessID = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+
+	const doc = await database.runTransaction(async (transaction) => {
+		const query = await businesses
+			.doc(businessID)
+			.collection('Schedule')
+			.orderBy('dateString')
+			.limit(1)
+			.where('customerID', '==', null);
 		const docs = (await transaction.get(query)).docs;
 		if (docs.length === 0) {
 			return [];
@@ -1034,6 +1178,29 @@ exports.addEmployeeToDatabase = functions.https.onCall(async (input, context) =>
 	return 0;
 });
 
+//Adds information to the employee that makes them eligable for business verification
+//afterwords, the getBusinessNotifications function should return this employee as unverified for that business
+exports.employeeRequestVerification = functions.https.onCall(async (input, context) => {
+	const {
+		//Fields for the employee
+		employeeID,
+		employeeCode,
+	} = input;
+	
+	//creates the new array
+	const business = await businesses.where('employeeCode', '==', employeeCode).get();
+
+	const batch = database.batch();
+
+	batch.update(employees.doc(employeeID), {
+		businessID: business.businessID,
+	});
+
+	// Commits the batch
+	await batch.commit();
+	return 0;
+});
+
 //method to verify that an employee is part of a business
 exports.verifyEmployeeForBusiness = functions.https.onCall(async (input, context) => {
 	const {
@@ -1049,7 +1216,7 @@ exports.verifyEmployeeForBusiness = functions.https.onCall(async (input, context
 	});
 
 	batch.update(employees.doc(employeeID), {
-		isVerified: true
+		isVerified: true,
 	});
 
 	// Commits the batch
@@ -1938,6 +2105,93 @@ exports.chargeCustomerForRequest = functions.https.onCall(async (input, context)
 	}
 });
 
+//This method will charge a specific amount to a specific customer and move it to a Stripe Connect account
+//It will take in a billed amount, charge it to the customer, and move it to the Stripe Connect balance. It will
+//record this transaction as a field in the request document
+exports.chargeCustomerForCustomRequest = functions.https.onCall(async (input, context) => {
+	const { businessID, requestID, billedAmount, serviceID, isCardSaved } = input;
+
+	try {
+		const promises = await Promise.all([
+			businesses.doc(businessID).get(),
+			requests.doc(requestID).get(),
+		]);
+		const business = promises[0].data();
+		const request = promises[1].data();
+
+		const { stripeBusinessID } = business;
+
+		//Calculates the charge amount along with the fee. Stripe accepts parameters as cents
+		const chargedAmountToCustomer = billedAmount * 100; //This is how much the customer will be charged
+		const feePaidByBusiness = (billedAmount * 0.05 + 0.3) * 100; //This is how much comes to us from the business. The "0.05 + 0.3" means 5% + 30 cents, which is the amount we will edit
+
+		//If this is a one-time payment, then it charges the token which will be saved in the "isCardSaved param". If this
+		//is a saved customer card, then it charges the customer object
+		let charge = '';
+		if (isCardSaved === true) {
+			charge = await stripe.charges.create({
+				amount: chargedAmountToCustomer,
+				application_fee_amount: feePaidByBusiness,
+				currency: 'usd',
+				source: request.paymentInformation,
+				transfer_data: {
+					destination: stripeBusinessID,
+				},
+			});
+		} else {
+			charge = await stripe.charges.create({
+				amount: chargedAmountToCustomer,
+				application_fee_amount: feePaidByBusiness,
+				currency: 'usd',
+				source: isCardSaved,
+				transfer_data: {
+					destination: stripeBusinessID,
+				},
+			});
+		}
+
+		let balance = await (new Promise( (res, rej) => {
+			stripe.balance.retrieve({stripeAccount:business.data().stripeBusinessID}, (err, balance) => {
+				if(balance) res(balance);
+				else res(err);
+			});
+		}));
+		let transaction = {
+			amount: chargedAmountToCustomer,
+			total: balance.available[0].amount + balance.pending[0].amount,
+			service: request.serviceTitle,
+			customer: request.customerName,
+			date: new Date().getTime(),
+		}
+
+		//Updates the request document with information about the completed request. Also updates the CompletedRequest
+		//subcollection documents within the service and the customer just in case it needs to be referenced.
+		const { id, payment_method, receipt_url } = charge;
+		const paymentInformation = {
+			chargedAmountToCustomer: billedAmount,
+			feePaidByBusiness: feePaidByBusiness / 100,
+			amountPaidToHelp: (feePaidByBusiness / 100 - (billedAmount * 0.029 + 0.3)).toFixed(2), //This should be adjusted based on the Stripe Connect costs
+			customerName:request.customerName,
+			stripeBusinessID,
+			chargeID: id,
+			paymentMethodID: payment_method,
+			receiptURL: receipt_url,
+		};
+
+		const batch = database.batch();
+		batch.set(businesses.doc(businessID).collection('Transactions').doc(transaction.date), transaction);
+		batch.update(requests.doc(requestID), { paymentInformation });
+		batch.update(services.doc(serviceID).collection('CompletedRequests').doc(requestID), {
+			paymentInformation,
+		});
+		await batch.commit();
+
+		return 0;
+	} catch (error) {
+		throw error;
+	}
+});
+
 //The method retrieves the business's balance from their stripe account
 exports.retrieveConnectAccountBalance = functions.https.onCall(async (input, context) => {
 	const { businessID } = input;
@@ -2084,6 +2338,52 @@ exports.retrieveConnectAccountStatistics = functions.https.onCall(async (input, 
 	return statistics;
 });
 
+//add the customer's payment details to the custom request
+exports.addCustomRequestPaymentDetails = functions.https.onCall(async (input, context) => {
+	const { customRequestID, paymentToken, cardData, checkingAccount } = input;
+
+	// example credit card
+	// card = {
+	// 	number: '4000056655665556',
+	// 	exp_month: 10,
+	// 	exp_year: 2021,
+	// 	cvc: '314',
+    // 	currency: 'usd',
+	// }
+
+	//example bank account
+	// account = {
+	// 	country: 'US',
+	// 	currency: 'usd',
+	// 	account_number: '3497216841356',
+	//	routing_number: '000000000'
+	// }
+
+	try {
+		const business = (await businesses.doc(businessID).get()).data();
+
+		let finalToken;
+		if(paymentToken) finalToken = {id:paymentToken};
+		else if(cardData) finalToken = await stripe.tokens.create({card:cardData});
+		else if(checkingAccount) finalToken = await stripe.tokens.create({bank_account:checkingAccount});
+		else throw {code:'invalid_card_type'};
+
+		//updates the database payment information
+		await customRequests.doc(customRequestID).update({
+			paymentInformation: finalToken.id,
+		});
+
+		return 0;
+	} catch (error) {
+		//Handles the case that the user enters in a non-valid card for Stripe Connect (a credit card for example)
+		if (error.code === 'invalid_card_type') {
+			return 'invalid_card_type';
+		} else {
+			return -1;
+		}
+	}
+});
+
 //--------------------------------- Image Functions ---------------------------------
 
 //Method will take in an ID of a category image and download it from Firebase Storage, storing its URI.
@@ -2144,6 +2444,165 @@ exports.getBusinessProfilePictureByID = functions.https.onCall(async (input, con
 });
 
 //--------------------------------- Request Functions ---------------------------------
+
+//Method will take in a request object, which may contain a schedule, answers to questions, or both.
+//It will add this request object to the right locations.
+exports.customRequestService = functions.https.onCall(async (input, context) => {
+	let {
+		assignedTo,
+		businessID,
+		customerLocation,
+		paymentInformation,
+		cash,
+		card,
+		date,
+		questions,
+		price,
+		priceText,
+		review,
+		serviceTitle,
+		customerName,
+		serviceDuration,
+		requestedOn,
+		serviceID,
+		status,
+		time,
+	} = input;
+
+	// Calculates the end time field for requests
+	let startHours = parseInt(time.split(' ')[0].split(':')[0]);
+	const startMinutes = parseInt(time.split(' ')[0].split(':')[1]);
+
+	if (startHours !== 12 && time.split(' ')[1] === 'PM') {
+		startHours += 12;
+	}
+
+	let endHours = startHours + Math.floor(serviceDuration);
+	let endMinutes = Math.floor(startMinutes + 60 * (serviceDuration - Math.floor(serviceDuration)));
+	let amPM = endHours >= 12 ? 'PM' : 'AM';
+	if (amPM === 'PM' && endHours > 12) {
+		endHours -= 12;
+	}
+
+	let endTime = endHours + ':' + endMinutes + ' ' + amPM;
+
+	const batch = database.batch();
+
+	//If this is a request being edited, the old request document will be edited, else it will be added
+	const newRequestDoc = await customRequests.add({
+		assignedTo,
+		businessID,
+		cash,
+		customerLocation,
+		paymentInformation,
+		card,
+		date,
+		price,
+		priceText,
+		questions,
+		review,
+		serviceTitle,
+		customerName,
+		requestedOn,
+		serviceID,
+		status,
+		time,
+		endTime,
+		confirmed: false, //Since it is new requests it starts off as unconfirmed to allow a business to confirm it
+	});
+
+	const requestID = newRequestDoc.id;
+
+	batch.update(customRequests.doc(requestID), { requestID });
+
+	await batch.commit();
+
+	const result = await database.runTransaction(async (transaction) => {
+		//Converts the date to YYYY-MM-DD format and adds the current request to the business's schedule subcollection
+		const dateObject = new Date(date);
+		let year = dateObject.getFullYear();
+		let month = dateObject.getMonth() + 1;
+		let day = dateObject.getDate();
+		if (month < 10) {
+			month = '0' + month;
+		}
+		if (day < 10) {
+			day = '0' + day;
+		}
+		const dateString = year + '-' + month + '-' + day;
+		const dateDocPath = businesses.doc(businessID).collection('Schedule').doc(dateString);
+		const dateDoc = await transaction.get(dateDocPath);
+		//Increments the numRequests for the service. Also adds scheduling information for the business
+		let business = (await transaction.get(businesses.doc(businessID))).data();
+		const indexOfService = business.services.findIndex(
+			(element) => element.serviceID === serviceID
+		);
+		business.services[indexOfService].numCurrentRequests =
+			business.services[indexOfService].numCurrentRequests + 1;
+		await transaction.update(businesses.doc(businessID), {
+			services: business.services,
+		});
+
+		//Updates the analytics for the business
+		const fieldName = serviceID + '.totalRequests';
+		await transaction.update(
+			businesses.doc(businessID).collection('Analytics').doc('TopServices'),
+			{
+				[fieldName]: admin.firestore.FieldValue.increment(1),
+			}
+		);
+
+		if (dateDoc.exists === true) {
+			await transaction.update(dateDocPath, {
+				[requestID]: {
+					date,
+					time,
+					endTime,
+					requestID,
+					serviceDuration,
+					serviceTitle,
+					serviceID,
+					customerName,
+				},
+			});
+		} else {
+			await transaction.set(dateDocPath, {
+				dateString,
+				[requestID]: {
+					date,
+					time,
+					endTime,
+					requestID,
+					serviceDuration,
+					serviceTitle,
+					serviceID,
+					customerName,
+				},
+			});
+		}
+
+		return 0;
+	});
+
+	sendNotification('b-' + businessID, 'New Request', 'You have a new request for ' + serviceTitle);
+
+	//Emails help team that there has been a new requeset
+	sendEmail(
+		'helpcocontact@gmail.com',
+		'New Custom Request',
+		'Customer ' +
+			customerName +
+			' has requested ' +
+			serviceTitle +
+			' from ' +
+			'Business #' +
+			businessID
+	);
+
+	return result;
+});
+
+
 
 //Method will take in a request object, which may contain a schedule, answers to questions, or both.
 //It will add this request object to the right locations.
@@ -2599,6 +3058,14 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 	}
 
 	return 0;
+});
+
+//Method will take in a service ID and a customer ID and then delete that customer's request from the collection and
+//the corresponding array.
+exports.deleteCustomRequest = functions.https.onCall(async (input, context) => {
+	const { requestID } = input;
+	const deleted = await deleteCustomRequest(requestID);
+	return deleted;
 });
 
 //Method will take in a service ID and a customer ID and then delete that customer's request from the collection and
