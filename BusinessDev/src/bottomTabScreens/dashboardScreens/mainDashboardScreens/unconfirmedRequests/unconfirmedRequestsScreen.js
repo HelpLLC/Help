@@ -10,75 +10,68 @@ import HelpButton from '../../../../components/HelpButton/HelpButton';
 import unconfirmedRequestsScreenStyle from './unconfirmedRequestsScreenStyle';
 
 const unconfirmedScreen = (props) => {
-  let image = {
-    uri:
-      'https://www.adorama.com/alc/wp-content/uploads/2018/07/shutterstock_170815865-1024x563.jpg',
-  };
-  return (
-    <ScrollView>
-      <HelpView style={[screenStyle.container, { alignItems: 'flex-start' }]}>
-        <View style={unconfirmedRequestsScreenStyle.ServiceCard}>
-          <View style={[unconfirmedRequestsScreenStyle.ImageandTitle, unconfirmedRequestsScreenStyle.RightSpacer]}>
-            <Text
-              style={
-                ([
-                  fontStyles.darkBlue,
-                  fontStyles.bold,
-                  fontStyles.mainTextStyle,
-                  unconfirmedRequestsScreenStyle.BottomSpacer
-                ])
-              }
-            >
-                      {/* replace with firbase input */}
-              Photography
-            </Text>
-            <Image source={image} style={unconfirmedRequestsScreenStyle.imageStyle } />
-          </View>
+	let image = {
+		uri:
+			'https://www.adorama.com/alc/wp-content/uploads/2018/07/shutterstock_170815865-1024x563.jpg',
+	};
+	return (
+		<ScrollView>
+			<HelpView style={[screenStyle.container, { alignItems: 'flex-start' }]}>
+				<View style={unconfirmedRequestsScreenStyle.ServiceCard}>
+					<View
+						style={[
+							unconfirmedRequestsScreenStyle.ImageandTitle,
+							unconfirmedRequestsScreenStyle.RightSpacer,
+						]}>
+						<Text
+							style={[
+								fontStyles.darkBlue,
+								fontStyles.bold,
+								fontStyles.mainTextStyle,
+								unconfirmedRequestsScreenStyle.BottomSpacer,
+							]}>
+							{/* replace with firebase input */}
+							Photography
+						</Text>
+						<Image source={image} style={unconfirmedRequestsScreenStyle.imageStyle} />
+					</View>
 
-          <View style={unconfirmedRequestsScreenStyle.TextPlusButton}>
-              <View style={unconfirmedRequestsScreenStyle.MiddleText}>
-            <Text 
-              style={
-                ([
-                  fontStyles.darkBlue,
-                  fontStyles.bold,
-                  fontStyles.subTextStyle,
-                   unconfirmedRequestsScreenStyle.BottomSpacer
-                ]
-               )
-              }
-            >
-              Wed, APR 1, 2020 
-              {/* replace with firbase input */}
-            </Text>
-            <Text
-              style={
-                ([
-                  fontStyles.darkBlue,
-                  fontStyles.bold,
-                  fontStyles.mainTextStyle,
-                  unconfirmedRequestsScreenStyle.BottomSpacer
-                ])
-                
-              }
-            >
-                      {/* replace with firbase input */}
-             4:00 PM - 5:00 PM
-            </Text>
-            </View>
-            <View>
-              <HelpButton
-                title={strings.ConfirmRequest}
-                onPress={() => {}}
-                width={screenWidth * 0.5}
-                height={screenHeight * 0.04}
-              />
-            </View>
-          </View>
-        </View>
-      </HelpView>
-    </ScrollView>
-  );
+					<View style={unconfirmedRequestsScreenStyle.TextPlusButton}>
+						<View style={unconfirmedRequestsScreenStyle.MiddleText}>
+							<Text
+								style={[
+									fontStyles.darkBlue,
+									fontStyles.bold,
+									fontStyles.subTextStyle,
+									unconfirmedRequestsScreenStyle.BottomSpacer,
+								]}>
+								Wed, APR 1, 2020
+								{/* replace with firebase input */}
+							</Text>
+							<Text
+								style={[
+									fontStyles.darkBlue,
+									fontStyles.bold,
+									fontStyles.mainTextStyle,
+									unconfirmedRequestsScreenStyle.BottomSpacer,
+								]}>
+								{/* replace with firebase input */}
+								4:00 PM - 5:00 PM
+							</Text>
+						</View>
+						<View style={unconfirmedRequestsScreenStyle.EditButton}>
+							<HelpButton
+								title={strings.Confirm} // strings.ConfirmRequest
+								onPress={() => {}}
+								width={screenWidth * 0.25}
+								height={screenHeight * 0.04}
+							/>
+						</View>
+					</View>
+				</View>
+			</HelpView>
+		</ScrollView>
+	);
 };
 
 export default unconfirmedScreen;

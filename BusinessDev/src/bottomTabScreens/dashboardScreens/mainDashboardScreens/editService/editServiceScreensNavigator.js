@@ -12,6 +12,8 @@ import React from 'react';
 import { View } from 'react-native';
 import colors from 'config/colors';
 
+// strings.ServiceInfo, strings.Requests, strings.RequestsHistory, strings.UnconfirmedRequests
+
 //will configure the routes of each top tab to go to the correct screen when clicked on.
 const editServiceRouteConfig = {
 	//Route connecting to the view services screen
@@ -20,8 +22,8 @@ const editServiceRouteConfig = {
 		screen: serviceInfoScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
-			tabBarLabel: strings.Services
-		})
+			tabBarLabel: strings.ServiceInfo,
+		}),
 	},
 
 	//Route connecting to the unconfirmed requests screen
@@ -30,29 +32,29 @@ const editServiceRouteConfig = {
 		screen: requestsScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
-			tabBarLabel: strings.UnconfirmedReqs
-		})
-    },
-    
-    //Route connecting to the view services screen
+			tabBarLabel: strings.UnconfirmedReqs,
+		}),
+	},
+
+	//Route connecting to the view services screen
 	RequestsHistoryScreen: {
 		//connects the object with the help screen component
 		screen: requestsHistoryScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
-			tabBarLabel: strings.Services
-		})
-    },
-    
-    //Route connecting to the view services screen
+			tabBarLabel: strings.RequestsHistory,
+		}),
+	},
+
+	//Route connecting to the view services screen
 	UnconfirmedRequestsScreen: {
 		//connects the object with the help screen component
 		screen: unconfirmedRequestsScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
-			tabBarLabel: strings.Services
-		})
-	}
+			tabBarLabel: strings.Services,
+		}),
+	},
 };
 
 //This sets up the configurations for the tabNavigator colors, initial route, etc.
@@ -72,23 +74,26 @@ const editServiceNavigatorConfig = {
 		inactiveTintColor: colors.white,
 		//This styles the line at the bottom of the tab
 		indicatorStyle: {
-			backgroundColor: colors.white
+			backgroundColor: colors.white,
 		},
 		//This styles the object for the tab label
 		labelStyle: {
-			fontFamily: 'Lucida Grande'
+			fontFamily: 'Lucida Grande',
 		},
 		//This styles the tabBar itself; the color, height, etc.
 		style: {
 			backgroundColor: colors.blue,
-			height: screenHeight * 0.06
+			height: screenHeight * 0.06,
 		},
 		showLabel: true,
-		showIcon: false
-	}
+		showIcon: false,
+	},
 };
 
-const editServiceTopTabNavigator = createMaterialTopTabNavigator(editServiceRouteConfig, editServiceNavigatorConfig);
+const editServiceTopTabNavigator = createMaterialTopTabNavigator(
+	editServiceRouteConfig,
+	editServiceNavigatorConfig
+);
 
 //This creates and exports the final providerScreensNavigator
 export default createAppContainer(editServiceTopTabNavigator);
