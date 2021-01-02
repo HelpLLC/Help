@@ -22,17 +22,20 @@ export default StyleSheet.create({
 		justifyContent: 'center',
 		textAlign: 'center',
 		flex: 10,
+		marginBottom: 10,
 	},
 	rightComponent: {
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'flex-end',
 		paddingRight: screenWidth * 0.05,
+		marginBottom: 10,
 	},
 	leftComponent: {
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'flex-start',
 		paddingLeft: screenWidth * 0.05,
+		marginBottom: 10,
 	},
 });
