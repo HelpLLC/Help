@@ -1196,6 +1196,10 @@ exports.employeeRequestVerification = functions.https.onCall(async (input, conte
 		businessID: business.businessID,
 	});
 
+	const employee = await (await employees.doc(employeeID).get()).data();
+
+	sendNotification('b-' + business.businessID, "Employee Request", employee.name+" requested to join your business");
+
 	// Commits the batch
 	await batch.commit();
 	return 0;
