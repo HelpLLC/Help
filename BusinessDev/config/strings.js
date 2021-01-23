@@ -433,7 +433,7 @@ export default {
 	PleaseEnterPhoneNumber: 'Please enter a valid phone number...',
 	Join: 'Join',
 	Dashboard: 'Dashboard',
-	AddServices: 'Add Services',
+	AddNewService: 'Add New Service',
 	Edit: 'Edit',
 	Approve: 'Approve',
 	Deny: 'Deny',

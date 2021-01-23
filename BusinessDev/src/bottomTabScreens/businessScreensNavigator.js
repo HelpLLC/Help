@@ -66,8 +66,9 @@ const dashboardNavigatorConfig = {
 		//This styles the tabBar itself; the color, height, etc.
 		style: {
 			backgroundColor: colors.blue,
-			height: screenHeight * 0.06,
+			height: screenHeight * 0.065,
 		},
+		allowFontScaling: false,
 		showLabel: true,
 		showIcon: false,
 	},
@@ -137,7 +138,7 @@ const analyticsNavigatorConfig = {
 		//This styles the tabBar itself; the color, height, etc.
 		style: {
 			backgroundColor: colors.blue,
-			height: screenHeight * 0.07,
+			height: screenHeight * 0.065,
 			justifyContent: 'center',
 		},
 		showLabel: true,
@@ -199,7 +200,7 @@ const dispatchNavigatorConfig = {
 		//This styles the tabBar itself; the color, height, etc.
 		style: {
 			backgroundColor: colors.blue,
-			height: screenHeight * 0.06,
+			height: screenHeight * 0.065,
 		},
 		showLabel: true,
 		showIcon: false,
@@ -247,7 +248,6 @@ const routeConfig = {
 		navigationOptions: ({ navigation }) => ({
 			tabBarLabel: strings.Analytics,
 			tabBarIcon: ({ tintColor, focused }) => (
-				// <Icon name='chart-line' size={45} type='material-community' color={tintColor} />
 				<Icon name='line-chart' size={45} type='font-awesome' color={tintColor} />
 			),
 		}),
