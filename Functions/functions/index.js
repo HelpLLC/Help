@@ -2447,6 +2447,24 @@ exports.getBusinessProfilePictureByID = functions.https.onCall(async (input, con
 	}
 });
 
+//Method will take in a reference to a picture (the same as the business profile ID it is fetching)
+//and return the download URL for the image which is used as an image source
+exports.getEmployeeProfilePictureByID = functions.https.onCall(async (input, context) => {
+	const { employeeID } = input;
+	//Creates the reference
+	const uri = storage.file('EmployeeProfilePics/' + employeeID);
+	const exists = await uri.exists();
+	if (exists[0] === true) {
+		const downloadURL = await uri.getSignedUrl({ action: 'read', expires: '03-17-2025' });
+		return { uri: await downloadURL[0] };
+	} else {
+		const downloadURL = await storage
+			.file('profilePictures/defaultProfilePic.png')
+			.getSignedUrl({ action: 'read', expires: '03-17-2025' });
+		return { uri: await downloadURL[0] };
+	}
+});
+
 //--------------------------------- Request Functions ---------------------------------
 
 //Method will take in a request object, which may contain a schedule, answers to questions, or both.

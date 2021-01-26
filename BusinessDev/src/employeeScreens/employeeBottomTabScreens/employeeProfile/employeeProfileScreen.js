@@ -75,10 +75,9 @@ const employeeProfileScreen = (props) => {
       <View style={style.Body}>
         <View style={style.ContentContainer}>
           <View style={style.MainContainer}>
-            <Image
-              source={require('../../../bottomTabScreens/profile/profileScreen/profilePicture.png')}
-              style={{ width: 100, height: 100, margin: 10 }}
-            />
+             <Image source={require('./profilePicture.png')} style={{width:100,height:100, margin:10}}/>
+          
+            
             <Text style={[fontStyles.mainTextStyle, style.MainText]}>
               Employee
             </Text>
