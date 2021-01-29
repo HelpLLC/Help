@@ -20,11 +20,6 @@ export default class creditsScreen extends Component {
 	render() {
 		return (
 			<HelpView>
-				<TopBanner
-					title={strings.Credits}
-					leftIconName='angle-left'
-					leftOnPress={() => this.props.navigation.goBack()}
-				/>
 				<View
 					style={{
 						flex: 1,

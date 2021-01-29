@@ -18,256 +18,271 @@ import FastImage from 'react-native-fast-image';
 import HelpAlert from '../../components/HelpAlert';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import { Icon } from 'react-native-elements';
+import pricingAndPaymentStyle from './pricingAndPaymentScreenStyle';
 
 //Declares and exports the functional component
-export default function pricingAndPaymentScreen(props) {
-	const { service, serviceID } = props.navigation.state.params;
-	const [priceNumber, setPriceNumber] = useState('');
-	const [priceType, setPriceType] = useState(strings.Fixed);
-	const [perType, setPerType] = useState(strings.Hour);
-	const [isCashSelected, setIsCashSelected] = useState(false);
-	const [isCardSelected, setIsCardSelected] = useState(false);
-	const [fieldsError, setFieldsError] = useState(false);
-	const [paymentMethodError, setPaymentMethodError] = useState(false);
-	const [cardPaymentMethodError, setCardPaymentMethodError] = useState(false);
+const pricingAndPaymentScreen = (props) => {
+  const { service, serviceID } = props.navigation.state.params;
+  const [priceNumber, setPriceNumber] = useState('');
+  const [priceType, setPriceType] = useState(strings.Fixed);
+  const [perType, setPerType] = useState(strings.Hour);
+  const [isCashSelected, setIsCashSelected] = useState(false);
+  const [isCardSelected, setIsCardSelected] = useState(false);
+  const [fieldsError, setFieldsError] = useState(false);
+  const [paymentMethodError, setPaymentMethodError] = useState(false);
+  const [cardPaymentMethodError, setCardPaymentMethodError] = useState(false);
 
-	//This the method that is called when the component mounts. Sets the screen in firebase, and fetches the data
-	//if this service is being edited
-	useEffect(() => {
-		FirebaseFunctions.setCurrentScreen(
-			'BusinessCreatePricingAndPaymentScreen',
-			'pricingAndPaymentScreen'
-		);
-		if (props.navigation.state.params.editing === true) {
-			setData();
-		}
-	}, []);
+  //This the method that is called when the component mounts. Sets the screen in firebase, and fetches the data
+  //if this service is being edited
+  useEffect(() => {
+    FirebaseFunctions.setCurrentScreen(
+      'BusinessCreatePricingAndPaymentScreen',
+      'pricingAndPaymentScreen'
+    );
+    if (props.navigation.state.params.editing === true) {
+      setData();
+    }
+  }, []);
 
-	//This method is going to set the data for this screen if this is editing an exisitng prodct
-	const setData = () => {
-		const thePrice = service.price;
+  //This method is going to set the data for this screen if this is editing an exisitng prodct
+  const setData = () => {
+    const thePrice = service.price;
 
-		if (thePrice.priceType === 'Fixed') {
-			setPriceType(strings.Fixed);
-			setPriceNumber(thePrice.priceFixed + '');
-		} else if (thePrice.priceType === 'Per') {
-			setPriceType(strings.Per);
-			setPriceNumber(thePrice.price + '');
-			setPerType(thePrice.per);
-		}
-		setIsCashSelected(service.cash);
-		setIsCardSelected(service.card);
-	};
+    if (thePrice.priceType === 'Fixed') {
+      setPriceType(strings.Fixed);
+      setPriceNumber(thePrice.priceFixed + '');
+    } else if (thePrice.priceType === 'Per') {
+      setPriceType(strings.Per);
+      setPriceNumber(thePrice.price + '');
+      setPerType(thePrice.per);
+    }
+    setIsCashSelected(service.cash);
+    setIsCardSelected(service.card);
+  };
 
-	//This method will capture all of the data from this screen, make sure it is completed, then capture all the data
-	//from the previous step, then pass it on to the next screen. If the fields from here are incomplete, then an error will
-	//be displayed to the user
-	const goToNextScreen = () => {
-		if (priceNumber.trim() === '') {
-			setFieldsError(true);
-		} else if (isCardSelected === false && isCashSelected === false) {
-			setPaymentMethodError(true);
-		} else {
-			//Constructs the pricing object and the price text
-			let priceText =
-				priceType === strings.Per
-					? '$' + priceNumber + ' ' + strings.per + ' ' + perType
-					: '$' + priceNumber;
-			let price = '';
-			if (priceType === strings.Fixed) {
-				price = {
-					priceType: 'Fixed',
-					priceFixed: parseFloat(priceNumber),
-				};
-			} else {
-				price = {
-					priceType: 'Per',
-					price: parseFloat(priceNumber),
-					per: perType,
-				};
-			}
+  //This method will capture all of the data from this screen, make sure it is completed, then capture all the data
+  //from the previous step, then pass it on to the next screen. If the fields from here are incomplete, then an error will
+  //be displayed to the user
+  const goToNextScreen = () => {
+    let priceText 
+    let price = '';
+    if (priceNumber.trim() === '') {
+      setFieldsError(true);
+    } else if (isCardSelected === false && isCashSelected === false) {
+      setPaymentMethodError(true);
+    } else {
+      //Constructs the pricing object and the price text
+       priceText =
+        priceType === strings.Per
+          ? '$' + priceNumber + ' ' + strings.per + ' ' + perType
+          : '$' + priceNumber;
+      if (priceType === strings.Fixed) {
+        price = {
+          priceType: 'Fixed',
+          priceFixed: parseFloat(priceNumber),
+        };
+      } else {
+        price = {
+          priceType: 'Per',
+          price: parseFloat(priceNumber),
+          per: perType,
+        };
+      }
 
-			const {
-				business,
-				businessID,
-				serviceTitle,
-				serviceDescription,
-				serviceDuration,
-				imageResponse,
-				editing,
-			} = props.navigation.state.params;
-			props.navigation.push('CustomerInfoScreen', {
-				business,
-				businessID,
-				serviceTitle,
-				serviceDescription,
-				serviceDuration,
-				imageResponse,
-				priceText,
-				price,
-				isCardSelected,
-				isCashSelected,
-				service,
-				serviceID,
-				editing,
-			});
-		}
-	};
+      const {
+        business,
+        businessID,
+        serviceTitle,
+        serviceDescription,
+        serviceDuration,
+        imageResponse,
+        editing,
+      } = props.navigation.state.params;
+      props.navigation.push('CustomerInfoScreen', {
+        business,
+        businessID,
+        serviceTitle,
+        serviceDescription,
+        serviceDuration,
+        imageResponse,
+        priceText,
+        price,
+        isCardSelected,
+        isCashSelected,
+        service,
+        serviceID,
+        editing,
+      });
+    }
+  };
 
-	//The UI rendering
-	return (
-		<HelpView style={screenStyle.container}>
-			<TopBanner
-				title={strings.PricingAndPayment}
-				leftIconName='angle-left'
-				leftOnPress={() => props.navigation.goBack()}
-			/>
-			<View style={styles.pricingTypeSection}>
-				<View style={styles.pricingTypeText}>
-					<Text style={[fontStyles.bigTextStyle, fontStyles.darkBlue]}>{strings.PricingType}</Text>
-				</View>
-				<View style={styles.pricingRow}>
-					<View style={styles.dollarSignText}>
-						<Text style={[fontStyles.bigTextStyle, fontStyles.darkBlue]}>{strings.DollarSign}</Text>
-					</View>
-					<HelpTextInput
-						isMultiline={false}
-						width={screenWidth * 0.2}
-						height={screenHeight * 0.06}
-						keyboardType={'numeric'}
-						placeholder={'0'}
-						onChangeText={(input) => setPriceNumber(input)}
-						value={priceNumber}
-					/>
-					<View style={styles.pickerStyle}>
-						<RNPickerSelect
-							onValueChange={(value) => setPriceType(value)}
-							items={[
-								{ label: strings.Fixed, value: strings.Fixed },
-								{ label: strings.Per, value: strings.Per },
-							]}
-							value={priceType}
-							style={{
-								iconContainer: {
-									top: screenHeight * 0.0175,
-									right: screenWidth * 0.01,
-								},
-								inputIOS: [
-									fontStyles.subTextStyle,
-									fontStyles.black,
-									{ width: screenWidth * 0.2, height: screenHeight * 0.06 },
-								],
-								inputAndroid: [
-									fontStyles.subTextStyle,
-									fontStyles.black,
-									{ width: screenWidth * 0.2, height: screenHeight * 0.06 },
-								],
-							}}
-							Icon={() => (
-								<Icon type='font-awesome' name='arrow-down' color={colors.lightBlue} size={20} />
-							)}
-						/>
-					</View>
-					{//Shows the per selected if the per type is selected
-					priceType === strings.Per ? (
-							<HelpTextInput
-								isMultiline={false}
-								width={screenWidth * 0.3}
-								height={screenHeight * 0.06}
-								placeholder={'E.g. Hour'}
-								onChangeText={(input) => setPerType(input)}
-								value={perType}
-							/>
-					) : (
-						<View />
-					)}
-				</View>
-			</View>
-			<View style={styles.paymentMethodSection}>
-				<Text style={[fontStyles.bigTextStyle, fontStyles.darkBlue, {marginBottom:10}]}>{strings.PaymentMethod}</Text>
-				{/* <View style={styles.paymentTypeSubText}>
-					<Text style={[fontStyles.mainTextStyle, fontStyles.blue]}>
-						{strings.HowWillYourCustomersPayYou}
-					</Text>
-				</View> */}
-				<HelpButton
-					isLightButton={!isCashSelected}
-					onPress={() => {
-						setIsCashSelected(true);
-						setIsCardSelected(false);
-					}}
-					title={strings.Cash}
-					width={screenWidth * 0.65}
-					height={screenHeight * 0.06}
-				/>
-				<View style={styles.buttonSeparator} />
-				<HelpButton
-					isLightButton={!isCardSelected}
-					onPress={() => {
-						//If Stripe connect has not been setup yet, then a popup appear. If it has, then it just selects
-						//the payment method
-						if (props.navigation.state.params.business.paymentSetupStatus === 'TRUE') {
-							setIsCardSelected(true);
-							setIsCashSelected(false);
-						} else {
-							setCardPaymentMethodError(true);
-						}
-					}}
-					title={strings.CreditDebitCard}
-					width={screenWidth * 0.65}
-					height={screenHeight * 0.06}
-				/>
-			</View>
-			<View style={styles.buttonSection}>
-				<HelpButton
-					title={strings.Back}
-					width={screenWidth * 0.2}
-					height={screenWidth * 0.07}
-					bigText={true}
-					bold={true}
-					style={styles.button}
-					onPress={() => {
-						//Navigates to the next screen
-						props.navigation.goBack();
-					}}
-				/>
-				<HelpButton
-					title={strings.Next}
-					width={screenWidth * 0.2}
-					height={screenWidth * 0.07}
-					bigText={true}
-					bold={true}
-					style={styles.button}
-					onPress={() => {
-						//Navigates to the next screen
-						goToNextScreen();
-					}}
-				/>
-			</View>
-			<HelpAlert
-				isVisible={fieldsError}
-				onPress={() => {
-					setFieldsError(false);
-				}}
-				title={strings.Whoops}
-				message={strings.PleaseCompleteAllTheFields}
-			/>
-			<HelpAlert
-				isVisible={paymentMethodError}
-				onPress={() => {
-					setPaymentMethodError(false);
-				}}
-				title={strings.Whoops}
-				message={strings.PleaseSelectAPaymentMethod}
-			/>
-			<HelpAlert
-				isVisible={cardPaymentMethodError}
-				onPress={() => {
-					setCardPaymentMethodError(false);
-				}}
-				title={strings.SetUpPayment}
-				message={strings.PaymentsMustBeSetupBeforeAcceptingCardPayments}
-			/>
-		</HelpView>
-	);
-}
+  //The UI rendering
+  return (
+    <HelpView style={[screenStyle.container, { alignItems: 'flex-start' }]}>
+      <View style={pricingAndPaymentStyle.PricingTitleView}>
+        <Text style={[fontStyles.darkBlue, fontStyles.mainTextStyle]}>
+          {strings.PricingType}
+        </Text>
+        <View style={pricingAndPaymentStyle.PricingTitleInputsView}>
+          <View style={pricingAndPaymentStyle.IconandInputView}>
+            <View style={pricingAndPaymentStyle.Icon}>
+              <Icon
+                name='usd'
+                type='font-awesome'
+                size={30}
+                color={colors.lightBlue}
+              />
+            </View>
+            <HelpTextInput
+              height={screenHeight * 0.05}
+              width={screenWidth * 0.2}
+              keyboardType={'numeric'}
+              placeholder={'0'}
+              borderColor={colors.lightBlue}
+              onChangeText={(input) => setPriceNumber(input)}
+              value={priceNumber}
+            />
+          </View>
+          <View style={pricingAndPaymentStyle.Per}>
+            <RNPickerSelect
+              onValueChange={(value) => setPriceType(value)}
+              items={[
+                { label: strings.Fixed, value: strings.Fixed },
+                { label: strings.Per, value: strings.Per },
+              ]}
+              value={priceType}
+              style={{
+                iconContainer: {
+                  top: screenHeight * 0.0175,
+                  right: screenWidth * 0.01,
+                },
+                inputIOS: [
+                  fontStyles.subTextStyle,
+                  fontStyles.black,
+                  { width: screenWidth * 0.2, height: screenHeight * 0.06 },
+                ],
+                inputAndroid: [
+                  fontStyles.subTextStyle,
+                  fontStyles.black,
+                  { width: screenWidth * 0.2, height: screenHeight * 0.06 },
+                ],
+              }}
+              Icon={() => (
+                <Icon
+                  type='font-awesome'
+                  name='arrow-down'
+                  color={colors.lightBlue}
+                  size={20}
+                />
+              )}
+            />
+          </View>
+          {//Shows the per selected if the per type is selected
+          priceType === strings.Per ? (
+            <HelpTextInput
+              isMultiline={false}
+              height={screenHeight * 0.05}
+              width={screenWidth * 0.35}
+              placeholder={strings.ExampleHourPlaceholder}
+              borderColor={colors.lightBlue}
+              onChangeText={(input) => setPerType(input)}
+              value={perType}
+            />
+          ) : (
+            <View />
+          )}
+        </View>
+      </View>
+      <View style={pricingAndPaymentStyle.PaymentTiteleView}>
+        <Text style={[fontStyles.darkBlue, fontStyles.mainTextStyle]}>
+          {strings.PaymentType}
+        </Text>
+        <View style={pricingAndPaymentStyle.PaymentTypeButtons}>
+          <View style={pricingAndPaymentStyle.CashButton}>
+            <HelpButton
+              isLightButton={!isCashSelected}
+              onPress={() => {
+                setIsCashSelected(true);
+                setIsCardSelected(false);
+              }}
+              title={strings.Cash}
+			  width={screenWidth * 0.55}
+              height={screenHeight * 0.04}
+            />
+          </View>
+          <HelpButton
+            isLightButton={!isCardSelected}
+            onPress={() => {
+              //If Stripe connect has not been setup yet, then a popup appear. If it has, then it just selects
+              //the payment method
+              if (
+                props.navigation.state.params.business.paymentSetupStatus ===
+                'TRUE'
+              ) {
+                setIsCardSelected(true);
+                setIsCashSelected(false);
+              } else {
+                setCardPaymentMethodError(true);
+              }
+            }}
+            title={strings.CreditDebitCard}
+			width={screenWidth * 0.55}
+            height={screenHeight * 0.04}
+          />
+        </View>
+      </View>
+	  <View style={pricingAndPaymentStyle.NextButton}>
+        <HelpButton
+          title={strings.Next}
+          width={screenWidth * 0.25}
+          height={screenHeight * 0.04}
+          bigText={true}
+          bold={true}
+          onPress={() => {
+            //Navigates to the next screen
+            goToNextScreen();
+          }}
+        />
+      </View>
+      <View style={pricingAndPaymentStyle.BackButton}>
+        <HelpButton
+          title={strings.Back}
+		  width={screenWidth * 0.25}
+          height={screenHeight * 0.04}
+          bigText={true}
+          bold={true}
+          onPress={() => {
+            //Navigates to the next screen
+            props.navigation.goBack();
+          }}
+        />
+		</View>
+      <HelpAlert
+        isVisible={fieldsError}
+        onPress={() => {
+          setFieldsError(false);
+        }}
+        title={strings.Whoops}
+        message={strings.PleaseCompleteAllTheFields}
+      />
+      <HelpAlert
+        isVisible={paymentMethodError}
+        onPress={() => {
+          setPaymentMethodError(false);
+        }}
+        title={strings.Whoops}
+        message={strings.PleaseSelectAPaymentMethod}
+      />
+      <HelpAlert
+        isVisible={cardPaymentMethodError}
+        onPress={() => {
+          setCardPaymentMethodError(false);
+        }}
+        title={strings.SetUpPayment}
+        message={strings.PaymentsMustBeSetupBeforeAcceptingCardPayments}
+      />
+    </HelpView>
+  );
+};
+
+export default pricingAndPaymentScreen;

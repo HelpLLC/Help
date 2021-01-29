@@ -114,6 +114,7 @@ class emailPasswordScreen extends Component {
 							this.state.requesterAccountExists === true ? true : false,
 					});
 				} else {
+					console.log("EmailPasswordScreen");
 					this.setState({ isLoading: false, isErrorVisible: true });
 					FirebaseFunctions.call('logIssue', {
 						error,
@@ -128,15 +129,6 @@ class emailPasswordScreen extends Component {
 		return (
 			//View that dismisses the keyboard when clicked anywhere else
 			<HelpView style={screenStyle.container}>
-				<TopBanner
-					title={strings.SignUp}
-					leftIconName='angle-left'
-					leftOnPress={() => {
-						//Method will go back to the splash screen
-						this.props.navigation.goBack();
-					}}
-				/>
-
 				<View>
 					<View style={{ marginTop: screenHeight * 0.03 }}>
 						<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>

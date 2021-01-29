@@ -17,11 +17,14 @@ import fontStyles from 'config/styles/fontStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import HelpButton from '../../../../../components/HelpButton/HelpButton';
 import { Icon } from 'react-native-elements';
+import RNPickerSelect from 'react-native-picker-select';
 import pricingAndPaymentStyle from './pricingAndPaymentStyle';
 
 const pricingandpayment = (props) => {
-  const [price, setPrice] = useState();
-  const [per, setPer] = useState();
+  const [priceNumber, setPriceNumber] = useState();
+  const [priceType, setPriceType] = useState();
+
+  const [perType, setPerType] = useState();
   const [hours, setHours] = useState();
   const [minutes, setMinutes] = useState();
 
@@ -51,25 +54,61 @@ const pricingandpayment = (props) => {
               height={screenHeight * 0.05}
               width={screenWidth * 0.2}
               borderColor={colors.lightBlue}
+              keyboardType={'numeric'}
+              placeholder={'0'}
               isMultiline={false}
-              onChangeText={(input) => setPrice(input)}
+              onChangeText={(input) => setPriceNumber(input)}
             />
           </View>
-          <View style={pricingAndPaymentStyle.Per}>
-            <Text style={[fontStyles.darkBlue, fontStyles.mainTextStyle]}>
-              {strings.per}
-            </Text>
+          <View  style={pricingAndPaymentStyle.Per}>
+          <RNPickerSelect
+              onValueChange={(value) => setPriceType(value)}
+              items={[
+                { label: strings.Fixed, value: strings.Fixed },
+                { label: strings.Per, value: strings.Per },
+              ]}
+              value={priceType}
+              style={{
+                iconContainer: {
+                  top: screenHeight * 0.0175,
+                  right: screenWidth * 0.01,
+                },
+                inputIOS: [
+                  fontStyles.subTextStyle,
+                  fontStyles.black,
+                  { width: screenWidth * 0.2, height: screenHeight * 0.06 },
+                ],
+                inputAndroid: [
+                  fontStyles.subTextStyle,
+                  fontStyles.black,
+                  { width: screenWidth * 0.2, height: screenHeight * 0.06 },
+                ],
+              }}
+              Icon={() => (
+                <Icon
+                  type='font-awesome'
+                  name='arrow-down'
+                  color={colors.lightBlue}
+                  size={20}
+                />
+              )}
+            />
           </View>
-          <View>
+          {//Shows the per selected if the per type is selected
+          priceType === strings.Per ? (
             <HelpTextInput
+              isMultiline={false}
               height={screenHeight * 0.05}
               width={screenWidth * 0.35}
-              borderColor={colors.lightBlue}
-              isMultiline={false}
               placeholder={strings.ExampleHourPlaceholder}
-              onChangeText={(input) => setPer(input)}
+              borderColor={colors.lightBlue}
+              onChangeText={(input) => setPerType(input)}
+              value={perType}
             />
-          </View>
+          ) : (
+            <View />
+          )}
+
         </View>
       </View>
       <View style={pricingAndPaymentStyle.PaymentTiteleView}>
@@ -97,7 +136,6 @@ const pricingandpayment = (props) => {
         <HelpButton
           title={strings.Next}
           onPress={() => {}}
-
           width={screenWidth * 0.25}
           height={screenHeight * 0.04}
         />
@@ -106,7 +144,6 @@ const pricingandpayment = (props) => {
         <HelpButton
           title={strings.Back}
           onPress={() => {}}
-          isLightButton={true}
           width={screenWidth * 0.25}
           height={screenHeight * 0.04}
         />

@@ -20,11 +20,6 @@ export default class termsAndConditionsScreen extends Component {
 	render() {
 		return (
 			<HelpView style={screenStyle.container}>
-				<TopBanner
-					title={strings.TermsAndConditions}
-					leftIconName='angle-left'
-					leftOnPress={() => this.props.navigation.goBack()}
-				/>
 				<ScrollView
 					style={{ flex: 1, backgroundColor: colors.lightGray }}
 					contentContainerStyle={{

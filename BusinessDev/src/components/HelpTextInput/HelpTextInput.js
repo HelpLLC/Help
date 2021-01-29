@@ -63,7 +63,7 @@ export default function HelpTextInput(props) {
 				style={[
 					HelpTextInputStyle.textInputStyle,
 					{
-						height: height * 0.9,
+						height: height * 1.065,
 						width: additionalIcon ? width * 0.8 : width * 0.935,
 					},
 				]}

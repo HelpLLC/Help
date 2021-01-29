@@ -6,9 +6,9 @@ import { YellowBox } from 'react-native';
 import codePush from 'react-native-code-push';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import stripe from 'tipsi-stripe';
-import Calendar from './src/bottomTabScreens/Calendar/Calendar'
-import confirmPaymentScreen from './src/sideBusinessScreens/confirmPaymentScreen/confirmPaymentScreen'
 import SplashScreen from 'react-native-splash-screen';
+import Profile from './src/employeeScreens/employeeBottomTabScreens/employeeProfile/employeeProfileScreen'
+import Employee from './src/employeeScreens/employeeBottomScreensNavigator'
 
 
 
@@ -31,7 +31,7 @@ class App extends Component {
 			'componentWillMount',
 			'componentWillReceiveProps',
 		]);
-		return <Calendar />;
+		return <MainStackNavigator/>;
 	}
 }
 
@@ -39,6 +39,3 @@ let codePushOptions = { checkFrequency: codePush.CheckFrequency.MANUAL };
 App = codePush(codePushOptions)(App);
 
 export default App;
-
-
-

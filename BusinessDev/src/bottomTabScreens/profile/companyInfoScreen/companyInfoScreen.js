@@ -14,7 +14,7 @@ import fontStyles from 'config/styles/fontStyles';
 import { TextInput, ScrollView } from 'react-native-gesture-handler';
 
 //exporting the profileScreen class
-export default function profileScreen(props) {
+export default function companyInfoScreen(props) {
     //a function for compiling the list of elements in a normalized style
     function addSection(iconType, iconName, title, content, onChangeText, border = true){
         return (
@@ -83,11 +83,6 @@ export default function profileScreen(props) {
     //rendering the screen
     return (
         <View style={style.Body}>
-            <TopBanner
-				title={strings.ProfileCompanyInfo}
-				leftIconName='angle-left'
-				leftOnPress={() => props.navigation.goBack()}
-			/>
             <View style={style.ContentContainer}>
                 <ScrollView style={style.ScrollContainer}>
                     <View style={style.ScrollContent}>
@@ -117,9 +112,6 @@ export default function profileScreen(props) {
                         });
                         return true;
                     }}/>
-            </View>
-            <View style={style.Footer}>
-                {/*TODO: add footer here*/}
             </View>
         </View>
     );

@@ -7,17 +7,22 @@ export default StyleSheet.create({
 	customQuestionsContainer: {
 		paddingBottom: screenHeight * 0.025,
 		borderBottomColor: colors.blue,
-		borderBottomWidth: 2,
+        borderBottomWidth: 2,
+        marginLeft: screenWidth * 0.05,
 	},
 	customQuestionsText: {
-		width: screenWidth * 0.85,
-		marginTop: screenHeight * 0.025,
-	},
+		width: screenWidth * 0.9,
+        marginTop: screenHeight * 0.025,
+        marginLeft: screenWidth * 0.05,
+    },
+    CustomeQustionsTitle: {
+        marginBottom: screenHeight * 0.02
+    },
+    CustomeQuestionsDescription: {
+        marginRight: screenWidth * 0.05
+    },
 	textSpacer: {
 		height: screenHeight * 0.025,
-	},
-	checkboxStyle:{
-		borderRadius:0,
 	},
 	addQuestion:{
 		alignSelf: 'center',
@@ -32,11 +37,14 @@ export default StyleSheet.create({
 	defaultQuestionRow: {
 		width: screenWidth * 0.85,
 		marginVertical: screenHeight * 0.005,
-		marginRight: screenHeight * 0.025,
+		marginLeft: screenWidth * 0.15,
 		flexDirection: 'row',
 		justifyContent: 'space-evenly',
-		alignItems: 'center',
-	},
+        alignItems: 'center',
+    },
+    QuestionNumbers: {
+        marginLeft: screenWidth * 0.1,
+    },
 	questionContainer: {
 		width: screenWidth * 0.85,
 		marginVertical: screenHeight * 0.025,
@@ -65,5 +73,17 @@ export default StyleSheet.create({
 	},
 	footer:{
 		marginTop:10,
-	},
+    },
+    NextButton:{
+        marginTop: screenHeight * 0.05,
+        marginLeft: screenWidth * 0.4,
+    },
+    BackButton:{
+        marginTop: screenHeight * 0.05,
+       marginLeft: screenWidth * 0.05,
+    },
+    ButtonsView: {
+        display: "flex",
+        flexDirection: "row"
+    }
 });

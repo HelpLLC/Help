@@ -10,12 +10,14 @@ export default StyleSheet.create({
 		backgroundColor: colors.white,
 		borderColor: colors.lightBlue,
 		alignItems: 'center',
+		justifyContent: 'center',
 		flexDirection: 'row',
 		borderWidth: 3,
 	},
 	textInputStyle: {
 		...fontStyles.subTextStyle,
 		...fontStyles.black,
+		alignSelf: 'stretch',
 		paddingLeft: 10,
 	},
 });
