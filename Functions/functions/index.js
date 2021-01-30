@@ -31,6 +31,7 @@ const currency = functions.config().stripe.currency || 'USD';
 const database = admin.firestore();
 const storage = admin.storage().bucket();
 const fcm = admin.messaging();
+
 const businesses = database.collection('businesses');
 const customers = database.collection('customers');
 const services = database.collection('services');
@@ -138,7 +139,7 @@ const deleteRequest = async (requestID) => {
 		}
 		const dateString = year + '-' + month + '-' + day;
 		await transaction.update(
-			businesses.doc(request.businessID).collection('Schedule').doc(dateString),
+			businesses.doc(request.businessID).collection('Private').doc('Private Data').collection('Schedule').doc(dateString),
 			{
 				[requestID]: admin.firestore.FieldValue.delete(),
 			}
@@ -184,12 +185,12 @@ const deleteRequest = async (requestID) => {
 		//Tests if this document should be deleted all together
 		const scheduleDoc = (
 			await transaction.get(
-				businesses.doc(request.businessID).collection('Schedule').doc(dateString)
+				businesses.doc(request.businessID).collection('Private').doc('Private Data').collection('Schedule').doc(dateString)
 			)
 		).data();
 		if (Object.keys(scheduleDoc).length === 1) {
 			await transaction.delete(
-				businesses.doc(request.businessID).collection('Schedule').doc(dateString)
+				businesses.doc(request.businessID).collection('Private').doc('Private Data').collection('Schedule').doc(dateString)
 			);
 		}
 		await transaction.delete(requests.doc(requestID));
@@ -227,7 +228,7 @@ const deleteCustomRequest = async (requestID) => {
 		}
 		const dateString = year + '-' + month + '-' + day;
 		await transaction.update(
-			businesses.doc(request.businessID).collection('Schedule').doc(dateString),
+			businesses.doc(request.businessID).collection('Private').doc('Private Data').collection('Schedule').doc(dateString),
 			{
 				[requestID]: admin.firestore.FieldValue.delete(),
 			}
@@ -257,12 +258,12 @@ const deleteCustomRequest = async (requestID) => {
 		//Tests if this document should be deleted all together
 		const scheduleDoc = (
 			await transaction.get(
-				businesses.doc(request.businessID).collection('Schedule').doc(dateString)
+				businesses.doc(request.businessID).collection('Private').doc('Private Data').collection('Schedule').doc(dateString)
 			)
 		).data();
 		if (Object.keys(scheduleDoc).length === 1) {
 			await transaction.delete(
-				businesses.doc(request.businessID).collection('Schedule').doc(dateString)
+				businesses.doc(request.businessID).collection('Private').doc('Private Data').collection('Schedule').doc(dateString)
 			);
 		}
 		await transaction.delete(requests.doc(requestID));
@@ -273,7 +274,7 @@ const deleteCustomRequest = async (requestID) => {
 
 const getBusinessCurrentRequestsByDay = async (businessID, day) => {
 	const doc = await database.runTransaction(async (transaction) => {
-		const doc = await transaction.get(businesses.doc(businessID).collection('Schedule').doc(day));
+		const doc = await transaction.get(businesses.doc(businessID).collection('Private').doc('Private Data').collection('Schedule').doc(day));
 		if (doc.exists === true) {
 			const data = await doc.data();
 			delete data.dateString;
@@ -486,7 +487,7 @@ exports.getTimeOffRequestsByBusinessID = functions.https.onCall(async (input, co
 exports.getBusinessAnalyticsByBusinessID = functions.https.onCall(async (input, context) => {
 	const { businessID } = input;
 	const analyticsDocs = await database.runTransaction(async (transaction) => {
-		const analyticsRef = businesses.doc(businessID).collection('Analytics');
+		const analyticsRef = businesses.doc(businessID).collection('Private').doc('Private Data').collection('Analytics');
 		const Revenue = await transaction.get(analyticsRef.doc('Revenue'));
 		const TopServices = await transaction.get(analyticsRef.doc('TopServices'));
 		const CustomerLocations = await transaction.get(analyticsRef.doc('CustomerLocations'));
@@ -583,7 +584,7 @@ exports.getBusinessCurrentRequestsByTimeFrame = functions.https.onCall(async (in
 	const promises = [];
 
 	const scheduleDocumentIDs = (
-		await businesses.doc(businessID).collection('Schedule').listDocuments()
+		await businesses.doc(businessID).collection('Private').doc('Private Data').collection('Schedule').listDocuments()
 	).map((doc) => doc.id);
 
 	const indexToStartAt = scheduleDocumentIDs.findIndex((ID) => {
@@ -597,7 +598,7 @@ exports.getBusinessCurrentRequestsByTimeFrame = functions.https.onCall(async (in
 	const IDsToFetch = scheduleDocumentIDs.slice(indexToStartAt, indexToEndAt);
 
 	for (const ID of IDsToFetch) {
-		promises.push(businesses.doc(businessID).collection('Schedule').doc(ID).get());
+		promises.push(businesses.doc(businessID).collection('Private').doc('Private Data').collection('Schedule').doc(ID).get());
 	}
 
 	let result = await Promise.all(promises);
@@ -1034,7 +1035,6 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		coordinates,
 		email,
 		location,
-		services,
 		website,
 		userID,
 		businessID,
@@ -1050,33 +1050,48 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 		businessName,
 		businessDescription,
 		businessHours,
+		businessName,
 		coordinates,
 		userID,
 		businessID,
 		paymentSetupStatus,
 		email,
-		location,
-		services,
-		website,
-		phoneNumber,
 		isVerified,
-		employeeCode,
-		employees:{}
+		phoneNumber,
+		timeoff: "",
+		location,
+		website,
 	});
 	
 	const documentID = newBusinessDoc.id;
+	batch.update(businesses.doc(documentID), { documentID });
 
-	batch.update(requests.doc(documentID), { documentID });
+	//creating the employee, private, and services subcollections
+	const employees = businesses.doc(documentID).collection('Employees');
+	employees.add({});
+	const services = businesses.doc(documentID).collection('Services');
+	services.add({});
+	const private = businesses.doc(documentID).collection('Private');
+	batch.create(private.doc("Private Data"), {businessID, businessJoinCode: employeeCode, paymentInformation:{}});
 
 	//Adds analytics documents
-	const analytics = businesses.doc(documentID).collection('Analytics');
+	const analytics = private.doc("Private Data").collection('Analytics');
 	batch.set(analytics.doc('CustomerLocations'), { Cities: {}, States: {}, Countries: {} });
 	batch.create(analytics.doc('Revenue'), {});
 	batch.create(analytics.doc('TopServices'), {});
 
 	//add doc for storing transactions
-	const transactions = businesses.doc(documentID).collection('Transactions');
+	const transactions = private.doc("Private Data").collection('Transactions');
 	batch.set(transactions.doc(new Date().getTime()), {}); 
+
+	function getDateString(){
+		let date = new Date();
+		return date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate();
+	}
+
+	//add doc for storing schedule
+	const schedule = private.doc("Private Data").collection('Schedule');
+	batch.set(schedule.doc(getDateString()), {}); 
 
 	sendEmail(
 		'helpcocontact@gmail.com',
@@ -1118,7 +1133,7 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 	);
 
 	await batch.commit();
-	return 0;
+	return documentID;
 });
 
 //This function is going to take in fields for a business and a businessID and update that business's information in
@@ -1440,7 +1455,7 @@ exports.addServiceToDatabase = functions.https.onCall(async (input, context) => 
 	});
 
 	//Adds the service to analytics
-	batch.update(businesses.doc(businessID).collection('Analytics').doc('TopServices'), {
+	batch.update(businesses.doc(businessID).collection('Private').doc('Private Data').collection('Analytics').doc('TopServices'), {
 		[serviceID]: {
 			serviceTitle,
 			serviceID,
@@ -1505,7 +1520,7 @@ exports.updateServiceInformation = functions.https.onCall(async (input, context)
 		//Updates the service title in analytics
 		const fieldName = serviceID + '.serviceTitle';
 		await transaction.update(
-			businesses.doc(businessID).collection('Analytics').doc('TopServices'),
+			businesses.doc(businessID).collection('Private').doc('Private Data').collection('Analytics').doc('TopServices'),
 			{
 				[fieldName]: serviceTitle,
 			}
@@ -1554,7 +1569,7 @@ exports.deleteService = functions.https.onCall(async (input, context) => {
 				day = '0' + day;
 			}
 			const dateString = year + '-' + month + '-' + day;
-			return transaction.update(businesses.doc(businessID).collection('Schedule').doc(dateString), {
+			return transaction.update(businesses.doc(businessID).collection('Private').doc('Private Data').collection('Schedule').doc(dateString), {
 				[request.requestID]: admin.firestore.FieldValue.delete(),
 			});
 		});
@@ -2095,7 +2110,7 @@ exports.chargeCustomerForRequest = functions.https.onCall(async (input, context)
 		};
 
 		const batch = database.batch();
-		batch.set(businesses.doc(businessID).collection('Transactions').doc(transaction.date), transaction);
+		batch.set(businesses.doc(businessID).collection('Private').doc('Private Data').collection('Transactions').doc(transaction.date), transaction);
 		batch.update(requests.doc(requestID), { paymentInformation });
 		batch.update(customers.doc(customerID).collection('CompletedRequests').doc(requestID), {
 			paymentInformation,
@@ -2185,7 +2200,7 @@ exports.chargeCustomerForCustomRequest = functions.https.onCall(async (input, co
 		};
 
 		const batch = database.batch();
-		batch.set(businesses.doc(businessID).collection('Transactions').doc(transaction.date), transaction);
+		batch.set(businesses.doc(businessID).collection('Private').doc('Private Data').collection('Transactions').doc(transaction.date), transaction);
 		batch.update(requests.doc(requestID), { paymentInformation });
 		batch.update(services.doc(serviceID).collection('CompletedRequests').doc(requestID), {
 			paymentInformation,
@@ -2227,7 +2242,7 @@ exports.retrieveConnectAccountDetails = functions.https.onCall(async (input, con
 exports.retrieveConnectAccountTransactionHistory = functions.https.onCall(async (input, context) => {
 	const { businessID } = input;
 
-	return await admin.firestore().getAll( ...(await businesses.doc(businessID).collection('Transactions').listDocuments()));
+	return await admin.firestore().getAll( ...(await businesses.doc(businessID).collection('Private').doc('Private Data').collection('Transactions').listDocuments()));
 
 	
 	//this is old stripe syntax, before we realized we needed to store transactions locally
@@ -2554,7 +2569,7 @@ exports.customRequestService = functions.https.onCall(async (input, context) => 
 			day = '0' + day;
 		}
 		const dateString = year + '-' + month + '-' + day;
-		const dateDocPath = businesses.doc(businessID).collection('Schedule').doc(dateString);
+		const dateDocPath = businesses.doc(businessID).collection('Private').doc('Private Data').collection('Schedule').doc(dateString);
 		const dateDoc = await transaction.get(dateDocPath);
 		//Increments the numRequests for the service. Also adds scheduling information for the business
 		let business = (await transaction.get(businesses.doc(businessID))).data();
@@ -2570,7 +2585,7 @@ exports.customRequestService = functions.https.onCall(async (input, context) => 
 		//Updates the analytics for the business
 		const fieldName = serviceID + '.totalRequests';
 		await transaction.update(
-			businesses.doc(businessID).collection('Analytics').doc('TopServices'),
+			businesses.doc(businessID).collection('Private').doc('Private Data').collection('Analytics').doc('TopServices'),
 			{
 				[fieldName]: admin.firestore.FieldValue.increment(1),
 			}
@@ -2728,7 +2743,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 			day = '0' + day;
 		}
 		const dateString = year + '-' + month + '-' + day;
-		const dateDocPath = businesses.doc(businessID).collection('Schedule').doc(dateString);
+		const dateDocPath = businesses.doc(businessID).collection('Private').doc('Private Data').collection('Schedule').doc(dateString);
 		const dateDoc = await transaction.get(dateDocPath);
 		//Increments the numRequests for the service. Also adds scheduling information for the business
 		let business = (await transaction.get(businesses.doc(businessID))).data();
@@ -2744,7 +2759,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		//Updates the analytics for the business
 		const fieldName = serviceID + '.totalRequests';
 		await transaction.update(
-			businesses.doc(businessID).collection('Analytics').doc('TopServices'),
+			businesses.doc(businessID).collection('Private').doc('Private Data').collection('Analytics').doc('TopServices'),
 			{
 				[fieldName]: admin.firestore.FieldValue.increment(1),
 			}
@@ -2916,7 +2931,7 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 			day = '0' + day;
 		}
 		const dateString = year + '-' + month + '-' + day;
-		await transaction.update(businesses.doc(businessID).collection('Schedule').doc(dateString), {
+		await transaction.update(businesses.doc(businessID).collection('Private').doc('Private Data').collection('Schedule').doc(dateString), {
 			[requestID]: {
 				date,
 				time,
@@ -3029,14 +3044,14 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 			const dateString = year + '-' + month + '-' + day;
 
 			//Updates the revenue analytics for this business
-			await transaction.update(businessDoc.collection('Analytics').doc('Revenue'), {
+			await transaction.update(businessDoc.collection('Private').doc('Private Data').collection('Analytics').doc('Revenue'), {
 				[year]: admin.firestore.FieldValue.increment(billedAmount),
 				[year + '-' + month]: admin.firestore.FieldValue.increment(billedAmount),
 			});
 
 			//Updates the service analytics for this service
 			const fieldName = request.serviceID + '.totalRevenue';
-			await transaction.update(businessDoc.collection('Analytics').doc('TopServices'), {
+			await transaction.update(businessDoc.collection('Private').doc('Private Data').collection('Analytics').doc('TopServices'), {
 				[fieldName]: admin.firestore.FieldValue.increment(billedAmount),
 			});
 
@@ -3044,13 +3059,13 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 			const cityFieldName = 'Cities.' + request.customerLocation.city;
 			const stateFieldName = 'States.' + request.customerLocation.state;
 			const countryFieldName = 'Countries.' + request.customerLocation.country;
-			await transaction.update(businessDoc.collection('Analytics').doc('CustomerLocations'), {
+			await transaction.update(businessDoc.collection('Private').doc('Private Data').collection('Analytics').doc('CustomerLocations'), {
 				[cityFieldName]: admin.firestore.FieldValue.increment(1),
 				[stateFieldName]: admin.firestore.FieldValue.increment(1),
 				[countryFieldName]: admin.firestore.FieldValue.increment(1),
 			});
 
-			await transaction.update(businessDoc.collection('Schedule').doc(dateString), {
+			await transaction.update(businessDoc.collection('Private').doc('Private Data').collection('Schedule').doc(dateString), {
 				[requestID]: admin.firestore.FieldValue.delete(),
 			});
 		});
@@ -3107,7 +3122,7 @@ exports.viewService = functions.https.onCall(async (input, context) => {
 
 	const batch = database.batch();
 	const fieldName = serviceID + '.totalViews';
-	batch.update(businesses.doc(businessID).collection('Analytics').doc('TopServices'), {
+	batch.update(businesses.doc(businessID).collection('Private').doc('Private Data').collection('Analytics').doc('TopServices'), {
 		[fieldName]: admin.firestore.FieldValue.increment(1),
 	});
 

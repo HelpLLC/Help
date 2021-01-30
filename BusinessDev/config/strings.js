@@ -583,4 +583,7 @@ export default {
 	Error: 'Error',
 	InvalidBAN: 'Please enter a valid bank account number',
 	TermsPrivacyCredits: 'Terms/Privacy/Credits',
+	ViewWeek:"View Week",
+	ViewMonth:"View Month",
+	NoRequests:'No requests'
 };
