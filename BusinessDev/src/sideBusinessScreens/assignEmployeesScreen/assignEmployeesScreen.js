@@ -23,23 +23,28 @@ export default function confirmServiceScreen(props) {
 	const [assignedEmployee, setAssignedEmployee] = useState('');
 	const [popupVisible, setPopupVisible] = useState(false);
 	
-	async function getData(){ //TODO: get employees associated with the business
+	async function getData(){
         //Declares the screen name in Firebase
 
-        // //only for testing
-		// props = {navigation:{state:{params:{requestID:'EKY0Winhxxb85GlXy1WX', employees:['Rick Astley', 'Jared Diamond', 'James Olson', 'Tim Burton']}}}};
-        // const {
-        //     requestID,
-        //     employees,
-	 	// } = props.navigation.state.params;
-        // //gets the firebase data and initalizes the state
-        // const requestData = await FirebaseFunctions.call('getRequestByID', {
-        //     requestID
-        // });
+        //only for testing
+		//props = {navigation:{state:{params:{requestID:'EKY0Winhxxb85GlXy1WX', employees:['Rick Astley', 'Jared Diamond', 'James Olson', 'Tim Burton']}}}};
+        const {
+            requestID,
+            employees,
+	 	} = props.navigation.state.params;
+        //gets the firebase data and initalizes the state
+        const {businessID, endTime, time, date} = await FirebaseFunctions.call('getRequestByID', {
+            requestID
+        });
+        const employeeData = await FirebaseFunctions.call('getEmployeesAvailableForRequest', {
+            businessID,
+            startTime: time,
+            endTime,
+            date
+        });
         
         const {
             requestData,
-            employees,
 	 	} = props.navigation.state.params;
 
 		setRequestTitle(requestData.serviceTitle);
@@ -47,7 +52,7 @@ export default function confirmServiceScreen(props) {
         setEmployees(employees);
         let names = [];
         for(let i in employees)
-            names.push(i);
+            names.push(employees[i]);
         setEmployeeNames(names.sort((a, b) => {
             let res = a.substring(a.lastIndexOf(' ')).localeCompare(b.substring(b.lastIndexOf(' ')));
             return res != 0 ? res : a.localeCompare(b);
@@ -148,6 +153,7 @@ export default function confirmServiceScreen(props) {
     }
 
     async function assignEmployee(employee){
+        if(assignedEmployee != '') return;
 
         await FirebaseFunctions.call('addEmployeeToRequest', {
             requestID:requestData.requestID,
