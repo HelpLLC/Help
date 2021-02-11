@@ -1,66 +1,63 @@
-// This is going to be the StyleSheet for the confirmPaymentScreen
 import { StyleSheet } from 'react-native';
+import fontStyles from 'config/styles/fontStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
+import { color } from 'react-native-reanimated';
 
 export default StyleSheet.create({
-  ServiceCardwithAddress: {
-    width: screenWidth * 0.95,
-    height: screenHeight * 0.15,
-    borderColor: colors.lightBlue,
-    borderWidth: 3,
-    borderRadius: 25,
-    flexDirection: 'row',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    display: 'flex',
-  },
-  ServiceCard: {
-    width: screenWidth * 0.95,
-    height: screenHeight * 0.1,
-    borderColor: colors.lightBlue,
-    borderWidth: 3,
-    borderRadius: 25,
-    flexDirection: 'row',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    display: 'flex',
-  },
-  HeaderMargin: {
-    marginTop: screenHeight * 0.05,
-    marginLeft: screenWidth * 0.05,
-  },
-  TitleandLocation: {
-    marginLeft: screenWidth * 0.4,
-  },
-  TitleandAccuratetime: {
-    marginLeft: screenWidth * 0.2,
-    paddingRight: screenWidth * 0.15,
-  },
-  Title: {
-    marginTop: screenHeight * 0.02,
-  },
-  AddressandAccuratetime: {
-    marginTop: screenHeight * 0.02,
-  },
-  TimeandButtonwithAdress: {
-    marginRight: screenWidth * 0.2,
-  },
-  TimeandButton: {
-    marginRight: screenWidth * 0.1,
-  },
-  TimewithAdress: {
-    marginTop: screenHeight * 0.02,
-  },
-  Time: {
-    marginTop: screenHeight * 0.01,
-  },
-  ButtonwithAddress: {
-    marginRight: screenWidth * 0.2,
-    marginTop: screenHeight * 0.07,
-  },
-  Button: {
-    marginRight: screenWidth * 0.1,
-    marginTop: screenHeight * 0.025,
-  },
+    Body:{
+        flexDirection: 'column',
+        alignItems: 'center',
+        backgroundColor: colors.white,
+        height: '100%'
+    },
+
+    ContentContainer:{
+        flexGrow:1
+    },
+    RowContainer:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+		marginVertical: 5
+    },
+    CollumnContainer:{
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+
+	TimeSectionContainer:{
+        flexDirection: 'column',
+		margin: 10,
+
+	},
+	TimeSectionHeader:{
+		...fontStyles.biggerTextStyle,
+		fontWeight: 'bold',
+		color: colors.darkBlue,
+		marginLeft: 10
+	},
+
+	RequestContainer:{
+        flexDirection: 'column',
+		borderColor: colors.blue,
+		borderWidth: 2,
+		borderRadius: 15,
+		paddingHorizontal: 20,
+		marginVertical: 5
+	},
+	RequestText:{
+		...fontStyles.bigTextStyle,
+		fontWeight: 'bold',
+		color: colors.darkBlue,
+	},
+	RequestTimeText:{
+		...fontStyles.bigTextStyle,
+		color: colors.blue,
+	},
+	RequestDetailText:{
+		...fontStyles.mainTextStyle,
+		color: colors.darkBlue,
+	},
+	
 });
