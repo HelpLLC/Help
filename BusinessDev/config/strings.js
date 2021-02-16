@@ -585,5 +585,10 @@ export default {
 	TermsPrivacyCredits: 'Terms/Privacy/Credits',
 	ViewWeek:"View Week",
 	ViewMonth:"View Month",
-	NoRequests:'No requests'
+	NoRequests:'No requests',
+	nextHour: "In the next hour",
+	nextSixHours: "In the next 6 hours",
+	nextDay: "In the next 24 hours",
+	nextWeek: "In the next 7 days",
+	nextMonth: "In the next 30 days",
 };
