@@ -1,0 +1,28 @@
+import { StyleSheet } from 'react-native';
+import fontStyles from 'config/styles/fontStyles';
+import { screenWidth, screenHeight } from 'config/dimensions';
+import colors from 'config/colors';
+
+export default StyleSheet.create({
+    Body:{
+        flexDirection: 'column',
+        alignItems: 'center',
+        backgroundColor: colors.white,
+        height: screenHeight
+    },
+
+    MainContainer:{
+        height:screenHeight - 80 - (screenHeight * 0.135)
+    },
+
+    RequestDetailsContainer:{
+        alignSelf:'stretch'
+    },
+
+    Footer:{
+        width:screenWidth + 4,
+        height:80,
+        borderWidth:2,
+        borderColor: colors.gray
+    }
+})
