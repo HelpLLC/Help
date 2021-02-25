@@ -5,6 +5,7 @@ import employeeDashboardScreen from './employeeBottomTabScreens/employeeDashboar
 import notificationScreen from './employeeBottomTabScreens/employeeNotifications/employeeNotificationsScreen';
 import calendarScreen from './employeeBottomTabScreens/employeeCalendar/employeeCalendarScreen';
 import profileScreen from './employeeBottomTabScreens/employeeProfile/employeeProfileScreen';
+import EmployeeRequestDisplay from './employeeScreens/employeeRequestDisplay/employeeRequestDisplay';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import strings from 'config/strings';
 
@@ -52,17 +53,29 @@ const routeConfig = {
         })
       },
 
-       //Route connecting to the Calendar Screen
+      //Route connecting to the Calendar Screen
     ProfileScreen: {
-        //connects the object with the help screen component
-        screen: profileScreen,
-        //sets up what the tab will be titled
-        navigationOptions: ({navigation}) => ({
-            tabBarIcon: ({tinColor, focused}) => (
-                <Icon name='user-circle' size={40} type='font-awesome' color={tinColor} />
-            )
-        })
-      },
+       //connects the object with the help screen component
+       screen: profileScreen,
+       //sets up what the tab will be titled
+       navigationOptions: ({navigation}) => ({
+           tabBarIcon: ({tinColor, focused}) => (
+               <Icon name='user-circle' size={40} type='font-awesome' color={tinColor} />
+           )
+       })
+     },
+
+    //Route connecting to the Calendar Screen
+    EmployeeRequestDisplay: {
+      //connects the object with the help screen component
+      screen: EmployeeRequestDisplay,
+      //sets up what the tab will be titled
+      navigationOptions: ({navigation}) => ({
+          tabBarIcon: ({tinColor, focused}) => (
+              <Icon name='user-circle' size={40} type='font-awesome' color={tinColor} />
+          )
+      })
+    },
 };
 
 //This sets up the configurations for the tabNavigator colors, initial route, etc.

@@ -591,4 +591,6 @@ export default {
 	nextDay: "In the next 24 hours",
 	nextWeek: "In the next 7 days",
 	nextMonth: "In the next 30 days",
+	TOpending: "Time Off Req Pending",
+	TOrequest: "Time Off Req",
 };
