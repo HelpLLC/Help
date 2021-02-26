@@ -137,7 +137,7 @@ export default function dashboardScreen(props) {
 							bigText={true}
 							bold={true}
 							onPress={() => {
-								props.navigation.push('employeeRequestDisplay', { requestID:obj.requestID });
+								props.navigation.push('EmployeeRequestDisplay', { requestID:obj.requestID });
 							}}
 						/>
 					</View>
