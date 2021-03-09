@@ -21,12 +21,11 @@ export default function employeeRequestDisplay(props) {
 	const [requestID, setRequestID] = useState('');
 	const [requestData, setRequestData] = useState({});
 	const [customerData, setCustomerData] = useState({});
-	const [employees, setEmployees] = useState([]);
 	
 	async function getData(){
 		//Declares the screen name in Firebase
-		// props = {navigation:{state:{params:{requestID:'EKY0Winhxxb85GlXy1WX'}}}}; //NOTE: this line is only for testing
-        // FirebaseFunctions.setCurrentScreen('ConfirmServiceScreen', 'confirmServiceScreen');
+		props = {navigation:{state:{params:{requestID:'EKY0Winhxxb85GlXy1WX'}}}}; //NOTE: this line is only for testing
+        FirebaseFunctions.setCurrentScreen('ConfirmServiceScreen', 'confirmServiceScreen');
         const {
 			requestID
 	 	} = props.navigation.state.params;
@@ -38,17 +37,29 @@ export default function employeeRequestDisplay(props) {
         const customerData = await FirebaseFunctions.call('getCustomerByID', {
             customerID:requestData.customerID
 		});
-        const employeeData = await FirebaseFunctions.call('getEmployeesAvailableForRequest', {
-			businessID:requestData.businessID,
-			startTime: requestData.startTime,
-			endTime:requestData.endTime,
-			date:requestData.date,
-		});
 		setRequestTitle(requestData.serviceTitle);
         setRequestData(requestData);
 		setCustomerData(customerData);
-		setEmployees(employeeData)
         setIsScreenLoading(false);
+
+		// //NOTE: this is just for testing purposes
+		// setRequestTitle("Photography");
+        // setRequestData({
+		// 	date: "December 17, 1995 03:24:00",
+		// 	time: "5:00 AM",
+		// 	endTime: "7:00AM",
+		// 	assignedTo: "Fred Jones",
+		// 	cash: true,
+		// 	paymentInformation: "",
+		// });
+		// setCustomerData({
+		// 	name: "Shaggy Rogers",
+		// 	address: "14504 NE 2nd Pl, Bellevue, WA 98007",
+		// 	phoneNumber: "8008888888",
+		// 	email: "fakeemail@emailprovider.com"
+		// });
+        // setIsScreenLoading(false);
+		
     }
     useEffect(() => {
         getData();

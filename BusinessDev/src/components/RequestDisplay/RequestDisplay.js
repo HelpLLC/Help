@@ -2,6 +2,8 @@ import React, { Component, useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { screenWidth, screenHeight } from 'config/dimensions';
+import phoneCall from 'react-native-phone-call';
+import maps from 'react-native-open-maps';
 import colors from 'config/colors';
 import strings from 'config/strings';
 import style from './RequestDisplayStyle';
@@ -32,7 +34,11 @@ export default function requestDisplay(props) {
                             </Text>
                         </TouchableOpacity> : null}
                     </View>
-                    <Text style={[fontStyles.bigTextStyle, style.SectionContentText]}>{content}</Text>
+                    {
+                        title == strings.Address ? <TouchableOpacity onPress={()=>maps({end:content})}><Text style={[fontStyles.bigTextStyle, style.SectionContentText, {color: colors.lightBlue}]}>{content}</Text></TouchableOpacity>
+                        : (title == strings.PhoneNumber ? <TouchableOpacity onPress={()=>phoneCall({number:content.replace(/[\+ \(\)-]/g, ""), prompt:true})}><Text style={[fontStyles.bigTextStyle, style.SectionContentText, {color: colors.lightBlue}]}>{content}</Text></TouchableOpacity>
+                        : <Text style={[fontStyles.bigTextStyle, style.SectionContentText]}>{content}</Text>)
+                    }
                 </View>
             </View>
         );
@@ -89,10 +95,10 @@ export default function requestDisplay(props) {
     return (
         <View style={style.ContentContainer}>
             {requestDate ? addSection('material', 'date-range', strings.Date, `${days[requestDate.getDay()]}, ${months[requestDate.getMonth()]} ${requestDate.getDate()}, ${requestDate.getFullYear()}`) : null}
-            {request.time && request.endTime ? addSection('material-community', 'clock', strings.Time, `${request.time.toLowerCase().replace(/\s/g, '')} - ${request.endTime.toLowerCase().replace(/\s/g, '')}`) : null}
-            {request.assignedTo ? addSection('material-community', 'account-circle', strings.Employee, request.assignedTo) : null}
-            {customer.name ? addSection('material-community', 'account-circle', strings.Customer, customer.name) : null}
-            {addSection('ionicon', 'logo-usd', strings.Payment, `${request.cash?'Cash':'Credit/Debit Card'} ${request.paymentInformation}`, onRefund)}
+            {request.time && request.endTime ? addSection('font-awesome', 'clock-o', strings.Time, `${request.time.toLowerCase().replace(/\s/g, '')} - ${request.endTime.toLowerCase().replace(/\s/g, '')}`) : null}
+            {request.assignedTo ? addSection('material', 'account-circle', strings.Employee, request.assignedTo) : null}
+            {customer.name ? addSection('material', 'account-circle', strings.Customer, customer.name) : null}
+            {addSection('font-awesome', 'usd', strings.Payment, `${request.cash?'Cash':'Credit/Debit Card'} ${request.paymentInformation}`, onRefund)}
             {customer.address ? addSection('entypo', 'location', strings.Address, customer.address.replace(/, /, ',\n')) : null}
             {customer.phoneNumber ? addSection('font-awesome', 'mobile', strings.PhoneNumber, `(${customer.phoneNumber.substring(0,3)}) ${customer.phoneNumber.substring(3,6)}-${customer.phoneNumber.substring(6)}`) : null}
             {customer.email ? addSection('entypo', 'mail', strings.Email, customer.email) : null}
