@@ -104,31 +104,30 @@ export default function employeeRequestDisplay(props) {
 							bold={true}
 							style={style.Button}
 							onPress={() => {
-								return null; //NOTE: this is here for testing putposes
+								// return null; //NOTE: this is here for testing putposes
 								//Navigates to the next screen
 								let obj = serviceData.questions;
 								for(let i in requestData.answers)
 									obj[i].answer = requestData.answers[i];
 								FirebaseFunctions.call('customRequestService', {
-									...serviceData,
 									businessID: props.navigation.state.params.businessID,
+									// customerId: "",
 									customerLocation: requestData.customerAddress,
 									// paymentInformation,
-									// cash,
-									// card,
+									cash: serviceData.cash,
+									card: serviceData.card,
 									date: requestData.date,
 									questions: obj,
-									// price,
-									// priceText,
-									// review,
+									price: serviceData.price,
+									priceText: serviceData.priceText,
+									// review: "",
 									serviceTitle: requestData.serviceTitle,
 									customerName: requestData.customerName,
-									// serviceDuration,
+									serviceDuration: serviceData.serviceDuration,
 									requestedOn: new Date().toString(),
 									serviceID,
-									// status,
+									status: "REQUESTED",
 									time: requestData.time,
-									endTime: requestData.endTime,
 								});
 								props.navigation.push('unconfirmedRequestsScreen', {
 

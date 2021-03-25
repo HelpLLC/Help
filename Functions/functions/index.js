@@ -2465,168 +2465,8 @@ exports.getBusinessProfilePictureByID = functions.https.onCall(async (input, con
 
 //Method will take in a request object, which may contain a schedule, answers to questions, or both.
 //It will add this request object to the right locations.
-exports.customRequestService = functions.https.onCall(async (input, context) => {
-	let {
-		assignedTo,
-		businessID,
-		customerLocation,
-		paymentInformation,
-		cash,
-		card,
-		date,
-		questions,
-		price,
-		priceText,
-		review,
-		serviceTitle,
-		customerName,
-		serviceDuration,
-		requestedOn,
-		serviceID,
-		status,
-		time,
-	} = input;
-
-	// Calculates the end time field for requests
-	let startHours = parseInt(time.split(' ')[0].split(':')[0]);
-	const startMinutes = parseInt(time.split(' ')[0].split(':')[1]);
-
-	if (startHours !== 12 && time.split(' ')[1] === 'PM') {
-		startHours += 12;
-	}
-
-	let endHours = startHours + Math.floor(serviceDuration);
-	let endMinutes = Math.floor(startMinutes + 60 * (serviceDuration - Math.floor(serviceDuration)));
-	let amPM = endHours >= 12 ? 'PM' : 'AM';
-	if (amPM === 'PM' && endHours > 12) {
-		endHours -= 12;
-	}
-
-	let endTime = endHours + ':' + endMinutes + ' ' + amPM;
-
-	const batch = database.batch();
-
-	//If this is a request being edited, the old request document will be edited, else it will be added
-	const newRequestDoc = await customRequests.add({
-		assignedTo,
-		businessID,
-		cash,
-		customerLocation,
-		paymentInformation,
-		card,
-		date,
-		price,
-		priceText,
-		questions,
-		review,
-		serviceTitle,
-		customerName,
-		requestedOn,
-		serviceID,
-		status,
-		time,
-		endTime,
-		confirmed: false, //Since it is new requests it starts off as unconfirmed to allow a business to confirm it
-	});
-
-	const requestID = newRequestDoc.id;
-
-	batch.update(customRequests.doc(requestID), { requestID });
-
-	await batch.commit();
-
-	const result = await database.runTransaction(async (transaction) => {
-		//Converts the date to YYYY-MM-DD format and adds the current request to the business's schedule subcollection
-		const dateObject = new Date(date);
-		let year = dateObject.getFullYear();
-		let month = dateObject.getMonth() + 1;
-		let day = dateObject.getDate();
-		if (month < 10) {
-			month = '0' + month;
-		}
-		if (day < 10) {
-			day = '0' + day;
-		}
-		const dateString = year + '-' + month + '-' + day;
-		const dateDocPath = businesses.doc(businessID).collection('Private').doc('Private Data').collection('Schedule').doc(dateString);
-		const dateDoc = await transaction.get(dateDocPath);
-		//Increments the numRequests for the service. Also adds scheduling information for the business
-		let business = (await transaction.get(businesses.doc(businessID))).data();
-		const indexOfService = business.services.findIndex(
-			(element) => element.serviceID === serviceID
-		);
-		business.services[indexOfService].numCurrentRequests =
-			business.services[indexOfService].numCurrentRequests + 1;
-		await transaction.update(businesses.doc(businessID), {
-			services: business.services,
-		});
-
-		//Updates the analytics for the business
-		const fieldName = serviceID + '.totalRequests';
-		await transaction.update(
-			businesses.doc(businessID).collection('Private').doc('Private Data').collection('Analytics').doc('TopServices'),
-			{
-				[fieldName]: admin.firestore.FieldValue.increment(1),
-			}
-		);
-
-		if (dateDoc.exists === true) {
-			await transaction.update(dateDocPath, {
-				[requestID]: {
-					date,
-					time,
-					endTime,
-					requestID,
-					serviceDuration,
-					serviceTitle,
-					serviceID,
-					customerName,
-				},
-			});
-		} else {
-			await transaction.set(dateDocPath, {
-				dateString,
-				[requestID]: {
-					date,
-					time,
-					endTime,
-					requestID,
-					serviceDuration,
-					serviceTitle,
-					serviceID,
-					customerName,
-				},
-			});
-		}
-
-		return 0;
-	});
-
-	sendNotification('b-' + businessID, 'New Request', 'You have a new request for ' + serviceTitle);
-
-	//Emails help team that there has been a new requeset
-	sendEmail(
-		'helpcocontact@gmail.com',
-		'New Custom Request',
-		'Customer ' +
-			customerName +
-			' has requested ' +
-			serviceTitle +
-			' from ' +
-			'Business #' +
-			businessID
-	);
-
-	return result;
-});
-
-
-
-//Method will take in a request object, which may contain a schedule, answers to questions, or both.
-//It will add this request object to the right locations.
 exports.requestService = functions.https.onCall(async (input, context) => {
 	let {
-		assignedTo,
 		businessID,
 		customerID,
 		customerLocation,
@@ -2668,7 +2508,6 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 
 	//If this is a request being edited, the old request document will be edited, else it will be added
 	const newRequestDoc = await requests.add({
-		assignedTo,
 		businessID,
 		customerID,
 		cash,
@@ -2695,7 +2534,7 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 	batch.update(requests.doc(requestID), { requestID });
 
 	//Adds a reference to the request to the customer's array of currentRequests
-	batch.update(customers.doc(customerID), {
+	if(customerID) batch.update(customers.doc(customerID), {
 		currentRequests: admin.firestore.FieldValue.arrayUnion({
 			date,
 			requestID,

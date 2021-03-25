@@ -75,7 +75,7 @@ export default function editRequest(props) {
         <View style={style.ContentContainer}>
             {addSection('material', 'date-range', strings.Date, requestDate == null ? null : `${days[requestDate.getDay()]}, ${months[requestDate.getMonth()]} ${requestDate.getDate()}, ${requestDate.getFullYear()}`, "date")}
             {addSection('font-awesome', 'clock-o', strings.StartTime, details.time ? `${details.time.toLowerCase().replace(/\s/g, '')}` : null, "time")}
-            {addSection('font-awesome', 'clock-o', strings.EndTime, details.endTime ? `${details.endTime.toLowerCase().replace(/\s/g, '')}` : null, "endTime")}
+            {/* {addSection('font-awesome', 'clock-o', strings.EndTime, details.endTime ? `${details.endTime.toLowerCase().replace(/\s/g, '')}` : null, "endTime")} */}
             {/* {addSection('material', 'account-circle', strings.Employee, details.assignedTo)} */}
             {addSection('material', 'account-circle', strings.Customer, details.customerName, "customerName")}
             {addSection('entypo', 'location', strings.Address, details.customerAddress ? details.customerAddress.replace(/, /, ',\n') : null, "customerAddress")}
