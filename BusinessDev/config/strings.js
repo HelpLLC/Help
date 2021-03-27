@@ -593,4 +593,7 @@ export default {
 	nextMonth: "In the next 30 days",
 	TOpending: "Time Off Req Pending",
 	TOrequest: "Time Off Req",
+	StartTime: "Start Time",
+	EndTime: "End Time",
+	AddRequest: "Add Request",
 };
