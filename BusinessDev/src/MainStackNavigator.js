@@ -212,7 +212,7 @@ const routeConfig = {
 			header: props => (
 				<View>
 					<TopBanner
-						title={"Photography"}
+						title={"Photography"} //props.navigation.params
 						leftIconName='angle-left'
 						size={30}
 						leftOnPress={() => navigation.goBack()}

@@ -109,6 +109,12 @@ const sendEmail = async (recepient, subject, text) => {
 	return 0;
 };
 
+//Method will take in a service ID and a customer ID and a requestID and a businessID and then confirm that customer's request
+//from the service's current requests.
+const confirmRequest = async (requestID) => {
+
+};
+
 //Method will take in a service ID and a customer ID and a requestID and a businessID and then delete that customer's request
 //from the service's current requests.
 const deleteRequest = async (requestID) => {
