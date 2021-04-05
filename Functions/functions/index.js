@@ -2275,6 +2275,9 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		review,
 		serviceTitle,
 		customerName,
+		customerAddress,
+		customerPhoneNumber,
+		customerEmail,
 		serviceDuration,
 		requestedOn,
 		serviceID,
@@ -2298,52 +2301,62 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 	}
 
 	let endTime = endHours + ':' + endMinutes + ' ' + amPM;
+	const result = await database.runTransaction(async (transaction) => {
+		if(customerID){
+			let customer = (await transaction.get(customers.doc(customerID))).data();
+			customerName = customer.name;
+			customerAddress = customer.address;
+			customerPhoneNumber = customer.phoneNumber;
+			customerEmail = customer.email;
+		}
 
-	const batch = database.batch();
+		const batch = database.batch();
 
-	//If this is a request being edited, the old request document will be edited, else it will be added
-	const newRequestDoc = await requests.add({
-		businessID,
-		customerID,
-		cash,
-		customerLocation,
-		paymentInformation,
-		card,
-		date,
-		price,
-		priceText,
-		questions,
-		review,
-		serviceTitle,
-		customerName,
-		requestedOn,
-		serviceID,
-		status,
-		time,
-		endTime,
-		confirmed: false, //Since it is new requests it starts off as unconfirmed to allow a business to confirm it
-	});
-
-	const requestID = newRequestDoc.id;
-
-	batch.update(requests.doc(requestID), { requestID });
-
-	//Adds a reference to the request to the customer's array of currentRequests
-	if(customerID) batch.update(customers.doc(customerID), {
-		currentRequests: admin.firestore.FieldValue.arrayUnion({
+		//If this is a request being edited, the old request document will be edited, else it will be added
+		const newRequestDoc = await requests.add({
+			businessID,
+			customerID,
+			cash,
+			customerLocation,
+			paymentInformation,
+			card,
 			date,
-			requestID,
-			serviceID,
+			price,
+			priceText,
+			questions,
+			review,
 			serviceTitle,
+			customerName,
+			customerAddress,
+			customerPhoneNumber,
+			customerEmail,
+			requestedOn,
+			serviceID,
 			status,
 			time,
 			endTime,
-		}),
-	});
+			confirmed: false, //Since it is new requests it starts off as unconfirmed to allow a business to confirm it
+		});
 
-	await batch.commit();
+		const requestID = newRequestDoc.id;
 
-	const result = await database.runTransaction(async (transaction) => {
+		batch.update(requests.doc(requestID), { requestID });
+
+		//Adds a reference to the request to the customer's array of currentRequests
+		if(customerID) batch.update(customers.doc(customerID), {
+			currentRequests: admin.firestore.FieldValue.arrayUnion({
+				date,
+				requestID,
+				serviceID,
+				serviceTitle,
+				status,
+				time,
+				endTime,
+			}),
+		});
+
+		await batch.commit();
+
 		//Converts the date to YYYY-MM-DD format and adds the current request to the business's schedule subcollection
 		const dateObject = new Date(date);
 		let year = dateObject.getFullYear();
@@ -2412,18 +2425,19 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 
 	sendNotification('b-' + businessID, 'New Request', 'You have a new request for ' + serviceTitle);
 
-	//Emails help team that there has been a new requeset
-	sendEmail(
-		'helpcocontact@gmail.com',
-		'New Request',
-		'Customer #' +
-			customerID +
-			' has requested ' +
-			serviceTitle +
-			' from ' +
-			'Business #' +
-			businessID
-	);
+	if(customerID){//Emails help team that there has been a new requeset
+		sendEmail(
+			'helpcocontact@gmail.com',
+			'New Request',
+			'Customer #' +
+				customerID +
+				' has requested ' +
+				serviceTitle +
+				' from ' +
+				'Business #' +
+				businessID
+		);
+	}
 
 	return result;
 });

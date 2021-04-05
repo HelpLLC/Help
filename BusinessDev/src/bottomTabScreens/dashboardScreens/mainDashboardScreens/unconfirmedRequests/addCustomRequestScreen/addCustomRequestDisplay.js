@@ -122,7 +122,12 @@ export default function employeeRequestDisplay(props) {
 									priceText: serviceData.priceText,
 									// review: "",
 									serviceTitle: requestData.serviceTitle,
+
 									customerName: requestData.customerName,
+									customerAddress: requestData.customerAddress,
+									customerPhoneNumber: requestData.customerPhoneNumber,
+									customerEmail: requestData.customerEmail,
+
 									serviceDuration: serviceData.serviceDuration,
 									requestedOn: new Date().toString(),
 									serviceID,

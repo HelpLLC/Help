@@ -26,9 +26,12 @@ export default class customerRequestScreen extends Component {
 		const { requestID } = this.props.navigation.state.params;
 		const request = await FirebaseFunctions.call('getRequestByID', { requestID });
 
-		const image = await FirebaseFunctions.call('getProfilePictureByID', {
-			customerID: request.customerID
-		});
+		let image = null;
+		if(request.customerID) {
+			image = await FirebaseFunctions.call('getProfilePictureByID', {
+				customerID: request.customerID
+			});
+		}
 		this.setState({ isScreenLoading: false, image, request });
 	}
 

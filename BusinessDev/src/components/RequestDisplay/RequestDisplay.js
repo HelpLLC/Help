@@ -72,7 +72,6 @@ export default function requestDisplay(props) {
 
     requestDisplay.propTypes = {
         request: PropTypes.object,
-        customer: PropTypes.object,
         onRefund: PropTypes.func,
     };
     
@@ -80,14 +79,12 @@ export default function requestDisplay(props) {
 
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-    let { //NOTE: the request and customer objects passed into this function are standard firebase objects
+    let { //NOTE: the request object passed into this function are standard firebase objects
         request,
-        customer,
         onRefund,
     } = props;
 
     if(!request) throw new Error('the field "request" of the requestDisplay component is undefined');
-    if(!customer) throw new Error('the field "customer" of the requestDisplay component is undefined');
     if(!onRefund) onRefund = null;
 
     //rendering the screen
@@ -97,11 +94,11 @@ export default function requestDisplay(props) {
             {requestDate ? addSection('material', 'date-range', strings.Date, `${days[requestDate.getDay()]}, ${months[requestDate.getMonth()]} ${requestDate.getDate()}, ${requestDate.getFullYear()}`) : null}
             {request.time && request.endTime ? addSection('font-awesome', 'clock-o', strings.Time, `${request.time.toLowerCase().replace(/\s/g, '')} - ${request.endTime.toLowerCase().replace(/\s/g, '')}`) : null}
             {request.assignedTo ? addSection('material', 'account-circle', strings.Employee, request.assignedTo) : null}
-            {customer.name ? addSection('material', 'account-circle', strings.Customer, customer.name) : null}
+            {request.customerName ? addSection('material', 'account-circle', strings.Customer, request.customerName) : null}
             {addSection('font-awesome', 'usd', strings.Payment, `${request.cash?'Cash':'Credit/Debit Card'} ${request.paymentInformation}`, onRefund)}
-            {customer.address ? addSection('entypo', 'location', strings.Address, customer.address.replace(/, /, ',\n')) : null}
-            {customer.phoneNumber ? addSection('font-awesome', 'mobile', strings.PhoneNumber, `(${customer.phoneNumber.substring(0,3)}) ${customer.phoneNumber.substring(3,6)}-${customer.phoneNumber.substring(6)}`) : null}
-            {customer.email ? addSection('entypo', 'mail', strings.Email, customer.email) : null}
+            {request.customerAddress ? addSection('entypo', 'location', strings.Address, request.customerAddress.replace(/, /, ',\n')) : null}
+            {request.customerPhoneNumber ? addSection('font-awesome', 'mobile', strings.PhoneNumber, `(${request.customerPhoneNumber.substring(0,3)}) ${request.customerPhoneNumber.substring(3,6)}-${request.customerPhoneNumber.substring(6)}`) : null}
+            {request.customerEmail ? addSection('entypo', 'mail', strings.Email, request.customerEmail) : null}
             {request.questions ? questionSection(request.questions) : null}
         </View>
     );

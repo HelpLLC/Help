@@ -20,7 +20,6 @@ export default function employeeRequestDisplay(props) {
 	const [requestTitle, setRequestTitle] = useState(strings.Loading);
 	const [requestID, setRequestID] = useState('');
 	const [requestData, setRequestData] = useState({});
-	const [customerData, setCustomerData] = useState({});
 	
 	async function getData(){
 		//Declares the screen name in Firebase
@@ -34,12 +33,8 @@ export default function employeeRequestDisplay(props) {
         const requestData = await FirebaseFunctions.call('getRequestByID', {
             requestID
         });
-        const customerData = await FirebaseFunctions.call('getCustomerByID', {
-            customerID:requestData.customerID
-		});
 		setRequestTitle(requestData.serviceTitle);
         setRequestData(requestData);
-		setCustomerData(customerData);
         setIsScreenLoading(false);
 
 		// //NOTE: this is just for testing purposes
@@ -91,7 +86,7 @@ export default function employeeRequestDisplay(props) {
 				<ScrollView style={style.RequestDetailsContainer}>
 					<RequestDisplay
 						request={requestData}
-						customer={customerData}/>
+					/>
 				</ScrollView>
 			</View>
 		);

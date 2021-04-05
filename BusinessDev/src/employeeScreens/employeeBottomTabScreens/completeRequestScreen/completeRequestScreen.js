@@ -19,7 +19,6 @@ export default function confirmServiceScreen(props) {
 	const [requestTitle, setRequestTitle] = useState(strings.Loading);
 	const [requestID, setRequestID] = useState('');
 	const [requestData, setRequestData] = useState({});
-	const [customerData, setCustomerData] = useState({});
 
 	const [popupState, setPopupState] = useState(-1);
 	const [travelStart, setTravelStart] = useState('');
@@ -35,12 +34,8 @@ export default function confirmServiceScreen(props) {
 		const requestData = await FirebaseFunctions.call('getRequestByID', {
 			requestID: RID,
 		});
-		const customerData = await FirebaseFunctions.call('getCustomerByID', {
-			customerID: requestData.customerID,
-		});
 		setRequestTitle(requestData.serviceTitle);
 		setRequestData(requestData);
-		setCustomerData(customerData);
 		setIsScreenLoading(false);
 	}
 	useEffect(() => {
@@ -131,7 +126,7 @@ export default function confirmServiceScreen(props) {
 			return (
 				<View style={style.MainContainer}>
 					<ScrollView style={style.RequestDetailsContainer}>
-						<RequestDisplay request={requestData} customer={customerData} />
+						<RequestDisplay request={requestData} />
 					</ScrollView>
 					<View style={style.FooterContainer}>
 						<View style={style.CollumnContainer}>
