@@ -21,7 +21,6 @@ export default function viewMoreScreen(props) {
     //the state of the function
     const [requestID, setRequestID] = useState('');
     const [requestData, setRequestData] = useState({});
-    const [customerData, setCustomerData] = useState({});
     const [isScreenLoading, setIsScreenLoading] = useState(true);
     
     async function getData(){
@@ -35,14 +34,9 @@ export default function viewMoreScreen(props) {
         const requestObj = await FirebaseFunctions.call('getRequestByID', {
             requestID:RID
         });
-        
-        const customerObj = await FirebaseFunctions.call('getCustomerByID', {
-            customerID:requestObj.customerID
-        });
 
         setRequestID(RID);
         setRequestData(requestObj);
-        setCustomerData(customerObj);
         setIsScreenLoading(false);
     }
     useEffect(() => {
@@ -74,7 +68,6 @@ export default function viewMoreScreen(props) {
             <ScrollView style={style.ScrollView}>
                 <RequestDisplay
                     request={requestData}
-                    customer={customerData}
                     onRefund={()=>{
                         //TODO: this
                     }}/>

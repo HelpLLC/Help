@@ -113,9 +113,9 @@ class serviceHistoryScreen extends Component {
 								imageFunction={async () => {
 									//Passes the function to get the profile picture of the user
 									//Passes in the function to retrieve the image of this requester
-									return await FirebaseFunctions.call('getProfilePictureByID', {
+									return item.customerID ? (await FirebaseFunctions.call('getProfilePictureByID', {
 										customerID: item.customerID
-									});
+									})) : null;
 								}}
 								onPress={() => {
 									//Goes to the screen for the specific request

@@ -20,7 +20,6 @@ export default function confirmServiceScreen(props) {
 	const [requestTitle, setRequestTitle] = useState(strings.Loading);
 	const [requestID, setRequestID] = useState('');
 	const [requestData, setRequestData] = useState({});
-	const [customerData, setCustomerData] = useState({});
 	const [employees, setEmployees] = useState([]);
 	
 	async function getData(){
@@ -35,9 +34,6 @@ export default function confirmServiceScreen(props) {
         const requestData = await FirebaseFunctions.call('getRequestByID', {
             requestID
         });
-        const customerData = await FirebaseFunctions.call('getCustomerByID', {
-            customerID:requestData.customerID
-		});
         const employeeData = await FirebaseFunctions.call('getEmployeesAvailableForRequest', {
 			businessID:requestData.businessID,
 			startTime: requestData.startTime,
@@ -46,7 +42,6 @@ export default function confirmServiceScreen(props) {
 		});
 		setRequestTitle(requestData.serviceTitle);
         setRequestData(requestData);
-		setCustomerData(customerData);
 		setEmployees(employeeData)
         setIsScreenLoading(false);
     }
@@ -80,7 +75,7 @@ export default function confirmServiceScreen(props) {
 				<ScrollView style={style.RequestDetailsContainer}>
 					<RequestDisplay
 						request={requestData}
-						customer={customerData}/>
+					/>
 				</ScrollView>
 				<View style={style.ButtonContainer}>
 					<HelpButton
@@ -95,7 +90,6 @@ export default function confirmServiceScreen(props) {
 							props.navigation.push('assignEmployeesScreen', {
 								requestID,
 								requestData,
-								customerData,
 								employees,
 							});
 						}}
