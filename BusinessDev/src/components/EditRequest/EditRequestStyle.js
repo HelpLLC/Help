@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 import fontStyles from 'config/styles/fontStyles';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import colors from 'config/colors';
+import { color } from 'react-native-reanimated';
 
 export default StyleSheet.create({
     ContentContainer:{
@@ -58,6 +59,17 @@ export default StyleSheet.create({
         paddingHorizontal:15,
         paddingTop:5,
     },
+    orText:{
+        ...fontStyles.bigTextStyle,
+        color: colors.darkBlue,
+        fontWeight: 'bold',
+        width: 50,
+        textAlign: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom:5
+    },
 
     RowContainer:{
         flexDirection:'row',
@@ -65,6 +77,11 @@ export default StyleSheet.create({
         alignItems:'flex-start',
         flex:1,
         width:screenWidth - (5 * 2 + 30 + 60 + 20),
+    },
+    CollumnContainer:{
+        flexDirection:'column',
+        justifyContent:'space-between',
+        alignItems:'flex-start',
     },
     PaymentMarker:{
         ...fontStyles.mainTextStyle,

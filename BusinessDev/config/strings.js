@@ -261,6 +261,7 @@ export default {
 		'How many employees could your company send out to complete this request at the same time?',
 	HowWillCustomersPay: 'How will customers pay for this service?',
 	Cash: 'Cash',
+	Card: 'Card',
 	CreditDebitCard: 'Credit/Debit Card',
 	SetUpPayment: 'Set Up Payments',
 	HowWillYourCustomersPayYou: 'How will your customers pay you?',
@@ -596,4 +597,5 @@ export default {
 	StartTime: "Start Time",
 	EndTime: "End Time",
 	AddRequest: "Add Request",
+	PaymentInformation: "Payment Information",
 };
