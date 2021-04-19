@@ -71,6 +71,10 @@ export default function confirmServiceScreen(props) {
 					setPopupState(-1);
 				}}
 				onConfirm={() => {
+					FirebaseFunctions.call('changeRequestStatus', {
+						requestID,
+						status: "OTW",
+					});
 					setTravelStart(new Date());
 					setPopupState(-1);
 				}}
@@ -84,6 +88,10 @@ export default function confirmServiceScreen(props) {
 					setPopupState(-1);
 				}}
 				onConfirm={() => {
+					FirebaseFunctions.call('changeRequestStatus', {
+						requestID,
+						status: "BEGAN",
+					});
 					setJobStart(new Date());
 					setPopupState(-1);
 				}}
@@ -97,6 +105,10 @@ export default function confirmServiceScreen(props) {
 					setPopupState(-1);
 				}}
 				onConfirm={() => {
+					FirebaseFunctions.call('changeRequestStatus', {
+						requestID,
+						status: "COMPLETE",
+					});
 					setJobFinish(new Date());
 					setPopupState(4);
 				}}
