@@ -2607,6 +2607,20 @@ exports.updateCustomerRequest = functions.https.onCall(async (input, context) =>
 	return result;
 });
 
+//Method is going to change the status of a request
+exports.changeRequestStatus = functions.https.onCall(async (input, context) => {
+	let {
+		requestID,
+		status,
+	} = input;
+
+	const result = await database.runTransaction(async (transaction) => {
+		await transaction.update(requests.doc(requestID), {status});
+	});
+
+	return 0;
+});
+
 //Method taks in a requestID and completes that request in the database by giving it the status "complete", and addding it
 //to the completed requests SubCollection in the customer and the business. It will also add the billing accordingly to the
 //customer's side (unless the service was marked as cash). It will also mark the request as awaiting review from the customer

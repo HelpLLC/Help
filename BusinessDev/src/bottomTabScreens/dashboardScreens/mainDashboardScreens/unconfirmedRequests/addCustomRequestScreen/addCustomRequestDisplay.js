@@ -91,6 +91,7 @@ export default function employeeRequestDisplay(props) {
 					<ScrollView style={style.RequestDetailsContainer}>
 						<EditRequest
 							request={serviceData}
+							changePayment={true}
 							onDataChange={data => {
 								setRequestData(data);
 							}}/>
@@ -109,13 +110,14 @@ export default function employeeRequestDisplay(props) {
 								let obj = serviceData.questions;
 								for(let i in requestData.answers)
 									obj[i].answer = requestData.answers[i];
-								FirebaseFunctions.call('customRequestService', {
+								FirebaseFunctions.call('requestService', {
 									businessID: props.navigation.state.params.businessID,
 									// customerId: "",
 									customerLocation: requestData.customerAddress,
 									// paymentInformation,
-									cash: serviceData.cash,
-									card: serviceData.card,
+									cash: requestData.cash,
+									card: requestData.card,
+									paymentInformation: requestData.paymentInformation,
 									date: requestData.date,
 									questions: obj,
 									price: serviceData.price,
