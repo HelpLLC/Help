@@ -1917,7 +1917,7 @@ exports.updateBusinessPaymentStatus = functions.https.onCall(async (input, conte
 //It will take in a billed amount, charge it to the customer, and move it to the Stripe Connect balance. It will
 //record this transaction as a field in the request document
 exports.chargeCustomerForRequest = functions.https.onCall(async (input, context) => {
-	const { businessID, customerID, requestID, billedAmount, serviceID, isCardSaved } = input;
+	const { businessID, customerID, requestID, billedAmount, serviceID, cardToken, isCardSaved } = input;
 
 	try {
 		const promises = await Promise.all([
@@ -1929,7 +1929,7 @@ exports.chargeCustomerForRequest = functions.https.onCall(async (input, context)
 		const customer = customerID ? (await customers.doc(customerID).get()).data() : null;
 
 		const { stripeBusinessID } = business;
-		const stripeCustomerID = isCardSaved === true && customer ? customer.stripeCustomerID : false;
+		const stripeCustomerID = isCardSaved === true && cardToken ? customer.stripeCustomerID : false;
 
 		//Calculates the charge amount along with the fee. Stripe accepts parameters as cents
 		const chargedAmountToCustomer = billedAmount * 100; //This is how much the customer will be charged
@@ -2448,6 +2448,20 @@ exports.confirmRequest = functions.https.onCall(async (input, context) => {
 	const batch = database.batch();
 	batch.update(requests.doc(requestID), { confirmed: true });
 	await batch.commit();
+	await database.runTransaction(async (transaction) => {
+		const request = await (await transaction.get(requests.doc(requestID + ''))).data();
+		const service = await (await transaction.get(services.doc(request.serviceID + ''))).data();
+		sendEmail(
+			request.customerEmail,
+			'Your request has been accepted',
+			`Your request for ${request.serviceTitle} has been accepted.\n`+
+			`Service Name: ${request.serviceTitle}\n`+
+			// `Employee Name: ${request.serviceTitle}\n`+
+			`Service Date: ${request.date}\n`+
+			`Service Time: ${request.time}\n`+
+			`Estimated Cost: ${service.serviceDuration*service.price}\n`
+		);
+	});
 });
 
 //this function sets the confirmed variable to true in the request doc
@@ -2621,7 +2635,7 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 
 		await database.runTransaction(async (transaction) => {
 			const request = (await transaction.get(requests.doc(requestID))).data();
-			let customer = (await transaction.get(customers.doc(request.customerID))).data();
+			let customer = request.customerID ? (await transaction.get(customers.doc(request.customerID))).data() : null;
 			let businessDoc = businesses.doc(request.businessID);
 			let business = (await transaction.get(businessDoc)).data();
 
