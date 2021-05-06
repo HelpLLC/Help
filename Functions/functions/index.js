@@ -2274,7 +2274,6 @@ exports.getEmployeeProfilePictureByID = functions.https.onCall(async (input, con
 	}
 });
 
-
 //--------------------------------- Request Functions ---------------------------------
 
 //Method will take in a request object, which may contain a schedule, answers to questions, or both.
