@@ -78,9 +78,10 @@ export default function profileScreen(props) {
 
 	//the state of the function
 	const [businessID, setBusinessID] = useState('');
+	const [profilePicture, setProfilePicture] = useState('');
 	const [businessData, setBusinessData] = useState({});
-	const [businessPictureUri, setBusinessPictureUri] = useState('');
 	const [isScreenLoading, setIsScreenLoading] = useState(true);
+	const [imagePickerVisible, setImagePickerVisible] = useState(false);
 
 	async function getData() {
 		//Declares the screen name in Firebase
@@ -91,7 +92,13 @@ export default function profileScreen(props) {
 			businessID: BID,
 		});
 
+		const profilePic = await FirebaseFunctions.call('getBusinessProfilePictureByID', {
+			businessID: BID,
+		});
+
+
 		setBusinessID(BID);
+		setProfilePicture(profilePic);
 		setBusinessData(businessObj);
 		setIsScreenLoading(false);
 	}
@@ -113,15 +120,49 @@ export default function profileScreen(props) {
 			<View style={style.Body}>
 				<View style={style.ContentContainer}>
 					<View style={style.MainContainer}>
-						<Image
-							source={require('./profilePicture.png')}
-							style={{ width: 100, height: 100, margin: 10 }}
-						/>
+						<TouchableOpacity onPress={()=>{
+							setImagePickerVisible(true);
+						}}>
+							<Image
+								// source={require('./profilePicture.png')}
+								source={profilePicture}
+								style={{ width: 100, height: 100, margin: 10 }}
+							/>
+						</TouchableOpacity>
 						<Text style={[fontStyles.bigTextStyle, style.MainText]}>
 							{businessData.businessName}
 						</Text>
 					</View>
 					{renderOptions()}
+					<ImagePicker
+						imageHeight={256}
+						imageWidth={256}
+						onImageCanceled={() => {
+							setImagePickerVisible(false);
+						}}
+						onImageSelected={(response) => {
+							this.setState({ isShowing: false });
+							const source = { uri: 'data:image/jpeg;base64,' + response.data };
+							if (!(source.uri === 'data:image/jpeg;base64,undefined')) {
+
+								let absolutePath = '';
+								if (Platform.OS === 'android') {
+									absolutePath = 'file://' + response.path;
+								} else {
+									absolutePath = response.path;
+								}
+								//Creates the reference & uploads the image (async)
+								await FirebaseFunctions.storage
+									.ref('businessProfilePics/' + businessID)
+									.putFile(absolutePath);
+								
+								setProfilePicture(await FirebaseFunctions.call('getBusinessProfilePictureByID', {businessID}));
+
+							}
+							setImagePickerVisible(false);
+						}}
+						isShowing={imagePickerVisible}
+					/>
 				</View>
 			</View>
 		);

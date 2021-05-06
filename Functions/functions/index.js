@@ -2261,7 +2261,7 @@ exports.getBusinessProfilePictureByID = functions.https.onCall(async (input, con
 exports.getEmployeeProfilePictureByID = functions.https.onCall(async (input, context) => {
 	const { employeeID } = input;
 	//Creates the reference
-	const uri = storage.file('EmployeeProfilePics/' + employeeID);
+	const uri = storage.file('employeeProfilePics/' + employeeID);
 	const exists = await uri.exists();
 	if (exists[0] === true) {
 		const downloadURL = await uri.getSignedUrl({ action: 'read', expires: '03-17-2025' });
