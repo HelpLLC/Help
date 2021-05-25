@@ -36,6 +36,7 @@ export default function HelpButton(props) {
 		isSmallButton,
 		isSmallButton2,
 		fontStyle,
+		subText
 	} = props;
 
 	//sets up what properties the custom component should take in, which in this case
@@ -85,13 +86,13 @@ export default function HelpButton(props) {
 							? fontStyle
 							: isLightButton
 							? {
-									...fontStyles.mainTextStyle,
+									...(subText ? fontStyles.subTextStyle : fontStyles.mainTextStyle),
 									...fontStyles.blue,
 									...fontStyles.bold,
 									textAlign: 'center',
 							  }
 							: {
-									...fontStyles.mainTextStyle,
+									...(subText ? fontStyles.subTextStyle : fontStyles.mainTextStyle),
 									...fontStyles.white,
 									...fontStyles.bold,
 									textAlign: 'center',

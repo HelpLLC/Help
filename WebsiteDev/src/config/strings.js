@@ -103,7 +103,7 @@ export default {
 	CentralizedPayments: 'Centralized Payments',
 	CentralizedPaymentsMessage:
 		'Allow customers to pay through the secure Help platform however they want, and accept it all in one place.',
-	Payment: 'Payment:',
+	Payment: 'Payment',
 	QuestionResponses: 'Question Responses:',
 	EmployeeManagement: 'Employee Management',
 	EmployeeManagementMessage:
@@ -238,7 +238,6 @@ export default {
 	City: 'City',
 	State: 'State',
 	Country: 'Country',
-	DaysOffered: 'Days Offered',
 	Home: 'Home',
 	Payments: 'Payments',
 	GoToMap: 'Go to Map',
@@ -319,5 +318,19 @@ export default {
 	ShareTheCode: 'Share this 5-digit code with your employees',
 	TimeOffRequests: 'Time Off Request(s)',
 	Approve: 'Approve',
-	Deny: 'Deny'
+	Deny: 'Deny',
+	Request:"Request",
+	SeeAllServices: "See All Services",
+	FeaturedServices:"Featured Services",
+	OfferedBy:"Offered By:",
+	Questions:"Questions",
+	Time:"Time",
+	To:"To",
+	Repeat: "Repeat",
+	FirstName:'First Name',
+	LastName: 'Last Name',
+	CardNumber:'Card Number',
+	Expiration: 'Exp',
+	CCV: 'CCV',
+	Loading:"Loading...",
 };

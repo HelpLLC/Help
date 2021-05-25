@@ -1,3 +1,4 @@
+/*
 import React, { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import LandingPageNavigator from './business/StartingScreens/LandingPage/LandingPageNavigator';
@@ -19,3 +20,5 @@ const App = () => {
 };
 
 export default App;
+
+//*/ import screen from './customer/Dashboard/requestServiceScreen/requestServiceScreen'; export default screen; 
