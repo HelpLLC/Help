@@ -4,8 +4,7 @@ import fonts from '../../../config/fontStyles';
 
 export default {
     body:{
-        width: '100%',
-        height: '100%',
+        flex:1,
         boxSizing: "border-box",
         flexDirection: "row",
         display: "flex",

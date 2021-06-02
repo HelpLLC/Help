@@ -22,6 +22,7 @@ export default function (props) {
     const [isLoading, setIsLoading] = useState(true);
     const [services, setServices] = useState(null);
     const [businessID, setBusinessID] = useState('');
+    const history = useHistory();
 
 	async function getData() {
 		//Declares the screen name in Firebase
@@ -62,7 +63,10 @@ export default function (props) {
                             // biggerText={true}
                             // bold={true}
                             onPress={() => {
-                                //TODO: this
+                                history.push({
+                                    pathname: '/requestservice',
+                                    state: { businessID},
+                                });
                             }}
                         />
                     </div>
@@ -110,7 +114,6 @@ export default function (props) {
     else return (
         <div style={style.body}>
             <style>{style.css}</style>
-            <SideMenu selected={0}/>
             <div style={style.middleSection}>
                 <div style={{...style.column, height: "12%"}}>
                     <text style={style.businessTitle}>{"Magic Hands LLC"}</text>

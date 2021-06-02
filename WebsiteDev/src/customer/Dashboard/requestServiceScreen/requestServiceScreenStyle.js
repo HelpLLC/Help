@@ -4,8 +4,7 @@ import fonts from '../../../config/fontStyles';
 
 export default {
     body:{
-        width: '100%',
-        height: '100%',
+        flex: 1,
         boxSizing: "border-box",
         flexDirection: "row",
         alignItems:'center',
@@ -111,8 +110,11 @@ export default {
     backButton:{
         cursor: "pointer",
         padding: 0,
+        width:30,
+        height:30,
         size: 30,
         marginRight: -25,
+        zIndex:2,
     },
     css:`textarea:focus, input:focus{outline: none;}`
 }

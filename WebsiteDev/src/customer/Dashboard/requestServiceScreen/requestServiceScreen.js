@@ -19,6 +19,8 @@ export default function (props) {
     const [isLoading, setIsLoading] = useState(true);
     const [service, setService] = useState(null);
     const [serviceID, setServiceID] = useState('');
+    const [businessID, setBusinessID] = useState('');
+    const history = useHistory();
 
 	async function getData() {
 		//Declares the screen name in Firebase
@@ -77,11 +79,12 @@ export default function (props) {
     else return (
         <div style={style.body}>
             <style>{style.css}</style>
-            <SideMenu selected={0}/>
             <div style={{padding: 25, flex:1}}>
                 <div style={{...style.mainContainer, ...style.column}}>
                     <div style={style.row}>
-                        <MdArrowBack color={colors.blue} size={style.backButton.size} style={{...style.backButton}} onClick={()=>{/*TODO: this*/}}/>
+                        <div style={{...style.backButton}} onClick={()=>{history.push({pathname: '/business',state: { businessID}});}}>
+                            <MdArrowBack color={colors.blue} size={style.backButton.size}/>
+                        </div>
                         <text style={style.serviceTitle}>{"Carpet Cleaning"}</text>
                     </div>
 
@@ -175,6 +178,11 @@ export default function (props) {
                             //  - stripe needs to be able to access the payment information and create a payment token to submit a request
                             //  - we currently have no support for repeatable requests
                             //  - we probably need to slighlty change this UI to add a date field for the request
+
+                            history.push({
+                                pathname: '/business',
+                                state: { businessID},
+                            });
                         }}
                     />
                 </div>
