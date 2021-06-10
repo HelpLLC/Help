@@ -584,6 +584,20 @@ exports.getServicesByCategory = functions.https.onCall(async (input, context) =>
 	return filteredServices;
 });
 
+//This method will return all the services associated with a certain category which will be passed in as a parameter
+exports.getServicesByBusinessID = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+
+	const result = await database.runTransaction(async (transaction) => {
+		const services = await transaction.get(businesses.doc(businessID).collection('Services'));
+
+		const arrayOfServices = services.docs.map((doc) => doc.data());
+		return arrayOfServices;
+	});
+
+	return result;
+});
+
 //Method returns an array of review objects given a specific serviceID
 exports.getReviewsByServiceID = functions.https.onCall(async (input, context) => {
 	const { serviceID } = input;
