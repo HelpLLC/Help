@@ -598,4 +598,5 @@ export default {
 	EndTime: "End Time",
 	AddRequest: "Add Request",
 	PaymentInformation: "Payment Information",
+	Alerts: "Alerts",
 };
