@@ -41,4 +41,4 @@ App = codePush(codePushOptions)(App);
 
 export default App;
 
-//*/ import SplashScreen from 'react-native-splash-screen'; SplashScreen.hide(); import screen from './src/employeeScreens/employeeRequestDisplay/employeeRequestDisplay'; export default screen;
+//*/ import SplashScreen from 'react-native-splash-screen'; SplashScreen.hide(); import screen from './src/bottomTabScreens/alertsScreen/alertsScreen'; export default screen;
