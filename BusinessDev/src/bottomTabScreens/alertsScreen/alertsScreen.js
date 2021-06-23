@@ -97,6 +97,8 @@ export default function profileScreen(props) {
 	}, []);
 
 	function getRecievedText(recieved){
+		var date = Date.parse(recieved);
+		//TODO: this
 		return "Recieved "+recieved;
 	}
 
