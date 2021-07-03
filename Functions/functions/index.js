@@ -234,6 +234,47 @@ exports.sendEmail = functions.https.onCall(async (input, context) => {
 	}
 });
 
+//--------------------------------- Alert Functions ---------------------------------
+
+//function for adding an alert to the database
+async function AddAlertToBusiness(businessID, title, description, type){
+	const batch = database.batch();
+
+	const newAlert = await businesses.doc(businessID+"").collection('Private').doc('Private Data').collection('Alerts').add({
+		title,
+		description,
+		type,
+		recieved: new Date().toUTCString(),
+	});
+	
+	const alertID = newAlert.id;
+	batch.update(businesses.doc(businessID+"").collection('Private').doc('Private Data').collection('Alerts').doc(alertID), { alertID });
+	
+	await batch.commit();
+} 
+
+//retrieve all alerts for a business
+exports.retrieveBusinessAlerts = functions.https.onCall(async (input, context) => {
+	const { businessID } = input;
+	const array = await database.runTransaction(async (transaction) => {
+		const ref = businesses.doc(businessID+"").collection('Private').doc('Private Data').collection('Alerts');
+		const snapshot = await transaction.get(ref);
+		const array = await snapshot.docs.map((doc) => doc.data());
+		return array;
+	});
+
+	//Returns the array which contains all of the docs
+	return array;
+});
+
+//remove or delete an alert from the business alerts
+exports.deleteBusinessAlert = functions.https.onCall(async (input, context) => {
+	const { businessID, alertID } = input;
+	const doc = await database.runTransaction(async (transaction) => {
+		return transaction.delete(businesses.doc(businessID+"").collection('Private').doc('Private Data').collection('Alerts').doc(alertID+""));
+	});
+});
+
 //--------------------------------- "Document-Object" Getters ---------------------------------
 
 //Method returns an array with all businesses
@@ -279,28 +320,28 @@ exports.getAllRequests = functions.https.onCall(async (input, context) => {
 });
 
 //Method fetches a notifications for a business by business ID
-exports.getBusinessNotifications = functions.https.onCall(async (input, context) => {
-	const { businessID } = input;
-	const doc = await database.runTransaction(async (transaction) => {
-		const query1 = await employees
-			.where('businessID', '==', businessID)
-			.where('isVerified', '==', false);
-		const newEmployees = (await transaction.get(query1)).docs;
-		for(let i in newEmployees)
-			newEmployees[i].type = 'employeeRequest';
+// exports.getBusinessNotifications = functions.https.onCall(async (input, context) => {
+// 	const { businessID } = input;
+// 	const doc = await database.runTransaction(async (transaction) => {
+// 		const query1 = await employees
+// 			.where('businessID', '==', businessID)
+// 			.where('isVerified', '==', false);
+// 		const newEmployees = (await transaction.get(query1)).docs;
+// 		for(let i in newEmployees)
+// 			newEmployees[i].type = 'employeeRequest';
 
-		const query2 = await requests
-			.where('businessID', '==', businessID)
-			.where('confirmed', '==', false);
-		const newRequests = (await transaction.get(query2)).docs;
-		for(let i in newRequests)
-			newRequests[i].type = 'serviceRequest';
+// 		const query2 = await requests
+// 			.where('businessID', '==', businessID)
+// 			.where('confirmed', '==', false);
+// 		const newRequests = (await transaction.get(query2)).docs;
+// 		for(let i in newRequests)
+// 			newRequests[i].type = 'serviceRequest';
 
-		return [...newEmployees, ...newRequests];
-	});
+// 		return [...newEmployees, ...newRequests];
+// 	});
 
-	return doc;
-});
+// 	return doc;
+// });
 
 //Method fetches a business by ID & returns the business as an object. If the business does not exist, returns -1
 exports.getBusinessByID = functions.https.onCall(async (input, context) => {
@@ -987,6 +1028,10 @@ exports.addBusinessToDatabase = functions.https.onCall(async (input, context) =>
 	const schedule = private.doc("Private Data").collection('Schedule');
 	batch.set(schedule.doc(getDateString()), {}); 
 
+	//add doc for storing alerts
+	const alerts = private.doc("Private Data").collection('Alerts');
+	batch.set(alerts.doc(""), {}); 
+
 	sendEmail(
 		'helpcocontact@gmail.com',
 		'New Business',
@@ -1083,6 +1128,7 @@ exports.addEmployeeToDatabase = functions.https.onCall(async (input, context) =>
 		currentRequests:[],
 	});
 
+	await AddAlertToBusiness(businessID, "New employee", name+" has requested to join your business", "employee");
 
 	// Commits the batch
 	await batch.commit();
@@ -1182,6 +1228,8 @@ exports.createTimeOffRequest = functions.https.onCall(async (input, context) => 
 			status:'pending'
 		}),
 	});
+	
+	await AddAlertToBusiness(businessID, "Time off request", employeeName+" has requested to take "+startTime+" to "+endTime+" off on "+date, "employee");
 
 	// Commits the batch
 	await batch.commit();
@@ -2471,6 +2519,8 @@ exports.requestService = functions.https.onCall(async (input, context) => {
 		);
 	}
 
+	await AddAlertToBusiness(businessID, "New request", customerName+" has requested "+serviceTitle+" on "+date+" at "+time, "customer");
+
 	return result;
 });
 
@@ -2656,6 +2706,7 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 	let { cash, requestID, billedAmount } = input;
 
 	const batch = database.batch();
+	let request;
 
 	billedAmount = parseFloat(billedAmount);
 
@@ -2666,7 +2717,7 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 		await batch.commit();
 
 		await database.runTransaction(async (transaction) => {
-			const request = (await transaction.get(requests.doc(requestID))).data();
+			request = (await transaction.get(requests.doc(requestID))).data();
 			let customer = request.customerID ? (await transaction.get(customers.doc(request.customerID))).data() : null;
 			let businessDoc = businesses.doc(request.businessID);
 			let business = (await transaction.get(businessDoc)).data();
@@ -2764,7 +2815,6 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 		});
 		await database.runTransaction(async (transaction) => {
 			//Tests if this document should be deleted all together
-			const request = (await transaction.get(requests.doc(requestID))).data();
 			let businessDoc = businesses.doc(request.businessID);
 			let date = request.date;
 			date = new Date(date);
@@ -2787,7 +2837,13 @@ exports.completeRequest = functions.https.onCall(async (input, context) => {
 		});
 	} else {
 		//This means the service is through a card payment, through which billing will be correctly set up
+		
+		await database.runTransaction(async (transaction) => {
+			request = (await transaction.get(requests.doc(requestID))).data();
+		});
 	}
+
+	await AddAlertToBusiness(request.businessID, "Payment recieved", "Payment for "+request.serviceTitle+" by "+request.customerName+" has been recieved", "customer");
 
 	return 0;
 });

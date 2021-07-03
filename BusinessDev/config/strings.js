@@ -599,4 +599,5 @@ export default {
 	AddRequest: "Add Request",
 	PaymentInformation: "Payment Information",
 	Alerts: "Alerts",
+	AlertRemove:"Ok",
 };
