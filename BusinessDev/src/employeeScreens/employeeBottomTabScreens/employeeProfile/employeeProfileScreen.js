@@ -132,25 +132,7 @@ const employeeProfileScreen = (props) => {
 							setImagePickerVisible(false);
 						}}
 						onImageSelected={(response) => {
-							this.setState({ isShowing: false });
-							const source = { uri: 'data:image/jpeg;base64,' + response.data };
-							if (!(source.uri === 'data:image/jpeg;base64,undefined')) {
-
-								let absolutePath = '';
-								if (Platform.OS === 'android') {
-									absolutePath = 'file://' + response.path;
-								} else {
-									absolutePath = response.path;
-								}
-								//Creates the reference & uploads the image (async)
-								await FirebaseFunctions.storage
-									.ref('employeeProfilePics/' + employeeID)
-									.putFile(absolutePath);
-								
-								setProfilePicture(await FirebaseFunctions.call('getEmployeeProfilePictureByID', {employeeID}));
-
-							}
-							setImagePickerVisible(false);
+							imageSelected(response);
 						}}
 						isShowing={imagePickerVisible}
 					/>
@@ -159,5 +141,27 @@ const employeeProfileScreen = (props) => {
 		</HelpView>
 	);
 };
+
+async function imageSelected(response){
+	this.setState({ isShowing: false });
+	const source = { uri: 'data:image/jpeg;base64,' + response.data };
+	if (!(source.uri === 'data:image/jpeg;base64,undefined')) {
+
+		let absolutePath = '';
+		if (Platform.OS === 'android') {
+			absolutePath = 'file://' + response.path;
+		} else {
+			absolutePath = response.path;
+		}
+		//Creates the reference & uploads the image (async)
+		await FirebaseFunctions.storage
+			.ref('employeeProfilePics/' + employeeID)
+			.putFile(absolutePath);
+		
+		setProfilePicture(await FirebaseFunctions.call('getEmployeeProfilePictureByID', {employeeID}));
+
+	}
+	setImagePickerVisible(false);
+}
 
 export default employeeProfileScreen;

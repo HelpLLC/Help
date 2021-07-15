@@ -6,6 +6,7 @@ import colors from 'config/colors';
 import strings from 'config/strings';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import LoadingSpinner from '../../../components/LoadingSpinner';
+import ImagePicker from '../../../components/ImagePicker';
 import style from './profileScreenStyle';
 import fontStyles from 'config/styles/fontStyles';
 
@@ -141,29 +142,33 @@ export default function profileScreen(props) {
 							setImagePickerVisible(false);
 						}}
 						onImageSelected={(response) => {
-							this.setState({ isShowing: false });
-							const source = { uri: 'data:image/jpeg;base64,' + response.data };
-							if (!(source.uri === 'data:image/jpeg;base64,undefined')) {
-
-								let absolutePath = '';
-								if (Platform.OS === 'android') {
-									absolutePath = 'file://' + response.path;
-								} else {
-									absolutePath = response.path;
-								}
-								//Creates the reference & uploads the image (async)
-								await FirebaseFunctions.storage
-									.ref('businessProfilePics/' + businessID)
-									.putFile(absolutePath);
-								
-								setProfilePicture(await FirebaseFunctions.call('getBusinessProfilePictureByID', {businessID}));
-
-							}
-							setImagePickerVisible(false);
+							imageSelected(response);
 						}}
 						isShowing={imagePickerVisible}
 					/>
 				</View>
 			</View>
 		);
+}
+
+async function imageSelected(response){
+	this.setState({ isShowing: false });
+	const source = { uri: 'data:image/jpeg;base64,' + response.data };
+	if (!(source.uri === 'data:image/jpeg;base64,undefined')) {
+
+		let absolutePath = '';
+		if (Platform.OS === 'android') {
+			absolutePath = 'file://' + response.path;
+		} else {
+			absolutePath = response.path;
+		}
+		//Creates the reference & uploads the image (async)
+		await FirebaseFunctions.storage
+			.ref('businessProfilePics/' + businessID)
+			.putFile(absolutePath);
+		
+		setProfilePicture(await FirebaseFunctions.call('getBusinessProfilePictureByID', {businessID}));
+
+	}
+	setImagePickerVisible(false);
 }

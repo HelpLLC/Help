@@ -18,7 +18,7 @@ import ForgotPasswordScreen from './firstScreens/logIn/forgotPasswordScreen';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import AboutScreen from './settingsScreens/aboutScreen';
 import PrivacyScreen from './settingsScreens/privacyScreen';
-import ReportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';
+// import ReportIssueScreensNavigator from './settingsScreens/reportIssue/reportScreensNavigator';
 import BusinessScreensNavigator from './bottomTabScreens/businessScreensNavigator';
 import CreditsScreen from './settingsScreens/creditsScreen';
 import ServiceCurrentRequestsScreen from './sideBusinessScreens/serviceCurrentRequestsScreen';
@@ -41,7 +41,7 @@ import waitingForVerification from './firstScreens/signUp/EmployeeSignUp/waiting
 import EmployeeVerification from './firstScreens/signUp/EmployeeSignUp/employeeVerification';
 import WorkerManagement from './bottomTabScreens/dashboardScreens/mainDashboardScreens/services/workerManagement/workerManagement';
 import EmployeeScreensNavigator from './employeeScreens/employeeBottomScreensNavigator';
-//import AlertsScreen from './sideBusinessScreens/alertsScreen/alertsScreen';
+import AlertsScreen from './bottomTabScreens/alertsScreen/alertsScreen';
 import { View } from 'react-native';
 import TopBanner from './components/TopBanner/TopBanner';
 import strings from 'config/strings';
@@ -223,7 +223,7 @@ const routeConfig = {
 		}),
 	},
 
-	/*AlertsScreen: {
+	AlertsScreen: {
 		screen: AlertsScreen,
 		navigationOptions: ({ navigation }) => ({
 			header: (
@@ -237,7 +237,7 @@ const routeConfig = {
 				</View>
 			),
 		}),
-	},*/
+	},
 
 	//The route going to the create product screen
 	CreateServiceScreen: {
@@ -433,10 +433,10 @@ const routeConfig = {
 		}),
 	},
 
-	//Takes you to the report an issue screen
-	ReportIssueScreen: {
-		screen: ReportIssueScreensNavigator,
-	},
+	// //Takes you to the report an issue screen
+	// ReportIssueScreen: {
+	// 	screen: ReportIssueScreensNavigator,
+	// },
 
 	//Takes you to the screen containing the privacy policy
 	PrivacyScreen: {

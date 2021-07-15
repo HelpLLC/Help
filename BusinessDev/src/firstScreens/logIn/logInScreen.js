@@ -65,7 +65,7 @@ class logInScreen extends Component {
 				//which says your account has not yet been approved
 				const id = account.substring(2);
 				const business = await FirebaseFunctions.call('getBusinessByID', {
-					businessID: id,
+					documentID: id,
 				});
 				if (business.isVerified === true) {
 					//This means this account is a provider since a requester with this ID was not found

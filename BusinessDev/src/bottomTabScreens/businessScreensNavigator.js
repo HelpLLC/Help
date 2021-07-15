@@ -3,6 +3,8 @@
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import profileScreen from './profile/profileScreen/profileScreen';
+import calendarScreen from './calendarScreen/calendarScreen';
+import paymentsScreen from './paymentsScreen/paymentsScreen/paymentsScreen';
 import viewEmployeesScreen from './dispatchScreens/viewEmployeesScreen/viewEmployeesScreen';
 import timeOffReqsScreen from './dispatchScreens/timeOffReqsScreen/timeOffReqsScreen';
 import viewServicesScreen from './dashboardScreens/mainDashboardScreens/services/serviceScreen';
@@ -230,7 +232,7 @@ const routeConfig = {
 	//Route connecting to the calendar screen
 	CalendarScreen: {
 		//connects the object with the help screen component
-		screen: profileScreen,
+		screen: calendarScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
 			tabBarLabel: strings.Calendar,
@@ -269,7 +271,7 @@ const routeConfig = {
 	//Route connecting to the payments screen
 	PaymentsScreen: {
 		//connects the object with the help screen component
-		screen: profileScreen,
+		screen: paymentsScreen,
 		//sets up what the tab will be titled
 		navigationOptions: ({ navigation }) => ({
 			tabBarLabel: strings.Payments,
