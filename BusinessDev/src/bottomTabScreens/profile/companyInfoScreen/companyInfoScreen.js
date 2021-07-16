@@ -56,12 +56,11 @@ export default function companyInfoScreen(props) {
 
     async function getData(){
         FirebaseFunctions.setCurrentScreen('CompanyInfoScreen', 'companyInfoScreen');
-        // const {
-        //     businessID:BID,
-        //     businessData:businessObj
-        // } = props.navigation.state.params;
+        const {
+            businessID:BID
+        } = props.navigation.state.params;
         
-        const BID = 'zjCzqSiCpNQELwU3ETtGBANz7hY2'; //NOTE: this is just for testing purposes
+        // const BID = 'zjCzqSiCpNQELwU3ETtGBANz7hY2'; //NOTE: this is just for testing purposes
         const businessObj = await FirebaseFunctions.call('getBusinessByID', {
             businessID:BID
         });

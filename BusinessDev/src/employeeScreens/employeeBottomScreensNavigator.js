@@ -5,7 +5,7 @@ import employeeDashboardScreen from './employeeBottomTabScreens/employeeDashboar
 import notificationScreen from './employeeBottomTabScreens/employeeNotifications/employeeNotificationsScreen';
 import calendarScreen from './employeeBottomTabScreens/employeeCalendar/employeeCalendarScreen';
 import profileScreen from './employeeBottomTabScreens/employeeProfile/employeeProfileScreen';
-import EmployeeRequestDisplay from './employeeScreens/employeeRequestDisplay/employeeRequestDisplay';
+import EmployeeRequestDisplay from './employeeRequestDisplay/employeeRequestDisplay';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import strings from 'config/strings';
 
