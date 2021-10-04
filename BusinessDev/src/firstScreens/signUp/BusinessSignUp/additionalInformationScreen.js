@@ -8,7 +8,7 @@ import strings from 'config/strings';
 import LoadingSpinner from '../../../components/LoadingSpinner';
 import { screenWidth, screenHeight } from 'config/dimensions';
 import screenStyle from 'config/styles/screenStyle';
-import { Text, View, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Text, View, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import FirebaseFunctions from 'config/FirebaseFunctions';
 import fontStyles from 'config/styles/fontStyles';
  
@@ -138,107 +138,120 @@ export default class additionalInformationScreen extends Component {
 							this.props.navigation.goBack();
 						}}
 					/>
-					<View
-						style={{
-							alignSelf: 'flex-start',
-							justifyContent: 'flex-end',
-							marginVertical: screenHeight * 0.02,
-							marginLeft: screenWidth * 0.2,
-						}}>
-						<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.Website}</Text>
-					</View>
+					{/* <ScrollView style={{width:"100%"}}> */}
+						<View
+							style={{
+								justifyContent: 'flex-end',
+								alignSelf: 'flex-start',
+								marginVertical: screenHeight * 0.02,
+								marginLeft: screenWidth * 0.2,
+							}}>
+							<TouchableOpacity
+								onPress={() => {
+									this.setState({ locationInfoVisible: true });
+								}}
+								style={{ flexDirection: 'row', alignItems: 'center' }}>
+								<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>
+									{strings.LocationYouServe}
+								</Text>
+								<View style={{ width: screenWidth * 0.01 }} />
+								<Icon
+									name={'info-circle'}
+									type='font-awesome'
+									size={25}
+									color={colors.lightBlue}
+								/>
+							</TouchableOpacity>
+						</View>
+						<View style={{ height: 50, width:'100%'}}>
+							<View style={{ position:'absolute', left: 0, zIndex: 1 }}>
+								<View style={{width:screenWidth, flexDirection:'row', alignItems:'center', height:'100%'}}>
+									<GoogleCityPicker
+										initialText={this.state.location !== '' ? this.state.location : ''}
+										placeholder={strings.EnterLocation}
+										onPress={(locationName, long, lat) => {
+											this.setState({
+												location: locationName,
+												coordinates: { long, lat },
+											});
+											// console.log(locationName);
+										}}
+									/>
+								</View>
+							</View>
+						</View>
 
-					<View style={{ justifyContent: 'center' }}>
-						<HelpTextInput
-							isMultiline={false}
-							width={screenWidth * 0.6}
-							height={screenHeight * 0.06}
-							placeholder={strings.EnterWebsiteLink}
-							onChangeText={(input) => this.setState({ website: input })}
-							value={this.state.website}
-							password={false}
-							autoCapitalize={'none'}
-						/>
-					</View>
-					<View
-						style={{
-							alignSelf: 'flex-start',
-							justifyContent: 'flex-end',
-							marginVertical: screenHeight * 0.02,
-							marginLeft: screenWidth * 0.2,
-						}}>
-						<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.PhoneNumber}</Text>
-					</View>
-
-					<View style={{ justifyContent: 'center' }}>
-						<HelpTextInput
-							isMultiline={false}
-							width={screenWidth * 0.6}
-							height={screenHeight * 0.06}
-							placeholder={strings.EnterPhoneNumber}
-							onChangeText={(input) =>
-								this.setState({ phoneNumber: input.replace(/[^0-9]/g, '') })
-							}
-							value={this.state.phoneNumber}
-							password={false}
-							keyboardType='numeric'
-							autoCompleteType={'tel'}
-							maxLength={10}
-						/>
-					</View>
-					<View
-						style={{
-							justifyContent: 'flex-end',
-							alignSelf: 'flex-start',
-							marginVertical: screenHeight * 0.02,
-							marginLeft: screenWidth * 0.2,
-						}}>
-						<TouchableOpacity
-							onPress={() => {
-								this.setState({ locationInfoVisible: true });
-							}}
-							style={{ flexDirection: 'row', alignItems: 'center' }}>
-							<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>
-								{strings.LocationYouServe}
-							</Text>
-							<View style={{ width: screenWidth * 0.01 }} />
-							<Icon
-								name={'info-circle'}
-								type='font-awesome'
-								size={25}
-								color={colors.lightBlue}
+						<View
+							style={{
+								alignSelf: 'flex-start',
+								justifyContent: 'flex-end',
+								marginVertical: screenHeight * 0.02,
+								marginLeft: screenWidth * 0.2,
+							}}>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.Website}</Text>
+						</View>
+						<View style={{ justifyContent: 'center', alignItems:'center' }}>
+							<HelpTextInput
+								isMultiline={false}
+								width={screenWidth * 0.6}
+								height={screenHeight * 0.06}
+								placeholder={strings.EnterWebsiteLink}
+								onChangeText={(input) => {
+									this.setState({ website: input });
+									// console.log(input);
+								}}
+								value={this.state.website}
+								password={false}
+								autoCapitalize={'none'}
 							/>
-						</TouchableOpacity>
-					</View>
-					<View style={{ height: screenHeight * 0.35 }}>
-						<GoogleCityPicker
-							initialText={this.state.location !== '' ? this.state.location : ''}
-							placeholderText={strings.EnterLocation}
-							onPress={(locationName, long, lat) => {
-								this.setState({
-									location: locationName,
-									coordinates: { long, lat },
-								});
-							}}
-						/>
-					</View>
-					<View
-						style={{
-							height: screenHeight * 0.1,
-							justifyContent: 'flex-end',
-							alignSelf: 'center',
-						}}>
-						<HelpButton
-							title={strings.Next}
-							width={screenWidth * 0.39}
-							isLoading={this.state.isLoading}
-							onPress={() => {
-								//Function goes to the next screen
-								this.goToNextScreen();
-							}}
-							disabled={this.state.isLoading}
-						/>
-					</View>
+						</View>
+
+						<View
+							style={{
+								alignSelf: 'flex-start',
+								justifyContent: 'flex-end',
+								marginVertical: screenHeight * 0.02,
+								marginLeft: screenWidth * 0.2,
+							}}>
+							<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>{strings.PhoneNumber}</Text>
+						</View>
+						<View style={{ justifyContent: 'center', alignItems:'center' }}>
+							<HelpTextInput
+								isMultiline={false}
+								width={screenWidth * 0.6}
+								height={screenHeight * 0.06}
+								placeholder={strings.EnterPhoneNumber}
+								onChangeText={(input) =>{
+									this.setState({ phoneNumber: input.replace(/[^0-9]/g, '') })
+									// console.log(input);
+								}}
+								value={this.state.phoneNumber}
+								password={false}
+								keyboardType='numeric'
+								autoCompleteType={'tel'}
+								maxLength={10}
+							/>
+						</View>
+
+						<View
+							style={{
+								height: screenHeight * 0.1,
+								justifyContent: 'flex-end',
+								alignSelf: 'center',
+							}}>
+							<HelpButton
+								title={strings.Next}
+								width={screenWidth * 0.39}
+								isLoading={this.state.isLoading}
+								onPress={() => {
+									//Function goes to the next screen
+									this.goToNextScreen();
+								}}
+								disabled={this.state.isLoading}
+							/>
+						</View>
+					{/* </ScrollView> */}
+					
 					<HelpAlert
 						isVisible={this.state.fieldsError}
 						onPress={() => {

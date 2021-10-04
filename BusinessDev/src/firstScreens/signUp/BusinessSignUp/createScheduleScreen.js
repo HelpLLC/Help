@@ -150,18 +150,25 @@ export default class createScheduleScreen extends Component {
 			//If this is a new profile, then it will add them to Firebase Authentication in addition to adding them to the database
 			if (this.state.editing === false) {
 				firebase.auth().signInAnonymously();
+				console.log("0");
 				const { password } = this.props.navigation.state.params;
 				//Fetches the account information based on whether the business also has a customer account
 				let account = '';
 				if (requesterAccountExists === false) {
+					console.log("a");
 					account = await firebase.auth().createUserWithEmailAndPassword(email, password);
+					console.log("b");
 					await FirebaseFunctions.logIn(email, password);
+					console.log("c");
 				} else {
+					console.log("a1");
 					account = await FirebaseFunctions.logIn(email, password);
+					console.log("b1");
 					account = account.split(' ');
 					account = account[1];
 				}
 
+				console.log("1");
 				//Removes the extra fields in the businessHours
 				for (let key of Object.keys(businessHours)) {
 					let value = businessHours[key];
@@ -185,6 +192,7 @@ export default class createScheduleScreen extends Component {
 					isVerified: false,
 					businessID: account.user.uid,
 				});
+				console.log("2");
 				//Navigates to the screen where it tells the business to wait until their account has been verified
 				this.props.navigation.push('AccountNotVerifiedScreen');
 			} else {

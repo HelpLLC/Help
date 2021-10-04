@@ -46,6 +46,7 @@ class emailPasswordScreen extends Component {
 		phoneNumber: '',
 		fieldsError: false,
 		emailError: false,
+		accountError: false,
 		passwordError: false,
 		emailExistsError: false,
 		isLoading: false,
@@ -70,7 +71,7 @@ class emailPasswordScreen extends Component {
 			this.setState({ inputText: '', fieldsError: true });
 
 			//If no button was selected a different error message would appear
-		} else if (this.state.name.trim() === '') {
+		} else if (this.props.navigation.state.params.type == "Employee" && this.state.name.trim() === '') {
 			this.setState({ nameError: true });
 		} else if (!email.includes('@')) {
 			this.setState({ emailError: true });
@@ -85,9 +86,9 @@ class emailPasswordScreen extends Component {
 			//If the accout already exists, then an error will appear
 			//If the account is new, then it will go through the normal process to create
 			//the account
+			const account = await FirebaseFunctions.logIn(email, password);
 			try {
-				const account = await FirebaseFunctions.logIn(email, password);
-				if (account.includes('IS_ONLY_CUSTOMER')) {
+				if (account.includes('IS_ONLY_CUSTOMER') || account.includes('auth/user-not-found')) {
 					this.setState({ requesterAccountExists: true });
 					throw new Error(
 						'There is no user record corresponding to this identifier. The user may have been deleted.'
@@ -97,24 +98,34 @@ class emailPasswordScreen extends Component {
 					this.setState({ isLoading: false });
 				}
 			} catch (error) {
-				if (
-					error.message ===
-					'There is no user record corresponding to this identifier. The user may have been deleted.'
-				) {
+				if (error.message === 'There is no user record corresponding to this identifier. The user may have been deleted.') {
 					//If this is a new business account, then it will navigate to the create provider
 					//profile screen to finish creating the account there
-					this.setState({ isLoading: false });
-					this.props.navigation.push('EmployeeVerification', {
-						email,
-						password,
-						name: this.state.name,
-						phoneNumber: this.state.phoneNumber,
-						editing: false,
-						requesterAccountExists:
-							this.state.requesterAccountExists === true ? true : false,
-					});
+					if(this.props.navigation.state.params.type == "Employee"){
+						this.setState({ isLoading: false });
+						this.props.navigation.push('EmployeeVerification', {
+							email,
+							password,
+							name: this.state.name,
+							phoneNumber: this.state.phoneNumber,
+							editing: false,
+							requesterAccountExists:
+								this.state.requesterAccountExists === true ? true : false,
+						});
+					}
+					else{
+						this.setState({ isLoading: false });
+						this.props.navigation.push('NameDescriptionScreen', {
+							type: 'Business',
+							email,
+							password,
+							editing: false,
+							requesterAccountExists: false,
+						});
+					}
+				} else if(error.message === 'The password is invalid or the user does not have a password.'){
+					this.setState({ isLoading: false, accountError: true });
 				} else {
-					console.log("EmailPasswordScreen");
 					this.setState({ isLoading: false, isErrorVisible: true });
 					FirebaseFunctions.call('logIssue', {
 						error,
@@ -129,6 +140,7 @@ class emailPasswordScreen extends Component {
 		return (
 			//View that dismisses the keyboard when clicked anywhere else
 			<HelpView style={screenStyle.container}>
+				<ScrollView>
 				<View>
 					<View style={{ marginTop: screenHeight * 0.03 }}>
 						<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>
@@ -245,7 +257,7 @@ class emailPasswordScreen extends Component {
 						/>
 					</View>
 				</View>
-				<View>
+				{this.props.navigation.state.params.type == "Employee" ? <View><View>
 					<View style={{ marginTop: screenHeight * 0.03 }}>
 						<Text style={[fontStyles.bigTextStyle, fontStyles.black]}>
 							{strings.Name}
@@ -280,7 +292,7 @@ class emailPasswordScreen extends Component {
 							autoCompleteType={'tel'}
 						/>
 					</View>
-				</View>
+				</View></View> : null}
 				<View
 					style={{
 						marginVertical: screenHeight * 0.03,
@@ -337,6 +349,7 @@ class emailPasswordScreen extends Component {
 					/>
 				</View>
 				<View style={{ height: screenHeight * 0.03 }} />
+				</ScrollView>
 				<HelpAlert
 					isVisible={this.state.isErrorVisible}
 					onPress={() => {
@@ -392,6 +405,14 @@ class emailPasswordScreen extends Component {
 					}}
 					title={strings.Whoops}
 					message={strings.PleaseEnterACompanyName}
+				/>
+				<HelpAlert
+					isVisible={this.state.accountError}
+					onPress={() => {
+						this.setState({ accountError: false });
+					}}
+					title={strings.AccountError}
+					message={strings.AccountExists}
 				/>
 			</HelpView>
 		);

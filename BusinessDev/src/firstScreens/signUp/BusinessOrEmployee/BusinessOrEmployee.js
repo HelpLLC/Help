@@ -31,6 +31,9 @@ const BusinessOrEmployee = (props) => {
 							props.navigation.push('EmailPasswordScreen', {
 								type: 'Business'
 							});
+							// props.navigation.push('NameDescriptionScreen', {
+							// 	type: 'Business'
+							// });
 						}}
 					/>
 				</View>

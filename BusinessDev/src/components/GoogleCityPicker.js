@@ -23,21 +23,21 @@ export default function GoogleCityPicker(props) {
 		onPress: PropTypes.func.isRequired,
 		returnType: PropTypes.string,
 		placeholder: PropTypes.string,
+		displayList: PropTypes.bool,
 	};
 
 	return (
 		<GooglePlacesAutocomplete
-			ref={(instance) => {
-				this.locationRef = instance;
-			}}
 			minLength={2}
 			placeholder={props.placeholder ? props.placeholder : strings.EnterCityDotDotDot}
 			autoFocus={false}
 			returnKeyType={'search'}
-			listViewDisplayed={'false'}
 			fetchDetails={true}
+			onFail={error => console.error(error)}
 			onPress={(data, details) => {
 				//Fetches the name of the selected city along with the longitude and latitude
+				// console.log(data);
+				// console.log(details);
 				const locationName = data.description;
 				const { lat, lng } = details.geometry.location;
 
@@ -45,12 +45,12 @@ export default function GoogleCityPicker(props) {
 				onPress(locationName, lat, lng);
 			}}
 			query={{
-				key: 'AIzaSyCJ39Pp39vFJOy6pbA0NLdjhzXIqSEAzFs',
+				// key: 'AIzaSyCJ39Pp39vFJOy6pbA0NLdjhzXIqSEAzFs',
+				key: 'AIzaSyA4K0JjyrWik5p13qMMdZUEmnfXL-ZSGbc',
 				language: 'en',
 				types: props.returnType ? props.returnType : '(cities)',
 			}}
 			styles={{
-				container: null,
 				//The style for the container itself
 				textInputContainer: {
 					borderWidth: 3,
@@ -68,7 +68,7 @@ export default function GoogleCityPicker(props) {
 				},
 				//The style that contains the results of the entered text
 				listView: {
-					height: screenHeight * 0.2,
+					height: true ? screenHeight * 0.2 : 0,
 					borderColor: colors.lightBlue,
 					marginTop: screenHeight * 0.01,
 					borderRadius: 20,

@@ -90,7 +90,7 @@ const routeConfig = {
 		navigationOptions: ({ navigation }) => ({
 			header: (props) => (
 				<View>
-					<TopBanner leftIconName='angle-left' size={30} leftOnPress={() => navigation.goBack()} />
+					<TopBanner leftIconName='angle-left' title={""} size={30} leftOnPress={() => navigation.goBack()} />
 				</View>
 			),
 			gesturesEnabled: false,

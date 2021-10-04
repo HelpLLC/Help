@@ -600,4 +600,6 @@ export default {
 	PaymentInformation: "Payment Information",
 	Alerts: "Alerts",
 	AlertRemove:"Ok",
+	AccountError:"Account Error",
+	AccountExists:"An account with that email address already exists",
 };

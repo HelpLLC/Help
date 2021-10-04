@@ -32,21 +32,36 @@ export default class FirebaseFunctions {
 
 	//Logs the user in and subscribes to the notification service associated with his/her account
 	static async logIn(email, password) {
-		const account = await this.auth.signInWithEmailAndPassword(email, password);
-		//Tests whether this is a provider or a requester & based on that, subscribes to the correct channel
-		const { uid } = account.user;
-		//If the user only has a requester account, an error is returned
-		const requester = await this.functions.httpsCallable('getCustomerByID')({ customerID: uid });
-		const provider = await this.functions.httpsCallable('getBusinessByID')({ businessID: uid });
-		//Logs the event in firebase analytics
-		this.analytics.logEvent('provider_log_in');
-		//Subscribes to the provider channel
-		const topicName = 'b-' + uid;
-		await this.fcm.subscribeToTopic(topicName);
-		if (requester !== -1 && provider === -1) {
-			return 'IS_ONLY_CUSTOMER ' + topicName;
+		try{
+			console.log("login: 1");
+			const account = await this.auth.signInWithEmailAndPassword(email, password);
+			//Tests whether this is a provider or a requester & based on that, subscribes to the correct channel
+			const { uid } = account.user;
+			console.log("login: 2");
+			//If the user only has a requester account, an error is returned
+			const requester = await this.functions.httpsCallable('getCustomerByID')({ customerID: uid });
+			const provider = await this.functions.httpsCallable('getBusinessByID')({ businessID: uid });
+			console.log("login: 3");
+			//Logs the event in firebase analytics
+			this.analytics.logEvent('provider_log_in');
+			//Subscribes to the provider channel
+			const topicName = 'b-' + uid;
+			await this.fcm.subscribeToTopic(topicName);
+			console.log("login: 4");
+			if (requester !== -1 && provider === -1) {
+				return 'IS_ONLY_CUSTOMER ' + topicName;
+			}
+			return topicName;
 		}
-		return topicName;
+		catch(e){
+			if(e.code == "auth/user-not-found"){
+				return e.code;
+			}
+			else{
+				console.log("login error");
+				console.log(JSON.stringify(e));
+			}
+		}
 	}
 
 	//This method will log out the current user of the app & unsubscribed to the notification channel associated with
